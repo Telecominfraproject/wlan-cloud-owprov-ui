@@ -1,30 +1,159 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Header, Footer, PageContainer, ToastProvider, useAuth } from 'ucentral-libs';
 import routes from 'routes';
-import { Header, Sidebar, Footer, PageContainer, ToastProvider, useAuth } from 'ucentral-libs';
+import { useHistory } from 'react-router-dom';
+import { set as lodashSet } from 'lodash';
+import axiosInstance from 'utils/axiosInstance';
+import Sidebar from './Sidebar';
+
+const navbarOption = (name, icon, uuid, selectEntity, children, childrenIds, path) => {
+  let tag = 'CSidebarNavItem';
+  if (children) tag = 'SidebarDropdown';
+
+  return {
+    key: uuid,
+    _tag: tag,
+    name,
+    icon,
+    onClick: () => selectEntity(uuid, name, childrenIds, path),
+    _children: children,
+  };
+};
 
 const TheLayout = () => {
   const [showSidebar, setShowSidebar] = useState('responsive');
   const { endpoints, currentToken, user, avatar, logout } = useAuth();
   const { t, i18n } = useTranslation();
+  const history = useHistory();
+  const [pathsLoaded, setPathsLoaded] = useState([]);
+  const [lastClicked, setLastClicked] = useState('');
+  const [toGet, setToGet] = useState(null);
+  const [sidebar, setSidebar] = useState([]);
 
-  const navigation = [
-    {
-      _tag: 'CSidebarNavItem',
-      name: 'Home',
-      to: '/home',
-      icon: 'cilHome',
-    },
-  ];
+  const selectEntity = (uuid, name, ids, path) => {
+    if (ids) {
+      setToGet({
+        ids,
+        path,
+      });
+    }
+    history.push(`/home/${uuid}`);
+    setLastClicked(name);
+  };
 
+  const getInfo = async (id) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    return axiosInstance
+      .get(`${endpoints.owprov}/api/v1/entity/${id}`, options)
+      .then((response) => response.data)
+      .catch(() => {
+        throw new Error('Error while fetching entities');
+      });
+  };
+
+  const getSidebarOptions = async (ids, parentPath) => {
+    const basePath = parentPath === '' ? '' : `${parentPath}._children.`;
+    const promises = [];
+    for (const id of ids) {
+      promises.push(getInfo(id));
+    }
+
+    try {
+      const results = await Promise.all(promises);
+      const newOptions = results.map((result, resultIndex) => {
+        if (result.children.length === 0) {
+          return navbarOption(
+            result.name,
+            'cilHome',
+            result.id,
+            selectEntity,
+            undefined,
+            undefined,
+            `${basePath}[${resultIndex}]`,
+          );
+        }
+        const childrenIds = [];
+        const nestedOptions = result.children.map((nested, index) => {
+          childrenIds.push(nested);
+          return navbarOption(
+            '',
+            'cilHome',
+            nested,
+            selectEntity,
+            undefined,
+            undefined,
+            `${basePath}${resultIndex}.[${index}]`,
+          );
+        });
+        return navbarOption(
+          result.name,
+          'cilHome',
+          result.id,
+          selectEntity,
+          nestedOptions,
+          childrenIds,
+          `${basePath}[${resultIndex}]`,
+        );
+      });
+
+      if (parentPath === '') {
+        setSidebar(newOptions);
+      } else {
+        const newSidebar = sidebar;
+        lodashSet(newSidebar, `${parentPath}._children`, newOptions);
+        setSidebar([...newSidebar]);
+        setPathsLoaded([...pathsLoaded, parentPath]);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getRoot = () => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    axiosInstance
+      .get(`${endpoints.owprov}/api/v1/entity/0000-0000-0000`, options)
+      .then((response) => {
+        if (response.data.children) getSidebarOptions(response.data.children, '');
+      })
+      .catch(() => {
+        throw new Error('Error while fetching entities');
+      });
+  };
+
+  useEffect(() => {
+    getRoot();
+  }, []);
+
+  useEffect(() => {
+    if (toGet && !pathsLoaded.includes(toGet.path)) getSidebarOptions(toGet.ids, toGet.path);
+  }, [toGet]);
+
+  useEffect(() => {
+    console.log(pathsLoaded);
+  }, [pathsLoaded]);
   return (
     <div className="c-app c-default-layout">
       <Sidebar
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
         logo="assets/OpenWiFi_LogoLockup_WhiteColour.svg"
-        options={navigation}
-        redirectTo="/devices"
+        options={sidebar}
+        redirectTo="/home"
+        selected={lastClicked}
       />
       <div className="c-wrapper">
         <Header
@@ -45,7 +174,7 @@ const TheLayout = () => {
             <PageContainer t={t} routes={routes} redirectTo="/home" />
           </ToastProvider>
         </div>
-        <Footer t={t} version="0.8.0" />
+        <Footer t={t} version="0.8.1" />
       </div>
     </div>
   );
