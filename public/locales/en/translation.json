@@ -1,5 +1,6 @@
 {
 	"actions": {
+		"actions": "Actions",
 		"blink": "Blink",
 		"configure": "Configure",
 		"connect": "Connect",
@@ -21,8 +22,10 @@
 	},
 	"commands": {
 		"error": "Error while submitting command!",
+		"event_queue": "Event Queue",
 		"success": "Command submitted successfully, you can look at the Commands log for the result",
-		"title": "Command History"
+		"title": "Command History",
+		"unable_queue": "Unable to complete event queue request"
 	},
 	"common": {
 		"access_policy": "Access Policy",
@@ -45,6 +48,7 @@
 		"connected": "Connected",
 		"copied": "Copied!",
 		"copy_to_clipboard": "Copy to clipboard",
+		"create": "Create",
 		"created": "Created",
 		"created_by": "Created By",
 		"current": "Current ",
@@ -107,6 +111,7 @@
 		"na": "N/A",
 		"need_date": "You need a date...",
 		"no": "No",
+		"no_devices_found": "No Devices Found",
 		"no_items": "No Items",
 		"not_connected": "Not Connected",
 		"of_connected": "% of devices",
@@ -118,10 +123,12 @@
 		"recorded": "Recorded",
 		"refresh": "Refresh",
 		"refresh_device": "Refresh Device",
+		"required": "Required",
 		"result": "Result",
 		"save": "Save",
 		"saving": "Saving... ",
 		"schedule": "Schedule",
+		"search": "Search Devices",
 		"second": "second",
 		"seconds": "seconds",
 		"seconds_elapsed": "Seconds elapsed",
@@ -130,6 +137,7 @@
 		"submit": "Submit",
 		"submitted": "Submitted",
 		"success": "Success",
+		"system": "System",
 		"table": "Table",
 		"timestamp": "Time",
 		"to": "To",
@@ -181,6 +189,11 @@
 		"severity": "Severity",
 		"title": "Logs"
 	},
+	"entity": {
+		"cannot_delete": "You cannot delete entities which have children. Delete this entity's children to be able to delete it.",
+		"delete_success": "Entity Successfully Deleted",
+		"delete_warning": "Warning: this operation cannot be reverted"
+	},
 	"factory_reset": {
 		"redirector": "Keep redirector: ",
 		"reset": "Reset",
@@ -189,6 +202,7 @@
 		"warning": "Warning: Once you submit this cannot be reverted"
 	},
 	"firmware": {
+		"average_age": "Average Firmware Age",
 		"choose_custom": "Choose",
 		"details_title": "Image #{{image}} Details",
 		"device_type": "Device Type",
@@ -272,6 +286,8 @@
 	"statistics": {
 		"data": "Data (KB)",
 		"latest_statistics": "Latest Statistics",
+		"lifetime_stats": "Lifetime Statistics",
+		"no_interfaces": "No interface lifetime statistics available",
 		"show_latest": "Last Statistics",
 		"title": "Statistics"
 	},
@@ -288,6 +304,9 @@
 		"uptime": "Uptime",
 		"used_total_memory": "{{used}} used / {{total}} total "
 	},
+	"system": {
+		"error_fetching": "Error while fetching system information"
+	},
 	"trace": {
 		"choose_network": "Choose network",
 		"directions": "Launch a remote trace of this device for either a specific duration or a number of packets",
@@ -295,6 +314,7 @@
 		"packets": "Packets",
 		"title": "Trace",
 		"trace": "Trace",
+		"trace_not_successful": "Trace not successful: gateway reported the following error : {{error}}",
 		"wait_for_file": "Would you like to wait until the trace file is ready?",
 		"waiting_directions": "Please wait for the trace data file. This may take some time. You can exit the wait and retrieve the trace file from the commands table later.",
 		"waiting_seconds": "Time Elapsed: {{seconds}} seconds"
@@ -358,6 +378,7 @@
 		"association": "Association",
 		"associations": "Associations",
 		"mode": "Mode",
+		"network_diagram": "Network Diagram",
 		"radios": "Radios",
 		"title": "Wi-Fi Analysis"
 	}

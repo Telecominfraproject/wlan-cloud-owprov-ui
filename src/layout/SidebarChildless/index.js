@@ -3,50 +3,44 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
-import { getDropdownPadding } from 'utils/sidebarHelper';
+import { getChildlessPadding } from 'utils/sidebarHelper';
 
-const SidebarDropdown = ({ uuid, name, children, onClick, path }) => {
+const SidebarChildless = ({ uuid, name, onClick, path }) => {
   const { entity } = useEntity();
   const [show, setShow] = useState(false);
 
   const toggle = () => setShow(!show);
-
   return (
-    <li className={show ? 'c-sidebar-nav-dropdown c-show' : 'c-sidebar-nav-dropdown'}>
+    <li className="c-sidebar-nav-item">
       <a
         role="button"
-        className={`c-sidebar-nav-dropdown-toggle ${
-          uuid === entity.uuid ? 'bg-light text-dark' : ''
-        }`}
+        className={`c-sidebar-nav-link ${uuid === entity.uuid ? 'bg-light text-dark' : ''}`}
         onClick={() => {
           onClick();
           toggle();
         }}
         tabIndex="0"
         aria-label="menu dropdown"
-        style={{ paddingLeft: `${getDropdownPadding(path)}px` }}
+        style={{ paddingLeft: `${getChildlessPadding(path)}px` }}
       >
         <div className="text-truncate" style={{ width: '256px' }}>
           {name}
         </div>
       </a>
-      <ul className="c-sidebar-nav-dropdown-items">{children}</ul>
     </li>
   );
 };
 
-SidebarDropdown.propTypes = {
+SidebarChildless.propTypes = {
   uuid: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   name: PropTypes.string,
-  children: PropTypes.node,
   path: PropTypes.string.isRequired,
 };
 
-SidebarDropdown.defaultProps = {
+SidebarChildless.defaultProps = {
   onClick: () => null,
   name: '',
-  children: <></>,
 };
 
-export default SidebarDropdown;
+export default SidebarChildless;

@@ -1,5 +1,6 @@
 {
 	"actions": {
+		"actions": "Ações",
 		"blink": "Piscar",
 		"configure": "Configurar",
 		"connect": "Conectar",
@@ -21,8 +22,10 @@
 	},
 	"commands": {
 		"error": "Erro ao enviar comando!",
+		"event_queue": "Fila de Eventos",
 		"success": "Comando enviado com sucesso, você pode consultar o log de Comandos para ver o resultado",
-		"title": "Histórico de Comandos"
+		"title": "Histórico de Comandos",
+		"unable_queue": "Incapaz de completar o pedido de fila de eventos"
 	},
 	"common": {
 		"access_policy": "Política de Acesso",
@@ -45,6 +48,7 @@
 		"connected": "Conectado",
 		"copied": "Copiado!",
 		"copy_to_clipboard": "Copiar para área de transferência",
+		"create": "Crio",
 		"created": "Criado",
 		"created_by": "Criado Por",
 		"current": "Atual",
@@ -107,6 +111,7 @@
 		"na": "N / D",
 		"need_date": "Você precisa de um encontro ...",
 		"no": "Não",
+		"no_devices_found": "Nenhum dispositivo encontrado",
 		"no_items": "Nenhum item",
 		"not_connected": "Não conectado",
 		"of_connected": "% de dispositivos",
@@ -118,10 +123,12 @@
 		"recorded": "Gravado",
 		"refresh": "REFRESH",
 		"refresh_device": "Atualizar dispositivo",
+		"required": "Requeridos",
 		"result": "Resultado",
 		"save": "Salve",
 		"saving": "Salvando ...",
 		"schedule": "Cronograma",
+		"search": "Dispositivos de pesquisa",
 		"second": "segundo",
 		"seconds": "segundos",
 		"seconds_elapsed": "Segundos decorridos",
@@ -130,6 +137,7 @@
 		"submit": "Enviar",
 		"submitted": "Submetido",
 		"success": "Sucesso",
+		"system": "Sistema",
 		"table": "Mesa",
 		"timestamp": "tempo",
 		"to": "Para",
@@ -181,6 +189,11 @@
 		"severity": "Gravidade",
 		"title": "Toras"
 	},
+	"entity": {
+		"cannot_delete": "Você não pode excluir entidades que têm filhos. Exclua os filhos desta entidade para poder excluí-la.",
+		"delete_success": "Entidade excluída com sucesso",
+		"delete_warning": "Aviso: esta operação não pode ser revertida"
+	},
 	"factory_reset": {
 		"redirector": "Manter redirecionador:",
 		"reset": "Restabelecer",
@@ -189,6 +202,7 @@
 		"warning": "Aviso: depois de enviar, isso não pode ser revertido"
 	},
 	"firmware": {
+		"average_age": "Idade Média do Firmware",
 		"choose_custom": "Escolher",
 		"details_title": "Detalhes da imagem #{{image}} ",
 		"device_type": "Tipo de dispositivo",
@@ -272,6 +286,8 @@
 	"statistics": {
 		"data": "Dados (KB)",
 		"latest_statistics": "Estatísticas mais recentes",
+		"lifetime_stats": "Estatísticas de vida",
+		"no_interfaces": "Nenhuma estatística de tempo de vida da interface disponível",
 		"show_latest": "Últimas estatísticas",
 		"title": "Estatisticas"
 	},
@@ -288,6 +304,9 @@
 		"uptime": "Tempo de atividade",
 		"used_total_memory": "{{used}} usado / {{total}} total"
 	},
+	"system": {
+		"error_fetching": "Erro ao buscar informações do sistema"
+	},
 	"trace": {
 		"choose_network": "Escolha a rede",
 		"directions": "Lançar um rastreamento remoto deste dispositivo para uma duração específica ou um número de pacotes",
@@ -295,6 +314,7 @@
 		"packets": "Pacotes",
 		"title": "Vestígio",
 		"trace": "Vestígio",
+		"trace_not_successful": "O rastreamento não foi bem-sucedido: o gateway relatou o seguinte erro: {{error}}",
 		"wait_for_file": "Você gostaria de esperar até que o arquivo de rastreamento esteja pronto?",
 		"waiting_directions": "Aguarde o arquivo de dados de rastreamento. Isto pode tomar algum tempo. Você pode sair da espera e recuperar o arquivo de rastreamento da tabela de comandos mais tarde.",
 		"waiting_seconds": "Tempo decorrido: {{seconds}} segundos"
@@ -358,6 +378,7 @@
 		"association": "Associação",
 		"associations": "Associações",
 		"mode": "Modo",
+		"network_diagram": "Diagrama de rede",
 		"radios": "Rádios",
 		"title": "Análise de Wi-Fi"
 	}

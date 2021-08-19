@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Header, Footer, PageContainer, ToastProvider, useAuth } from 'ucentral-libs';
+import {
+  Header,
+  Footer,
+  PageContainer,
+  ToastProvider,
+  useAuth,
+  EntitySidebarProvider,
+} from 'ucentral-libs';
 import routes from 'routes';
 import { useHistory } from 'react-router-dom';
-import { set as lodashSet } from 'lodash';
+import { set as lodashSet, get as lodashGet } from 'lodash';
 import axiosInstance from 'utils/axiosInstance';
 import Sidebar from './Sidebar';
 
-const navbarOption = (name, icon, uuid, selectEntity, children, childrenIds, path) => {
-  let tag = 'CSidebarNavItem';
+const navbarOption = (name, uuid, selectEntity, children, childrenIds, path) => {
+  let tag = 'SidebarChildless';
   if (children) tag = 'SidebarDropdown';
 
   return {
     key: uuid,
+    uuid,
     _tag: tag,
     name,
-    icon,
+    path,
     onClick: () => selectEntity(uuid, name, childrenIds, path),
     _children: children,
   };
@@ -28,6 +36,7 @@ const TheLayout = () => {
   const history = useHistory();
   const [pathsLoaded, setPathsLoaded] = useState([]);
   const [lastClicked, setLastClicked] = useState('');
+  const [lastClickedUuid, setLastClickedUuid] = useState({ uuid: '0000-0000-0000', name: 'Root' });
   const [toGet, setToGet] = useState(null);
   const [sidebar, setSidebar] = useState([]);
 
@@ -39,6 +48,12 @@ const TheLayout = () => {
       });
     }
     history.push(`/home/${uuid}`);
+    setLastClickedUuid({
+      uuid,
+      name,
+      ids,
+      path,
+    });
     setLastClicked(name);
   };
 
@@ -71,7 +86,6 @@ const TheLayout = () => {
         if (result.children.length === 0) {
           return navbarOption(
             result.name,
-            'cilHome',
             result.id,
             selectEntity,
             undefined,
@@ -84,7 +98,6 @@ const TheLayout = () => {
           childrenIds.push(nested);
           return navbarOption(
             '',
-            'cilHome',
             nested,
             selectEntity,
             undefined,
@@ -94,7 +107,6 @@ const TheLayout = () => {
         });
         return navbarOption(
           result.name,
-          'cilHome',
           result.id,
           selectEntity,
           nestedOptions,
@@ -134,6 +146,39 @@ const TheLayout = () => {
       });
   };
 
+  const refreshEntityChildren = async ({ uuid, path }) => {
+    const oldInfo = lodashGet(sidebar, `${path}`);
+    const refreshedInfo = await getInfo(uuid);
+    setPathsLoaded([]);
+
+    // If the button was previously childless, we need to make it be a dropdown
+    // eslint-disable-next-line no-underscore-dangle
+    if (oldInfo._tag === 'SidebarChildless' && refreshedInfo.children.length > 0) {
+      setSidebar(lodashSet(sidebar, `${path}`, { ...oldInfo, _tag: 'SidebarDropdown' }));
+    }
+    getSidebarOptions(refreshedInfo.children, path);
+    setPathsLoaded([]);
+  };
+
+  const deleteEntityFromSidebar = async ({ path }) => {
+    const splitPath = path.split('.');
+    const parentPath = splitPath.slice(0, splitPath.length - 2).join('.');
+    const oldInfo = lodashGet(sidebar, `${parentPath}`);
+
+    if (oldInfo.uuid === '0000-0000-0000') {
+      setPathsLoaded([]);
+      getRoot();
+    } else {
+      const parentInfoFromApi = await getInfo(oldInfo.uuid);
+      selectEntity(oldInfo.uuid, oldInfo.name, parentInfoFromApi.children, parentPath);
+      if (parentInfoFromApi.children.length === 0) {
+        setSidebar(lodashSet(sidebar, `${parentPath}`, { ...oldInfo, _tag: 'SidebarChildless' }));
+      } else {
+        getSidebarOptions(parentInfoFromApi.children, parentPath);
+      }
+    }
+  };
+
   useEffect(() => {
     getRoot();
   }, []);
@@ -142,40 +187,42 @@ const TheLayout = () => {
     if (toGet && !pathsLoaded.includes(toGet.path)) getSidebarOptions(toGet.ids, toGet.path);
   }, [toGet]);
 
-  useEffect(() => {
-    console.log(pathsLoaded);
-  }, [pathsLoaded]);
   return (
     <div className="c-app c-default-layout">
-      <Sidebar
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        logo="assets/OpenWiFi_LogoLockup_WhiteColour.svg"
-        options={sidebar}
-        redirectTo="/home"
-        selected={lastClicked}
-      />
-      <div className="c-wrapper">
-        <Header
+      <EntitySidebarProvider>
+        <Sidebar
           showSidebar={showSidebar}
           setShowSidebar={setShowSidebar}
-          routes={routes}
-          t={t}
-          i18n={i18n}
-          logout={logout}
-          logo="assets/OpenWiFi_LogoLockup_DarkGreyColour.svg"
-          authToken={currentToken}
-          endpoints={endpoints}
-          user={user}
-          avatar={avatar}
+          logo="assets/OpenWiFi_LogoLockup_WhiteColour.svg"
+          options={sidebar}
+          redirectTo="/home"
+          selected={lastClicked}
+          lastClickedUuid={lastClickedUuid}
+          refreshEntityChildren={refreshEntityChildren}
+          deleteEntityFromSidebar={deleteEntityFromSidebar}
         />
-        <div className="c-body">
-          <ToastProvider>
-            <PageContainer t={t} routes={routes} redirectTo="/home" />
-          </ToastProvider>
+        <div className="c-wrapper">
+          <Header
+            showSidebar={showSidebar}
+            setShowSidebar={setShowSidebar}
+            routes={routes}
+            t={t}
+            i18n={i18n}
+            logout={logout}
+            logo="assets/OpenWiFi_LogoLockup_DarkGreyColour.svg"
+            authToken={currentToken}
+            endpoints={endpoints}
+            user={user}
+            avatar={avatar}
+          />
+          <div className="c-body">
+            <ToastProvider>
+              <PageContainer t={t} routes={routes} redirectTo="/home" />
+            </ToastProvider>
+          </div>
+          <Footer t={t} version="0.8.2" />
         </div>
-        <Footer t={t} version="0.8.1" />
-      </div>
+      </EntitySidebarProvider>
     </div>
   );
 };

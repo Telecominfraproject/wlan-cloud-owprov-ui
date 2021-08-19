@@ -1,5 +1,6 @@
 {
 	"actions": {
+		"actions": "actes",
 		"blink": "Cligner",
 		"configure": "Configurer",
 		"connect": "Relier",
@@ -21,8 +22,10 @@
 	},
 	"commands": {
 		"error": "Erreur lors de la soumission de la commande !",
+		"event_queue": "File d'attente d'événements",
 		"success": "Commande soumise avec succès, vous pouvez consulter le journal des commandes pour le résultat",
-		"title": "Historique des commandes"
+		"title": "Historique des commandes",
+		"unable_queue": "Impossible de terminer la demande de file d'attente d'événements"
 	},
 	"common": {
 		"access_policy": "Politique d'accès",
@@ -45,6 +48,7 @@
 		"connected": "Connecté",
 		"copied": "Copié!",
 		"copy_to_clipboard": "Copier dans le presse-papier",
+		"create": "Créer",
 		"created": "Créé",
 		"created_by": "Créé par",
 		"current": "Actuel",
@@ -107,6 +111,7 @@
 		"na": "N / A",
 		"need_date": "Vous avez besoin d'un rendez-vous...",
 		"no": "Non",
+		"no_devices_found": "Aucun périphérique trouvé",
 		"no_items": "Pas d'objet",
 		"not_connected": "Pas connecté",
 		"of_connected": "% d'appareils",
@@ -118,10 +123,12 @@
 		"recorded": "Enregistré",
 		"refresh": "Rafraîchir",
 		"refresh_device": "Actualiser l'appareil",
+		"required": "Champs obligatoires",
 		"result": "Résultat",
 		"save": "Sauvegarder",
 		"saving": "Économie...",
 		"schedule": "Programme",
+		"search": "Rechercher des appareils",
 		"second": "seconde",
 		"seconds": "secondes",
 		"seconds_elapsed": "Secondes écoulées",
@@ -130,6 +137,7 @@
 		"submit": "Soumettre",
 		"submitted": "Soumis",
 		"success": "Succès",
+		"system": "Système",
 		"table": "Table",
 		"timestamp": "Temps",
 		"to": "à",
@@ -181,6 +189,11 @@
 		"severity": "Gravité",
 		"title": "Journaux"
 	},
+	"entity": {
+		"cannot_delete": "Vous ne pouvez pas supprimer des entités qui ont des enfants. Supprimez les enfants de cette entité pour pouvoir la supprimer.",
+		"delete_success": "Entité supprimée avec succès",
+		"delete_warning": "Attention : cette opération ne peut pas être annulée"
+	},
 	"factory_reset": {
 		"redirector": "Conserver le redirecteur :",
 		"reset": "Réinitialiser",
@@ -189,6 +202,7 @@
 		"warning": "Avertissement : Une fois que vous avez soumis, cela ne peut pas être annulé"
 	},
 	"firmware": {
+		"average_age": "Âge moyen du micrologiciel",
 		"choose_custom": "Choisir",
 		"details_title": "Image #{{image}} Détails",
 		"device_type": "Type d'appareil",
@@ -272,6 +286,8 @@
 	"statistics": {
 		"data": "Données (Ko)",
 		"latest_statistics": "Dernières statistiques",
+		"lifetime_stats": "Statistiques à vie",
+		"no_interfaces": "Aucune statistique de durée de vie de l'interface disponible",
 		"show_latest": "Dernières statistiques",
 		"title": "statistiques"
 	},
@@ -288,6 +304,9 @@
 		"uptime": "La disponibilité",
 		"used_total_memory": "{{used}} utilisé / {{total}} total"
 	},
+	"system": {
+		"error_fetching": "Erreur lors de la récupération des informations système"
+	},
 	"trace": {
 		"choose_network": "Choisir le réseau",
 		"directions": "Lancer une trace à distance de cet appareil pour une durée spécifique ou un nombre de paquets",
@@ -295,6 +314,7 @@
 		"packets": "Paquets",
 		"title": "Trace",
 		"trace": "Trace",
+		"trace_not_successful": "Trace non réussie : la passerelle a signalé l'erreur suivante : {{error}}",
 		"wait_for_file": "Souhaitez-vous attendre que le fichier de trace soit prêt ?",
 		"waiting_directions": "Veuillez attendre le fichier de données de trace. Cela peut prendre un certain temps. Vous pouvez quitter l'attente et récupérer le fichier de trace de la table des commandes plus tard.",
 		"waiting_seconds": "Temps écoulé : {{seconds}} secondes"
@@ -358,6 +378,7 @@
 		"association": "Association",
 		"associations": "Les associations",
 		"mode": "Mode",
+		"network_diagram": "Diagramme de réseau",
 		"radios": "Radios",
 		"title": "Analyse Wi-Fi"
 	}
