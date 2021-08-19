@@ -190,6 +190,8 @@
 		"title": "Toras"
 	},
 	"entity": {
+		"add_failure": "Erro, o servidor retornou: {{error}}",
+		"add_success": "Entidade criada com sucesso!",
 		"cannot_delete": "Você não pode excluir entidades que têm filhos. Exclua os filhos desta entidade para poder excluí-la.",
 		"delete_success": "Entidade excluída com sucesso",
 		"delete_warning": "Aviso: esta operação não pode ser revertida"

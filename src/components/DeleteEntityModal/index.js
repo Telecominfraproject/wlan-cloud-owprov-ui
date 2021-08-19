@@ -19,6 +19,7 @@ const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
   const { currentToken, endpoints } = useAuth();
   const [result, setResult] = useState(null);
   const [canDelete, setCanDelete] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const checkIfChildless = () => {
     const options = {
@@ -43,6 +44,7 @@ const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
   };
 
   const deleteEntity = () => {
+    setLoading(true);
     const options = {
       headers: {
         Accept: 'application/json',
@@ -65,6 +67,9 @@ const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
           success: false,
           error: t('entity.delete_failure'),
         });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -97,7 +102,7 @@ const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
       <CModalFooter>
         {result === null && canDelete ? (
           <>
-            <CButton color="primary" onClick={deleteEntity}>
+            <CButton disabled={loading} color="primary" onClick={deleteEntity}>
               {t('common.delete')}
             </CButton>
             <CButton color="secondary" onClick={toggle}>

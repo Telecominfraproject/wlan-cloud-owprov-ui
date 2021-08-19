@@ -129,6 +129,8 @@ const TheLayout = () => {
   };
 
   const getRoot = () => {
+    setSidebar([]);
+    setPathsLoaded([]);
     const options = {
       headers: {
         Accept: 'application/json',
@@ -149,24 +151,25 @@ const TheLayout = () => {
   const refreshEntityChildren = async ({ uuid, path }) => {
     const oldInfo = lodashGet(sidebar, `${path}`);
     const refreshedInfo = await getInfo(uuid);
-    setPathsLoaded([]);
 
     // If the button was previously childless, we need to make it be a dropdown
-    // eslint-disable-next-line no-underscore-dangle
-    if (oldInfo._tag === 'SidebarChildless' && refreshedInfo.children.length > 0) {
-      setSidebar(lodashSet(sidebar, `${path}`, { ...oldInfo, _tag: 'SidebarDropdown' }));
-    }
-    getSidebarOptions(refreshedInfo.children, path);
     setPathsLoaded([]);
+    if (uuid === '0000-0000-0000' || !oldInfo) {
+      getRoot();
+    } else {
+      // eslint-disable-next-line no-underscore-dangle
+      if (oldInfo._tag === 'SidebarChildless' && refreshedInfo.children.length > 0) {
+        setSidebar(lodashSet(sidebar, `${path}`, { ...oldInfo, _tag: 'SidebarDropdown' }));
+      }
+      getSidebarOptions(refreshedInfo.children, path);
+    }
   };
 
   const deleteEntityFromSidebar = async ({ path }) => {
     const splitPath = path.split('.');
     const parentPath = splitPath.slice(0, splitPath.length - 2).join('.');
     const oldInfo = lodashGet(sidebar, `${parentPath}`);
-
-    if (oldInfo.uuid === '0000-0000-0000') {
-      setPathsLoaded([]);
+    if (!oldInfo || parentPath === '') {
       getRoot();
     } else {
       const parentInfoFromApi = await getInfo(oldInfo.uuid);
@@ -220,7 +223,7 @@ const TheLayout = () => {
               <PageContainer t={t} routes={routes} redirectTo="/home" />
             </ToastProvider>
           </div>
-          <Footer t={t} version="0.8.2" />
+          <Footer t={t} version="0.8.3" />
         </div>
       </EntitySidebarProvider>
     </div>

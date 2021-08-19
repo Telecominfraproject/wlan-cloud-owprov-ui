@@ -190,6 +190,8 @@
 		"title": "Logs"
 	},
 	"entity": {
+		"add_failure": "Error, the server returned : {{error}}",
+		"add_success": "Entity Successfully Created!",
 		"cannot_delete": "You cannot delete entities which have children. Delete this entity's children to be able to delete it.",
 		"delete_success": "Entity Successfully Deleted",
 		"delete_warning": "Warning: this operation cannot be reverted"

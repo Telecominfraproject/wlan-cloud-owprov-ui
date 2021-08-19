@@ -190,6 +190,8 @@
 		"title": "Journaux"
 	},
 	"entity": {
+		"add_failure": "Erreur, le serveur a renvoyé : {{error}}",
+		"add_success": "Entité créée avec succès !",
 		"cannot_delete": "Vous ne pouvez pas supprimer des entités qui ont des enfants. Supprimez les enfants de cette entité pour pouvoir la supprimer.",
 		"delete_success": "Entité supprimée avec succès",
 		"delete_warning": "Attention : cette opération ne peut pas être annulée"

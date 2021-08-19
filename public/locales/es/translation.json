@@ -190,6 +190,8 @@
 		"title": "Registros"
 	},
 	"entity": {
+		"add_failure": "Error, el servidor devolvió: {{error}}",
+		"add_success": "¡Entidad creada con éxito!",
 		"cannot_delete": "No puede eliminar entidades que tienen hijos. Elimina los hijos de esta entidad para poder eliminarla.",
 		"delete_success": "Entidad eliminada correctamente",
 		"delete_warning": "Advertencia: esta operación no se puede revertir"

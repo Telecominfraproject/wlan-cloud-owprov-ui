@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
+  CAlert,
   CModal,
   CModalHeader,
   CModalTitle,
@@ -31,6 +32,7 @@ const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
   const { currentToken, endpoints } = useAuth();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
 
   const validation = () => {
     let success = true;
@@ -48,6 +50,7 @@ const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
 
   const addEntity = () => {
     if (validation()) {
+      setResult(null);
       setLoading(true);
       const options = {
         headers: {
@@ -65,10 +68,18 @@ const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
       axiosInstance
         .post(`${endpoints.owprov}/api/v1/entity/1`, parameters, options)
         .then((response) => {
-          if (response.data.Code === 0) refreshEntityChildren(entity);
+          if (response.data.Code === 0) {
+            refreshEntityChildren(entity);
+            setResult({
+              success: true,
+            });
+          }
         })
         .catch((e) => {
-          console.log(e);
+          setResult({
+            success: false,
+            error: t('entity.add_failure', e.response?.data),
+          });
         })
         .finally(() => {
           setLoading(false);
@@ -76,8 +87,19 @@ const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
     }
   };
 
+  const showResult = () => {
+    if (!result) return null;
+    if (result.success) {
+      return <CAlert color="success">{t('entity.add_success')}</CAlert>;
+    }
+    return <CAlert color="danger">{result.error}</CAlert>;
+  };
+
   useEffect(() => {
-    if (show) setFormFields(initialForm);
+    if (show) {
+      setResult(null);
+      setFormFields(initialForm);
+    }
   }, [show]);
 
   return (
@@ -89,7 +111,8 @@ const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
         <AddEntityForm t={t} disable={loading} fields={fields} updateField={updateFieldWithId} />
       </CModalBody>
       <CModalFooter>
-        <CButton color="primary" onClick={addEntity}>
+        {showResult()}
+        <CButton disabled={loading} color="primary" onClick={addEntity}>
           {t('common.add')}
         </CButton>
         <CButton color="secondary" onClick={toggle}>
