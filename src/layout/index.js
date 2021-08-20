@@ -34,9 +34,10 @@ const TheLayout = () => {
   const { endpoints, currentToken, user, avatar, logout } = useAuth();
   const { t, i18n } = useTranslation();
   const history = useHistory();
+  const [needCreateRoot, setNeedCreateRoot] = useState(false);
   const [pathsLoaded, setPathsLoaded] = useState([]);
   const [lastClicked, setLastClicked] = useState('');
-  const [lastClickedUuid, setLastClickedUuid] = useState({ uuid: '0000-0000-0000', name: 'Root' });
+  const [lastClickedUuid, setLastClickedUuid] = useState(null);
   const [toGet, setToGet] = useState(null);
   const [sidebar, setSidebar] = useState([]);
 
@@ -74,6 +75,8 @@ const TheLayout = () => {
   };
 
   const getSidebarOptions = async (ids, parentPath) => {
+    const pathsAlreadyLoaded = pathsLoaded;
+    setPathsLoaded([]);
     const basePath = parentPath === '' ? '' : `${parentPath}._children.`;
     const promises = [];
     for (const id of ids) {
@@ -94,7 +97,7 @@ const TheLayout = () => {
           );
         }
         const childrenIds = [];
-        const nestedOptions = result.children.map((nested, index) => {
+        let nestedOptions = result.children.map((nested, index) => {
           childrenIds.push(nested);
           return navbarOption(
             '',
@@ -105,6 +108,11 @@ const TheLayout = () => {
             `${basePath}${resultIndex}.[${index}]`,
           );
         });
+
+        if (pathsAlreadyLoaded.includes(`${basePath}[${resultIndex}]`)) {
+          nestedOptions = lodashGet(sidebar, `${basePath}[${resultIndex}]._children`, newOptions);
+        }
+
         return navbarOption(
           result.name,
           result.id,
@@ -124,11 +132,12 @@ const TheLayout = () => {
         setPathsLoaded([...pathsLoaded, parentPath]);
       }
     } catch (e) {
-      console.log(e);
+      throw new Error('Error while fetching children');
     }
   };
 
   const getRoot = () => {
+    setNeedCreateRoot(false);
     setSidebar([]);
     setPathsLoaded([]);
     const options = {
@@ -141,10 +150,31 @@ const TheLayout = () => {
     axiosInstance
       .get(`${endpoints.owprov}/api/v1/entity/0000-0000-0000`, options)
       .then((response) => {
-        if (response.data.children) getSidebarOptions(response.data.children, '');
+        const children = response.data.children.map((nested, index) =>
+          navbarOption('', nested, selectEntity, undefined, undefined, `[0]._children.[${index}]`),
+        );
+        setSidebar([
+          navbarOption(
+            response.data.name,
+            '0000-0000-0000',
+            selectEntity,
+            children,
+            response.data.children,
+            '[0]',
+          ),
+        ]);
       })
-      .catch(() => {
-        throw new Error('Error while fetching entities');
+      .catch((e) => {
+        // If the root does not exist, trigger the root creation process
+        if (
+          e.response &&
+          e.response.data.ErrorCode !== undefined &&
+          e.response.data.ErrorCode === 404
+        ) {
+          setNeedCreateRoot(true);
+        } else {
+          throw new Error('Error while fetching root');
+        }
       });
   };
 
@@ -154,7 +184,7 @@ const TheLayout = () => {
 
     // If the button was previously childless, we need to make it be a dropdown
     setPathsLoaded([]);
-    if (uuid === '0000-0000-0000' || !oldInfo) {
+    if (!oldInfo) {
       getRoot();
     } else {
       // eslint-disable-next-line no-underscore-dangle
@@ -163,6 +193,11 @@ const TheLayout = () => {
       }
       getSidebarOptions(refreshedInfo.children, path);
     }
+  };
+
+  const refreshEntity = async (path, newData) => {
+    const oldInfo = lodashGet(sidebar, `${path}`);
+    setSidebar(lodashSet(sidebar, `${path}`, { ...oldInfo, ...newData }));
   };
 
   const deleteEntityFromSidebar = async ({ path }) => {
@@ -200,7 +235,10 @@ const TheLayout = () => {
           options={sidebar}
           redirectTo="/home"
           selected={lastClicked}
+          needCreateRoot={needCreateRoot}
           lastClickedUuid={lastClickedUuid}
+          refreshSidebar={getRoot}
+          refreshEntity={refreshEntity}
           refreshEntityChildren={refreshEntityChildren}
           deleteEntityFromSidebar={deleteEntityFromSidebar}
         />
@@ -223,7 +261,7 @@ const TheLayout = () => {
               <PageContainer t={t} routes={routes} redirectTo="/home" />
             </ToastProvider>
           </div>
-          <Footer t={t} version="0.8.3" />
+          <Footer t={t} version="0.8.4" />
         </div>
       </EntitySidebarProvider>
     </div>

@@ -14,7 +14,7 @@ const SidebarChildless = ({ uuid, name, onClick, path }) => {
     <li className="c-sidebar-nav-item">
       <a
         role="button"
-        className={`c-sidebar-nav-link ${uuid === entity.uuid ? 'bg-light text-dark' : ''}`}
+        className={`c-sidebar-nav-link ${uuid === entity?.uuid ? 'bg-light text-dark' : ''}`}
         onClick={() => {
           onClick();
           toggle();

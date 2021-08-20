@@ -126,6 +126,7 @@
 		"required": "Necesario",
 		"result": "Resultado",
 		"save": "Salvar",
+		"saved": "¡Salvado!",
 		"saving": "Ahorro...",
 		"schedule": "Programar",
 		"search": "Dispositivos de búsqueda",
@@ -190,11 +191,15 @@
 		"title": "Registros"
 	},
 	"entity": {
+		"add_child": "Agregar entidad secundaria a {{entityName}}",
 		"add_failure": "Error, el servidor devolvió: {{error}}",
+		"add_root": "Agregar entidad raíz",
 		"add_success": "¡Entidad creada con éxito!",
 		"cannot_delete": "No puede eliminar entidades que tienen hijos. Elimina los hijos de esta entidad para poder eliminarla.",
 		"delete_success": "Entidad eliminada correctamente",
-		"delete_warning": "Advertencia: esta operación no se puede revertir"
+		"delete_warning": "Advertencia: esta operación no se puede revertir",
+		"edit_failure": "Actualización fallida: {{error}}",
+		"entities": "entidades"
 	},
 	"factory_reset": {
 		"redirector": "Mantener el redirector:",

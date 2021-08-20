@@ -16,7 +16,7 @@ const SidebarDropdown = ({ uuid, name, children, onClick, path }) => {
       <a
         role="button"
         className={`c-sidebar-nav-dropdown-toggle ${
-          uuid === entity.uuid ? 'bg-light text-dark' : ''
+          uuid === entity?.uuid ? 'bg-light text-dark' : ''
         }`}
         onClick={() => {
           onClick();

@@ -126,6 +126,7 @@
 		"required": "Champs obligatoires",
 		"result": "Résultat",
 		"save": "Sauvegarder",
+		"saved": "Enregistré!",
 		"saving": "Économie...",
 		"schedule": "Programme",
 		"search": "Rechercher des appareils",
@@ -190,11 +191,15 @@
 		"title": "Journaux"
 	},
 	"entity": {
+		"add_child": "Ajouter une entité enfant à {{entityName}}",
 		"add_failure": "Erreur, le serveur a renvoyé : {{error}}",
+		"add_root": "Ajouter une entité racine",
 		"add_success": "Entité créée avec succès !",
 		"cannot_delete": "Vous ne pouvez pas supprimer des entités qui ont des enfants. Supprimez les enfants de cette entité pour pouvoir la supprimer.",
 		"delete_success": "Entité supprimée avec succès",
-		"delete_warning": "Attention : cette opération ne peut pas être annulée"
+		"delete_warning": "Attention : cette opération ne peut pas être annulée",
+		"edit_failure": "Échec de la mise à jour : {{error}}",
+		"entities": "Entités"
 	},
 	"factory_reset": {
 		"redirector": "Conserver le redirecteur :",

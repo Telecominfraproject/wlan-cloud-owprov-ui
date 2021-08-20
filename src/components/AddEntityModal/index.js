@@ -22,11 +22,20 @@ const initialForm = {
   description: {
     value: '',
     error: false,
-    required: true,
+  },
+  note: {
+    value: '',
+    error: false,
   },
 };
 
-const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
+const AddEntityModal = ({
+  show,
+  toggle,
+  needCreateRoot,
+  refreshSidebar,
+  refreshEntityChildren,
+}) => {
   const { t } = useTranslation();
   const { entity } = useEntity();
   const { currentToken, endpoints } = useAuth();
@@ -60,16 +69,26 @@ const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
       };
 
       const parameters = {
-        parent: entity.uuid,
+        parent: needCreateRoot ? undefined : entity.uuid,
         name: fields.name.value,
         description: fields.description.value,
+        notes: fields.note.value !== '' ? [fields.note.value] : undefined,
       };
 
       axiosInstance
-        .post(`${endpoints.owprov}/api/v1/entity/1`, parameters, options)
+        .post(
+          `${endpoints.owprov}/api/v1/entity/${needCreateRoot ? '0000-0000-0000' : '1'}`,
+          parameters,
+          options,
+        )
         .then((response) => {
           if (response.data.Code === 0) {
-            refreshEntityChildren(entity);
+            if (needCreateRoot) {
+              refreshSidebar();
+              toggle();
+            } else {
+              refreshEntityChildren(entity);
+            }
             setResult({
               success: true,
             });
@@ -78,7 +97,7 @@ const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
         .catch((e) => {
           setResult({
             success: false,
-            error: t('entity.add_failure', e.response?.data),
+            error: t('entity.add_failure', { error: e.response?.data }),
           });
         })
         .finally(() => {
@@ -105,7 +124,11 @@ const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
   return (
     <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
       <CModalHeader>
-        <CModalTitle>Add Child Entity to {entity.name}</CModalTitle>
+        <CModalTitle>
+          {needCreateRoot
+            ? t('entity.add_root')
+            : t('entity.add_child', { entityName: entity?.name })}
+        </CModalTitle>
       </CModalHeader>
       <CModalBody className="px-5">
         <AddEntityForm t={t} disable={loading} fields={fields} updateField={updateFieldWithId} />
@@ -126,6 +149,8 @@ const AddEntityModal = ({ show, toggle, refreshEntityChildren }) => {
 AddEntityModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  needCreateRoot: PropTypes.bool.isRequired,
+  refreshSidebar: PropTypes.func.isRequired,
   refreshEntityChildren: PropTypes.func.isRequired,
 };
 

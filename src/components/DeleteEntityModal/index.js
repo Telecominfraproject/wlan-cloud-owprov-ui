@@ -96,7 +96,9 @@ const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
   return (
     <CModal className="text-dark" show={show} onClose={toggle}>
       <CModalHeader>
-        <CModalTitle>Delete {entity.name}</CModalTitle>
+        <CModalTitle>
+          {t('common.delete')} {entity?.name}
+        </CModalTitle>
       </CModalHeader>
       <CModalBody className="px-5">{body()}</CModalBody>
       <CModalFooter>

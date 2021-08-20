@@ -126,6 +126,7 @@
 		"required": "Erforderlich",
 		"result": "Ergebnis",
 		"save": "Sparen",
+		"saved": "Gerettet!",
 		"saving": "Speichern ...",
 		"schedule": "Zeitplan",
 		"search": "Geräte suchen",
@@ -190,11 +191,15 @@
 		"title": "Geräteprotokolle"
 	},
 	"entity": {
+		"add_child": "Untergeordnete Entität zu {{entityName}}hinzufügen",
 		"add_failure": "Fehler, der Server hat zurückgegeben: {{error}}",
+		"add_root": "Root-Entität hinzufügen",
 		"add_success": "Entität erfolgreich erstellt!",
 		"cannot_delete": "Entitäten mit untergeordneten Elementen können nicht gelöscht werden. Löschen Sie die untergeordneten Elemente dieser Entität, um sie löschen zu können.",
 		"delete_success": "Entität erfolgreich gelöscht",
-		"delete_warning": "Achtung: Dieser Vorgang kann nicht rückgängig gemacht werden"
+		"delete_warning": "Achtung: Dieser Vorgang kann nicht rückgängig gemacht werden",
+		"edit_failure": "Aktualisierung fehlgeschlagen : {{error}}",
+		"entities": "Entitäten"
 	},
 	"factory_reset": {
 		"redirector": "Gatewaykonfiguration beibehalten:",
