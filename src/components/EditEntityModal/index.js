@@ -29,9 +29,9 @@ const initialForm = {
   },
 };
 
-const EditEntityModal = ({ show, toggle, refreshEntity }) => {
+const EditEntityModal = ({ show, toggle }) => {
   const { t } = useTranslation();
-  const { entity, setEntity } = useEntity();
+  const { entity, setEntity, refreshEntity } = useEntity();
   const { currentToken, endpoints } = useAuth();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
@@ -204,7 +204,6 @@ const EditEntityModal = ({ show, toggle, refreshEntity }) => {
 EditEntityModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  refreshEntity: PropTypes.func.isRequired,
 };
 
 export default EditEntityModal;

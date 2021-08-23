@@ -24,15 +24,15 @@ const App = () => {
       token={storageToken ?? ''}
       apiEndpoints={apiEndpoints}
     >
-      <EntitySidebarProvider>
-        <HashRouter>
+      <HashRouter>
+        <EntitySidebarProvider axiosInstance={axiosInstance}>
           <React.Suspense fallback={loading}>
             <Switch>
               <Router />
             </Switch>
           </React.Suspense>
-        </HashRouter>
-      </EntitySidebarProvider>
+        </EntitySidebarProvider>
+      </HashRouter>
     </AuthProvider>
   );
 };

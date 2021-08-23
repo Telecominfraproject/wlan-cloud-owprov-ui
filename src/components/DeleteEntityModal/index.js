@@ -13,9 +13,9 @@ import { useEntity, useAuth } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
-const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
+const DeleteEntityModal = ({ show, toggle }) => {
   const { t } = useTranslation();
-  const { entity } = useEntity();
+  const { entity, deleteEntity } = useEntity();
   const { currentToken, endpoints } = useAuth();
   const [result, setResult] = useState(null);
   const [canDelete, setCanDelete] = useState(false);
@@ -43,7 +43,7 @@ const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
       });
   };
 
-  const deleteEntity = () => {
+  const deleteEntityApi = () => {
     setLoading(true);
     const options = {
       headers: {
@@ -54,13 +54,11 @@ const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
 
     axiosInstance
       .delete(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, options)
-      .then((response) => {
-        if (response.status === 200) {
-          setResult({
-            success: true,
-          });
-          deleteEntityFromSidebar(entity);
-        }
+      .then(() => {
+        setResult({
+          success: true,
+        });
+        deleteEntity(entity);
       })
       .catch(() => {
         setResult({
@@ -104,7 +102,7 @@ const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
       <CModalFooter>
         {result === null && canDelete ? (
           <>
-            <CButton disabled={loading} color="primary" onClick={deleteEntity}>
+            <CButton disabled={loading} color="primary" onClick={deleteEntityApi}>
               {t('common.delete')}
             </CButton>
             <CButton color="secondary" onClick={toggle}>
@@ -124,7 +122,6 @@ const DeleteEntityModal = ({ show, toggle, deleteEntityFromSidebar }) => {
 DeleteEntityModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  deleteEntityFromSidebar: PropTypes.func.isRequired,
 };
 
 export default DeleteEntityModal;

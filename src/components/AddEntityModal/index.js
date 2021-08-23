@@ -29,15 +29,9 @@ const initialForm = {
   },
 };
 
-const AddEntityModal = ({
-  show,
-  toggle,
-  needCreateRoot,
-  refreshSidebar,
-  refreshEntityChildren,
-}) => {
+const AddEntityModal = ({ show, toggle }) => {
   const { t } = useTranslation();
-  const { entity } = useEntity();
+  const { entity, rootEntityMissing, getRootEntity, refreshEntityChildren } = useEntity();
   const { currentToken, endpoints } = useAuth();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
@@ -69,7 +63,7 @@ const AddEntityModal = ({
       };
 
       const parameters = {
-        parent: needCreateRoot ? undefined : entity.uuid,
+        parent: rootEntityMissing ? undefined : entity.uuid,
         name: fields.name.value,
         description: fields.description.value,
         notes: fields.note.value !== '' ? [fields.note.value] : undefined,
@@ -77,13 +71,13 @@ const AddEntityModal = ({
 
       axiosInstance
         .post(
-          `${endpoints.owprov}/api/v1/entity/${needCreateRoot ? '0000-0000-0000' : '1'}`,
+          `${endpoints.owprov}/api/v1/entity/${rootEntityMissing ? '0000-0000-0000' : '1'}`,
           parameters,
           options,
         )
         .then(() => {
-          if (needCreateRoot) {
-            refreshSidebar();
+          if (rootEntityMissing) {
+            getRootEntity();
             toggle();
           } else {
             refreshEntityChildren(entity);
@@ -123,7 +117,7 @@ const AddEntityModal = ({
     <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
       <CModalHeader>
         <CModalTitle>
-          {needCreateRoot
+          {rootEntityMissing
             ? t('entity.add_root')
             : t('entity.add_child', { entityName: entity?.name })}
         </CModalTitle>
@@ -147,9 +141,6 @@ const AddEntityModal = ({
 AddEntityModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  needCreateRoot: PropTypes.bool.isRequired,
-  refreshSidebar: PropTypes.func.isRequired,
-  refreshEntityChildren: PropTypes.func.isRequired,
 };
 
 export default AddEntityModal;
