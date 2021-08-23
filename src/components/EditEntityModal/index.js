@@ -71,14 +71,14 @@ const EditEntityModal = ({ show, toggle, refreshEntity }) => {
       axiosInstance
         .put(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, parameters, options)
         .then(() => {
+          refreshEntity(entity.path, {
+            name: fields.name.value,
+          });
           setEntity({
             ...entity,
             ...{
               name: fields.name.value,
             },
-          });
-          refreshEntity(entity.path, {
-            name: fields.name.value,
           });
           setResult({
             success: true,
@@ -94,42 +94,6 @@ const EditEntityModal = ({ show, toggle, refreshEntity }) => {
           setLoading(false);
         });
     }
-  };
-
-  const addNote = (newNote) => {
-    setLoading(true);
-
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    const parameters = {
-      uuid: entity.uuid,
-      notes: [newNote],
-    };
-
-    axiosInstance
-      .put(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, parameters, options)
-      .then((response) => {
-        if (response.data.Code === 0) {
-          setResult({
-            success: true,
-          });
-        }
-      })
-      .catch((e) => {
-        setResult({
-          success: false,
-          error: t('entity.edit_failure', { error: e.response?.data }),
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    setLoading(false);
   };
 
   const getEntity = () => {
@@ -150,7 +114,7 @@ const EditEntityModal = ({ show, toggle, refreshEntity }) => {
             newFields[key].value = response.data[key];
           }
         }
-        setFormFields(newFields);
+        setFormFields({ ...newFields });
       })
       .catch(() => {
         throw new Error('Error while fetching entity for edit');
@@ -158,6 +122,38 @@ const EditEntityModal = ({ show, toggle, refreshEntity }) => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const addNote = (newNote) => {
+    setLoading(true);
+
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const parameters = {
+      uuid: entity.uuid,
+      notes: [{ note: newNote }],
+    };
+
+    axiosInstance
+      .put(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, parameters, options)
+      .then(() => {
+        getEntity();
+      })
+      .catch((e) => {
+        setResult({
+          success: false,
+          error: t('entity.edit_failure', { error: e.response?.data }),
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    setLoading(false);
   };
 
   const showResult = () => {

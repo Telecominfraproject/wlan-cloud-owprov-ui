@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Header,
-  Footer,
-  PageContainer,
-  ToastProvider,
-  useAuth,
-  EntitySidebarProvider,
-} from 'ucentral-libs';
+import { Header, Footer, PageContainer, ToastProvider, useAuth, useEntity } from 'ucentral-libs';
 import routes from 'routes';
 import { useHistory } from 'react-router-dom';
 import { set as lodashSet, get as lodashGet } from 'lodash';
@@ -31,13 +24,13 @@ const navbarOption = (name, uuid, selectEntity, children, childrenIds, path) => 
 
 const TheLayout = () => {
   const [showSidebar, setShowSidebar] = useState('responsive');
+  const { setEntity } = useEntity();
   const { endpoints, currentToken, user, avatar, logout } = useAuth();
   const { t, i18n } = useTranslation();
   const history = useHistory();
   const [needCreateRoot, setNeedCreateRoot] = useState(false);
-  const [pathsLoaded, setPathsLoaded] = useState([]);
+  const [loadedChildren, setLoadedChildren] = useState([]);
   const [lastClicked, setLastClicked] = useState('');
-  const [lastClickedUuid, setLastClickedUuid] = useState(null);
   const [toGet, setToGet] = useState(null);
   const [sidebar, setSidebar] = useState([]);
 
@@ -46,10 +39,11 @@ const TheLayout = () => {
       setToGet({
         ids,
         path,
+        uuid,
       });
     }
     history.push(`/home/${uuid}`);
-    setLastClickedUuid({
+    setEntity({
       uuid,
       name,
       ids,
@@ -75,8 +69,8 @@ const TheLayout = () => {
   };
 
   const getSidebarOptions = async (ids, parentPath) => {
-    const pathsAlreadyLoaded = pathsLoaded;
-    setPathsLoaded([]);
+    const childrenAlreadyLoaded = loadedChildren;
+    setLoadedChildren([]);
     const basePath = parentPath === '' ? '' : `${parentPath}._children.`;
     const promises = [];
     for (const id of ids) {
@@ -84,6 +78,7 @@ const TheLayout = () => {
     }
 
     try {
+      const parent = lodashGet(sidebar, parentPath);
       const results = await Promise.all(promises);
       const newOptions = results.map((result, resultIndex) => {
         if (result.children.length === 0) {
@@ -108,9 +103,11 @@ const TheLayout = () => {
             `${basePath}${resultIndex}.[${index}]`,
           );
         });
-
-        if (pathsAlreadyLoaded.includes(`${basePath}[${resultIndex}]`)) {
-          nestedOptions = lodashGet(sidebar, `${basePath}[${resultIndex}]._children`, newOptions);
+        if (childrenAlreadyLoaded.includes(result.id)) {
+          const oldInformation = parent._children.find((entity) => entity.uuid === result.id);
+          if (oldInformation) {
+            nestedOptions = oldInformation._children;
+          }
         }
 
         return navbarOption(
@@ -129,7 +126,7 @@ const TheLayout = () => {
         const newSidebar = sidebar;
         lodashSet(newSidebar, `${parentPath}._children`, newOptions);
         setSidebar([...newSidebar]);
-        setPathsLoaded([...pathsLoaded, parentPath]);
+        setLoadedChildren([...childrenAlreadyLoaded, parent.uuid]);
       }
     } catch (e) {
       throw new Error('Error while fetching children');
@@ -139,7 +136,7 @@ const TheLayout = () => {
   const getRoot = () => {
     setNeedCreateRoot(false);
     setSidebar([]);
-    setPathsLoaded([]);
+    setLoadedChildren([]);
     const options = {
       headers: {
         Accept: 'application/json',
@@ -183,13 +180,13 @@ const TheLayout = () => {
     const refreshedInfo = await getInfo(uuid);
 
     // If the button was previously childless, we need to make it be a dropdown
-    setPathsLoaded([]);
+    setLoadedChildren([]);
     if (!oldInfo) {
       getRoot();
     } else {
       // eslint-disable-next-line no-underscore-dangle
       if (oldInfo._tag === 'SidebarChildless' && refreshedInfo.children.length > 0) {
-        setSidebar(lodashSet(sidebar, `${path}`, { ...oldInfo, _tag: 'SidebarDropdown' }));
+        setSidebar([...lodashSet(sidebar, `${path}`, { ...oldInfo, _tag: 'SidebarDropdown' })]);
       }
       getSidebarOptions(refreshedInfo.children, path);
     }
@@ -222,48 +219,45 @@ const TheLayout = () => {
   }, []);
 
   useEffect(() => {
-    if (toGet && !pathsLoaded.includes(toGet.path)) getSidebarOptions(toGet.ids, toGet.path);
+    if (toGet && !loadedChildren.includes(toGet.uuid)) getSidebarOptions(toGet.ids, toGet.path);
   }, [toGet]);
 
   return (
     <div className="c-app c-default-layout">
-      <EntitySidebarProvider>
-        <Sidebar
+      <Sidebar
+        showSidebar={showSidebar}
+        setShowSidebar={setShowSidebar}
+        logo="assets/OpenWiFi_LogoLockup_WhiteColour.svg"
+        options={sidebar}
+        redirectTo="/home"
+        selected={lastClicked}
+        needCreateRoot={needCreateRoot}
+        refreshSidebar={getRoot}
+        refreshEntity={refreshEntity}
+        refreshEntityChildren={refreshEntityChildren}
+        deleteEntityFromSidebar={deleteEntityFromSidebar}
+      />
+      <div className="c-wrapper">
+        <Header
           showSidebar={showSidebar}
           setShowSidebar={setShowSidebar}
-          logo="assets/OpenWiFi_LogoLockup_WhiteColour.svg"
-          options={sidebar}
-          redirectTo="/home"
-          selected={lastClicked}
-          needCreateRoot={needCreateRoot}
-          lastClickedUuid={lastClickedUuid}
-          refreshSidebar={getRoot}
-          refreshEntity={refreshEntity}
-          refreshEntityChildren={refreshEntityChildren}
-          deleteEntityFromSidebar={deleteEntityFromSidebar}
+          routes={routes}
+          t={t}
+          i18n={i18n}
+          logout={logout}
+          logo="assets/OpenWiFi_LogoLockup_DarkGreyColour.svg"
+          authToken={currentToken}
+          endpoints={endpoints}
+          user={user}
+          avatar={avatar}
         />
-        <div className="c-wrapper">
-          <Header
-            showSidebar={showSidebar}
-            setShowSidebar={setShowSidebar}
-            routes={routes}
-            t={t}
-            i18n={i18n}
-            logout={logout}
-            logo="assets/OpenWiFi_LogoLockup_DarkGreyColour.svg"
-            authToken={currentToken}
-            endpoints={endpoints}
-            user={user}
-            avatar={avatar}
-          />
-          <div className="c-body">
-            <ToastProvider>
-              <PageContainer t={t} routes={routes} redirectTo="/home" />
-            </ToastProvider>
-          </div>
-          <Footer t={t} version="0.8.4" />
+        <div className="c-body">
+          <ToastProvider>
+            <PageContainer t={t} routes={routes} redirectTo="/home" />
+          </ToastProvider>
         </div>
-      </EntitySidebarProvider>
+        <Footer t={t} version="0.8.5" />
+      </div>
     </div>
   );
 };

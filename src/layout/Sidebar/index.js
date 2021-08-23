@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   CCreateElement,
   CSidebar,
@@ -32,7 +32,6 @@ const Sidebar = ({
   logo,
   options,
   redirectTo,
-  lastClickedUuid,
   needCreateRoot,
   refreshSidebar,
   refreshEntity,
@@ -40,7 +39,7 @@ const Sidebar = ({
   deleteEntityFromSidebar,
 }) => {
   const { t } = useTranslation();
-  const { entity, setEntity } = useEntity();
+  const { entity } = useEntity();
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -56,10 +55,6 @@ const Sidebar = ({
   const toggleDelete = () => {
     setShowDelete(!showDelete);
   };
-
-  useEffect(() => {
-    setEntity(lastClickedUuid);
-  }, [lastClickedUuid]);
 
   return (
     <CSidebar show={showSidebar} onShowChange={(val) => setShowSidebar(val)}>
@@ -186,7 +181,6 @@ Sidebar.propTypes = {
   logo: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(Object).isRequired,
   redirectTo: PropTypes.string.isRequired,
-  lastClickedUuid: PropTypes.instanceOf(Object).isRequired,
   needCreateRoot: PropTypes.bool.isRequired,
   refreshSidebar: PropTypes.func.isRequired,
   refreshEntity: PropTypes.func.isRequired,

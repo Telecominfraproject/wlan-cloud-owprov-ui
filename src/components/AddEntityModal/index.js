@@ -81,18 +81,16 @@ const AddEntityModal = ({
           parameters,
           options,
         )
-        .then((response) => {
-          if (response.data.Code === 0) {
-            if (needCreateRoot) {
-              refreshSidebar();
-              toggle();
-            } else {
-              refreshEntityChildren(entity);
-            }
-            setResult({
-              success: true,
-            });
+        .then(() => {
+          if (needCreateRoot) {
+            refreshSidebar();
+            toggle();
+          } else {
+            refreshEntityChildren(entity);
           }
+          setResult({
+            success: true,
+          });
         })
         .catch((e) => {
           setResult({
