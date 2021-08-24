@@ -134,6 +134,7 @@
 		"seconds": "seconds",
 		"seconds_elapsed": "Seconds elapsed",
 		"serial_number": "Serial Number",
+		"show_all": "Show All",
 		"start": "Start",
 		"submit": "Submit",
 		"submitted": "Submitted",
@@ -201,6 +202,7 @@
 		"edit_failure": "Update unsuccessful : {{error}}",
 		"entities": "Entities",
 		"entity": "Entity",
+		"only_unassigned": "Only Unassigned",
 		"valid_serial": "Needs to be a valid serial number (12 HEX characters)"
 	},
 	"factory_reset": {

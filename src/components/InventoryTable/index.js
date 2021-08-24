@@ -20,6 +20,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
   const [tagCount, setTagCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [tagsPerPage, setTagsPerPage] = useState(getItem('tagsPerPage') || '10');
+  const [tagType, setTagType] = useState(!entityPage ? '&unassigned=true' : '');
   const [tags, setTags] = useState([]);
 
   const getTagInformation = (selectedPage = page, tagPerPage = tagsPerPage) => {
@@ -34,11 +35,9 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
 
     axiosInstance
       .get(
-        `${endpoints.owprov}/api/v1/inventory?${
-          entity !== null ? `entity=${entity.uuid}&` : ''
-        }limit=${tagPerPage}&offset=${
-          tagPerPage * selectedPage + 1 === 1 ? 0 : tagPerPage * selectedPage + 1
-        }`,
+        `${endpoints.owprov}/api/v1/inventory?${entity !== null ? `&entity=${entity.uuid}&` : ''}${
+          tagType !== '&unassigned=true' ? 'withExtendedInfo=true&' : ''
+        }limit=${tagPerPage}&offset=${tagPerPage * selectedPage + 1}${tagType}`,
         options,
       )
       .then((response) => {
@@ -67,7 +66,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
       .get(
         `${endpoints.owprov}/api/v1/inventory?${
           entity !== null ? `entity=${entity.uuid}&` : ''
-        }countOnly=true`,
+        }countOnly=true${tagType}`,
         {
           headers,
         },
@@ -135,6 +134,10 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
   }, []);
 
   useEffect(() => {
+    getCount();
+  }, [tagType]);
+
+  useEffect(() => {
     if (refreshId > 0) getCount();
   }, [refreshId]);
 
@@ -151,6 +154,8 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
         pageCount={pageCount}
         toggleAdd={toggleAdd}
         entityPage={entityPage}
+        tagType={tagType}
+        setTagType={setTagType}
       />
     </div>
   );

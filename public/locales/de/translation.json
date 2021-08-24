@@ -134,6 +134,7 @@
 		"seconds": "sekunden",
 		"seconds_elapsed": "Sekunden verstrichen",
 		"serial_number": "Seriennummer",
+		"show_all": "Zeige alles",
 		"start": "Start",
 		"submit": "Absenden",
 		"submitted": "Eingereicht",
@@ -201,6 +202,7 @@
 		"edit_failure": "Aktualisierung fehlgeschlagen : {{error}}",
 		"entities": "Entitäten",
 		"entity": "Entität",
+		"only_unassigned": "Nur nicht zugewiesen",
 		"valid_serial": "Muss eine gültige Seriennummer sein (12 HEX-Zeichen)"
 	},
 	"factory_reset": {

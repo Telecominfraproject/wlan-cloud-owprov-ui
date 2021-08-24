@@ -30,6 +30,10 @@ const initialForm = {
     error: false,
     required: true,
   },
+  venue: {
+    value: '',
+    error: false,
+  },
   description: {
     value: '',
     error: false,
@@ -46,6 +50,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
   const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
+  const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const validation = () => {
@@ -79,6 +84,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
         serialNumber: fields.serialNumber.value,
         name: fields.name.value,
         deviceType: fields.deviceType.value,
+        venue: fields.venue.value !== '' ? fields.venue.value : undefined,
         description:
           fields.description.value.trim() !== '' ? fields.description.value.trim() : undefined,
         notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
@@ -114,8 +120,33 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
     }
   };
 
+  const getVenues = () => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    axiosInstance
+      .get(`${endpoints.owprov}/api/v1/venue`, options)
+      .then((response) => {
+        setVenues(response.data.venues);
+      })
+      .catch(() => {
+        addToast({
+          title: t('common.error'),
+          body: t('inventory.error_retrieving'),
+          color: 'danger',
+          autohide: true,
+        });
+      })
+      .finally(() => setLoading(false));
+  };
+
   useEffect(() => {
     if (show) {
+      getVenues();
       setFormFields(initialForm);
     }
   }, [show]);
@@ -132,6 +163,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
           fields={fields}
           updateField={updateFieldWithId}
           deviceTypes={deviceTypes}
+          venues={venues}
         />
       </CModalBody>
       <CModalFooter>
