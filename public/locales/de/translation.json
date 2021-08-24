@@ -199,7 +199,9 @@
 		"delete_success": "Entität erfolgreich gelöscht",
 		"delete_warning": "Achtung: Dieser Vorgang kann nicht rückgängig gemacht werden",
 		"edit_failure": "Aktualisierung fehlgeschlagen : {{error}}",
-		"entities": "Entitäten"
+		"entities": "Entitäten",
+		"entity": "Entität",
+		"valid_serial": "Muss eine gültige Seriennummer sein (12 HEX-Zeichen)"
 	},
 	"factory_reset": {
 		"redirector": "Gatewaykonfiguration beibehalten:",
@@ -245,6 +247,15 @@
 	"health": {
 		"sanity": "Gesundheitzustand",
 		"title": "Gesundheitzustand"
+	},
+	"inventory": {
+		"add_tag": "Tag hinzufügen",
+		"add_tag_to": "Inventar-Tag zu {{name}}hinzufügen",
+		"error_retrieving": "Beim Abrufen von Inventar-Tags ist ein Fehler aufgetreten",
+		"subscriber": "Teilnehmer",
+		"tag_created": "Inventar-Tag erfolgreich erstellt",
+		"tag_creation_error": "Fehler beim Versuch, Inventar-Tag zu erstellen",
+		"venue": "Tagungsort"
 	},
 	"login": {
 		"change_password": "Ändere das Passwort",

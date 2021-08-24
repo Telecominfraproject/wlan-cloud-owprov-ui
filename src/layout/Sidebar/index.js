@@ -91,7 +91,9 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
         <CSidebarNavDropdown
           name="Inventory"
           icon={<CIcon content={cilSpreadsheet} size="lg" className="mr-3" />}
-        />
+        >
+          <CSidebarNavItem name="Table" to="/inventory" />
+        </CSidebarNavDropdown>
         <CSidebarNavDropdown
           name="Managament Roles"
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}

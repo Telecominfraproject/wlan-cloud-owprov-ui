@@ -199,7 +199,9 @@
 		"delete_success": "Entidade excluída com sucesso",
 		"delete_warning": "Aviso: esta operação não pode ser revertida",
 		"edit_failure": "Atualização malsucedida: {{error}}",
-		"entities": "Entidades"
+		"entities": "Entidades",
+		"entity": "Entidade",
+		"valid_serial": "Precisa ser um número de série válido (12 caracteres HEX)"
 	},
 	"factory_reset": {
 		"redirector": "Manter redirecionador:",
@@ -245,6 +247,15 @@
 	"health": {
 		"sanity": "Sanidade",
 		"title": "Saúde"
+	},
+	"inventory": {
+		"add_tag": "Adicionar etiqueta",
+		"add_tag_to": "Adicionar tag de estoque a {{name}}",
+		"error_retrieving": "Ocorreu um erro ao recuperar as tags de inventário",
+		"subscriber": "Assinante",
+		"tag_created": "Tag de inventário criada com sucesso",
+		"tag_creation_error": "Erro ao tentar criar etiqueta de inventário",
+		"venue": "Local"
 	},
 	"login": {
 		"change_password": "Mudar senha",

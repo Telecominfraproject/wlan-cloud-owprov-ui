@@ -2,7 +2,7 @@ import React from 'react';
 import { HashRouter, Switch } from 'react-router-dom';
 import 'scss/style.scss';
 import Router from 'router';
-import { AuthProvider, EntitySidebarProvider } from 'ucentral-libs';
+import { AuthProvider, EntityProvider } from 'ucentral-libs';
 import { checkIfJson } from 'utils/helper';
 import axiosInstance from 'utils/axiosInstance';
 
@@ -25,13 +25,13 @@ const App = () => {
       apiEndpoints={apiEndpoints}
     >
       <HashRouter>
-        <EntitySidebarProvider axiosInstance={axiosInstance}>
+        <EntityProvider axiosInstance={axiosInstance}>
           <React.Suspense fallback={loading}>
             <Switch>
               <Router />
             </Switch>
           </React.Suspense>
-        </EntitySidebarProvider>
+        </EntityProvider>
       </HashRouter>
     </AuthProvider>
   );

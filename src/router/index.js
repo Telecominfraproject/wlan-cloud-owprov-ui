@@ -11,7 +11,7 @@ const Routes = () => {
   return (
     <Route
       path="/"
-      name="Home"
+      name="Inventory"
       render={(props) =>
         currentToken !== '' && Object.keys(endpoints).length !== 0 ? (
           <TheLayout {...props} />

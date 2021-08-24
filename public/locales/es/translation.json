@@ -199,7 +199,9 @@
 		"delete_success": "Entidad eliminada correctamente",
 		"delete_warning": "Advertencia: esta operación no se puede revertir",
 		"edit_failure": "Actualización fallida: {{error}}",
-		"entities": "entidades"
+		"entities": "entidades",
+		"entity": "Entidad",
+		"valid_serial": "Debe ser un número de serie válido (12 caracteres HEX)"
 	},
 	"factory_reset": {
 		"redirector": "Mantener el redirector:",
@@ -245,6 +247,15 @@
 	"health": {
 		"sanity": "Cordura",
 		"title": "Salud"
+	},
+	"inventory": {
+		"add_tag": "Añadir etiqueta",
+		"add_tag_to": "Agregar etiqueta de inventario a {{name}}",
+		"error_retrieving": "Se produjo un error al recuperar las etiquetas de inventario",
+		"subscriber": "Abonado",
+		"tag_created": "Etiqueta de inventario creada correctamente",
+		"tag_creation_error": "Error al intentar crear una etiqueta de inventario",
+		"venue": "Lugar de encuentro"
 	},
 	"login": {
 		"change_password": "Cambia la contraseña",

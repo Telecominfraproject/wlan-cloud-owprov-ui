@@ -1,9 +1,11 @@
 import React from 'react';
 
-const HomePage = React.lazy(() => import('pages/HomePage'));
+const EntityPage = React.lazy(() => import('pages/EntityPage'));
+const InventoryPage = React.lazy(() => import('pages/InventoryPage'));
 const ProfilePage = React.lazy(() => import('pages/ProfilePage'));
 
 export default [
-  { path: '/home/:entityId', exact: true, name: 'Home', component: HomePage },
+  { path: '/inventory', exact: true, name: 'Inventory', component: InventoryPage },
+  { path: '/entity/:entityId', name: 'Entity', component: EntityPage },
   { path: '/myprofile', exact: true, name: 'user.my_profile', component: ProfilePage },
 ];

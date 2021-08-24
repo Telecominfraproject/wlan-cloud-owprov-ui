@@ -66,7 +66,7 @@ const AddEntityModal = ({ show, toggle }) => {
         parent: rootEntityMissing ? undefined : entity.uuid,
         name: fields.name.value,
         description: fields.description.value,
-        notes: fields.note.value !== '' ? [fields.note.value] : undefined,
+        notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
       };
 
       axiosInstance

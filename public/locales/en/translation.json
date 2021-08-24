@@ -199,7 +199,9 @@
 		"delete_success": "Entity Successfully Deleted",
 		"delete_warning": "Warning: this operation cannot be reverted",
 		"edit_failure": "Update unsuccessful : {{error}}",
-		"entities": "Entities"
+		"entities": "Entities",
+		"entity": "Entity",
+		"valid_serial": "Needs to be a valid serial number (12 HEX characters)"
 	},
 	"factory_reset": {
 		"redirector": "Keep redirector: ",
@@ -245,6 +247,15 @@
 	"health": {
 		"sanity": "Sanity",
 		"title": "Health"
+	},
+	"inventory": {
+		"add_tag": "Add Tag",
+		"add_tag_to": "Add Inventory Tag to {{name}}",
+		"error_retrieving": "Error occurred while retrieving inventory tags",
+		"subscriber": "Subscriber",
+		"tag_created": "Inventory tag successfully created",
+		"tag_creation_error": "Error while trying to create inventory tag",
+		"venue": "Venue"
 	},
 	"login": {
 		"change_password": "Change Password",

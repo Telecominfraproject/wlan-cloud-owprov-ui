@@ -199,7 +199,9 @@
 		"delete_success": "Entité supprimée avec succès",
 		"delete_warning": "Attention : cette opération ne peut pas être annulée",
 		"edit_failure": "Échec de la mise à jour : {{error}}",
-		"entities": "Entités"
+		"entities": "Entités",
+		"entity": "Entité",
+		"valid_serial": "Doit être un numéro de série valide (12 caractères HEX)"
 	},
 	"factory_reset": {
 		"redirector": "Conserver le redirecteur :",
@@ -245,6 +247,15 @@
 	"health": {
 		"sanity": "Santé mentale",
 		"title": "Santé"
+	},
+	"inventory": {
+		"add_tag": "Ajouter une étiquette",
+		"add_tag_to": "Ajouter une balise d'inventaire à {{name}}",
+		"error_retrieving": "Une erreur s'est produite lors de la récupération des balises d'inventaire",
+		"subscriber": "Abonné",
+		"tag_created": "Tag d'inventaire créé avec succès",
+		"tag_creation_error": "Erreur lors de la tentative de création d'une balise d'inventaire",
+		"venue": "Lieu"
 	},
 	"login": {
 		"change_password": "Changer le mot de passe",
