@@ -6,7 +6,7 @@ import { useAuth, useToast, InventoryTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 
-const InventoryTable = ({ entity, toggleAdd, refreshId }) => {
+const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { currentToken, endpoints } = useAuth();
@@ -150,6 +150,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId }) => {
         updatePage={updatePage}
         pageCount={pageCount}
         toggleAdd={toggleAdd}
+        entityPage={entityPage}
       />
     </div>
   );
@@ -159,12 +160,14 @@ InventoryTable.propTypes = {
   entity: PropTypes.instanceOf(Object),
   toggleAdd: PropTypes.func,
   refreshId: PropTypes.number,
+  entityPage: PropTypes.bool,
 };
 
 InventoryTable.defaultProps = {
   entity: null,
   toggleAdd: null,
   refreshId: 0,
+  entityPage: false,
 };
 
 export default InventoryTable;

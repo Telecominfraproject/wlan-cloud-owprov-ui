@@ -18,7 +18,7 @@ const EntityPage = () => {
   };
 
   useEffect(() => {
-    if (entity === null && entityId !== null) {
+    if (entityId !== null) {
       setProviderEntity(entityId);
     }
   }, [entityId]);
@@ -29,16 +29,23 @@ const EntityPage = () => {
         <CCardBody>{entity?.uuid}</CCardBody>
       </CCard>
       {entity !== null && entity?.uuid !== '0000-0000-0000' ? (
-        <InventoryTable entity={entity} toggleAdd={toggleShowAdd} refreshId={refreshId} />
+        <div>
+          <InventoryTable
+            entity={entity}
+            toggleAdd={toggleShowAdd}
+            refreshId={refreshId}
+            entityPage
+          />
+          <AddInventoryTagModal
+            show={showAddModal}
+            toggle={toggleShowAdd}
+            entity={entity}
+            refreshTable={refreshTable}
+          />
+        </div>
       ) : (
         <div />
       )}
-      <AddInventoryTagModal
-        show={showAddModal}
-        toggle={toggleShowAdd}
-        entity={entity}
-        refreshTable={refreshTable}
-      />
     </>
   );
 };
