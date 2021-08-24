@@ -254,9 +254,13 @@
 		"add_tag": "Ajouter une étiquette",
 		"add_tag_to": "Ajouter une balise d'inventaire à {{name}}",
 		"error_retrieving": "Une erreur s'est produite lors de la récupération des balises d'inventaire",
+		"error_unassign": "Erreur lors de l'opération de désaffectation",
 		"subscriber": "Abonné",
+		"successful_unassign": "L'opération de désaffectation a réussi",
 		"tag_created": "Tag d'inventaire créé avec succès",
 		"tag_creation_error": "Erreur lors de la tentative de création d'une balise d'inventaire",
+		"unassign": "Annuler l'attribution",
+		"unassign_tag": "Désaffecter la balise de l'entité",
 		"venue": "Lieu"
 	},
 	"login": {

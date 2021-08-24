@@ -254,9 +254,13 @@
 		"add_tag": "Tag hinzufügen",
 		"add_tag_to": "Inventar-Tag zu {{name}}hinzufügen",
 		"error_retrieving": "Beim Abrufen von Inventar-Tags ist ein Fehler aufgetreten",
+		"error_unassign": "Fehler beim Aufheben der Zuweisung",
 		"subscriber": "Teilnehmer",
+		"successful_unassign": "Vorgang zum Aufheben der Zuweisung war erfolgreich",
 		"tag_created": "Inventar-Tag erfolgreich erstellt",
 		"tag_creation_error": "Fehler beim Versuch, Inventar-Tag zu erstellen",
+		"unassign": "Zuordnung aufheben",
+		"unassign_tag": "Tag von Entität zuweisen",
 		"venue": "Tagungsort"
 	},
 	"login": {

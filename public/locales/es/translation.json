@@ -254,9 +254,13 @@
 		"add_tag": "Añadir etiqueta",
 		"add_tag_to": "Agregar etiqueta de inventario a {{name}}",
 		"error_retrieving": "Se produjo un error al recuperar las etiquetas de inventario",
+		"error_unassign": "Error durante la operación de anulación de asignación",
 		"subscriber": "Abonado",
+		"successful_unassign": "La operación de anulación de asignación se realizó correctamente",
 		"tag_created": "Etiqueta de inventario creada correctamente",
 		"tag_creation_error": "Error al intentar crear una etiqueta de inventario",
+		"unassign": "Anular asignación",
+		"unassign_tag": "Anular asignación de etiqueta de entidad",
 		"venue": "Lugar de encuentro"
 	},
 	"login": {

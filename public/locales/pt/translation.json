@@ -254,9 +254,13 @@
 		"add_tag": "Adicionar etiqueta",
 		"add_tag_to": "Adicionar tag de estoque a {{name}}",
 		"error_retrieving": "Ocorreu um erro ao recuperar as tags de inventário",
+		"error_unassign": "Erro durante operação de cancelamento de atribuição",
 		"subscriber": "Assinante",
+		"successful_unassign": "A operação de cancelamento da atribuição foi bem-sucedida",
 		"tag_created": "Tag de inventário criada com sucesso",
 		"tag_creation_error": "Erro ao tentar criar etiqueta de inventário",
+		"unassign": "Cancelar atribuição",
+		"unassign_tag": "Cancelar a atribuição de tag da entidade",
 		"venue": "Local"
 	},
 	"login": {

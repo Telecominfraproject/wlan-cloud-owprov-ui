@@ -119,6 +119,40 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
     getTagInformation(selectedPage);
   };
 
+  const unassignTag = (tagId) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const parameters = {};
+
+    axiosInstance
+      .put(`${endpoints.owprov}/api/v1/inventory/${tagId}?unassign=true`, parameters, options)
+      .then(() => {
+        addToast({
+          title: t('common.success'),
+          body: t('inventory.successful_unassign'),
+          color: 'success',
+          autohide: true,
+        });
+        getCount();
+      })
+      .catch(() => {
+        addToast({
+          title: t('common.error'),
+          body: t('inventory.error_unassign'),
+          color: 'danger',
+          autohide: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (page === undefined || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
@@ -156,6 +190,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
         entityPage={entityPage}
         tagType={tagType}
         setTagType={setTagType}
+        unassign={unassignTag}
       />
     </div>
   );
