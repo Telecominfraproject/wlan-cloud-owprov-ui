@@ -13,6 +13,11 @@ import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
 const initialForm = {
+  entity: {
+    value: '',
+    error: false,
+    hidden: false,
+  },
   serialNumber: {
     value: '',
     error: false,
@@ -80,7 +85,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
       };
 
       const parameters = {
-        entity: entity.uuid,
+        entity: entity?.uuid ?? undefined,
         serialNumber: fields.serialNumber.value,
         name: fields.name.value,
         deviceType: fields.deviceType.value,
@@ -147,7 +152,16 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
   useEffect(() => {
     if (show) {
       getVenues();
-      setFormFields(initialForm);
+
+      const startingForm = initialForm;
+
+      // If this modal is used within an Entity Page, we use the page's entity and hide the field
+      if (entity) {
+        startingForm.entity.value = entity.uuid;
+        startingForm.entity.hidden = true;
+      }
+
+      setFormFields(startingForm);
     }
   }, [show]);
 
