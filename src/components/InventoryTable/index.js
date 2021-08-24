@@ -86,10 +86,13 @@ const InventoryTable = ({ entity, toggleAdd, refreshId }) => {
         }
         if (tagsCount > 0) {
           getTagInformation(selectedPage);
+        } else {
+          setTags([]);
         }
         setLoading(false);
       })
       .catch(() => {
+        setTags([]);
         setLoading(false);
       });
   };
