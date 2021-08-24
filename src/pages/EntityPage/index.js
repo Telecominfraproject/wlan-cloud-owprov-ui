@@ -28,7 +28,7 @@ const EntityPage = () => {
       <CCard>
         <CCardBody>{entity?.uuid}</CCardBody>
       </CCard>
-      {entity !== null ? (
+      {entity !== null && entity?.uuid !== '0000-0000-0000' ? (
         <InventoryTable entity={entity} toggleAdd={toggleShowAdd} refreshId={refreshId} />
       ) : (
         <div />
