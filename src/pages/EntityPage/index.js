@@ -40,6 +40,7 @@ const EntityPage = () => {
                 refreshId={refreshId}
                 refreshPageTables={refreshTable}
                 onlyEntity
+                urlId="only"
                 title={t('inventory.tags_assigned_to', { name: entity.name })}
               />
             </CCol>
@@ -48,6 +49,7 @@ const EntityPage = () => {
                 entity={entity}
                 refreshId={refreshId}
                 refreshPageTables={refreshTable}
+                urlId="unassigned"
                 title={t('inventory.unassigned_tags')}
               />
             </CCol>

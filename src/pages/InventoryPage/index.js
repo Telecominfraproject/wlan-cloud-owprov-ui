@@ -14,7 +14,13 @@ const InventoryPage = () => {
 
   return (
     <div>
-      <InventoryTable entityPage={false} toggleAdd={toggleShowAdd} refreshId={refreshId} />
+      <InventoryTable
+        entityPage={false}
+        toggleAdd={toggleShowAdd}
+        refreshId={refreshId}
+        useUrl
+        refreshPageTables={refreshTable}
+      />
       <AddInventoryTagModal
         show={showAddModal}
         toggle={toggleShowAdd}

@@ -5,8 +5,17 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useAuth, useToast, InventoryTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
+import EditTagModal from 'components/EditTagModal';
 
-const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refreshPageTables }) => {
+const InventoryTable = ({
+  entity,
+  toggleAdd,
+  refreshId,
+  onlyEntity,
+  useUrl,
+  title,
+  refreshPageTables,
+}) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { currentToken, endpoints } = useAuth();
@@ -14,6 +23,9 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
   const path = history.location.pathname.split('?')[0];
   const { search } = useLocation();
   const page = new URLSearchParams(search).get('page');
+  const [localPage, setLocalPage] = useState('0');
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedTagId, setSelectedTagId] = useState(null);
 
   // States needed for Inventory Table
   const [loading, setLoading] = useState(false);
@@ -22,6 +34,11 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
   const [tagsPerPage, setTagsPerPage] = useState(getItem('tagsPerPage') || '10');
   const [tagType, setTagType] = useState(!onlyEntity ? '&unassigned=true' : '');
   const [tags, setTags] = useState([]);
+
+  const toggleEditModal = (tagId) => {
+    setSelectedTagId(tagId);
+    setShowEditModal(!showEditModal);
+  };
 
   const getTagInformation = (selectedPage = page, tagPerPage = tagsPerPage) => {
     setLoading(true);
@@ -82,7 +99,8 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
         let selectedPage = page;
 
         if (page >= pagesCount) {
-          history.push(`${path}?page=${pagesCount - 1}`);
+          if (useUrl) history.push(`${path}?page=${pagesCount - 1}`);
+          else setLocalPage(`${pagesCount - 1}`);
           selectedPage = pagesCount - 1;
         }
         if (tagsCount > 0) {
@@ -108,7 +126,8 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
     let selectedPage = page;
 
     if (page >= newPageCount) {
-      history.push(`${path}?page=${newPageCount - 1}`);
+      if (useUrl) history.push(`${path}?page=${newPageCount - 1}`);
+      else setLocalPage(`${newPageCount - 1}`);
       selectedPage = newPageCount - 1;
     }
 
@@ -116,7 +135,8 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
   };
 
   const updatePage = ({ selected: selectedPage }) => {
-    history.push(`${path}?page=${selectedPage}`);
+    if (useUrl) history.push(`${path}?page=${selectedPage}`);
+    else setLocalPage(`${selectedPage}`);
 
     getTagInformation(selectedPage);
   };
@@ -144,10 +164,11 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
           color: 'success',
           autohide: true,
         });
-        refreshPageTables();
+        if (refreshPageTables !== null) refreshPageTables();
         getCount();
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         addToast({
           title: t('common.error'),
           body: t('inventory.error_unassign'),
@@ -182,7 +203,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
             color: 'success',
             autohide: true,
           });
-          refreshPageTables();
+          if (refreshPageTables !== null) refreshPageTables();
           getCount();
         })
         .catch(() => {
@@ -200,16 +221,20 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
   };
 
   useEffect(() => {
-    if (page === undefined || page === null || Number.isNaN(page)) {
+    if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
     }
+    if (!useUrl) setLocalPage('0');
+
     getCount();
   }, [entity]);
 
   useEffect(() => {
-    if (page === undefined || page === null || Number.isNaN(page)) {
+    if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
     }
+    if (!useUrl) setLocalPage('0');
+
     getCount();
   }, []);
 
@@ -229,7 +254,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
         tags={tags}
         tagsPerPage={tagsPerPage}
         updateTagsPerPage={updateTagsPerPage}
-        page={page}
+        page={useUrl ? page : localPage}
         updatePage={updatePage}
         pageCount={pageCount}
         toggleAdd={toggleAdd}
@@ -240,6 +265,13 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refre
         assignToEntity={assignTag}
         entity={entity}
         title={title}
+        toggleEditModal={toggleEditModal}
+      />
+      <EditTagModal
+        show={showEditModal}
+        toggle={toggleEditModal}
+        tagSerialNumber={selectedTagId}
+        refreshTable={refreshPageTables}
       />
     </div>
   );
@@ -250,6 +282,7 @@ InventoryTable.propTypes = {
   toggleAdd: PropTypes.func,
   refreshId: PropTypes.number,
   onlyEntity: PropTypes.bool,
+  useUrl: PropTypes.bool,
   title: PropTypes.string,
   refreshPageTables: PropTypes.func,
 };
@@ -259,6 +292,7 @@ InventoryTable.defaultProps = {
   toggleAdd: null,
   refreshId: 0,
   onlyEntity: false,
+  useUrl: false,
   title: null,
   refreshPageTables: null,
 };
