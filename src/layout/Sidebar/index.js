@@ -46,7 +46,11 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
   };
 
   return (
-    <CSidebar show={showSidebar} onShowChange={(val) => setShowSidebar(val)}>
+    <CSidebar
+      show={showSidebar}
+      onShowChange={(val) => setShowSidebar(val)}
+      dropdownMode="noAction"
+    >
       <CSidebarBrand className="d-md-down-none" to={redirectTo}>
         <img
           className={[styles.sidebarImgFull, 'c-sidebar-brand-full'].join(' ')}

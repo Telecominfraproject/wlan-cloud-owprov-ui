@@ -253,14 +253,19 @@
 	"inventory": {
 		"add_tag": "Add Tag",
 		"add_tag_to": "Add Inventory Tag to {{name}}",
+		"assign_error": "Error while trying to assign tag",
+		"assign_to_entity": "Assign to Entity",
 		"error_retrieving": "Error occurred while retrieving inventory tags",
 		"error_unassign": "Error during unassign operation",
 		"subscriber": "Subscriber",
+		"successful_assign": "Tag successfully assigned",
 		"successful_unassign": "Unassign operation was successful",
 		"tag_created": "Inventory tag successfully created",
 		"tag_creation_error": "Error while trying to create inventory tag",
+		"tags_assigned_to": "Inventory tags assigned to {{name}}",
 		"unassign": "Unassign",
 		"unassign_tag": "Unassign Tag from Entity",
+		"unassigned_tags": "Unassigned tags",
 		"venue": "Venue"
 	},
 	"login": {

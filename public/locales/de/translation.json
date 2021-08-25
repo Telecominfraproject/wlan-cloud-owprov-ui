@@ -253,14 +253,19 @@
 	"inventory": {
 		"add_tag": "Tag hinzufügen",
 		"add_tag_to": "Inventar-Tag zu {{name}}hinzufügen",
+		"assign_error": "Fehler beim Versuch, Tag zuzuweisen",
+		"assign_to_entity": "Zu Entität zuweisen",
 		"error_retrieving": "Beim Abrufen von Inventar-Tags ist ein Fehler aufgetreten",
 		"error_unassign": "Fehler beim Aufheben der Zuweisung",
 		"subscriber": "Teilnehmer",
+		"successful_assign": "Tag erfolgreich zugewiesen",
 		"successful_unassign": "Vorgang zum Aufheben der Zuweisung war erfolgreich",
 		"tag_created": "Inventar-Tag erfolgreich erstellt",
 		"tag_creation_error": "Fehler beim Versuch, Inventar-Tag zu erstellen",
+		"tags_assigned_to": "Inventar-Tags {{name}}zugewiesen",
 		"unassign": "Zuordnung aufheben",
 		"unassign_tag": "Tag von Entität zuweisen",
+		"unassigned_tags": "Nicht zugewiesene Tags",
 		"venue": "Tagungsort"
 	},
 	"login": {

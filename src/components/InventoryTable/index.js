@@ -6,7 +6,7 @@ import { useAuth, useToast, InventoryTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 
-const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
+const InventoryTable = ({ entity, toggleAdd, refreshId, onlyEntity, title, refreshPageTables }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { currentToken, endpoints } = useAuth();
@@ -20,7 +20,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
   const [tagCount, setTagCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [tagsPerPage, setTagsPerPage] = useState(getItem('tagsPerPage') || '10');
-  const [tagType, setTagType] = useState(!entityPage ? '&unassigned=true' : '');
+  const [tagType, setTagType] = useState(!onlyEntity ? '&unassigned=true' : '');
   const [tags, setTags] = useState([]);
 
   const getTagInformation = (selectedPage = page, tagPerPage = tagsPerPage) => {
@@ -35,7 +35,9 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
 
     axiosInstance
       .get(
-        `${endpoints.owprov}/api/v1/inventory?${entity !== null ? `&entity=${entity.uuid}&` : ''}${
+        `${endpoints.owprov}/api/v1/inventory?${
+          onlyEntity && entity !== null ? `&entity=${entity.uuid}&` : ''
+        }${
           tagType !== '&unassigned=true' ? 'withExtendedInfo=true&' : ''
         }limit=${tagPerPage}&offset=${tagPerPage * selectedPage + 1}${tagType}`,
         options,
@@ -65,7 +67,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
     axiosInstance
       .get(
         `${endpoints.owprov}/api/v1/inventory?${
-          entity !== null ? `entity=${entity.uuid}&` : ''
+          onlyEntity && entity !== null ? `entity=${entity.uuid}&` : ''
         }countOnly=true${tagType}`,
         {
           headers,
@@ -119,7 +121,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
     getTagInformation(selectedPage);
   };
 
-  const unassignTag = (tagId) => {
+  const unassignTag = (serialNumber) => {
     const options = {
       headers: {
         Accept: 'application/json',
@@ -130,7 +132,11 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
     const parameters = {};
 
     axiosInstance
-      .put(`${endpoints.owprov}/api/v1/inventory/${tagId}?unassign=true`, parameters, options)
+      .put(
+        `${endpoints.owprov}/api/v1/inventory/${serialNumber}?unassign=true`,
+        parameters,
+        options,
+      )
       .then(() => {
         addToast({
           title: t('common.success'),
@@ -138,6 +144,7 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
           color: 'success',
           autohide: true,
         });
+        refreshPageTables();
         getCount();
       })
       .catch(() => {
@@ -151,6 +158,45 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const assignTag = (serialNumber) => {
+    if (entity !== null) {
+      const options = {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${currentToken}`,
+        },
+      };
+
+      const parameters = {
+        entity: entity.uuid,
+      };
+
+      axiosInstance
+        .put(`${endpoints.owprov}/api/v1/inventory/${serialNumber}`, parameters, options)
+        .then(() => {
+          addToast({
+            title: t('common.success'),
+            body: t('inventory.successful_assign'),
+            color: 'success',
+            autohide: true,
+          });
+          refreshPageTables();
+          getCount();
+        })
+        .catch(() => {
+          addToast({
+            title: t('common.error'),
+            body: t('inventory.assign_error'),
+            color: 'danger',
+            autohide: true,
+          });
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   useEffect(() => {
@@ -187,10 +233,13 @@ const InventoryTable = ({ entity, toggleAdd, refreshId, entityPage }) => {
         updatePage={updatePage}
         pageCount={pageCount}
         toggleAdd={toggleAdd}
-        entityPage={entityPage}
+        onlyEntity={onlyEntity}
         tagType={tagType}
         setTagType={setTagType}
         unassign={unassignTag}
+        assignToEntity={assignTag}
+        entity={entity}
+        title={title}
       />
     </div>
   );
@@ -200,14 +249,18 @@ InventoryTable.propTypes = {
   entity: PropTypes.instanceOf(Object),
   toggleAdd: PropTypes.func,
   refreshId: PropTypes.number,
-  entityPage: PropTypes.bool,
+  onlyEntity: PropTypes.bool,
+  title: PropTypes.string,
+  refreshPageTables: PropTypes.func,
 };
 
 InventoryTable.defaultProps = {
   entity: null,
   toggleAdd: null,
   refreshId: 0,
-  entityPage: false,
+  onlyEntity: false,
+  title: null,
+  refreshPageTables: null,
 };
 
 export default InventoryTable;
