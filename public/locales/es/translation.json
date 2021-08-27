@@ -203,6 +203,8 @@
 		"edit_failure": "Actualización fallida: {{error}}",
 		"entities": "entidades",
 		"entity": "Entidad",
+		"error_fetching": "Error al recuperar entidades",
+		"not_assigned": "No asignado",
 		"only_unassigned": "Solo sin asignar",
 		"valid_serial": "Debe ser un número de serie válido (12 caracteres HEX)"
 	},
@@ -255,6 +257,7 @@
 		"add_child_venue": "Agregar lugar infantil a {{entityName}}",
 		"add_tag": "Crear etiqueta",
 		"add_tag_to": "Agregar etiqueta de inventario a {{name}}",
+		"assign_entity_instructions": "Puede encontrar la entidad a la que desea que se asigne esta etiqueta utilizando el menú a continuación, o puede pegar manualmente el UUID de la entidad en el campo de arriba.",
 		"assign_error": "Error al intentar asignar la etiqueta",
 		"assign_to_entity": "Asignar a entidad",
 		"delete_tag": "Eliminar etiqueta permanentemente",

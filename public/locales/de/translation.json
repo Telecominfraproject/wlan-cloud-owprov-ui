@@ -203,6 +203,8 @@
 		"edit_failure": "Aktualisierung fehlgeschlagen : {{error}}",
 		"entities": "Entitäten",
 		"entity": "Entität",
+		"error_fetching": "Fehler beim Abrufen von Entitäten",
+		"not_assigned": "Nicht zugeordnet",
 		"only_unassigned": "Nur nicht zugewiesen",
 		"valid_serial": "Muss eine gültige Seriennummer sein (12 HEX-Zeichen)"
 	},
@@ -255,6 +257,7 @@
 		"add_child_venue": "Untergeordneten Veranstaltungsort zu {{entityName}}hinzufügen",
 		"add_tag": "Tag erstellen",
 		"add_tag_to": "Inventar-Tag zu {{name}}hinzufügen",
+		"assign_entity_instructions": "Sie können die Entität, der dieses Tag zugewiesen werden soll, entweder über das Menü unten finden oder die UUID der Entität manuell in das Feld oben einfügen.",
 		"assign_error": "Fehler beim Versuch, Tag zuzuweisen",
 		"assign_to_entity": "Zu Entität zuweisen",
 		"delete_tag": "Tag endgültig löschen",

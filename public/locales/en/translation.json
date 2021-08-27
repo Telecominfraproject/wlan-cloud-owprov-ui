@@ -203,6 +203,8 @@
 		"edit_failure": "Update unsuccessful : {{error}}",
 		"entities": "Entities",
 		"entity": "Entity",
+		"error_fetching": "Error while fetching entities",
+		"not_assigned": "Not Assigned",
 		"only_unassigned": "Only Unassigned",
 		"valid_serial": "Needs to be a valid serial number (12 HEX characters)"
 	},
@@ -255,6 +257,7 @@
 		"add_child_venue": "Add Child Venue to {{entityName}}",
 		"add_tag": "Create Tag",
 		"add_tag_to": "Add Inventory Tag to {{name}}",
+		"assign_entity_instructions": "You can either find the entity you want this tag to be assigned to by using the menu below, or you can manually paste the entity's UUID in the field above.",
 		"assign_error": "Error while trying to assign tag",
 		"assign_to_entity": "Assign to Entity",
 		"delete_tag": "Permanently Delete Tag",

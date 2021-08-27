@@ -203,6 +203,8 @@
 		"edit_failure": "Échec de la mise à jour : {{error}}",
 		"entities": "Entités",
 		"entity": "Entité",
+		"error_fetching": "Erreur lors de la récupération des entités",
+		"not_assigned": "Non attribué",
 		"only_unassigned": "Uniquement non attribué",
 		"valid_serial": "Doit être un numéro de série valide (12 caractères HEX)"
 	},
@@ -255,6 +257,7 @@
 		"add_child_venue": "Ajouter un lieu enfant à {{entityName}}",
 		"add_tag": "Créer un tag",
 		"add_tag_to": "Ajouter une balise d'inventaire à {{name}}",
+		"assign_entity_instructions": "Vous pouvez soit trouver l'entité à laquelle vous souhaitez que cette balise soit attribuée en utilisant le menu ci-dessous, soit coller manuellement l'UUID de l'entité dans le champ ci-dessus.",
 		"assign_error": "Erreur lors de la tentative d'attribution de balise",
 		"assign_to_entity": "Affecter à l'entité",
 		"delete_tag": "Supprimer définitivement la balise",

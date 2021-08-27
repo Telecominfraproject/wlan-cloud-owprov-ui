@@ -203,6 +203,8 @@
 		"edit_failure": "Atualização malsucedida: {{error}}",
 		"entities": "Entidades",
 		"entity": "Entidade",
+		"error_fetching": "Erro ao buscar entidades",
+		"not_assigned": "Não atribuído",
 		"only_unassigned": "Apenas não atribuídos",
 		"valid_serial": "Precisa ser um número de série válido (12 caracteres HEX)"
 	},
@@ -255,6 +257,7 @@
 		"add_child_venue": "Adicionar Local Infantil a {{entityName}}",
 		"add_tag": "Criar tag",
 		"add_tag_to": "Adicionar tag de estoque a {{name}}",
+		"assign_entity_instructions": "Você pode encontrar a entidade à qual deseja que esta tag seja atribuída usando o menu abaixo ou pode colar manualmente o UUID da entidade no campo acima.",
 		"assign_error": "Erro ao tentar atribuir tag",
 		"assign_to_entity": "Atribuir à Entidade",
 		"delete_tag": "Excluir tag permanentemente",
