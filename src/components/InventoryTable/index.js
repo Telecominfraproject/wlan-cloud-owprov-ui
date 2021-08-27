@@ -32,9 +32,10 @@ const InventoryTable = ({
   const [tagCount, setTagCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [tagsPerPage, setTagsPerPage] = useState(getItem('tagsPerPage') || '10');
-  const [tagType, setTagType] = useState(!onlyEntity ? '&unassigned=true' : '');
+  const [onlyUnassigned, setOnlyUnassigned] = useState(true);
   const [tags, setTags] = useState([]);
 
+  const toggleUnassignedDisplay = () => setOnlyUnassigned(!onlyUnassigned);
   const toggleEditModal = (tagId) => {
     setSelectedTagId(tagId);
     setShowEditModal(!showEditModal);
@@ -54,9 +55,9 @@ const InventoryTable = ({
       .get(
         `${endpoints.owprov}/api/v1/inventory?${
           onlyEntity && entity !== null ? `&entity=${entity.uuid}&` : ''
-        }${
-          tagType !== '&unassigned=true' ? 'withExtendedInfo=true&' : ''
-        }limit=${tagPerPage}&offset=${tagPerPage * selectedPage + 1}${tagType}`,
+        }limit=${tagPerPage}&offset=${tagPerPage * selectedPage + 1}${
+          !onlyUnassigned ? 'withExtendedInfo=true&' : '&unassigned=true'
+        }`,
         options,
       )
       .then((response) => {
@@ -85,7 +86,7 @@ const InventoryTable = ({
       .get(
         `${endpoints.owprov}/api/v1/inventory?${
           onlyEntity && entity !== null ? `entity=${entity.uuid}&` : ''
-        }countOnly=true${tagType}`,
+        }countOnly=true${!onlyUnassigned ? '' : '&unassigned=true'}`,
         {
           headers,
         },
@@ -167,8 +168,7 @@ const InventoryTable = ({
         if (refreshPageTables !== null) refreshPageTables();
         getCount();
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         addToast({
           title: t('common.error'),
           body: t('inventory.error_unassign'),
@@ -220,6 +220,41 @@ const InventoryTable = ({
     }
   };
 
+  const deleteTag = (serialNumber) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const parameters = {};
+
+    axiosInstance
+      .delete(`${endpoints.owprov}/api/v1/inventory/${serialNumber}`, parameters, options)
+      .then(() => {
+        addToast({
+          title: t('common.success'),
+          body: t('inventory.successful_tag_delete'),
+          color: 'success',
+          autohide: true,
+        });
+        if (refreshPageTables !== null) refreshPageTables();
+        getCount();
+      })
+      .catch(() => {
+        addToast({
+          title: t('common.error'),
+          body: t('inventory.error_delete_tag'),
+          color: 'danger',
+          autohide: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
@@ -240,7 +275,7 @@ const InventoryTable = ({
 
   useEffect(() => {
     getCount();
-  }, [tagType]);
+  }, [onlyUnassigned]);
 
   useEffect(() => {
     if (refreshId > 0) getCount();
@@ -259,13 +294,14 @@ const InventoryTable = ({
         pageCount={pageCount}
         toggleAdd={toggleAdd}
         onlyEntity={onlyEntity}
-        tagType={tagType}
-        setTagType={setTagType}
         unassign={unassignTag}
         assignToEntity={assignTag}
         entity={entity}
         title={title}
         toggleEditModal={toggleEditModal}
+        deleteTag={deleteTag}
+        onlyUnassigned={onlyUnassigned}
+        toggleUnassignedDisplay={toggleUnassignedDisplay}
       />
       <EditTagModal
         show={showEditModal}

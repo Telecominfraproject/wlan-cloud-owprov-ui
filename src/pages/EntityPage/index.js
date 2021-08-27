@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { CCard, CCardBody, CRow, CCol } from '@coreui/react';
-import { useEntity } from 'ucentral-libs';
+import { CRow, CCol } from '@coreui/react';
+import { useEntity, EntityInformation } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import InventoryTable from 'components/InventoryTable';
 import AddInventoryTagModal from 'components/AddInventoryTagModal';
@@ -27,13 +27,13 @@ const EntityPage = () => {
 
   return (
     <>
-      <CCard>
-        <CCardBody>{entity?.uuid}</CCardBody>
-      </CCard>
-      {entity !== null && entity?.uuid !== '0000-0000-0000' ? (
-        <div>
-          <CRow>
-            <CCol sm={12} lg={6}>
+      <CRow>
+        <CCol>
+          <EntityInformation t={t} entity={entity} />
+        </CCol>
+        <CCol>
+          {entity !== null && entity?.uuid !== '0000-0000-0000' ? (
+            <div>
               <InventoryTable
                 entity={entity}
                 toggleAdd={toggleShowAdd}
@@ -41,29 +41,21 @@ const EntityPage = () => {
                 refreshPageTables={refreshTable}
                 onlyEntity
                 urlId="only"
-                title={t('inventory.tags_assigned_to', { name: entity.name })}
+                title={t('entity.assigned_inventory')}
               />
-            </CCol>
-            <CCol sm={12} lg={6}>
-              <InventoryTable
-                entity={entity}
+              <AddInventoryTagModal
+                show={showAddModal}
+                toggle={toggleShowAdd}
                 refreshId={refreshId}
-                refreshPageTables={refreshTable}
-                urlId="unassigned"
-                title={t('inventory.unassigned_tags')}
+                entity={entity}
+                refreshTable={refreshTable}
               />
-            </CCol>
-          </CRow>
-          <AddInventoryTagModal
-            show={showAddModal}
-            toggle={toggleShowAdd}
-            entity={entity}
-            refreshTable={refreshTable}
-          />
-        </div>
-      ) : (
-        <div />
-      )}
+            </div>
+          ) : (
+            <div />
+          )}
+        </CCol>
+      </CRow>
     </>
   );
 };

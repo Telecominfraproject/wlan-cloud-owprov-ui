@@ -14,7 +14,7 @@ import {
   CCol,
   CPopover,
 } from '@coreui/react';
-import { cilPlus, cilPen, cilTrash, cilSitemap, cilSpreadsheet, cilWc } from '@coreui/icons';
+import { cilList, cilPlus, cilPen, cilTrash, cilSpreadsheet, cilWc } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import DeleteEntityModal from 'components/DeleteEntityModal';
 import AddEntityModal from 'components/AddEntityModal';
 import EditEntityModal from 'components/EditEntityModal';
+import AddVenueModal from 'components/AddVenueModal';
 import SidebarDropdown from '../SidebarDropdown';
 import SidebarChildless from '../SidebarChildless';
 import styles from './index.module.scss';
@@ -29,12 +30,17 @@ import styles from './index.module.scss';
 const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
   const { t } = useTranslation();
   const { entity, entities, rootEntityMissing } = useEntity();
-  const [showAdd, setShowAdd] = useState(false);
+  const [showAddEntity, setShowAddEntity] = useState(false);
+  const [showAddVenue, setShowAddVenue] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
-  const toggleAdd = () => {
-    setShowAdd(!showAdd);
+  const toggleAddEntity = () => {
+    setShowAddEntity(!showAddEntity);
+  };
+
+  const toggleAddVenue = () => {
+    setShowAddVenue(!showAddVenue);
   };
 
   const toggleEdit = () => {
@@ -64,34 +70,29 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
         />
       </CSidebarBrand>
       <CSidebarNav>
-        <CSidebarNavDropdown
-          name="Entities"
-          icon={<CIcon content={cilSitemap} size="lg" className="mr-3" />}
+        <CButton
+          hidden={!showSidebar || !rootEntityMissing}
+          block
+          className="text-center px-0 py-2 my-3"
+          color="light"
+          onClick={toggleAddEntity}
         >
-          <CButton
-            hidden={!showSidebar || !rootEntityMissing}
-            block
-            className="text-center px-0 py-2 my-3"
-            color="light"
-            onClick={toggleAdd}
-          >
-            {t('entity.add_root')}
-          </CButton>
-          <div hidden={rootEntityMissing}>
-            <CCreateElement
-              items={entities}
-              components={{
-                SidebarChildless,
-                SidebarDropdown,
-                CButton,
-                CSidebarNavDivider,
-                CSidebarNavDropdown,
-                CSidebarNavItem,
-                CSidebarNavTitle,
-              }}
-            />
-          </div>
-        </CSidebarNavDropdown>
+          {t('entity.add_root')}
+        </CButton>
+        <div hidden={rootEntityMissing}>
+          <CCreateElement
+            items={entities}
+            components={{
+              SidebarChildless,
+              SidebarDropdown,
+              CButton,
+              CSidebarNavDivider,
+              CSidebarNavDropdown,
+              CSidebarNavItem,
+              CSidebarNavTitle,
+            }}
+          />
+        </div>
         <CSidebarNavDropdown
           name="Inventory"
           icon={<CIcon content={cilSpreadsheet} size="lg" className="mr-3" />}
@@ -99,25 +100,42 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           <CSidebarNavItem name="Table" to="/inventory" />
         </CSidebarNavDropdown>
         <CSidebarNavDropdown
+          name="Venues"
+          icon={<CIcon content={cilList} size="lg" className="mr-3" />}
+        />
+        <CSidebarNavDropdown
           name="Managament Roles"
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
         />
       </CSidebarNav>
       <CRow hidden={rootEntityMissing || !entity} className="px-3">
-        <CCol>
+        <CCol className="px-1">
           <CPopover content={t('entity.add_child', { entityName: entity?.name })}>
             <CButton
               hidden={!showSidebar}
               block
               className="text-center px-0 py-2 my-3"
               color="light"
-              onClick={toggleAdd}
+              onClick={toggleAddEntity}
             >
               <CIcon content={cilPlus} />
             </CButton>
           </CPopover>
         </CCol>
-        <CCol>
+        <CCol className="px-1">
+          <CPopover content={t('inventory.add_child_venue', { entityName: entity?.name })}>
+            <CButton
+              hidden={!showSidebar}
+              block
+              className="text-center px-0 py-2 my-3"
+              color="light"
+              onClick={toggleAddVenue}
+            >
+              <CIcon content={cilPlus} />
+            </CButton>
+          </CPopover>
+        </CCol>
+        <CCol className="px-1">
           <CPopover content={`${t('common.edit')} ${entity?.name}`}>
             <CButton
               hidden={!showSidebar}
@@ -130,7 +148,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
             </CButton>
           </CPopover>
         </CCol>
-        <CCol>
+        <CCol className="px-1">
           <CPopover content={`${t('common.delete')} ${entity?.name}`}>
             <CButton
               hidden={!showSidebar}
@@ -146,7 +164,8 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
         </CCol>
       </CRow>
       <CSidebarMinimizer className="c-d-md-down-none" />
-      <AddEntityModal show={showAdd} toggle={toggleAdd} />
+      <AddEntityModal show={showAddEntity} toggle={toggleAddEntity} />
+      <AddVenueModal show={showAddVenue} toggle={toggleAddVenue} parent={entity} />
       <EditEntityModal show={showEdit} toggle={toggleEdit} entityUuid={entity?.uuid} />
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
     </CSidebar>

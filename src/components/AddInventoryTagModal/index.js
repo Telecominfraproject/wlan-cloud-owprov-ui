@@ -7,8 +7,13 @@ import {
   CModalTitle,
   CModalBody,
   CModalFooter,
+  CNav,
+  CNavLink,
+  CTabContent,
+  CTabPane,
   CButton,
 } from '@coreui/react';
+import InventoryTable from 'components/InventoryTable';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
@@ -35,10 +40,6 @@ const initialForm = {
     error: false,
     required: true,
   },
-  venue: {
-    value: '',
-    error: false,
-  },
   description: {
     value: '',
     error: false,
@@ -49,13 +50,13 @@ const initialForm = {
   },
 };
 
-const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
+const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId }) => {
   const { t } = useTranslation();
   const { deviceTypes } = useEntity();
   const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
+  const [activeTab, setActiveTab] = useState(0);
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
-  const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const validation = () => {
@@ -89,7 +90,6 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
         serialNumber: fields.serialNumber.value,
         name: fields.name.value,
         deviceType: fields.deviceType.value,
-        venue: fields.venue.value !== '' ? fields.venue.value : undefined,
         description:
           fields.description.value.trim() !== '' ? fields.description.value.trim() : undefined,
         notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
@@ -109,7 +109,6 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
             autohide: true,
           });
           refreshTable();
-          toggle();
         })
         .catch(() => {
           addToast({
@@ -125,34 +124,10 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
     }
   };
 
-  const getVenues = () => {
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    axiosInstance
-      .get(`${endpoints.owprov}/api/v1/venue`, options)
-      .then((response) => {
-        setVenues(response.data.venues);
-      })
-      .catch(() => {
-        addToast({
-          title: t('common.error'),
-          body: t('inventory.error_retrieving'),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => setLoading(false));
-  };
-
   useEffect(() => {
     if (show) {
-      getVenues();
-
+      setActiveTab(0);
+      refreshTable();
       const startingForm = initialForm;
 
       // If this modal is used within an Entity Page, we use the page's entity and hide the field
@@ -166,28 +141,52 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
   }, [show]);
 
   return (
-    <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
+    <CModal className="text-dark" size="xl" show={show} onClose={toggle}>
       <CModalHeader>
         <CModalTitle>{t('inventory.add_tag_to', { name: entity?.name })}</CModalTitle>
       </CModalHeader>
-      <CModalBody className="px-5 py-5">
-        <AddInventoryTagForm
-          t={t}
-          disable={loading}
-          fields={fields}
-          updateField={updateFieldWithId}
-          deviceTypes={deviceTypes}
-          venues={venues}
-        />
+      <CModalBody className="pb-5">
+        <CNav variant="tabs">
+          <CNavLink href="#" active={activeTab === 0} onClick={() => setActiveTab(0)}>
+            Create New
+          </CNavLink>
+          <CNavLink href="#" active={activeTab === 1} onClick={() => setActiveTab(1)}>
+            Unassigned Inventory
+          </CNavLink>
+        </CNav>
+        <CTabContent className="py-2">
+          <CTabPane active={activeTab === 0}>
+            <AddInventoryTagForm
+              t={t}
+              disable={loading}
+              fields={fields}
+              updateField={updateFieldWithId}
+              deviceTypes={deviceTypes}
+            />
+          </CTabPane>
+          <CTabPane active={activeTab === 1}>
+            <InventoryTable
+              entity={entity}
+              refreshId={refreshId}
+              refreshPageTables={refreshTable}
+              urlId="unassigned"
+              title={t('inventory.unassigned_tags')}
+            />
+          </CTabPane>
+        </CTabContent>
       </CModalBody>
-      <CModalFooter>
-        <CButton disabled={loading} color="primary" onClick={addInventoryTag}>
-          {t('common.add')}
-        </CButton>
-        <CButton color="secondary" onClick={toggle}>
-          {t('common.close')}
-        </CButton>
-      </CModalFooter>
+      {activeTab === 0 ? (
+        <CModalFooter>
+          <CButton disabled={loading} color="primary" onClick={addInventoryTag}>
+            {t('common.add')}
+          </CButton>
+          <CButton color="secondary" onClick={toggle}>
+            {t('common.close')}
+          </CButton>
+        </CModalFooter>
+      ) : (
+        <div />
+      )}
     </CModal>
   );
 };
@@ -197,6 +196,7 @@ AddInventoryTagModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   refreshTable: PropTypes.func,
+  refreshId: PropTypes.number.isRequired,
 };
 
 AddInventoryTagModal.defaultProps = {
