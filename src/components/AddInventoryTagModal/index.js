@@ -146,36 +146,48 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
         <CModalTitle>{t('inventory.add_tag_to', { name: entity?.name })}</CModalTitle>
       </CModalHeader>
       <CModalBody className="pb-5">
-        <CNav variant="tabs">
-          <CNavLink href="#" active={activeTab === 0} onClick={() => setActiveTab(0)}>
-            Create New
-          </CNavLink>
-          <CNavLink href="#" active={activeTab === 1} onClick={() => setActiveTab(1)}>
-            Unassigned Inventory
-          </CNavLink>
-        </CNav>
-        <CTabContent className="py-2">
-          <CTabPane active={activeTab === 0}>
-            <AddInventoryTagForm
-              t={t}
-              disable={loading}
-              fields={fields}
-              updateField={updateFieldWithId}
-              deviceTypes={deviceTypes}
-            />
-          </CTabPane>
-          <CTabPane active={activeTab === 1}>
-            <InventoryTable
-              entity={entity}
-              refreshId={refreshId}
-              refreshPageTables={refreshTable}
-              urlId="unassigned"
-              title={t('inventory.unassigned_tags')}
-            />
-          </CTabPane>
-        </CTabContent>
+        {entity !== null ? (
+          <div>
+            <CNav variant="tabs">
+              <CNavLink href="#" active={activeTab === 0} onClick={() => setActiveTab(0)}>
+                Create New
+              </CNavLink>
+              <CNavLink href="#" active={activeTab === 1} onClick={() => setActiveTab(1)}>
+                Unassigned Inventory
+              </CNavLink>
+            </CNav>
+            <CTabContent className="py-2">
+              <CTabPane active={activeTab === 0}>
+                <AddInventoryTagForm
+                  t={t}
+                  disable={loading}
+                  fields={fields}
+                  updateField={updateFieldWithId}
+                  deviceTypes={deviceTypes}
+                />
+              </CTabPane>
+              <CTabPane active={activeTab === 1}>
+                <InventoryTable
+                  entity={entity}
+                  refreshId={refreshId}
+                  refreshPageTables={refreshTable}
+                  urlId="unassigned"
+                  title={t('inventory.unassigned_tags')}
+                />
+              </CTabPane>
+            </CTabContent>
+          </div>
+        ) : (
+          <AddInventoryTagForm
+            t={t}
+            disable={loading}
+            fields={fields}
+            updateField={updateFieldWithId}
+            deviceTypes={deviceTypes}
+          />
+        )}
       </CModalBody>
-      {activeTab === 0 ? (
+      {activeTab === 0 || entity === null ? (
         <CModalFooter>
           <CButton disabled={loading} color="primary" onClick={addInventoryTag}>
             {t('common.add')}
@@ -192,7 +204,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
 };
 
 AddInventoryTagModal.propTypes = {
-  entity: PropTypes.instanceOf(Object).isRequired,
+  entity: PropTypes.instanceOf(Object),
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   refreshTable: PropTypes.func,
@@ -200,6 +212,7 @@ AddInventoryTagModal.propTypes = {
 };
 
 AddInventoryTagModal.defaultProps = {
+  entity: null,
   refreshTable: null,
 };
 

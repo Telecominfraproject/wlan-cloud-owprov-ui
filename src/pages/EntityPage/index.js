@@ -5,6 +5,7 @@ import { useEntity, EntityInformation } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import InventoryTable from 'components/InventoryTable';
 import AddInventoryTagModal from 'components/AddInventoryTagModal';
+import VenueBrowser from 'components/VenueBrowser';
 
 const EntityPage = () => {
   const { t } = useTranslation();
@@ -30,6 +31,13 @@ const EntityPage = () => {
       <CRow>
         <CCol>
           <EntityInformation t={t} entity={entity} />
+          {entity !== null && entity?.uuid !== '0000-0000-0000' ? (
+            <div>
+              <VenueBrowser entity={entity} />
+            </div>
+          ) : (
+            <div />
+          )}
         </CCol>
         <CCol>
           {entity !== null && entity?.uuid !== '0000-0000-0000' ? (

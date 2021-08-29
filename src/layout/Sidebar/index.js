@@ -22,7 +22,6 @@ import { useTranslation } from 'react-i18next';
 import DeleteEntityModal from 'components/DeleteEntityModal';
 import AddEntityModal from 'components/AddEntityModal';
 import EditEntityModal from 'components/EditEntityModal';
-import AddVenueModal from 'components/AddVenueModal';
 import SidebarDropdown from '../SidebarDropdown';
 import SidebarChildless from '../SidebarChildless';
 import styles from './index.module.scss';
@@ -31,16 +30,11 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
   const { t } = useTranslation();
   const { entity, entities, rootEntityMissing } = useEntity();
   const [showAddEntity, setShowAddEntity] = useState(false);
-  const [showAddVenue, setShowAddVenue] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
   const toggleAddEntity = () => {
     setShowAddEntity(!showAddEntity);
-  };
-
-  const toggleAddVenue = () => {
-    setShowAddVenue(!showAddVenue);
   };
 
   const toggleEdit = () => {
@@ -102,7 +96,9 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
         <CSidebarNavDropdown
           name="Venues"
           icon={<CIcon content={cilList} size="lg" className="mr-3" />}
-        />
+        >
+          <CSidebarNavItem name="Table" to="/venues" />
+        </CSidebarNavDropdown>
         <CSidebarNavDropdown
           name="Managament Roles"
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
@@ -117,19 +113,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
               className="text-center px-0 py-2 my-3"
               color="light"
               onClick={toggleAddEntity}
-            >
-              <CIcon content={cilPlus} />
-            </CButton>
-          </CPopover>
-        </CCol>
-        <CCol className="px-1">
-          <CPopover content={t('inventory.add_child_venue', { entityName: entity?.name })}>
-            <CButton
-              hidden={!showSidebar}
-              block
-              className="text-center px-0 py-2 my-3"
-              color="light"
-              onClick={toggleAddVenue}
             >
               <CIcon content={cilPlus} />
             </CButton>
@@ -165,7 +148,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
       </CRow>
       <CSidebarMinimizer className="c-d-md-down-none" />
       <AddEntityModal show={showAddEntity} toggle={toggleAddEntity} />
-      <AddVenueModal show={showAddVenue} toggle={toggleAddVenue} parent={entity} />
       <EditEntityModal show={showEdit} toggle={toggleEdit} entityUuid={entity?.uuid} />
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
     </CSidebar>

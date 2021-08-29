@@ -5,9 +5,9 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useAuth, useToast, InventoryTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
-import EditTagModal from 'components/EditTagModal';
+import EditVenueModal from 'components/EditTagModal';
 
-const InventoryTable = ({
+const VenuesTable = ({
   entity,
   toggleAdd,
   refreshId,
@@ -25,23 +25,23 @@ const InventoryTable = ({
   const page = new URLSearchParams(search).get('page');
   const [localPage, setLocalPage] = useState('0');
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedTagId, setSelectedTagId] = useState(null);
+  const [selectedVenueId, setSelectedVenueId] = useState(null);
 
   // States needed for Inventory Table
   const [loading, setLoading] = useState(false);
-  const [tagCount, setTagCount] = useState(0);
+  const [venueCount, setVenueCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
-  const [tagsPerPage, setTagsPerPage] = useState(getItem('tagsPerPage') || '10');
+  const [venuesPerPage, setVenuesPerPage] = useState(getItem('venuesPerPage') || '10');
   const [onlyUnassigned, setOnlyUnassigned] = useState(true);
-  const [tags, setTags] = useState([]);
+  const [venues, setVenues] = useState([]);
 
   const toggleUnassignedDisplay = () => setOnlyUnassigned(!onlyUnassigned);
-  const toggleEditModal = (tagId) => {
-    setSelectedTagId(tagId);
+  const toggleEditModal = (venueId) => {
+    setSelectedVenueId(venueId);
     setShowEditModal(!showEditModal);
   };
 
-  const getTagInformation = (selectedPage = page, tagPerPage = tagsPerPage) => {
+  const getVenueInformation = (selectedPage = page, venuePerPage = venuesPerPage) => {
     setLoading(true);
 
     const options = {
@@ -53,15 +53,15 @@ const InventoryTable = ({
 
     axiosInstance
       .get(
-        `${endpoints.owprov}/api/v1/inventory?${
+        `${endpoints.owprov}/api/v1/venue?${
           onlyEntity && entity !== null ? `&entity=${entity.uuid}&` : ''
-        }limit=${tagPerPage}&offset=${tagPerPage * selectedPage + 1}${
+        }limit=${venuePerPage}&offset=${venuePerPage * selectedPage + 1}${
           !onlyUnassigned ? 'withExtendedInfo=true&' : '&unassigned=true'
         }`,
         options,
       )
       .then((response) => {
-        setTags(response.data.tags);
+        setVenues(response.data.venues);
       })
       .catch(() => {
         addToast({
@@ -84,7 +84,7 @@ const InventoryTable = ({
 
     axiosInstance
       .get(
-        `${endpoints.owprov}/api/v1/inventory?${
+        `${endpoints.owprov}/api/v1/venue?${
           onlyEntity && entity !== null ? `entity=${entity.uuid}&` : ''
         }countOnly=true${!onlyUnassigned ? '' : '&unassigned=true'}`,
         {
@@ -92,10 +92,10 @@ const InventoryTable = ({
         },
       )
       .then((response) => {
-        const tagsCount = response.data.count;
-        const pagesCount = Math.ceil(tagsCount / tagsPerPage);
+        const venuesCount = response.data.count;
+        const pagesCount = Math.ceil(venuesCount / venuesPerPage);
         setPageCount(pagesCount);
-        setTagCount(tagsCount);
+        setVenueCount(venuesCount);
 
         let selectedPage = page;
 
@@ -104,24 +104,24 @@ const InventoryTable = ({
           else setLocalPage(`${pagesCount - 1}`);
           selectedPage = pagesCount - 1;
         }
-        if (tagsCount > 0) {
-          getTagInformation(selectedPage);
+        if (venuesCount > 0) {
+          getVenueInformation(selectedPage);
         } else {
-          setTags([]);
-          setLoading(false);
+          setVenues([]);
         }
+        setLoading(false);
       })
       .catch(() => {
-        setTags([]);
+        setVenues([]);
         setLoading(false);
       });
   };
 
-  const updateTagsPerPage = (value) => {
-    setItem('tagsPerPage', value);
-    setTagsPerPage(value);
+  const updateVenuesPerPage = (value) => {
+    setItem('venuesPerPage', value);
+    setVenuesPerPage(value);
 
-    const newPageCount = Math.ceil(tagCount / value);
+    const newPageCount = Math.ceil(venueCount / value);
     setPageCount(newPageCount);
 
     let selectedPage = page;
@@ -132,17 +132,17 @@ const InventoryTable = ({
       selectedPage = newPageCount - 1;
     }
 
-    getTagInformation(selectedPage, value);
+    getVenueInformation(selectedPage, value);
   };
 
   const updatePage = ({ selected: selectedPage }) => {
     if (useUrl) history.push(`${path}?page=${selectedPage}`);
     else setLocalPage(`${selectedPage}`);
 
-    getTagInformation(selectedPage);
+    getVenueInformation(selectedPage);
   };
 
-  const unassignTag = (serialNumber) => {
+  const unassignVenue = (serialNumber) => {
     const options = {
       headers: {
         Accept: 'application/json',
@@ -181,46 +181,7 @@ const InventoryTable = ({
       });
   };
 
-  const assignTag = (serialNumber) => {
-    if (entity !== null) {
-      const options = {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${currentToken}`,
-        },
-      };
-
-      const parameters = {
-        entity: entity.uuid,
-      };
-
-      axiosInstance
-        .put(`${endpoints.owprov}/api/v1/inventory/${serialNumber}`, parameters, options)
-        .then(() => {
-          addToast({
-            title: t('common.success'),
-            body: t('inventory.successful_assign'),
-            color: 'success',
-            autohide: true,
-          });
-          if (refreshPageTables !== null) refreshPageTables();
-          getCount();
-        })
-        .catch(() => {
-          addToast({
-            title: t('common.error'),
-            body: t('inventory.assign_error'),
-            color: 'danger',
-            autohide: true,
-          });
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  };
-
-  const deleteTag = (serialNumber) => {
+  const deleteVenue = (serialNumber) => {
     const options = {
       headers: {
         Accept: 'application/json',
@@ -235,7 +196,7 @@ const InventoryTable = ({
       .then(() => {
         addToast({
           title: t('common.success'),
-          body: t('inventory.successful_tag_delete'),
+          body: t('inventory.successful_venue_delete'),
           color: 'success',
           autohide: true,
         });
@@ -245,7 +206,7 @@ const InventoryTable = ({
       .catch(() => {
         addToast({
           title: t('common.error'),
-          body: t('inventory.error_delete_tag'),
+          body: t('inventory.error_delete_venue'),
           color: 'danger',
           autohide: true,
         });
@@ -286,34 +247,33 @@ const InventoryTable = ({
       <Table
         t={t}
         loading={loading}
-        tags={tags}
-        tagsPerPage={tagsPerPage}
-        updateTagsPerPage={updateTagsPerPage}
+        venues={venues}
+        venuesPerPage={venuesPerPage}
+        updateVenuesPerPage={updateVenuesPerPage}
         page={useUrl ? page : localPage}
         updatePage={updatePage}
         pageCount={pageCount}
         toggleAdd={toggleAdd}
         onlyEntity={onlyEntity}
-        unassign={unassignTag}
-        assignToEntity={assignTag}
+        unassign={unassignVenue}
         entity={entity}
         title={title}
         toggleEditModal={toggleEditModal}
-        deleteTag={deleteTag}
+        deleteVenue={deleteVenue}
         onlyUnassigned={onlyUnassigned}
         toggleUnassignedDisplay={toggleUnassignedDisplay}
       />
-      <EditTagModal
+      <EditVenueModal
         show={showEditModal}
         toggle={toggleEditModal}
-        tagSerialNumber={selectedTagId}
+        venueSerialNumber={selectedVenueId}
         refreshTable={refreshPageTables}
       />
     </div>
   );
 };
 
-InventoryTable.propTypes = {
+VenuesTable.propTypes = {
   entity: PropTypes.instanceOf(Object),
   toggleAdd: PropTypes.func,
   refreshId: PropTypes.number,
@@ -323,7 +283,7 @@ InventoryTable.propTypes = {
   refreshPageTables: PropTypes.func,
 };
 
-InventoryTable.defaultProps = {
+VenuesTable.defaultProps = {
   entity: null,
   toggleAdd: null,
   refreshId: 0,
@@ -333,4 +293,4 @@ InventoryTable.defaultProps = {
   refreshPageTables: null,
 };
 
-export default InventoryTable;
+export default VenuesTable;

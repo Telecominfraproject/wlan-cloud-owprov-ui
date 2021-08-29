@@ -24,7 +24,9 @@ const InventoryPage = () => {
       <AddInventoryTagModal
         show={showAddModal}
         toggle={toggleShowAdd}
+        refreshId={refreshId}
         refreshTable={refreshTable}
+        entity={null}
       />
     </div>
   );

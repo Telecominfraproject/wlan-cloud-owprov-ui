@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  CAlert,
   CModal,
   CModalHeader,
   CModalTitle,
@@ -11,7 +10,7 @@ import {
 } from '@coreui/react';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from 'utils/axiosInstance';
-import { useAuth, useFormFields, AddVenueForm } from 'ucentral-libs';
+import { useAuth, useFormFields, useToast, AddVenueForm } from 'ucentral-libs';
 
 const initialForm = {
   name: {
@@ -29,12 +28,12 @@ const initialForm = {
   },
 };
 
-const AddVenueModal = ({ show, toggle, parent }) => {
+const AddVenueModal = ({ show, toggle, parent, refreshMenu }) => {
   const { t } = useTranslation();
+  const { addToast } = useToast();
   const { currentToken, endpoints } = useAuth();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
 
   const validation = () => {
     let success = true;
@@ -50,9 +49,8 @@ const AddVenueModal = ({ show, toggle, parent }) => {
     return success;
   };
 
-  const addEntity = () => {
+  const addVenue = () => {
     if (validation()) {
-      setResult(null);
       setLoading(true);
       const options = {
         headers: {
@@ -62,8 +60,7 @@ const AddVenueModal = ({ show, toggle, parent }) => {
       };
 
       const parameters = {
-        // parent: parent.type === 'Venue' ? parent.id : undefined,
-        entity: parent.type === 'Entity' ? parent.id : undefined,
+        ...parent,
         name: fields.name.value,
         description: fields.description.value !== '' ? fields.description.value : undefined,
         notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
@@ -72,14 +69,24 @@ const AddVenueModal = ({ show, toggle, parent }) => {
       axiosInstance
         .post(`${endpoints.owprov}/api/v1/venue/1`, parameters, options)
         .then(() => {
-          setResult({
-            success: true,
+          addToast({
+            title: t('common.success'),
+            body: t('inventory.successful_venue_create'),
+            color: 'success',
+            autohide: true,
           });
+          if (parent.entity) {
+            refreshMenu('');
+          } else {
+            refreshMenu(parent.parent);
+          }
         })
-        .catch((e) => {
-          setResult({
-            success: false,
-            error: t('entity.add_failure', { error: e.response?.data }),
+        .catch(() => {
+          addToast({
+            title: t('common.error'),
+            body: t('inventory.error_create_venue'),
+            color: 'danger',
+            autohide: true,
           });
         })
         .finally(() => {
@@ -88,17 +95,8 @@ const AddVenueModal = ({ show, toggle, parent }) => {
     }
   };
 
-  const showResult = () => {
-    if (!result) return null;
-    if (result.success) {
-      return <CAlert color="success">{t('entity.add_success')}</CAlert>;
-    }
-    return <CAlert color="danger">{result.error}</CAlert>;
-  };
-
   useEffect(() => {
     if (show) {
-      setResult(null);
       setFormFields(initialForm);
     }
   }, [show]);
@@ -112,8 +110,7 @@ const AddVenueModal = ({ show, toggle, parent }) => {
         <AddVenueForm t={t} disable={loading} fields={fields} updateField={updateFieldWithId} />
       </CModalBody>
       <CModalFooter>
-        {showResult()}
-        <CButton disabled={loading} color="primary" onClick={addEntity}>
+        <CButton disabled={loading} color="primary" onClick={addVenue}>
           {t('common.add')}
         </CButton>
         <CButton color="secondary" onClick={toggle}>
@@ -128,6 +125,7 @@ AddVenueModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   parent: PropTypes.instanceOf(Object),
+  refreshMenu: PropTypes.func.isRequired,
 };
 
 AddVenueModal.defaultProps = {
