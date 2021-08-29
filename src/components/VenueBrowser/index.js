@@ -117,47 +117,6 @@ const VenueBrowser = ({ entity }) => {
       });
   };
 
-  const saveVenue = () => {
-    if (validation()) {
-      setLoadingVenue(true);
-      const options = {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${currentToken}`,
-        },
-      };
-
-      const parameters = {
-        id: venue.id,
-        name: fields.name.value,
-        description: fields.description.value,
-      };
-
-      axiosInstance
-        .put(`${endpoints.owprov}/api/v1/venue/${venue.id}`, parameters, options)
-        .then(() => {
-          refreshVenue();
-          addToast({
-            title: t('common.success'),
-            body: t('inventory.successful_venue_update'),
-            color: 'success',
-            autohide: true,
-          });
-        })
-        .catch(() => {
-          addToast({
-            title: t('common.error'),
-            body: t('inventory.error_update_venue'),
-            color: 'danger',
-            autohide: true,
-          });
-        })
-        .finally(() => {
-          setLoadingVenue(false);
-        });
-    }
-  };
-
   const addNote = (newNote) => {
     setLoadingVenue(true);
 
@@ -261,6 +220,48 @@ const VenueBrowser = ({ entity }) => {
     if (parentId === '') setParent(null);
   };
 
+  const saveVenue = () => {
+    if (validation()) {
+      setLoadingVenue(true);
+      const options = {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${currentToken}`,
+        },
+      };
+
+      const parameters = {
+        id: venue.id,
+        name: fields.name.value,
+        description: fields.description.value,
+      };
+
+      axiosInstance
+        .put(`${endpoints.owprov}/api/v1/venue/${venue.id}`, parameters, options)
+        .then(() => {
+          refreshVenue();
+          refreshMenu(activeVenue);
+          addToast({
+            title: t('common.success'),
+            body: t('inventory.successful_venue_update'),
+            color: 'success',
+            autohide: true,
+          });
+        })
+        .catch(() => {
+          addToast({
+            title: t('common.error'),
+            body: t('inventory.error_update_venue'),
+            color: 'danger',
+            autohide: true,
+          });
+        })
+        .finally(() => {
+          setLoadingVenue(false);
+        });
+    }
+  };
+
   const deleteVenue = () => {
     const options = {
       headers: {
@@ -274,11 +275,17 @@ const VenueBrowser = ({ entity }) => {
       .then(() => {
         setVenue(null);
         refreshMenu(activeVenue);
+        addToast({
+          title: t('common.success'),
+          body: t('inventory.successful_venue_delete'),
+          color: 'success',
+          autohide: true,
+        });
       })
       .catch(() => {
         addToast({
           title: t('common.error'),
-          body: t('common.error_adding_note'),
+          body: t('inventory.error_venue_delete'),
           color: 'danger',
           autohide: true,
         });
@@ -353,12 +360,13 @@ const VenueBrowser = ({ entity }) => {
             </CCol>
           </CRow>
           <CRow hidden={venue === null}>
-            <CCol hidden={venue?.children?.length > 0} className="text-right mt-2">
+            <CCol />
+            <CCol sm="2" className="text-right mt-2">
               <CButton color="primary" onClick={saveVenue}>
                 {t('common.save')}
               </CButton>
             </CCol>
-            <CCol className="text-right mt-2">
+            <CCol sm="2" hidden={venue?.children?.length > 0} className="text-center mt-2">
               <CButton color="primary" onClick={deleteVenue}>
                 {t('common.delete')}
               </CButton>
