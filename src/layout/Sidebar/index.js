@@ -19,9 +19,7 @@ import CIcon from '@coreui/icons-react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
-import DeleteEntityModal from 'components/DeleteEntityModal';
 import AddEntityModal from 'components/AddEntityModal';
-import EditEntityModal from 'components/EditEntityModal';
 import SidebarDropdown from '../SidebarDropdown';
 import SidebarChildless from '../SidebarChildless';
 import styles from './index.module.scss';
@@ -30,19 +28,11 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
   const { t } = useTranslation();
   const { entity, entities, rootEntityMissing } = useEntity();
   const [showAddEntity, setShowAddEntity] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
+  const [creatingVenue, setCreatingVenue] = useState(false);
 
-  const toggleAddEntity = () => {
+  const toggleAddEntity = (isVenue) => {
+    setCreatingVenue(isVenue);
     setShowAddEntity(!showAddEntity);
-  };
-
-  const toggleEdit = () => {
-    setShowEdit(!showEdit);
-  };
-
-  const toggleDelete = () => {
-    setShowDelete(!showDelete);
   };
 
   return (
@@ -72,7 +62,8 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
                 block
                 className="text-center px-0 py-2 my-3"
                 color="light"
-                onClick={toggleAddEntity}
+                onClick={() => toggleAddEntity(false)}
+                disabled={entity?.isVenue}
               >
                 <CIcon content={cilSitemap} />
               </CButton>
@@ -85,7 +76,8 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
                 block
                 className="text-center px-0 py-2 my-3"
                 color="light"
-                onClick={toggleEdit}
+                onClick={() => toggleAddEntity(true)}
+                disabled={!entity?.isVenue && entity?.uuid === '0000-0000-0000'}
               >
                 <CIcon content={cilBank} />
               </CButton>
@@ -133,9 +125,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
         />
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
-      <AddEntityModal show={showAddEntity} toggle={toggleAddEntity} />
-      <EditEntityModal show={showEdit} toggle={toggleEdit} entityUuid={entity?.uuid} />
-      <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
+      <AddEntityModal show={showAddEntity} toggle={toggleAddEntity} creatingVenue={creatingVenue} />
     </CSidebar>
   );
 };

@@ -29,7 +29,7 @@ const initialForm = {
   },
 };
 
-const AddEntityModal = ({ show, toggle }) => {
+const AddEntityModal = ({ show, toggle, creatingVenue }) => {
   const { t } = useTranslation();
   const { entity, rootEntityMissing, getRootEntity, refreshEntityChildren } = useEntity();
   const { currentToken, endpoints } = useAuth();
@@ -63,15 +63,26 @@ const AddEntityModal = ({ show, toggle }) => {
       };
 
       const parameters = {
-        parent: rootEntityMissing ? undefined : entity.uuid,
         name: fields.name.value,
         description: fields.description.value,
         notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
       };
 
+      if (creatingVenue) {
+        if (entity.isVenue) {
+          parameters.parent = entity.uuid;
+        } else {
+          parameters.entity = entity.uuid;
+        }
+      } else {
+        parameters.parent = rootEntityMissing ? undefined : entity.uuid;
+      }
+
       axiosInstance
         .post(
-          `${endpoints.owprov}/api/v1/entity/${rootEntityMissing ? '0000-0000-0000' : '1'}`,
+          `${endpoints.owprov}/api/v1/${creatingVenue ? 'venue' : 'entity'}/${
+            rootEntityMissing ? '0000-0000-0000' : '1'
+          }`,
           parameters,
           options,
         )
@@ -89,7 +100,9 @@ const AddEntityModal = ({ show, toggle }) => {
         .catch((e) => {
           setResult({
             success: false,
-            error: t('entity.add_failure', { error: e.response?.data }),
+            error: creatingVenue
+              ? t('inventory.error_create_venue')
+              : t('entity.add_failure', { error: e.response?.data }),
           });
         })
         .finally(() => {
@@ -101,7 +114,11 @@ const AddEntityModal = ({ show, toggle }) => {
   const showResult = () => {
     if (!result) return null;
     if (result.success) {
-      return <CAlert color="success">{t('entity.add_success')}</CAlert>;
+      return (
+        <CAlert color="success">
+          {creatingVenue ? t('inventory.successful_venue_create') : t('entity.add_success')}
+        </CAlert>
+      );
     }
     return <CAlert color="danger">{result.error}</CAlert>;
   };
@@ -117,8 +134,8 @@ const AddEntityModal = ({ show, toggle }) => {
     <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
       <CModalHeader>
         <CModalTitle>
-          {rootEntityMissing
-            ? t('entity.add_root')
+          {creatingVenue
+            ? t('inventory.add_child_venue', { entityName: entity?.name })
             : t('entity.add_child', { entityName: entity?.name })}
         </CModalTitle>
       </CModalHeader>
@@ -141,6 +158,7 @@ const AddEntityModal = ({ show, toggle }) => {
 AddEntityModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  creatingVenue: PropTypes.bool.isRequired,
 };
 
 export default AddEntityModal;
