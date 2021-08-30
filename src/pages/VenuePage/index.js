@@ -9,7 +9,7 @@ import AddInventoryTagModal from 'components/AddInventoryTagModal';
 const EntityPage = () => {
   const { t } = useTranslation();
   const { entity, setProviderEntity } = useEntity();
-  const { entityId } = useParams();
+  const { venueId } = useParams();
   const [showAddModal, setShowAddModal] = useState(false);
   const [refreshId, setRefreshId] = useState(0);
 
@@ -20,10 +20,10 @@ const EntityPage = () => {
   };
 
   useEffect(() => {
-    if (entityId !== null) {
-      setProviderEntity(entityId, false);
+    if (venueId !== null) {
+      setProviderEntity(venueId, true);
     }
-  }, [entityId]);
+  }, [venueId]);
 
   return (
     <>

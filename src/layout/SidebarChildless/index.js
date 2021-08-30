@@ -4,8 +4,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
 import { getChildlessPadding } from 'utils/sidebarHelper';
+import { cilGlobeAlt, cilSitemap, cilBank } from '@coreui/icons';
+import CIcon from '@coreui/icons-react';
 
-const SidebarChildless = ({ uuid, name, onClick, path }) => {
+const getIcon = (uuid, isVenue) => {
+  if (uuid === '0000-0000-0000' && !isVenue)
+    return <CIcon size="lg" content={cilGlobeAlt} className="mr-3" />;
+  if (!isVenue) return <CIcon size="lg" content={cilSitemap} className="mr-3" />;
+  return <CIcon size="lg" content={cilBank} className="mr-3" />;
+};
+
+const SidebarChildless = ({ uuid, name, onClick, path, isVenue }) => {
   const { entity } = useEntity();
   const [show, setShow] = useState(false);
 
@@ -23,6 +32,7 @@ const SidebarChildless = ({ uuid, name, onClick, path }) => {
         aria-label="menu dropdown"
         style={{ paddingLeft: `${getChildlessPadding(path)}px` }}
       >
+        {getIcon(uuid, isVenue)}
         <div className="text-truncate" style={{ width: '256px' }}>
           {name}
         </div>
@@ -36,6 +46,7 @@ SidebarChildless.propTypes = {
   onClick: PropTypes.func,
   name: PropTypes.string,
   path: PropTypes.string.isRequired,
+  isVenue: PropTypes.bool.isRequired,
 };
 
 SidebarChildless.defaultProps = {

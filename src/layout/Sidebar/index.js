@@ -14,7 +14,7 @@ import {
   CCol,
   CPopover,
 } from '@coreui/react';
-import { cilList, cilPlus, cilPen, cilTrash, cilSpreadsheet, cilWc } from '@coreui/icons';
+import { cilList, cilSpreadsheet, cilWc, cilBank, cilSitemap } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
@@ -64,6 +64,34 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
         />
       </CSidebarBrand>
       <CSidebarNav>
+        <CRow hidden={rootEntityMissing || !entity} className="px-3">
+          <CCol className="px-1">
+            <CPopover content={t('entity.add_child', { entityName: entity?.name })}>
+              <CButton
+                hidden={!showSidebar}
+                block
+                className="text-center px-0 py-2 my-3"
+                color="light"
+                onClick={toggleAddEntity}
+              >
+                <CIcon content={cilSitemap} />
+              </CButton>
+            </CPopover>
+          </CCol>
+          <CCol className="px-1">
+            <CPopover content={t('inventory.add_child_venue', { entityName: entity?.name })}>
+              <CButton
+                hidden={!showSidebar}
+                block
+                className="text-center px-0 py-2 my-3"
+                color="light"
+                onClick={toggleEdit}
+              >
+                <CIcon content={cilBank} />
+              </CButton>
+            </CPopover>
+          </CCol>
+        </CRow>
         <CButton
           hidden={!showSidebar || !rootEntityMissing}
           block
@@ -104,48 +132,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
         />
       </CSidebarNav>
-      <CRow hidden={rootEntityMissing || !entity} className="px-3">
-        <CCol className="px-1">
-          <CPopover content={t('entity.add_child', { entityName: entity?.name })}>
-            <CButton
-              hidden={!showSidebar}
-              block
-              className="text-center px-0 py-2 my-3"
-              color="light"
-              onClick={toggleAddEntity}
-            >
-              <CIcon content={cilPlus} />
-            </CButton>
-          </CPopover>
-        </CCol>
-        <CCol className="px-1">
-          <CPopover content={`${t('common.edit')} ${entity?.name}`}>
-            <CButton
-              hidden={!showSidebar}
-              block
-              className="text-center px-0 py-2 my-3"
-              color="light"
-              onClick={toggleEdit}
-            >
-              <CIcon content={cilPen} />
-            </CButton>
-          </CPopover>
-        </CCol>
-        <CCol className="px-1">
-          <CPopover content={`${t('common.delete')} ${entity?.name}`}>
-            <CButton
-              hidden={!showSidebar}
-              block
-              className="text-center px-0 py-2 my-3"
-              color="light"
-              onClick={toggleDelete}
-              disabled={entity?.uuid === '0000-0000-0000'}
-            >
-              <CIcon content={cilTrash} />
-            </CButton>
-          </CPopover>
-        </CCol>
-      </CRow>
       <CSidebarMinimizer className="c-d-md-down-none" />
       <AddEntityModal show={showAddEntity} toggle={toggleAddEntity} />
       <EditEntityModal show={showEdit} toggle={toggleEdit} entityUuid={entity?.uuid} />

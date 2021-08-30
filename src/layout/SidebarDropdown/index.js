@@ -4,8 +4,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
 import { getDropdownPadding } from 'utils/sidebarHelper';
+import { cilBank, cilGlobeAlt, cilSitemap } from '@coreui/icons';
+import CIcon from '@coreui/icons-react';
 
-const SidebarDropdown = ({ uuid, name, children, onClick, path }) => {
+const getIcon = (uuid, isVenue) => {
+  if (uuid === '0000-0000-0000' && !isVenue)
+    return <CIcon size="lg" content={cilGlobeAlt} className="mr-3" />;
+  if (!isVenue) return <CIcon size="lg" content={cilSitemap} className="mr-3" />;
+  return <CIcon size="lg" content={cilBank} className="mr-3" />;
+};
+
+const SidebarDropdown = ({ uuid, name, children, onClick, path, isVenue }) => {
   const { entity } = useEntity();
   const [show, setShow] = useState(false);
 
@@ -26,6 +35,7 @@ const SidebarDropdown = ({ uuid, name, children, onClick, path }) => {
         aria-label="menu dropdown"
         style={{ paddingLeft: `${getDropdownPadding(path)}px` }}
       >
+        {getIcon(uuid, isVenue)}
         <div className="text-truncate" style={{ width: '256px' }}>
           {name}
         </div>
@@ -41,6 +51,7 @@ SidebarDropdown.propTypes = {
   name: PropTypes.string,
   children: PropTypes.node,
   path: PropTypes.string.isRequired,
+  isVenue: PropTypes.bool.isRequired,
 };
 
 SidebarDropdown.defaultProps = {
