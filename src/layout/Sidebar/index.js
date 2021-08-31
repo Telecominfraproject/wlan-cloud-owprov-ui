@@ -14,7 +14,7 @@ import {
   CCol,
   CPopover,
 } from '@coreui/react';
-import { cilList, cilSpreadsheet, cilWc, cilBank, cilSitemap } from '@coreui/icons';
+import { cilSpreadsheet, cilWc, cilBank, cilSitemap } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
@@ -112,12 +112,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           icon={<CIcon content={cilSpreadsheet} size="lg" className="mr-3" />}
         >
           <CSidebarNavItem name="Table" to="/inventory" />
-        </CSidebarNavDropdown>
-        <CSidebarNavDropdown
-          name="Venues"
-          icon={<CIcon content={cilList} size="lg" className="mr-3" />}
-        >
-          <CSidebarNavItem name="Table" to="/venues" />
         </CSidebarNavDropdown>
         <CSidebarNavDropdown
           name="Managament Roles"
