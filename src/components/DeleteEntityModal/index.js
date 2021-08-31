@@ -9,7 +9,7 @@ import {
   CButton,
   CAlert,
 } from '@coreui/react';
-import { useEntity, useAuth } from 'ucentral-libs';
+import { useEntity, useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
@@ -17,6 +17,7 @@ const DeleteEntityModal = ({ show, toggle }) => {
   const { t } = useTranslation();
   const { entity, deleteEntity } = useEntity();
   const { currentToken, endpoints } = useAuth();
+  const { addToast } = useToast();
   const [result, setResult] = useState(null);
   const [canDelete, setCanDelete] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -61,15 +62,21 @@ const DeleteEntityModal = ({ show, toggle }) => {
         options,
       )
       .then(() => {
-        setResult({
-          success: true,
+        addToast({
+          title: t('common.error'),
+          body: entity.isVenue
+            ? t('inventory.successful_venue_delete')
+            : t('entity.delete_success'),
+          color: 'success',
+          autohide: true,
         });
         deleteEntity(entity);
+        toggle();
       })
       .catch(() => {
         setResult({
           success: false,
-          error: t('entity.delete_failure'),
+          error: t('inventory.deletion_failure'),
         });
       })
       .finally(() => {

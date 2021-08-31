@@ -29,9 +29,7 @@ const EntityPage = () => {
   return (
     <>
       <CRow>
-        <CCol>
-          <VenueInfoCard />
-        </CCol>
+        <CCol>{entity === null || !entity.isVenue ? null : <VenueInfoCard />}</CCol>
         <CCol>
           {entity !== null && entity?.uuid !== '0000-0000-0000' ? (
             <div>
