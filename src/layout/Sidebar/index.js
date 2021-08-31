@@ -31,7 +31,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
   const [creatingVenue, setCreatingVenue] = useState(false);
 
   const toggleAddEntity = (isVenue) => {
-    setCreatingVenue(isVenue);
+    if (isVenue !== undefined) setCreatingVenue(isVenue);
     setShowAddEntity(!showAddEntity);
   };
 

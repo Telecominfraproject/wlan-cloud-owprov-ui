@@ -30,9 +30,12 @@ const DeleteEntityModal = ({ show, toggle }) => {
     };
 
     axiosInstance
-      .get(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, options)
+      .get(
+        `${endpoints.owprov}/api/v1/${entity.isVenue ? 'venue' : 'entity'}/${entity.uuid}`,
+        options,
+      )
       .then((response) => {
-        if (response.data.children.length > 0) {
+        if (response.data.children.length > 0 || response.data.venues?.length > 0) {
           setCanDelete(false);
         } else {
           setCanDelete(true);
@@ -53,7 +56,10 @@ const DeleteEntityModal = ({ show, toggle }) => {
     };
 
     axiosInstance
-      .delete(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, options)
+      .delete(
+        `${endpoints.owprov}/api/v1/${entity.isVenue ? 'venue' : 'entity'}/${entity.uuid}`,
+        options,
+      )
       .then(() => {
         setResult({
           success: true,

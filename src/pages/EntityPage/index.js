@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CRow, CCol } from '@coreui/react';
-import { useEntity, EntityInformation } from 'ucentral-libs';
+import { useEntity } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import InventoryTable from 'components/InventoryTable';
 import AddInventoryTagModal from 'components/AddInventoryTagModal';
+import EntityInfoCard from 'components/EntityInfoCard';
 
 const EntityPage = () => {
   const { t } = useTranslation();
@@ -20,7 +21,7 @@ const EntityPage = () => {
   };
 
   useEffect(() => {
-    if (entityId !== null) {
+    if (entity === null || (entityId !== null && entity.uuid !== entityId)) {
       setProviderEntity(entityId, false);
     }
   }, [entityId]);
@@ -29,7 +30,7 @@ const EntityPage = () => {
     <>
       <CRow>
         <CCol>
-          <EntityInformation t={t} entity={entity} />
+          <EntityInfoCard />
         </CCol>
         <CCol>
           {entity !== null && entity?.uuid !== '0000-0000-0000' ? (
