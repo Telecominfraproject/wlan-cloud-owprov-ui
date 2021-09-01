@@ -30,6 +30,8 @@ const EntityPage = () => {
     <>
       <CRow>
         <CCol>{entity === null || entity.isVenue ? null : <EntityInfoCard />}</CCol>
+      </CRow>
+      <CRow>
         <CCol>
           {entity !== null && entity?.uuid !== '0000-0000-0000' && !entity.isVenue ? (
             <div>
@@ -40,7 +42,7 @@ const EntityPage = () => {
                 refreshPageTables={refreshTable}
                 onlyEntity
                 urlId="only"
-                title={t('entity.assigned_inventory')}
+                title={t('common.devices')}
               />
               <AddInventoryTagModal
                 show={showAddModal}

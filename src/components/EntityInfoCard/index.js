@@ -208,8 +208,14 @@ const EntityInfoCard = () => {
             </CPopover>
             {'  '}
             <CPopover content={t('common.delete')}>
-              <CButton color="primary" variant="outline" onClick={toggleDelete}>
+              <CButton hidden={editing} color="primary" variant="outline" onClick={toggleDelete}>
                 <CIcon name="cil-trash" content={cilTrash} />
+              </CButton>
+            </CPopover>
+            {'  '}
+            <CPopover content={t('common.save')}>
+              <CButton hidden={!editing} color="primary" variant="outline" onClick={editEntity}>
+                <CIcon name="cil-save" content={cilSave} />
               </CButton>
             </CPopover>
           </CCol>
@@ -224,15 +230,6 @@ const EntityInfoCard = () => {
           addNote={addNote}
           editing={editing}
         />
-        <CRow>
-          <CCol className="mt-4 text-right" hidden={!editing}>
-            <CPopover content={t('common.save')}>
-              <CButton color="primary" variant="outline" onClick={editEntity}>
-                <CIcon name="cil-save" content={cilSave} />
-              </CButton>
-            </CPopover>
-          </CCol>
-        </CRow>
       </CCardBody>
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
     </CCard>
