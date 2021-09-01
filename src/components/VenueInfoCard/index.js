@@ -198,26 +198,40 @@ const VenueInfoCard = () => {
             <CCardTitle>{entity?.name}</CCardTitle>
           </CCol>
           <CCol sm="3" className="text-right">
-            <CPopover content={editing ? t('common.stop_editing') : t('common.edit')}>
-              <CButton color="primary" variant="outline" onClick={toggleEditing}>
-                <CIcon
-                  name={editing ? 'cil-x' : 'cil-pencil'}
-                  content={editing ? cilX : cilPencil}
-                />
-              </CButton>
-            </CPopover>
-            {'  '}
-            <CPopover content={t('common.delete')}>
-              <CButton hidden={editing} color="primary" variant="outline" onClick={toggleDelete}>
-                <CIcon name="cil-trash" content={cilTrash} />
-              </CButton>
-            </CPopover>
-            {'  '}
-            <CPopover content={t('common.save')}>
-              <CButton hidden={!editing} color="primary" variant="outline" onClick={editVenue}>
-                <CIcon name="cil-save" content={cilSave} />
-              </CButton>
-            </CPopover>
+            {editing ? (
+              <div>
+                <CPopover content={t('common.save')}>
+                  <CButton hidden={!editing} color="primary" variant="outline" onClick={editVenue}>
+                    <CIcon name="cil-save" content={cilSave} />
+                  </CButton>
+                </CPopover>
+                {'  '}
+                <CPopover content={t('common.stop_editing')}>
+                  <CButton color="primary" variant="outline" onClick={toggleEditing}>
+                    <CIcon name="cil-x" content={cilX} />
+                  </CButton>
+                </CPopover>
+              </div>
+            ) : (
+              <div>
+                <CPopover content={t('common.edit')}>
+                  <CButton color="primary" variant="outline" onClick={toggleEditing}>
+                    <CIcon name="cil-pencil" content={cilPencil} />
+                  </CButton>
+                </CPopover>
+                {'  '}
+                <CPopover content={t('common.delete')}>
+                  <CButton
+                    hidden={editing}
+                    color="primary"
+                    variant="outline"
+                    onClick={toggleDelete}
+                  >
+                    <CIcon name="cil-trash" content={cilTrash} />
+                  </CButton>
+                </CPopover>
+              </div>
+            )}
           </CCol>
         </CRow>
       </CCardHeader>
