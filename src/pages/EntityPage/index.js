@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import InventoryTable from 'components/InventoryTable';
 import AddInventoryTagModal from 'components/AddInventoryTagModal';
 import EntityInfoCard from 'components/EntityInfoCard';
+import VenuesTable from 'components/VenuesTable';
 
 const EntityPage = () => {
   const { t } = useTranslation();
@@ -35,13 +36,20 @@ const EntityPage = () => {
         <CCol>
           {entity !== null && entity?.uuid !== '0000-0000-0000' && !entity.isVenue ? (
             <div>
+              <VenuesTable
+                entity={entity}
+                toggleAdd={toggleShowAdd}
+                refreshId={refreshId}
+                refreshPageTables={refreshTable}
+                onlyEntity
+                title={t('entity.venues')}
+              />
               <InventoryTable
                 entity={entity}
                 toggleAdd={toggleShowAdd}
                 refreshId={refreshId}
                 refreshPageTables={refreshTable}
                 onlyEntity
-                urlId="only"
                 title={t('common.devices')}
               />
               <AddInventoryTagModal

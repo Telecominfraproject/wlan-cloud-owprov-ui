@@ -26,6 +26,14 @@ const initialForm = {
     value: '',
     error: false,
   },
+  created: {
+    value: '',
+    error: false,
+  },
+  modified: {
+    value: '',
+    error: false,
+  },
   notes: {
     value: [],
     error: false,

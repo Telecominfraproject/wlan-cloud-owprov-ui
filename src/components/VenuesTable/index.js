@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth, useToast, InventoryTable as Table } from 'ucentral-libs';
+import { useAuth, useToast, VenueTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import EditVenueModal from 'components/EditTagModal';
@@ -56,7 +56,7 @@ const VenuesTable = ({
         `${endpoints.owprov}/api/v1/venue?${
           onlyEntity && entity !== null ? `&entity=${entity.uuid}&` : ''
         }limit=${venuePerPage}&offset=${venuePerPage * selectedPage + 1}${
-          !onlyUnassigned ? 'withExtendedInfo=true&' : '&unassigned=true'
+          !onlyUnassigned ? 'withExtendedInfo=true&' : ''
         }`,
         options,
       )
@@ -86,7 +86,7 @@ const VenuesTable = ({
       .get(
         `${endpoints.owprov}/api/v1/venue?${
           onlyEntity && entity !== null ? `entity=${entity.uuid}&` : ''
-        }countOnly=true${!onlyUnassigned ? '' : '&unassigned=true'}`,
+        }countOnly=true${!onlyUnassigned ? '' : ''}`,
         {
           headers,
         },
