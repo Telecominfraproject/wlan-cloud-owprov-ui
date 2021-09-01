@@ -29,7 +29,7 @@ const initialForm = {
   },
 };
 
-const AddEntityModal = ({ show, toggle, creatingVenue }) => {
+const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
   const { t } = useTranslation();
   const { entity, rootEntityMissing, getRootEntity, refreshEntityChildren } = useEntity();
   const { currentToken, endpoints } = useAuth();
@@ -96,6 +96,7 @@ const AddEntityModal = ({ show, toggle, creatingVenue }) => {
           setResult({
             success: true,
           });
+          if (refresh !== null) refresh();
         })
         .catch((e) => {
           setResult({
@@ -159,6 +160,11 @@ AddEntityModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   creatingVenue: PropTypes.bool.isRequired,
+  refresh: PropTypes.func,
+};
+
+AddEntityModal.defaultProps = {
+  refresh: null,
 };
 
 export default AddEntityModal;

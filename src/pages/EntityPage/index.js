@@ -5,6 +5,7 @@ import { useEntity } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import InventoryTable from 'components/InventoryTable';
 import AddInventoryTagModal from 'components/AddInventoryTagModal';
+import AddEntityModal from 'components/AddEntityModal';
 import EntityInfoCard from 'components/EntityInfoCard';
 import VenuesTable from 'components/VenuesTable';
 
@@ -12,14 +13,15 @@ const EntityPage = () => {
   const { t } = useTranslation();
   const { entity, setProviderEntity } = useEntity();
   const { entityId } = useParams();
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showAddTagModal, setShowAddTagModal] = useState(false);
+  const [showAddVenueModal, setShowAddVenueModal] = useState(false);
   const [refreshId, setRefreshId] = useState(0);
 
   const refreshTable = () => setRefreshId(refreshId + 1);
 
-  const toggleShowAdd = () => {
-    setShowAddModal(!showAddModal);
-  };
+  const toggleShowAddTag = () => setShowAddTagModal(!showAddTagModal);
+
+  const toggleShowAddVenue = () => setShowAddVenueModal(!showAddVenueModal);
 
   useEffect(() => {
     if (entity === null || (entityId !== null && entity.uuid !== entityId)) {
@@ -38,7 +40,7 @@ const EntityPage = () => {
             <div>
               <VenuesTable
                 entity={entity}
-                toggleAdd={toggleShowAdd}
+                toggleAdd={toggleShowAddVenue}
                 refreshId={refreshId}
                 refreshPageTables={refreshTable}
                 onlyEntity
@@ -46,18 +48,24 @@ const EntityPage = () => {
               />
               <InventoryTable
                 entity={entity}
-                toggleAdd={toggleShowAdd}
+                toggleAdd={toggleShowAddTag}
                 refreshId={refreshId}
                 refreshPageTables={refreshTable}
                 onlyEntity
                 title={t('common.devices')}
               />
               <AddInventoryTagModal
-                show={showAddModal}
-                toggle={toggleShowAdd}
+                show={showAddTagModal}
+                toggle={toggleShowAddTag}
                 refreshId={refreshId}
                 entity={entity}
                 refreshTable={refreshTable}
+              />
+              <AddEntityModal
+                show={showAddVenueModal}
+                toggle={toggleShowAddVenue}
+                creatingVenue
+                refresh={refreshTable}
               />
             </div>
           ) : (

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   CButton,
+  CButtonToolbar,
   CCard,
   CCardBody,
   CCardHeader,
-  CCardTitle,
   CCol,
   CPopover,
   CRow,
@@ -23,6 +23,14 @@ const initialForm = {
     required: true,
   },
   description: {
+    value: '',
+    error: false,
+  },
+  created: {
+    value: '',
+    error: false,
+  },
+  modified: {
     value: '',
     error: false,
   },
@@ -192,50 +200,65 @@ const VenueInfoCard = () => {
 
   return (
     <CCard>
-      <CCardHeader>
+      <CCardHeader className="p-1">
         <CRow>
-          <CCol sm="9">
-            <CCardTitle>{entity?.name}</CCardTitle>
+          <CCol sm="8">
+            <div className="text-value-lg">{entity?.name}</div>
           </CCol>
-          <CCol sm="3" className="text-right">
-            {editing ? (
-              <div>
-                <CPopover content={t('common.save')}>
-                  <CButton hidden={!editing} color="primary" variant="outline" onClick={editVenue}>
-                    <CIcon name="cil-save" content={cilSave} />
-                  </CButton>
-                </CPopover>
-                {'  '}
-                <CPopover content={t('common.stop_editing')}>
-                  <CButton color="primary" variant="outline" onClick={toggleEditing}>
-                    <CIcon name="cil-x" content={cilX} />
-                  </CButton>
-                </CPopover>
-              </div>
-            ) : (
-              <div>
-                <CPopover content={t('common.edit')}>
-                  <CButton color="primary" variant="outline" onClick={toggleEditing}>
-                    <CIcon name="cil-pencil" content={cilPencil} />
-                  </CButton>
-                </CPopover>
-                {'  '}
-                <CPopover content={t('common.delete')}>
-                  <CButton
-                    hidden={editing}
-                    color="primary"
-                    variant="outline"
-                    onClick={toggleDelete}
-                  >
-                    <CIcon name="cil-trash" content={cilTrash} />
-                  </CButton>
-                </CPopover>
-              </div>
-            )}
+          <CCol sm="4" className="text-right">
+            <CButtonToolbar role="group" className="justify-content-end">
+              <CPopover content={t('common.save')}>
+                <CButton
+                  disabled={!editing}
+                  color="primary"
+                  variant="outline"
+                  onClick={editVenue}
+                  className="mx-1"
+                >
+                  <CIcon name="cil-save" content={cilSave} />
+                </CButton>
+              </CPopover>
+              {'  '}
+              <CPopover content={t('common.edit')}>
+                <CButton
+                  disabled={editing}
+                  color="primary"
+                  variant="outline"
+                  onClick={toggleEditing}
+                  className="mx-1"
+                >
+                  <CIcon name="cil-pencil" content={cilPencil} />
+                </CButton>
+              </CPopover>
+              {'  '}
+              <CPopover content={t('common.stop_editing')}>
+                <CButton
+                  disabled={!editing}
+                  color="primary"
+                  variant="outline"
+                  onClick={toggleEditing}
+                  className="mx-1"
+                >
+                  <CIcon name="cil-x" content={cilX} />
+                </CButton>
+              </CPopover>
+              {'  '}
+              <CPopover content={t('common.delete')}>
+                <CButton
+                  disabled={editing}
+                  color="primary"
+                  variant="outline"
+                  onClick={toggleDelete}
+                  className="mx-1"
+                >
+                  <CIcon name="cil-trash" content={cilTrash} />
+                </CButton>
+              </CPopover>
+            </CButtonToolbar>
           </CCol>
         </CRow>
       </CCardHeader>
-      <CCardBody>
+      <CCardBody className="py-1">
         <EditEntityForm
           t={t}
           disable={loading}

@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CCardTitle,
-  CCol,
-  CPopover,
-  CRow,
-} from '@coreui/react';
+import { CButton, CCard, CCardBody, CCardHeader, CCol, CPopover, CRow } from '@coreui/react';
 import { cilPencil, cilSave, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { EditEntityForm, useAuth, useEntity, useFormFields, useToast } from 'ucentral-libs';
@@ -203,7 +194,7 @@ const EntityInfoCard = () => {
       <CCardHeader>
         <CRow>
           <CCol sm="9">
-            <CCardTitle>{entity?.name}</CCardTitle>
+            <div className="text-value-lg">{entity?.name}</div>
           </CCol>
           <CCol sm="3" className="text-right">
             {editing ? (
@@ -243,7 +234,7 @@ const EntityInfoCard = () => {
           </CCol>
         </CRow>
       </CCardHeader>
-      <CCardBody>
+      <CCardBody className="py-1">
         <EditEntityForm
           t={t}
           disable={loading}
