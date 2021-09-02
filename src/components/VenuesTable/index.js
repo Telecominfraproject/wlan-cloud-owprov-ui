@@ -216,6 +216,8 @@ const VenuesTable = ({
       });
   };
 
+  const refresh = () => getCount();
+
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
@@ -262,6 +264,7 @@ const VenuesTable = ({
         deleteVenue={deleteVenue}
         onlyUnassigned={onlyUnassigned}
         toggleUnassignedDisplay={toggleUnassignedDisplay}
+        refresh={refresh}
       />
       <EditVenueModal
         show={showEditModal}

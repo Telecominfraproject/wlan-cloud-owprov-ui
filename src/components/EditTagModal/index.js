@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CModalFooter,
-  CButton,
-} from '@coreui/react';
-import {
-  useFormFields,
-  useAuth,
-  useToast,
-  useEntity,
-  EditInventoryTagForm,
-  EntityBrowserProvider,
-} from 'ucentral-libs';
+import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilX, cilSave } from '@coreui/icons';
+import { useFormFields, useAuth, useToast, useEntity, EditInventoryTagForm } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
-import EntityBrowser from 'components/EntityBrowser';
 
 const initialForm = {
   entity: {
@@ -66,9 +53,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
   const { deviceTypes } = useEntity();
   const { addToast } = useToast();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
-  const [entity, setEntity] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [venues, setVenues] = useState([]);
   const [tag, setTag] = useState({});
 
   const validation = () => {
@@ -160,70 +145,6 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
     }
   };
 
-  const saveEntity = (newEntityUuid) => {
-    if (newEntityUuid !== '0000-0000-0000') {
-      setLoading(true);
-      const options = {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${currentToken}`,
-        },
-      };
-
-      const parameters = {
-        entity: newEntityUuid,
-      };
-
-      axiosInstance
-        .put(`${endpoints.owprov}/api/v1/inventory/${tagSerialNumber}`, parameters, options)
-        .then(() => {
-          getTag();
-          if (refreshTable !== null) refreshTable();
-          addToast({
-            title: t('common.success'),
-            body: t('inventory.successful_tag_update'),
-            color: 'success',
-            autohide: true,
-          });
-        })
-        .catch(() => {
-          addToast({
-            title: t('common.error'),
-            body: t('inventory.tag_update_error'),
-            color: 'danger',
-            autohide: true,
-          });
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  };
-
-  const getVenues = () => {
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    axiosInstance
-      .get(`${endpoints.owprov}/api/v1/venue`, options)
-      .then((response) => {
-        setVenues(response.data.venues);
-      })
-      .catch(() => {
-        addToast({
-          title: t('common.error'),
-          body: t('inventory.error_retrieving'),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => setLoading(false));
-  };
-
   const addNote = (newNote) => {
     setLoading(true);
 
@@ -259,8 +180,6 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
 
   useEffect(() => {
     if (show) {
-      setEntity(null);
-      getVenues();
       getTag();
       setFormFields(initialForm);
     }
@@ -272,36 +191,29 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
         <CModalTitle>
           {t('common.edit')} {tag.name}
         </CModalTitle>
+        <div className="text-right">
+          <CPopover content={t('common.save')}>
+            <CButton color="primary" variant="outline" className="mx-2" onClick={editTag}>
+              <CIcon content={cilSave} />
+            </CButton>
+          </CPopover>
+          <CPopover content={t('common.close')}>
+            <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
+              <CIcon content={cilX} />
+            </CButton>
+          </CPopover>
+        </div>
       </CModalHeader>
       <CModalBody className="px-5">
         <EditInventoryTagForm
           t={t}
-          show={show}
           disable={loading}
           fields={fields}
           updateField={updateFieldWithId}
           addNote={addNote}
           deviceTypes={deviceTypes}
-          venues={venues}
-          entity={entity}
-          entityBrowser={
-            <div>
-              <EntityBrowserProvider show={show}>
-                <EntityBrowser selectedEntity={entity} setEntity={setEntity} />
-              </EntityBrowserProvider>
-            </div>
-          }
-          saveEntity={saveEntity}
         />
       </CModalBody>
-      <CModalFooter>
-        <CButton disabled={loading} color="primary" onClick={editTag}>
-          {t('common.save')}
-        </CButton>
-        <CButton color="secondary" onClick={toggle}>
-          {t('common.close')}
-        </CButton>
-      </CModalFooter>
     </CModal>
   );
 };

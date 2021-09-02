@@ -15,9 +15,12 @@ const EntityPage = () => {
   const { entityId } = useParams();
   const [showAddTagModal, setShowAddTagModal] = useState(false);
   const [showAddVenueModal, setShowAddVenueModal] = useState(false);
-  const [refreshId, setRefreshId] = useState(0);
+  const [inventoryRefreshId, setInventoryRefreshId] = useState(0);
+  const [venueRefreshId, setVenueRefreshId] = useState(0);
 
-  const refreshTable = () => setRefreshId(refreshId + 1);
+  const refreshVenues = () => setVenueRefreshId(venueRefreshId + 1);
+
+  const refreshInventory = () => setInventoryRefreshId(inventoryRefreshId + 1);
 
   const toggleShowAddTag = () => setShowAddTagModal(!showAddTagModal);
 
@@ -41,31 +44,31 @@ const EntityPage = () => {
               <VenuesTable
                 entity={entity}
                 toggleAdd={toggleShowAddVenue}
-                refreshId={refreshId}
-                refreshPageTables={refreshTable}
+                refreshId={venueRefreshId}
+                refresh={refreshVenues}
                 onlyEntity
                 title={t('entity.venues')}
               />
               <InventoryTable
                 entity={entity}
                 toggleAdd={toggleShowAddTag}
-                refreshId={refreshId}
-                refreshPageTables={refreshTable}
+                refreshId={inventoryRefreshId}
+                refreshPageTables={refreshInventory}
                 onlyEntity
                 title={t('common.devices')}
               />
               <AddInventoryTagModal
                 show={showAddTagModal}
                 toggle={toggleShowAddTag}
-                refreshId={refreshId}
+                refreshId={inventoryRefreshId}
                 entity={entity}
-                refreshTable={refreshTable}
+                refreshTable={refreshInventory}
               />
               <AddEntityModal
                 show={showAddVenueModal}
                 toggle={toggleShowAddVenue}
                 creatingVenue
-                refresh={refreshTable}
+                refresh={refreshVenues}
               />
             </div>
           ) : (

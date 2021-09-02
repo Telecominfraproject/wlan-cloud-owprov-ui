@@ -30,13 +30,14 @@ const TheLayout = () => {
           endpoints={endpoints}
           user={user}
           avatar={avatar}
+          hideBreadcrumb
         />
         <div className="c-body">
           <ToastProvider>
             <PageContainer t={t} routes={routes} redirectTo="/inventory" />
           </ToastProvider>
         </div>
-        <Footer t={t} version="0.8.28" />
+        <Footer t={t} version="0.8.29" />
       </div>
     </div>
   );

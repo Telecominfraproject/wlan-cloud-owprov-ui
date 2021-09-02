@@ -6,9 +6,11 @@ import {
   CModalHeader,
   CModalTitle,
   CModalBody,
-  CModalFooter,
   CButton,
+  CPopover,
 } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilX, cilPlus } from '@coreui/icons';
 import { useEntity, useFormFields, useAuth, AddEntityForm } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -116,12 +118,16 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
     if (!result) return null;
     if (result.success) {
       return (
-        <CAlert color="success">
+        <CAlert color="success" className="px-3">
           {creatingVenue ? t('inventory.successful_venue_create') : t('entity.add_success')}
         </CAlert>
       );
     }
-    return <CAlert color="danger">{result.error}</CAlert>;
+    return (
+      <CAlert color="danger" className="px-3">
+        {result.error}
+      </CAlert>
+    );
   };
 
   useEffect(() => {
@@ -139,19 +145,23 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
             ? t('inventory.add_child_venue', { entityName: entity?.name })
             : t('entity.add_child', { entityName: entity?.name })}
         </CModalTitle>
+        <div className="text-right">
+          <CPopover content={t('common.add')}>
+            <CButton color="primary" variant="outline" className="mx-2" onClick={addEntity}>
+              <CIcon content={cilPlus} />
+            </CButton>
+          </CPopover>
+          <CPopover content={t('common.close')}>
+            <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
+              <CIcon content={cilX} />
+            </CButton>
+          </CPopover>
+        </div>
       </CModalHeader>
       <CModalBody className="px-5">
         <AddEntityForm t={t} disable={loading} fields={fields} updateField={updateFieldWithId} />
       </CModalBody>
-      <CModalFooter>
-        {showResult()}
-        <CButton disabled={loading} color="primary" onClick={addEntity}>
-          {t('common.add')}
-        </CButton>
-        <CButton color="secondary" onClick={toggle}>
-          {t('common.close')}
-        </CButton>
-      </CModalFooter>
+      {showResult()}
     </CModal>
   );
 };

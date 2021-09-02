@@ -6,13 +6,15 @@ import {
   CModalHeader,
   CModalTitle,
   CModalBody,
-  CModalFooter,
   CNav,
   CNavLink,
   CTabContent,
   CTabPane,
   CButton,
+  CPopover,
 } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilX, cilPlus } from '@coreui/icons';
 import InventoryTable from 'components/InventoryTable';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -86,7 +88,8 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
       };
 
       const parameters = {
-        entity: entity?.uuid ?? undefined,
+        entity: !entity?.isVenue && entity?.uuid ? entity.uuid : undefined,
+        venue: entity?.isVenue && entity?.uuid ? entity.uuid : undefined,
         serialNumber: fields.serialNumber.value,
         name: fields.name.value,
         deviceType: fields.deviceType.value,
@@ -144,6 +147,24 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
     <CModal className="text-dark" size="xl" show={show} onClose={toggle}>
       <CModalHeader>
         <CModalTitle>{t('inventory.add_tag_to', { name: entity?.name })}</CModalTitle>
+        <div className="text-right">
+          <CPopover content={t('common.add')}>
+            <CButton
+              color="primary"
+              variant="outline"
+              className="mx-2"
+              onClick={addInventoryTag}
+              disabled={activeTab !== 0}
+            >
+              <CIcon content={cilPlus} />
+            </CButton>
+          </CPopover>
+          <CPopover content={t('common.close')}>
+            <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
+              <CIcon content={cilX} />
+            </CButton>
+          </CPopover>
+        </div>
       </CModalHeader>
       <CModalBody className="pb-5">
         {entity !== null ? (
@@ -187,18 +208,6 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
           />
         )}
       </CModalBody>
-      {activeTab === 0 || entity === null ? (
-        <CModalFooter>
-          <CButton disabled={loading} color="primary" onClick={addInventoryTag}>
-            {t('common.add')}
-          </CButton>
-          <CButton color="secondary" onClick={toggle}>
-            {t('common.close')}
-          </CButton>
-        </CModalFooter>
-      ) : (
-        <div />
-      )}
     </CModal>
   );
 };

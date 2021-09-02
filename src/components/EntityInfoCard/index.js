@@ -10,7 +10,7 @@ import {
   CPopover,
   CRow,
 } from '@coreui/react';
-import { cilPencil, cilSave, cilTrash, cilX } from '@coreui/icons';
+import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { EditEntityForm, useAuth, useEntity, useFormFields, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
@@ -252,6 +252,18 @@ const EntityInfoCard = () => {
                   className="mx-1"
                 >
                   <CIcon name="cil-trash" content={cilTrash} />
+                </CButton>
+              </CPopover>
+              {'  '}
+              <CPopover content={t('common.refresh')}>
+                <CButton
+                  disabled={editing}
+                  color="primary"
+                  variant="outline"
+                  onClick={getEntityInfo}
+                  className="mx-1"
+                >
+                  <CIcon content={cilSync} />
                 </CButton>
               </CPopover>
             </CButtonToolbar>

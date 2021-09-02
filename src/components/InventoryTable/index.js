@@ -49,17 +49,17 @@ const InventoryTable = ({
         Accept: 'application/json',
         Authorization: `Bearer ${currentToken}`,
       },
+      params: {
+        entity: onlyEntity && entity !== null && !entity.isVenue ? entity.uuid : undefined,
+        venue: onlyEntity && entity !== null && entity.isVenue ? entity.uuid : undefined,
+        unassigned: onlyUnassigned ? true : undefined,
+        withExtendedInfo: !onlyUnassigned ? true : undefined,
+        limit: tagPerPage,
+        offset: tagPerPage * selectedPage + 1,
+      },
     };
-
     axiosInstance
-      .get(
-        `${endpoints.owprov}/api/v1/inventory?${
-          onlyEntity && entity !== null ? `&entity=${entity.uuid}&` : ''
-        }limit=${tagPerPage}&offset=${tagPerPage * selectedPage + 1}${
-          !onlyUnassigned ? 'withExtendedInfo=true&' : '&unassigned=true'
-        }`,
-        options,
-      )
+      .get(`${endpoints.owprov}/api/v1/inventory`, options)
       .then((response) => {
         setTags(response.data.tags);
       })
@@ -82,15 +82,18 @@ const InventoryTable = ({
       Authorization: `Bearer ${currentToken}`,
     };
 
+    const params = {
+      entity: onlyEntity && entity !== null && !entity.isVenue ? entity.uuid : undefined,
+      venue: onlyEntity && entity !== null && entity.isVenue ? entity.uuid : undefined,
+      countOnly: true,
+      unassigned: onlyUnassigned && !onlyEntity ? true : undefined,
+    };
+
     axiosInstance
-      .get(
-        `${endpoints.owprov}/api/v1/inventory?${
-          onlyEntity && entity !== null ? `entity=${entity.uuid}&` : ''
-        }countOnly=true${!onlyUnassigned ? '' : '&unassigned=true'}`,
-        {
-          headers,
-        },
-      )
+      .get(`${endpoints.owprov}/api/v1/inventory`, {
+        headers,
+        params,
+      })
       .then((response) => {
         const tagsCount = response.data.count;
         const pagesCount = Math.ceil(tagsCount / tagsPerPage);
@@ -191,7 +194,8 @@ const InventoryTable = ({
       };
 
       const parameters = {
-        entity: entity.uuid,
+        entity: entity.isVenue ? undefined : entity.uuid,
+        venue: entity.isVenue ? entity.uuid : undefined,
       };
 
       axiosInstance
@@ -255,6 +259,8 @@ const InventoryTable = ({
       });
   };
 
+  const refresh = () => getCount();
+
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
@@ -302,10 +308,12 @@ const InventoryTable = ({
         deleteTag={deleteTag}
         onlyUnassigned={onlyUnassigned}
         toggleUnassignedDisplay={toggleUnassignedDisplay}
+        refresh={refresh}
       />
       <EditTagModal
         show={showEditModal}
         toggle={toggleEditModal}
+        editEntity={entity !== null}
         tagSerialNumber={selectedTagId}
         refreshTable={refreshPageTables}
       />
