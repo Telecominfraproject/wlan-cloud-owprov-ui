@@ -30,9 +30,6 @@ module.exports = merge(common, {
       minRatio: 0.8,
     }),
   ],
-  module: {
-    rules: [],
-  },
   optimization: {
     minimize: true,
     minimizer: [
@@ -55,6 +52,7 @@ module.exports = merge(common, {
     ],
     nodeEnv: 'production',
     sideEffects: true,
+    concatenateModules: true,
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
