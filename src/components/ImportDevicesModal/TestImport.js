@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CSpinner, CProgress, CProgressBar, CRow, CCol } from '@coreui/react';
 import { useAuth } from 'ucentral-libs';
+import axios from 'axios';
 import axiosInstance from 'utils/axiosInstance';
 import TestResults from './TestResults';
 
@@ -20,7 +21,7 @@ const TestImport = ({ importedDevices }) => {
 
   const [percentTreated, setPercentTreated] = useState(0);
 
-  const getDevice = (device) => {
+  const getDevice = (device, source) => {
     const deviceResult = {
       found: false,
       alreadyAssigned: false,
@@ -31,6 +32,7 @@ const TestImport = ({ importedDevices }) => {
         Accept: 'application/json',
         Authorization: `Bearer ${currentToken}`,
       },
+      cancelToken: source.token,
     };
 
     return axiosInstance
@@ -41,10 +43,13 @@ const TestImport = ({ importedDevices }) => {
           deviceResult.alreadyAssigned(true);
         }
       })
-      .catch(() => deviceResult);
+      .catch((e) => {
+        if (axios.isCancel(e)) return { stop: true };
+        return deviceResult;
+      });
   };
 
-  const testImport = async () => {
+  const testImport = async (source) => {
     setResults(initialResults);
     setLoading(true);
 
@@ -57,8 +62,9 @@ const TestImport = ({ importedDevices }) => {
     for (let i = 0; i < numberOfDevices; i += 1) {
       const device = importedDevices[i];
       // eslint-disable-next-line no-await-in-loop
-      const result = await getDevice(device);
+      const result = await getDevice(device, source);
 
+      if (result.stop) break;
       if (result.found) {
         if (result.alreadyAssigned) {
           foundAssigned.push(device);
@@ -81,7 +87,14 @@ const TestImport = ({ importedDevices }) => {
   };
 
   useEffect(() => {
-    if (importedDevices.length > 0) testImport();
+    const cancelToken = axios.CancelToken;
+    const source = cancelToken.source();
+    if (importedDevices.length > 0) {
+      testImport(source);
+    }
+    return () => {
+      source.cancel('axios request cancelled');
+    };
   }, [importedDevices]);
 
   if (loading) {
