@@ -2,10 +2,25 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
+import {
+  CButton,
+  CCardBody,
+  CCard,
+  CCardHeader,
+  CRow,
+  CCol,
+  CSelect,
+  CPopover,
+  CSwitch,
+  CButtonToolbar,
+} from '@coreui/react';
+import { cilFile, cilPlus, cilSync } from '@coreui/icons';
+import CIcon from '@coreui/icons-react';
 import { useAuth, useToast, InventoryTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import EditTagModal from 'components/EditTagModal';
+import ImportDevicesModal from 'components/ImportDevicesModal';
 
 const InventoryTable = ({
   entity,
@@ -25,6 +40,7 @@ const InventoryTable = ({
   const page = new URLSearchParams(search).get('page');
   const [localPage, setLocalPage] = useState('0');
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
   const [selectedTagId, setSelectedTagId] = useState(null);
 
   // States needed for Inventory Table
@@ -36,9 +52,14 @@ const InventoryTable = ({
   const [tags, setTags] = useState([]);
 
   const toggleUnassignedDisplay = () => setOnlyUnassigned(!onlyUnassigned);
+
   const toggleEditModal = (tagId) => {
     setSelectedTagId(tagId);
     setShowEditModal(!showEditModal);
+  };
+
+  const toggleImportModal = () => {
+    setShowImportModal(!showImportModal);
   };
 
   const getTagInformation = (selectedPage = page, tagPerPage = tagsPerPage) => {
@@ -289,27 +310,90 @@ const InventoryTable = ({
 
   return (
     <div>
-      <Table
-        t={t}
-        loading={loading}
-        tags={tags}
-        tagsPerPage={tagsPerPage}
-        updateTagsPerPage={updateTagsPerPage}
-        page={useUrl ? page : localPage}
-        updatePage={updatePage}
-        pageCount={pageCount}
-        toggleAdd={toggleAdd}
-        onlyEntity={onlyEntity}
-        unassign={unassignTag}
-        assignToEntity={assignTag}
-        entity={entity}
-        title={title}
-        toggleEditModal={toggleEditModal}
-        deleteTag={deleteTag}
-        onlyUnassigned={onlyUnassigned}
-        toggleUnassignedDisplay={toggleUnassignedDisplay}
-        refresh={refresh}
-      />
+      <CCard>
+        <CCardHeader className="p-1">
+          <CRow>
+            <CCol sm="6">
+              <div className="text-value-lg">{title}</div>
+            </CCol>
+            <CCol sm="2" className="pt-2 text-right">
+              <div hidden={onlyEntity || entity !== null}>{t('entity.only_unassigned')}</div>
+            </CCol>
+            <CCol sm="1" className="pt-1 text-center">
+              <div hidden={onlyEntity || entity !== null}>
+                <CSwitch
+                  id="showUnassigned"
+                  color="primary"
+                  defaultChecked={onlyUnassigned}
+                  onClick={toggleUnassignedDisplay}
+                  size="lg"
+                />
+              </div>
+            </CCol>
+            <CCol sm="3">
+              <CRow>
+                <CCol>
+                  <CSelect
+                    custom
+                    defaultValue={tagsPerPage}
+                    onChange={(e) => updateTagsPerPage(e.target.value)}
+                    disabled={loading}
+                  >
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </CSelect>
+                </CCol>
+                <CCol>
+                  <CButtonToolbar role="group" className="justify-content-end">
+                    <CPopover content={t('inventory.add_tag')}>
+                      <CButton
+                        color="primary"
+                        variant="outline"
+                        onClick={toggleAdd}
+                        className="mx-1"
+                      >
+                        <CIcon content={cilPlus} />
+                      </CButton>
+                    </CPopover>
+                    <CPopover content={t('inventory.import_devices')}>
+                      <CButton
+                        color="primary"
+                        variant="outline"
+                        onClick={toggleImportModal}
+                        className="mx-1"
+                      >
+                        <CIcon content={cilFile} />
+                      </CButton>
+                    </CPopover>
+                    <CPopover content={t('common.refresh')}>
+                      <CButton color="primary" variant="outline" onClick={refresh} className="ml-1">
+                        <CIcon content={cilSync} />
+                      </CButton>
+                    </CPopover>
+                  </CButtonToolbar>
+                </CCol>
+              </CRow>
+            </CCol>
+          </CRow>
+        </CCardHeader>
+        <CCardBody className="p-0">
+          <Table
+            t={t}
+            loading={loading}
+            tags={tags}
+            page={useUrl ? page : localPage}
+            updatePage={updatePage}
+            pageCount={pageCount}
+            onlyEntity={onlyEntity}
+            unassign={unassignTag}
+            assignToEntity={assignTag}
+            toggleEditModal={toggleEditModal}
+            deleteTag={deleteTag}
+            onlyUnassigned={onlyUnassigned}
+          />
+        </CCardBody>
+      </CCard>
       <EditTagModal
         show={showEditModal}
         toggle={toggleEditModal}
@@ -317,6 +401,7 @@ const InventoryTable = ({
         tagSerialNumber={selectedTagId}
         refreshTable={refreshPageTables}
       />
+      <ImportDevicesModal entity={entity} show={showImportModal} toggle={toggleImportModal} />
     </div>
   );
 };
