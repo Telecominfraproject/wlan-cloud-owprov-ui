@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import { CAlert, CButton, CInputFile, CRow, CCol } from '@coreui/react';
 import { useTranslation } from 'react-i18next';
 import { LoadingButton } from 'ucentral-libs';
-import { fileToString, deviceFilestringToArray } from 'utils/fileHelper';
+import { readString } from 'react-papaparse';
+import { fileToString } from 'utils/fileHelper';
 import DeviceImportPreviewTable from './DeviceImportPreviewTable';
+
+const transformHeader = (header) => header.replace(/"/g, '');
 
 const ImportFile = ({ refreshId, setImportedDevices, setPhase }) => {
   const { t } = useTranslation();
@@ -12,21 +15,33 @@ const ImportFile = ({ refreshId, setImportedDevices, setPhase }) => {
   const [file, setFile] = useState(null);
   const [fileKey, setFileKey] = useState(0);
   const [preview, setPreview] = useState(null);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
   const changeFile = (e) => {
     if (e.target.files?.length > 0) setFile(e.target.files[0]);
   };
 
   const parseFile = async () => {
+    setError(null);
     setLoading(true);
 
     const fileStr = await fileToString(file);
-    const arr = deviceFilestringToArray(fileStr);
-    if (arr === null) {
-      setError(true);
+
+    if (fileStr === null) {
+      setError('General error while parsing file');
     } else {
-      setPreview(arr);
+      const csvConfig = {
+        header: true,
+        transformHeader,
+      };
+
+      const data = readString(fileStr, csvConfig);
+
+      if (data.errors.length > 0) {
+        setError(`Error on row ${data.errors[0].row}: ${data.errors[0].message}`);
+      } else {
+        setPreview(data.data);
+      }
     }
     setLoading(false);
   };
@@ -41,7 +56,7 @@ const ImportFile = ({ refreshId, setImportedDevices, setPhase }) => {
     setFile(null);
     setPreview(null);
     setFileKey(fileKey + 1);
-    setError(false);
+    setError(null);
   }, [refreshId]);
 
   return (
@@ -75,6 +90,13 @@ const ImportFile = ({ refreshId, setImportedDevices, setPhase }) => {
           />
         </CCol>
       </CRow>
+      <CRow>
+        <CCol>
+          <CAlert hidden={error === null} color="danger">
+            {error}
+          </CAlert>
+        </CCol>
+      </CRow>
       <CRow className="py-2">
         <CCol>
           {preview !== null ? (
@@ -92,13 +114,6 @@ const ImportFile = ({ refreshId, setImportedDevices, setPhase }) => {
           <CButton color="primary" onClick={testImport}>
             {t('inventory.test_import')}
           </CButton>
-        </CCol>
-      </CRow>
-      <CRow>
-        <CCol>
-          <CAlert hidden={!error} color="danger">
-            {t('inventory.file_error')}
-          </CAlert>
         </CCol>
       </CRow>
     </div>

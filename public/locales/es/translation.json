@@ -99,6 +99,7 @@
 		"hours": "horas",
 		"id": "Carné de identidad",
 		"ip_address": "Dirección IP",
+		"items_per_page": "Artículos por página:",
 		"last_dashboard_refresh": "Última actualización del panel",
 		"later_tonight": "Más tarde esta noche",
 		"latest": "último",

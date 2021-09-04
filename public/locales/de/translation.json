@@ -99,6 +99,7 @@
 		"hours": "std",
 		"id": "ID",
 		"ip_address": "IP Adresse",
+		"items_per_page": "Objekte pro Seite:",
 		"last_dashboard_refresh": "Letzte Dashboard-Aktualisierung",
 		"later_tonight": "Später am Abend",
 		"latest": "Neueste",

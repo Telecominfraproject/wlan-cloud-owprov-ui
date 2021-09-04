@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CButton, CModal, CModalBody, CModalHeader, CModalTitle, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilActionUndo, cilX } from '@coreui/icons';
+import { cilArrowLeft, cilX } from '@coreui/icons';
 import ImportFile from './ImportFile';
 import TestImport from './TestImport';
 
@@ -55,7 +55,7 @@ const ImportDevicesModal = ({ show, toggle, entity }) => {
         <div className="text-right">
           <CPopover content={t('common.back_to_start')}>
             <CButton color="primary" variant="outline" className="ml-2" onClick={reset}>
-              <CIcon content={cilActionUndo} />
+              <CIcon content={cilArrowLeft} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>

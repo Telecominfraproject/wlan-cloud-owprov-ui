@@ -99,6 +99,7 @@
 		"hours": "hours",
 		"id": "Id",
 		"ip_address": "IP Address",
+		"items_per_page": "Items per page: ",
 		"last_dashboard_refresh": "Last Dashboard Refresh",
 		"later_tonight": "Later tonight",
 		"latest": "Latest",

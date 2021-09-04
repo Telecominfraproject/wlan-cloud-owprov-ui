@@ -99,6 +99,7 @@
 		"hours": "horas",
 		"id": "identidade",
 		"ip_address": "Endereço de IP",
+		"items_per_page": "Itens por página:",
 		"last_dashboard_refresh": "Última atualização do painel",
 		"later_tonight": "Logo à noite",
 		"latest": "Mais recentes",
