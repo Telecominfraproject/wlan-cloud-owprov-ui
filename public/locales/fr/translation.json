@@ -284,6 +284,7 @@
 		"devices_found_unassigned": "{{number}} appareils trouvés, mais non attribués",
 		"devices_not_found": "{{number}} appareils sans conflit",
 		"devices_tested": "Appareils testés",
+		"duplicate_serial": "Numéro de série déjà utilisé dans le fichier (duplicata)",
 		"error_create_venue": "Erreur lors de la création du lieu",
 		"error_delete_tag": "Erreur lors de la suppression de la balise d'inventaire",
 		"error_get_venue": "Erreur lors de la récupération des lieux",

@@ -284,6 +284,7 @@
 		"devices_found_unassigned": "{{number}} dispositivos encontrados, mas não atribuídos",
 		"devices_not_found": "{{number}} dispositivos sem conflito",
 		"devices_tested": "Dispositivos Testados",
+		"duplicate_serial": "Número de série já usado no arquivo (duplicado)",
 		"error_create_venue": "Erro ao criar local",
 		"error_delete_tag": "Erro ao excluir tag de inventário",
 		"error_get_venue": "Erro ao recuperar locais",

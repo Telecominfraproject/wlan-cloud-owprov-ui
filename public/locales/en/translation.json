@@ -284,6 +284,7 @@
 		"devices_found_unassigned": "{{number}} devices found, but not assigned",
 		"devices_not_found": "{{number}} devices with no conflict",
 		"devices_tested": "Devices Tested",
+		"duplicate_serial": "Serial Number already used in file (duplicate)",
 		"error_create_venue": "Error while creating venue",
 		"error_delete_tag": "Error while deleting inventory tag",
 		"error_get_venue": "Error while retrieving venues",

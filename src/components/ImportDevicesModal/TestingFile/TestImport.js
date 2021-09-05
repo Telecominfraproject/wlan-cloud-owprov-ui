@@ -69,16 +69,21 @@ const TestImport = ({ importedDevices, setPhase, setGroupedDevices, setImportCho
       });
   };
 
-  const verifyParameters = (device) => {
+  const verifyParameters = (device, treatedSerialNumbers) => {
     if (device.SerialNumber === '') return t('inventory.serial_number_required');
     if (!deviceTypes.find((deviceType) => deviceType === device.DeviceType))
       return t('inventory.type_invalid');
+    if (treatedSerialNumbers.find((serial) => serial === device.SerialNumber))
+      return t('inventory.duplicate_serial');
     return null;
   };
 
   const testImport = async (source) => {
     setResults(initialResults);
     setLoading(true);
+
+    // Array for duplicate
+    const treatedSerialNumbers = [];
 
     // Result arrays
     const good = [];
@@ -91,7 +96,7 @@ const TestImport = ({ importedDevices, setPhase, setGroupedDevices, setImportCho
       const device = importedDevices[i];
       setTreating(device.SerialNumber);
 
-      const testError = verifyParameters(device);
+      const testError = verifyParameters(device, treatedSerialNumbers);
       if (testError === null) {
         // eslint-disable-next-line no-await-in-loop
         const result = await getDevice(device, source);
@@ -111,6 +116,7 @@ const TestImport = ({ importedDevices, setPhase, setGroupedDevices, setImportCho
       } else {
         wrongInFile.push({ ...device, ...{ error: testError } });
       }
+      treatedSerialNumbers.push(device.SerialNumber);
       setPercentTreated(Math.floor((i / numberOfDevices) * 100));
     }
 

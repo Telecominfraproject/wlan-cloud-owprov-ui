@@ -284,6 +284,7 @@
 		"devices_found_unassigned": "{{number}} Geräte gefunden, aber nicht zugewiesen",
 		"devices_not_found": "{{number}} Geräte ohne Konflikt",
 		"devices_tested": "Getestete Geräte",
+		"duplicate_serial": "Seriennummer bereits in Datei verwendet (Duplikat)",
 		"error_create_venue": "Fehler beim Erstellen des Veranstaltungsortes",
 		"error_delete_tag": "Fehler beim Löschen des Inventar-Tags",
 		"error_get_venue": "Fehler beim Abrufen von Veranstaltungsorten",
