@@ -378,7 +378,12 @@ const InventoryTable = ({
         tagSerialNumber={selectedTagId}
         refreshTable={refreshPageTables}
       />
-      <ImportDevicesModal entity={entity} show={showImportModal} toggle={toggleImportModal} />
+      <ImportDevicesModal
+        entity={entity}
+        show={showImportModal}
+        toggle={toggleImportModal}
+        refreshPageTables={refreshPageTables}
+      />
     </div>
   );
 };

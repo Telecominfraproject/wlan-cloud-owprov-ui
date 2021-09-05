@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { CButton, CModal, CModalBody, CModalHeader, CModalTitle, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilArrowLeft, cilX } from '@coreui/icons';
-import ImportFile from './ImportFile';
-import TestImport from './TestImport';
+import ImportFile from './Presentation/ImportFile';
+import TestImport from './TestingFile/TestImport';
+import ImportPush from './ImportPush/ImportPush';
 
-const ImportDevicesModal = ({ show, toggle, entity }) => {
+const ImportDevicesModal = ({ show, toggle, entity, refreshPageTables }) => {
   const { t } = useTranslation();
   /**
    * Phase 0 (explanations and import file)
@@ -17,6 +18,8 @@ const ImportDevicesModal = ({ show, toggle, entity }) => {
   const [phase, setPhase] = useState(0);
   const [refreshId, setRefreshId] = useState(0);
   const [importedDevices, setImportedDevices] = useState([]);
+  const [groupedDevices, setGroupedDevices] = useState({});
+  const [importChoices, setImportChoices] = useState({});
 
   const reset = () => {
     setPhase(0);
@@ -34,7 +37,23 @@ const ImportDevicesModal = ({ show, toggle, entity }) => {
           />
         );
       case 1:
-        return <TestImport importedDevices={importedDevices} />;
+        return (
+          <TestImport
+            importedDevices={importedDevices}
+            setPhase={setPhase}
+            setGroupedDevices={setGroupedDevices}
+            setImportChoices={setImportChoices}
+          />
+        );
+      case 2:
+        return (
+          <ImportPush
+            entity={entity}
+            groupedDevices={groupedDevices}
+            importChoices={importChoices}
+            refreshPageTables={refreshPageTables}
+          />
+        );
       default:
         return null;
     }
@@ -74,6 +93,11 @@ ImportDevicesModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   entity: PropTypes.instanceOf(Object).isRequired,
+  refreshPageTables: PropTypes.func,
+};
+
+ImportDevicesModal.defaultProps = {
+  refreshPageTables: null,
 };
 
 export default ImportDevicesModal;

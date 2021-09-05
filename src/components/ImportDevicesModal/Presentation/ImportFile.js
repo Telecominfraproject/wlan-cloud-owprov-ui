@@ -33,6 +33,7 @@ const ImportFile = ({ refreshId, setImportedDevices, setPhase }) => {
       const csvConfig = {
         header: true,
         transformHeader,
+        quoteChar: '"',
       };
 
       const data = readString(fileStr, csvConfig);
@@ -97,7 +98,7 @@ const ImportFile = ({ refreshId, setImportedDevices, setPhase }) => {
           </CAlert>
         </CCol>
       </CRow>
-      <CRow className="py-2">
+      <CRow hidden={preview === null} className="py-2">
         <CCol>
           {preview !== null ? (
             <div>
@@ -109,8 +110,8 @@ const ImportFile = ({ refreshId, setImportedDevices, setPhase }) => {
           )}
         </CCol>
       </CRow>
-      <CRow className="py-2">
-        <CCol hidden={preview === null}>
+      <CRow hidden={preview === null} className="py-2">
+        <CCol>
           <CButton color="primary" onClick={testImport}>
             {t('inventory.test_import')}
           </CButton>
