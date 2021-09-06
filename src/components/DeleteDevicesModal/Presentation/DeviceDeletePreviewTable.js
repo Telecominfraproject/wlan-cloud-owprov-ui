@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CDataTable } from '@coreui/react';
 
-const DeviceImportPreviewTable = ({ devices, countToShow }) => {
+const DeviceDeletePreviewTable = ({ devices, countToShow }) => {
   const { t } = useTranslation();
 
   const columns = [{ key: 'SerialNumber', label: t('common.serial_number') }];
@@ -19,13 +19,13 @@ const DeviceImportPreviewTable = ({ devices, countToShow }) => {
   );
 };
 
-DeviceImportPreviewTable.propTypes = {
+DeviceDeletePreviewTable.propTypes = {
   devices: PropTypes.instanceOf(Array),
   countToShow: PropTypes.number.isRequired,
 };
 
-DeviceImportPreviewTable.defaultProps = {
+DeviceDeletePreviewTable.defaultProps = {
   devices: [],
 };
 
-export default DeviceImportPreviewTable;
+export default DeviceDeletePreviewTable;

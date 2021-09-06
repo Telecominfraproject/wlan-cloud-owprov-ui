@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CButton, CCollapse, CCard, CCardHeader, CCardBody } from '@coreui/react';
 import TestResultTable from './TestResultTable';
+import DeviceDeletePreviewTable from '../Presentation/DeviceDeletePreviewTable';
 import ResultTable from '../DeletePush/ResultTable';
 
 const TestResults = ({ results }) => {
@@ -41,7 +42,7 @@ const TestResults = ({ results }) => {
         </CCardHeader>
         <CCollapse show={activeKey === 2}>
           <CCardBody className="overflow-auto" style={{ height: '300px' }}>
-            <TestResultTable devices={results.notAssigned} countToShow={999999} />
+            <DeviceDeletePreviewTable devices={results.notAssigned} countToShow={999999} />
           </CCardBody>
         </CCollapse>
       </CCard>
@@ -58,7 +59,7 @@ const TestResults = ({ results }) => {
         </CCardHeader>
         <CCollapse show={activeKey === 3}>
           <CCardBody className="overflow-auto" style={{ height: '300px' }}>
-            <TestResultTable devices={results.notFound} assigned countToShow={999999} />
+            <DeviceDeletePreviewTable devices={results.notFound} countToShow={999999} />
           </CCardBody>
         </CCollapse>
       </CCard>
