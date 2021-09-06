@@ -37,7 +37,7 @@ const TheLayout = () => {
             <PageContainer t={t} routes={routes} redirectTo="/inventory" />
           </ToastProvider>
         </div>
-        <Footer t={t} version="0.8.35" />
+        <Footer t={t} version="0.8.36" />
       </div>
     </div>
   );

@@ -194,7 +194,7 @@ const ImportPush = ({ entity, groupedDevices, importChoices, refreshPageTables }
           <CCol className="text-center">
             <CProgress height={20} className="mb-3">
               <CProgressBar value={percentTreated} animated>
-                {percentTreated}% {t('inventory.devices_tested')}
+                {percentTreated}% {t('inventory.devices_imported')}
               </CProgressBar>
             </CProgress>
           </CCol>

@@ -11,13 +11,14 @@ import {
   CSwitch,
   CButtonToolbar,
 } from '@coreui/react';
-import { cilCloudUpload, cilPlus, cilSync } from '@coreui/icons';
+import { cilCloudUpload, cilPlus, cilSync, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { useAuth, useToast, InventoryTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import EditTagModal from 'components/EditTagModal';
 import ImportDevicesModal from 'components/ImportDevicesModal';
+import DeleteDevicesModal from 'components/DeleteDevicesModal';
 
 const InventoryTable = ({
   entity,
@@ -38,6 +39,7 @@ const InventoryTable = ({
   const [localPage, setLocalPage] = useState('0');
   const [showEditModal, setShowEditModal] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
   const [selectedTagId, setSelectedTagId] = useState(null);
 
   // States needed for Inventory Table
@@ -57,6 +59,10 @@ const InventoryTable = ({
 
   const toggleImportModal = () => {
     setShowImportModal(!showImportModal);
+  };
+
+  const toggleBulkDeleteModal = () => {
+    setShowBulkDeleteModal(!showBulkDeleteModal);
   };
 
   const getTagInformation = (selectedPage = page, tagPerPage = tagsPerPage) => {
@@ -329,6 +335,16 @@ const InventoryTable = ({
                   <CIcon content={cilCloudUpload} />
                 </CButton>
               </CPopover>
+              <CPopover content={t('inventory.bulk_delete_devices')}>
+                <CButton
+                  color="primary"
+                  variant="outline"
+                  onClick={toggleBulkDeleteModal}
+                  className="mx-1"
+                >
+                  <CIcon content={cilTrash} />
+                </CButton>
+              </CPopover>
               <CPopover content={t('common.refresh')}>
                 <CButton color="primary" variant="outline" onClick={refresh} className="ml-1">
                   <CIcon content={cilSync} />
@@ -382,6 +398,12 @@ const InventoryTable = ({
         entity={entity}
         show={showImportModal}
         toggle={toggleImportModal}
+        refreshPageTables={refreshPageTables}
+      />
+      <DeleteDevicesModal
+        entity={entity}
+        show={showBulkDeleteModal}
+        toggle={toggleBulkDeleteModal}
         refreshPageTables={refreshPageTables}
       />
     </div>
