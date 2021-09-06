@@ -117,6 +117,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           name="Managament Roles"
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
         />
+        <CSidebarNavItem name={t('common.system')} to="/system" icon="cilSettings" />
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
       <AddEntityModal show={showAddEntity} toggle={toggleAddEntity} creatingVenue={creatingVenue} />
