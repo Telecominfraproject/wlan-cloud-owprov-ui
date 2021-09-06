@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CButton, CCollapse, CCard, CCardHeader, CCardBody } from '@coreui/react';
+import TestResultTable from '../TestingFile/TestResultTable';
 import ResultTable from './ResultTable';
 
 const FinalDeleteResults = ({ results }) => {
@@ -23,7 +24,7 @@ const FinalDeleteResults = ({ results }) => {
         </CCardHeader>
         <CCollapse show={activeKey === 1}>
           <CCardBody className="overflow-auto" style={{ height: '300px' }}>
-            <ResultTable devices={results.deleteSuccess} />
+            <TestResultTable devices={results.deleteSuccess} countToShow={999999} />
           </CCardBody>
         </CCollapse>
       </CCard>
@@ -42,7 +43,7 @@ const FinalDeleteResults = ({ results }) => {
         </CCardHeader>
         <CCollapse show={activeKey === 2}>
           <CCardBody className="overflow-auto" style={{ height: '300px' }}>
-            <ResultTable devices={results.deleteUnassignSuccess} error />
+            <TestResultTable devices={results.deleteUnassignSuccess} error countToShow={999999} />
           </CCardBody>
         </CCollapse>
       </CCard>
