@@ -162,9 +162,12 @@
 		"yes": "Oui"
 	},
 	"configuration": {
+		"configurations": "Les configurations",
+		"create_config": "Créer une nouvelle configuration",
 		"created": "Créé",
 		"details": "Détails",
 		"device_password": "Mot de passe",
+		"edit_configuration": "Modifier la configuration",
 		"last_configuration_change": "Dernière modification de configuration",
 		"last_configuration_download": "Téléchargement de la dernière configuration",
 		"location": "Emplacement",

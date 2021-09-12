@@ -162,9 +162,12 @@
 		"yes": "Ja"
 	},
 	"configuration": {
+		"configurations": "Konfigurationen",
+		"create_config": "Neue Konfiguration erstellen",
 		"created": "Erstellt",
 		"details": "Gerätedetails",
 		"device_password": "Passwort",
+		"edit_configuration": "Konfiguration bearbeiten",
 		"last_configuration_change": "Letzte Konfigurationsänderung",
 		"last_configuration_download": "Letzter Konfigurations-Download",
 		"location": "Ort",
