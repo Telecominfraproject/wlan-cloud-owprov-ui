@@ -16,6 +16,7 @@ import CIcon from '@coreui/icons-react';
 import { useAuth, useToast, ConfigurationTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
+import AddConfigurationModal from 'components/AddConfigurationModal';
 
 const ConfigurationTable = () => {
   const { t } = useTranslation();
@@ -30,6 +31,9 @@ const ConfigurationTable = () => {
   const [configCount, setConfigCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [configsPerPage, setConfigsPerPage] = useState(getItem('configPerPage') || '10');
+  const [showAdd, setShowAdd] = useState(false);
+
+  const toggleAdd = () => setShowAdd(!showAdd);
 
   const getDetailedInformation = (selectedPage = page, configPerPage = configsPerPage) => {
     setLoading(true);
@@ -141,7 +145,7 @@ const ConfigurationTable = () => {
         <div className="pl-3 float-right">
           <CButtonToolbar role="group" className="justify-content-end">
             <CPopover content={t('configuration.create_config')}>
-              <CButton color="primary" variant="outline" className="mx-1">
+              <CButton color="primary" variant="outline" onClick={toggleAdd} className="mx-1">
                 <CIcon content={cilPlus} />
               </CButton>
             </CPopover>
@@ -192,6 +196,7 @@ const ConfigurationTable = () => {
           </div>
         </div>
       </CCardBody>
+      <AddConfigurationModal show={showAdd} toggle={toggleAdd} refresh={refresh} />
     </CCard>
   );
 };
