@@ -177,6 +177,7 @@
 		"owner": "Inhaber",
 		"title": "Gerätekonfiguration",
 		"type": "Gerätetyp",
+		"used_by": "Benutzt von",
 		"uuid": "Konfigurations-ID",
 		"view_in_use": "In Verwendung anzeigen",
 		"view_json": "Rohe Konfiguration anzeigen"

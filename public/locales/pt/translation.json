@@ -177,6 +177,7 @@
 		"owner": "Proprietário",
 		"title": "Configuração",
 		"type": "Tipo de dispositivo",
+		"used_by": "Usado por",
 		"uuid": "ID de configuração",
 		"view_in_use": "Visualização em uso",
 		"view_json": "Exibir JSON bruto"

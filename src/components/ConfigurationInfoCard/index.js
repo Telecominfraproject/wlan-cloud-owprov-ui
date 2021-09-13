@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { CButtonToolbar, CButton, CPopover, CCard, CCardHeader, CCardBody } from '@coreui/react';
 import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { useAuth, useToast, useFormFields, EditConfigurationForm } from 'ucentral-libs';
+import {
+  useAuth,
+  useToast,
+  useFormFields,
+  EditConfigurationForm,
+  ConfigurationInUseModal,
+} from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from 'utils/axiosInstance';
 
@@ -29,6 +35,10 @@ const initialForm = {
     value: [],
     error: false,
   },
+  inUse: {
+    value: [],
+    error: false,
+  },
 };
 
 const ConfigurationDetails = ({ configId, config, setConfig }) => {
@@ -39,8 +49,32 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showInUse, setShowInUse] = useState(false);
 
   const toggleDelete = () => setShowDelete(!showDelete);
+
+  const parseInUse = (inUse) => {
+    const entities = [];
+    const venues = [];
+    const inventories = [];
+
+    for (let i = 0; i < inUse.length; i += 1) {
+      const obj = inUse[i].split(':');
+      if (obj.length === 2) {
+        if (obj[0] === 'ent') entities.push(obj[1]);
+        else if (obj[0] === 'ven') venues.push(obj[1]);
+        else if (obj[0] === 'inv') inventories.push(obj[1]);
+      }
+    }
+
+    return {
+      entities,
+      venues,
+      inventories,
+    };
+  };
+
+  const toggleInUse = () => setShowInUse(!showInUse);
 
   const validation = () => {
     let success = true;
@@ -86,7 +120,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
         const newConfig = response.data;
         newConfig.configuration = configurations;
 
-        setConfig(newConfig);
+        setConfig({ ...newConfig, parsedInUse: parseInUse(newConfig.inUse) });
       })
       .catch(() => {
         setConfig(null);
@@ -262,8 +296,10 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
           updateField={updateFieldWithId}
           addNote={addNote}
           editing={editing}
+          toggleInUseModal={toggleInUse}
         />
       </CCardBody>
+      <ConfigurationInUseModal t={t} show={showInUse} toggle={toggleInUse} config={config} />
     </CCard>
   );
 };

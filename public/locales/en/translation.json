@@ -177,6 +177,7 @@
 		"owner": "Owner",
 		"title": "Configuration",
 		"type": "Device Type",
+		"used_by": "Used By",
 		"uuid": "Config ID",
 		"view_in_use": "View In Use",
 		"view_json": "View raw JSON"
