@@ -168,6 +168,7 @@
 		"details": "Gerätedetails",
 		"device_password": "Passwort",
 		"edit_configuration": "Konfiguration bearbeiten",
+		"error_fetching_config": "Fehler beim Abrufen der Konfiguration",
 		"last_configuration_change": "Letzte Konfigurationsänderung",
 		"last_configuration_download": "Letzter Konfigurations-Download",
 		"location": "Ort",
@@ -177,6 +178,7 @@
 		"title": "Gerätekonfiguration",
 		"type": "Gerätetyp",
 		"uuid": "Konfigurations-ID",
+		"view_in_use": "In Verwendung anzeigen",
 		"view_json": "Rohe Konfiguration anzeigen"
 	},
 	"configure": {

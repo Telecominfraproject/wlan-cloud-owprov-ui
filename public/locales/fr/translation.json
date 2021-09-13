@@ -168,6 +168,7 @@
 		"details": "Détails",
 		"device_password": "Mot de passe",
 		"edit_configuration": "Modifier la configuration",
+		"error_fetching_config": "Erreur lors de la récupération de la configuration",
 		"last_configuration_change": "Dernière modification de configuration",
 		"last_configuration_download": "Téléchargement de la dernière configuration",
 		"location": "Emplacement",
@@ -177,6 +178,7 @@
 		"title": "Configuration",
 		"type": "Type d'appareil",
 		"uuid": "Identifiant de configuration",
+		"view_in_use": "Afficher en cours d'utilisation",
 		"view_json": "Afficher le JSON brut"
 	},
 	"configure": {

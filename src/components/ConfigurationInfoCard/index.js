@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { CButton, CButtonToolbar, CCard, CCardBody, CCardHeader, CPopover } from '@coreui/react';
+import PropTypes from 'prop-types';
+import { CButtonToolbar, CButton, CPopover, CCard, CCardHeader, CCardBody } from '@coreui/react';
 import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { EditEntityForm, useAuth, useEntity, useFormFields, useToast } from 'ucentral-libs';
+import { useAuth, useToast, useFormFields, EditConfigurationForm } from 'ucentral-libs';
+import { useTranslation } from 'react-i18next';
 import axiosInstance from 'utils/axiosInstance';
-import DeleteEntityModal from 'components/DeleteEntityModal';
 
 const initialForm = {
   name: {
@@ -31,11 +31,10 @@ const initialForm = {
   },
 };
 
-const EntityInfoCard = () => {
+const ConfigurationDetails = ({ configId, config, setConfig }) => {
   const { t } = useTranslation();
-  const { entity, setEntity, refreshEntity } = useEntity();
-  const { currentToken, endpoints } = useAuth();
   const { addToast } = useToast();
+  const { currentToken, endpoints } = useAuth();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -57,8 +56,9 @@ const EntityInfoCard = () => {
     return success;
   };
 
-  const getEntityInfo = () => {
+  const getConfig = () => {
     setLoading(true);
+
     const options = {
       headers: {
         Accept: 'application/json',
@@ -67,8 +67,9 @@ const EntityInfoCard = () => {
     };
 
     axiosInstance
-      .get(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, options)
+      .get(`${endpoints.owprov}/api/v1/configurations/${configId}`, options)
       .then((response) => {
+        // Mapping fields for edit form
         const newFields = fields;
         for (const [key] of Object.entries(newFields)) {
           if (response.data[key] !== undefined) {
@@ -76,11 +77,58 @@ const EntityInfoCard = () => {
           }
         }
         setFormFields({ ...newFields });
+
+        // Parsing the nested configurations array into JSON objects
+        const configurations = response.data.configuration.map((conf) => ({
+          ...conf,
+          configuration: JSON.parse(conf.configuration),
+        }));
+        const newConfig = response.data;
+        newConfig.configuration = configurations;
+
+        setConfig(newConfig);
+      })
+      .catch(() => {
+        setConfig(null);
+        addToast({
+          title: t('common.error'),
+          body: t('configuration.error_fetching_config'),
+          color: 'danger',
+          autohide: true,
+        });
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const toggleEditing = () => {
+    if (editing) getConfig();
+    setEditing(!editing);
+  };
+
+  const addNote = (newNote) => {
+    setLoading(true);
+
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const parameters = {
+      id: config.id,
+      notes: [{ note: newNote }],
+    };
+
+    axiosInstance
+      .put(`${endpoints.owprov}/api/v1/configurations/${config.id}`, parameters, options)
+      .then(() => {
+        getConfig();
       })
       .catch(() => {
         addToast({
           title: t('common.error'),
-          body: t('entity.error_fetch_entity'),
+          body: t('common.error_adding_note'),
           color: 'danger',
           autohide: true,
         });
@@ -88,16 +136,10 @@ const EntityInfoCard = () => {
       .finally(() => {
         setLoading(false);
       });
+    setLoading(false);
   };
 
-  const toggleEditing = () => {
-    if (editing) {
-      getEntityInfo();
-    }
-    setEditing(!editing);
-  };
-
-  const editEntity = () => {
+  const saveConfig = () => {
     if (validation()) {
       setLoading(true);
       const options = {
@@ -108,25 +150,15 @@ const EntityInfoCard = () => {
       };
 
       const parameters = {
-        uuid: entity.uuid,
+        id: configId,
         name: fields.name.value,
         description: fields.description.value,
       };
 
       axiosInstance
-        .put(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, parameters, options)
+        .put(`${endpoints.owprov}/api/v1/configurations/${configId}`, parameters, options)
         .then(() => {
-          refreshEntity(entity.path, {
-            name: fields.name.value,
-          });
-
-          setEntity({
-            ...entity,
-            ...{
-              name: fields.name.value,
-            },
-          });
-
+          getConfig();
           addToast({
             title: t('common.success'),
             body: t('common.saved'),
@@ -148,59 +180,24 @@ const EntityInfoCard = () => {
     }
   };
 
-  const addNote = (newNote) => {
-    setLoading(true);
-
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    const parameters = {
-      uuid: entity.uuid,
-      notes: [{ note: newNote }],
-    };
-
-    axiosInstance
-      .put(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, parameters, options)
-      .then(() => {
-        getEntityInfo();
-      })
-      .catch(() => {
-        addToast({
-          title: t('common.error'),
-          body: t('common.error_adding_note'),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    setLoading(false);
-  };
-
   useEffect(() => {
-    if (entity !== null) {
-      setEditing(false);
-      getEntityInfo();
-    }
-  }, [entity]);
+    if (configId && configId !== '') getConfig();
+  }, [configId]);
 
   return (
     <CCard>
       <CCardHeader className="p-1">
-        <div className="text-value-lg float-left">{entity?.name}</div>
-        <div className="text-right float-right">
+        <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
+          {config?.name}
+        </div>
+        <div className="float-right">
           <CButtonToolbar role="group" className="justify-content-end">
             <CPopover content={t('common.save')}>
               <CButton
                 disabled={!editing}
                 color="primary"
                 variant="outline"
-                onClick={editEntity}
+                onClick={saveConfig}
                 className="mx-1"
               >
                 <CIcon name="cil-save" content={cilSave} />
@@ -248,7 +245,7 @@ const EntityInfoCard = () => {
                 disabled={editing}
                 color="primary"
                 variant="outline"
-                onClick={getEntityInfo}
+                onClick={getConfig}
                 className="mx-1"
               >
                 <CIcon content={cilSync} />
@@ -258,7 +255,7 @@ const EntityInfoCard = () => {
         </div>
       </CCardHeader>
       <CCardBody className="py-1">
-        <EditEntityForm
+        <EditConfigurationForm
           t={t}
           disable={loading}
           fields={fields}
@@ -267,9 +264,18 @@ const EntityInfoCard = () => {
           editing={editing}
         />
       </CCardBody>
-      <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
     </CCard>
   );
 };
 
-export default EntityInfoCard;
+ConfigurationDetails.propTypes = {
+  configId: PropTypes.string.isRequired,
+  config: PropTypes.instanceOf(Object),
+  setConfig: PropTypes.func.isRequired,
+};
+
+ConfigurationDetails.defaultProps = {
+  config: null,
+};
+
+export default ConfigurationDetails;
