@@ -82,7 +82,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
         break;
       }
       if (field.notEmpty && field.value.length === 0) {
-        updateField(key, { error: true });
+        updateField(key, { error: true, notEmpty: true });
         success = false;
         break;
       }

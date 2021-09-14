@@ -22,8 +22,9 @@ const initialForm = {
     error: false,
   },
   deviceTypes: {
-    value: ['*'],
+    value: [],
     error: false,
+    notEmpty: true,
   },
 };
 
@@ -41,6 +42,11 @@ const AddConfigurationModal = ({ show, toggle, refresh }) => {
     for (const [key, field] of Object.entries(fields)) {
       if (field.required && field.value === '') {
         updateField(key, { error: true });
+        success = false;
+        break;
+      }
+      if (field.notEmpty && field.value.length === 0) {
+        updateField(key, { error: true, notEmpty: true });
         success = false;
         break;
       }
@@ -123,6 +129,7 @@ const AddConfigurationModal = ({ show, toggle, refresh }) => {
           updateField={updateFieldWithId}
           updateFieldWithKey={updateField}
           deviceTypes={deviceTypes}
+          show={show}
         />
       </CModalBody>
     </CModal>
