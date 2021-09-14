@@ -17,6 +17,7 @@ import { useAuth, useToast, ConfigurationTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import AddConfigurationModal from 'components/AddConfigurationModal';
+import ConfigurationInUseModal from 'components/ConfigurationInUseModal';
 
 const ConfigurationTable = () => {
   const { t } = useTranslation();
@@ -32,8 +33,15 @@ const ConfigurationTable = () => {
   const [pageCount, setPageCount] = useState(0);
   const [configsPerPage, setConfigsPerPage] = useState(getItem('configPerPage') || '10');
   const [showAdd, setShowAdd] = useState(false);
+  const [showInUse, setShowInUse] = useState(false);
+  const [focusedConfig, setFocusedConfig] = useState(null);
 
   const toggleAdd = () => setShowAdd(!showAdd);
+
+  const toggleInUse = (config) => {
+    if (config) setFocusedConfig(config);
+    setShowInUse(!showInUse);
+  };
 
   const getDetailedInformation = (selectedPage = page, configPerPage = configsPerPage) => {
     setLoading(true);
@@ -129,6 +137,38 @@ const ConfigurationTable = () => {
 
   const refresh = () => getCount();
 
+  const deleteConfig = (id) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    axiosInstance
+      .delete(`${endpoints.owprov}/api/v1/configurations/${id}`, options)
+      .then(() => {
+        addToast({
+          title: t('common.success'),
+          body: t('configuration.successful_delete'),
+          color: 'success',
+          autohide: true,
+        });
+        refresh();
+      })
+      .catch((e) => {
+        addToast({
+          title: t('common.error'),
+          body: t('configuration.error_delete', { error: e.response?.data?.ErrorDescription }),
+          color: 'danger',
+          autohide: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (page === undefined || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
@@ -158,7 +198,14 @@ const ConfigurationTable = () => {
         </div>
       </CCardHeader>
       <CCardBody>
-        <Table t={t} history={history} loading={loading} configs={configs} />
+        <Table
+          t={t}
+          history={history}
+          loading={loading}
+          configs={configs}
+          toggleInUse={toggleInUse}
+          deleteConfig={deleteConfig}
+        />
         <div className="pl-3">
           <div style={{ float: 'left' }} className="pr-3">
             <ReactPaginate
@@ -197,6 +244,7 @@ const ConfigurationTable = () => {
         </div>
       </CCardBody>
       <AddConfigurationModal show={showAdd} toggle={toggleAdd} refresh={refresh} />
+      <ConfigurationInUseModal show={showInUse} toggle={toggleInUse} config={focusedConfig} />
     </CCard>
   );
 };

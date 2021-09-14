@@ -3,15 +3,10 @@ import PropTypes from 'prop-types';
 import { CButtonToolbar, CButton, CPopover, CCard, CCardHeader, CCardBody } from '@coreui/react';
 import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import {
-  useAuth,
-  useToast,
-  useFormFields,
-  EditConfigurationForm,
-  ConfigurationInUseModal,
-} from 'ucentral-libs';
+import { useAuth, useToast, useFormFields, EditConfigurationForm, useEntity } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from 'utils/axiosInstance';
+import ConfigurationInUseModal from 'components/ConfigurationInUseModal';
 
 const initialForm = {
   name: {
@@ -39,12 +34,18 @@ const initialForm = {
     value: [],
     error: false,
   },
+  deviceTypes: {
+    value: [],
+    error: false,
+    notEmpty: true,
+  },
 };
 
 const ConfigurationDetails = ({ configId, config, setConfig }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { currentToken, endpoints } = useAuth();
+  const { deviceTypes } = useEntity();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -54,24 +55,18 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
   const toggleDelete = () => setShowDelete(!showDelete);
 
   const parseInUse = (inUse) => {
-    const entities = [];
-    const venues = [];
-    const inventories = [];
+    let entities = 0;
+    let venues = 0;
+    let devices = 0;
 
     for (let i = 0; i < inUse.length; i += 1) {
-      const obj = inUse[i].split(':');
-      if (obj.length === 2) {
-        if (obj[0] === 'ent') entities.push(obj[1]);
-        else if (obj[0] === 'ven') venues.push(obj[1]);
-        else if (obj[0] === 'inv') inventories.push(obj[1]);
-      }
+      const type = inUse[i].substring(0, 3);
+      if (type === 'ent') entities += 1;
+      else if (type === 'ven') venues += 1;
+      else if (type === 'inv') devices += 1;
     }
 
-    return {
-      entities,
-      venues,
-      inventories,
-    };
+    return t('configuration.used_by_details', { entities, venues, devices });
   };
 
   const toggleInUse = () => setShowInUse(!showInUse);
@@ -81,6 +76,11 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
 
     for (const [key, field] of Object.entries(fields)) {
       if (field.required && field.value === '') {
+        updateField(key, { error: true });
+        success = false;
+        break;
+      }
+      if (field.notEmpty && field.value.length === 0) {
         updateField(key, { error: true });
         success = false;
         break;
@@ -187,6 +187,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
         id: configId,
         name: fields.name.value,
         description: fields.description.value,
+        deviceTypes: fields.deviceTypes.value,
       };
 
       axiosInstance
@@ -199,11 +200,12 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
             color: 'success',
             autohide: true,
           });
+          setEditing(false);
         })
-        .catch(() => {
+        .catch((e) => {
           addToast({
             title: t('common.error'),
-            body: t('entity.error_saving'),
+            body: t('entity.save_failure', { error: e.response?.data?.ErrorDescription }),
             color: 'danger',
             autohide: true,
           });
@@ -294,12 +296,15 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
           disable={loading}
           fields={fields}
           updateField={updateFieldWithId}
+          updateFieldWithKey={updateField}
           addNote={addNote}
           editing={editing}
           toggleInUseModal={toggleInUse}
+          deviceTypes={deviceTypes}
+          config={config}
         />
       </CCardBody>
-      <ConfigurationInUseModal t={t} show={showInUse} toggle={toggleInUse} config={config} />
+      <ConfigurationInUseModal show={showInUse} toggle={toggleInUse} config={config} />
     </CCard>
   );
 };
