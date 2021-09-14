@@ -175,6 +175,7 @@
 		"edit_configuration": "Modifier la configuration",
 		"error_delete": "Erreur lors de la tentative de suppression : {{error}}",
 		"error_fetching_config": "Erreur lors de la récupération de la configuration",
+		"error_trying_delete": "Erreur lors de la tentative de suppression : {{error}}",
 		"last_configuration_change": "Dernière modification de configuration",
 		"last_configuration_download": "Téléchargement de la dernière configuration",
 		"location": "Emplacement",

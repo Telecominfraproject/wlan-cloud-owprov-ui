@@ -7,6 +7,7 @@ import { useAuth, useToast, useFormFields, EditConfigurationForm, useEntity } fr
 import { useTranslation } from 'react-i18next';
 import axiosInstance from 'utils/axiosInstance';
 import ConfigurationInUseModal from 'components/ConfigurationInUseModal';
+import DeleteConfigurationModal from 'components/DeleteConfigurationModal';
 
 const initialForm = {
   name: {
@@ -266,7 +267,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
             {'  '}
             <CPopover content={t('common.delete')}>
               <CButton
-                disabled={editing}
+                disabled={editing || config?.inUse?.length > 0}
                 color="primary"
                 variant="outline"
                 onClick={toggleDelete}
@@ -305,6 +306,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
         />
       </CCardBody>
       <ConfigurationInUseModal show={showInUse} toggle={toggleInUse} config={config} />
+      <DeleteConfigurationModal show={showDelete} toggle={toggleDelete} config={config} />
     </CCard>
   );
 };

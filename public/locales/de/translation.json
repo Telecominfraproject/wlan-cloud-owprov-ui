@@ -175,6 +175,7 @@
 		"edit_configuration": "Konfiguration bearbeiten",
 		"error_delete": "Fehler beim Versuch zu löschen: {{error}}",
 		"error_fetching_config": "Fehler beim Abrufen der Konfiguration",
+		"error_trying_delete": "Fehler beim Versuch zu löschen: {{error}}",
 		"last_configuration_change": "Letzte Konfigurationsänderung",
 		"last_configuration_download": "Letzter Konfigurations-Download",
 		"location": "Ort",

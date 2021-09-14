@@ -9,13 +9,14 @@ import {
   CButton,
   CAlert,
 } from '@coreui/react';
-import { useEntity, useAuth, useToast } from 'ucentral-libs';
+import { useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
-const DeleteEntityModal = ({ show, toggle }) => {
+const DeleteConfigurationModal = ({ show, toggle, config }) => {
   const { t } = useTranslation();
-  const { entity, deleteEntity } = useEntity();
+  const history = useHistory();
   const { currentToken, endpoints } = useAuth();
   const { addToast } = useToast();
   const [result, setResult] = useState(null);
@@ -31,12 +32,9 @@ const DeleteEntityModal = ({ show, toggle }) => {
     };
 
     axiosInstance
-      .get(
-        `${endpoints.owprov}/api/v1/${entity.isVenue ? 'venue' : 'entity'}/${entity.uuid}`,
-        options,
-      )
+      .get(`${endpoints.owprov}/api/v1/configurations/${config.id}`, options)
       .then((response) => {
-        if (response.data.children.length > 0 || response.data.venues?.length > 0) {
+        if (response.data.inUse.length > 0) {
           setCanDelete(false);
         } else {
           setCanDelete(true);
@@ -47,7 +45,7 @@ const DeleteEntityModal = ({ show, toggle }) => {
       });
   };
 
-  const deleteEntityApi = () => {
+  const deleteConfig = () => {
     setLoading(true);
     const options = {
       headers: {
@@ -57,26 +55,23 @@ const DeleteEntityModal = ({ show, toggle }) => {
     };
 
     axiosInstance
-      .delete(
-        `${endpoints.owprov}/api/v1/${entity.isVenue ? 'venue' : 'entity'}/${entity.uuid}`,
-        options,
-      )
+      .delete(`${endpoints.owprov}/api/v1/configurations/${config.id}`, options)
       .then(() => {
         addToast({
           title: t('common.success'),
-          body: entity.isVenue
-            ? t('inventory.successful_venue_delete')
-            : t('entity.delete_success'),
+          body: t('configuration.successful_delete'),
           color: 'success',
           autohide: true,
         });
-        deleteEntity(entity);
         toggle();
+        history.push('/configuration');
       })
-      .catch(() => {
+      .catch((e) => {
         setResult({
           success: false,
-          error: t('inventory.deletion_failure'),
+          error: t('configuration.error_trying_delete', {
+            error: e.response?.data?.ErrorDescription,
+          }),
         });
       })
       .finally(() => {
@@ -94,12 +89,9 @@ const DeleteEntityModal = ({ show, toggle }) => {
   const body = () => {
     if (!result) {
       if (!canDelete) {
-        return <CAlert color="danger">{t('entity.cannot_delete')}</CAlert>;
+        return <CAlert color="danger">{t('configuration.cannot_delete')}</CAlert>;
       }
       return <CAlert color="danger">{t('entity.delete_warning')}</CAlert>;
-    }
-    if (result.success) {
-      return <CAlert color="success">{t('entity.delete_success')}</CAlert>;
     }
     return <CAlert color="danger">{result.error}</CAlert>;
   };
@@ -108,14 +100,14 @@ const DeleteEntityModal = ({ show, toggle }) => {
     <CModal className="text-dark" show={show} onClose={toggle}>
       <CModalHeader>
         <CModalTitle>
-          {t('common.delete')} {entity?.name}
+          {t('common.delete')} {config?.name}
         </CModalTitle>
       </CModalHeader>
       <CModalBody className="px-5">{body()}</CModalBody>
       <CModalFooter>
         {result === null && canDelete ? (
           <>
-            <CButton disabled={loading} color="primary" onClick={deleteEntityApi}>
+            <CButton disabled={loading} color="primary" onClick={deleteConfig}>
               {t('common.delete')}
             </CButton>
             <CButton color="secondary" onClick={toggle}>
@@ -132,9 +124,14 @@ const DeleteEntityModal = ({ show, toggle }) => {
   );
 };
 
-DeleteEntityModal.propTypes = {
+DeleteConfigurationModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  config: PropTypes.instanceOf(Object),
 };
 
-export default DeleteEntityModal;
+DeleteConfigurationModal.defaultProps = {
+  config: null,
+};
+
+export default DeleteConfigurationModal;

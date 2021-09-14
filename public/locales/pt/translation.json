@@ -175,6 +175,7 @@
 		"edit_configuration": "Editar configuração",
 		"error_delete": "Erro ao tentar excluir: {{error}}",
 		"error_fetching_config": "Erro ao buscar configuração",
+		"error_trying_delete": "Erro ao tentar excluir: {{error}}",
 		"last_configuration_change": "Última Mudança de Configuração",
 		"last_configuration_download": "Último download da configuração",
 		"location": "Localização",
