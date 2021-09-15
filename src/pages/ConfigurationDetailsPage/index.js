@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CRow, CCol } from '@coreui/react';
 import ConfigurationInfoCard from 'components/ConfigurationInfoCard';
+import ConfigurationExplorer from 'components/ConfigurationExplorer';
 
 const ConfigurationDetailsPage = () => {
   const { configId } = useParams();
@@ -16,7 +17,7 @@ const ConfigurationDetailsPage = () => {
       </CRow>
       <CRow>
         <CCol>
-          <pre>{JSON.stringify(config, null, '\t')}</pre>
+          <ConfigurationExplorer config={config} />
         </CCol>
       </CRow>
     </div>
