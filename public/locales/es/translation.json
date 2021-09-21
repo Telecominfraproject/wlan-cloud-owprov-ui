@@ -8,6 +8,7 @@
 		"factory_reset": "Restablecimiento De Fábrica",
 		"firmware_upgrade": "Actualización de firmware",
 		"reboot": "Reiniciar",
+		"telemetry": "Telemetria",
 		"title": "Comandos",
 		"trace": "Rastro",
 		"wifi_scan": "Escaneo Wi-Fi "
@@ -22,10 +23,11 @@
 	},
 	"commands": {
 		"error": "¡Error al enviar el comando!",
+		"error_delete_log": "Error al intentar eliminar: {{error}}",
 		"event_queue": "Cola de eventos",
 		"success": "Comando enviado con éxito, puede consultar el registro de Comandos para ver el resultado",
 		"title": "Historial de Comandos",
-		"unable_queue": "No se pudo completar la solicitud de cola de eventos"
+		"unable_queue": "No se pudo completar la solicitud de cola de eventos: {{error}}"
 	},
 	"common": {
 		"access_policy": "Política de acceso",
@@ -141,6 +143,7 @@
 		"seconds_elapsed": "Segundos transcurridos",
 		"serial_number": "Número de serie",
 		"show_all": "Mostrar todo",
+		"socket_connection_closed": "¡Conexión cerrada!",
 		"start": "comienzo",
 		"stop_editing": "Dejar de editar",
 		"submit": "Enviar",
@@ -162,9 +165,11 @@
 		"yes": "Sí"
 	},
 	"configuration": {
+		"cannot_delete": "Esta configuración no se puede eliminar porque está siendo utilizada por al menos una entidad, lugar o dispositivo",
 		"configurations": "Configuraciones",
 		"create": "Crear Configuración",
 		"create_config": "Crear nueva configuración",
+		"create_new_configuration": "Crear nuevo elemento de configuración",
 		"created": "creado",
 		"creation_success": "¡Configuración creada con éxito!",
 		"delete_config": "Eliminar Configuración",
@@ -176,13 +181,15 @@
 		"error_delete": "Error al intentar eliminar: {{error}}",
 		"error_fetching_config": "Error al obtener la configuración",
 		"error_trying_delete": "Error al intentar eliminar: {{error}}",
-		"last_configuration_change": "Último cambio de configuración",
+		"error_update": "Error: {{error}}",
+		"last_configuration_change": "CAMBIO DE CONFIGURACIÓN",
 		"last_configuration_download": "Descarga de la última configuración",
 		"location": "Ubicación",
 		"need_device_type": "Cada configuración debe admitir al menos un tipo de dispositivo",
 		"note": "Nota",
 		"notes": "Notas",
 		"owner": "Propietario",
+		"success_update": "¡Configuración actualizada con éxito!",
 		"successful_delete": "Configuración eliminada!",
 		"support_all": "Apoyar a todos",
 		"supported_device_types": "Tipos de dispositivos compatibles",
@@ -201,6 +208,9 @@
 		"title": "Configurar",
 		"valid_json": "Debes ingresar un JSON válido"
 	},
+	"connect": {
+		"error_trying_to_connect": "Error al intentar conectarse al dispositivo: {{error}}"
+	},
 	"delete_command": {
 		"explanation": "¿Está seguro de que desea eliminar este comando? Esta acción no es reversible.",
 		"title": "Eliminar comando"
@@ -210,6 +220,10 @@
 		"device_logs_title": "Eliminar registros de dispositivos",
 		"explanation": "Esto eliminará todos los {{object}} antes de la fecha que elija. Tenga cuidado, esta acción no es reversible.",
 		"healthchecks_title": "Eliminar comprobaciones de estado"
+	},
+	"device": {
+		"error_fetching_device": "Error al obtener la información del dispositivo: {{error}}",
+		"error_fetching_devices": "Error al recuperar dispositivos: {{error}}"
 	},
 	"device_logs": {
 		"log": "Iniciar sesión",
@@ -417,10 +431,10 @@
 		"title": "estadística"
 	},
 	"status": {
-		"connection_status": "Estado de conexión",
+		"connection_status": "Estado",
 		"error": "Los datos de estado no están disponibles",
 		"last_contact": "Último contacto",
-		"load_averages": "Carga (promedio de 1/5/15 minutos)",
+		"load_averages": "Carga (1/5/15 m.)",
 		"localtime": "Hora local",
 		"memory": "Memoria usada",
 		"percentage_free": "{{percentage}}% de {{total}} gratis",
@@ -430,7 +444,21 @@
 		"used_total_memory": "{{used}} usado / {{total}} total"
 	},
 	"system": {
-		"error_fetching": "Error al obtener información del sistema"
+		"error_fetching": "Error al obtener información del sistema",
+		"error_reloading": "Error al recargar: {{error}}",
+		"hostname": "Nombre de host",
+		"os": "sistema operativo",
+		"processors": "Procesadores",
+		"reload": "Recargar",
+		"reload_subsystems": "Recargar subsistemas",
+		"subsystems": "Subsistemas",
+		"success_reload": "¡El comando de recarga se envió correctamente!"
+	},
+	"telemetry": {
+		"connection_failed": "No se pudo crear la conexión. Error: {{error}}",
+		"interval": "intervalo",
+		"last_update": "Última actualización",
+		"types": "Los tipos"
 	},
 	"trace": {
 		"choose_network": "Elija la red",
@@ -468,7 +496,7 @@
 		"create_success": "Usuario creado con éxito",
 		"creating": "Creando usuario ...",
 		"delete_avatar": "Eliminar avatar",
-		"delete_failure": "Error al intentar eliminar al usuario",
+		"delete_failure": "Error al intentar eliminar al usuario: {{error}}",
 		"delete_success": "¡Usuario eliminado correctamente!",
 		"delete_title": "Borrar usuario",
 		"delete_warning": "Advertencia: una vez que elimina un usuario, no puede revertir",
@@ -476,6 +504,7 @@
 		"description": "Descripción",
 		"edit": "editar usuario",
 		"email_address": "Dirección de correo electrónico",
+		"error_fetching_users": "Error al obtener usuarios: {{error}}",
 		"force_password_change": "Forzar cambio de contraseña al iniciar sesión",
 		"id": "Id. De usuario",
 		"last_login": "Último acceso",
@@ -491,7 +520,7 @@
 		"provide_password": "Proporcione una contraseña válida",
 		"save_avatar": "Guardar avatar",
 		"show_hide_password": "Mostrar / Ocultar contraseña",
-		"update_failure": "Asegúrese de que todos sus datos sean válidos. Si está modificando la contraseña, asegúrese de que no sea antigua.",
+		"update_failure": "Error al intentar actualizar: {{error}}",
 		"update_failure_title": "Actualización fallida",
 		"update_success": "Usuario actualizado con éxito",
 		"update_success_title": "Éxito",

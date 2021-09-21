@@ -8,6 +8,7 @@
 		"factory_reset": "Factory Reset",
 		"firmware_upgrade": "Firmware Upgrade",
 		"reboot": "Reboot",
+		"telemetry": "Telemetry",
 		"title": "Commands",
 		"trace": "Trace",
 		"wifi_scan": "Wi-Fi Scan"
@@ -22,10 +23,11 @@
 	},
 	"commands": {
 		"error": "Error while submitting command!",
+		"error_delete_log": "Error while trying to delete: {{error}}",
 		"event_queue": "Event Queue",
 		"success": "Command submitted successfully, you can look at the Commands log for the result",
 		"title": "Command History",
-		"unable_queue": "Unable to complete event queue request"
+		"unable_queue": "Unable to complete event queue request: {{error}}"
 	},
 	"common": {
 		"access_policy": "Access Policy",
@@ -141,6 +143,7 @@
 		"seconds_elapsed": "Seconds elapsed",
 		"serial_number": "Serial Number",
 		"show_all": "Show All",
+		"socket_connection_closed": "Connection closed!",
 		"start": "Start",
 		"stop_editing": "Stop Editing",
 		"submit": "Submit",
@@ -162,9 +165,11 @@
 		"yes": "Yes"
 	},
 	"configuration": {
+		"cannot_delete": "This configuration cannot be deleted because it is being used by at least one entity, venue or device",
 		"configurations": "Configurations",
 		"create": "Create Configuration",
 		"create_config": "Create New Configuration",
+		"create_new_configuration": "Create New Configuration Element",
 		"created": "Created",
 		"creation_success": "Configuration successfully created!",
 		"delete_config": "Delete Config",
@@ -176,13 +181,15 @@
 		"error_delete": "Error while trying to delete: {{error}}",
 		"error_fetching_config": "Error while fetching configuration",
 		"error_trying_delete": "Error while trying to delete: {{error}}",
-		"last_configuration_change": "Last Configuration Change",
+		"error_update": "Error: {{error}}",
+		"last_configuration_change": "Config Change",
 		"last_configuration_download": "Last Configuration Download",
 		"location": "Location",
 		"need_device_type": "Every configuration needs to support at least one device type",
 		"note": "Note",
 		"notes": "Notes",
 		"owner": "Owner",
+		"success_update": "Configuration Successfully Updated!",
 		"successful_delete": "Deleted Configuration!",
 		"support_all": "Support All",
 		"supported_device_types": "Supported Device Types",
@@ -201,6 +208,9 @@
 		"title": "Configure",
 		"valid_json": "You need to enter valid JSON"
 	},
+	"connect": {
+		"error_trying_to_connect": "Error while trying to connect to device: {{error}}"
+	},
 	"delete_command": {
 		"explanation": "Are you sure you want to delete this command? This action is not reversible.",
 		"title": "Delete Command"
@@ -210,6 +220,10 @@
 		"device_logs_title": "Delete Device Logs",
 		"explanation": "This will delete all of the {{object}} before the date you choose. Be careful, this action is not reversible.",
 		"healthchecks_title": "Delete Healthchecks"
+	},
+	"device": {
+		"error_fetching_device": "Error fetching device information: {{error}}",
+		"error_fetching_devices": "Error while fetching devices: {{error}}"
 	},
 	"device_logs": {
 		"log": "Log",
@@ -417,10 +431,10 @@
 		"title": "Statistics"
 	},
 	"status": {
-		"connection_status": "Connection Status",
+		"connection_status": "Status",
 		"error": "Status data is unavailable",
 		"last_contact": "Last Contact",
-		"load_averages": "Load ( 1 / 5 / 15 minute average)",
+		"load_averages": "Load (1/5/15 m.)",
 		"localtime": "Localtime",
 		"memory": "Memory Used",
 		"percentage_free": "{{percentage}}% of {{total}} free",
@@ -430,7 +444,21 @@
 		"used_total_memory": "{{used}} used / {{total}} total "
 	},
 	"system": {
-		"error_fetching": "Error while fetching system information"
+		"error_fetching": "Error while fetching system information",
+		"error_reloading": "Error while reloading: {{error}}",
+		"hostname": "Host Name",
+		"os": "Operation System",
+		"processors": "Processors",
+		"reload": "Reload",
+		"reload_subsystems": "Reload Subsystems",
+		"subsystems": "Subsystems",
+		"success_reload": "Reload command successfully submitted!"
+	},
+	"telemetry": {
+		"connection_failed": "Failed to create connection. Error: {{error}}",
+		"interval": "Interval",
+		"last_update": "Last Update",
+		"types": "Types"
 	},
 	"trace": {
 		"choose_network": "Choose network",
@@ -468,7 +496,7 @@
 		"create_success": "User Created Successfully",
 		"creating": "Creating User...",
 		"delete_avatar": "Delete Avatar",
-		"delete_failure": "Error while trying to delete user",
+		"delete_failure": "Error while trying to delete user: {{error}}",
 		"delete_success": "User successfully deleted!",
 		"delete_title": "Delete User",
 		"delete_warning": "Warning: Once you delete a user you cannot revert",
@@ -476,6 +504,7 @@
 		"description": "Description",
 		"edit": "Edit User",
 		"email_address": "Email Address",
+		"error_fetching_users": "Error fetching users: {{error}}",
 		"force_password_change": "Force Password Change on Login",
 		"id": "User Id.",
 		"last_login": "Last Login",
@@ -491,7 +520,7 @@
 		"provide_password": "Please provide a valid password",
 		"save_avatar": "Save Avatar",
 		"show_hide_password": "Show/Hide Password",
-		"update_failure": "Make sure all of your data is valid. If you are modifying the password, make sure it is not an old one.",
+		"update_failure": "Error while trying to update: {{error}}",
 		"update_failure_title": "Update Failed",
 		"update_success": "User Updated Successfully",
 		"update_success_title": "Success",

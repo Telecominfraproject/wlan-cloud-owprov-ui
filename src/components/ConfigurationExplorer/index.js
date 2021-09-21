@@ -64,7 +64,7 @@ const ConfigurationExplorer = ({ config }) => {
           {t('configuration.configurations')}
         </div>
       </CCardHeader>
-      <CCardBody>
+      <CCardBody className="px-2 pt-0">
         <CNav variant="tabs">
           {configurations.map((conf, index) => (
             <CNavLink
@@ -81,14 +81,14 @@ const ConfigurationExplorer = ({ config }) => {
           </CNavLink>
         </CNav>
         <CTabContent className="py-2">
-          <CTabPane key={createUuid()} active={key === -1}>
-            <DeviceConfigurationBody config={null} />
+          <CTabPane active>
+            <DeviceConfigurationBody
+              parentConfiguration={config}
+              config={key === -1 ? null : configurations[key]}
+              index={key}
+              refresh={getConfig}
+            />
           </CTabPane>
-          {configurations.map((conf, index) => (
-            <CTabPane key={createUuid()} active={key === index}>
-              <DeviceConfigurationBody config={conf} />
-            </CTabPane>
-          ))}
         </CTabContent>
       </CCardBody>
     </CCard>

@@ -6,7 +6,7 @@ export const BASE_FORM = {
     required: true,
   },
   weight: {
-    type: 'string',
+    type: 'int',
     value: 0,
     error: false,
     required: true,
