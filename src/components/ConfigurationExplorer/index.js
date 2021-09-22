@@ -52,19 +52,24 @@ const ConfigurationExplorer = ({ config }) => {
         const createdSections = [];
         const configs = response.data.configuration.map((conf) => {
           const section = JSON.parse(conf.configuration);
-          if (Object.keys(section).length === 1) createdSections.push(Object.keys(section)[0]);
+
+          for (const [sec] of Object.entries(section)) {
+            createdSections.push(sec);
+          }
+
           return {
             ...conf,
             configuration: section,
           };
         });
+
+        setNewSection(null);
         setExistingSections(createdSections);
         setConfigurations(configs);
         if (key >= configs.length) {
           if (configs.length > 0) setKey(0);
           else setKey(-1);
         }
-        setNewSection(null);
       })
       .catch(() => {
         setConfigurations([]);
@@ -80,6 +85,7 @@ const ConfigurationExplorer = ({ config }) => {
   const chooseNewSection = (e) => {
     setNewSection(e.target.id);
     setKey(-1);
+    toggle();
   };
 
   useEffect(() => {
@@ -180,11 +186,6 @@ const ConfigurationExplorer = ({ config }) => {
 };
 
 ConfigurationExplorer.propTypes = {
-  config: PropTypes.instanceOf(Object),
+  config: PropTypes.instanceOf(Object).isRequired,
 };
-
-ConfigurationExplorer.defaultProps = {
-  config: null,
-};
-
 export default ConfigurationExplorer;

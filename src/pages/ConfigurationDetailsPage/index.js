@@ -16,9 +16,7 @@ const ConfigurationDetailsPage = () => {
         </CCol>
       </CRow>
       <CRow>
-        <CCol>
-          <ConfigurationExplorer config={config} />
-        </CCol>
+        <CCol>{config !== null && <ConfigurationExplorer config={config} />}</CCol>
       </CRow>
     </div>
   );

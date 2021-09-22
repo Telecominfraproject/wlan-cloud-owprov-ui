@@ -4,9 +4,21 @@ import PropTypes from 'prop-types';
 import { CButton } from '@coreui/react';
 import { useFormFields, useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
-import { BASE_FORM, GLOBALS_FORM } from './constants';
+import { BASE_FORM, GLOBALS_FORM, METRICS_FORM, UNIT_FORM } from './constants';
 import Globals from './components/Globals';
 import Base from './components/Base';
+import Unit from './components/Unit';
+import Metrics from './components/Metrics';
+
+const initialSections = {
+  base: true,
+  globals: false,
+  unit: false,
+  service: false,
+  metrics: false,
+  radios: false,
+  interfaces: false,
+};
 
 const DeviceConfigurationBody = ({
   parentConfiguration,
@@ -19,13 +31,12 @@ const DeviceConfigurationBody = ({
   const { t } = useTranslation();
   const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
+  const [activeSections, setActiveSections] = useState(initialSections);
 
   const [baseFields, updateBaseWithId, , setBaseFields] = useFormFields(BASE_FORM);
 
-  // Information related to the globals part of the configuration
-  const [globalActive, setGlobalActive] = useState(false);
-  const [globalFields, updateGlobalWithId, updateGlobal, setGlobalFields] =
-    useFormFields(GLOBALS_FORM);
+  // Section's form
+  const [fields, updateWithId, updateField, setFields] = useFormFields({});
 
   const save = () => {
     // Creating our new config object
@@ -37,11 +48,34 @@ const DeviceConfigurationBody = ({
     }
 
     // Mapping globals
-    if (globalActive) {
+    if (activeSections.globals) {
       newConfig.configuration = { globals: {} };
 
-      for (const [key, field] of Object.entries(globalFields)) {
+      for (const [key, field] of Object.entries(fields)) {
         newConfig.configuration.globals[key] = field.value;
+      }
+    }
+
+    // Mapping unit
+    if (activeSections.unit) {
+      newConfig.configuration = { unit: {} };
+
+      for (const [key, field] of Object.entries(fields)) {
+        newConfig.configuration.unit[key] = field.value;
+      }
+    }
+
+    // Mapping metrics
+    if (activeSections.metrics) {
+      newConfig.configuration = { metrics: {} };
+
+      for (const [key, field] of Object.entries(fields)) {
+        if (field.enabled) {
+          newConfig.configuration.metrics[key] = {};
+          for (const [subKey, subField] of Object.entries(field)) {
+            newConfig.configuration.metrics[key][subKey] = subField.value;
+          }
+        }
       }
     }
 
@@ -130,6 +164,12 @@ const DeviceConfigurationBody = ({
   useEffect(() => {
     // Adding fields already defined in API to the UI
     if (config !== null) {
+      const sections = { ...initialSections };
+
+      for (const [sec] of Object.entries(config.configuration)) {
+        if (activeSections[sec] !== undefined) sections[sec] = true;
+      }
+
       // Mapping general info
       const base = { ...BASE_FORM };
       for (const [key, field] of Object.entries(config)) {
@@ -141,36 +181,80 @@ const DeviceConfigurationBody = ({
 
       // Mapping globals
       if (config.configuration.globals !== undefined) {
-        const globals = { ...GLOBALS_FORM };
+        const form = { ...GLOBALS_FORM };
         for (const [key, field] of Object.entries(config.configuration.globals)) {
-          if (globals[key] !== undefined) {
-            globals[key] = { ...globals[key], value: field };
+          if (form[key] !== undefined) {
+            form[key] = { ...form[key], value: field };
           }
         }
-        setGlobalActive(true);
-        setGlobalFields(globals);
-      } else {
-        setGlobalActive(false);
-        setGlobalFields(GLOBALS_FORM);
+        setFields(form);
       }
-    } else {
-      if (config === null && sectionToCreate !== null)
-        setBaseFields({
-          ...BASE_FORM,
-          name: {
-            type: 'string',
-            value: `${sectionToCreate.charAt(0).toUpperCase()}${sectionToCreate.slice(1)}`,
-            error: false,
-            required: true,
-          },
-        });
-      else setBaseFields(BASE_FORM);
-      setGlobalActive(false);
-      setGlobalFields(GLOBALS_FORM);
+
+      // Mapping unit
+      if (config.configuration.unit !== undefined) {
+        const form = { ...UNIT_FORM };
+        for (const [key, field] of Object.entries(config.configuration.unit)) {
+          if (form[key] !== undefined) {
+            form[key] = { ...form[key], value: field };
+          }
+        }
+        setFields(form);
+      }
+
+      // Mapping metrics
+      if (config.configuration.metrics !== undefined) {
+        const form = { ...METRICS_FORM };
+        for (const [key] of Object.entries(config.configuration.metrics)) {
+          if (form[key] !== undefined) {
+            // Metrics section contains nested parts, so we need to loop within those and enable them in our form
+            form[key] = { ...form[key], enabled: true };
+            for (const [subKey, subField] of Object.entries(config.configuration.metrics[key])) {
+              if (form[key][subKey] !== undefined) {
+                form[key][subKey] = { ...form[key][subKey], value: subField };
+              }
+            }
+          }
+        }
+        setFields(form);
+      }
+
+      // Showing to the user the sections that we should show based on the config
+      setActiveSections(sections);
+    }
+
+    // If we are creating a config and already know which section to show it
+    else if (sectionToCreate !== null) {
+      setBaseFields({
+        ...BASE_FORM,
+        name: {
+          type: 'string',
+          value: `${sectionToCreate.charAt(0).toUpperCase()}${sectionToCreate.slice(1)}`,
+          error: false,
+          required: true,
+        },
+      });
+
+      const newSections = { ...initialSections };
+
+      switch (sectionToCreate) {
+        case 'globals':
+          setFields(GLOBALS_FORM);
+          newSections.globals = true;
+          break;
+        case 'unit':
+          setFields(UNIT_FORM);
+          newSections.unit = true;
+          break;
+        case 'metrics':
+          setFields(METRICS_FORM);
+          newSections.metrics = true;
+          break;
+        default:
+          break;
+      }
+      setActiveSections({ ...newSections });
     }
   }, [config, sectionToCreate]);
-
-  useEffect(() => {}, [sectionToCreate]);
 
   if (config === null && sectionToCreate === null) {
     return (
@@ -192,14 +276,31 @@ const DeviceConfigurationBody = ({
         updateWithId={updateBaseWithId}
         refresh={refresh}
       />
-      <Globals
-        isActive={globalActive}
-        setActive={setGlobalActive}
-        fields={globalFields}
-        updateWithId={updateGlobalWithId}
-        updateField={updateGlobal}
-        setFields={setGlobalFields}
-      />
+      {activeSections.globals && (
+        <Globals
+          fields={fields}
+          updateWithId={updateWithId}
+          updateField={updateField}
+          setFields={setFields}
+        />
+      )}
+      {activeSections.unit && (
+        <Unit
+          fields={fields}
+          updateWithId={updateWithId}
+          updateField={updateField}
+          setFields={setFields}
+        />
+      )}
+      {activeSections.metrics && (
+        <Metrics
+          fields={fields}
+          updateWithId={updateWithId}
+          updateField={updateField}
+          setFields={setFields}
+        />
+      )}
+
       <pre>{JSON.stringify(config, null, '\t')}</pre>
     </div>
   );
