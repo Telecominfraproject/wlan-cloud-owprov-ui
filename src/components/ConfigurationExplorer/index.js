@@ -9,9 +9,17 @@ import {
   CTabContent,
   CNav,
   CNavLink,
+  CButton,
+  CModal,
+  CModalBody,
+  CModalHeader,
+  CModalTitle,
+  CPopover,
+  CRow,
+  CCol,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilPlus } from '@coreui/icons';
+import { cilPlus, cilX } from '@coreui/icons';
 import { useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -21,8 +29,13 @@ const ConfigurationExplorer = ({ config }) => {
   const { t } = useTranslation();
   const { currentToken, endpoints } = useAuth();
   const { addToast } = useToast();
+  const [show, setShow] = useState(false);
   const [configurations, setConfigurations] = useState([]);
+  const [existingSections, setExistingSections] = useState([]);
+  const [newSection, setNewSection] = useState(null);
   const [key, setKey] = useState(0);
+
+  const toggle = () => setShow(!show);
 
   const getConfig = () => {
     const options = {
@@ -36,11 +49,22 @@ const ConfigurationExplorer = ({ config }) => {
       .get(`${endpoints.owprov}/api/v1/configurations/${config.id}`, options)
       .then((response) => {
         // Parsing the nested configurations array into JSON objects
-        const configs = response.data.configuration.map((conf) => ({
-          ...conf,
-          configuration: JSON.parse(conf.configuration),
-        }));
+        const createdSections = [];
+        const configs = response.data.configuration.map((conf) => {
+          const section = JSON.parse(conf.configuration);
+          if (Object.keys(section).length === 1) createdSections.push(Object.keys(section)[0]);
+          return {
+            ...conf,
+            configuration: section,
+          };
+        });
+        setExistingSections(createdSections);
         setConfigurations(configs);
+        if (key >= configs.length) {
+          if (configs.length > 0) setKey(0);
+          else setKey(-1);
+        }
+        setNewSection(null);
       })
       .catch(() => {
         setConfigurations([]);
@@ -53,6 +77,11 @@ const ConfigurationExplorer = ({ config }) => {
       });
   };
 
+  const chooseNewSection = (e) => {
+    setNewSection(e.target.id);
+    setKey(-1);
+  };
+
   useEffect(() => {
     if (config) getConfig();
   }, [config]);
@@ -61,7 +90,7 @@ const ConfigurationExplorer = ({ config }) => {
     <CCard>
       <CCardHeader className="p-1">
         <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
-          {t('configuration.configurations')}
+          Configuration Blocks
         </div>
       </CCardHeader>
       <CCardBody className="px-2 pt-0">
@@ -76,7 +105,7 @@ const ConfigurationExplorer = ({ config }) => {
               {conf.name}
             </CNavLink>
           ))}
-          <CNavLink key={createUuid()} href="#" active={key === -1} onClick={() => setKey(-1)}>
+          <CNavLink key={createUuid()} href="#" active={key === -1} onClick={toggle}>
             <CIcon content={cilPlus} color="primary" />
           </CNavLink>
         </CNav>
@@ -85,12 +114,67 @@ const ConfigurationExplorer = ({ config }) => {
             <DeviceConfigurationBody
               parentConfiguration={config}
               config={key === -1 ? null : configurations[key]}
+              sectionToCreate={newSection}
               index={key}
               refresh={getConfig}
+              toggleSectionChoice={toggle}
             />
           </CTabPane>
         </CTabContent>
       </CCardBody>
+      <CModal show={show} onClose={toggle}>
+        <CModalHeader className="p-1">
+          <CModalTitle className="pl-1 pt-1">{t('configuration.add_new_block')}</CModalTitle>
+          <div className="text-right">
+            <CPopover content={t('common.close')}>
+              <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
+                <CIcon content={cilX} />
+              </CButton>
+            </CPopover>
+          </div>
+        </CModalHeader>
+        <CModalBody>
+          <CRow className="pb-4">
+            <CCol>{t('configuration.choose_section')}</CCol>
+          </CRow>
+          <CRow className="py-1">
+            <CCol className="text-center">
+              <CButton
+                color="primary"
+                id="globals"
+                onClick={chooseNewSection}
+                disabled={existingSections.indexOf('globals') >= 0}
+              >
+                Globals
+              </CButton>
+            </CCol>
+          </CRow>
+          <CRow className="py-1">
+            <CCol className="text-center">
+              <CButton
+                color="primary"
+                id="unit"
+                onClick={chooseNewSection}
+                disabled={existingSections.indexOf('unit') >= 0}
+              >
+                Unit
+              </CButton>
+            </CCol>
+          </CRow>
+          <CRow className="py-1">
+            <CCol className="text-center">
+              <CButton
+                color="primary"
+                id="metrics"
+                onClick={chooseNewSection}
+                disabled={existingSections.indexOf('metrics') >= 0}
+              >
+                Metrics
+              </CButton>
+            </CCol>
+          </CRow>
+        </CModalBody>
+      </CModal>
     </CCard>
   );
 };

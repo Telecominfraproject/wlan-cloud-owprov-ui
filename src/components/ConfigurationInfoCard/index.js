@@ -291,7 +291,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
           </CButtonToolbar>
         </div>
       </CCardHeader>
-      <CCardBody className="py-1">
+      <CCardBody className="py-0">
         <EditConfigurationForm
           t={t}
           disable={loading}

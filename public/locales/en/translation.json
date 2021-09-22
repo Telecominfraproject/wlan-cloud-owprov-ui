@@ -165,7 +165,9 @@
 		"yes": "Yes"
 	},
 	"configuration": {
+		"add_new_block": "Add new Configuration Block",
 		"cannot_delete": "This configuration cannot be deleted because it is being used by at least one entity, venue or device",
+		"choose_section": "Which section you would like this block to contain?",
 		"configurations": "Configurations",
 		"create": "Create Configuration",
 		"create_config": "Create New Configuration",
@@ -189,6 +191,7 @@
 		"note": "Note",
 		"notes": "Notes",
 		"owner": "Owner",
+		"success_block_delete": "Successfully deleted configuration block",
 		"success_update": "Configuration Successfully Updated!",
 		"successful_delete": "Deleted Configuration!",
 		"support_all": "Support All",
