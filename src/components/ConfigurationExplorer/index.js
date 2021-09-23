@@ -179,6 +179,30 @@ const ConfigurationExplorer = ({ config }) => {
               </CButton>
             </CCol>
           </CRow>
+          <CRow className="py-1">
+            <CCol className="text-center">
+              <CButton
+                color="primary"
+                id="radios"
+                onClick={chooseNewSection}
+                disabled={existingSections.indexOf('radios') >= 0}
+              >
+                Radios
+              </CButton>
+            </CCol>
+          </CRow>
+          <CRow className="py-1">
+            <CCol className="text-center">
+              <CButton
+                color="primary"
+                id="interfaces"
+                onClick={chooseNewSection}
+                disabled={existingSections.indexOf('interfaces') >= 0}
+              >
+                interfaces
+              </CButton>
+            </CCol>
+          </CRow>
         </CModalBody>
       </CModal>
     </CCard>

@@ -25,6 +25,10 @@ const initialForm = {
     value: '',
     error: false,
   },
+  rrm: {
+    value: '',
+    error: false,
+  },
   notes: {
     value: [],
     error: false,
@@ -111,6 +115,7 @@ const EntityInfoCard = () => {
         uuid: entity.uuid,
         name: fields.name.value,
         description: fields.description.value,
+        rrm: fields.rrm.value,
       };
 
       axiosInstance
@@ -263,6 +268,7 @@ const EntityInfoCard = () => {
           disable={loading}
           fields={fields}
           updateField={updateFieldWithId}
+          updateFieldDirectly={updateField}
           addNote={addNote}
           editing={editing}
         />

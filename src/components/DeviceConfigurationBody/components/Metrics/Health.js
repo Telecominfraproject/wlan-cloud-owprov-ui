@@ -1,20 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CRow, CCol, CCollapse } from '@coreui/react';
-import {
-  ConfigurationSectionToggler,
-  ConfigurationMulti,
-  ConfigurationIntField,
-} from 'ucentral-libs';
+import { ConfigurationSectionToggler, ConfigurationIntField } from 'ucentral-libs';
 
-const Statistics = ({ fields, updateWithId, updateField }) => (
+const Health = ({ fields, updateWithId, updateField }) => (
   <div>
     <CRow>
       <CCol>
         <ConfigurationSectionToggler
-          id="statistics"
-          label="statistics"
-          field={fields.statistics}
+          id="health"
+          label="health"
+          field={fields.health}
           updateField={updateField}
           firstCol="3"
           secondCol="9"
@@ -23,13 +19,13 @@ const Statistics = ({ fields, updateWithId, updateField }) => (
       </CCol>
       <CCol />
     </CRow>
-    <CCollapse show={fields.statistics.enabled}>
+    <CCollapse show={fields.health.enabled}>
       <CRow>
         <CCol>
           <ConfigurationIntField
-            id="statistics.interval"
+            id="health.interval"
             label="interval"
-            field={fields.statistics.interval}
+            field={fields.health.interval}
             updateField={updateWithId}
             firstCol="3"
             secondCol="9"
@@ -37,26 +33,16 @@ const Statistics = ({ fields, updateWithId, updateField }) => (
             disabled={false}
           />
         </CCol>
-        <CCol>
-          <ConfigurationMulti
-            id="statistics.types"
-            label="types"
-            field={fields.statistics.types}
-            updateField={updateField}
-            firstCol="3"
-            secondCol="9"
-            disabled={false}
-          />
-        </CCol>
+        <CCol />
       </CRow>
     </CCollapse>
   </div>
 );
 
-Statistics.propTypes = {
+Health.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateWithId: PropTypes.func.isRequired,
   updateField: PropTypes.func.isRequired,
 };
 
-export default Statistics;
+export default Health;

@@ -85,7 +85,7 @@ const InventoryTable = ({
     axiosInstance
       .get(`${endpoints.owprov}/api/v1/inventory`, options)
       .then((response) => {
-        setTags(response.data.tags);
+        setTags(response.data.taglist);
       })
       .catch(() => {
         addToast({

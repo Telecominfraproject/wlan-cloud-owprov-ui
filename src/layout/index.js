@@ -15,7 +15,7 @@ const TheLayout = () => {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
         logo="assets/OpenWiFi_LogoLockup_WhiteColour.svg"
-        redirectTo="/inventory"
+        redirectTo="/entity/0000-0000-0000"
       />
       <div className="c-wrapper">
         <Header
@@ -34,7 +34,7 @@ const TheLayout = () => {
         />
         <div className="c-body">
           <ToastProvider>
-            <PageContainer t={t} routes={routes} redirectTo="/inventory" />
+            <PageContainer t={t} routes={routes} redirectTo="/entity/0000-0000-0000" />
           </ToastProvider>
         </div>
         <Footer t={t} version={process.env.VERSION} />

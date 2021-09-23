@@ -6,11 +6,11 @@ import { cilSave, cilSync, cilTrash } from '@coreui/icons';
 import { ConfigurationStringField, ConfigurationIntField } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 
-const Base = ({ creating, fields, updateWithId, save, refresh, deleteConfig }) => {
+const Base = ({ creating, fields, updateWithId, save, refresh, canSave, deleteConfig }) => {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <div className="border-bottom mb-2">
       <CRow className="pb-3">
         <CCol>
           <h5 className="float-left pt-2">General Information</h5>
@@ -21,7 +21,13 @@ const Base = ({ creating, fields, updateWithId, save, refresh, deleteConfig }) =
               style={{ width: '150px' }}
             >
               <CPopover content={t('common.save')}>
-                <CButton color="primary" variant="outline" onClick={save} className="mx-1">
+                <CButton
+                  color="primary"
+                  variant="outline"
+                  onClick={save}
+                  className="mx-1"
+                  disabled={!canSave}
+                >
                   <CIcon name="cil-save" content={cilSave} />
                 </CButton>
               </CPopover>
@@ -98,6 +104,7 @@ Base.propTypes = {
   updateWithId: PropTypes.func.isRequired,
   save: PropTypes.func.isRequired,
   refresh: PropTypes.func.isRequired,
+  canSave: PropTypes.bool.isRequired,
   deleteConfig: PropTypes.func.isRequired,
 };
 

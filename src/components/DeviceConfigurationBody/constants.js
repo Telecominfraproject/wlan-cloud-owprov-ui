@@ -52,6 +52,16 @@ export const UNIT_FORM = {
     value: '',
     error: false,
     required: true,
+    options: [
+      'Universal Coordinated Time (UTC)',
+      'European Central Time (UTC+1:00)',
+      'Eastern European Time (UTC+2:00)',
+      '(Arabic) Egypt Standard Time (UTC+3:00)',
+      'Universal Coordinated Time (UTC)',
+      'Universal Coordinated Time (UTC)',
+      'Universal Coordinated Time (UTC)',
+      'Universal Coordinated Time (UTC)',
+    ],
   },
   'leds-active': {
     type: 'bool',

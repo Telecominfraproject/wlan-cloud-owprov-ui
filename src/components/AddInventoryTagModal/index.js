@@ -42,6 +42,11 @@ const initialForm = {
     error: false,
     required: true,
   },
+  rrm: {
+    value: '',
+    error: false,
+    required: true,
+  },
   description: {
     value: '',
     error: false,
@@ -96,6 +101,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
         description:
           fields.description.value.trim() !== '' ? fields.description.value.trim() : undefined,
         notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
+        rrm: fields.rrm.value,
       };
 
       axiosInstance
@@ -204,6 +210,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
             disable={loading}
             fields={fields}
             updateField={updateFieldWithId}
+            updateFieldDirectly={updateField}
             deviceTypes={deviceTypes}
           />
         )}

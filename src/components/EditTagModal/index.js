@@ -36,6 +36,11 @@ const initialForm = {
     error: false,
     required: true,
   },
+  rrm: {
+    value: 'off',
+    error: false,
+    required: true,
+  },
   venue: {
     value: '',
     error: false,
@@ -210,6 +215,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
           disable={loading}
           fields={fields}
           updateField={updateFieldWithId}
+          updateFieldDirectly={updateField}
           addNote={addNote}
           deviceTypes={deviceTypes}
         />

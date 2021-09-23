@@ -9,6 +9,8 @@ import Globals from './components/Globals';
 import Base from './components/Base';
 import Unit from './components/Unit';
 import Metrics from './components/Metrics';
+import Radios from './components/Radios';
+import Interfaces from './components/Interfaces';
 
 const initialSections = {
   base: true,
@@ -32,6 +34,7 @@ const DeviceConfigurationBody = ({
   const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
   const [activeSections, setActiveSections] = useState(initialSections);
+  const [canSave, setCanSave] = useState(false);
 
   const [baseFields, updateBaseWithId, , setBaseFields] = useFormFields(BASE_FORM);
 
@@ -77,6 +80,16 @@ const DeviceConfigurationBody = ({
           }
         }
       }
+    }
+
+    // Mapping radios
+    if (activeSections.radios) {
+      newConfig.configuration = { radios: fields.radios };
+    }
+
+    // Mapping interfaces
+    if (activeSections.interfaces) {
+      newConfig.configuration = { interfaces: fields.interfaces };
     }
 
     newConfig.configuration = JSON.stringify(newConfig.configuration);
@@ -164,6 +177,7 @@ const DeviceConfigurationBody = ({
   useEffect(() => {
     // Adding fields already defined in API to the UI
     if (config !== null) {
+      setCanSave(true);
       const sections = { ...initialSections };
 
       for (const [sec] of Object.entries(config.configuration)) {
@@ -218,6 +232,24 @@ const DeviceConfigurationBody = ({
         setFields(form);
       }
 
+      // Mapping radios
+      if (config.configuration.radios !== undefined) {
+        const newFields = {
+          radios: config.configuration.radios,
+        };
+
+        setFields(newFields);
+      }
+
+      // Mapping interfaces
+      if (config.configuration.interfaces !== undefined) {
+        const newFields = {
+          interfaces: config.configuration.interfaces,
+        };
+
+        setFields(newFields);
+      }
+
       // Showing to the user the sections that we should show based on the config
       setActiveSections(sections);
     }
@@ -238,16 +270,27 @@ const DeviceConfigurationBody = ({
 
       switch (sectionToCreate) {
         case 'globals':
+          setCanSave(true);
           setFields(GLOBALS_FORM);
           newSections.globals = true;
           break;
         case 'unit':
+          setCanSave(true);
           setFields(UNIT_FORM);
           newSections.unit = true;
           break;
         case 'metrics':
+          setCanSave(true);
           setFields(METRICS_FORM);
           newSections.metrics = true;
+          break;
+        case 'radios':
+          setCanSave(false);
+          newSections.radios = true;
+          break;
+        case 'interfaces':
+          setCanSave(false);
+          newSections.interfaces = true;
           break;
         default:
           break;
@@ -274,6 +317,7 @@ const DeviceConfigurationBody = ({
         creating={config === null}
         fields={baseFields}
         updateWithId={updateBaseWithId}
+        canSave={canSave}
         refresh={refresh}
       />
       {activeSections.globals && (
@@ -300,8 +344,26 @@ const DeviceConfigurationBody = ({
           setFields={setFields}
         />
       )}
-
-      <pre>{JSON.stringify(config, null, '\t')}</pre>
+      {activeSections.radios && (
+        <Radios
+          fields={fields}
+          creating={config === null}
+          updateWithId={updateWithId}
+          updateField={updateField}
+          setFields={setFields}
+          setCanSave={setCanSave}
+        />
+      )}
+      {activeSections.interfaces && (
+        <Interfaces
+          fields={fields}
+          creating={config === null}
+          updateWithId={updateWithId}
+          updateField={updateField}
+          setFields={setFields}
+          setCanSave={setCanSave}
+        />
+      )}
     </div>
   );
 };

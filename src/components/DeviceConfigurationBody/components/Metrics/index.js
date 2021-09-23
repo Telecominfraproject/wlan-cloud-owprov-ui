@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CRow, CCol } from '@coreui/react';
 import Statistics from './Statistics';
+import Health from './Health';
+import WifiFrames from './WifiFrames';
+import DhcpSnooping from './DhcpSnooping';
 
 const Metrics = ({ fields, updateWithId, updateField }) => (
   <div>
@@ -12,6 +15,9 @@ const Metrics = ({ fields, updateWithId, updateField }) => (
       <CCol sm="6" />
     </CRow>
     <Statistics fields={fields} updateWithId={updateWithId} updateField={updateField} />
+    <Health fields={fields} updateWithId={updateWithId} updateField={updateField} />
+    <WifiFrames fields={fields} updateField={updateField} />
+    <DhcpSnooping fields={fields} updateField={updateField} />
   </div>
 );
 
