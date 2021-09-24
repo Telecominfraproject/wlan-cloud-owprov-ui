@@ -12,19 +12,10 @@ import Metrics from './components/Metrics';
 import Radios from './components/Radios';
 import Interfaces from './components/Interfaces';
 
-const initialSections = {
-  base: true,
-  globals: false,
-  unit: false,
-  service: false,
-  metrics: false,
-  radios: false,
-  interfaces: false,
-};
-
 const DeviceConfigurationBody = ({
   parentConfiguration,
   config,
+  setNewBlock,
   index,
   sectionToCreate,
   refresh,
@@ -33,7 +24,7 @@ const DeviceConfigurationBody = ({
   const { t } = useTranslation();
   const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
-  const [activeSections, setActiveSections] = useState(initialSections);
+  const [activeSection, setActiveSection] = useState('');
   const [canSave, setCanSave] = useState(false);
 
   const [baseFields, updateBaseWithId, , setBaseFields] = useFormFields(BASE_FORM);
@@ -41,7 +32,8 @@ const DeviceConfigurationBody = ({
   // Section's form
   const [fields, updateWithId, updateField, setFields] = useFormFields({});
 
-  const save = () => {
+  // Parsing blocks into valid json config
+  const parseBlock = () => {
     // Creating our new config object
     const newConfig = { configuration: {} };
 
@@ -51,25 +43,23 @@ const DeviceConfigurationBody = ({
     }
 
     // Mapping globals
-    if (activeSections.globals) {
+    if (activeSection === 'globals') {
       newConfig.configuration = { globals: {} };
 
       for (const [key, field] of Object.entries(fields)) {
         newConfig.configuration.globals[key] = field.value;
       }
     }
-
     // Mapping unit
-    if (activeSections.unit) {
+    else if (activeSection === 'unit') {
       newConfig.configuration = { unit: {} };
 
       for (const [key, field] of Object.entries(fields)) {
         newConfig.configuration.unit[key] = field.value;
       }
     }
-
     // Mapping metrics
-    if (activeSections.metrics) {
+    else if (activeSection === 'metrics') {
       newConfig.configuration = { metrics: {} };
 
       for (const [key, field] of Object.entries(fields)) {
@@ -81,18 +71,23 @@ const DeviceConfigurationBody = ({
         }
       }
     }
-
     // Mapping radios
-    if (activeSections.radios) {
+    else if (activeSection === 'radios') {
       newConfig.configuration = { radios: fields.radios };
     }
-
     // Mapping interfaces
-    if (activeSections.interfaces) {
+    else if (activeSection === 'interfaces') {
       newConfig.configuration = { interfaces: fields.interfaces };
     }
 
     newConfig.configuration = JSON.stringify(newConfig.configuration);
+
+    return newConfig;
+  };
+
+  const save = () => {
+    // Creating our new config object
+    const newConfig = parseBlock();
 
     const newArray = parentConfiguration.configuration;
     if (index >= 0) newArray[index] = newConfig;
@@ -133,6 +128,11 @@ const DeviceConfigurationBody = ({
           autohide: true,
         });
       });
+  };
+
+  const onEdit = () => {
+    const newBlock = parseBlock();
+    if (newBlock.configuration) setNewBlock(newBlock.configuration);
   };
 
   const deleteConfigBlock = () => {
@@ -178,11 +178,7 @@ const DeviceConfigurationBody = ({
     // Adding fields already defined in API to the UI
     if (config !== null) {
       setCanSave(true);
-      const sections = { ...initialSections };
-
-      for (const [sec] of Object.entries(config.configuration)) {
-        if (activeSections[sec] !== undefined) sections[sec] = true;
-      }
+      const newActiveSection = Object.keys(config.configuration)[0];
 
       // Mapping general info
       const base = { ...BASE_FORM };
@@ -194,7 +190,7 @@ const DeviceConfigurationBody = ({
       setBaseFields(base);
 
       // Mapping globals
-      if (config.configuration.globals !== undefined) {
+      if (newActiveSection === 'globals') {
         const form = { ...GLOBALS_FORM };
         for (const [key, field] of Object.entries(config.configuration.globals)) {
           if (form[key] !== undefined) {
@@ -203,9 +199,8 @@ const DeviceConfigurationBody = ({
         }
         setFields(form);
       }
-
       // Mapping unit
-      if (config.configuration.unit !== undefined) {
+      else if (newActiveSection === 'unit') {
         const form = { ...UNIT_FORM };
         for (const [key, field] of Object.entries(config.configuration.unit)) {
           if (form[key] !== undefined) {
@@ -214,9 +209,8 @@ const DeviceConfigurationBody = ({
         }
         setFields(form);
       }
-
       // Mapping metrics
-      if (config.configuration.metrics !== undefined) {
+      else if (newActiveSection === 'metrics') {
         const form = { ...METRICS_FORM };
         for (const [key] of Object.entries(config.configuration.metrics)) {
           if (form[key] !== undefined) {
@@ -231,18 +225,16 @@ const DeviceConfigurationBody = ({
         }
         setFields(form);
       }
-
       // Mapping radios
-      if (config.configuration.radios !== undefined) {
+      else if (newActiveSection === 'radios') {
         const newFields = {
           radios: config.configuration.radios,
         };
 
         setFields(newFields);
       }
-
       // Mapping interfaces
-      if (config.configuration.interfaces !== undefined) {
+      else if (newActiveSection === 'interfaces') {
         const newFields = {
           interfaces: config.configuration.interfaces,
         };
@@ -251,7 +243,7 @@ const DeviceConfigurationBody = ({
       }
 
       // Showing to the user the sections that we should show based on the config
-      setActiveSections(sections);
+      setActiveSection(newActiveSection);
     }
 
     // If we are creating a config and already know which section to show it
@@ -265,39 +257,39 @@ const DeviceConfigurationBody = ({
           required: true,
         },
       });
-
-      const newSections = { ...initialSections };
-
       switch (sectionToCreate) {
         case 'globals':
           setCanSave(true);
           setFields(GLOBALS_FORM);
-          newSections.globals = true;
+          setActiveSection('globals');
           break;
         case 'unit':
           setCanSave(true);
           setFields(UNIT_FORM);
-          newSections.unit = true;
+          setActiveSection('unit');
           break;
         case 'metrics':
           setCanSave(true);
           setFields(METRICS_FORM);
-          newSections.metrics = true;
+          setActiveSection('metrics');
           break;
         case 'radios':
           setCanSave(false);
-          newSections.radios = true;
+          setActiveSection('radios');
           break;
         case 'interfaces':
           setCanSave(false);
-          newSections.interfaces = true;
+          setActiveSection('interfaces');
           break;
         default:
           break;
       }
-      setActiveSections({ ...newSections });
     }
   }, [config, sectionToCreate]);
+
+  useEffect(() => {
+    onEdit();
+  }, [fields]);
 
   if (config === null && sectionToCreate === null) {
     return (
@@ -320,7 +312,7 @@ const DeviceConfigurationBody = ({
         canSave={canSave}
         refresh={refresh}
       />
-      {activeSections.globals && (
+      {activeSection === 'globals' && (
         <Globals
           fields={fields}
           updateWithId={updateWithId}
@@ -328,7 +320,7 @@ const DeviceConfigurationBody = ({
           setFields={setFields}
         />
       )}
-      {activeSections.unit && (
+      {activeSection === 'unit' && (
         <Unit
           fields={fields}
           updateWithId={updateWithId}
@@ -336,7 +328,7 @@ const DeviceConfigurationBody = ({
           setFields={setFields}
         />
       )}
-      {activeSections.metrics && (
+      {activeSection === 'metrics' && (
         <Metrics
           fields={fields}
           updateWithId={updateWithId}
@@ -344,7 +336,7 @@ const DeviceConfigurationBody = ({
           setFields={setFields}
         />
       )}
-      {activeSections.radios && (
+      {activeSection === 'radios' && (
         <Radios
           fields={fields}
           creating={config === null}
@@ -354,7 +346,7 @@ const DeviceConfigurationBody = ({
           setCanSave={setCanSave}
         />
       )}
-      {activeSections.interfaces && (
+      {activeSection === 'interfaces' && (
         <Interfaces
           fields={fields}
           creating={config === null}
@@ -371,6 +363,7 @@ const DeviceConfigurationBody = ({
 DeviceConfigurationBody.propTypes = {
   parentConfiguration: PropTypes.instanceOf(Object).isRequired,
   config: PropTypes.instanceOf(Object),
+  setNewBlock: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   sectionToCreate: PropTypes.string,
   refresh: PropTypes.func.isRequired,

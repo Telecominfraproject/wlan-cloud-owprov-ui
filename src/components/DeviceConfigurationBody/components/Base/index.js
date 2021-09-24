@@ -33,7 +33,13 @@ const Base = ({ creating, fields, updateWithId, save, refresh, canSave, deleteCo
               </CPopover>
               {'  '}
               <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
-                <CButton color="primary" variant="outline" onClick={deleteConfig} className="mx-1">
+                <CButton
+                  color="primary"
+                  variant="outline"
+                  onClick={deleteConfig}
+                  className="mx-1"
+                  disabled={creating}
+                >
                   <CIcon name="cil-trash" content={cilTrash} />
                 </CButton>
               </CPopover>
