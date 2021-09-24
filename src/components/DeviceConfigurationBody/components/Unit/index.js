@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CRow, CCol } from '@coreui/react';
-import { ConfigurationStringField, ConfigurationToggle } from 'ucentral-libs';
+import { ConfigurationSelect, ConfigurationStringField, ConfigurationToggle } from 'ucentral-libs';
 
 const Unit = ({ fields, updateWithId, updateField }) => (
   <div>
@@ -32,14 +32,13 @@ const Unit = ({ fields, updateWithId, updateField }) => (
         />
       </CCol>
       <CCol md="6" xxl="4">
-        <ConfigurationStringField
+        <ConfigurationSelect
           id="timezone"
           label="timezone"
           field={fields.timezone}
-          updateField={updateWithId}
+          updateField={updateField}
           firstCol="3"
           secondCol="9"
-          errorMessage="Error!!!!"
           disabled={false}
         />
       </CCol>
