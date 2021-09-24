@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import { CButton } from '@coreui/react';
 import { useFormFields, useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
-import { BASE_FORM, GLOBALS_FORM, METRICS_FORM, UNIT_FORM } from './constants';
+import { BASE_FORM, GLOBALS_FORM, METRICS_FORM, SERVICES_FORM, UNIT_FORM } from './constants';
 import Globals from './components/Globals';
 import Base from './components/Base';
 import Unit from './components/Unit';
 import Metrics from './components/Metrics';
 import Radios from './components/Radios';
 import Interfaces from './components/Interfaces';
+import Services from './components/Services';
 
 const DeviceConfigurationBody = ({
   parentConfiguration,
@@ -67,6 +68,19 @@ const DeviceConfigurationBody = ({
           newConfig.configuration.metrics[key] = {};
           for (const [subKey, subField] of Object.entries(field)) {
             newConfig.configuration.metrics[key][subKey] = subField.value;
+          }
+        }
+      }
+    }
+    // Mapping services
+    else if (activeSection === 'services') {
+      newConfig.configuration = { services: {} };
+
+      for (const [key, field] of Object.entries(fields)) {
+        if (field.enabled) {
+          newConfig.configuration.services[key] = {};
+          for (const [subKey, subField] of Object.entries(field)) {
+            newConfig.configuration.services[key][subKey] = subField.value;
           }
         }
       }
@@ -225,6 +239,22 @@ const DeviceConfigurationBody = ({
         }
         setFields(form);
       }
+      // Mapping services
+      else if (newActiveSection === 'services') {
+        const form = { ...SERVICES_FORM };
+        for (const [key] of Object.entries(config.configuration.services)) {
+          if (form[key] !== undefined) {
+            // Services section contains nested parts, so we need to loop within those and enable them in our form
+            form[key] = { ...form[key], enabled: true };
+            for (const [subKey, subField] of Object.entries(config.configuration.services[key])) {
+              if (form[key][subKey] !== undefined) {
+                form[key][subKey] = { ...form[key][subKey], value: subField };
+              }
+            }
+          }
+        }
+        setFields(form);
+      }
       // Mapping radios
       else if (newActiveSection === 'radios') {
         const newFields = {
@@ -272,6 +302,11 @@ const DeviceConfigurationBody = ({
           setCanSave(true);
           setFields(METRICS_FORM);
           setActiveSection('metrics');
+          break;
+        case 'services':
+          setCanSave(true);
+          setFields(SERVICES_FORM);
+          setActiveSection('services');
           break;
         case 'radios':
           setCanSave(false);
@@ -348,6 +383,16 @@ const DeviceConfigurationBody = ({
       )}
       {activeSection === 'interfaces' && (
         <Interfaces
+          fields={fields}
+          creating={config === null}
+          updateWithId={updateWithId}
+          updateField={updateField}
+          setFields={setFields}
+          setCanSave={setCanSave}
+        />
+      )}
+      {activeSection === 'services' && (
+        <Services
           fields={fields}
           creating={config === null}
           updateWithId={updateWithId}

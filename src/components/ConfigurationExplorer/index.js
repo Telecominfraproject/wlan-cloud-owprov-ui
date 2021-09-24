@@ -29,7 +29,7 @@ const blocksObj = {
   unit: {},
   globals: {},
   metrics: {},
-  service: {},
+  services: {},
   radios: {},
   interfaces: {},
 };
@@ -204,6 +204,18 @@ const ConfigurationExplorer = ({ config }) => {
                 <CCol className="text-center">
                   <CButton
                     color="primary"
+                    id="services"
+                    onClick={chooseNewSection}
+                    disabled={existingSections.indexOf('services') >= 0}
+                  >
+                    Services
+                  </CButton>
+                </CCol>
+              </CRow>
+              <CRow className="py-1">
+                <CCol className="text-center">
+                  <CButton
+                    color="primary"
                     id="metrics"
                     onClick={chooseNewSection}
                     disabled={existingSections.indexOf('metrics') >= 0}
@@ -232,7 +244,7 @@ const ConfigurationExplorer = ({ config }) => {
                     onClick={chooseNewSection}
                     disabled={existingSections.indexOf('interfaces') >= 0}
                   >
-                    interfaces
+                    Interfaces
                   </CButton>
                 </CCol>
               </CRow>
@@ -249,7 +261,7 @@ const ConfigurationExplorer = ({ config }) => {
             [<pre className="pl-3">{JSON.stringify(orderedBlocks.unit, null, '\t')},</pre>
             <pre className="pl-3">{JSON.stringify(orderedBlocks.globals, null, '\t')},</pre>
             <pre className="pl-3">{JSON.stringify(orderedBlocks.metrics, null, '\t')},</pre>
-            <pre className="pl-3">{JSON.stringify(orderedBlocks.service, null, '\t')},</pre>
+            <pre className="pl-3">{JSON.stringify(orderedBlocks.services, null, '\t')},</pre>
             <pre className="pl-3">{JSON.stringify(orderedBlocks.radios, null, '\t')},</pre>
             <pre className="pl-3">{JSON.stringify(orderedBlocks.interfaces, null, '\t')}</pre>]
           </CCardBody>

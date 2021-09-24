@@ -153,3 +153,358 @@ export const METRICS_FORM = {
     },
   },
 };
+
+export const SERVICES_FORM = {
+  lldp: {
+    enabled: false,
+    describe: {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    location: {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+  },
+  ssh: {
+    enabled: false,
+    port: {
+      value: 22,
+      type: 'int',
+      error: false,
+      required: true,
+      maximum: 65535,
+    },
+    'authorized-keys': {
+      enabled: false,
+      filters: {
+        value: [],
+        type: 'multi-custom',
+        error: false,
+        required: true,
+      },
+    },
+    'password-authentication': {
+      type: 'bool',
+      value: false,
+      error: false,
+    },
+  },
+  ntp: {
+    enabled: false,
+    servers: {
+      enabled: false,
+      filters: {
+        value: [],
+        type: 'multi-custom',
+        error: false,
+        required: true,
+      },
+    },
+    'local-server': {
+      type: 'bool',
+      value: false,
+      error: false,
+    },
+  },
+  mdns: {
+    enabled: false,
+    enable: {
+      type: 'bool',
+      value: false,
+      error: false,
+    },
+  },
+  rrty: {
+    enabled: false,
+    host: {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    port: {
+      value: 5912,
+      type: 'int',
+      error: false,
+      required: true,
+      maximum: 65535,
+    },
+    token: {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+      maxLength: '32',
+      minLength: '32',
+    },
+  },
+  log: {
+    enabled: false,
+    host: {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    port: {
+      value: 5912,
+      type: 'int',
+      error: false,
+      required: true,
+      maximum: 65535,
+    },
+    proto: {
+      value: ['udp'],
+      type: 'multi',
+      error: false,
+      required: true,
+      options: ['udp', 'tcp'],
+    },
+    size: {
+      value: 1000,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 32,
+    },
+  },
+  http: {
+    enabled: false,
+    'http-port': {
+      value: 80,
+      type: 'int',
+      error: false,
+      required: true,
+      maximum: 65535,
+      minimum: 1,
+    },
+  },
+  igmp: {
+    enabled: false,
+    enable: {
+      type: 'bool',
+      value: false,
+      error: false,
+    },
+  },
+  ieee8021x: {
+    enabled: false,
+    'ca-certificate': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    'use-local-certificate': {
+      type: 'bool',
+      value: false,
+      error: false,
+    },
+    'server-certificate': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    'private-key': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    users: {
+      value: [],
+      type: 'multi-custom',
+      error: false,
+      required: true,
+    },
+  },
+  'radius-proxy': {
+    realms: {
+      value: [],
+      type: 'multi-custom',
+      error: false,
+      required: true,
+    },
+  },
+  'online-check': {
+    'ping-hosts': {
+      value: [],
+      type: 'multi-custom',
+      error: false,
+      required: true,
+    },
+    'download-hosts': {
+      value: [],
+      type: 'multi-custom',
+      error: false,
+      required: true,
+    },
+    'check-interval': {
+      value: 60,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 0,
+    },
+    'check-threshold': {
+      value: 1,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 0,
+    },
+    action: {
+      value: [],
+      type: 'multi',
+      error: false,
+      required: true,
+      options: ['wifi', 'leds'],
+    },
+  },
+  'open-flow': {
+    controller: {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+      format: 'cidr',
+    },
+    mode: {
+      value: [],
+      type: 'multi',
+      error: false,
+      required: true,
+      options: ['pssl', 'ptcp', 'ssl', 'tcp'],
+    },
+    'ca-certificate': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    'ssl-certificate': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    'private-key': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+  },
+  'data-plane': {
+    'ingress-filters': {
+      value: [],
+      type: 'multi-custom',
+      error: false,
+      required: true,
+    },
+  },
+  'wifi-steering': {
+    mode: {
+      value: [],
+      type: 'multi',
+      error: false,
+      required: true,
+      options: ['local', 'cloud'],
+    },
+    'assoc-steering': {
+      type: 'bool',
+      value: false,
+      error: false,
+    },
+    'required-snr': {
+      value: 0,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 0,
+    },
+    'required-probe-snr': {
+      value: 0,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 0,
+    },
+    'required-roam-snr': {
+      value: 0,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 0,
+    },
+    'load-kick-threshold': {
+      value: 0,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 0,
+    },
+    'auto-channel': {
+      type: 'bool',
+      value: false,
+      error: false,
+    },
+  },
+  'quality-of-service': {
+    'upload-rate': {
+      value: 0,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 0,
+    },
+    'download-rate': {
+      value: 0,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 0,
+    },
+  },
+  'facebook-wifi': {
+    'vendor-id': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    'gateway-id': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+    secret: {
+      type: 'string',
+      value: '',
+      error: false,
+      required: true,
+    },
+  },
+  'airtime-policies': {
+    'dns-match': {
+      value: [],
+      type: 'multi-custom',
+      error: false,
+      required: true,
+    },
+    'dns-weight': {
+      value: 256,
+      type: 'int',
+      error: false,
+      required: true,
+      minimum: 0,
+    },
+  },
+};
