@@ -6,7 +6,7 @@ import { ConfigurationSectionToggler, ConfigurationMulti } from 'ucentral-libs';
 const DhcpSnooping = ({ fields, updateField }) => (
   <div>
     <CRow>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationSectionToggler
           id="dhcp-snooping"
           label="dhcp-snooping"
@@ -21,7 +21,7 @@ const DhcpSnooping = ({ fields, updateField }) => (
     </CRow>
     <CCollapse show={fields['dhcp-snooping'].enabled}>
       <CRow>
-        <CCol>
+        <CCol md="6" xxl="4">
           <ConfigurationMulti
             id="dhcp-snooping.filters"
             label="filters"

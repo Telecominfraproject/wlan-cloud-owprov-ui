@@ -10,7 +10,7 @@ import {
 const Statistics = ({ fields, updateWithId, updateField }) => (
   <div>
     <CRow>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationSectionToggler
           id="statistics"
           label="statistics"
@@ -25,7 +25,7 @@ const Statistics = ({ fields, updateWithId, updateField }) => (
     </CRow>
     <CCollapse show={fields.statistics.enabled}>
       <CRow>
-        <CCol>
+        <CCol md="6" xxl="4">
           <ConfigurationIntField
             id="statistics.interval"
             label="interval"
@@ -37,7 +37,7 @@ const Statistics = ({ fields, updateWithId, updateField }) => (
             disabled={false}
           />
         </CCol>
-        <CCol>
+        <CCol md="6" xxl="4">
           <ConfigurationMulti
             id="statistics.types"
             label="types"

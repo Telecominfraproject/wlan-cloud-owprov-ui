@@ -5,14 +5,9 @@ import { ConfigurationStringField } from 'ucentral-libs';
 
 const Globals = ({ fields, updateWithId }) => (
   <div>
+    <h5>Globals Section</h5>
     <CRow>
-      <CCol sm="6">
-        <h5>Globals Section</h5>
-      </CCol>
-      <CCol sm="6" />
-    </CRow>
-    <CRow>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationStringField
           id="ipv4-network"
           label="ipv4-network"
@@ -24,7 +19,7 @@ const Globals = ({ fields, updateWithId }) => (
           disabled={false}
         />
       </CCol>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationStringField
           id="ipv6-network"
           label="ipv6-network"

@@ -60,7 +60,7 @@ const Base = ({ creating, fields, updateWithId, save, refresh, canSave, deleteCo
         </CCol>
       </CRow>
       <CRow>
-        <CCol>
+        <CCol md="6" xxl="4">
           <ConfigurationStringField
             id="name"
             label="name"
@@ -72,7 +72,7 @@ const Base = ({ creating, fields, updateWithId, save, refresh, canSave, deleteCo
             disabled={false}
           />
         </CCol>
-        <CCol>
+        <CCol md="6" xxl="4">
           <ConfigurationStringField
             id="description"
             label="description"
@@ -84,9 +84,7 @@ const Base = ({ creating, fields, updateWithId, save, refresh, canSave, deleteCo
             disabled={false}
           />
         </CCol>
-      </CRow>
-      <CRow>
-        <CCol sm="6">
+        <CCol md="6" xxl="4">
           <ConfigurationIntField
             id="weight"
             label="weight"

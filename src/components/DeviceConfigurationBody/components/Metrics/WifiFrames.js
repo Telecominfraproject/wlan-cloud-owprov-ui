@@ -6,7 +6,7 @@ import { ConfigurationSectionToggler, ConfigurationMulti } from 'ucentral-libs';
 const WifiFrames = ({ fields, updateField }) => (
   <div>
     <CRow>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationSectionToggler
           id="wifi-frames"
           label="wifi-frames"
@@ -21,7 +21,7 @@ const WifiFrames = ({ fields, updateField }) => (
     </CRow>
     <CCollapse show={fields['wifi-frames'].enabled}>
       <CRow>
-        <CCol>
+        <CCol md="6" xxl="4">
           <ConfigurationMulti
             id="wifi-frames.filters"
             label="filters"

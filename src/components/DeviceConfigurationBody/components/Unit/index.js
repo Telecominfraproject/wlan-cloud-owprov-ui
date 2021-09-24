@@ -5,14 +5,9 @@ import { ConfigurationStringField, ConfigurationToggle } from 'ucentral-libs';
 
 const Unit = ({ fields, updateWithId, updateField }) => (
   <div>
+    <h5>Unit Section</h5>
     <CRow>
-      <CCol sm="6">
-        <h5>Unit Section</h5>
-      </CCol>
-      <CCol sm="6" />
-    </CRow>
-    <CRow>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationStringField
           id="name"
           label="name"
@@ -24,7 +19,7 @@ const Unit = ({ fields, updateWithId, updateField }) => (
           disabled={false}
         />
       </CCol>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationStringField
           id="location"
           label="location"
@@ -36,9 +31,7 @@ const Unit = ({ fields, updateWithId, updateField }) => (
           disabled={false}
         />
       </CCol>
-    </CRow>
-    <CRow>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationStringField
           id="timezone"
           label="timezone"
@@ -50,7 +43,7 @@ const Unit = ({ fields, updateWithId, updateField }) => (
           disabled={false}
         />
       </CCol>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationToggle
           id="leds-active"
           label="leds-active"
@@ -61,9 +54,7 @@ const Unit = ({ fields, updateWithId, updateField }) => (
           disabled={false}
         />
       </CCol>
-    </CRow>
-    <CRow>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationToggle
           id="random-password"
           label="random-password"

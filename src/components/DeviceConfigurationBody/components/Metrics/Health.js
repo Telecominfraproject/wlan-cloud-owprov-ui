@@ -6,7 +6,7 @@ import { ConfigurationSectionToggler, ConfigurationIntField } from 'ucentral-lib
 const Health = ({ fields, updateWithId, updateField }) => (
   <div>
     <CRow>
-      <CCol>
+      <CCol md="6" xxl="4">
         <ConfigurationSectionToggler
           id="health"
           label="health"
@@ -21,7 +21,7 @@ const Health = ({ fields, updateWithId, updateField }) => (
     </CRow>
     <CCollapse show={fields.health.enabled}>
       <CRow>
-        <CCol>
+        <CCol md="6" xxl="4">
           <ConfigurationIntField
             id="health.interval"
             label="interval"
