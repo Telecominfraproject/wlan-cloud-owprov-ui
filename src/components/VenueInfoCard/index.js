@@ -34,6 +34,10 @@ const initialForm = {
     value: '',
     error: false,
   },
+  deviceConfiguration: {
+    value: '',
+    error: false,
+  },
   rrm: {
     value: '',
     error: false,

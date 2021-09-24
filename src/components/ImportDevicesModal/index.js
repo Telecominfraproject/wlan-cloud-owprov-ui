@@ -65,8 +65,8 @@ const ImportDevicesModal = ({ show, toggle, entity, refreshPageTables }) => {
 
   return (
     <CModal show={show} onClose={toggle} size="xl">
-      <CModalHeader>
-        <CModalTitle>
+      <CModalHeader className="p-1">
+        <CModalTitle className="pl-1 pt-1">
           {entity !== null
             ? t('inventory.import_devices_to', { name: entity?.name })
             : t('inventory.import_devices')}

@@ -150,9 +150,11 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
   }, [show]);
 
   return (
-    <CModal className="text-dark" size="xl" show={show} onClose={toggle}>
-      <CModalHeader>
-        <CModalTitle>{t('inventory.add_tag_to', { name: entity?.name })}</CModalTitle>
+    <CModal size="xl" show={show} onClose={toggle}>
+      <CModalHeader className="p-1">
+        <CModalTitle className="pl-1 pt-1">
+          {t('inventory.add_tag_to', { name: entity?.name })}
+        </CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.add')}>
             <CButton

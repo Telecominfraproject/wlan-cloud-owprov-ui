@@ -192,8 +192,8 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
 
   return (
     <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
-      <CModalHeader>
-        <CModalTitle>
+      <CModalHeader className="p-1">
+        <CModalTitle className="pl-1 pt-1">
           {t('common.edit')} {tag.name}
         </CModalTitle>
         <div className="text-right">

@@ -98,8 +98,8 @@ const DeleteConfigurationModal = ({ show, toggle, config }) => {
 
   return (
     <CModal className="text-dark" show={show} onClose={toggle}>
-      <CModalHeader>
-        <CModalTitle>
+      <CModalHeader className="p-1">
+        <CModalTitle className="pl-1 pt-1">
           {t('common.delete')} {config?.name}
         </CModalTitle>
       </CModalHeader>

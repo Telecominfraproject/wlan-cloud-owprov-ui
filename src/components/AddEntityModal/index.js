@@ -139,8 +139,8 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
 
   return (
     <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
-      <CModalHeader>
-        <CModalTitle>
+      <CModalHeader className="p-1">
+        <CModalTitle className="pl-1 pt-1">
           {creatingVenue
             ? t('inventory.add_child_venue', { entityName: entity?.name })
             : t('entity.add_child', { entityName: entity?.name })}

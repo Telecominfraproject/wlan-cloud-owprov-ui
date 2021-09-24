@@ -106,8 +106,8 @@ const AddConfigurationModal = ({ show, toggle, refresh }) => {
 
   return (
     <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
-      <CModalHeader>
-        <CModalTitle>{t('configuration.create')}</CModalTitle>
+      <CModalHeader className="p-1">
+        <CModalTitle className="pl-1 pt-1">{t('configuration.create')}</CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.add')}>
             <CButton color="primary" variant="outline" className="mx-2" onClick={addConfiguration}>

@@ -65,8 +65,8 @@ const ImportDevicesModal = ({ show, toggle, entity, refreshPageTables }) => {
 
   return (
     <CModal show={show} onClose={toggle} size="xl">
-      <CModalHeader>
-        <CModalTitle>{t('inventory.bulk_delete_devices')}</CModalTitle>
+      <CModalHeader className="p-1">
+        <CModalTitle className="pl-1 pt-1">{t('inventory.bulk_delete_devices')}</CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.back_to_start')}>
             <CButton color="primary" variant="outline" className="ml-2" onClick={reset}>
