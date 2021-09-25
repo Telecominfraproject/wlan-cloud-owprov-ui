@@ -180,13 +180,10 @@ export const SERVICES_FORM = {
       maximum: 65535,
     },
     'authorized-keys': {
-      enabled: false,
-      filters: {
-        value: [],
-        type: 'multi-custom',
-        error: false,
-        required: true,
-      },
+      value: [],
+      type: 'multi-input',
+      error: false,
+      required: true,
     },
     'password-authentication': {
       type: 'bool',
@@ -197,13 +194,11 @@ export const SERVICES_FORM = {
   ntp: {
     enabled: false,
     servers: {
-      enabled: false,
-      filters: {
-        value: [],
-        type: 'multi-custom',
-        error: false,
-        required: true,
-      },
+      value: [],
+      type: 'multi-input',
+      format: 'uc-host',
+      error: false,
+      required: true,
     },
     'local-server': {
       type: 'bool',
@@ -219,13 +214,14 @@ export const SERVICES_FORM = {
       error: false,
     },
   },
-  rrty: {
+  rtty: {
     enabled: false,
     host: {
       type: 'string',
       value: '',
       error: false,
       required: true,
+      format: 'uc-host',
     },
     port: {
       value: 5912,
@@ -250,6 +246,7 @@ export const SERVICES_FORM = {
       value: '',
       error: false,
       required: true,
+      format: 'uc-host',
     },
     port: {
       value: 5912,
@@ -325,6 +322,7 @@ export const SERVICES_FORM = {
     },
   },
   'radius-proxy': {
+    enabled: false,
     realms: {
       value: [],
       type: 'multi-custom',
@@ -333,9 +331,11 @@ export const SERVICES_FORM = {
     },
   },
   'online-check': {
+    enabled: false,
     'ping-hosts': {
       value: [],
-      type: 'multi-custom',
+      type: 'multi-input',
+      format: 'uc-host',
       error: false,
       required: true,
     },
@@ -368,6 +368,7 @@ export const SERVICES_FORM = {
     },
   },
   'open-flow': {
+    enabled: false,
     controller: {
       type: 'string',
       value: '',
@@ -402,6 +403,7 @@ export const SERVICES_FORM = {
     },
   },
   'data-plane': {
+    enabled: false,
     'ingress-filters': {
       value: [],
       type: 'multi-custom',
@@ -410,6 +412,7 @@ export const SERVICES_FORM = {
     },
   },
   'wifi-steering': {
+    enabled: false,
     mode: {
       value: [],
       type: 'multi',

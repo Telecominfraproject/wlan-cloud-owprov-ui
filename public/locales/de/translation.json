@@ -155,6 +155,8 @@
 		"timestamp": "Zeit",
 		"to": "zu",
 		"type": "Art",
+		"type_for_options": "Geben Sie den Wert ein, den Sie erstellen müssen...",
+		"type_for_options_format": "Geben Sie einen Wert im gültigen Format ein ({{format}})...",
 		"unable_to_connect": "Keine Verbindung zum Gerät möglich",
 		"unable_to_delete": "Löschen nicht möglich",
 		"unknown": "unbekannte",

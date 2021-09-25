@@ -155,6 +155,8 @@
 		"timestamp": "Time",
 		"to": "To",
 		"type": "Type",
+		"type_for_options": "Type the value you need to create...",
+		"type_for_options_format": "Type a value of the valid format ({{format}})...",
 		"unable_to_connect": "Unable to Connect to Device",
 		"unable_to_delete": "Unable to Delete",
 		"unknown": "Unknown",

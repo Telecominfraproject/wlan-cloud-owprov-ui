@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CRow, CCol, CCollapse } from '@coreui/react';
+import { CRow, CCol } from '@coreui/react';
 import { ConfigurationSectionToggler, ConfigurationMulti } from 'ucentral-libs';
 
 const DhcpSnooping = ({ fields, updateField }) => (
@@ -17,24 +17,18 @@ const DhcpSnooping = ({ fields, updateField }) => (
           disabled={false}
         />
       </CCol>
-      <CCol />
+      <CCol hidden={!fields['dhcp-snooping'].enabled} md="6" xxl="4">
+        <ConfigurationMulti
+          id="dhcp-snooping.filters"
+          label="filters"
+          field={fields['dhcp-snooping'].filters}
+          updateField={updateField}
+          firstCol="3"
+          secondCol="9"
+          disabled={false}
+        />
+      </CCol>
     </CRow>
-    <CCollapse show={fields['dhcp-snooping'].enabled}>
-      <CRow>
-        <CCol md="6" xxl="4">
-          <ConfigurationMulti
-            id="dhcp-snooping.filters"
-            label="filters"
-            field={fields['dhcp-snooping'].filters}
-            updateField={updateField}
-            firstCol="3"
-            secondCol="9"
-            disabled={false}
-          />
-        </CCol>
-        <CCol />
-      </CRow>
-    </CCollapse>
   </div>
 );
 

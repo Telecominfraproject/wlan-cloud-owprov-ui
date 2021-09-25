@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CRow, CCol, CCollapse } from '@coreui/react';
-import { ConfigurationSectionToggler, ConfigurationStringField } from 'ucentral-libs';
+import { ConfigurationSectionToggler, ConfigurationIntField } from 'ucentral-libs';
 
-const LLdp = ({ fields, updateField, updateWithId }) => (
+const QualityOfService = ({ fields, updateField, updateWithId }) => (
   <div>
     <CRow>
       <CCol md="6" xxl="4">
         <ConfigurationSectionToggler
-          id="lldp"
-          label="lldp"
-          field={fields.lldp}
+          id="quality-of-service"
+          label="quality-of-service"
+          field={fields['quality-of-service']}
           updateField={updateField}
           firstCol="3"
           secondCol="9"
@@ -19,14 +19,14 @@ const LLdp = ({ fields, updateField, updateWithId }) => (
       </CCol>
       <CCol />
     </CRow>
-    <CCollapse show={fields.lldp.enabled}>
-      {!fields.lldp.enabled ? null : (
+    <CCollapse show={fields['quality-of-service'].enabled}>
+      {!fields['quality-of-service'].enabled ? null : (
         <CRow>
           <CCol md="6" xxl="4">
-            <ConfigurationStringField
-              id="lldp.describe"
-              label="describe"
-              field={fields.lldp.describe}
+            <ConfigurationIntField
+              id="quality-of-service.upload-rate"
+              label="upload-rate"
+              field={fields['quality-of-service']['upload-rate']}
               updateField={updateWithId}
               firstCol="3"
               secondCol="9"
@@ -35,10 +35,10 @@ const LLdp = ({ fields, updateField, updateWithId }) => (
             />
           </CCol>
           <CCol md="6" xxl="4">
-            <ConfigurationStringField
-              id="lldp.location"
-              label="location"
-              field={fields.lldp.location}
+            <ConfigurationIntField
+              id="quality-of-service.download-rate"
+              label="download-rate"
+              field={fields['quality-of-service']['download-rate']}
               updateField={updateWithId}
               firstCol="3"
               secondCol="9"
@@ -52,10 +52,10 @@ const LLdp = ({ fields, updateField, updateWithId }) => (
   </div>
 );
 
-LLdp.propTypes = {
+QualityOfService.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
 };
 
-export default LLdp;
+export default QualityOfService;

@@ -159,7 +159,7 @@ const DeviceConfigurationBody = ({
 
     const newFullConfiguration = parentConfiguration;
     const newBlocks = newFullConfiguration.configuration;
-    newBlocks.splice(index);
+    newBlocks.splice(index, 1);
     newFullConfiguration.configuration = newBlocks;
     const parameters = newFullConfiguration;
 

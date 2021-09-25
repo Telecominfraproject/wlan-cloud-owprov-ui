@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CRow, CCol, CCollapse } from '@coreui/react';
+import { CRow, CCol } from '@coreui/react';
 import { ConfigurationSectionToggler, ConfigurationMulti } from 'ucentral-libs';
 
 const WifiFrames = ({ fields, updateField }) => (
@@ -17,24 +17,18 @@ const WifiFrames = ({ fields, updateField }) => (
           disabled={false}
         />
       </CCol>
-      <CCol />
+      <CCol hidden={!fields['wifi-frames'].enabled} md="6" xxl="4">
+        <ConfigurationMulti
+          id="wifi-frames.filters"
+          label="filters"
+          field={fields['wifi-frames'].filters}
+          updateField={updateField}
+          firstCol="3"
+          secondCol="9"
+          disabled={false}
+        />
+      </CCol>
     </CRow>
-    <CCollapse show={fields['wifi-frames'].enabled}>
-      <CRow>
-        <CCol md="6" xxl="4">
-          <ConfigurationMulti
-            id="wifi-frames.filters"
-            label="filters"
-            field={fields['wifi-frames'].filters}
-            updateField={updateField}
-            firstCol="3"
-            secondCol="9"
-            disabled={false}
-          />
-        </CCol>
-        <CCol />
-      </CRow>
-    </CCollapse>
   </div>
 );
 

@@ -155,6 +155,8 @@
 		"timestamp": "hora",
 		"to": "a",
 		"type": "Tipo",
+		"type_for_options": "Escriba el valor que necesita crear ...",
+		"type_for_options_format": "Escriba un valor del formato válido ({{format}}) ...",
 		"unable_to_connect": "No se puede conectar al dispositivo",
 		"unable_to_delete": "No se puede eliminar",
 		"unknown": "Desconocido",

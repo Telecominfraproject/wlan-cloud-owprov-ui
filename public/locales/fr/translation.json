@@ -155,6 +155,8 @@
 		"timestamp": "Temps",
 		"to": "à",
 		"type": "Type",
+		"type_for_options": "Tapez la valeur que vous devez créer...",
+		"type_for_options_format": "Saisissez une valeur au format valide ({{format}})...",
 		"unable_to_connect": "Impossible de se connecter à l'appareil",
 		"unable_to_delete": "Impossible de supprimer",
 		"unknown": "Inconnu",

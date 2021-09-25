@@ -26,6 +26,11 @@ const initialForm = {
     error: false,
     notEmpty: true,
   },
+  rrm: {
+    value: 'inherit',
+    error: false,
+    required: true,
+  },
 };
 
 const AddConfigurationModal = ({ show, toggle, refresh }) => {
@@ -70,6 +75,7 @@ const AddConfigurationModal = ({ show, toggle, refresh }) => {
         description: fields.description.value,
         notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
         deviceTypes: fields.deviceTypes.value,
+        rrm: fields.rrm.value,
       };
 
       axiosInstance

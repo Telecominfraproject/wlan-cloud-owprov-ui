@@ -40,6 +40,11 @@ const initialForm = {
     error: false,
     notEmpty: true,
   },
+  rrm: {
+    value: 'inherit',
+    error: false,
+    required: true,
+  },
 };
 
 const ConfigurationDetails = ({ configId, config, setConfig }) => {
@@ -189,6 +194,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
         name: fields.name.value,
         description: fields.description.value,
         deviceTypes: fields.deviceTypes.value,
+        rrm: fields.rrm.value,
       };
 
       axiosInstance
