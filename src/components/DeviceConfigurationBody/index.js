@@ -338,68 +338,125 @@ const DeviceConfigurationBody = ({
 
   return (
     <div>
-      <Base
-        save={save}
-        deleteConfig={deleteConfigBlock}
-        creating={config === null}
-        fields={baseFields}
-        updateWithId={updateBaseWithId}
-        canSave={canSave}
-        refresh={refresh}
-      />
       {activeSection === 'globals' && (
-        <Globals
-          fields={fields}
-          updateWithId={updateWithId}
-          updateField={updateField}
-          setFields={setFields}
-        />
+        <div>
+          <Base
+            save={save}
+            deleteConfig={deleteConfigBlock}
+            creating={config === null}
+            fields={baseFields}
+            updateWithId={updateBaseWithId}
+            canSave={canSave}
+            refresh={refresh}
+          />
+          <Globals
+            fields={fields}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            setFields={setFields}
+          />
+        </div>
       )}
       {activeSection === 'unit' && (
-        <Unit
-          fields={fields}
-          updateWithId={updateWithId}
-          updateField={updateField}
-          setFields={setFields}
-        />
+        <div>
+          <Base
+            save={save}
+            deleteConfig={deleteConfigBlock}
+            creating={config === null}
+            fields={baseFields}
+            updateWithId={updateBaseWithId}
+            canSave={canSave}
+            refresh={refresh}
+          />
+          <Unit
+            fields={fields}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            setFields={setFields}
+          />
+        </div>
       )}
       {activeSection === 'metrics' && (
-        <Metrics
-          fields={fields}
-          updateWithId={updateWithId}
-          updateField={updateField}
-          setFields={setFields}
-        />
+        <div>
+          <Base
+            save={save}
+            deleteConfig={deleteConfigBlock}
+            creating={config === null}
+            fields={baseFields}
+            updateWithId={updateBaseWithId}
+            canSave={canSave}
+            refresh={refresh}
+          />
+          <Metrics
+            fields={fields}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            setFields={setFields}
+          />
+        </div>
       )}
       {activeSection === 'radios' && (
-        <Radios
-          fields={fields}
-          creating={config === null}
-          updateWithId={updateWithId}
-          updateField={updateField}
-          setFields={setFields}
-          setCanSave={setCanSave}
-        />
+        <div>
+          <Base
+            save={save}
+            deleteConfig={deleteConfigBlock}
+            creating={config === null}
+            fields={baseFields}
+            updateWithId={updateBaseWithId}
+            canSave={canSave}
+            refresh={refresh}
+          />
+          <Radios
+            fields={fields}
+            creating={config === null}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            setFields={setFields}
+            setCanSave={setCanSave}
+          />
+        </div>
       )}
       {activeSection === 'interfaces' && (
-        <Interfaces
-          fields={fields}
-          creating={config === null}
-          updateWithId={updateWithId}
-          updateField={updateField}
-          setFields={setFields}
-          setCanSave={setCanSave}
-        />
+        <div>
+          <Base
+            save={save}
+            deleteConfig={deleteConfigBlock}
+            creating={config === null}
+            fields={baseFields}
+            updateWithId={updateBaseWithId}
+            canSave={canSave}
+            refresh={refresh}
+          />
+          <Interfaces
+            fields={fields}
+            creating={config === null}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            setFields={setFields}
+            setCanSave={setCanSave}
+          />
+        </div>
       )}
       {activeSection === 'services' && (
-        <Services
-          fields={fields}
-          creating={config === null}
-          updateWithId={updateWithId}
-          updateField={updateField}
-          setFields={setFields}
-          setCanSave={setCanSave}
-        />
+        <div>
+          <Base
+            save={save}
+            deleteConfig={deleteConfigBlock}
+            creating={config === null}
+            fields={baseFields}
+            updateWithId={updateBaseWithId}
+            canSave={canSave}
+            refresh={refresh}
+          />
+          <Services
+            fields={fields}
+            creating={config === null}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            setFields={setFields}
+            setCanSave={setCanSave}
+          />
+        </div>
       )}
     </div>
   );

@@ -341,7 +341,7 @@ export const SERVICES_FORM = {
     },
     'download-hosts': {
       value: [],
-      type: 'multi-custom',
+      type: 'multi-input',
       error: false,
       required: true,
     },
@@ -498,7 +498,7 @@ export const SERVICES_FORM = {
   'airtime-policies': {
     'dns-match': {
       value: [],
-      type: 'multi-custom',
+      type: 'multi-input',
       error: false,
       required: true,
     },
