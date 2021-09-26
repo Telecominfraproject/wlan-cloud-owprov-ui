@@ -389,13 +389,14 @@ const InventoryTable = ({
     axiosInstance
       .put(`${endpoints.owprov}/api/v1/inventory/${assocInfo.serialNumber}`, parameters, options)
       .then(() => {
+        toggleAssocEntity();
         addToast({
           title: t('common.success'),
           body: t('inventory.successful_assign'),
           color: 'success',
           autohide: true,
         });
-        if (refreshPageTables !== null) refresh();
+        if (refreshPageTables !== null) refreshPageTables();
         getCount();
       })
       .catch(() => {
