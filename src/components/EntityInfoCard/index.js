@@ -138,7 +138,6 @@ const EntityInfoCard = () => {
         name: fields.name.value,
         description: fields.description.value,
         rrm: fields.rrm.value,
-        deviceConfiguration: fields.deviceConfiguration.value,
       };
 
       axiosInstance
