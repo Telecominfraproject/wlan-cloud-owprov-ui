@@ -195,6 +195,7 @@
 		"last_configuration_download": "Letzter Konfigurations-Download",
 		"location": "Ort",
 		"need_device_type": "Jede Konfiguration muss mindestens einen Gerätetyp unterstützen",
+		"no_associated_config": "Keine zugehörige Konfiguration",
 		"no_associated_configuration": "Keine zugeordneten Konfigurationen",
 		"note": "Hinweis",
 		"notes": "Anmerkungen",

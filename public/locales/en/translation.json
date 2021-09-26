@@ -195,6 +195,7 @@
 		"last_configuration_download": "Last Configuration Download",
 		"location": "Location",
 		"need_device_type": "Every configuration needs to support at least one device type",
+		"no_associated_config": "No Associated Configuration",
 		"no_associated_configuration": "No Associated Configurations",
 		"note": "Note",
 		"notes": "Notes",
