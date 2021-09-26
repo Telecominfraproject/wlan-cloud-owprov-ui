@@ -106,7 +106,11 @@ const InventoryTable = ({
         }
 
         if (Object.keys(deviceConfigs).length === 0) {
-          setTags(newTags);
+          const tagsWithConf = newTags.map((tag) => ({
+            ...tag,
+            deviceConfigurationName: '',
+          }));
+          setTags(tagsWithConf);
           return null;
         }
         const configIds = Object.keys(deviceConfigs).join(',');
@@ -115,15 +119,17 @@ const InventoryTable = ({
         });
       })
       .then((response) => {
-        for (let i = 0; i < response.data.configurations.length; i += 1) {
-          const conf = response.data.configurations[i];
-          deviceConfigs[conf.id] = conf.name;
+        if (response) {
+          for (let i = 0; i < response.data.configurations.length; i += 1) {
+            const conf = response.data.configurations[i];
+            deviceConfigs[conf.id] = conf.name;
+          }
+          const tagsWithConf = newTags.map((tag) => ({
+            ...tag,
+            deviceConfigurationName: deviceConfigs[tag.deviceConfiguration] ?? '',
+          }));
+          setTags(tagsWithConf);
         }
-        const tagsWithConf = newTags.map((tag) => ({
-          ...tag,
-          deviceConfigurationName: deviceConfigs[tag.deviceConfiguration] ?? '',
-        }));
-        setTags(tagsWithConf);
       })
       .catch(() => {
         addToast({
