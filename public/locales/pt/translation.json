@@ -250,6 +250,8 @@
 		"add_success": "Entidade criada com sucesso!",
 		"assigned_inventory": "Estoque Atribuído",
 		"cannot_delete": "Você não pode excluir entidades que têm filhos. Exclua os filhos desta entidade para poder excluí-la.",
+		"currently_selected_entity": "Entidade atualmente selecionada: {{config}}",
+		"currently_selected_venue": "Local selecionado atualmente: {{config}}",
 		"delete_success": "Entidade excluída com sucesso",
 		"delete_warning": "Aviso: esta operação não pode ser revertida",
 		"edit_failure": "Atualização malsucedida: {{error}}",

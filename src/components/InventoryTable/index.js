@@ -20,6 +20,7 @@ import EditTagModal from 'components/EditTagModal';
 import ImportDevicesModal from 'components/ImportDevicesModal';
 import DeleteDevicesModal from 'components/DeleteDevicesModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
+import AssociateVenueEntityModal from 'components/AssociateVenueEntityModal';
 
 const InventoryTable = ({
   entity,
@@ -43,12 +44,19 @@ const InventoryTable = ({
   const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
   const [selectedTagId, setSelectedTagId] = useState(null);
   const [showAssoc, setShowAssoc] = useState(false);
+  const [showAssocEntity, setShowAssocEntity] = useState(false);
   const [assocInfo, setAssocInfo] = useState({ deviceConfiguration: '' });
 
   const toggleAssoc = (info) => {
     if (info) setAssocInfo(info);
     else setAssocInfo({ deviceConfiguration: '' });
     setShowAssoc(!showAssoc);
+  };
+
+  const toggleAssocEntity = (info) => {
+    if (info) setAssocInfo(info);
+    else setAssocInfo({ deviceConfiguration: '' });
+    setShowAssocEntity(!showAssocEntity);
   };
 
   // States needed for Inventory Table
@@ -365,6 +373,44 @@ const InventoryTable = ({
       });
   };
 
+  const assignFromMenu = (v) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const parameters = {
+      entity: v.type === 'entity' ? v.uuid : undefined,
+      venue: v.type === 'venue' ? v.uuid : undefined,
+    };
+
+    axiosInstance
+      .put(`${endpoints.owprov}/api/v1/inventory/${assocInfo.serialNumber}`, parameters, options)
+      .then(() => {
+        addToast({
+          title: t('common.success'),
+          body: t('inventory.successful_assign'),
+          color: 'success',
+          autohide: true,
+        });
+        if (refreshPageTables !== null) refresh();
+        getCount();
+      })
+      .catch(() => {
+        addToast({
+          title: t('common.error'),
+          body: t('inventory.assign_error'),
+          color: 'danger',
+          autohide: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
@@ -465,6 +511,7 @@ const InventoryTable = ({
             deleteTag={deleteTag}
             onlyUnassigned={onlyUnassigned}
             toggleAssociate={toggleAssoc}
+            toggleAssocEntity={toggleAssocEntity}
           />
         </CCardBody>
       </CCard>
@@ -492,6 +539,11 @@ const InventoryTable = ({
         toggle={toggleAssoc}
         defaultConfig={assocInfo}
         updateConfiguration={updateConfiguration}
+      />
+      <AssociateVenueEntityModal
+        show={showAssocEntity}
+        toggle={toggleAssocEntity}
+        updateConfiguration={assignFromMenu}
       />
     </div>
   );

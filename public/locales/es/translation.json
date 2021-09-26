@@ -250,6 +250,8 @@
 		"add_success": "¡Entidad creada con éxito!",
 		"assigned_inventory": "Inventario asignado",
 		"cannot_delete": "No puede eliminar entidades que tienen hijos. Elimina los hijos de esta entidad para poder eliminarla.",
+		"currently_selected_entity": "Entidad seleccionada actualmente: {{config}}",
+		"currently_selected_venue": "Lugar seleccionado actualmente: {{config}}",
 		"delete_success": "Entidad eliminada correctamente",
 		"delete_warning": "Advertencia: esta operación no se puede revertir",
 		"edit_failure": "Actualización fallida: {{error}}",

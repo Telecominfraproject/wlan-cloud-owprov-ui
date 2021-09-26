@@ -250,6 +250,8 @@
 		"add_success": "Entity Successfully Created!",
 		"assigned_inventory": "Assigned Inventory",
 		"cannot_delete": "You cannot delete entities which have children. Delete this entity's children to be able to delete it.",
+		"currently_selected_entity": "Currently Selected Entity: {{config}}",
+		"currently_selected_venue": "Currently Selected Venue: {{config}}",
 		"delete_success": "Entity Successfully Deleted",
 		"delete_warning": "Warning: this operation cannot be reverted",
 		"edit_failure": "Update unsuccessful : {{error}}",

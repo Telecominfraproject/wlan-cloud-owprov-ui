@@ -99,9 +99,11 @@ export const METRICS_FORM = {
     enabled: false,
     interval: {
       type: 'int',
-      value: 0,
+      value: 60,
       error: false,
       required: true,
+      minimum: 60,
+      maximum: 1000,
     },
     types: {
       value: [],
@@ -114,11 +116,12 @@ export const METRICS_FORM = {
   health: {
     enabled: false,
     interval: {
-      value: 60,
       type: 'int',
+      value: 60,
       error: false,
       required: true,
       minimum: 60,
+      maximum: 1000,
     },
   },
   'wifi-frames': {
