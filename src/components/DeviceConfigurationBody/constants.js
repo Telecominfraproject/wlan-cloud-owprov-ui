@@ -10,6 +10,8 @@ export const BASE_FORM = {
     value: 0,
     error: false,
     required: true,
+    minimum: 0,
+    maximum: 65535,
   },
   description: {
     type: 'string',
@@ -433,28 +435,24 @@ export const SERVICES_FORM = {
       type: 'int',
       error: false,
       required: true,
-      minimum: 0,
     },
     'required-probe-snr': {
       value: 0,
       type: 'int',
       error: false,
       required: true,
-      minimum: 0,
     },
     'required-roam-snr': {
       value: 0,
       type: 'int',
       error: false,
       required: true,
-      minimum: 0,
     },
     'load-kick-threshold': {
       value: 0,
       type: 'int',
       error: false,
       required: true,
-      minimum: 0,
     },
     'auto-channel': {
       type: 'bool',
