@@ -19,6 +19,7 @@ import { getItem, setItem } from 'utils/localStorageHelper';
 import EditTagModal from 'components/EditTagModal';
 import ImportDevicesModal from 'components/ImportDevicesModal';
 import DeleteDevicesModal from 'components/DeleteDevicesModal';
+import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 
 const InventoryTable = ({
   entity,
@@ -41,6 +42,14 @@ const InventoryTable = ({
   const [showImportModal, setShowImportModal] = useState(false);
   const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
   const [selectedTagId, setSelectedTagId] = useState(null);
+  const [showAssoc, setShowAssoc] = useState(false);
+  const [assocInfo, setAssocInfo] = useState({ deviceConfiguration: '' });
+
+  const toggleAssoc = (info) => {
+    if (info) setAssocInfo(info);
+    else setAssocInfo({ deviceConfiguration: '' });
+    setShowAssoc(!showAssoc);
+  };
 
   // States needed for Inventory Table
   const [loading, setLoading] = useState(false);
@@ -82,10 +91,39 @@ const InventoryTable = ({
         offset: tagPerPage * selectedPage + 1,
       },
     };
+
+    const deviceConfigs = {};
+    let newTags = [];
+
     axiosInstance
       .get(`${endpoints.owprov}/api/v1/inventory`, options)
       .then((response) => {
-        setTags(response.data.taglist);
+        newTags = response.data.taglist;
+
+        for (let i = 0; i < newTags.length; i += 1) {
+          const tag = newTags[i];
+          if (tag.deviceConfiguration !== '') deviceConfigs[tag.deviceConfiguration] = true;
+        }
+
+        if (Object.keys(deviceConfigs).length === 0) {
+          setTags(newTags);
+          return null;
+        }
+        const configIds = Object.keys(deviceConfigs).join(',');
+        return axiosInstance.get(`${endpoints.owprov}/api/v1/configurations?select=${configIds}`, {
+          headers: options.headers,
+        });
+      })
+      .then((response) => {
+        for (let i = 0; i < response.data.configurations.length; i += 1) {
+          const conf = response.data.configurations[i];
+          deviceConfigs[conf.id] = conf.name;
+        }
+        const tagsWithConf = newTags.map((tag) => ({
+          ...tag,
+          deviceConfigurationName: deviceConfigs[tag.deviceConfiguration] ?? '',
+        }));
+        setTags(tagsWithConf);
       })
       .catch(() => {
         addToast({
@@ -285,6 +323,42 @@ const InventoryTable = ({
 
   const refresh = () => getCount();
 
+  const updateConfiguration = (v) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const parameters = {
+      deviceConfiguration: v.uuid,
+    };
+
+    axiosInstance
+      .put(`${endpoints.owprov}/api/v1/inventory/${assocInfo.serialNumber}`, parameters, options)
+      .then(() => {
+        toggleAssoc();
+
+        refresh();
+
+        addToast({
+          title: t('common.success'),
+          body: t('common.saved'),
+          color: 'success',
+          autohide: true,
+        });
+      })
+      .catch(() => {
+        addToast({
+          title: t('common.error'),
+          body: t('inventory.tag_update_error'),
+          color: 'danger',
+          autohide: true,
+        });
+      });
+  };
+
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
@@ -384,6 +458,7 @@ const InventoryTable = ({
             toggleEditModal={toggleEditModal}
             deleteTag={deleteTag}
             onlyUnassigned={onlyUnassigned}
+            toggleAssociate={toggleAssoc}
           />
         </CCardBody>
       </CCard>
@@ -405,6 +480,12 @@ const InventoryTable = ({
         show={showBulkDeleteModal}
         toggle={toggleBulkDeleteModal}
         refreshPageTables={refreshPageTables}
+      />
+      <AssociateConfigurationModal
+        show={showAssoc}
+        toggle={toggleAssoc}
+        defaultConfig={assocInfo}
+        updateConfiguration={updateConfiguration}
       />
     </div>
   );

@@ -41,6 +41,12 @@ const initialForm = {
     error: false,
     required: true,
   },
+  deviceConfiguration: {
+    value: '',
+    uuid: '',
+    error: false,
+    ignore: true,
+  },
   venue: {
     value: '',
     error: false,
@@ -90,11 +96,24 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
         const newFields = fields;
         for (const [key] of Object.entries(newFields)) {
           if (response.data[key] !== undefined) {
-            newFields[key].value = response.data[key];
+            if (key !== 'deviceConfiguration') newFields[key].value = response.data[key];
+            else newFields.deviceConfiguration = { value: '', uuid: response.data[key] };
           }
         }
         setTag(response.data);
         setFormFields({ ...newFields });
+
+        if (response.data.deviceConfiguration !== '') {
+          return axiosInstance.get(
+            `${endpoints.owprov}/api/v1/configurations/${response.data.deviceConfiguration}`,
+            options,
+          );
+        }
+        return null;
+      })
+      .then((response) => {
+        if (response)
+          updateField('deviceConfiguration', { value: response.data.name, uuid: response.data.id });
       })
       .catch(() => {
         throw new Error('Error while fetching entity for edit');

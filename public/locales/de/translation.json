@@ -311,7 +311,7 @@
 		"add_child": "Untergeordneten Veranstaltungsort hinzufügen",
 		"add_child_venue": "Untergeordneten Veranstaltungsort zu {{entityName}}hinzufügen",
 		"add_tag": "Tag erstellen",
-		"add_tag_to": "Inventar-Tag zu {{name}}hinzufügen",
+		"add_tag_to": "Neues Gerät zu {{name}}hinzufügen",
 		"add_venue": "Veranstaltungsort hinzufügen",
 		"assign_entity_instructions": "Sie können die Entität, der dieses Tag zugewiesen werden soll, entweder über das Menü unten finden oder die UUID der Entität manuell in das Feld oben einfügen.",
 		"assign_error": "Fehler beim Versuch, Tag zuzuweisen",
