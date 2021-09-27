@@ -385,6 +385,7 @@
 		"tags_assigned_to": "Balises d'inventaire attribuées à {{name}}",
 		"test_import": "Valider les données d'importation",
 		"test_results": "Résultats de test",
+		"title": "Inventaire",
 		"type_invalid": "Erreur : Type de périphérique non valide",
 		"unassign": "Annuler l'attribution",
 		"unassign_tag": "Désaffecter la balise de l'entité",

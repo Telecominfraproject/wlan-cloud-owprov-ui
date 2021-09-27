@@ -36,7 +36,7 @@ const initialForm = {
     error: false,
   },
   rrm: {
-    value: '',
+    value: 'inherit',
     error: false,
   },
   deviceConfiguration: {
@@ -282,7 +282,9 @@ const VenueInfoCard = () => {
       <CCardHeader className="p-1">
         <CRow>
           <CCol sm="8">
-            <div className="text-value-lg">{entity?.name}</div>
+            <div className="text-value-lg">
+              {t('inventory.venue')}: {entity?.name}
+            </div>
           </CCol>
           <CCol sm="4" className="text-right">
             <CButtonToolbar role="group" className="justify-content-end">

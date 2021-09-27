@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import InventoryTable from 'components/InventoryTable';
 import AddInventoryTagModal from 'components/AddInventoryTagModal';
+import { useTranslation } from 'react-i18next';
 
 const InventoryPage = () => {
+  const { t } = useTranslation();
   const [showAddModal, setShowAddModal] = useState(false);
   const [refreshId, setRefreshId] = useState(0);
 
@@ -15,6 +17,7 @@ const InventoryPage = () => {
   return (
     <div>
       <InventoryTable
+        title={t('inventory.title')}
         entityPage={false}
         toggleAdd={toggleShowAdd}
         refreshId={refreshId}

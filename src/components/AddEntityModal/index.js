@@ -25,6 +25,11 @@ const initialForm = {
     value: '',
     error: false,
   },
+  rrm: {
+    value: 'inherit',
+    error: false,
+    required: true,
+  },
   note: {
     value: '',
     error: false,
@@ -67,6 +72,7 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
       const parameters = {
         name: fields.name.value,
         description: fields.description.value,
+        rrm: fields.rrm.value,
         notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
       };
 
@@ -159,7 +165,13 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
         </div>
       </CModalHeader>
       <CModalBody className="px-5">
-        <AddEntityForm t={t} disable={loading} fields={fields} updateField={updateFieldWithId} />
+        <AddEntityForm
+          t={t}
+          disable={loading}
+          fields={fields}
+          updateField={updateFieldWithId}
+          updateFieldDirectly={updateField}
+        />
       </CModalBody>
       {showResult()}
     </CModal>

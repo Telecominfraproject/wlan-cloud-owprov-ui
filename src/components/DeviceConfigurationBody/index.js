@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { CButton } from '@coreui/react';
 import { useFormFields, useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { BASE_FORM, GLOBALS_FORM, METRICS_FORM, SERVICES_FORM, UNIT_FORM } from './constants';
@@ -20,7 +19,6 @@ const DeviceConfigurationBody = ({
   index,
   sectionToCreate,
   refresh,
-  toggleSectionChoice,
 }) => {
   const { t } = useTranslation();
   const { endpoints, currentToken } = useAuth();
@@ -326,16 +324,6 @@ const DeviceConfigurationBody = ({
     onEdit();
   }, [fields]);
 
-  if (config === null && sectionToCreate === null) {
-    return (
-      <div className="text-center">
-        <CButton onClick={toggleSectionChoice} color="primary">
-          Choose Section to Create
-        </CButton>
-      </div>
-    );
-  }
-
   return (
     <div>
       {activeSection === 'globals' && (
@@ -469,7 +457,6 @@ DeviceConfigurationBody.propTypes = {
   index: PropTypes.number.isRequired,
   sectionToCreate: PropTypes.string,
   refresh: PropTypes.func.isRequired,
-  toggleSectionChoice: PropTypes.func.isRequired,
 };
 
 DeviceConfigurationBody.defaultProps = {

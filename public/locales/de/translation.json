@@ -385,6 +385,7 @@
 		"tags_assigned_to": "Inventar-Tags {{name}}zugewiesen",
 		"test_import": "Importdaten validieren",
 		"test_results": "Testergebnisse",
+		"title": "Inventar",
 		"type_invalid": "Fehler: Ungültiger Gerätetyp",
 		"unassign": "Zuordnung aufheben",
 		"unassign_tag": "Tag von Entität zuweisen",

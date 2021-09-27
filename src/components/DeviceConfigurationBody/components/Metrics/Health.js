@@ -1,41 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CRow, CCol, CCollapse } from '@coreui/react';
-import { ConfigurationSectionToggler, ConfigurationIntField } from 'ucentral-libs';
+import { CRow, CCol } from '@coreui/react';
+import {
+  ConfigurationElement,
+  ConfigurationSectionToggler,
+  ConfigurationIntField,
+} from 'ucentral-libs';
 
 const Health = ({ fields, updateWithId, updateField }) => (
   <div>
     <CRow>
-      <CCol md="6" xxl="4">
-        <ConfigurationSectionToggler
-          id="health"
-          label="health"
-          field={fields.health}
-          updateField={updateField}
-          firstCol="3"
-          secondCol="9"
-          disabled={false}
-        />
+      <CCol>
+        <ConfigurationElement
+          header={
+            <ConfigurationSectionToggler
+              id="health"
+              label="health"
+              field={fields.health}
+              updateField={updateField}
+              firstCol="3"
+              secondCol="9"
+              disabled={false}
+            />
+          }
+          enabled={fields.health.enabled}
+        >
+          <CRow>
+            <CCol>
+              <ConfigurationIntField
+                id="health.interval"
+                label="interval"
+                field={fields.health.interval}
+                updateField={updateWithId}
+                firstCol="3"
+                secondCol="9"
+                errorMessage="Error!!!!"
+                disabled={false}
+              />
+            </CCol>
+          </CRow>
+        </ConfigurationElement>
       </CCol>
-      <CCol />
     </CRow>
-    <CCollapse show={fields.health.enabled}>
-      <CRow>
-        <CCol md="6" xxl="4">
-          <ConfigurationIntField
-            id="health.interval"
-            label="interval"
-            field={fields.health.interval}
-            updateField={updateWithId}
-            firstCol="3"
-            secondCol="9"
-            errorMessage="Error!!!!"
-            disabled={false}
-          />
-        </CCol>
-        <CCol />
-      </CRow>
-    </CCollapse>
   </div>
 );
 

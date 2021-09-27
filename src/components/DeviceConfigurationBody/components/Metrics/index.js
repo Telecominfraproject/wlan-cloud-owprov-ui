@@ -1,4 +1,5 @@
 import React from 'react';
+import { CRow, CCol } from '@coreui/react';
 import PropTypes from 'prop-types';
 import Statistics from './Statistics';
 import Health from './Health';
@@ -8,10 +9,18 @@ import DhcpSnooping from './DhcpSnooping';
 const Metrics = ({ fields, updateWithId, updateField }) => (
   <div>
     <h5>Unit Section</h5>
-    <Statistics fields={fields} updateWithId={updateWithId} updateField={updateField} />
-    <Health fields={fields} updateWithId={updateWithId} updateField={updateField} />
-    <WifiFrames fields={fields} updateField={updateField} />
-    <DhcpSnooping fields={fields} updateField={updateField} />
+    <CRow>
+      <CCol xl="6" xxl="4">
+        <Statistics fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        <DhcpSnooping fields={fields} updateField={updateField} />
+      </CCol>
+      <CCol xl="6" xxl="4">
+        <Health fields={fields} updateWithId={updateWithId} updateField={updateField} />
+      </CCol>
+      <CCol xl="6" xxl="4">
+        <WifiFrames fields={fields} updateField={updateField} />
+      </CCol>
+    </CRow>
   </div>
 );
 

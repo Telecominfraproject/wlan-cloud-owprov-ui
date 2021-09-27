@@ -231,7 +231,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
     <CCard>
       <CCardHeader className="p-1">
         <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
-          {config?.name}
+          {t('configuration.title')}: {config?.name}
         </div>
         <div className="float-right">
           <CButtonToolbar role="group" className="justify-content-end">

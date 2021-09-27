@@ -385,6 +385,7 @@
 		"tags_assigned_to": "Tags de inventário atribuídas a {{name}}",
 		"test_import": "Validar dados de importação",
 		"test_results": "Resultado dos testes",
+		"title": "Inventário",
 		"type_invalid": "Erro: Tipo de dispositivo inválido",
 		"unassign": "Cancelar atribuição",
 		"unassign_tag": "Cancelar a atribuição de tag da entidade",

@@ -385,6 +385,7 @@
 		"tags_assigned_to": "Etiquetas de inventario asignadas a {{name}}",
 		"test_import": "Validar datos de importación",
 		"test_results": "Resultados de la prueba",
+		"title": "Inventario",
 		"type_invalid": "Error: tipo de dispositivo no válido",
 		"unassign": "Anular asignación",
 		"unassign_tag": "Anular asignación de etiqueta de entidad",

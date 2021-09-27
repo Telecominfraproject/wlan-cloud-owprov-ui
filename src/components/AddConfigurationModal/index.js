@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilX, cilPlus } from '@coreui/icons';
+import { cilX, cilSave } from '@coreui/icons';
 import { useToast, useFormFields, useAuth, AddConfigurationForm, useEntity } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -117,7 +117,7 @@ const AddConfigurationModal = ({ show, toggle, refresh }) => {
         <div className="text-right">
           <CPopover content={t('common.add')}>
             <CButton color="primary" variant="outline" className="mx-2" onClick={addConfiguration}>
-              <CIcon content={cilPlus} />
+              <CIcon content={cilSave} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>

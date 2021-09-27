@@ -254,7 +254,7 @@ const ConfigurationExplorer = ({ config }) => {
         <CCard>
           <CCardHeader className="p-1">
             <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
-              Raw JSON Configuration
+              Resulting Raw JSON Configuration
             </div>
           </CCardHeader>
           <CCardBody>
