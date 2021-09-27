@@ -21,6 +21,7 @@ import ImportDevicesModal from 'components/ImportDevicesModal';
 import DeleteDevicesModal from 'components/DeleteDevicesModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import AssociateVenueEntityModal from 'components/AssociateVenueEntityModal';
+import ComputerConfigModal from 'components/ComputedConfigModal';
 
 const InventoryTable = ({
   entity,
@@ -45,6 +46,7 @@ const InventoryTable = ({
   const [selectedTagId, setSelectedTagId] = useState(null);
   const [showAssoc, setShowAssoc] = useState(false);
   const [showAssocEntity, setShowAssocEntity] = useState(false);
+  const [showComputed, setShowComputed] = useState(false);
   const [assocInfo, setAssocInfo] = useState({ deviceConfiguration: '' });
 
   const toggleAssoc = (info) => {
@@ -72,6 +74,11 @@ const InventoryTable = ({
   const toggleEditModal = (tagId) => {
     setSelectedTagId(tagId);
     setShowEditModal(!showEditModal);
+  };
+
+  const toggleComputed = (tagId) => {
+    setSelectedTagId(tagId);
+    setShowComputed(!showComputed);
   };
 
   const toggleImportModal = () => {
@@ -308,10 +315,8 @@ const InventoryTable = ({
       },
     };
 
-    const parameters = {};
-
     axiosInstance
-      .delete(`${endpoints.owprov}/api/v1/inventory/${serialNumber}`, parameters, options)
+      .delete(`${endpoints.owprov}/api/v1/inventory/${serialNumber}`, options)
       .then(() => {
         addToast({
           title: t('common.success'),
@@ -513,6 +518,7 @@ const InventoryTable = ({
             onlyUnassigned={onlyUnassigned}
             toggleAssociate={toggleAssoc}
             toggleAssocEntity={toggleAssocEntity}
+            toggleComputed={toggleComputed}
           />
         </CCardBody>
       </CCard>
@@ -545,6 +551,11 @@ const InventoryTable = ({
         show={showAssocEntity}
         toggle={toggleAssocEntity}
         updateConfiguration={assignFromMenu}
+      />
+      <ComputerConfigModal
+        show={showComputed}
+        toggle={toggleComputed}
+        serialNumber={selectedTagId}
       />
     </div>
   );

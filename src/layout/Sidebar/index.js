@@ -120,6 +120,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           <CSidebarNavItem name="Table" to="/configuration" />
         </CSidebarNavDropdown>
         <CSidebarNavDropdown
+          hidden
           name="Managament Roles"
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
         />

@@ -191,6 +191,7 @@
 		"error_fetching_config": "Error al obtener la configuración",
 		"error_trying_delete": "Error al intentar eliminar: {{error}}",
 		"error_update": "Error: {{error}}",
+		"explanation": "Explicación",
 		"last_configuration_change": "CAMBIO DE CONFIGURACIÓN",
 		"last_configuration_download": "Descarga de la última configuración",
 		"location": "Ubicación",

@@ -191,6 +191,7 @@
 		"error_fetching_config": "Error while fetching configuration",
 		"error_trying_delete": "Error while trying to delete: {{error}}",
 		"error_update": "Error: {{error}}",
+		"explanation": "Explanation",
 		"last_configuration_change": "Config Change",
 		"last_configuration_download": "Last Configuration Download",
 		"location": "Location",

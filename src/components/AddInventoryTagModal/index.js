@@ -14,7 +14,7 @@ import {
   CPopover,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilX, cilPlus } from '@coreui/icons';
+import { cilX, cilSave } from '@coreui/icons';
 import InventoryTable from 'components/InventoryTable';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +43,7 @@ const initialForm = {
     required: true,
   },
   rrm: {
-    value: '',
+    value: 'inherit',
     error: false,
     required: true,
   },
@@ -153,10 +153,10 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
     <CModal size="xl" show={show} onClose={toggle}>
       <CModalHeader className="p-1">
         <CModalTitle className="pl-1 pt-1">
-          {t('inventory.add_tag_to', { name: entity?.name })}
+          {t('inventory.add_tag', { name: entity?.name })}
         </CModalTitle>
         <div className="text-right">
-          <CPopover content={t('common.add')}>
+          <CPopover content={t('common.save')}>
             <CButton
               color="primary"
               variant="outline"
@@ -164,7 +164,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
               onClick={addInventoryTag}
               disabled={activeTab !== 0}
             >
-              <CIcon content={cilPlus} />
+              <CIcon content={cilSave} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>

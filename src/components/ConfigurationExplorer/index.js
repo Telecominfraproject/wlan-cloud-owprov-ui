@@ -128,11 +128,11 @@ const ConfigurationExplorer = ({ config }) => {
         <CCard>
           <CCardHeader className="p-1">
             <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
-              Configuration Blocks
+              Configuration Sections
             </div>
           </CCardHeader>
-          <CCardBody className="px-2 pt-0">
-            <CNav variant="tabs">
+          <CCardBody className="py-0 px-0">
+            <CNav className="px-2" variant="tabs">
               {configurations.map((conf, index) => (
                 <CNavLink
                   key={createUuid()}
@@ -147,7 +147,7 @@ const ConfigurationExplorer = ({ config }) => {
                 <CIcon content={cilPlus} color="primary" />
               </CNavLink>
             </CNav>
-            <CTabContent className="py-2">
+            <CTabContent>
               <CTabPane active>
                 <DeviceConfigurationBody
                   parentConfiguration={config}

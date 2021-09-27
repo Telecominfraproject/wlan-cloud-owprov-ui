@@ -366,16 +366,14 @@ const DeviceConfigurationBody = ({
       )}
       {activeSection === 'metrics' && (
         <div>
-          <Base
+          <Metrics
             save={save}
             deleteConfig={deleteConfigBlock}
             creating={config === null}
-            fields={baseFields}
-            updateWithId={updateBaseWithId}
             canSave={canSave}
             refresh={refresh}
-          />
-          <Metrics
+            baseFields={baseFields}
+            updateBaseWithId={updateBaseWithId}
             fields={fields}
             updateWithId={updateWithId}
             updateField={updateField}
