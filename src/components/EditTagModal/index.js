@@ -37,7 +37,7 @@ const initialForm = {
     required: true,
   },
   rrm: {
-    value: 'off',
+    value: 'inherit',
     error: false,
     required: true,
   },
@@ -96,8 +96,11 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
         const newFields = fields;
         for (const [key] of Object.entries(newFields)) {
           if (response.data[key] !== undefined) {
-            if (key !== 'deviceConfiguration') newFields[key].value = response.data[key];
-            else newFields.deviceConfiguration = { value: '', uuid: response.data[key] };
+            if (key === 'deviceConfiguration')
+              newFields.deviceConfiguration = { value: '', uuid: response.data[key] };
+            else if (key === 'rrm')
+              newFields[key].value = response.data[key] === '' ? 'inherit' : response.data[key];
+            else newFields[key].value = response.data[key];
           }
         }
         setTag(response.data);

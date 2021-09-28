@@ -94,8 +94,11 @@ const VenueInfoCard = () => {
         const newFields = fields;
         for (const [key] of Object.entries(newFields)) {
           if (response.data[key] !== undefined) {
-            if (key !== 'deviceConfiguration') newFields[key].value = response.data[key];
-            else newFields.deviceConfiguration = { value: '', uuid: response.data[key] };
+            if (key === 'deviceConfiguration')
+              newFields.deviceConfiguration = { value: '', uuid: response.data[key] };
+            else if (key === 'rrm')
+              newFields[key].value = response.data[key] === '' ? 'inherit' : response.data[key];
+            else newFields[key].value = response.data[key];
           }
         }
         setFormFields({ ...newFields });

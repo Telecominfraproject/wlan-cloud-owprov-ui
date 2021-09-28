@@ -16,9 +16,8 @@ import {
 import CIcon from '@coreui/icons-react';
 import { cilPlus, cilX, cilSave } from '@coreui/icons';
 import { useTranslation } from 'react-i18next';
-import { useAuth, useToast } from 'ucentral-libs';
+import { useAuth, useToast, FormattedDate } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
-import { prettyDate } from 'utils/helper';
 
 const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
   const { t } = useTranslation();
@@ -163,7 +162,11 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
                   </CLink>
                 </td>
               ),
-              created: (item) => <td>{prettyDate(item.created)}</td>,
+              created: (item) => (
+                <td>
+                  <FormattedDate date={item.created} />
+                </td>
+              ),
               actions: (item) => (
                 <td>
                   <CPopover content={t('configuration.select_configuration')}>
@@ -201,7 +204,11 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
                   </CLink>
                 </td>
               ),
-              created: (item) => <td>{prettyDate(item.created)}</td>,
+              created: (item) => (
+                <td>
+                  <FormattedDate date={item.created} />
+                </td>
+              ),
               actions: (item) => (
                 <td>
                   <CPopover content={t('configuration.select_configuration')}>

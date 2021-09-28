@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CRow, CCol, CCollapse } from '@coreui/react';
+import { CRow, CCol } from '@coreui/react';
 import {
+  ConfigurationElement,
   ConfigurationSectionToggler,
   ConfigurationIntField,
   ConfigurationMultiWithInput,
@@ -13,49 +14,48 @@ const AirtimePolicies = ({ fields, updateField, updateWithId }) => {
   return (
     <div>
       <CRow>
-        <CCol md="6" xxl="4">
-          <ConfigurationSectionToggler
-            id="airtime-policies"
-            label="airtime-policies"
-            field={fields['airtime-policies']}
-            updateField={updateField}
-            firstCol="3"
-            secondCol="9"
-            disabled={false}
-          />
-        </CCol>
-        <CCol />
-      </CRow>
-      <CCollapse show={fields['airtime-policies'].enabled}>
-        {!fields['airtime-policies'].enabled ? null : (
-          <CRow>
-            <CCol md="6" xxl="4">
-              <ConfigurationMultiWithInput
-                t={t}
-                id="airtime-policies.dns-match"
-                label="dns-match"
-                field={fields['airtime-policies']['dns-match']}
+        <CCol>
+          <ConfigurationElement
+            header={
+              <ConfigurationSectionToggler
+                id="airtime-policies"
+                label="airtime-policies"
+                field={fields['airtime-policies']}
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
                 disabled={false}
               />
-            </CCol>
-            <CCol md="6" xxl="4">
-              <ConfigurationIntField
-                id="airtime-policies.dns-weight"
-                label="dns-weight"
-                field={fields['airtime-policies']['dns-weight']}
-                updateField={updateWithId}
-                firstCol="3"
-                secondCol="9"
-                errorMessage="Error!!!!"
-                disabled={false}
-              />
-            </CCol>
-          </CRow>
-        )}
-      </CCollapse>
+            }
+            enabled={fields['airtime-policies'].enabled}
+          >
+            <CRow>
+              <CCol>
+                <ConfigurationMultiWithInput
+                  t={t}
+                  id="airtime-policies.dns-match"
+                  label="dns-match"
+                  field={fields['airtime-policies']['dns-match']}
+                  updateField={updateField}
+                  firstCol="3"
+                  secondCol="9"
+                  disabled={false}
+                />
+                <ConfigurationIntField
+                  id="airtime-policies.dns-weight"
+                  label="dns-weight"
+                  field={fields['airtime-policies']['dns-weight']}
+                  updateField={updateWithId}
+                  firstCol="3"
+                  secondCol="9"
+                  errorMessage="Error!!!!"
+                  disabled={false}
+                />
+              </CCol>
+            </CRow>
+          </ConfigurationElement>
+        </CCol>
+      </CRow>
     </div>
   );
 };

@@ -24,7 +24,7 @@ const Metrics = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="px-4" style={{ backgroundColor: '#cfe2ff' }}>
+    <div className="px-4">
       <CRow className="py-2">
         <CCol>
           <h5 className="float-left pt-2">Metrics Section</h5>

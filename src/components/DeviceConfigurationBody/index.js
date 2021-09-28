@@ -328,16 +328,14 @@ const DeviceConfigurationBody = ({
     <div>
       {activeSection === 'globals' && (
         <div>
-          <Base
+          <Globals
             save={save}
             deleteConfig={deleteConfigBlock}
             creating={config === null}
-            fields={baseFields}
-            updateWithId={updateBaseWithId}
             canSave={canSave}
             refresh={refresh}
-          />
-          <Globals
+            baseFields={baseFields}
+            updateBaseWithId={updateBaseWithId}
             fields={fields}
             updateWithId={updateWithId}
             updateField={updateField}
@@ -347,16 +345,14 @@ const DeviceConfigurationBody = ({
       )}
       {activeSection === 'unit' && (
         <div>
-          <Base
+          <Unit
             save={save}
             deleteConfig={deleteConfigBlock}
             creating={config === null}
-            fields={baseFields}
-            updateWithId={updateBaseWithId}
             canSave={canSave}
             refresh={refresh}
-          />
-          <Unit
+            baseFields={baseFields}
+            updateBaseWithId={updateBaseWithId}
             fields={fields}
             updateWithId={updateWithId}
             updateField={updateField}
@@ -425,22 +421,18 @@ const DeviceConfigurationBody = ({
       )}
       {activeSection === 'services' && (
         <div>
-          <Base
+          <Services
             save={save}
             deleteConfig={deleteConfigBlock}
             creating={config === null}
-            fields={baseFields}
-            updateWithId={updateBaseWithId}
             canSave={canSave}
             refresh={refresh}
-          />
-          <Services
+            baseFields={baseFields}
+            updateBaseWithId={updateBaseWithId}
             fields={fields}
-            creating={config === null}
             updateWithId={updateWithId}
             updateField={updateField}
             setFields={setFields}
-            setCanSave={setCanSave}
           />
         </div>
       )}

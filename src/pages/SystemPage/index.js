@@ -4,7 +4,7 @@ import { ApiStatusCard, useAuth, useToast } from 'ucentral-libs';
 import { v4 as createUuid } from 'uuid';
 import axiosInstance from 'utils/axiosInstance';
 import { CRow, CCol } from '@coreui/react';
-import { prettyDate, secondsToDetailed } from 'utils/helper';
+import { secondsToDetailed } from 'utils/helper';
 
 const SystemPage = () => {
   const { t } = useTranslation();
@@ -55,7 +55,7 @@ const SystemPage = () => {
           t('common.second'),
           t('common.seconds'),
         );
-        newSystem.start = prettyDate(newInfo.data.start);
+        newSystem.start = newInfo.data.start;
         newSystem.subsystems = newSubs.data.list.sort((a, b) => {
           if (a < b) return -1;
           if (a > b) return 1;
