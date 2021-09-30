@@ -213,7 +213,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
   }, [show]);
 
   return (
-    <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
+    <CModal className="text-dark" size="lg" show={show} onClose={() => toggle()}>
       <CModalHeader className="p-1">
         <CModalTitle className="pl-1 pt-1">
           {t('common.edit')} {tag.name}
@@ -225,7 +225,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>
-            <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
+            <CButton color="primary" variant="outline" className="ml-2" onClick={() => toggle()}>
               <CIcon content={cilX} />
             </CButton>
           </CPopover>

@@ -10,10 +10,11 @@ import {
   CPopover,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilX, cilPlus } from '@coreui/icons';
+import { cilX, cilSave } from '@coreui/icons';
 import { useEntity, useFormFields, useAuth, AddEntityForm } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import eventBus from 'utils/eventBus';
 
 const initialForm = {
   name: {
@@ -104,7 +105,12 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
           setResult({
             success: true,
           });
+          eventBus.dispatch(`Add${creatingVenue ? 'Venue' : 'Entity'}`, {
+            success: true,
+          });
+
           if (refresh !== null) refresh();
+          toggle();
         })
         .catch((e) => {
           setResult({
@@ -152,9 +158,9 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
             : t('entity.add_child', { entityName: entity?.name })}
         </CModalTitle>
         <div className="text-right">
-          <CPopover content={t('common.add')}>
+          <CPopover content={t('common.save')}>
             <CButton color="primary" variant="outline" className="mx-2" onClick={addEntity}>
-              <CIcon content={cilPlus} />
+              <CIcon content={cilSave} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>

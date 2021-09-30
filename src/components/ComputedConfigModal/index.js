@@ -46,12 +46,12 @@ const ComputerConfigModal = ({ show, toggle, serialNumber }) => {
   }, [show, serialNumber]);
 
   return (
-    <CModal size="lg" show={show} onClose={toggle}>
+    <CModal size="lg" show={show} onClose={() => toggle()}>
       <CModalHeader className="p-1">
         <CModalTitle className="pl-1 pt-1">{serialNumber}</CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.close')}>
-            <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
+            <CButton color="primary" variant="outline" className="ml-2" onClick={() => toggle()}>
               <CIcon content={cilX} />
             </CButton>
           </CPopover>
