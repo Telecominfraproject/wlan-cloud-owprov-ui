@@ -192,6 +192,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
                   disable={loading}
                   fields={fields}
                   updateField={updateFieldWithId}
+                  updateFieldDirectly={updateField}
                   deviceTypes={deviceTypes}
                 />
               </CTabPane>

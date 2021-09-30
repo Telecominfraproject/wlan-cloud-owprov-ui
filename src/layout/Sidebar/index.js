@@ -26,7 +26,7 @@ import styles from './index.module.scss';
 
 const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
   const { t } = useTranslation();
-  const { entity, entities, rootEntityMissing } = useEntity();
+  const { entity, entities, rootEntityMissing, setEntity } = useEntity();
   const [showAddEntity, setShowAddEntity] = useState(false);
   const [creatingVenue, setCreatingVenue] = useState(false);
 
@@ -54,7 +54,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
         />
       </CSidebarBrand>
       <CSidebarNav>
-        <CRow hidden={rootEntityMissing || !entity} className="px-3">
+        <CRow className="px-3">
           <CCol className="px-1">
             <CPopover content={t('entity.add_child', { entityName: entity?.name })}>
               <CButton
@@ -63,7 +63,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
                 className="text-center px-0 py-2 my-3"
                 color="light"
                 onClick={() => toggleAddEntity(false)}
-                disabled={entity?.isVenue}
+                disabled={entity?.isVenue || rootEntityMissing || !entity}
               >
                 <CIcon content={cilSitemap} />
               </CButton>
@@ -77,7 +77,11 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
                 className="text-center px-0 py-2 my-3"
                 color="light"
                 onClick={() => toggleAddEntity(true)}
-                disabled={!entity?.isVenue && entity?.uuid === '0000-0000-0000'}
+                disabled={
+                  (!entity?.isVenue && entity?.uuid === '0000-0000-0000') ||
+                  rootEntityMissing ||
+                  !entity
+                }
               >
                 <CIcon content={cilBank} />
               </CButton>
@@ -111,7 +115,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           name="Inventory"
           icon={<CIcon content={cilSpreadsheet} size="lg" className="mr-3" />}
         >
-          <CSidebarNavItem name="Table" to="/inventory" />
+          <CSidebarNavItem name="Table" to="/inventory" onClick={() => setEntity(null)} />
         </CSidebarNavDropdown>
         <CSidebarNavDropdown
           name="Configurations"

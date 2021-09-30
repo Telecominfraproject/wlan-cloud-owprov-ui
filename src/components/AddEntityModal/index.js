@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   CAlert,
@@ -14,7 +15,6 @@ import { cilX, cilSave } from '@coreui/icons';
 import { useEntity, useFormFields, useAuth, AddEntityForm } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
-import eventBus from 'utils/eventBus';
 
 const initialForm = {
   name: {
@@ -41,6 +41,8 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
   const { t } = useTranslation();
   const { entity, rootEntityMissing, getRootEntity, refreshEntityChildren } = useEntity();
   const { currentToken, endpoints } = useAuth();
+  const location = useLocation();
+  const history = useHistory();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -105,11 +107,15 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
           setResult({
             success: true,
           });
-          eventBus.dispatch(`Add${creatingVenue ? 'Venue' : 'Entity'}`, {
-            success: true,
-          });
 
           if (refresh !== null) refresh();
+
+          const queryParams = new URLSearchParams(location.search);
+          queryParams.append('new', creatingVenue ? 'venue' : 'entity');
+          history.replace({
+            search: queryParams.toString(),
+          });
+
           toggle();
         })
         .catch((e) => {

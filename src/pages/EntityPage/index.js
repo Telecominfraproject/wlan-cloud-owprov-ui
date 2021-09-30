@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { CRow, CCol } from '@coreui/react';
-import { useEntity } from 'ucentral-libs';
+import { useEntity, useToast } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import InventoryTable from 'components/InventoryTable';
 import AddInventoryTagModal from 'components/AddInventoryTagModal';
@@ -13,6 +13,9 @@ const EntityPage = () => {
   const { t } = useTranslation();
   const { entity, setProviderEntity } = useEntity();
   const { entityId } = useParams();
+  const { addToast } = useToast();
+  const location = useLocation();
+  const history = useHistory();
   const [showAddTagModal, setShowAddTagModal] = useState(false);
   const [showAddVenueModal, setShowAddVenueModal] = useState(false);
   const [inventoryRefreshId, setInventoryRefreshId] = useState(0);
@@ -31,6 +34,31 @@ const EntityPage = () => {
       setProviderEntity(entityId, false);
     }
   }, [entityId]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    if (queryParams.has('new')) {
+      if (queryParams.get('new') === 'entity') {
+        addToast({
+          title: t('common.success'),
+          body: t('entity.add_success'),
+          color: 'success',
+          autohide: true,
+        });
+      } else {
+        addToast({
+          title: t('common.success'),
+          body: t('inventory.successful_venue_create'),
+          color: 'success',
+          autohide: true,
+        });
+      }
+      queryParams.delete('new');
+      history.replace({
+        search: queryParams.toString(),
+      });
+    }
+  }, [location]);
 
   return (
     <>

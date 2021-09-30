@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Header, Footer, PageContainer, ToastProvider, useAuth } from 'ucentral-libs';
 import routes from 'routes';
-import eventBus from 'utils/eventBus';
 import Sidebar from './Sidebar';
 
 const TheLayout = () => {
@@ -35,12 +34,7 @@ const TheLayout = () => {
         />
         <div className="c-body">
           <ToastProvider>
-            <PageContainer
-              t={t}
-              routes={routes}
-              redirectTo="/entity/0000-0000-0000"
-              eventBus={eventBus}
-            />
+            <PageContainer t={t} routes={routes} redirectTo="/entity/0000-0000-0000" />
           </ToastProvider>
         </div>
         <Footer t={t} version={process.env.VERSION} />
