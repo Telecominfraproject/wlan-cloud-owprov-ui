@@ -12,10 +12,18 @@ import {
 } from '@coreui/react';
 import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { EditEntityForm, useAuth, useEntity, useFormFields, useToast } from 'ucentral-libs';
+import {
+  EditEntityForm,
+  useAuth,
+  useEntity,
+  useFormFields,
+  useToast,
+  useToggle,
+} from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import DeleteEntityModal from 'components/DeleteEntityModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
+import EntityIpModal from 'components/EntityIpModal';
 
 const initialForm = {
   name: {
@@ -48,6 +56,10 @@ const initialForm = {
     value: [],
     error: false,
   },
+  sourceIP: {
+    value: [],
+    error: false,
+  },
 };
 
 const VenueInfoCard = () => {
@@ -60,6 +72,7 @@ const VenueInfoCard = () => {
   const [editing, setEditing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showAssociate, setShowAssociate] = useState(false);
+  const [showIp, toggleIp] = useToggle();
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
@@ -273,6 +286,11 @@ const VenueInfoCard = () => {
     setLoading(false);
   };
 
+  const toggleIpModal = () => {
+    if (showIp) getVenueInfo();
+    toggleIp();
+  };
+
   useEffect(() => {
     if (entity !== null) {
       setEditing(false);
@@ -364,6 +382,7 @@ const VenueInfoCard = () => {
           addNote={addNote}
           editing={editing}
           toggleAssociate={toggleAssociate}
+          toggleIpModal={toggleIpModal}
         />
       </CCardBody>
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
@@ -373,6 +392,7 @@ const VenueInfoCard = () => {
         defaultConfig={fields.deviceConfiguration}
         updateConfiguration={updateConfiguration}
       />
+      <EntityIpModal show={showIp} toggle={toggleIpModal} ips={fields.sourceIP.value} />
     </CCard>
   );
 };

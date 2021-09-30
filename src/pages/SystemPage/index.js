@@ -120,37 +120,17 @@ const SystemPage = () => {
     }
   };
 
-  const getColumn = (index) => {
-    const rows = [];
-
-    for (let i = index; i < endpointsInfo.length; i += 3) {
-      rows.push(endpointsInfo[i]);
-    }
-
-    return rows;
-  };
-
   useEffect(() => {
     getAllInfo();
   }, []);
 
   return (
     <CRow>
-      <CCol md="12" lg="6" xxl="4">
-        {getColumn(0).map((info) => (
-          <ApiStatusCard key={createUuid()} t={t} info={info} reload={reload} />
-        ))}
-      </CCol>
-      <CCol md="12" lg="6" xxl="4">
-        {getColumn(1).map((info) => (
-          <ApiStatusCard key={createUuid()} t={t} info={info} reload={reload} />
-        ))}
-      </CCol>
-      <CCol md="12" lg="6" xxl="4">
-        {getColumn(2).map((info) => (
-          <ApiStatusCard key={createUuid()} t={t} info={info} reload={reload} />
-        ))}
-      </CCol>
+      {endpointsInfo.map((info) => (
+        <CCol sm="12" lg="6" xxl="4" key={createUuid()}>
+          <ApiStatusCard t={t} info={info} reload={reload} />
+        </CCol>
+      ))}
     </CRow>
   );
 };

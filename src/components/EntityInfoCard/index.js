@@ -3,10 +3,18 @@ import { useTranslation } from 'react-i18next';
 import { CButton, CButtonToolbar, CCard, CCardBody, CCardHeader, CPopover } from '@coreui/react';
 import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { EditEntityForm, useAuth, useEntity, useFormFields, useToast } from 'ucentral-libs';
+import {
+  EditEntityForm,
+  useAuth,
+  useEntity,
+  useFormFields,
+  useToast,
+  useToggle,
+} from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import DeleteEntityModal from 'components/DeleteEntityModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
+import EntityIpModal from 'components/EntityIpModal';
 
 const initialForm = {
   name: {
@@ -39,6 +47,10 @@ const initialForm = {
     value: [],
     error: false,
   },
+  sourceIP: {
+    value: [],
+    error: false,
+  },
 };
 
 const EntityInfoCard = () => {
@@ -51,6 +63,7 @@ const EntityInfoCard = () => {
   const [editing, setEditing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showAssociate, setShowAssociate] = useState(false);
+  const [showIp, toggleIp] = useToggle();
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
@@ -264,6 +277,11 @@ const EntityInfoCard = () => {
     setLoading(false);
   };
 
+  const toggleIpModal = () => {
+    if (showIp) getEntityInfo();
+    toggleIp();
+  };
+
   useEffect(() => {
     if (entity !== null) {
       setEditing(false);
@@ -351,6 +369,7 @@ const EntityInfoCard = () => {
           addNote={addNote}
           editing={editing}
           toggleAssociate={toggleAssociate}
+          toggleIpModal={toggleIpModal}
         />
       </CCardBody>
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
@@ -360,6 +379,7 @@ const EntityInfoCard = () => {
         defaultConfig={fields.deviceConfiguration}
         updateConfiguration={updateConfiguration}
       />
+      <EntityIpModal show={showIp} toggle={toggleIpModal} ips={fields.sourceIP.value} />
     </CCard>
   );
 };

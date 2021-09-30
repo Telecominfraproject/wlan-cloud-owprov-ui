@@ -22,6 +22,7 @@
 		"when_blink_leds": "¿Cuándo desea que los LED del dispositivo parpadeen?"
 	},
 	"commands": {
+		"command_success": "Comando enviado con éxito",
 		"error": "¡Error al enviar el comando!",
 		"error_delete_log": "Error al intentar eliminar: {{error}}",
 		"event_queue": "Cola de eventos",
@@ -101,6 +102,7 @@
 		"hours": "horas",
 		"id": "Carné de identidad",
 		"ip_address": "Dirección IP",
+		"ips": "IPs",
 		"items_per_page": "Artículos por página:",
 		"last_dashboard_refresh": "Última actualización del panel",
 		"later_tonight": "Más tarde esta noche",
@@ -248,6 +250,7 @@
 	"entity": {
 		"add_child": "Agregar entidad secundaria a {{entityName}}",
 		"add_failure": "Error, el servidor devolvió: {{error}}",
+		"add_ips": "Agregar direcciones IP",
 		"add_root": "Agregar entidad raíz",
 		"add_success": "¡Entidad creada con éxito!",
 		"assigned_inventory": "Inventario asignado",
@@ -257,13 +260,18 @@
 		"delete_success": "Entidad eliminada correctamente",
 		"delete_warning": "Advertencia: esta operación no se puede revertir",
 		"edit_failure": "Actualización fallida: {{error}}",
+		"enter_here": "Ingrese las IP que desea agregar aquí",
 		"entities": "entidades",
 		"entity": "Entidad",
 		"error_fetch_entity": "Error al obtener la información de la entidad",
 		"error_fetching": "Error al recuperar entidades",
 		"error_saving": "Error al guardar la entidad",
+		"ip_detection": "Detección de IP",
+		"ip_formats": "Puede agregar direcciones IPv4 o IPv6 en los siguientes formatos:",
+		"no_ips": "No se seleccionaron direcciones IP",
 		"not_assigned": "No asignado",
 		"only_unassigned": "Solo sin asignar",
+		"update_failure_error": "Error al intentar actualizar la entidad: {{error}}",
 		"valid_serial": "Debe ser un número de serie válido (12 caracteres HEX)",
 		"venues": "Sedes"
 	},

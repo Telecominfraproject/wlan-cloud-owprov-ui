@@ -22,6 +22,7 @@
 		"when_blink_leds": "Quando você gostaria de fazer os LEDs do dispositivo piscarem?"
 	},
 	"commands": {
+		"command_success": "Comando enviado com sucesso",
 		"error": "Erro ao enviar comando!",
 		"error_delete_log": "Erro ao tentar excluir: {{error}}",
 		"event_queue": "Fila de Eventos",
@@ -101,6 +102,7 @@
 		"hours": "horas",
 		"id": "identidade",
 		"ip_address": "Endereço de IP",
+		"ips": "IPs",
 		"items_per_page": "Itens por página:",
 		"last_dashboard_refresh": "Última atualização do painel",
 		"later_tonight": "Logo à noite",
@@ -248,6 +250,7 @@
 	"entity": {
 		"add_child": "Adicionar Entidade Filha a {{entityName}}",
 		"add_failure": "Erro, o servidor retornou: {{error}}",
+		"add_ips": "Adicionar IPs",
 		"add_root": "Adicionar Entidade Raiz",
 		"add_success": "Entidade criada com sucesso!",
 		"assigned_inventory": "Estoque Atribuído",
@@ -257,13 +260,18 @@
 		"delete_success": "Entidade excluída com sucesso",
 		"delete_warning": "Aviso: esta operação não pode ser revertida",
 		"edit_failure": "Atualização malsucedida: {{error}}",
+		"enter_here": "Digite o (s) IP (s) que deseja adicionar aqui",
 		"entities": "Entidades",
 		"entity": "Entidade",
 		"error_fetch_entity": "Erro ao buscar informações da entidade",
 		"error_fetching": "Erro ao buscar entidades",
 		"error_saving": "Erro ao salvar entidade",
+		"ip_detection": "Detecção de IP",
+		"ip_formats": "Você pode adicionar endereços IPv4 ou IPv6 nos seguintes formatos:",
+		"no_ips": "Nenhum IP selecionado",
 		"not_assigned": "Não atribuído",
 		"only_unassigned": "Apenas não atribuídos",
+		"update_failure_error": "Erro ao tentar atualizar a entidade: {{error}}",
 		"valid_serial": "Precisa ser um número de série válido (12 caracteres HEX)",
 		"venues": "Locais"
 	},

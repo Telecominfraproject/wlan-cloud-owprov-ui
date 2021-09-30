@@ -22,6 +22,7 @@
 		"when_blink_leds": "When would you like to make the device LEDs blink?"
 	},
 	"commands": {
+		"command_success": "Command Submitted Successfully",
 		"error": "Error while submitting command!",
 		"error_delete_log": "Error while trying to delete: {{error}}",
 		"event_queue": "Event Queue",
@@ -101,6 +102,7 @@
 		"hours": "hours",
 		"id": "Id",
 		"ip_address": "IP Address",
+		"ips": "IPs",
 		"items_per_page": "Items per page: ",
 		"last_dashboard_refresh": "Last Dashboard Refresh",
 		"later_tonight": "Later tonight",
@@ -248,6 +250,7 @@
 	"entity": {
 		"add_child": "Add Child Entity to {{entityName}}",
 		"add_failure": "Error, the server returned : {{error}}",
+		"add_ips": "Add IPs ",
 		"add_root": "Add Root Entity",
 		"add_success": "Entity Successfully Created!",
 		"assigned_inventory": "Assigned Inventory",
@@ -257,13 +260,18 @@
 		"delete_success": "Entity Successfully Deleted",
 		"delete_warning": "Warning: this operation cannot be reverted",
 		"edit_failure": "Update unsuccessful : {{error}}",
+		"enter_here": "Enter the IP(s) you'd like to add here",
 		"entities": "Entities",
 		"entity": "Entity",
 		"error_fetch_entity": "Error while fetching entity information",
 		"error_fetching": "Error while fetching entities",
 		"error_saving": "Error while saving entity",
+		"ip_detection": "IP Detection",
+		"ip_formats": "You can add IPv4 or IPv6 addresses in the following formats:",
+		"no_ips": "No IPs selected",
 		"not_assigned": "Not Assigned",
 		"only_unassigned": "Only Unassigned",
+		"update_failure_error": "Error while trying to update entity: {{error}}",
 		"valid_serial": "Needs to be a valid serial number (12 HEX characters)",
 		"venues": "Venues"
 	},
