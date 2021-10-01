@@ -163,6 +163,7 @@ const VenueInfoCard = () => {
         name: fields.name.value,
         description: fields.description.value,
         rrm: fields.rrm.value,
+        sourceIP: fields.sourceIP.value,
       };
 
       axiosInstance
@@ -392,7 +393,12 @@ const VenueInfoCard = () => {
         defaultConfig={fields.deviceConfiguration}
         updateConfiguration={updateConfiguration}
       />
-      <EntityIpModal show={showIp} toggle={toggleIpModal} ips={fields.sourceIP.value} />
+      <EntityIpModal
+        show={showIp}
+        toggle={toggleIpModal}
+        ips={fields.sourceIP.value}
+        updateField={updateField}
+      />
     </CCard>
   );
 };

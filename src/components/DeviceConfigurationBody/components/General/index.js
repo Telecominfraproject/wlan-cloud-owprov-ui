@@ -79,7 +79,7 @@ const General = ({ fields, updateWithId, subFields, onSubChange }) => {
               <CCol hidden={subFields === null} xl="6" xxl="4">
                 <CFormGroup row className="py-1">
                   <CLabel col sm="3" htmlFor="name">
-                    Subsections
+                    Sections
                   </CLabel>
                   <CCol sm="9">
                     <Select
