@@ -33,6 +33,7 @@
 	"common": {
 		"access_policy": "Política de acceso",
 		"add": "Añadir",
+		"add_items": "Agregar articulos",
 		"adding_ellipsis": "Añadiendo ...",
 		"are_you_sure": "¿Estás seguro?",
 		"back_to_login": "Atrás para iniciar sesión",
@@ -103,6 +104,8 @@
 		"id": "Carné de identidad",
 		"ip_address": "Dirección IP",
 		"ips": "IPs",
+		"item": "ít",
+		"items": "artículos",
 		"items_per_page": "Artículos por página:",
 		"last_dashboard_refresh": "Última actualización del panel",
 		"later_tonight": "Más tarde esta noche",
@@ -250,7 +253,7 @@
 	"entity": {
 		"add_child": "Agregar entidad secundaria a {{entityName}}",
 		"add_failure": "Error, el servidor devolvió: {{error}}",
-		"add_ips": "Agregar direcciones IP",
+		"add_ips": "Administrar direcciones IP",
 		"add_root": "Agregar entidad raíz",
 		"add_success": "¡Entidad creada con éxito!",
 		"assigned_inventory": "Inventario asignado",

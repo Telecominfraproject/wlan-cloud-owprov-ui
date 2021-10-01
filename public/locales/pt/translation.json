@@ -33,6 +33,7 @@
 	"common": {
 		"access_policy": "Política de Acesso",
 		"add": "Adicionar",
+		"add_items": "Adicionar itens",
 		"adding_ellipsis": "Adicionando ...",
 		"are_you_sure": "Você tem certeza?",
 		"back_to_login": "Volte ao login",
@@ -103,6 +104,8 @@
 		"id": "identidade",
 		"ip_address": "Endereço de IP",
 		"ips": "IPs",
+		"item": "Item",
+		"items": "Unid",
 		"items_per_page": "Itens por página:",
 		"last_dashboard_refresh": "Última atualização do painel",
 		"later_tonight": "Logo à noite",
@@ -250,7 +253,7 @@
 	"entity": {
 		"add_child": "Adicionar Entidade Filha a {{entityName}}",
 		"add_failure": "Erro, o servidor retornou: {{error}}",
-		"add_ips": "Adicionar IPs",
+		"add_ips": "Gerenciar IPs",
 		"add_root": "Adicionar Entidade Raiz",
 		"add_success": "Entidade criada com sucesso!",
 		"assigned_inventory": "Estoque Atribuído",

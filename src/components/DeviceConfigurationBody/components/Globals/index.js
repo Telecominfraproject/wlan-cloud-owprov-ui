@@ -1,17 +1,14 @@
 import React from 'react';
-import { CRow, CCol, CButtonToolbar, CButton, CPopover, CFormGroup } from '@coreui/react';
+import { CRow, CCol, CButton, CPopover, CFormGroup } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { useTranslation } from 'react-i18next';
-import { cilSave, cilSync, cilTrash } from '@coreui/icons';
+import { cilTrash } from '@coreui/icons';
 import PropTypes from 'prop-types';
 import { ConfigurationStringField, ConfigurationElement } from 'ucentral-libs';
 import General from '../General';
 
 const Globals = ({
   creating,
-  save,
-  refresh,
-  canSave,
   deleteConfig,
   baseFields,
   updateBaseWithId,
@@ -26,36 +23,26 @@ const Globals = ({
         <CCol>
           <h5 className="float-left pt-2">Globals Section</h5>
           <div className="float-right">
-            <CButtonToolbar
-              role="group"
-              className="justify-content-center"
-              style={{ width: '150px' }}
-            >
-              <CPopover content={t('common.save')}>
-                <CButton color="light" onClick={save} className="mx-1" disabled={!canSave}>
-                  <CIcon name="cil-save" content={cilSave} />
-                </CButton>
-              </CPopover>
-              {'  '}
-              <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
-                <CButton color="light" onClick={deleteConfig} className="mx-1" disabled={creating}>
-                  <CIcon name="cil-trash" content={cilTrash} />
-                </CButton>
-              </CPopover>
-              {'  '}
-              <CPopover content={t('common.refresh')}>
-                <CButton disabled={creating} color="light" onClick={refresh} className="mx-1">
-                  <CIcon content={cilSync} />
-                </CButton>
-              </CPopover>
-            </CButtonToolbar>
+            <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
+              <CButton
+                color="primary"
+                variant="outline"
+                onClick={deleteConfig}
+                className="ml-1"
+                disabled={creating}
+              >
+                <CIcon name="cil-trash" content={cilTrash} />
+              </CButton>
+            </CPopover>
           </div>
         </CCol>
       </CRow>
       <CRow>
-        <CCol xl="6" xxl="4">
+        <CCol>
           <General fields={baseFields} updateWithId={updateBaseWithId} />
         </CCol>
+      </CRow>
+      <CRow>
         <CCol xl="6" xxl="4">
           <div>
             <CRow>
@@ -104,9 +91,6 @@ const Globals = ({
 
 Globals.propTypes = {
   creating: PropTypes.bool,
-  save: PropTypes.func.isRequired,
-  refresh: PropTypes.func.isRequired,
-  canSave: PropTypes.bool.isRequired,
   deleteConfig: PropTypes.func.isRequired,
   baseFields: PropTypes.instanceOf(Object).isRequired,
   fields: PropTypes.instanceOf(Object).isRequired,

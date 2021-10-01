@@ -33,6 +33,7 @@
 	"common": {
 		"access_policy": "Access Policy",
 		"add": "Add",
+		"add_items": "Add Items",
 		"adding_ellipsis": "Adding...",
 		"are_you_sure": "Are you sure?",
 		"back_to_login": "Back to Login",
@@ -103,6 +104,8 @@
 		"id": "Id",
 		"ip_address": "IP Address",
 		"ips": "IPs",
+		"item": "Item",
+		"items": "Items",
 		"items_per_page": "Items per page: ",
 		"last_dashboard_refresh": "Last Dashboard Refresh",
 		"later_tonight": "Later tonight",
@@ -250,7 +253,7 @@
 	"entity": {
 		"add_child": "Add Child Entity to {{entityName}}",
 		"add_failure": "Error, the server returned : {{error}}",
-		"add_ips": "Add IPs ",
+		"add_ips": "Manage IPs",
 		"add_root": "Add Root Entity",
 		"add_success": "Entity Successfully Created!",
 		"assigned_inventory": "Assigned Inventory",

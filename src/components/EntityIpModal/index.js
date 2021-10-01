@@ -13,8 +13,7 @@ import {
 import CIcon from '@coreui/icons-react';
 import { cilMinus, cilPlus, cilSave, cilX } from '@coreui/icons';
 import { useTranslation } from 'react-i18next';
-import { useAuth, useEntity, useToast } from 'ucentral-libs';
-import axiosInstance from 'utils/axiosInstance';
+import { useEntity } from 'ucentral-libs';
 import ipRegex from 'utils/ipRegex';
 
 const testIps = (newIp) => {
@@ -47,12 +46,9 @@ const testIps = (newIp) => {
   return ipRegex.test(ip);
 };
 
-const EntityIpModal = ({ show, toggle, ips }) => {
+const EntityIpModal = ({ show, toggle, ips, updateField }) => {
   const { t } = useTranslation();
   const { entity } = useEntity();
-  const { currentToken, endpoints } = useAuth();
-  const { addToast } = useToast();
-  const [loading, setLoading] = useState(false);
   const [newIp, setNewIp] = useState('');
   const [ipList, setIpList] = useState([]);
 
@@ -67,6 +63,7 @@ const EntityIpModal = ({ show, toggle, ips }) => {
     const newList = [...ipList];
     newList.push({ ipAddress: newIp });
     setIpList(newList);
+    setNewIp('');
   };
 
   const removeIp = (v) => {
@@ -80,45 +77,8 @@ const EntityIpModal = ({ show, toggle, ips }) => {
   };
 
   const save = () => {
-    setLoading(true);
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    const parameters = {
-      uuid: entity.uuid,
-      sourceIP: ipList.map((ip) => ip.ipAddress),
-    };
-
-    axiosInstance
-      .put(
-        `${endpoints.owprov}/api/v1/${entity.isVenue ? 'venue' : 'entity'}/${entity.uuid}`,
-        parameters,
-        options,
-      )
-      .then(() => {
-        addToast({
-          title: t('common.success'),
-          body: t('common.saved'),
-          color: 'success',
-          autohide: true,
-        });
-        toggle();
-      })
-      .catch((e) => {
-        addToast({
-          title: t('common.error'),
-          body: t('entity.update_failure_error', { error: e.response?.data?.ErrorDescription }),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    updateField('sourceIP', { value: ipList.map((ip) => ip.ipAddress) });
+    toggle();
   };
 
   useEffect(() => {
@@ -161,14 +121,13 @@ const EntityIpModal = ({ show, toggle, ips }) => {
           value={newIp}
           onChange={onChange}
           placeholder={t('entity.enter_here')}
-          disabled={loading}
         />
         <CButton
           className="float-left"
           color="primary"
           variant="outline"
           onClick={addIp}
-          disabled={loading || !testIps(newIp)}
+          disabled={!testIps(newIp)}
         >
           <CIcon content={cilPlus} />
         </CButton>
@@ -201,6 +160,7 @@ EntityIpModal.propTypes = {
   show: PropTypes.bool,
   toggle: PropTypes.func.isRequired,
   ips: PropTypes.instanceOf(Array).isRequired,
+  updateField: PropTypes.func.isRequired,
 };
 
 EntityIpModal.defaultProps = {

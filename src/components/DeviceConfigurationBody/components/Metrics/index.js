@@ -1,8 +1,8 @@
 import React from 'react';
-import { CRow, CCol, CButtonToolbar, CButton, CPopover } from '@coreui/react';
+import { CRow, CCol, CButton, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { useTranslation } from 'react-i18next';
-import { cilSave, cilSync, cilTrash } from '@coreui/icons';
+import { cilTrash } from '@coreui/icons';
 import PropTypes from 'prop-types';
 import Statistics from './Statistics';
 import Health from './Health';
@@ -12,9 +12,6 @@ import General from '../General';
 
 const Metrics = ({
   creating,
-  save,
-  refresh,
-  canSave,
   deleteConfig,
   baseFields,
   updateBaseWithId,
@@ -23,48 +20,58 @@ const Metrics = ({
   updateField,
 }) => {
   const { t } = useTranslation();
+
+  const onSubChange = (v) => {
+    for (const [key, field] of Object.entries(fields)) {
+      if (key !== 'enabled') {
+        const foundIndex = v.findIndex((i) => i.value === key);
+        const found = foundIndex >= 0;
+        if (field.enabled !== found) updateField(key, { enabled: found });
+      }
+    }
+  };
+
   return (
     <div className="px-4">
       <CRow className="py-2">
         <CCol>
           <h5 className="float-left pt-2">Metrics Section</h5>
           <div className="float-right">
-            <CButtonToolbar
-              role="group"
-              className="justify-content-center"
-              style={{ width: '150px' }}
-            >
-              <CPopover content={t('common.save')}>
-                <CButton color="light" onClick={save} className="mx-1" disabled={!canSave}>
-                  <CIcon name="cil-save" content={cilSave} />
-                </CButton>
-              </CPopover>
-              {'  '}
-              <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
-                <CButton color="light" onClick={deleteConfig} className="mx-1" disabled={creating}>
-                  <CIcon name="cil-trash" content={cilTrash} />
-                </CButton>
-              </CPopover>
-              {'  '}
-              <CPopover content={t('common.refresh')}>
-                <CButton disabled={creating} color="light" onClick={refresh} className="mx-1">
-                  <CIcon content={cilSync} />
-                </CButton>
-              </CPopover>
-            </CButtonToolbar>
+            <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
+              <CButton
+                color="primary"
+                variant="outline"
+                onClick={deleteConfig}
+                className="ml-1"
+                disabled={creating}
+              >
+                <CIcon name="cil-trash" content={cilTrash} />
+              </CButton>
+            </CPopover>
           </div>
         </CCol>
       </CRow>
       <CRow>
-        <CCol xl="6" xxl="4">
-          <General fields={baseFields} updateWithId={updateBaseWithId} />
+        <CCol>
+          <General
+            fields={baseFields}
+            updateWithId={updateBaseWithId}
+            subFields={fields}
+            onSubChange={onSubChange}
+          />
+        </CCol>
+      </CRow>
+      <CRow>
+        <CCol xl="6" xxl="4" hidden={!fields.statistics.enabled}>
           <Statistics fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol xl="6" xxl="4">
-          <Health fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        <CCol xl="6" xxl="4" hidden={!fields['dhcp-snooping'].enabled}>
           <DhcpSnooping fields={fields} updateField={updateField} />
         </CCol>
-        <CCol xl="6" xxl="4">
+        <CCol xl="6" xxl="4" hidden={!fields.health.enabled}>
+          <Health fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol xl="6" xxl="4" hidden={!fields['wifi-frames'].enabled}>
           <WifiFrames fields={fields} updateField={updateField} />
         </CCol>
       </CRow>
@@ -74,9 +81,6 @@ const Metrics = ({
 
 Metrics.propTypes = {
   creating: PropTypes.bool,
-  save: PropTypes.func.isRequired,
-  refresh: PropTypes.func.isRequired,
-  canSave: PropTypes.bool.isRequired,
   deleteConfig: PropTypes.func.isRequired,
   baseFields: PropTypes.instanceOf(Object).isRequired,
   fields: PropTypes.instanceOf(Object).isRequired,

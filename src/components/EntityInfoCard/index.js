@@ -154,6 +154,7 @@ const EntityInfoCard = () => {
         name: fields.name.value,
         description: fields.description.value,
         rrm: fields.rrm.value,
+        sourceIP: fields.sourceIP.value,
       };
 
       axiosInstance
@@ -277,11 +278,6 @@ const EntityInfoCard = () => {
     setLoading(false);
   };
 
-  const toggleIpModal = () => {
-    if (showIp) getEntityInfo();
-    toggleIp();
-  };
-
   useEffect(() => {
     if (entity !== null) {
       setEditing(false);
@@ -369,7 +365,7 @@ const EntityInfoCard = () => {
           addNote={addNote}
           editing={editing}
           toggleAssociate={toggleAssociate}
-          toggleIpModal={toggleIpModal}
+          toggleIpModal={toggleIp}
         />
       </CCardBody>
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
@@ -379,7 +375,12 @@ const EntityInfoCard = () => {
         defaultConfig={fields.deviceConfiguration}
         updateConfiguration={updateConfiguration}
       />
-      <EntityIpModal show={showIp} toggle={toggleIpModal} ips={fields.sourceIP.value} />
+      <EntityIpModal
+        show={showIp}
+        toggle={toggleIp}
+        ips={fields.sourceIP.value}
+        updateField={updateField}
+      />
     </CCard>
   );
 };

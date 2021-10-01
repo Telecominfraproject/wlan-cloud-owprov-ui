@@ -461,6 +461,7 @@ export const SERVICES_FORM = {
     },
   },
   'quality-of-service': {
+    enabled: false,
     'upload-rate': {
       value: 0,
       type: 'int',
@@ -477,6 +478,7 @@ export const SERVICES_FORM = {
     },
   },
   'facebook-wifi': {
+    enabled: false,
     'vendor-id': {
       type: 'string',
       value: '',
@@ -497,6 +499,7 @@ export const SERVICES_FORM = {
     },
   },
   'airtime-policies': {
+    enabled: false,
     'dns-match': {
       value: [],
       type: 'multi-input',

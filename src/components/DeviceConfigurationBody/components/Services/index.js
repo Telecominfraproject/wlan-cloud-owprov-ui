@@ -1,8 +1,8 @@
 import React from 'react';
-import { CRow, CCol, CButtonToolbar, CButton, CPopover } from '@coreui/react';
+import { CRow, CCol, CButton, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { useTranslation } from 'react-i18next';
-import { cilSave, cilSync, cilTrash } from '@coreui/icons';
+import { cilTrash } from '@coreui/icons';
 import PropTypes from 'prop-types';
 import General from '../General';
 import LLdp from './Lldp';
@@ -23,9 +23,6 @@ import AirtimePolicies from './AirtimePolicies';
 
 const Services = ({
   creating,
-  save,
-  refresh,
-  canSave,
   deleteConfig,
   baseFields,
   updateBaseWithId,
@@ -35,59 +32,90 @@ const Services = ({
 }) => {
   const { t } = useTranslation();
 
+  const onSubChange = (v) => {
+    for (const [key, field] of Object.entries(fields)) {
+      if (key !== 'enabled') {
+        const foundIndex = v.findIndex((i) => i.value === key);
+        const found = foundIndex >= 0;
+        if (field.enabled !== found) updateField(key, { enabled: found });
+      }
+    }
+  };
+
   return (
     <div className="px-4">
       <CRow className="py-2">
         <CCol>
           <h5 className="float-left pt-2">Services Section</h5>
           <div className="float-right">
-            <CButtonToolbar
-              role="group"
-              className="justify-content-center"
-              style={{ width: '150px' }}
-            >
-              <CPopover content={t('common.save')}>
-                <CButton color="light" onClick={save} className="mx-1" disabled={!canSave}>
-                  <CIcon name="cil-save" content={cilSave} />
-                </CButton>
-              </CPopover>
-              {'  '}
-              <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
-                <CButton color="light" onClick={deleteConfig} className="mx-1" disabled={creating}>
-                  <CIcon name="cil-trash" content={cilTrash} />
-                </CButton>
-              </CPopover>
-              {'  '}
-              <CPopover content={t('common.refresh')}>
-                <CButton disabled={creating} color="light" onClick={refresh} className="mx-1">
-                  <CIcon content={cilSync} />
-                </CButton>
-              </CPopover>
-            </CButtonToolbar>
+            <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
+              <CButton
+                color="primary"
+                variant="outline"
+                onClick={deleteConfig}
+                className="ml-1"
+                disabled={creating}
+              >
+                <CIcon name="cil-trash" content={cilTrash} />
+              </CButton>
+            </CPopover>
           </div>
         </CCol>
       </CRow>
       <CRow>
-        <CCol xl="6" xxl="4">
-          <General fields={baseFields} updateWithId={updateBaseWithId} />
+        <CCol>
+          <General
+            fields={baseFields}
+            updateWithId={updateBaseWithId}
+            subFields={fields}
+            onSubChange={onSubChange}
+          />
+        </CCol>
+      </CRow>
+      <CRow>
+        <CCol hidden={!fields.lldp.enabled} xl="6" xxl="4">
           <LLdp fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields.ssh.enabled} xl="6" xxl="4">
           <Ssh fields={fields} updateWithId={updateWithId} updateField={updateField} />
-          <Ntp fields={fields} updateField={updateField} />
-          <Mdns fields={fields} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields['quality-of-service'].enabled} xl="6" xxl="4">
           <QualityOfService fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol xl="6" xxl="4">
+        <CCol hidden={!fields.rtty.enabled} xl="6" xxl="4">
           <Rtty fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields.ntp.enabled} xl="6" xxl="4">
+          <Ntp fields={fields} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields.mdns.enabled} xl="6" xxl="4">
+          <Mdns fields={fields} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields.log.enabled} xl="6" xxl="4">
           <Log fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields.http.enabled} xl="6" xxl="4">
           <Http fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields.igmp.enabled} xl="6" xxl="4">
           <Igmp fields={fields} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields['facebook-wifi'].enabled} xl="6" xxl="4">
           <FacebookWifi fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol xl="6" xxl="4">
+        <CCol hidden={!fields.ieee8021x.enabled} xl="6" xxl="4">
           <Ieee8021x fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields['online-check'].enabled} xl="6" xxl="4">
           <OnlineCheck fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields['open-flow'].enabled} xl="6" xxl="4">
           <OpenFlow fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields['wifi-steering'].enabled} xl="6" xxl="4">
           <WifiSteering fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields['airtime-policies'].enabled} xl="6" xxl="4">
           <AirtimePolicies fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
       </CRow>
@@ -97,9 +125,6 @@ const Services = ({
 
 Services.propTypes = {
   creating: PropTypes.bool,
-  save: PropTypes.func.isRequired,
-  refresh: PropTypes.func.isRequired,
-  canSave: PropTypes.bool.isRequired,
   deleteConfig: PropTypes.func.isRequired,
   baseFields: PropTypes.instanceOf(Object).isRequired,
   fields: PropTypes.instanceOf(Object).isRequired,
