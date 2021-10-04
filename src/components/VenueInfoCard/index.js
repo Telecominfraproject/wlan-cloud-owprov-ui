@@ -158,17 +158,26 @@ const VenueInfoCard = () => {
         },
       };
 
+      const newNotes = [];
+
+      for (let i = 0; i < fields.notes.value.length; i += 1) {
+        if (fields.notes.value[i].new) newNotes.push({ note: fields.notes.value[i].note });
+      }
+
       const parameters = {
         uuid: entity.uuid,
         name: fields.name.value,
         description: fields.description.value,
         rrm: fields.rrm.value,
         sourceIP: fields.sourceIP.value,
+        notes: newNotes,
       };
 
       axiosInstance
         .put(`${endpoints.owprov}/api/v1/venue/${entity.uuid}`, parameters, options)
         .then(() => {
+          getVenueInfo();
+
           refreshEntity(entity.path, {
             name: fields.name.value,
           });
@@ -254,37 +263,14 @@ const VenueInfoCard = () => {
   };
 
   const addNote = (newNote) => {
-    setLoading(true);
-
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    const parameters = {
-      uuid: entity.uuid,
-      notes: [{ note: newNote }],
-    };
-
-    axiosInstance
-      .put(`${endpoints.owprov}/api/v1/venue/${entity.uuid}`, parameters, options)
-      .then(() => {
-        getVenueInfo();
-      })
-      .catch(() => {
-        addToast({
-          title: t('common.error'),
-          body: t('common.error_adding_note'),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    setLoading(false);
+    const newNotes = fields.notes.value;
+    newNotes.unshift({
+      note: newNote,
+      new: true,
+      created: new Date().getTime() / 1000,
+      createdBy: '',
+    });
+    updateField('notes', { value: newNotes });
   };
 
   const toggleIpModal = () => {

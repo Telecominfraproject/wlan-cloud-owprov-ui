@@ -20,6 +20,8 @@ import WifiSteering from './WifiSteering';
 import QualityOfService from './QualityOfService';
 import FacebookWifi from './FacebookWifi';
 import AirtimePolicies from './AirtimePolicies';
+import DataPlane from './DataPlane';
+import RadiusProxy from './RadiusProxy';
 
 const Services = ({
   creating,
@@ -117,6 +119,12 @@ const Services = ({
         </CCol>
         <CCol hidden={!fields['airtime-policies'].enabled} xl="6" xxl="4">
           <AirtimePolicies fields={fields} updateWithId={updateWithId} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields['data-plane'].enabled} xl="6" xxl="4">
+          <DataPlane fields={fields} updateField={updateField} />
+        </CCol>
+        <CCol hidden={!fields['radius-proxy'].enabled} xl="6" xxl="4">
+          <RadiusProxy fields={fields} updateField={updateField} />
         </CCol>
       </CRow>
     </div>

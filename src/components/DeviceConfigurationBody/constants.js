@@ -106,6 +106,7 @@ export const METRICS_FORM = {
       required: true,
       minimum: 60,
       maximum: 1000,
+      unit: 'seconds',
     },
     types: {
       value: [],
@@ -124,6 +125,7 @@ export const METRICS_FORM = {
       required: true,
       minimum: 60,
       maximum: 1000,
+      unit: 'seconds',
     },
   },
   'wifi-frames': {
@@ -202,6 +204,7 @@ export const SERVICES_FORM = {
       value: [],
       type: 'multi-input',
       format: 'uc-host',
+      formatExplanation: 'Enter IP or Host Name',
       error: false,
       required: true,
     },
@@ -341,6 +344,7 @@ export const SERVICES_FORM = {
       value: [],
       type: 'multi-input',
       format: 'uc-host',
+      formatExplanation: 'Enter IP or Host Name',
       error: false,
       required: true,
     },
@@ -356,6 +360,7 @@ export const SERVICES_FORM = {
       error: false,
       required: true,
       minimum: 0,
+      unit: 'seconds',
     },
     'check-threshold': {
       value: 1,
@@ -414,6 +419,17 @@ export const SERVICES_FORM = {
       type: 'multi-custom',
       error: false,
       required: true,
+      structure: {
+        name: {
+          label: 'name',
+          type: 'string',
+        },
+        program: {
+          label: 'program',
+          type: 'string',
+          format: 'uc-base64',
+        },
+      },
     },
   },
   'wifi-steering': {
@@ -435,18 +451,21 @@ export const SERVICES_FORM = {
       type: 'int',
       error: false,
       required: true,
+      unit: 'db',
     },
     'required-probe-snr': {
       value: 0,
       type: 'int',
       error: false,
       required: true,
+      unit: 'db',
     },
     'required-roam-snr': {
       value: 0,
       type: 'int',
       error: false,
       required: true,
+      unit: 'db',
     },
     'load-kick-threshold': {
       value: 0,
@@ -513,5 +532,96 @@ export const SERVICES_FORM = {
       required: true,
       minimum: 0,
     },
+  },
+};
+
+export const LOCAL_USER_FORM = {
+  mac: {
+    type: 'string',
+    value: '',
+    error: false,
+    required: true,
+    format: 'uc-mac',
+  },
+  'user-name': {
+    type: 'string',
+    value: '',
+    error: false,
+    required: true,
+    minLength: 1,
+  },
+  password: {
+    type: 'string',
+    value: '',
+    error: false,
+    required: true,
+    minLength: 8,
+    maxLength: 63,
+  },
+  'vlan-id': {
+    type: 'int',
+    value: '',
+    error: false,
+    required: true,
+    minimum: 0,
+    maximum: 4096,
+  },
+};
+
+export const REALMS_FORM = {
+  realm: {
+    type: 'string',
+    value: '*',
+    error: false,
+    required: true,
+  },
+  'auto-discover': {
+    type: 'bool',
+    value: false,
+    error: false,
+  },
+  host: {
+    type: 'string',
+    value: '',
+    error: false,
+    format: 'uc-host',
+  },
+  port: {
+    type: 'int',
+    value: 2083,
+    error: false,
+    required: true,
+    minimum: 0,
+    maximum: 65535,
+  },
+  secret: {
+    type: 'string',
+    value: '',
+    error: false,
+  },
+  'use-local-certificates': {
+    type: 'bool',
+    value: false,
+    error: false,
+  },
+  'ca-certificate': {
+    type: 'string',
+    value: '',
+    error: false,
+  },
+  certificate: {
+    type: 'string',
+    value: '',
+    error: false,
+  },
+  'private-key': {
+    type: 'string',
+    value: '',
+    error: false,
+  },
+  'private-key-password': {
+    type: 'string',
+    value: '',
+    error: false,
   },
 };

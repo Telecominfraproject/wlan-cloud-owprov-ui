@@ -45,6 +45,14 @@ const initialForm = {
     error: false,
     required: true,
   },
+  firmwareUpgrade: {
+    value: 'inherit',
+    error: false,
+  },
+  firmwareRCOnly: {
+    value: false,
+    error: false,
+  },
 };
 
 const ConfigurationDetails = ({ configId, config, setConfig }) => {
@@ -113,6 +121,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
         const newFields = fields;
         for (const [key] of Object.entries(newFields)) {
           if (response.data[key] !== undefined) {
+            if (key === 'firmwareUpgrade' && response.data[key] === '') break;
             newFields[key].value = response.data[key];
           }
         }
@@ -146,37 +155,14 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
   };
 
   const addNote = (newNote) => {
-    setLoading(true);
-
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    const parameters = {
-      id: config.id,
-      notes: [{ note: newNote }],
-    };
-
-    axiosInstance
-      .put(`${endpoints.owprov}/api/v1/configurations/${config.id}`, parameters, options)
-      .then(() => {
-        getConfig();
-      })
-      .catch(() => {
-        addToast({
-          title: t('common.error'),
-          body: t('common.error_adding_note'),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    setLoading(false);
+    const newNotes = fields.notes.value;
+    newNotes.unshift({
+      note: newNote,
+      new: true,
+      created: new Date().getTime() / 1000,
+      createdBy: '',
+    });
+    updateField('notes', { value: newNotes });
   };
 
   const saveConfig = () => {
@@ -189,12 +175,22 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
         },
       };
 
+      const newNotes = [];
+
+      for (let i = 0; i < fields.notes.value.length; i += 1) {
+        if (fields.notes.value[i].new) newNotes.push({ note: fields.notes.value[i].note });
+      }
+
       const parameters = {
         id: configId,
         name: fields.name.value,
         description: fields.description.value,
         deviceTypes: fields.deviceTypes.value,
         rrm: fields.rrm.value,
+        notes: newNotes,
+        firmwareUpgrade: fields.firmwareUpgrade.value,
+        firmwareRCOnly:
+          fields.firmwareUpgrade.value === 'no' ? undefined : fields.firmwareRCOnly.value,
       };
 
       axiosInstance

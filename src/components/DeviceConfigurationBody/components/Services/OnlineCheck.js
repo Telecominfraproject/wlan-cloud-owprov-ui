@@ -54,7 +54,7 @@ const OnlineCheck = ({ fields, updateField, updateWithId }) => {
                 />
                 <ConfigurationIntField
                   id="online-check.check-interval"
-                  label="check-interval"
+                  label="interval"
                   field={fields['online-check']['check-interval']}
                   updateField={updateWithId}
                   firstCol="3"
@@ -64,7 +64,7 @@ const OnlineCheck = ({ fields, updateField, updateWithId }) => {
                 />
                 <ConfigurationIntField
                   id="online-check.check-threshold"
-                  label="check-threshold"
+                  label="threshold"
                   field={fields['online-check']['check-threshold']}
                   updateField={updateWithId}
                   firstCol="3"
