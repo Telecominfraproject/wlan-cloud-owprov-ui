@@ -171,6 +171,7 @@ const VenueInfoCard = () => {
         rrm: fields.rrm.value,
         sourceIP: fields.sourceIP.value,
         notes: newNotes,
+        deviceConfiguration: fields.deviceConfiguration.uuid,
       };
 
       axiosInstance
@@ -211,55 +212,8 @@ const VenueInfoCard = () => {
   };
 
   const updateConfiguration = (v) => {
-    if (validation()) {
-      setLoading(true);
-      const options = {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${currentToken}`,
-        },
-      };
-
-      const parameters = {
-        uuid: entity.uuid,
-        deviceConfiguration: v.uuid,
-      };
-
-      axiosInstance
-        .put(`${endpoints.owprov}/api/v1/venue/${entity.uuid}`, parameters, options)
-        .then(() => {
-          toggleAssociate();
-
-          refreshEntity(entity.path, {
-            name: fields.name.value,
-          });
-
-          setEntity({
-            ...entity,
-            ...{
-              name: fields.name.value,
-            },
-          });
-
-          addToast({
-            title: t('common.success'),
-            body: t('common.saved'),
-            color: 'success',
-            autohide: true,
-          });
-        })
-        .catch(() => {
-          addToast({
-            title: t('common.error'),
-            body: t('inventory.error_update_venue'),
-            color: 'danger',
-            autohide: true,
-          });
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+    updateField('deviceConfiguration', { value: v.value, uuid: v.uuid });
+    toggleAssociate();
   };
 
   const addNote = (newNote) => {

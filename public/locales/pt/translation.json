@@ -330,6 +330,7 @@
 		"add_tag": "Criar tag",
 		"add_tag_to": "Adicionar novo dispositivo a {{name}}",
 		"add_venue": "Adicionar Local",
+		"assign_ent_ven": "Atribuir à Entidade ou Local",
 		"assign_entity_instructions": "Você pode encontrar a entidade à qual deseja que esta tag seja atribuída usando o menu abaixo ou pode colar manualmente o UUID da entidade no campo acima.",
 		"assign_error": "Erro ao tentar atribuir tag",
 		"assign_to_entity": "Atribuir à Entidade",

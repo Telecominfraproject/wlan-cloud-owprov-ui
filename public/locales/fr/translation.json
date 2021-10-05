@@ -330,6 +330,7 @@
 		"add_tag": "Créer un tag",
 		"add_tag_to": "Ajouter un nouvel appareil à {{name}}",
 		"add_venue": "Ajouter un lieu",
+		"assign_ent_ven": "Attribuer à une entité ou à un lieu",
 		"assign_entity_instructions": "Vous pouvez soit trouver l'entité à laquelle vous souhaitez que cette balise soit attribuée en utilisant le menu ci-dessous, soit coller manuellement l'UUID de l'entité dans le champ ci-dessus.",
 		"assign_error": "Erreur lors de la tentative d'attribution de balise",
 		"assign_to_entity": "Affecter à l'entité",

@@ -330,6 +330,7 @@
 		"add_tag": "Crear etiqueta",
 		"add_tag_to": "Agregar nuevo dispositivo a {{name}}",
 		"add_venue": "Agregar lugar",
+		"assign_ent_ven": "Asignar a entidad o lugar",
 		"assign_entity_instructions": "Puede encontrar la entidad a la que desea que se asigne esta etiqueta utilizando el menú a continuación, o puede pegar manualmente el UUID de la entidad en el campo de arriba.",
 		"assign_error": "Error al intentar asignar la etiqueta",
 		"assign_to_entity": "Asignar a entidad",

@@ -330,6 +330,7 @@
 		"add_tag": "Create Tag",
 		"add_tag_to": "Add New Device to {{name}}",
 		"add_venue": "Add Venue",
+		"assign_ent_ven": "Assign to Entity or Venue",
 		"assign_entity_instructions": "You can either find the entity you want this tag to be assigned to by using the menu below, or you can manually paste the entity's UUID in the field above.",
 		"assign_error": "Error while trying to assign tag",
 		"assign_to_entity": "Assign to Entity",

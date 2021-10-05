@@ -330,6 +330,7 @@
 		"add_tag": "Tag erstellen",
 		"add_tag_to": "Neues Gerät zu {{name}}hinzufügen",
 		"add_venue": "Veranstaltungsort hinzufügen",
+		"assign_ent_ven": "Zu Entität oder Veranstaltungsort zuweisen",
 		"assign_entity_instructions": "Sie können die Entität, der dieses Tag zugewiesen werden soll, entweder über das Menü unten finden oder die UUID der Entität manuell in das Feld oben einfügen.",
 		"assign_error": "Fehler beim Versuch, Tag zuzuweisen",
 		"assign_to_entity": "Zu Entität zuweisen",
