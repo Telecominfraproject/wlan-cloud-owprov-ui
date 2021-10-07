@@ -107,7 +107,7 @@ const Radios = ({
       <CRow>
         <CCol className="pb-3">
           <CButton color="primary" block onClick={toggleModal}>
-            Add Radio
+            {t('configuration.add_radio')}
           </CButton>
         </CCol>
       </CRow>
@@ -124,7 +124,7 @@ const Radios = ({
         </CModalHeader>
         <CModalBody>
           <CRow className="pb-4">
-            <CCol>{t('configuration.choose_section')}</CCol>
+            <CCol>{t('configuration.add_radio')}</CCol>
           </CRow>
           <CRow className="py-1">
             <CCol>
