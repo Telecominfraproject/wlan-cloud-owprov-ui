@@ -9,12 +9,15 @@ import {
   ConfigurationElement,
   useFormFields,
   ConfigurationIntField,
+  FileToStringButton,
 } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import { LOCAL_USER_FORM } from 'components/DeviceConfigurationBody/constants';
 
 const Ieee8021x = ({ fields, updateField, updateWithId }) => {
   const { t } = useTranslation();
+  const saveCa = (value) => updateField('ieee8021x.ca-certificate', { value });
+  const saveKey = (value) => updateField('ieee8021x.private-key', { value });
   const [customFields, updateCustomWithId, ,] = useFormFields(LOCAL_USER_FORM);
   const [tempValue, setTempValue] = useState(fields.ieee8021x.users.value);
 
@@ -77,6 +80,16 @@ const Ieee8021x = ({ fields, updateField, updateWithId }) => {
                   secondCol="9"
                   errorMessage="Error!!!!"
                   disabled={false}
+                  extraButton={
+                    <FileToStringButton
+                      t={t}
+                      title="ca-cert"
+                      explanations={t('configuration.ca_cert_explanation')}
+                      acceptedFileTypes=".pem"
+                      size="sm"
+                      save={saveCa}
+                    />
+                  }
                 />
                 <ConfigurationToggle
                   id="ieee8021x.use-local-certificate"
@@ -106,6 +119,16 @@ const Ieee8021x = ({ fields, updateField, updateWithId }) => {
                   secondCol="9"
                   errorMessage="Error!!!!"
                   disabled={false}
+                  extraButton={
+                    <FileToStringButton
+                      t={t}
+                      title="private-key"
+                      explanations={t('configuration.key_pem_explanation')}
+                      acceptedFileTypes=".pem"
+                      size="sm"
+                      save={saveKey}
+                    />
+                  }
                 />
                 <ConfigurationCustomMultiModal
                   t={t}

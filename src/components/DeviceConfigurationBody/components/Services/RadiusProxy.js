@@ -1,6 +1,9 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { CRow, CCol, CButton } from '@coreui/react';
+import { CRow, CCol, CButton, CInputFile } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilCloudUpload } from '@coreui/icons';
 import {
   ConfigurationSectionToggler,
   ConfigurationCustomMultiModal,
@@ -16,6 +19,8 @@ import { REALMS_FORM } from 'components/DeviceConfigurationBody/constants';
 const RadiusProxy = ({ fields, updateField }) => {
   const { t } = useTranslation();
   const [customFields, updateCustomWithId, updateCustom] = useFormFields(REALMS_FORM);
+  const saveCa = (value) => updateCustom('ca-certificate', { value });
+  const saveKey = (value) => updateCustom('private-key', { value });
   const [tempValue, setTempValue] = useState(fields['radius-proxy'].realms.value);
 
   const columns = [
@@ -58,6 +63,34 @@ const RadiusProxy = ({ fields, updateField }) => {
       'private-key-password': customFields['private-key-password'].value,
     });
     setTempValue([...newArray]);
+  };
+
+  let fileReader;
+
+  const handleCertFileRead = () => {
+    const content = fileReader.result;
+    if (content) {
+      saveCa(content);
+    }
+  };
+
+  const handleCertFile = (file) => {
+    fileReader = new FileReader();
+    fileReader.onloadend = handleCertFileRead;
+    fileReader.readAsText(file);
+  };
+
+  const handleKeyFileRead = () => {
+    const content = fileReader.result;
+    if (content) {
+      saveKey(content);
+    }
+  };
+
+  const handleKeyFile = (file) => {
+    fileReader = new FileReader();
+    fileReader.onloadend = handleKeyFileRead;
+    fileReader.readAsText(file);
   };
 
   return (
@@ -135,6 +168,21 @@ const RadiusProxy = ({ fields, updateField }) => {
                         secondCol="8"
                         errorMessage="Error!!!!"
                         disabled={false}
+                        extraButton={
+                          <label
+                            className="btn btn-outline-primary btn-sm"
+                            htmlFor="radius-ca-file-input"
+                          >
+                            <CIcon content={cilCloudUpload} />
+                          </label>
+                        }
+                      />
+                      <CInputFile
+                        hidden
+                        id="radius-ca-file-input"
+                        name="radius-ca-file-input"
+                        accept=".pem"
+                        onChange={(e) => handleCertFile(e.target.files[0])}
                       />
                       <ConfigurationStringField
                         id="private-key"
@@ -145,6 +193,21 @@ const RadiusProxy = ({ fields, updateField }) => {
                         secondCol="8"
                         errorMessage="Error!!!!"
                         disabled={false}
+                        extraButton={
+                          <label
+                            className="btn btn-outline-primary btn-sm"
+                            htmlFor="radius-key-file-input"
+                          >
+                            <CIcon content={cilCloudUpload} />
+                          </label>
+                        }
+                      />
+                      <CInputFile
+                        hidden
+                        id="radius-key-file-input"
+                        name="radius-key-file-input"
+                        accept=".pem"
+                        onChange={(e) => handleKeyFile(e.target.files[0])}
                       />
                     </CCol>
                     <CCol>
