@@ -1,116 +1,198 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { CRow, CCol, CTextarea, CInvalidFeedback, CInputFile } from '@coreui/react';
+/* eslint-disable react/no-array-index-key */
+import React, { useState } from 'react';
+import {
+  CRow,
+  CCol,
+  CButton,
+  CPopover,
+  CModal,
+  CModalTitle,
+  CModalHeader,
+  CModalBody,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { useToggle } from 'ucentral-libs';
+import { cilX, cilTrash } from '@coreui/icons';
 import { useTranslation } from 'react-i18next';
-import { checkIfJson } from 'utils/helper';
+import PropTypes from 'prop-types';
+import { RADIOS_FORM } from 'components/DeviceConfigurationBody/constants';
+import General from '../General';
+import SingleRadio from './SingleRadio';
 
-const Radios = ({ creating, fields, setFields, setCanSave }) => {
+const bands = ['2G', '5G-lower', '5G-upper', '5G', '6G'];
+
+const Radios = ({
+  deleteConfig,
+  baseFields,
+  updateBaseWithId,
+  fields,
+  updateWithId,
+  updateField,
+  setFields,
+}) => {
   const { t } = useTranslation();
-  const [newRadios, setNewRadios] = useState('');
-  const [jsonError, setJsonError] = useState(false);
-  let fileReader;
+  const [show, toggle] = useToggle(false);
+  const [availableBands, setAvailableBands] = useState(bands);
 
-  const testCompatibility = (content) => {
-    try {
-      const obj = JSON.parse(content);
-
-      if (obj.radios === undefined || !Array.isArray(obj.radios)) return false;
-      return true;
-    } catch {
-      return false;
-    }
-  };
-  const onChange = (e) => {
-    setNewRadios(e.target.value);
+  const toggleModal = () => {
+    const createdBands = fields.radios ? fields.radios.map((r) => r.band.value) : [];
+    const newAvailableBands = [];
+    bands.forEach((b) => {
+      if (!createdBands.includes(b)) newAvailableBands.push(b);
+    });
+    setAvailableBands(newAvailableBands);
+    toggle();
   };
 
-  const handleJsonRead = () => {
-    setJsonError(false);
-    const content = fileReader.result;
-    if (checkIfJson(content)) {
-      setNewRadios(content);
-    } else {
-      setJsonError(true);
-    }
+  const deleteRadio = (index) => {
+    const newArray = fields.radios;
+    newArray.splice(index, 1);
+    const newRadios = { radios: newArray };
+    setFields(newRadios, true);
   };
 
-  const handleJsonFile = (file) => {
-    fileReader = new FileReader();
-    fileReader.onloadend = handleJsonRead;
-    fileReader.readAsText(file);
+  const addRadio = (e) => {
+    const newForm = {
+      ...RADIOS_FORM,
+      ...{
+        band: {
+          type: 'select',
+          value: e.target.id,
+          error: false,
+          required: true,
+          options: ['2G', '5G', '5G-lower', '5G-upper', '6G'],
+        },
+      },
+    };
+    const newArray = fields.radios ? [...fields.radios, newForm] : [newForm];
+    const newRadios = { radios: newArray };
+    setFields(newRadios, true);
+    toggle();
   };
-
-  useEffect(() => {
-    if (!testCompatibility(newRadios)) {
-      setCanSave(false);
-      setJsonError(true);
-    } else {
-      setCanSave(true);
-      setJsonError(false);
-      setFields(JSON.parse(newRadios));
-    }
-  }, [newRadios]);
-
-  useEffect(() => {
-    if (!creating && fields.radios) {
-      setNewRadios(JSON.stringify(fields, null, '\t'));
-    }
-  }, [fields, creating]);
 
   return (
-    <div>
-      <CRow>
-        <CCol sm="6">
-          <h5>Radios Section</h5>
-        </CCol>
-      </CRow>
-      <CRow>
+    <div className="px-4">
+      <CRow className="py-2">
         <CCol>
-          <div>
-            Please choose a valid JSON file containing the radios section. The JSON document should
-            have the key &quot;radios&quot; at its root with an array as its value. (Example: &#123;
-            &quot;radios&quot;: [...] &#125;)
+          <h5 className="float-left pt-2">Radios</h5>
+          <div className="float-right">
+            <CPopover content={t('common.delete')}>
+              <CButton color="primary" variant="outline" onClick={deleteConfig} className="ml-1">
+                <CIcon name="cil-trash" content={cilTrash} />
+              </CButton>
+            </CPopover>
           </div>
         </CCol>
       </CRow>
-      <CRow className="mt-4">
-        <CCol lg="4" xxl="3">
-          {t('configure.choose_file')}
-        </CCol>
+      <CRow>
         <CCol>
-          <CInputFile
-            id="file-input"
-            name="file-input"
-            accept=".json"
-            onChange={(e) => handleJsonFile(e.target.files[0])}
-          />
+          <General fields={baseFields} updateWithId={updateBaseWithId} />
         </CCol>
       </CRow>
-      <CRow className="mt-4">
+      <CRow>
         <CCol>
-          <CTextarea
-            name="textarea-input"
-            id="textarea-input"
-            rows="9"
-            placeholder="Radios JSON"
-            value={newRadios}
-            onChange={onChange}
-            invalid={jsonError}
-          />
-          <CInvalidFeedback className="help-block">
-            {t('configure.valid_json')}. The JSON document should have the key &quot;radios&quot; at
-            its root with an array as its value. (Example: &#123; &quot;radios&quot;: [...] &#125;)
-          </CInvalidFeedback>
+          {fields.radios?.map((radio, index) => (
+            <SingleRadio
+              key={index}
+              fields={fields}
+              radio={radio}
+              index={index}
+              updateWithId={updateWithId}
+              updateField={updateField}
+              deleteRadio={deleteRadio}
+            />
+          ))}
         </CCol>
       </CRow>
+      <CRow>
+        <CCol className="pb-3">
+          <CButton color="primary" block onClick={toggleModal}>
+            Add Radio
+          </CButton>
+        </CCol>
+      </CRow>
+      <CModal show={show} onClose={toggle}>
+        <CModalHeader className="p-1">
+          <CModalTitle className="pl-1 pt-1">{t('configuration.add_new_block')}</CModalTitle>
+          <div className="text-right">
+            <CPopover content={t('common.close')}>
+              <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
+                <CIcon content={cilX} />
+              </CButton>
+            </CPopover>
+          </div>
+        </CModalHeader>
+        <CModalBody>
+          <CRow className="pb-4">
+            <CCol>{t('configuration.choose_section')}</CCol>
+          </CRow>
+          <CRow className="py-1">
+            <CCol>
+              <CButton
+                block
+                id="2G"
+                color="primary"
+                disabled={!availableBands.includes('2G')}
+                onClick={addRadio}
+              >
+                2G
+              </CButton>
+            </CCol>
+            <CCol>
+              <CButton
+                block
+                id="5G"
+                color="primary"
+                disabled={!availableBands.includes('5G')}
+                onClick={addRadio}
+              >
+                5G
+              </CButton>
+              <CButton
+                block
+                id="5G-lower"
+                color="primary"
+                disabled={!availableBands.includes('5G-lower')}
+                onClick={addRadio}
+              >
+                5G-lower
+              </CButton>
+              <CButton
+                block
+                id="5G-upper"
+                color="primary"
+                disabled={!availableBands.includes('5G-upper')}
+                onClick={addRadio}
+              >
+                5G-upper
+              </CButton>
+            </CCol>
+            <CCol>
+              <CButton
+                block
+                id="6G"
+                color="primary"
+                disabled={!availableBands.includes('6G')}
+                onClick={addRadio}
+              >
+                6G
+              </CButton>
+            </CCol>
+          </CRow>
+        </CModalBody>
+      </CModal>
     </div>
   );
 };
+
 Radios.propTypes = {
-  creating: PropTypes.bool.isRequired,
+  deleteConfig: PropTypes.func.isRequired,
+  baseFields: PropTypes.instanceOf(Object).isRequired,
   fields: PropTypes.instanceOf(Object).isRequired,
+  updateWithId: PropTypes.func.isRequired,
+  updateField: PropTypes.func.isRequired,
+  updateBaseWithId: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
-  setCanSave: PropTypes.func.isRequired,
 };
 
 export default Radios;

@@ -30,6 +30,7 @@ import {
   METRICS_FORM,
   SERVICES_FORM,
   UNIT_FORM,
+  RADIOS_FORM,
 } from '../DeviceConfigurationBody/constants';
 import RawJsonConfig from './RawJsonConfig';
 
@@ -39,7 +40,7 @@ const blocksObj = {
   metrics: {},
   services: {},
   radios: {},
-  interfaces: {},
+  interfaces: [],
 };
 
 const createNewSection = (newSection) => {
@@ -72,7 +73,7 @@ const createNewSection = (newSection) => {
       newFields = { interfaces: [] };
       break;
     case 'radios':
-      newFields = { radios: [] };
+      newFields = [{ ...RADIOS_FORM }];
       break;
     default:
       break;
@@ -138,7 +139,33 @@ const parseBlock = (activeSection, baseFields, fields) => {
   }
   // Mapping radios
   else if (activeSection === 'radios') {
-    newConfig.configuration = { radios: fields.radios };
+    const newRadios = [];
+    let newFields = fields;
+    if (!Array.isArray(fields)) {
+      newFields = fields.radios;
+    }
+
+    if (Array.isArray(newFields)) {
+      newFields.forEach((radio, index) => {
+        newRadios.push({});
+        for (const [k, f] of Object.entries(radio)) {
+          const field = { ...f };
+
+          if (k === 'he') field.enabled = radio['channel-mode'].value === 'HE';
+
+          if (field.enabled !== undefined) {
+            if (field.enabled) {
+              newRadios[index][k] = {};
+              for (const [subKey, subField] of Object.entries(field)) {
+                newRadios[index][k][subKey] = subField.value;
+              }
+            }
+          } else newRadios[index][k] = field.value;
+        }
+      });
+    }
+
+    newConfig.configuration.radios = { radios: newRadios };
   }
   // Mapping interfaces
   else if (activeSection === 'interfaces') {
@@ -174,11 +201,26 @@ const ConfigurationExplorer = ({ config }) => {
     const createdSections = [];
     const newConfigObj = { ...blocksObj };
     const configs = data.configuration.map((conf) => {
-      const section = JSON.parse(conf.configuration);
+      const section =
+        typeof conf.configuration === 'string'
+          ? JSON.parse(conf.configuration)
+          : conf.configuration;
 
       for (const [sec] of Object.entries(section)) {
         createdSections.push(sec);
-        if (newConfigObj[sec] !== undefined) newConfigObj[sec] = section;
+        if (newConfigObj[sec] !== undefined) {
+          if (sec === 'radios') {
+            if (Array.isArray(section)) newConfigObj.radios.radios = section;
+            else newConfigObj.radios = section;
+            return {
+              ...conf,
+              configuration: {
+                radios: Array.isArray(section) ? section : section.radios,
+              },
+            };
+          }
+          newConfigObj[sec] = section;
+        }
       }
       return {
         ...conf,
@@ -207,7 +249,6 @@ const ConfigurationExplorer = ({ config }) => {
       .get(`${endpoints.owprov}/api/v1/configurations/${config.id}`, options)
       .then((response) => {
         const obj = parseConfig(response.data);
-
         setOrderedBlocks(obj.newConfigObj);
         setExistingSections(obj.createdSections);
         setConfigurations(obj.configs);
@@ -229,7 +270,6 @@ const ConfigurationExplorer = ({ config }) => {
 
   const refreshConfig = (newConfig, isNew = false) => {
     const obj = parseConfig(newConfig);
-
     setOrderedBlocks(obj.newConfigObj);
     setExistingSections(obj.createdSections);
     setConfigurations(obj.configs);
@@ -246,8 +286,17 @@ const ConfigurationExplorer = ({ config }) => {
       },
     };
 
+    const newConfigs = configurations.map((conf) => {
+      if (conf.configuration.radios !== undefined) {
+        if (Array.isArray(conf.configuration.radios))
+          return { ...conf, configuration: conf.configuration };
+        return { ...conf, configuration: conf.configuration.radios };
+      }
+      return conf;
+    });
+
     const parameters = {
-      configuration: configurations,
+      configuration: newConfigs,
     };
 
     axiosInstance
@@ -276,15 +325,13 @@ const ConfigurationExplorer = ({ config }) => {
 
     // Creating our new config object
     const newConfig = parseBlock(e.target.id, obj.base, obj.newFields);
-
     const newArray = configurations.map((conf) => ({
       ...conf,
       configuration: JSON.stringify(conf.configuration),
     }));
     newArray.push(newConfig);
 
-    const newFullConfiguration = config;
-    newFullConfiguration.configuration = newArray;
+    const newFullConfiguration = { ...config, configuration: newArray };
 
     refreshConfig(newFullConfiguration, true);
 
@@ -302,10 +349,9 @@ const ConfigurationExplorer = ({ config }) => {
         ...conf,
         configuration: JSON.stringify(conf.configuration),
       }));
-      newArray[key] = updatedSection;
-      const newFullConfiguration = config;
-      newFullConfiguration.configuration = newArray;
 
+      newArray[key] = updatedSection;
+      const newFullConfiguration = { ...config, configuration: newArray };
       refreshConfig(newFullConfiguration);
     }
   }, [fields, baseFields]);
@@ -382,11 +428,28 @@ const ConfigurationExplorer = ({ config }) => {
       }
       // Mapping radios
       else if (newActiveSection === 'radios') {
-        const newFields = {
-          radios: configurations[key].configuration.radios,
-        };
+        const radios = [];
+        const createdRadios = Array.isArray(configurations[key].configuration.radios)
+          ? configurations[key].configuration.radios
+          : configurations[key].configuration.radios.radios;
 
-        setFields(newFields);
+        for (let i = 0; i < createdRadios.length; i += 1) {
+          const newConfig = createdRadios[i];
+          const newForm = { ...RADIOS_FORM };
+          for (const [k, field] of Object.entries(newConfig)) {
+            if (newForm[k] !== undefined) {
+              if (newForm[k].enabled !== undefined) {
+                for (const [subK, subField] of Object.entries(field)) {
+                  if (subK !== 'enabled')
+                    newForm[k][subK] = { ...newForm[k][subK], value: subField };
+                }
+              } else newForm[k] = { ...newForm[k], value: field };
+            }
+          }
+          newForm.he.enabled = newForm['channel-mode'].value === 'HE';
+          radios.push(newForm);
+        }
+        if (radios.length > 0) setFields({ radios });
       }
       // Mapping interfaces
       else if (newActiveSection === 'interfaces') {

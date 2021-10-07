@@ -77,13 +77,10 @@ const DeviceConfigurationBody = ({
       )}
       {activeSection === 'radios' && (
         <div>
-          <Base
-            deleteConfig={deleteConfigBlock}
-            fields={baseFields}
-            updateWithId={updateBaseWithId}
-            refresh={refresh}
-          />
           <Radios
+            deleteConfig={deleteConfigBlock}
+            baseFields={baseFields}
+            updateBaseWithId={updateBaseWithId}
             fields={fields}
             updateWithId={updateWithId}
             updateField={updateField}

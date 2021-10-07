@@ -24,7 +24,16 @@ const RawJsonConfig = ({ orderedBlocks }) => (
         <pre className="pl-3">{JSON.stringify(orderedBlocks.services, null, '\t')},</pre>
       ) : null}
       {Object.keys(orderedBlocks.radios).length > 0 ? (
-        <pre className="pl-3">{JSON.stringify(orderedBlocks.radios, null, '\t')},</pre>
+        <pre className="pl-3">
+          {JSON.stringify(
+            Array.isArray(orderedBlocks.radios.radios)
+              ? orderedBlocks.radios
+              : orderedBlocks.radios.radios,
+            null,
+            '\t',
+          )}
+          ,
+        </pre>
       ) : null}
       {Object.keys(orderedBlocks.interfaces).length > 0 ? (
         <pre className="pl-3">{JSON.stringify(orderedBlocks.interfaces, null, '\t')},</pre>
