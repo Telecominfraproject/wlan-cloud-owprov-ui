@@ -113,7 +113,7 @@ const Radios = ({
       </CRow>
       <CModal show={show} onClose={toggle}>
         <CModalHeader className="p-1">
-          <CModalTitle className="pl-1 pt-1">{t('configuration.add_new_block')}</CModalTitle>
+          <CModalTitle className="pl-1 pt-1">{t('configuration.add_radio')}</CModalTitle>
           <div className="text-right">
             <CPopover content={t('common.close')}>
               <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
@@ -124,7 +124,7 @@ const Radios = ({
         </CModalHeader>
         <CModalBody>
           <CRow className="pb-4">
-            <CCol>{t('configuration.add_radio')}</CCol>
+            <CCol>{t('configuration.choose_radio_band')}</CCol>
           </CRow>
           <CRow className="py-1">
             <CCol>

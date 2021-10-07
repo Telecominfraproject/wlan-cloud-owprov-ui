@@ -1,10 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { CRow, CCol, CTextarea, CInvalidFeedback, CInputFile } from '@coreui/react';
+import {
+  CRow,
+  CCol,
+  CTextarea,
+  CInvalidFeedback,
+  CInputFile,
+  CPopover,
+  CButton,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilTrash } from '@coreui/icons';
 import { useTranslation } from 'react-i18next';
 import { checkIfJson } from 'utils/helper';
+import General from '../General';
 
-const Interfaces = ({ creating, fields, setFields, setCanSave }) => {
+const Interfaces = ({
+  baseFields,
+  updateBaseWithId,
+  fields,
+  setFields,
+  setCanSave,
+  deleteConfig,
+}) => {
   const { t } = useTranslation();
   const [newInterfaces, setNewInterfaces] = useState('');
   const [jsonError, setJsonError] = useState(false);
@@ -52,13 +70,30 @@ const Interfaces = ({ creating, fields, setFields, setCanSave }) => {
   }, [newInterfaces]);
 
   useEffect(() => {
-    if (!creating && fields.interfaces) {
+    if (fields.interfaces) {
       setNewInterfaces(JSON.stringify(fields, null, '\t'));
     }
-  }, [fields, creating]);
+  }, [fields]);
 
   return (
-    <div>
+    <div className="px-3">
+      <CRow className="py-2">
+        <CCol>
+          <h5 className="float-left pt-2">Interfaces</h5>
+          <div className="float-right">
+            <CPopover content={t('common.delete')}>
+              <CButton color="primary" variant="outline" onClick={deleteConfig} className="ml-1">
+                <CIcon name="cil-trash" content={cilTrash} />
+              </CButton>
+            </CPopover>
+          </div>
+        </CCol>
+      </CRow>
+      <CRow>
+        <CCol>
+          <General fields={baseFields} updateWithId={updateBaseWithId} />
+        </CCol>
+      </CRow>
       <CRow>
         <CCol sm="6">
           <h5>Interfaces Section</h5>
@@ -86,7 +121,7 @@ const Interfaces = ({ creating, fields, setFields, setCanSave }) => {
           />
         </CCol>
       </CRow>
-      <CRow className="mt-4">
+      <CRow className="my-4">
         <CCol>
           <CTextarea
             name="textarea-input"
@@ -108,10 +143,12 @@ const Interfaces = ({ creating, fields, setFields, setCanSave }) => {
   );
 };
 Interfaces.propTypes = {
-  creating: PropTypes.bool.isRequired,
+  baseFields: PropTypes.instanceOf(Object).isRequired,
+  updateBaseWithId: PropTypes.func.isRequired,
   fields: PropTypes.instanceOf(Object).isRequired,
   setFields: PropTypes.func.isRequired,
   setCanSave: PropTypes.func.isRequired,
+  deleteConfig: PropTypes.func.isRequired,
 };
 
 export default Interfaces;

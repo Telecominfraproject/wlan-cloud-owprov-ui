@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Globals from './components/Globals';
-import Base from './components/Base';
 import Unit from './components/Unit';
 import Metrics from './components/Metrics';
 import Radios from './components/Radios';
@@ -91,14 +90,11 @@ const DeviceConfigurationBody = ({
       )}
       {activeSection === 'interfaces' && (
         <div>
-          <Base
-            deleteConfig={deleteConfigBlock}
-            fields={baseFields}
-            updateWithId={updateBaseWithId}
-            refresh={refresh}
-          />
           <Interfaces
+            deleteConfig={deleteConfigBlock}
             fields={fields}
+            baseFields={baseFields}
+            updateBaseWithId={updateBaseWithId}
             updateWithId={updateWithId}
             updateField={updateField}
             setFields={setFields}

@@ -21,7 +21,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
           <ConfigurationElement
             header={
               <div className="py-1 pb-0 mb-0">
-                <h6 className="mt-1 float-left">{`${index} (${fields.radios[index].band.value})`}</h6>
+                <h6 className="mt-1 float-left">{`${index} - ${fields.radios[index].band.value}`}</h6>
                 <div className="text-right">
                   <CButtonClose onClick={() => deleteRadio(index)} style={{ color: 'white' }} />
                 </div>
@@ -206,7 +206,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       updateField={updateField}
                       firstCol="3"
                       secondCol="9"
-                      width="100px"
+                      width="120px"
                       disabled={false}
                     />
                   </CCol>
@@ -218,7 +218,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       updateField={updateField}
                       firstCol="3"
                       secondCol="9"
-                      width="100px"
+                      width="120px"
                       disabled={false}
                     />
                   </CCol>
