@@ -40,7 +40,7 @@ const General = ({ fields, updateWithId, subFields, onSubChange }) => {
             enabled
           >
             <CRow>
-              <CCol xl="6" xxl="4">
+              <CCol lg="6" xl="4">
                 <ConfigurationStringField
                   id="name"
                   label="name"
@@ -52,7 +52,7 @@ const General = ({ fields, updateWithId, subFields, onSubChange }) => {
                   disabled={false}
                 />
               </CCol>
-              <CCol xl="6" xxl="4">
+              <CCol lg="6" xl="4">
                 <ConfigurationStringField
                   id="description"
                   label="description"
@@ -64,7 +64,7 @@ const General = ({ fields, updateWithId, subFields, onSubChange }) => {
                   disabled={false}
                 />
               </CCol>
-              <CCol xl="6" xxl="4">
+              <CCol lg="6" xl="4">
                 <ConfigurationIntField
                   id="weight"
                   label="weight"
@@ -76,7 +76,7 @@ const General = ({ fields, updateWithId, subFields, onSubChange }) => {
                   disabled={false}
                 />
               </CCol>
-              <CCol hidden={subFields === null} xl="6" xxl="4">
+              <CCol hidden={subFields === null} lg="6" xl="4">
                 <CFormGroup row className="py-1">
                   <CLabel col sm="3" htmlFor="name">
                     Sections

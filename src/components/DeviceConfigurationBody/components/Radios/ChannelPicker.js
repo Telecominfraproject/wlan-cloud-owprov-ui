@@ -64,8 +64,8 @@ const ChannelPicker = ({ id, label, band, field, updateField }) => {
       label={label}
       field={field}
       updateField={updateField}
-      firstCol="3"
-      secondCol="9"
+      firstCol="4"
+      secondCol="8"
       disabled={false}
       options={channelOptions}
       width="100px"

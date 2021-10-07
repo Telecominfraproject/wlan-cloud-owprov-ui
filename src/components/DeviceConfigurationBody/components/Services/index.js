@@ -75,55 +75,55 @@ const Services = ({
         </CCol>
       </CRow>
       <CRow>
-        <CCol hidden={!fields.lldp.enabled} xl="6" xxl="4">
+        <CCol hidden={!fields.lldp.enabled} lg="6" xl="4">
           <LLdp fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields.ssh.enabled} xl="6" xxl="4">
+        <CCol hidden={!fields.ssh.enabled} lg="6" xl="4">
           <Ssh fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields['quality-of-service'].enabled} xl="6" xxl="4">
+        <CCol hidden={!fields['quality-of-service'].enabled} lg="6" xl="4">
           <QualityOfService fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields.rtty.enabled} xl="6" xxl="4">
+        <CCol hidden={!fields.rtty.enabled} lg="6" xl="4">
           <Rtty fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields.ntp.enabled} xl="6" xxl="4">
+        <CCol hidden={!fields.ntp.enabled} lg="6" xl="4">
           <Ntp fields={fields} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields.mdns.enabled} xl="6" xxl="4">
+        <CCol hidden={!fields.mdns.enabled} lg="6" xl="4">
           <Mdns fields={fields} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields.log.enabled} xl="6" xxl="4">
+        <CCol hidden={!fields.log.enabled} lg="6" xl="4">
           <Log fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields.http.enabled} xl="6" xxl="4">
+        <CCol hidden={!fields.http.enabled} lg="6" xl="4">
           <Http fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields.igmp.enabled} xl="6" xxl="4">
+        <CCol hidden={!fields.igmp.enabled} lg="6" xl="4">
           <Igmp fields={fields} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields['facebook-wifi'].enabled} xl="6" xxl="4">
+        <CCol hidden={!fields['facebook-wifi'].enabled} lg="6" xl="4">
           <FacebookWifi fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields.ieee8021x.enabled} xl="6" xxl="4">
+        <CCol hidden={!fields.ieee8021x.enabled} lg="6" xl="4">
           <Ieee8021x fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields['online-check'].enabled} xl="6" xxl="4">
+        <CCol hidden={!fields['online-check'].enabled} lg="6" xl="4">
           <OnlineCheck fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields['open-flow'].enabled} xl="6" xxl="4">
+        <CCol hidden={!fields['open-flow'].enabled} lg="6" xl="4">
           <OpenFlow fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields['wifi-steering'].enabled} xl="6" xxl="4">
+        <CCol hidden={!fields['wifi-steering'].enabled} lg="6" xl="4">
           <WifiSteering fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields['airtime-policies'].enabled} xl="6" xxl="4">
+        <CCol hidden={!fields['airtime-policies'].enabled} lg="6" xl="4">
           <AirtimePolicies fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields['data-plane'].enabled} xl="6" xxl="4">
+        <CCol hidden={!fields['data-plane'].enabled} lg="6" xl="4">
           <DataPlane fields={fields} updateField={updateField} />
         </CCol>
-        <CCol hidden={!fields['radius-proxy'].enabled} xl="6" xxl="4">
+        <CCol hidden={!fields['radius-proxy'].enabled} lg="6" xl="4">
           <RadiusProxy fields={fields} updateField={updateField} />
         </CCol>
       </CRow>

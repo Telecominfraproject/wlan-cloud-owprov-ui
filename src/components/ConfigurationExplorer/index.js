@@ -73,7 +73,7 @@ const createNewSection = (newSection) => {
       newFields = { interfaces: [] };
       break;
     case 'radios':
-      newFields = [{ ...RADIOS_FORM }];
+      newFields = [];
       break;
     default:
       break;
