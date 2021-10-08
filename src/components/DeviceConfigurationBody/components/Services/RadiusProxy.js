@@ -12,6 +12,7 @@ import {
   ConfigurationStringField,
   ConfigurationIntField,
   ConfigurationToggle,
+  ConfigurationFileField,
 } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import { REALMS_FORM } from 'components/DeviceConfigurationBody/constants';
@@ -21,6 +22,8 @@ const RadiusProxy = ({ fields, updateField }) => {
   const [customFields, updateCustomWithId, updateCustom] = useFormFields(REALMS_FORM);
   const saveCa = (value) => updateCustom('ca-certificate', { value });
   const saveKey = (value) => updateCustom('private-key', { value });
+  const [keyFile, setKeyFile] = useState('');
+  const [certFile, setCertFile] = useState('');
   const [tempValue, setTempValue] = useState(fields['radius-proxy'].realms.value);
 
   const columns = [
@@ -58,8 +61,10 @@ const RadiusProxy = ({ fields, updateField }) => {
       secret: customFields.secret.value,
       'use-local-certificates': customFields['use-local-certificates'].value,
       'ca-certificate': customFields['ca-certificate'].value,
+      'ca-certificate-filename': certFile,
       certificate: customFields.certificate.value,
       'private-key': customFields['private-key'].value,
+      'private-key-filename': keyFile,
       'private-key-password': customFields['private-key-password'].value,
     });
     setTempValue([...newArray]);
@@ -70,11 +75,12 @@ const RadiusProxy = ({ fields, updateField }) => {
   const handleCertFileRead = () => {
     const content = fileReader.result;
     if (content) {
-      saveCa(content);
+      saveCa(window.btoa(content));
     }
   };
 
   const handleCertFile = (file) => {
+    setCertFile(file.name);
     fileReader = new FileReader();
     fileReader.onloadend = handleCertFileRead;
     fileReader.readAsText(file);
@@ -83,11 +89,12 @@ const RadiusProxy = ({ fields, updateField }) => {
   const handleKeyFileRead = () => {
     const content = fileReader.result;
     if (content) {
-      saveKey(content);
+      saveKey(window.btoa(content));
     }
   };
 
   const handleKeyFile = (file) => {
+    setKeyFile(file.name);
     fileReader = new FileReader();
     fileReader.onloadend = handleKeyFileRead;
     fileReader.readAsText(file);
@@ -159,15 +166,13 @@ const RadiusProxy = ({ fields, updateField }) => {
                         errorMessage="Error!!!!"
                         disabled={false}
                       />
-                      <ConfigurationStringField
-                        id="ca-certificate"
+                      <ConfigurationFileField
+                        fileName={certFile}
+                        fieldValue={customFields['ca-certificate'].value}
                         label="ca-certificate"
-                        field={customFields['ca-certificate']}
-                        updateField={updateCustomWithId}
-                        firstCol="4"
-                        secondCol="8"
+                        firstCol="3"
+                        secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
                         extraButton={
                           <label
                             className="btn btn-outline-primary btn-sm"
@@ -184,15 +189,13 @@ const RadiusProxy = ({ fields, updateField }) => {
                         accept=".pem"
                         onChange={(e) => handleCertFile(e.target.files[0])}
                       />
-                      <ConfigurationStringField
-                        id="private-key"
+                      <ConfigurationFileField
+                        fileName={keyFile}
+                        fieldValue={customFields['private-key'].value}
                         label="private-key"
-                        field={customFields['private-key']}
-                        updateField={updateCustomWithId}
-                        firstCol="4"
-                        secondCol="8"
+                        firstCol="3"
+                        secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
                         extraButton={
                           <label
                             className="btn btn-outline-primary btn-sm"

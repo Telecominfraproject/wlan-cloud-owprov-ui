@@ -10,14 +10,25 @@ import {
   useFormFields,
   ConfigurationIntField,
   FileToStringButton,
+  ConfigurationFileField,
 } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import { LOCAL_USER_FORM } from 'components/DeviceConfigurationBody/constants';
 
-const Ieee8021x = ({ fields, updateField, updateWithId }) => {
+const Ieee8021x = ({ fields, updateField, updateWithId, batchSetField }) => {
   const { t } = useTranslation();
-  const saveCa = (value) => updateField('ieee8021x.ca-certificate', { value });
-  const saveKey = (value) => updateField('ieee8021x.private-key', { value });
+  const saveCa = (value, fileName) => {
+    batchSetField([
+      { id: 'ieee8021x.ca-certificate', value },
+      { id: 'ieee8021x.ca-certificate-filename', value: fileName ?? 'Unknown' },
+    ]);
+  };
+  const saveKey = (value, fileName) => {
+    batchSetField([
+      { id: 'ieee8021x.private-key', value },
+      { id: 'ieee8021x.private-key-filename', value: fileName ?? 'Unknown' },
+    ]);
+  };
   const [customFields, updateCustomWithId, ,] = useFormFields(LOCAL_USER_FORM);
   const [tempValue, setTempValue] = useState(fields.ieee8021x.users.value);
 
@@ -71,15 +82,13 @@ const Ieee8021x = ({ fields, updateField, updateWithId }) => {
           >
             <CRow>
               <CCol>
-                <ConfigurationStringField
-                  id="ieee8021x.ca-certificate"
+                <ConfigurationFileField
+                  fileName={fields.ieee8021x['ca-certificate-filename'].value}
+                  fieldValue={fields.ieee8021x['ca-certificate'].value}
                   label="ca-certificate"
-                  field={fields.ieee8021x['ca-certificate']}
-                  updateField={updateWithId}
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
                   extraButton={
                     <FileToStringButton
                       t={t}
@@ -110,15 +119,13 @@ const Ieee8021x = ({ fields, updateField, updateWithId }) => {
                   errorMessage="Error!!!!"
                   disabled={false}
                 />
-                <ConfigurationStringField
-                  id="ieee8021x.private-key"
+                <ConfigurationFileField
+                  fileName={fields.ieee8021x['private-key-filename'].value}
+                  fieldValue={fields.ieee8021x['private-key'].value}
                   label="private-key"
-                  field={fields.ieee8021x['private-key']}
-                  updateField={updateWithId}
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
                   extraButton={
                     <FileToStringButton
                       t={t}
@@ -202,6 +209,7 @@ Ieee8021x.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  batchSetField: PropTypes.func.isRequired,
 };
 
 export default Ieee8021x;

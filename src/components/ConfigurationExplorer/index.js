@@ -192,7 +192,7 @@ const ConfigurationExplorer = ({ config }) => {
   const [baseFields, updateBaseWithId, , setBaseFields] = useFormFields(BASE_FORM);
 
   // Section's form
-  const [fields, updateWithId, updateField, setFields] = useFormFields({});
+  const [fields, updateWithId, updateField, setFields, batchSetField] = useFormFields({});
 
   const toggle = () => setShow(!show);
 
@@ -525,6 +525,7 @@ const ConfigurationExplorer = ({ config }) => {
                   updateWithId={updateWithId}
                   updateField={updateField}
                   setFields={setFields}
+                  batchSetField={batchSetField}
                 />
               </CTabPane>
             </CTabContent>

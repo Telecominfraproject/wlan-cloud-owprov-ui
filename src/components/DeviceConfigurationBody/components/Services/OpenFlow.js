@@ -6,14 +6,25 @@ import {
   ConfigurationMulti,
   ConfigurationStringField,
   ConfigurationElement,
+  ConfigurationFileField,
   FileToStringButton,
 } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 
-const OpenFlow = ({ fields, updateField, updateWithId }) => {
+const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
   const { t } = useTranslation();
-  const saveCa = (value) => updateField('open-flow.ca-certificate', { value });
-  const saveKey = (value) => updateField('open-flow.private-key', { value });
+  const saveCa = (value, fileName) => {
+    batchSetField([
+      { id: 'open-flow.ca-certificate', value },
+      { id: 'open-flow.ca-certificate-filename', value: fileName ?? 'Unknown' },
+    ]);
+  };
+  const saveKey = (value, fileName) => {
+    batchSetField([
+      { id: 'open-flow.private-key', value },
+      { id: 'open-flow.private-key-filename', value: fileName ?? 'Unknown' },
+    ]);
+  };
 
   return (
     <div>
@@ -54,15 +65,13 @@ const OpenFlow = ({ fields, updateField, updateWithId }) => {
                   secondCol="9"
                   disabled={false}
                 />
-                <ConfigurationStringField
-                  id="open-flow.ca-certificate"
+                <ConfigurationFileField
+                  fileName={fields['open-flow']['ca-certificate-filename'].value}
+                  fieldValue={fields['open-flow']['ca-certificate'].value}
                   label="ca-certificate"
-                  field={fields['open-flow']['ca-certificate']}
-                  updateField={updateWithId}
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
                   extraButton={
                     <FileToStringButton
                       t={t}
@@ -84,15 +93,16 @@ const OpenFlow = ({ fields, updateField, updateWithId }) => {
                   errorMessage="Error!!!!"
                   disabled={false}
                 />
-                <ConfigurationStringField
-                  id="open-flow.private-key"
+                <div>
+                  <div>{}</div>
+                </div>
+                <ConfigurationFileField
+                  fileName={fields['open-flow']['private-key-filename'].value}
+                  fieldValue={fields['open-flow']['private-key'].value}
                   label="private-key"
-                  field={fields['open-flow']['private-key']}
-                  updateField={updateWithId}
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
                   extraButton={
                     <FileToStringButton
                       t={t}
@@ -117,6 +127,7 @@ OpenFlow.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  batchSetField: PropTypes.func.isRequired,
 };
 
 export default OpenFlow;

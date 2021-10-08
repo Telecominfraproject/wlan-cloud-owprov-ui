@@ -305,6 +305,12 @@ export const SERVICES_FORM = {
       error: false,
       required: true,
     },
+    'ca-certificate-filename': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: false,
+    },
     'use-local-certificate': {
       type: 'bool',
       value: false,
@@ -321,6 +327,12 @@ export const SERVICES_FORM = {
       value: '',
       error: false,
       required: true,
+    },
+    'private-key-filename': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: false,
     },
     users: {
       value: [],
@@ -393,6 +405,12 @@ export const SERVICES_FORM = {
       required: true,
       options: ['pssl', 'ptcp', 'ssl', 'tcp'],
     },
+    'ca-certificate-filename': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: false,
+    },
     'ca-certificate': {
       type: 'string',
       value: '',
@@ -410,6 +428,12 @@ export const SERVICES_FORM = {
       value: '',
       error: false,
       required: true,
+    },
+    'private-key-filename': {
+      type: 'string',
+      value: '',
+      error: false,
+      required: false,
     },
   },
   'data-plane': {
@@ -609,12 +633,22 @@ export const REALMS_FORM = {
     value: '',
     error: false,
   },
+  'ca-certificate-filename': {
+    type: 'string',
+    value: '',
+    error: false,
+  },
   certificate: {
     type: 'string',
     value: '',
     error: false,
   },
   'private-key': {
+    type: 'string',
+    value: '',
+    error: false,
+  },
+  'private-key-filename': {
     type: 'string',
     value: '',
     error: false,

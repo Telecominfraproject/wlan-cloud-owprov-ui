@@ -31,6 +31,7 @@ const Services = ({
   fields,
   updateWithId,
   updateField,
+  batchSetField,
 }) => {
   const { t } = useTranslation();
 
@@ -106,13 +107,23 @@ const Services = ({
           <FacebookWifi fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
         <CCol hidden={!fields.ieee8021x.enabled} lg="6" xl="4">
-          <Ieee8021x fields={fields} updateWithId={updateWithId} updateField={updateField} />
+          <Ieee8021x
+            fields={fields}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            batchSetField={batchSetField}
+          />
         </CCol>
         <CCol hidden={!fields['online-check'].enabled} lg="6" xl="4">
           <OnlineCheck fields={fields} updateWithId={updateWithId} updateField={updateField} />
         </CCol>
         <CCol hidden={!fields['open-flow'].enabled} lg="6" xl="4">
-          <OpenFlow fields={fields} updateWithId={updateWithId} updateField={updateField} />
+          <OpenFlow
+            fields={fields}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            batchSetField={batchSetField}
+          />
         </CCol>
         <CCol hidden={!fields['wifi-steering'].enabled} lg="6" xl="4">
           <WifiSteering fields={fields} updateWithId={updateWithId} updateField={updateField} />
@@ -139,6 +150,7 @@ Services.propTypes = {
   updateWithId: PropTypes.func.isRequired,
   updateBaseWithId: PropTypes.func.isRequired,
   updateField: PropTypes.func.isRequired,
+  batchSetField: PropTypes.func.isRequired,
 };
 
 Services.defaultProps = {

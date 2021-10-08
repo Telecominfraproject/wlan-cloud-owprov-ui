@@ -20,6 +20,7 @@ const DeviceConfigurationBody = ({
   updateWithId,
   updateField,
   setFields,
+  batchSetField,
 }) => {
   const deleteConfigBlock = () => {
     const newFullConfiguration = parentConfiguration;
@@ -113,6 +114,7 @@ const DeviceConfigurationBody = ({
             updateWithId={updateWithId}
             updateField={updateField}
             setFields={setFields}
+            batchSetField={batchSetField}
           />
         </div>
       )}
@@ -133,6 +135,7 @@ DeviceConfigurationBody.propTypes = {
   updateWithId: PropTypes.func.isRequired,
   updateField: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
+  batchSetField: PropTypes.func.isRequired,
 };
 
 export default DeviceConfigurationBody;
