@@ -1,0 +1,86 @@
+{{- $root := . -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "owprovui.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "owprovui.name" . }}
+    helm.sh/chart: {{ include "owprovui.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "owprovui.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- with .Values.services.owprovui.labels }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "owprovui.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- with .Values.services.owprovui.labels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+
+      containers:
+
+        - name: owprovui
+          image: "{{ .Values.images.owprovui.repository }}:{{ .Values.images.owprovui.tag }}"
+          imagePullPolicy: {{ .Values.images.owprovui.pullPolicy }}
+
+          env:
+            - name: KUBERNETES_DEPLOYED
+              value: "{{ now }}"
+          {{- range $key, $value := .Values.public_env_variables }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+          {{- end }}
+
+          ports:
+          {{- range $key, $value := .Values.services.owprovui.ports }}
+            - name: {{ $key }}
+              containerPort: {{ $value.targetPort }}
+              protocol: {{ $value.protocol }}
+          {{- end }}
+
+          {{- if .Values.checks.owprovui.liveness }}
+          livenessProbe:
+            {{- toYaml .Values.checks.owprovui.liveness | nindent 12 }}
+          {{- end }}
+          {{- if .Values.checks.owprovui.readiness }}
+          readinessProbe:
+            {{- toYaml .Values.checks.owprovui.readiness | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+      imagePullSecrets:
+      {{- range $image, $imageValue := .Values.images }}
+        {{- if $imageValue.regcred }}
+      - name: {{ include "owprovui.fullname" $root }}-{{ $image }}-regcred
+        {{- end }}
+      {{- end }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
