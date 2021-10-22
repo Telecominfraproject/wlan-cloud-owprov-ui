@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { CRow, CCol } from '@coreui/react';
-import { useEntity, useToast } from 'ucentral-libs';
+import { useEntity, useToast, useToggle } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import InventoryTable from 'components/InventoryTable';
 import AddInventoryTagModal from 'components/AddInventoryTagModal';
@@ -14,17 +14,12 @@ const EntityPage = () => {
   const { addToast } = useToast();
   const location = useLocation();
   const history = useHistory();
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [refreshId, setRefreshId] = useState(0);
+  const [showAddModal, toggleShowAdd] = useToggle(false);
 
-  const refreshTable = () => setRefreshId(refreshId + 1);
-
-  const toggleShowAdd = () => {
-    setShowAddModal(!showAddModal);
-  };
+  const refreshTables = () => setProviderEntity(venueId, true);
 
   useEffect(() => {
-    if (entity === null || (venueId !== null && entity.uuid !== venueId)) {
+    if (entity === null || !entity.result || Object.keys(entity.result).length === 0) {
       setProviderEntity(venueId, true);
     }
   }, [venueId]);
@@ -57,27 +52,29 @@ const EntityPage = () => {
   return (
     <>
       <CRow>
-        <CCol>{entity === null || !entity.isVenue ? null : <VenueInfoCard />}</CCol>
+        <CCol>
+          {entity === null || !entity.isVenue ? null : (
+            <VenueInfoCard refreshPage={refreshTables} />
+          )}
+        </CCol>
       </CRow>
       <CRow>
         <CCol>
-          {entity !== null && entity?.uuid !== '0000-0000-0000' && entity.isVenue ? (
+          {entity !== null && entity.isVenue ? (
             <div>
               <InventoryTable
                 entity={entity}
                 toggleAdd={toggleShowAdd}
-                refreshId={refreshId}
-                refreshPageTables={refreshTable}
-                onlyEntity
+                refreshTable={refreshTables}
+                filterOnEntity
                 urlId="only"
                 title={t('common.devices')}
               />
               <AddInventoryTagModal
                 show={showAddModal}
                 toggle={toggleShowAdd}
-                refreshId={refreshId}
                 entity={entity}
-                refreshTable={refreshTable}
+                refreshTable={refreshTables}
               />
             </div>
           ) : (

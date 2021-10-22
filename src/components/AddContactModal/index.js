@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { AddInventoryTagForm, useAuth, useEntity, useFormFields, useToast } from 'ucentral-libs';
+import { AddContactForm, useAuth, useFormFields, useToast } from 'ucentral-libs';
 import {
   CModal,
   CModalHeader,
@@ -15,7 +15,7 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave } from '@coreui/icons';
-import InventoryTable from 'components/InventoryTable';
+import ContactsTable from 'components/ContactsTable';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
@@ -24,47 +24,89 @@ const initialForm = {
     value: '',
     error: false,
     hidden: false,
-  },
-  serialNumber: {
-    value: '',
-    error: false,
     required: true,
-    regex: '^[a-fA-F0-9]+$',
-    length: 12,
   },
   name: {
     value: '',
     error: false,
-    required: true,
+    hidden: false,
   },
-  deviceType: {
+  type: {
     value: '',
     error: false,
     required: true,
   },
-  rrm: {
-    value: 'inherit',
+  title: {
+    value: '',
+    error: false,
+  },
+  salutation: {
+    value: '',
     error: false,
     required: true,
+  },
+  firstname: {
+    value: '',
+    error: false,
+    required: true,
+  },
+  lastname: {
+    value: '',
+    error: false,
+    required: true,
+  },
+  initials: {
+    value: '',
+    error: false,
+    required: true,
+  },
+  visual: {
+    value: '',
+    error: false,
+    required: false,
+  },
+  phones: {
+    value: [],
+    error: false,
+    required: false,
+  },
+  mobiles: {
+    value: [],
+    error: false,
+    required: false,
+  },
+  primaryEmail: {
+    value: '',
+    error: false,
+    required: true,
+  },
+  secondaryEmail: {
+    value: '',
+    error: false,
+  },
+  accessPIN: {
+    value: '',
+    error: false,
   },
   description: {
     value: '',
     error: false,
   },
-  note: {
+  initialNote: {
     value: '',
     error: false,
+    ignore: true,
   },
 };
 
-const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId }) => {
+const AddContactModal = ({ entity, show, toggle, refreshTable }) => {
   const { t } = useTranslation();
-  const { deviceTypes } = useEntity();
   const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
   const [activeTab, setActiveTab] = useState(0);
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
+  const [entities, setEntities] = useState([]);
 
   const validation = () => {
     let success = true;
@@ -82,7 +124,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
     return success;
   };
 
-  const addInventoryTag = () => {
+  const addContact = () => {
     if (validation()) {
       setLoading(true);
       const options = {
@@ -92,37 +134,32 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
         },
       };
 
-      const parameters = {
-        entity: !entity?.isVenue && entity?.uuid ? entity.uuid : undefined,
-        venue: entity?.isVenue && entity?.uuid ? entity.uuid : undefined,
-        serialNumber: fields.serialNumber.value,
-        name: fields.name.value,
-        deviceType: fields.deviceType.value,
-        description:
-          fields.description.value.trim() !== '' ? fields.description.value.trim() : undefined,
-        notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
-        rrm: fields.rrm.value,
-      };
+      const parameters = {};
+
+      for (const [k, v] of Object.entries(fields)) {
+        if (!fields.ignore) parameters[k] = v.value;
+      }
+
+      if (fields.initialNote !== '') parameters.notes = [{ note: fields.initialNote.value }];
+
+      if (entity) parameters.entity = entity.uuid;
 
       axiosInstance
-        .post(
-          `${endpoints.owprov}/api/v1/inventory/${fields.serialNumber.value}`,
-          parameters,
-          options,
-        )
+        .post(`${endpoints.owprov}/api/v1/contact/1`, parameters, options)
         .then(() => {
           addToast({
             title: t('common.success'),
-            body: t('inventory.tag_created'),
+            body: t('contact.successful_creation'),
             color: 'success',
             autohide: true,
           });
           refreshTable();
+          toggle();
         })
-        .catch(() => {
+        .catch((e) => {
           addToast({
             title: t('common.error'),
-            body: t('inventory.tag_creation_error'),
+            body: t('contact.error_creation', { error: e.response?.data?.ErrorDescription }),
             color: 'danger',
             autohide: true,
           });
@@ -133,9 +170,55 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
     }
   };
 
+  const getPartialEntities = async (offset) => {
+    const headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${currentToken}`,
+    };
+
+    return axiosInstance
+      .get(`${endpoints.owprov}/api/v1/entity?limit=500&offset=${offset}`, { headers })
+      .then((response) => response.data.entities)
+      .catch(() => {
+        addToast({
+          title: t('common.error'),
+          body: t('common.general_error'),
+          color: 'danger',
+          autohide: true,
+        });
+        return [];
+      });
+  };
+
+  const getEntities = async () => {
+    setLoading(true);
+
+    const allEntites = [];
+    let continueGetting = true;
+    let i = 1;
+    while (continueGetting) {
+      // eslint-disable-next-line no-await-in-loop
+      const newStuff = await getPartialEntities(i);
+      if (newStuff === null || newStuff.length === 0) continueGetting = false;
+      allEntites.push(...newStuff);
+      i += 500;
+    }
+    const sorted = allEntites.sort((a, b) => {
+      const firstDate = a.created;
+      const secondDate = b.created;
+      if (firstDate < secondDate) return 1;
+      return firstDate > secondDate ? -1 : 0;
+    });
+    setEntities(sorted);
+
+    setLoading(false);
+  };
+
   useEffect(() => {
     if (show) {
+      if (entity === null) getEntities();
       setActiveTab(0);
+      refreshTable();
       const startingForm = initialForm;
 
       // If this modal is used within an Entity Page, we use the page's entity and hide the field
@@ -153,16 +236,14 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
   return (
     <CModal size="xl" show={show} onClose={toggle}>
       <CModalHeader className="p-1">
-        <CModalTitle className="pl-1 pt-1">
-          {t('inventory.add_tag', { name: entity?.name })}
-        </CModalTitle>
+        <CModalTitle className="pl-1 pt-1">Add Contact</CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
             <CButton
               color="primary"
               variant="outline"
               className="mx-2"
-              onClick={addInventoryTag}
+              onClick={addContact}
               disabled={activeTab !== 0}
             >
               <CIcon content={cilSave} />
@@ -183,41 +264,32 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
                 Create New
               </CNavLink>
               <CNavLink href="#" active={activeTab === 1} onClick={() => setActiveTab(1)}>
-                Unassigned Inventory
+                Already Assigned Contacts
               </CNavLink>
             </CNav>
             <CTabContent className="py-2">
               <CTabPane active={activeTab === 0}>
-                <AddInventoryTagForm
+                <AddContactForm
                   t={t}
                   disable={loading}
                   fields={fields}
                   updateField={updateFieldWithId}
-                  updateFieldDirectly={updateField}
-                  deviceTypes={deviceTypes}
+                  updateFieldWithKey={updateField}
                 />
               </CTabPane>
               <CTabPane active={activeTab === 1}>
-                {show ? (
-                  <InventoryTable
-                    entity={entity}
-                    refreshId={refreshId}
-                    refreshPageTables={refreshTable}
-                    urlId="unassigned"
-                    title={t('inventory.unassigned_tags')}
-                  />
-                ) : null}
+                {show ? <ContactsTable entity={entity} title={t('contact.title')} /> : null}
               </CTabPane>
             </CTabContent>
           </div>
         ) : (
-          <AddInventoryTagForm
+          <AddContactForm
             t={t}
             disable={loading}
             fields={fields}
             updateField={updateFieldWithId}
-            updateFieldDirectly={updateField}
-            deviceTypes={deviceTypes}
+            updateFieldWithKey={updateField}
+            entities={entities}
           />
         )}
       </CModalBody>
@@ -225,17 +297,16 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
   );
 };
 
-AddInventoryTagModal.propTypes = {
+AddContactModal.propTypes = {
   entity: PropTypes.instanceOf(Object),
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   refreshTable: PropTypes.func,
-  refreshId: PropTypes.number.isRequired,
 };
 
-AddInventoryTagModal.defaultProps = {
+AddContactModal.defaultProps = {
   entity: null,
   refreshTable: null,
 };
 
-export default AddInventoryTagModal;
+export default AddContactModal;

@@ -11,10 +11,10 @@ const ChannelPicker = ({ id, label, band, channel, field, updateField }) => {
 
     if (band === '2G') {
       const newOptions = [
-        { value: '20', label: '20 MHz' },
-        { value: '40', label: '40 MHz' },
+        { value: 20, label: '20 MHz' },
+        { value: 40, label: '40 MHz' },
       ];
-      if (!newOptions.find((opt) => opt.value === value)) value = '20';
+      if (!newOptions.find((opt) => opt.value === value)) value = 20;
       setOptions(newOptions);
     }
     if (band === '5G-lower') {
@@ -64,7 +64,7 @@ const ChannelPicker = ({ id, label, band, channel, field, updateField }) => {
       }
     }
 
-    if (value !== field.value) updateField(id, { value });
+    if (value !== field.value) updateField(id, { value: parseInt(value, 10) });
   }, [channel]);
 
   return (

@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { CRow, CCol, CButtonClose } from '@coreui/react';
 import {
   ConfigurationElement,
-  ConfigurationStringField,
   ConfigurationSelect,
   ConfigurationIntField,
   ConfigurationToggle,
 } from 'ucentral-libs';
 import ChannelPicker from './ChannelPicker';
 import ChannelWidth from './ChannelWidth';
+import HostApdIfaceRaw from './HostApdIfaceRaw';
 
 const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) => {
   const [idStart] = useState(`radios[${index}]`);
+
+  const saveHostApd = (newList) => {
+    updateField(`radios[${index}].hostapd-iface-raw`, { value: newList });
+  };
 
   return (
     <div>
@@ -21,7 +25,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
           <ConfigurationElement
             header={
               <div className="py-1 pb-0 mb-0">
-                <h6 className="mt-1 float-left">{`${index} - ${fields.radios[index].band.value}`}</h6>
+                <h6 className="mt-1 float-left">{`Radio ${index} - ${fields.radios[index].band.value}`}</h6>
                 <div className="text-right">
                   <CButtonClose onClick={() => deleteRadio(index)} style={{ color: 'white' }} />
                 </div>
@@ -38,7 +42,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index].band}
                   updateField={updateField}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   disabled
                   width="120px"
                 />
@@ -69,21 +73,19 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index].bandwidth}
                   updateField={updateField}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   width="100px"
                   disabled={false}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
-                <ConfigurationStringField
+                <ConfigurationSelect
                   id={`${idStart}.country`}
                   label="country"
                   field={fields.radios[index].country}
-                  updateField={updateWithId}
+                  updateField={updateField}
                   firstCol="4"
-                  fsecondCol="8"
-                  errorMessage="Required"
-                  width="100px"
+                  secondCol="8"
                   disabled={false}
                 />
               </CCol>
@@ -94,7 +96,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index]['channel-mode']}
                   updateField={updateField}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   width="250px"
                   disabled={false}
                 />
@@ -106,7 +108,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index]['require-mode']}
                   updateField={updateField}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   width="250px"
                   disabled={false}
                 />
@@ -118,7 +120,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index].mimo}
                   updateField={updateField}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   width="100px"
                   disabled={false}
                 />
@@ -133,7 +135,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index]['tx-power']}
                   updateField={updateWithId}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   errorMessage="Error!!!!"
                   disabled={false}
                 />
@@ -145,7 +147,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index]['legacy-rates']}
                   updateField={updateField}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   disabled={false}
                 />
               </CCol>
@@ -156,7 +158,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index]['beacon-interval']}
                   updateField={updateWithId}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   errorMessage="Error!!!!"
                   disabled={false}
                 />
@@ -168,7 +170,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index]['dtim-period']}
                   updateField={updateWithId}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   errorMessage="Error!!!!"
                   disabled={false}
                 />
@@ -180,21 +182,19 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index]['maximum-clients']}
                   updateField={updateWithId}
                   firstCol="4"
-                  fsecondCol="8"
+                  secondCol="8"
                   errorMessage="Error!!!!"
                   disabled={false}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
-                <ConfigurationStringField
-                  id={`${idStart}.hostapd-iface-raw`}
+                <HostApdIfaceRaw
                   label="hostapd-iface-raw"
-                  field={fields.radios[index]['hostapd-iface-raw']}
-                  updateField={updateWithId}
+                  value={fields.radios[index]['hostapd-iface-raw'].value}
+                  save={saveHostApd}
                   firstCol="4"
-                  fsecondCol="8"
-                  errorMessage="Required"
-                  disabled={false}
+                  secondCol="8"
+                  length={fields.radios[index]['hostapd-iface-raw'].value.length}
                 />
               </CCol>
             </CRow>
@@ -209,7 +209,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       field={fields.radios[index].rates.beacon}
                       updateField={updateField}
                       firstCol="4"
-                      fsecondCol="8"
+                      secondCol="8"
                       width="120px"
                       disabled={false}
                     />
@@ -221,7 +221,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       field={fields.radios[index].rates.multicast}
                       updateField={updateField}
                       firstCol="4"
-                      fsecondCol="8"
+                      secondCol="8"
                       width="120px"
                       disabled={false}
                     />
@@ -240,7 +240,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       field={fields.radios[index].he['multiple-bssid']}
                       updateField={updateField}
                       firstCol="4"
-                      fsecondCol="8"
+                      secondCol="8"
                       disabled={false}
                     />
                   </CCol>
@@ -251,7 +251,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       field={fields.radios[index].he.ema}
                       updateField={updateField}
                       firstCol="4"
-                      fsecondCol="8"
+                      secondCol="8"
                       disabled={false}
                     />
                   </CCol>
@@ -262,7 +262,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       field={fields.radios[index].he['bss-color']}
                       updateField={updateWithId}
                       firstCol="4"
-                      fsecondCol="8"
+                      secondCol="8"
                       errorMessage="Error!!!!"
                       disabled={false}
                     />

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import axiosInstance from 'utils/axiosInstance';
 import { useAuth, useToast } from 'ucentral-libs';
 import CIcon from '@coreui/icons-react';
-import { cilX } from '@coreui/icons';
+import { cilRouter, cilX } from '@coreui/icons';
 import { CButton, CModal, CModalBody, CModalHeader, CModalTitle, CPopover } from '@coreui/react';
 import { useTranslation } from 'react-i18next';
 
-const ComputerConfigModal = ({ show, toggle, serialNumber }) => {
+const ComputerConfigModal = ({ show, toggle, serialNumber, pushConfig }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { currentToken, endpoints } = useAuth();
@@ -41,6 +41,11 @@ const ComputerConfigModal = ({ show, toggle, serialNumber }) => {
       .finally(() => setLoading(false));
   };
 
+  const push = () => {
+    toggle();
+    pushConfig(serialNumber);
+  };
+
   useEffect(() => {
     if (show && serialNumber !== '') getConfig();
   }, [show, serialNumber]);
@@ -50,6 +55,11 @@ const ComputerConfigModal = ({ show, toggle, serialNumber }) => {
       <CModalHeader className="p-1">
         <CModalTitle className="pl-1 pt-1">{serialNumber}</CModalTitle>
         <div className="text-right">
+          <CPopover content="Push Configuration to Device">
+            <CButton color="primary" variant="outline" onClick={push}>
+              <CIcon name="cil-router" content={cilRouter} />
+            </CButton>
+          </CPopover>
           <CPopover content={t('common.close')}>
             <CButton color="primary" variant="outline" className="ml-2" onClick={() => toggle()}>
               <CIcon content={cilX} />
@@ -75,6 +85,7 @@ ComputerConfigModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   serialNumber: PropTypes.string,
+  pushConfig: PropTypes.func.isRequired,
 };
 
 ComputerConfigModal.defaultProps = {

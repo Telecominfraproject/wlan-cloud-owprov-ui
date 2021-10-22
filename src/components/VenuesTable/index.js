@@ -7,15 +7,7 @@ import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import EditVenueModal from 'components/EditTagModal';
 
-const VenuesTable = ({
-  entity,
-  toggleAdd,
-  refreshId,
-  onlyEntity,
-  useUrl,
-  title,
-  refreshPageTables,
-}) => {
+const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refreshPageTables }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { currentToken, endpoints } = useAuth();
@@ -26,6 +18,7 @@ const VenuesTable = ({
   const [localPage, setLocalPage] = useState('0');
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedVenueId, setSelectedVenueId] = useState(null);
+  const [entityVenuesArray, setEntityVenuesArray] = useState([]);
 
   // States needed for Inventory Table
   const [loading, setLoading] = useState(false);
@@ -44,22 +37,30 @@ const VenuesTable = ({
   const getVenueInformation = (selectedPage = page, venuePerPage = venuesPerPage) => {
     setLoading(true);
 
+    let params = {};
+
+    if (filterOnEntity) {
+      params = {
+        select: entity.extraData.venues.slice(venuePerPage * selectedPage, venuePerPage).join(','),
+        withExtendedInfo: true,
+      };
+    } else {
+      params = {
+        withExtendedInfo: true,
+        limit: venuePerPage,
+        offset: venuePerPage * selectedPage + 1,
+      };
+    }
     const options = {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${currentToken}`,
       },
+      params,
     };
 
     axiosInstance
-      .get(
-        `${endpoints.owprov}/api/v1/venue?${
-          onlyEntity && entity !== null ? `&entity=${entity.uuid}&` : ''
-        }limit=${venuePerPage}&offset=${venuePerPage * selectedPage + 1}${
-          !onlyUnassigned ? 'withExtendedInfo=true&' : ''
-        }`,
-        options,
-      )
+      .get(`${endpoints.owprov}/api/v1/venue`, options)
       .then((response) => {
         setVenues(response.data.venues);
       })
@@ -77,22 +78,9 @@ const VenuesTable = ({
   const getCount = () => {
     setLoading(true);
 
-    const headers = {
-      Accept: 'application/json',
-      Authorization: `Bearer ${currentToken}`,
-    };
-
-    axiosInstance
-      .get(
-        `${endpoints.owprov}/api/v1/venue?${
-          onlyEntity && entity !== null ? `entity=${entity.uuid}&` : ''
-        }countOnly=true${!onlyUnassigned ? '' : ''}`,
-        {
-          headers,
-        },
-      )
-      .then((response) => {
-        const venuesCount = response.data.count;
+    if (filterOnEntity) {
+      if (entity.extraData?.venues) {
+        const venuesCount = entity.extraData.venues.length;
         const pagesCount = Math.ceil(venuesCount / venuesPerPage);
         setPageCount(pagesCount);
         setVenueCount(venuesCount);
@@ -108,13 +96,47 @@ const VenuesTable = ({
           getVenueInformation(selectedPage);
         } else {
           setVenues([]);
+          setLoading(false);
         }
-        setLoading(false);
-      })
-      .catch(() => {
+      } else {
         setVenues([]);
         setLoading(false);
-      });
+      }
+    } else {
+      const headers = {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      };
+
+      axiosInstance
+        .get(`${endpoints.owprov}/api/v1/venue?countOnly=true`, {
+          headers,
+        })
+        .then((response) => {
+          const venuesCount = response.data.count;
+          const pagesCount = Math.ceil(venuesCount / venuesPerPage);
+          setPageCount(pagesCount);
+          setVenueCount(venuesCount);
+
+          let selectedPage = page;
+
+          if (page >= pagesCount) {
+            if (useUrl) history.push(`${path}?page=${pagesCount - 1}`);
+            else setLocalPage(`${pagesCount - 1}`);
+            selectedPage = pagesCount - 1;
+          }
+          if (venuesCount > 0) {
+            getVenueInformation(selectedPage);
+          } else {
+            setVenues([]);
+          }
+          setLoading(false);
+        })
+        .catch(() => {
+          setVenues([]);
+          setLoading(false);
+        });
+    }
   };
 
   const updateVenuesPerPage = (value) => {
@@ -166,7 +188,7 @@ const VenuesTable = ({
           autohide: true,
         });
         if (refreshPageTables !== null) refreshPageTables();
-        getCount();
+        else getCount();
       })
       .catch(() => {
         addToast({
@@ -201,7 +223,7 @@ const VenuesTable = ({
           autohide: true,
         });
         if (refreshPageTables !== null) refreshPageTables();
-        getCount();
+        else getCount();
       })
       .catch(() => {
         addToast({
@@ -216,7 +238,10 @@ const VenuesTable = ({
       });
   };
 
-  const refresh = () => getCount();
+  const refresh = () => {
+    getCount();
+    if (refreshPageTables !== null) refreshPageTables();
+  };
 
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
@@ -224,8 +249,17 @@ const VenuesTable = ({
     }
     if (!useUrl) setLocalPage('0');
 
-    getCount();
+    if (entity === null) setEntityVenuesArray([]);
+    else {
+      const newVenues =
+        entity?.extraData?.venues !== undefined ? entity.extraData?.venues?.map((d) => d) : [];
+      if (newVenues.join(',') !== entityVenuesArray.join(',')) setEntityVenuesArray(newVenues);
+    }
   }, [entity]);
+
+  useEffect(() => {
+    getCount();
+  }, [entityVenuesArray]);
 
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
@@ -240,10 +274,6 @@ const VenuesTable = ({
     getCount();
   }, [onlyUnassigned]);
 
-  useEffect(() => {
-    if (refreshId > 0) getCount();
-  }, [refreshId]);
-
   return (
     <div>
       <Table
@@ -256,7 +286,7 @@ const VenuesTable = ({
         updatePage={updatePage}
         pageCount={pageCount}
         toggleAdd={toggleAdd}
-        onlyEntity={onlyEntity}
+        onlyEntity={filterOnEntity}
         unassign={unassignVenue}
         entity={entity}
         title={title}
@@ -279,8 +309,7 @@ const VenuesTable = ({
 VenuesTable.propTypes = {
   entity: PropTypes.instanceOf(Object),
   toggleAdd: PropTypes.func,
-  refreshId: PropTypes.number,
-  onlyEntity: PropTypes.bool,
+  filterOnEntity: PropTypes.bool,
   useUrl: PropTypes.bool,
   title: PropTypes.string,
   refreshPageTables: PropTypes.func,
@@ -289,8 +318,7 @@ VenuesTable.propTypes = {
 VenuesTable.defaultProps = {
   entity: null,
   toggleAdd: null,
-  refreshId: 0,
-  onlyEntity: false,
+  filterOnEntity: false,
   useUrl: false,
   title: null,
   refreshPageTables: null,

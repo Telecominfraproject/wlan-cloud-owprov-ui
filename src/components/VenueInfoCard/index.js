@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
   CButton,
@@ -24,6 +25,7 @@ import axiosInstance from 'utils/axiosInstance';
 import DeleteEntityModal from 'components/DeleteEntityModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import EntityIpModal from 'components/EntityIpModal';
+import AssociateContactModal from 'components/AssociateContactModal';
 
 const initialForm = {
   name: {
@@ -52,6 +54,11 @@ const initialForm = {
     uuid: '',
     error: false,
   },
+  contact: {
+    value: '',
+    uuid: '',
+    error: false,
+  },
   notes: {
     value: [],
     error: false,
@@ -62,7 +69,7 @@ const initialForm = {
   },
 };
 
-const VenueInfoCard = () => {
+const VenueInfoCard = ({ refreshPage }) => {
   const { t } = useTranslation();
   const { entity, setEntity, refreshEntity } = useEntity();
   const { currentToken, endpoints } = useAuth();
@@ -73,6 +80,7 @@ const VenueInfoCard = () => {
   const [showDelete, setShowDelete] = useState(false);
   const [showAssociate, setShowAssociate] = useState(false);
   const [showIp, toggleIp] = useToggle();
+  const [showContact, toggleContact] = useToggle();
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
@@ -92,58 +100,39 @@ const VenueInfoCard = () => {
     return success;
   };
 
-  const getVenueInfo = () => {
+  const parseVenue = () => {
     setLoading(true);
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
 
-    axiosInstance
-      .get(`${endpoints.owprov}/api/v1/venue/${entity.uuid}`, options)
-      .then((response) => {
-        const newFields = fields;
-        for (const [key] of Object.entries(newFields)) {
-          if (response.data[key] !== undefined) {
-            if (key === 'deviceConfiguration')
-              newFields.deviceConfiguration = { value: '', uuid: response.data[key] };
-            else if (key === 'rrm')
-              newFields[key].value = response.data[key] === '' ? 'inherit' : response.data[key];
-            else newFields[key].value = response.data[key];
-          }
-        }
-        setFormFields({ ...newFields });
+    const newFields = { ...initialForm };
 
-        if (response.data.deviceConfiguration !== '') {
-          return axiosInstance.get(
-            `${endpoints.owprov}/api/v1/configurations/${response.data.deviceConfiguration}`,
-            options,
-          );
-        }
-        return null;
-      })
-      .then((response) => {
-        if (response)
-          updateField('deviceConfiguration', { value: response.data.name, uuid: response.data.id });
-      })
-      .catch(() => {
-        addToast({
-          title: t('common.error'),
-          body: t('inventory.error_get_venue'),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    for (const [key] of Object.entries(newFields)) {
+      if (entity.extraData[key] !== undefined) {
+        if (key === 'deviceConfiguration')
+          newFields.deviceConfiguration = { value: '', uuid: entity.extraData[key] };
+        else if (key === 'contact') newFields.contact = { value: '', uuid: entity.extraData[key] };
+        else if (key === 'rrm')
+          newFields[key].value = entity.extraData[key] === '' ? 'inherit' : entity.extraData[key];
+        else newFields[key].value = entity.extraData[key];
+      }
+    }
+
+    if (entity.extraData.deviceConfiguration !== '') {
+      newFields.deviceConfiguration.value = entity.extraData.extendedInfo.deviceConfiguration.name;
+      newFields.deviceConfiguration.uuid = entity.extraData.deviceConfiguration;
+    }
+    if (entity.extraData.contact !== '') {
+      newFields.contact.value = entity.extraData.extendedInfo.contact.name;
+      newFields.contact.uuid = entity.extraData.contact;
+    }
+
+    setFormFields({ ...newFields }, true);
+
+    setLoading(false);
   };
 
   const toggleEditing = () => {
     if (editing) {
-      getVenueInfo();
+      refreshPage();
     }
     setEditing(!editing);
   };
@@ -172,12 +161,13 @@ const VenueInfoCard = () => {
         sourceIP: fields.sourceIP.value,
         notes: newNotes,
         deviceConfiguration: fields.deviceConfiguration.uuid,
+        contact: fields.contact.uuid,
       };
 
       axiosInstance
         .put(`${endpoints.owprov}/api/v1/venue/${entity.uuid}`, parameters, options)
         .then(() => {
-          getVenueInfo();
+          refreshPage();
 
           refreshEntity(entity.path, {
             name: fields.name.value,
@@ -216,6 +206,11 @@ const VenueInfoCard = () => {
     toggleAssociate();
   };
 
+  const updateContact = (v) => {
+    updateField('contact', { value: v.value, uuid: v.uuid });
+    toggleContact();
+  };
+
   const addNote = (newNote) => {
     const newNotes = fields.notes.value;
     newNotes.unshift({
@@ -228,14 +223,14 @@ const VenueInfoCard = () => {
   };
 
   const toggleIpModal = () => {
-    if (showIp) getVenueInfo();
+    if (showIp) refreshPage();
     toggleIp();
   };
 
   useEffect(() => {
-    if (entity !== null) {
+    if (entity !== null && Object.keys(entity.extraData).length > 0) {
       setEditing(false);
-      getVenueInfo();
+      parseVenue();
     }
   }, [entity]);
 
@@ -303,7 +298,7 @@ const VenueInfoCard = () => {
                   disabled={editing}
                   color="primary"
                   variant="outline"
-                  onClick={getVenueInfo}
+                  onClick={refreshPage}
                   className="mx-1"
                 >
                   <CIcon name="cil-sync" content={cilSync} />
@@ -323,6 +318,7 @@ const VenueInfoCard = () => {
           addNote={addNote}
           editing={editing}
           toggleAssociate={toggleAssociate}
+          toggleContact={toggleContact}
           toggleIpModal={toggleIpModal}
         />
       </CCardBody>
@@ -333,6 +329,12 @@ const VenueInfoCard = () => {
         defaultConfig={fields.deviceConfiguration}
         updateConfiguration={updateConfiguration}
       />
+      <AssociateContactModal
+        show={showContact}
+        toggle={toggleContact}
+        defaultContact={fields.contact}
+        updateConfiguration={updateContact}
+      />
       <EntityIpModal
         show={showIp}
         toggle={toggleIpModal}
@@ -341,6 +343,10 @@ const VenueInfoCard = () => {
       />
     </CCard>
   );
+};
+
+VenueInfoCard.propTypes = {
+  refreshPage: PropTypes.func.isRequired,
 };
 
 export default VenueInfoCard;

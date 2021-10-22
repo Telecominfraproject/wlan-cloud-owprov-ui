@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as createUuid } from 'uuid';
 import {
+  CAlert,
   CCard,
   CCardHeader,
   CCardBody,
@@ -20,7 +21,7 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilPlus, cilX, cilSave, cilSync } from '@coreui/icons';
-import { useAuth, useToast, useFormFields } from 'ucentral-libs';
+import { useAuth, useToast, useFormFields, useToggle } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 import DeviceConfigurationBody from 'components/DeviceConfigurationBody';
@@ -92,7 +93,7 @@ const parseBlock = (activeSection, baseFields, fields) => {
 
   // Mapping general info
   for (const [k, field] of Object.entries(baseFields)) {
-    newConfig[k] = field.value;
+    newConfig[k] = field.type === 'int' ? parseInt(field.value, 10) : field.value;
   }
 
   // Mapping globals
@@ -100,7 +101,8 @@ const parseBlock = (activeSection, baseFields, fields) => {
     newConfig.configuration = { globals: {} };
 
     for (const [k, field] of Object.entries(fields)) {
-      newConfig.configuration.globals[k] = field.value;
+      newConfig.configuration.globals[k] =
+        field.type === 'int' ? parseInt(field.value, 10) : field.value;
     }
   }
   // Mapping unit
@@ -108,7 +110,8 @@ const parseBlock = (activeSection, baseFields, fields) => {
     newConfig.configuration = { unit: {} };
 
     for (const [k, field] of Object.entries(fields)) {
-      newConfig.configuration.unit[k] = field.value;
+      newConfig.configuration.unit[k] =
+        field.type === 'int' ? parseInt(field.value, 10) : field.value;
     }
   }
   // Mapping metrics
@@ -119,7 +122,8 @@ const parseBlock = (activeSection, baseFields, fields) => {
       if (field.enabled) {
         newConfig.configuration.metrics[k] = {};
         for (const [subKey, subField] of Object.entries(field)) {
-          newConfig.configuration.metrics[k][subKey] = subField.value;
+          newConfig.configuration.metrics[k][subKey] =
+            subField.type === 'int' ? parseInt(subField.value, 10) : subField.value;
         }
       }
     }
@@ -132,7 +136,8 @@ const parseBlock = (activeSection, baseFields, fields) => {
       if (field.enabled) {
         newConfig.configuration.services[k] = {};
         for (const [subKey, subField] of Object.entries(field)) {
-          newConfig.configuration.services[k][subKey] = subField.value;
+          newConfig.configuration.services[k][subKey] =
+            subField.type === 'int' ? parseInt(subField.value, 10) : subField.value;
         }
       }
     }
@@ -157,10 +162,12 @@ const parseBlock = (activeSection, baseFields, fields) => {
             if (field.enabled) {
               newRadios[index][k] = {};
               for (const [subKey, subField] of Object.entries(field)) {
-                newRadios[index][k][subKey] = subField.value;
+                newRadios[index][k][subKey] =
+                  subField.type === 'int' ? parseInt(subField.value, 10) : subField.value;
               }
             }
-          } else newRadios[index][k] = field.value;
+          } else if (!field.ignoreIfEmpty || field.value !== '')
+            newRadios[index][k] = field.type === 'int' ? parseInt(field.value, 10) : field.value;
         }
       });
     }
@@ -188,6 +195,8 @@ const ConfigurationExplorer = ({ config }) => {
   const [key, setKey] = useState(0);
   const [activeSection, setActiveSection] = useState('');
   const [canSave, setCanSave] = useState(false);
+  const [showError, toggleError] = useToggle(false);
+  const [errorDescription, setErrorDescription] = useState('');
 
   const [baseFields, updateBaseWithId, , setBaseFields] = useFormFields(BASE_FORM);
 
@@ -311,12 +320,8 @@ const ConfigurationExplorer = ({ config }) => {
         getConfig();
       })
       .catch((e) => {
-        addToast({
-          title: t('common.error'),
-          body: t('configuration.error_update', { error: e.response?.data?.ErrorDescription }),
-          color: 'danger',
-          autohide: true,
-        });
+        setErrorDescription(e.response?.data?.ErrorDescription);
+        toggleError();
       });
   };
 
@@ -607,6 +612,21 @@ const ConfigurationExplorer = ({ config }) => {
                   </CButton>
                 </CCol>
               </CRow>
+            </CModalBody>
+          </CModal>
+          <CModal show={showError} onClose={toggleError}>
+            <CModalHeader className="p-1">
+              <CModalTitle className="pl-1 pt-1">Save Error</CModalTitle>
+              <div className="text-right">
+                <CPopover content={t('common.close')}>
+                  <CButton color="primary" variant="outline" className="ml-2" onClick={toggleError}>
+                    <CIcon content={cilX} />
+                  </CButton>
+                </CPopover>
+              </div>
+            </CModalHeader>
+            <CModalBody>
+              <CAlert color="danger">{errorDescription}</CAlert>
             </CModalBody>
           </CModal>
         </CCard>

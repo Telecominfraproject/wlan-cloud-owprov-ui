@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CRow, CCol } from '@coreui/react';
 import {
   ConfigurationSectionToggler,
-  ConfigurationMulti,
+  ConfigurationSelect,
   ConfigurationStringField,
   ConfigurationIntField,
   ConfigurationElement,
@@ -49,13 +49,14 @@ const Log = ({ fields, updateField, updateWithId }) => (
                 errorMessage="Error!!!!"
                 disabled={false}
               />
-              <ConfigurationMulti
+              <ConfigurationSelect
                 id="log.proto"
                 label="proto"
                 field={fields.log.proto}
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
+                width="100px"
                 disabled={false}
               />
               <ConfigurationIntField

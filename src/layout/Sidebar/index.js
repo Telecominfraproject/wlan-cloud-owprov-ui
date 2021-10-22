@@ -14,7 +14,7 @@ import {
   CCol,
   CPopover,
 } from '@coreui/react';
-import { cilBarcode, cilSpreadsheet, cilWc, cilBank, cilSitemap } from '@coreui/icons';
+import { cilBarcode, cilSpreadsheet, cilWc, cilBank, cilSitemap, cilMap } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
@@ -118,6 +118,18 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           <CSidebarNavItem name="Table" to="/inventory" onClick={() => setEntity(null)} />
         </CSidebarNavDropdown>
         <CSidebarNavDropdown
+          name="Contacts"
+          icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
+        >
+          <CSidebarNavItem name="Table" to="/contacts" />
+        </CSidebarNavDropdown>
+        <CSidebarNavDropdown
+          name="Locations"
+          icon={<CIcon content={cilMap} size="lg" className="mr-3" />}
+        >
+          <CSidebarNavItem name="Table" to="/location" />
+        </CSidebarNavDropdown>
+        <CSidebarNavDropdown
           name="Configurations"
           icon={<CIcon content={cilBarcode} size="lg" className="mr-3" />}
         >
@@ -128,6 +140,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           name="Managament Roles"
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
         />
+        <CSidebarNavItem name={t('user.users')} to="/users" icon="cilPeople" />
         <CSidebarNavItem name={t('common.system')} to="/system" icon="cilSettings" />
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
