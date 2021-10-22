@@ -20,21 +20,15 @@ import { useTranslation } from 'react-i18next';
 import LocationTable from 'components/LocationTable';
 
 const initialForm = {
-  entity: {
-    value: '',
-    error: false,
-    hidden: false,
-    required: true,
-  },
   name: {
     value: '',
     error: false,
     hidden: false,
+    required: true,
   },
   type: {
-    value: '',
+    value: 'AUTO',
     error: false,
-    required: true,
   },
   buildingName: {
     value: '',
@@ -89,6 +83,12 @@ const initialForm = {
     error: false,
     ignore: true,
   },
+  entity: {
+    value: '',
+    error: false,
+    hidden: false,
+    required: true,
+  },
 };
 
 const AddLocationModal = ({ entity, show, toggle, refreshTable }) => {
@@ -102,24 +102,26 @@ const AddLocationModal = ({ entity, show, toggle, refreshTable }) => {
   const [entities, setEntities] = useState([]);
 
   const validation = () => {
-    let success = true;
-
     for (const [key, field] of Object.entries(fields)) {
       if (
         (field.required && field.value === '') ||
         (field.length && field.value.length !== field.length)
       ) {
         updateField(key, { error: true });
-        success = false;
-        break;
+        return false;
+      }
+
+      if (fields.addressLines.value[0] === '') {
+        updateField('addressLines', { error: true });
+        return false;
       }
     }
-    return success;
+    return true;
   };
 
   const setAddress = (v) => {
     const city =
-      v.locality ??
+      v.locality.long_name ??
       v.administrative_area_level_3.long_name ??
       v.administrative_area_level_2.long_name;
 
@@ -161,7 +163,7 @@ const AddLocationModal = ({ entity, show, toggle, refreshTable }) => {
         .then(() => {
           addToast({
             title: t('common.success'),
-            body: t('contact.successful_creation'),
+            body: t('location.successful_creation'),
             color: 'success',
             autohide: true,
           });
@@ -171,7 +173,7 @@ const AddLocationModal = ({ entity, show, toggle, refreshTable }) => {
         .catch((e) => {
           addToast({
             title: t('common.error'),
-            body: t('contact.error_creation', { error: e.response?.data?.ErrorDescription }),
+            body: t('location.error_creation', { error: e.response?.data?.ErrorDescription }),
             color: 'danger',
             autohide: true,
           });

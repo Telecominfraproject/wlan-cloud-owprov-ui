@@ -26,6 +26,7 @@ import DeleteEntityModal from 'components/DeleteEntityModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import EntityIpModal from 'components/EntityIpModal';
 import AssociateContactModal from 'components/AssociateContactModal';
+import AssociateLocationModal from 'components/AssociateLocationModal';
 
 const initialForm = {
   name: {
@@ -59,6 +60,11 @@ const initialForm = {
     uuid: '',
     error: false,
   },
+  location: {
+    value: '',
+    uuid: '',
+    error: false,
+  },
   notes: {
     value: [],
     error: false,
@@ -79,8 +85,9 @@ const VenueInfoCard = ({ refreshPage }) => {
   const [editing, setEditing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showAssociate, setShowAssociate] = useState(false);
-  const [showIp, toggleIp] = useToggle();
-  const [showContact, toggleContact] = useToggle();
+  const [showIp, toggleIp] = useToggle(false);
+  const [showContact, toggleContact] = useToggle(false);
+  const [showLocation, toggleLocation] = useToggle(false);
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
@@ -110,6 +117,8 @@ const VenueInfoCard = ({ refreshPage }) => {
         if (key === 'deviceConfiguration')
           newFields.deviceConfiguration = { value: '', uuid: entity.extraData[key] };
         else if (key === 'contact') newFields.contact = { value: '', uuid: entity.extraData[key] };
+        else if (key === 'location')
+          newFields.location = { value: '', uuid: entity.extraData[key] };
         else if (key === 'rrm')
           newFields[key].value = entity.extraData[key] === '' ? 'inherit' : entity.extraData[key];
         else newFields[key].value = entity.extraData[key];
@@ -123,6 +132,10 @@ const VenueInfoCard = ({ refreshPage }) => {
     if (entity.extraData.contact !== '') {
       newFields.contact.value = entity.extraData.extendedInfo.contact.name;
       newFields.contact.uuid = entity.extraData.contact;
+    }
+    if (entity.extraData.location !== '') {
+      newFields.location.value = entity.extraData.extendedInfo.location.name;
+      newFields.location.uuid = entity.extraData.location;
     }
 
     setFormFields({ ...newFields }, true);
@@ -162,6 +175,7 @@ const VenueInfoCard = ({ refreshPage }) => {
         notes: newNotes,
         deviceConfiguration: fields.deviceConfiguration.uuid,
         contact: fields.contact.uuid,
+        location: fields.location.uuid,
       };
 
       axiosInstance
@@ -211,6 +225,11 @@ const VenueInfoCard = ({ refreshPage }) => {
     toggleContact();
   };
 
+  const updateLocation = (v) => {
+    updateField('location', { value: v.value, uuid: v.uuid });
+    toggleLocation();
+  };
+
   const addNote = (newNote) => {
     const newNotes = fields.notes.value;
     newNotes.unshift({
@@ -220,11 +239,6 @@ const VenueInfoCard = ({ refreshPage }) => {
       createdBy: '',
     });
     updateField('notes', { value: newNotes });
-  };
-
-  const toggleIpModal = () => {
-    if (showIp) refreshPage();
-    toggleIp();
   };
 
   useEffect(() => {
@@ -319,7 +333,8 @@ const VenueInfoCard = ({ refreshPage }) => {
           editing={editing}
           toggleAssociate={toggleAssociate}
           toggleContact={toggleContact}
-          toggleIpModal={toggleIpModal}
+          toggleIpModal={toggleIp}
+          toggleLocation={toggleLocation}
         />
       </CCardBody>
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
@@ -335,9 +350,15 @@ const VenueInfoCard = ({ refreshPage }) => {
         defaultContact={fields.contact}
         updateConfiguration={updateContact}
       />
+      <AssociateLocationModal
+        show={showLocation}
+        toggle={toggleLocation}
+        defaultLocation={fields.location}
+        updateConfiguration={updateLocation}
+      />
       <EntityIpModal
         show={showIp}
-        toggle={toggleIpModal}
+        toggle={toggleIp}
         ips={fields.sourceIP.value}
         updateField={updateField}
       />

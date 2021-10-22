@@ -57,7 +57,7 @@ const initialForm = {
   },
 };
 
-const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId }) => {
+const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
   const { t } = useTranslation();
   const { deviceTypes } = useEntity();
   const { endpoints, currentToken } = useAuth();
@@ -118,6 +118,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
             autohide: true,
           });
           refreshTable();
+          toggle();
         })
         .catch(() => {
           addToast({
@@ -201,7 +202,6 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
                 {show ? (
                   <InventoryTable
                     entity={entity}
-                    refreshId={refreshId}
                     refreshPageTables={refreshTable}
                     urlId="unassigned"
                     title={t('inventory.unassigned_tags')}
@@ -230,7 +230,6 @@ AddInventoryTagModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   refreshTable: PropTypes.func,
-  refreshId: PropTypes.number.isRequired,
 };
 
 AddInventoryTagModal.defaultProps = {

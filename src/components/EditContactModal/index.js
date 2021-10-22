@@ -8,15 +8,11 @@ import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
 const initialForm = {
-  entity: {
-    value: '',
-    error: false,
-    hidden: false,
-  },
   name: {
     value: '',
     error: false,
     hidden: false,
+    required: true,
   },
   type: {
     value: '',
@@ -30,7 +26,6 @@ const initialForm = {
   salutation: {
     value: '',
     error: false,
-    required: true,
   },
   firstname: {
     value: '',
@@ -86,6 +81,11 @@ const initialForm = {
     value: '',
     error: false,
     ignore: true,
+  },
+  entity: {
+    value: '',
+    error: false,
+    hidden: false,
   },
 };
 

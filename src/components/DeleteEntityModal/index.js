@@ -36,7 +36,12 @@ const DeleteEntityModal = ({ show, toggle }) => {
         options,
       )
       .then((response) => {
-        if (response.data.children.length > 0 || response.data.venues?.length > 0) {
+        if (
+          response.data.children.length > 0 ||
+          response.data.venues?.length > 0 ||
+          response.data.locations?.length > 0 ||
+          response.data.contacts?.length > 0
+        ) {
           setCanDelete(false);
         } else {
           setCanDelete(true);

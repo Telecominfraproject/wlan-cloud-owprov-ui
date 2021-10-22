@@ -343,6 +343,18 @@ const ConfigurationExplorer = ({ config }) => {
     toggle();
   };
 
+  const deleteActive = () => {
+    const newArray = configurations.map((conf) => ({
+      ...conf,
+      configuration: JSON.stringify(conf.configuration),
+    }));
+    newArray.splice(key, 1);
+
+    const newFullConfiguration = { ...config, configuration: newArray };
+
+    refreshConfig(newFullConfiguration, true);
+  };
+
   useEffect(() => {
     if (config) getConfig();
   }, [config]);
@@ -518,10 +530,8 @@ const ConfigurationExplorer = ({ config }) => {
             <CTabContent>
               <CTabPane active>
                 <DeviceConfigurationBody
-                  parentConfiguration={config}
-                  index={key}
+                  deleteActive={deleteActive}
                   refresh={getConfig}
-                  refreshConfig={refreshConfig}
                   activeSection={activeSection}
                   setCanSave={setCanSave}
                   baseFields={baseFields}
