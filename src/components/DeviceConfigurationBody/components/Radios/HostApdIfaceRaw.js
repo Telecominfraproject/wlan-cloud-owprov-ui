@@ -27,7 +27,7 @@ const columns = [
 ];
 const HostApdIfaceRaw = ({ label, value, save, firstCol, secondCol, length }) => {
   const { t } = useTranslation();
-  const [show, toggle] = useToggle();
+  const [show, toggle] = useToggle(false);
   const [newParam, setNewParam] = useState('');
   const [tempValue, setTempValue] = useState([]);
 

@@ -24,7 +24,15 @@ import AssociateVenueEntityModal from 'components/AssociateVenueEntityModal';
 import ComputerConfigModal from 'components/ComputedConfigModal';
 import ConfigurationPushResultModal from 'components/ConfigurationPushResultModal';
 
-const InventoryTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refreshTable }) => {
+const InventoryTable = ({
+  entity,
+  toggleAdd,
+  filterOnEntity,
+  useUrl,
+  title,
+  refreshTable,
+  refreshId,
+}) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { currentToken, endpoints } = useAuth();
@@ -101,6 +109,7 @@ const InventoryTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refr
         withExtendedInfo: true,
         limit: tagPerPage,
         offset: tagPerPage * selectedPage + 1,
+        unassigned: onlyUnassigned ? true : undefined,
       };
     }
 
@@ -475,6 +484,10 @@ const InventoryTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refr
   }, [entityDevicesArray]);
 
   useEffect(() => {
+    if (refreshId > 0) getCount();
+  }, [refreshId]);
+
+  useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
     }
@@ -502,6 +515,7 @@ const InventoryTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refr
               </CPopover>
               <CPopover content={t('inventory.import_devices')}>
                 <CButton
+                  hidden={entity === null}
                   color="primary"
                   variant="outline"
                   onClick={toggleImportModal}
@@ -573,12 +587,14 @@ const InventoryTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refr
         tagSerialNumber={selectedTagId}
         refreshTable={getCount}
       />
-      <ImportDevicesModal
-        entity={entity}
-        show={showImportModal}
-        toggle={toggleImportModal}
-        refreshPageTables={refreshTable}
-      />
+      {entity === null ? null : (
+        <ImportDevicesModal
+          entity={entity}
+          show={showImportModal}
+          toggle={toggleImportModal}
+          refreshPageTables={refreshTable}
+        />
+      )}
       <DeleteDevicesModal
         entity={entity}
         show={showBulkDeleteModal}
@@ -619,6 +635,7 @@ InventoryTable.propTypes = {
   useUrl: PropTypes.bool,
   title: PropTypes.string,
   refreshTable: PropTypes.func,
+  refreshId: PropTypes.number,
 };
 
 InventoryTable.defaultProps = {
@@ -628,6 +645,7 @@ InventoryTable.defaultProps = {
   useUrl: false,
   title: null,
   refreshTable: null,
+  refreshId: 0,
 };
 
 export default InventoryTable;

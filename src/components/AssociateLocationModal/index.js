@@ -19,24 +19,24 @@ import { useTranslation } from 'react-i18next';
 import { useAuth, useToast, FormattedDate } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 
-const AssociateContactModal = ({ show, toggle, defaultContact, updateConfiguration }) => {
+const AssociateLocationModal = ({ show, toggle, defaultLocation, updateConfiguration }) => {
   const { t } = useTranslation();
   const { currentToken, endpoints } = useAuth();
   const { addToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [configs, setConfigs] = useState([]);
   const [filter, setFilter] = useState('');
-  const [selectedContact, setSelectedContact] = useState({ value: '', uuid: '' });
+  const [selectedLocation, setSelectedLocation] = useState({ value: '', uuid: '' });
 
-  const getPartialContacts = async (offset) => {
+  const getPartialLocations = async (offset) => {
     const headers = {
       Accept: 'application/json',
       Authorization: `Bearer ${currentToken}`,
     };
 
     return axiosInstance
-      .get(`${endpoints.owprov}/api/v1/contact?limit=500&offset=${offset}`, { headers })
-      .then((response) => response.data.contacts)
+      .get(`${endpoints.owprov}/api/v1/location?limit=500&offset=${offset}`, { headers })
+      .then((response) => response.data.locations)
       .catch(() => {
         addToast({
           title: t('common.error'),
@@ -48,11 +48,11 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
       });
   };
 
-  const updateContact = (value, uuid) => setSelectedContact({ value, uuid });
+  const updateLocation = (value, uuid) => setSelectedLocation({ value, uuid });
 
-  const save = () => updateConfiguration(selectedContact);
+  const save = () => updateConfiguration(selectedLocation);
 
-  const getContacts = async () => {
+  const getLocations = async () => {
     setLoading(true);
 
     const allConfigs = [];
@@ -60,7 +60,7 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
     let i = 1;
     while (continueGetting) {
       // eslint-disable-next-line no-await-in-loop
-      const newConfigs = await getPartialContacts(i);
+      const newConfigs = await getPartialLocations(i);
       if (newConfigs === null || newConfigs.length === 0) continueGetting = false;
       allConfigs.push(...newConfigs);
       i += 500;
@@ -78,9 +78,9 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
 
   useEffect(() => {
     if (show) {
-      setSelectedContact(defaultContact);
+      setSelectedLocation(defaultLocation);
       setFilter('');
-      getContacts();
+      getLocations();
     }
   }, [show]);
 
@@ -113,7 +113,7 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
           <CCol>
             <b>
               {t('configuration.currently_selected_config', {
-                config: selectedContact.uuid === '' ? t('common.none') : selectedContact.value,
+                config: selectedLocation.uuid === '' ? t('common.none') : selectedLocation.value,
               })}
             </b>
             <CButton
@@ -121,7 +121,7 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
               className="ml-3"
               color="danger"
               variant="outline"
-              onClick={() => updateContact('', '')}
+              onClick={() => updateLocation('', '')}
             >
               {t('common.clear')}
             </CButton>
@@ -152,7 +152,7 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
                   <CLink
                     className="c-subheader-nav-link"
                     aria-current="page"
-                    to={() => `/contacts`}
+                    to={() => `/locations`}
                   >
                     {item.name}
                   </CLink>
@@ -169,7 +169,7 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
                     <CButton
                       color="primary"
                       variant="outline"
-                      onClick={() => updateContact(`${item.name}`, item.id)}
+                      onClick={() => updateLocation(`${item.name}`, item.id)}
                     >
                       <CIcon content={cilPlus} />
                     </CButton>
@@ -184,10 +184,10 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
   );
 };
 
-AssociateContactModal.propTypes = {
+AssociateLocationModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  defaultContact: PropTypes.instanceOf(Object).isRequired,
+  defaultLocation: PropTypes.instanceOf(Object).isRequired,
   updateConfiguration: PropTypes.func.isRequired,
 };
-export default AssociateContactModal;
+export default AssociateLocationModal;

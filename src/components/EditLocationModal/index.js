@@ -24,11 +24,11 @@ const initialForm = {
     value: '',
     error: false,
     hidden: false,
+    required: true,
   },
   type: {
     value: '',
     error: false,
-    required: true,
   },
   buildingName: {
     value: '',
@@ -102,17 +102,19 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
   const [entities, setEntities] = useState([]);
 
   const validation = () => {
-    let success = true;
-
     for (const [key, field] of Object.entries(fields)) {
       if (field.required && field.value === '') {
         updateField(key, { error: true });
-        success = false;
-        break;
+        return false;
       }
     }
 
-    return success;
+    if (fields.addressLines.value[0] === '') {
+      updateField('addressLines', { error: true });
+      return false;
+    }
+
+    return true;
   };
 
   const setAddress = (v) => {

@@ -26,7 +26,7 @@ import styles from './index.module.scss';
 
 const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
   const { t } = useTranslation();
-  const { entity, entities, rootEntityMissing, setEntity } = useEntity();
+  const { entity, entities, rootEntityMissing, resetEntity } = useEntity();
   const [showAddEntity, setShowAddEntity] = useState(false);
   const [creatingVenue, setCreatingVenue] = useState(false);
 
@@ -115,33 +115,43 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           name="Inventory"
           icon={<CIcon content={cilSpreadsheet} size="lg" className="mr-3" />}
         >
-          <CSidebarNavItem name="Table" to="/inventory" onClick={() => setEntity(null)} />
+          <CSidebarNavItem name="Table" to="/inventory" onClick={resetEntity} />
         </CSidebarNavDropdown>
         <CSidebarNavDropdown
           name="Contacts"
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
         >
-          <CSidebarNavItem name="Table" to="/contacts" />
+          <CSidebarNavItem name="Table" to="/contacts" onClick={resetEntity} />
         </CSidebarNavDropdown>
         <CSidebarNavDropdown
           name="Locations"
           icon={<CIcon content={cilMap} size="lg" className="mr-3" />}
         >
-          <CSidebarNavItem name="Table" to="/location" />
+          <CSidebarNavItem name="Table" to="/location" onClick={resetEntity} />
         </CSidebarNavDropdown>
         <CSidebarNavDropdown
           name="Configurations"
           icon={<CIcon content={cilBarcode} size="lg" className="mr-3" />}
         >
-          <CSidebarNavItem name="Table" to="/configuration" />
+          <CSidebarNavItem name="Table" to="/configuration" onClick={resetEntity} />
         </CSidebarNavDropdown>
         <CSidebarNavDropdown
           hidden
           name="Managament Roles"
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
         />
-        <CSidebarNavItem name={t('user.users')} to="/users" icon="cilPeople" />
-        <CSidebarNavItem name={t('common.system')} to="/system" icon="cilSettings" />
+        <CSidebarNavItem
+          name={t('user.users')}
+          to="/users"
+          icon="cilPeople"
+          onClick={resetEntity}
+        />
+        <CSidebarNavItem
+          name={t('common.system')}
+          to="/system"
+          icon="cilSettings"
+          onClick={resetEntity}
+        />
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
       <AddEntityModal show={showAddEntity} toggle={toggleAddEntity} creatingVenue={creatingVenue} />

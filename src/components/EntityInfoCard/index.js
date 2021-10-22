@@ -64,7 +64,7 @@ const EntityInfoCard = ({ refreshPage }) => {
   const [editing, setEditing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showAssociate, setShowAssociate] = useState(false);
-  const [showIp, toggleIp] = useToggle();
+  const [showIp, toggleIp] = useToggle(false);
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
