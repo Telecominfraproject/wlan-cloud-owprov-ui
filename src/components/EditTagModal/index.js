@@ -104,7 +104,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
           }
         }
         setTag(response.data);
-        setFormFields({ ...newFields });
+        setFormFields({ ...newFields }, true);
 
         if (response.data.deviceConfiguration !== '') {
           return axiosInstance.get(
@@ -140,7 +140,11 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
 
       for (const [key, field] of Object.entries(fields)) {
         if (!field.ignore) {
-          if (tag[key] !== field.value) {
+          if (key === 'deviceConfiguration') {
+            if (tag[key] !== field.uuid) {
+              parameters[key] = field.uuid;
+            }
+          } else if (tag[key] !== field.value) {
             parameters[key] = field.value;
           }
         }
@@ -157,6 +161,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
             color: 'success',
             autohide: true,
           });
+          toggle();
         })
         .catch(() => {
           addToast({

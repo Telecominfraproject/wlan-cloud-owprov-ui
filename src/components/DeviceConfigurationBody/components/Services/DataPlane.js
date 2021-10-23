@@ -86,6 +86,7 @@ const DataPlane = ({ fields, updateField }) => {
                   secondCol="9"
                   disabled={false}
                   length={fields['data-plane']['ingress-filters'].value.length}
+                  itemName="Ingress Filters"
                 >
                   <ConfigurationStringField
                     id="name"

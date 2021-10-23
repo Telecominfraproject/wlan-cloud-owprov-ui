@@ -4,6 +4,7 @@ import 'scss/style.scss';
 import Router from 'router';
 import { AuthProvider, EntityProvider } from 'ucentral-libs';
 import { checkIfJson } from 'utils/helper';
+import { getItem } from 'utils/localStorageHelper';
 import axiosInstance from 'utils/axiosInstance';
 
 const loading = (
@@ -13,9 +14,9 @@ const loading = (
 );
 
 const App = () => {
-  const storageToken = sessionStorage.getItem('access_token');
-  const apiEndpoints = checkIfJson(sessionStorage.getItem('gateway_endpoints'))
-    ? JSON.parse(sessionStorage.getItem('gateway_endpoints'))
+  const storageToken = getItem('access_token');
+  const apiEndpoints = checkIfJson(getItem('gateway_endpoints'))
+    ? JSON.parse(getItem('gateway_endpoints'))
     : {};
 
   return (

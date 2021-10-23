@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CButton, CButtonToolbar, CCard, CCardBody, CCardHeader, CPopover } from '@coreui/react';
 import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
@@ -53,7 +54,7 @@ const initialForm = {
   },
 };
 
-const EntityInfoCard = () => {
+const EntityInfoCard = ({ refreshPage }) => {
   const { t } = useTranslation();
   const { entity, setEntity, refreshEntity } = useEntity();
   const { currentToken, endpoints } = useAuth();
@@ -63,7 +64,7 @@ const EntityInfoCard = () => {
   const [editing, setEditing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showAssociate, setShowAssociate] = useState(false);
-  const [showIp, toggleIp] = useToggle();
+  const [showIp, toggleIp] = useToggle(false);
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
@@ -83,59 +84,34 @@ const EntityInfoCard = () => {
     return success;
   };
 
-  const getEntityInfo = () => {
-    setFormFields(initialForm);
+  const parseEntity = () => {
     setLoading(true);
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
 
-    axiosInstance
-      .get(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, options)
-      .then((response) => {
-        const newFields = fields;
-        for (const [key] of Object.entries(newFields)) {
-          if (response.data[key] !== undefined) {
-            if (key === 'deviceConfiguration')
-              newFields.deviceConfiguration = { value: '', uuid: response.data[key] };
-            else if (key === 'rrm')
-              newFields[key].value = response.data[key] === '' ? 'inherit' : response.data[key];
-            else newFields[key].value = response.data[key];
-          }
-        }
-        setFormFields({ ...newFields });
+    const newFields = { ...initialForm };
 
-        if (response.data.deviceConfiguration !== '') {
-          return axiosInstance.get(
-            `${endpoints.owprov}/api/v1/configurations/${response.data.deviceConfiguration}`,
-            options,
-          );
-        }
-        return null;
-      })
-      .then((response) => {
-        if (response)
-          updateField('deviceConfiguration', { value: response.data.name, uuid: response.data.id });
-      })
-      .catch(() => {
-        addToast({
-          title: t('common.error'),
-          body: t('entity.error_fetch_entity'),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    for (const [key] of Object.entries(newFields)) {
+      if (entity.extraData[key] !== undefined) {
+        if (key === 'deviceConfiguration')
+          newFields.deviceConfiguration = { value: '', uuid: entity.extraData[key] };
+        else if (key === 'rrm')
+          newFields[key].value = entity.extraData[key] === '' ? 'inherit' : entity.extraData[key];
+        else newFields[key].value = entity.extraData[key];
+      }
+    }
+
+    if (entity.extraData.deviceConfiguration !== '') {
+      newFields.deviceConfiguration.value = entity.extraData.extendedInfo.deviceConfiguration.name;
+      newFields.deviceConfiguration.uuid = entity.extraData.deviceConfiguration;
+    }
+
+    setFormFields({ ...newFields }, true);
+
+    setLoading(false);
   };
 
   const toggleEditing = () => {
     if (editing) {
-      getEntityInfo();
+      refreshPage();
     }
     setEditing(!editing);
   };
@@ -169,7 +145,7 @@ const EntityInfoCard = () => {
       axiosInstance
         .put(`${endpoints.owprov}/api/v1/entity/${entity.uuid}`, parameters, options)
         .then(() => {
-          getEntityInfo();
+          refreshPage();
           refreshEntity(entity.path, {
             name: fields.name.value,
           });
@@ -219,9 +195,9 @@ const EntityInfoCard = () => {
   };
 
   useEffect(() => {
-    if (entity !== null) {
+    if (entity !== null && Object.keys(entity.extraData).length > 0) {
       setEditing(false);
-      getEntityInfo();
+      parseEntity();
     }
   }, [entity]);
 
@@ -286,7 +262,7 @@ const EntityInfoCard = () => {
                 disabled={editing}
                 color="primary"
                 variant="outline"
-                onClick={getEntityInfo}
+                onClick={refreshPage}
                 className="mx-1"
               >
                 <CIcon content={cilSync} />
@@ -323,6 +299,10 @@ const EntityInfoCard = () => {
       />
     </CCard>
   );
+};
+
+EntityInfoCard.propTypes = {
+  refreshPage: PropTypes.func.isRequired,
 };
 
 export default EntityInfoCard;

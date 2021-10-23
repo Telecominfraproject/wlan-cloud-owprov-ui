@@ -29,7 +29,6 @@ const initialForm = {
   rrm: {
     value: 'inherit',
     error: false,
-    required: true,
   },
   note: {
     value: '',

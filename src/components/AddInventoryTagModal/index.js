@@ -57,7 +57,7 @@ const initialForm = {
   },
 };
 
-const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId }) => {
+const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
   const { t } = useTranslation();
   const { deviceTypes } = useEntity();
   const { endpoints, currentToken } = useAuth();
@@ -118,6 +118,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
             autohide: true,
           });
           refreshTable();
+          toggle();
         })
         .catch(() => {
           addToast({
@@ -136,7 +137,6 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
   useEffect(() => {
     if (show) {
       setActiveTab(0);
-      refreshTable();
       const startingForm = initialForm;
 
       // If this modal is used within an Entity Page, we use the page's entity and hide the field
@@ -146,6 +146,8 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
       }
 
       setFormFields(startingForm);
+    } else {
+      refreshTable();
     }
   }, [show]);
 
@@ -197,13 +199,14 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable, refreshId })
                 />
               </CTabPane>
               <CTabPane active={activeTab === 1}>
-                <InventoryTable
-                  entity={entity}
-                  refreshId={refreshId}
-                  refreshPageTables={refreshTable}
-                  urlId="unassigned"
-                  title={t('inventory.unassigned_tags')}
-                />
+                {show ? (
+                  <InventoryTable
+                    entity={entity}
+                    refreshPageTables={refreshTable}
+                    urlId="unassigned"
+                    title={t('inventory.unassigned_tags')}
+                  />
+                ) : null}
               </CTabPane>
             </CTabContent>
           </div>
@@ -227,7 +230,6 @@ AddInventoryTagModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   refreshTable: PropTypes.func,
-  refreshId: PropTypes.number.isRequired,
 };
 
 AddInventoryTagModal.defaultProps = {

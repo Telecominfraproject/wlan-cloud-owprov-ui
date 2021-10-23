@@ -13,7 +13,7 @@ import {
 } from '@coreui/react';
 import { cilCloudUpload, cilPlus, cilSync, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { useAuth, useToast, InventoryTable as Table } from 'ucentral-libs';
+import { useAuth, useToast, InventoryTable as Table, useToggle } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import EditTagModal from 'components/EditTagModal';
@@ -22,15 +22,16 @@ import DeleteDevicesModal from 'components/DeleteDevicesModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import AssociateVenueEntityModal from 'components/AssociateVenueEntityModal';
 import ComputerConfigModal from 'components/ComputedConfigModal';
+import ConfigurationPushResultModal from 'components/ConfigurationPushResultModal';
 
 const InventoryTable = ({
   entity,
   toggleAdd,
-  refreshId,
-  onlyEntity,
+  filterOnEntity,
   useUrl,
   title,
-  refreshPageTables,
+  refreshTable,
+  refreshId,
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
@@ -47,7 +48,11 @@ const InventoryTable = ({
   const [showAssoc, setShowAssoc] = useState(false);
   const [showAssocEntity, setShowAssocEntity] = useState(false);
   const [showComputed, setShowComputed] = useState(false);
+  const [showPush, togglePush] = useToggle(false);
   const [assocInfo, setAssocInfo] = useState({ deviceConfiguration: '' });
+  const [pushResult, setPushResult] = useState(null);
+  const [pushLoading, setPushLoading] = useState(false);
+  const [entityDevicesArray, setEntityDevicesArray] = useState([]);
 
   const toggleAssoc = (info) => {
     if (info) setAssocInfo(info);
@@ -92,59 +97,37 @@ const InventoryTable = ({
   const getTagInformation = (selectedPage = page, tagPerPage = tagsPerPage) => {
     setLoading(true);
 
+    let params = {};
+
+    if (filterOnEntity) {
+      params = {
+        select: entity.extraData.devices.slice(tagPerPage * selectedPage, tagPerPage).join(','),
+        withExtendedInfo: true,
+      };
+    } else {
+      params = {
+        withExtendedInfo: true,
+        limit: tagPerPage,
+        offset: tagPerPage * selectedPage + 1,
+        unassigned: onlyUnassigned ? true : undefined,
+      };
+    }
+
     const options = {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${currentToken}`,
       },
-      params: {
-        entity: onlyEntity && entity !== null && !entity.isVenue ? entity.uuid : undefined,
-        venue: onlyEntity && entity !== null && entity.isVenue ? entity.uuid : undefined,
-        unassigned: onlyUnassigned ? true : undefined,
-        withExtendedInfo: !onlyUnassigned ? true : undefined,
-        limit: tagPerPage,
-        offset: tagPerPage * selectedPage + 1,
-      },
+      params,
     };
 
-    const deviceConfigs = {};
     let newTags = [];
 
     axiosInstance
       .get(`${endpoints.owprov}/api/v1/inventory`, options)
       .then((response) => {
         newTags = response.data.taglist;
-
-        for (let i = 0; i < newTags.length; i += 1) {
-          const tag = newTags[i];
-          if (tag.deviceConfiguration !== '') deviceConfigs[tag.deviceConfiguration] = true;
-        }
-
-        if (Object.keys(deviceConfigs).length === 0) {
-          const tagsWithConf = newTags.map((tag) => ({
-            ...tag,
-            deviceConfigurationName: '',
-          }));
-          setTags(tagsWithConf);
-          return null;
-        }
-        const configIds = Object.keys(deviceConfigs).join(',');
-        return axiosInstance.get(`${endpoints.owprov}/api/v1/configurations?select=${configIds}`, {
-          headers: options.headers,
-        });
-      })
-      .then((response) => {
-        if (response) {
-          for (let i = 0; i < response.data.configurations.length; i += 1) {
-            const conf = response.data.configurations[i];
-            deviceConfigs[conf.id] = conf.name;
-          }
-          const tagsWithConf = newTags.map((tag) => ({
-            ...tag,
-            deviceConfigurationName: deviceConfigs[tag.deviceConfiguration] ?? '',
-          }));
-          setTags(tagsWithConf);
-        }
+        setTags(newTags);
       })
       .catch(() => {
         addToast({
@@ -160,28 +143,12 @@ const InventoryTable = ({
   const getCount = () => {
     setLoading(true);
 
-    const headers = {
-      Accept: 'application/json',
-      Authorization: `Bearer ${currentToken}`,
-    };
-
-    const params = {
-      entity: onlyEntity && entity !== null && !entity.isVenue ? entity.uuid : undefined,
-      venue: onlyEntity && entity !== null && entity.isVenue ? entity.uuid : undefined,
-      countOnly: true,
-      unassigned: onlyUnassigned && !onlyEntity ? true : undefined,
-    };
-
-    axiosInstance
-      .get(`${endpoints.owprov}/api/v1/inventory`, {
-        headers,
-        params,
-      })
-      .then((response) => {
-        const tagsCount = response.data.count;
-        const pagesCount = Math.ceil(tagsCount / tagsPerPage);
+    if (filterOnEntity) {
+      if (entity.extraData?.devices) {
+        const deviceCount = entity.extraData.devices.length;
+        const pagesCount = Math.ceil(deviceCount / tagsPerPage);
         setPageCount(pagesCount);
-        setTagCount(tagsCount);
+        setTagCount(deviceCount);
 
         let selectedPage = page;
 
@@ -190,17 +157,57 @@ const InventoryTable = ({
           else setLocalPage(`${pagesCount - 1}`);
           selectedPage = pagesCount - 1;
         }
-        if (tagsCount > 0) {
+        if (deviceCount > 0) {
           getTagInformation(selectedPage);
         } else {
           setTags([]);
           setLoading(false);
         }
-      })
-      .catch(() => {
+      } else {
         setTags([]);
         setLoading(false);
-      });
+      }
+    } else {
+      const headers = {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      };
+
+      const params = {
+        countOnly: true,
+        unassigned: onlyUnassigned ? true : undefined,
+      };
+
+      axiosInstance
+        .get(`${endpoints.owprov}/api/v1/inventory`, {
+          headers,
+          params,
+        })
+        .then((response) => {
+          const tagsCount = response.data.count;
+          const pagesCount = Math.ceil(tagsCount / tagsPerPage);
+          setPageCount(pagesCount);
+          setTagCount(tagsCount);
+
+          let selectedPage = page;
+
+          if (page >= pagesCount) {
+            if (useUrl) history.push(`${path}?page=${pagesCount - 1}`);
+            else setLocalPage(`${pagesCount - 1}`);
+            selectedPage = pagesCount - 1;
+          }
+          if (tagsCount > 0) {
+            getTagInformation(selectedPage);
+          } else {
+            setTags([]);
+            setLoading(false);
+          }
+        })
+        .catch(() => {
+          setTags([]);
+          setLoading(false);
+        });
+    }
   };
 
   const updateTagsPerPage = (value) => {
@@ -251,8 +258,8 @@ const InventoryTable = ({
           color: 'success',
           autohide: true,
         });
-        if (refreshPageTables !== null) refreshPageTables();
-        getCount();
+        if (refreshTable !== null) refreshTable();
+        else getCount();
       })
       .catch(() => {
         addToast({
@@ -290,8 +297,8 @@ const InventoryTable = ({
             color: 'success',
             autohide: true,
           });
-          if (refreshPageTables !== null) refreshPageTables();
-          getCount();
+          if (refreshTable !== null) refreshTable();
+          else getCount();
         })
         .catch(() => {
           addToast({
@@ -324,8 +331,8 @@ const InventoryTable = ({
           color: 'success',
           autohide: true,
         });
-        if (refreshPageTables !== null) refreshPageTables();
-        getCount();
+        if (refreshTable !== null) refreshTable();
+        else getCount();
       })
       .catch(() => {
         addToast({
@@ -340,7 +347,10 @@ const InventoryTable = ({
       });
   };
 
-  const refresh = () => getCount();
+  const refresh = () => {
+    getCount();
+    if (refreshTable !== null) refreshTable();
+  };
 
   const updateConfiguration = (v) => {
     const options = {
@@ -359,7 +369,7 @@ const InventoryTable = ({
       .then(() => {
         toggleAssoc();
 
-        refresh();
+        getCount();
 
         addToast({
           title: t('common.success'),
@@ -401,8 +411,8 @@ const InventoryTable = ({
           color: 'success',
           autohide: true,
         });
-        if (refreshPageTables !== null) refreshPageTables();
-        getCount();
+        if (refreshTable !== null) refreshTable();
+        else getCount();
       })
       .catch(() => {
         addToast({
@@ -417,31 +427,77 @@ const InventoryTable = ({
       });
   };
 
+  const pushConfig = (serialNumber) => {
+    togglePush();
+    setPushLoading(true);
+
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    axiosInstance
+      .get(`${endpoints.owprov}/api/v1/inventory/${serialNumber}?applyConfiguration=true`, options)
+      .then((response) => {
+        if (response.data.code === 0) {
+          togglePush();
+          addToast({
+            title: t('common.success'),
+            body: t('inventory.configuration_successfully_pushed'),
+            color: 'success',
+            autohide: true,
+          });
+        } else {
+          setPushResult(response.data);
+        }
+      })
+      .catch((e) => {
+        togglePush();
+        addToast({
+          title: t('common.error'),
+          body: t('inventory.error_pushing_config', { error: e.response?.data?.ErrorDescription }),
+          color: 'danger',
+          autohide: true,
+        });
+      })
+      .finally(() => setPushLoading(false));
+  };
+
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
     }
     if (!useUrl) setLocalPage('0');
 
-    getCount();
+    if (entity === null) setEntityDevicesArray([]);
+    else {
+      const newDevices =
+        entity?.extraData?.devices !== undefined ? entity.extraData?.devices?.map((d) => d) : [];
+      if (newDevices.join(',') !== entityDevicesArray.join(',')) setEntityDevicesArray(newDevices);
+    }
   }, [entity]);
 
   useEffect(() => {
+    getCount();
+  }, [entityDevicesArray]);
+
+  useEffect(() => {
+    if (refreshId > 0) getCount();
+  }, [refreshId]);
+
+  useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
       history.push(`${path}?page=0`);
     }
     if (!useUrl) setLocalPage('0');
-
     getCount();
   }, []);
 
   useEffect(() => {
     getCount();
   }, [onlyUnassigned]);
-
-  useEffect(() => {
-    if (refreshId > 0) getCount();
-  }, [refreshId]);
 
   return (
     <div>
@@ -459,6 +515,7 @@ const InventoryTable = ({
               </CPopover>
               <CPopover content={t('inventory.import_devices')}>
                 <CButton
+                  hidden={entity === null}
                   color="primary"
                   variant="outline"
                   onClick={toggleImportModal}
@@ -485,7 +542,7 @@ const InventoryTable = ({
             </CButtonToolbar>
           </div>
           <div className="pt-1 text-center float-right">
-            <div hidden={onlyEntity || entity !== null}>
+            <div hidden={filterOnEntity || entity !== null}>
               <CSwitch
                 id="showUnassigned"
                 color="primary"
@@ -496,7 +553,7 @@ const InventoryTable = ({
             </div>
           </div>
           <div className="pt-2 text-right px-2 float-right">
-            <div hidden={onlyEntity || entity !== null}>{t('entity.only_unassigned')}</div>
+            <div hidden={filterOnEntity || entity !== null}>{t('entity.only_unassigned')}</div>
           </div>
         </CCardHeader>
         <CCardBody className="p-0">
@@ -510,7 +567,7 @@ const InventoryTable = ({
             page={useUrl ? page : localPage}
             updatePage={updatePage}
             pageCount={pageCount}
-            onlyEntity={onlyEntity}
+            onlyEntity={filterOnEntity}
             unassign={unassignTag}
             assignToEntity={assignTag}
             toggleEditModal={toggleEditModal}
@@ -519,6 +576,7 @@ const InventoryTable = ({
             toggleAssociate={toggleAssoc}
             toggleAssocEntity={toggleAssocEntity}
             toggleComputed={toggleComputed}
+            pushConfig={pushConfig}
           />
         </CCardBody>
       </CCard>
@@ -527,19 +585,21 @@ const InventoryTable = ({
         toggle={toggleEditModal}
         editEntity={entity !== null}
         tagSerialNumber={selectedTagId}
-        refreshTable={refreshPageTables}
+        refreshTable={getCount}
       />
-      <ImportDevicesModal
-        entity={entity}
-        show={showImportModal}
-        toggle={toggleImportModal}
-        refreshPageTables={refreshPageTables}
-      />
+      {entity === null ? null : (
+        <ImportDevicesModal
+          entity={entity}
+          show={showImportModal}
+          toggle={toggleImportModal}
+          refreshPageTables={refreshTable}
+        />
+      )}
       <DeleteDevicesModal
         entity={entity}
         show={showBulkDeleteModal}
         toggle={toggleBulkDeleteModal}
-        refreshPageTables={refreshPageTables}
+        refreshPageTables={refreshTable}
       />
       <AssociateConfigurationModal
         show={showAssoc}
@@ -555,7 +615,14 @@ const InventoryTable = ({
       <ComputerConfigModal
         show={showComputed}
         toggle={toggleComputed}
+        pushConfig={pushConfig}
         serialNumber={selectedTagId}
+      />
+      <ConfigurationPushResultModal
+        show={showPush}
+        toggle={togglePush}
+        result={pushResult}
+        loading={pushLoading}
       />
     </div>
   );
@@ -564,21 +631,21 @@ const InventoryTable = ({
 InventoryTable.propTypes = {
   entity: PropTypes.instanceOf(Object),
   toggleAdd: PropTypes.func,
-  refreshId: PropTypes.number,
-  onlyEntity: PropTypes.bool,
+  filterOnEntity: PropTypes.bool,
   useUrl: PropTypes.bool,
   title: PropTypes.string,
-  refreshPageTables: PropTypes.func,
+  refreshTable: PropTypes.func,
+  refreshId: PropTypes.number,
 };
 
 InventoryTable.defaultProps = {
   entity: null,
   toggleAdd: null,
-  refreshId: 0,
-  onlyEntity: false,
+  filterOnEntity: false,
   useUrl: false,
   title: null,
-  refreshPageTables: null,
+  refreshTable: null,
+  refreshId: 0,
 };
 
 export default InventoryTable;

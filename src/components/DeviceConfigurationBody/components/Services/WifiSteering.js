@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CRow, CCol } from '@coreui/react';
 import {
   ConfigurationSectionToggler,
-  ConfigurationMulti,
+  ConfigurationSelect,
   ConfigurationIntField,
   ConfigurationToggle,
   ConfigurationElement,
@@ -29,13 +29,14 @@ const WifiSteering = ({ fields, updateField, updateWithId }) => (
         >
           <CRow>
             <CCol>
-              <ConfigurationMulti
+              <ConfigurationSelect
                 id="wifi-steering.mode"
                 label="mode"
                 field={fields['wifi-steering'].mode}
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
+                width="100px"
                 disabled={false}
               />
               <ConfigurationToggle

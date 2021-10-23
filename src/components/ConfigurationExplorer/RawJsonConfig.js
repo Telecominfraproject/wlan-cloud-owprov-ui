@@ -12,16 +12,16 @@ const RawJsonConfig = ({ orderedBlocks }) => (
     <CCardBody>
       &#123;
       {Object.keys(orderedBlocks.unit).length > 0 ? (
-        <pre className="pl-3">{JSON.stringify(orderedBlocks.unit, null, '\t')},</pre>
+        <pre className="pl-3">{JSON.stringify(orderedBlocks.unit, null, 2)},</pre>
       ) : null}
       {Object.keys(orderedBlocks.globals).length > 0 ? (
-        <pre className="pl-3">{JSON.stringify(orderedBlocks.globals, null, '\t')},</pre>
+        <pre className="pl-3">{JSON.stringify(orderedBlocks.globals, null, 2)},</pre>
       ) : null}
       {Object.keys(orderedBlocks.metrics).length > 0 ? (
-        <pre className="pl-3">{JSON.stringify(orderedBlocks.metrics, null, '\t')},</pre>
+        <pre className="pl-3">{JSON.stringify(orderedBlocks.metrics, null, 2)},</pre>
       ) : null}
       {Object.keys(orderedBlocks.services).length > 0 ? (
-        <pre className="pl-3">{JSON.stringify(orderedBlocks.services, null, '\t')},</pre>
+        <pre className="pl-3">{JSON.stringify(orderedBlocks.services, null, 2)},</pre>
       ) : null}
       {Object.keys(orderedBlocks.radios).length > 0 ? (
         <pre className="pl-3">
@@ -30,13 +30,13 @@ const RawJsonConfig = ({ orderedBlocks }) => (
               ? orderedBlocks.radios
               : orderedBlocks.radios.radios,
             null,
-            '\t',
+            2,
           )}
           ,
         </pre>
       ) : null}
       {Object.keys(orderedBlocks.interfaces).length > 0 ? (
-        <pre className="pl-3">{JSON.stringify(orderedBlocks.interfaces, null, '\t')},</pre>
+        <pre className="pl-3">{JSON.stringify(orderedBlocks.interfaces, null, 2)},</pre>
       ) : null}
       &#125;
     </CCardBody>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CRow, CCol } from '@coreui/react';
 import {
   ConfigurationSectionToggler,
-  ConfigurationMulti,
+  ConfigurationSelect,
   ConfigurationStringField,
   ConfigurationElement,
   ConfigurationFileField,
@@ -23,6 +23,12 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
     batchSetField([
       { id: 'open-flow.private-key', value },
       { id: 'open-flow.private-key-filename', value: fileName ?? 'Unknown' },
+    ]);
+  };
+  const saveSsl = (value, fileName) => {
+    batchSetField([
+      { id: 'open-flow.ssl-certificate', value },
+      { id: 'open-flow.ssl-certificate-filename', value: fileName ?? 'Unknown' },
     ]);
   };
 
@@ -56,13 +62,14 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                   errorMessage="Error!!!!"
                   disabled={false}
                 />
-                <ConfigurationMulti
+                <ConfigurationSelect
                   id="open-flow.mode"
                   label="mode"
                   field={fields['open-flow'].mode}
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
+                  width="100px"
                   disabled={false}
                 />
                 <ConfigurationFileField
@@ -83,19 +90,24 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                     />
                   }
                 />
-                <ConfigurationStringField
-                  id="open-flow.ssl-certificate"
+                <ConfigurationFileField
+                  fileName={fields['open-flow']['ssl-certificate-filename'].value}
+                  fieldValue={fields['open-flow']['ssl-certificate'].value}
                   label="ssl-certificate"
-                  field={fields['open-flow']['ssl-certificate']}
-                  updateField={updateWithId}
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  extraButton={
+                    <FileToStringButton
+                      t={t}
+                      title="ssl-certificate"
+                      explanations={t('configuration.key_pem_explanation')}
+                      acceptedFileTypes=".pem"
+                      size="sm"
+                      save={saveSsl}
+                    />
+                  }
                 />
-                <div>
-                  <div>{}</div>
-                </div>
                 <ConfigurationFileField
                   fileName={fields['open-flow']['private-key-filename'].value}
                   fieldValue={fields['open-flow']['private-key'].value}

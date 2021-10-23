@@ -71,7 +71,7 @@ const Interfaces = ({
 
   useEffect(() => {
     if (fields.interfaces) {
-      setNewInterfaces(JSON.stringify(fields, null, '\t'));
+      setNewInterfaces(JSON.stringify(fields, null, 2));
     }
   }, [fields]);
 
