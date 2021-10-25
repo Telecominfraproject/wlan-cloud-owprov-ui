@@ -76,68 +76,68 @@ const EntityPage = () => {
       </CRow>
       <CRow>
         <CCol>
-          <CCard>
-            <CCardBody className="p-1">
-              <CNav variant="tabs">
-                <CNavLink href="#" active={index === 0} onClick={() => setIndex(0)}>
-                  {t('entity.venues')}
-                </CNavLink>
-                <CNavLink href="#" active={index === 1} onClick={() => setIndex(1)}>
-                  {t('common.devices')}
-                </CNavLink>
-                <CNavLink href="#" active={index === 2} onClick={() => setIndex(2)}>
-                  {t('contact.title')}
-                </CNavLink>
-                <CNavLink href="#" active={index === 3} onClick={() => setIndex(3)}>
-                  {t('location.title')}
-                </CNavLink>
-              </CNav>
-              <CTabContent className="pb-2">
-                <CTabPane active={index === 0}>
-                  <VenuesTable
-                    entity={entity}
-                    toggleAdd={toggleShowAddVenue}
-                    filterOnEntity
-                    title={t('entity.venues')}
-                    refreshPageTables={refreshTables}
-                  />
-                </CTabPane>
-                <CTabPane active={index === 1}>
-                  <InventoryTable
-                    entity={entity}
-                    toggleAdd={toggleShowAddTag}
-                    refreshTable={refreshTables}
-                    filterOnEntity
-                    title={t('common.devices')}
-                  />
-                </CTabPane>
-                <CTabPane active={index === 2}>
-                  <ContactsTable
-                    entity={entity}
-                    toggleAdd={toggleShowAddContact}
-                    filterOnEntity
-                    title={t('contact.title')}
-                    refreshPageTables={refreshTables}
-                  />
-                </CTabPane>
-                <CTabPane active={index === 3}>
-                  <LocationTable
-                    entity={entity}
-                    toggleAdd={toggleShowAddLocation}
-                    filterOnEntity
-                    title={t('location.title')}
-                    refreshPageTables={refreshTables}
-                  />
-                </CTabPane>
-              </CTabContent>
-            </CCardBody>
-          </CCard>
           {entityId !== null &&
           entity !== null &&
           entity.uuid === entityId &&
           entity.uuid !== '0000-0000-0000' &&
           !entity.isVenue ? (
             <div>
+              <CCard>
+                <CCardBody className="p-1">
+                  <CNav variant="tabs">
+                    <CNavLink href="#" active={index === 0} onClick={() => setIndex(0)}>
+                      {t('entity.venues')}
+                    </CNavLink>
+                    <CNavLink href="#" active={index === 1} onClick={() => setIndex(1)}>
+                      {t('common.devices')}
+                    </CNavLink>
+                    <CNavLink href="#" active={index === 2} onClick={() => setIndex(2)}>
+                      {t('contact.title')}
+                    </CNavLink>
+                    <CNavLink href="#" active={index === 3} onClick={() => setIndex(3)}>
+                      {t('location.title')}
+                    </CNavLink>
+                  </CNav>
+                  <CTabContent className="pb-2">
+                    <CTabPane active={index === 0}>
+                      <VenuesTable
+                        entity={entity}
+                        toggleAdd={toggleShowAddVenue}
+                        filterOnEntity
+                        title={t('entity.venues')}
+                        refreshPageTables={refreshTables}
+                      />
+                    </CTabPane>
+                    <CTabPane active={index === 1}>
+                      <InventoryTable
+                        entity={entity}
+                        toggleAdd={toggleShowAddTag}
+                        refreshTable={refreshTables}
+                        filterOnEntity
+                        title={t('common.devices')}
+                      />
+                    </CTabPane>
+                    <CTabPane active={index === 2}>
+                      <ContactsTable
+                        entity={entity}
+                        toggleAdd={toggleShowAddContact}
+                        filterOnEntity
+                        title={t('contact.title')}
+                        refreshPageTables={refreshTables}
+                      />
+                    </CTabPane>
+                    <CTabPane active={index === 3}>
+                      <LocationTable
+                        entity={entity}
+                        toggleAdd={toggleShowAddLocation}
+                        filterOnEntity
+                        title={t('location.title')}
+                        refreshPageTables={refreshTables}
+                      />
+                    </CTabPane>
+                  </CTabContent>
+                </CCardBody>
+              </CCard>
               <AddInventoryTagModal
                 show={showAddTagModal}
                 toggle={toggleShowAddTag}
