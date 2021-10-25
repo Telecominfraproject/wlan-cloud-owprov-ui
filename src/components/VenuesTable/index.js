@@ -295,6 +295,7 @@ const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refresh
         onlyUnassigned={onlyUnassigned}
         toggleUnassignedDisplay={toggleUnassignedDisplay}
         refresh={refresh}
+        onlyTable
       />
       <EditVenueModal
         show={showEditModal}
