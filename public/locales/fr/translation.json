@@ -228,6 +228,7 @@
 		"used_by": "Utilisé par",
 		"used_by_details": "{{entities}} Entités, {{venues}} Lieux et {{devices}} Appareils",
 		"uuid": "Identifiant de configuration",
+		"view_config": "Afficher la configuration",
 		"view_in_use": "Afficher en cours d'utilisation",
 		"view_json": "Afficher le JSON brut"
 	},
@@ -309,8 +310,10 @@
 		"error_fetch_entity": "Erreur lors de la récupération des informations sur l'entité",
 		"error_fetching": "Erreur lors de la récupération des entités",
 		"error_saving": "Erreur lors de l'enregistrement de l'entité",
+		"higher_priority": "Faire une priorité plus élevée",
 		"ip_detection": "Détection IP",
 		"ip_formats": "Vous pouvez ajouter des adresses IPv4 ou IPv6 aux formats suivants :",
+		"lower_priority": "Faire une priorité inférieure",
 		"need_select_entity": "Vous devez sélectionner une entité dans le tableau ci-dessous",
 		"no_ips": "Aucune adresse IP sélectionnée",
 		"not_assigned": "Non attribué",
