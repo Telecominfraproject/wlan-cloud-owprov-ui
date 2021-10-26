@@ -14,7 +14,7 @@ const TheLayout = () => {
       <Sidebar
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
-        logo="assets/OpenWiFi_LogoLockup_WhiteColour.svg"
+        logo="assets/14Oranges_Logo.png"
         redirectTo="/entity/0000-0000-0000"
       />
       <div className="c-wrapper">
@@ -25,7 +25,7 @@ const TheLayout = () => {
           t={t}
           i18n={i18n}
           logout={logout}
-          logo="assets/OpenWiFi_LogoLockup_DarkGreyColour.svg"
+          logo="assets/14Oranges_Logo.png"
           authToken={currentToken}
           endpoints={endpoints}
           user={user}
