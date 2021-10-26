@@ -152,7 +152,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
   }, [show]);
 
   return (
-    <CModal size="xl" show={show} onClose={toggle}>
+    <CModal size="lg" show={show} onClose={toggle}>
       <CModalHeader className="p-1">
         <CModalTitle className="pl-1 pt-1">
           {t('inventory.add_tag', { name: entity?.name })}

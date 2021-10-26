@@ -70,11 +70,11 @@ const ComputerConfigModal = ({ show, toggle, serialNumber, pushConfig }) => {
       <CModalBody>
         <h5>{t('configuration.title')}</h5>
         <pre className="overflow-auto border" style={{ height: '300px' }}>
-          {JSON.stringify(config?.config, null, '\t')}
+          {JSON.stringify(config?.config, null, 2)}
         </pre>
         <h5>{t('configuration.explanation')}</h5>
         <pre className="overflow-auto border" style={{ height: '300px' }}>
-          {JSON.stringify(config?.explanation, null, '\t')}
+          {JSON.stringify(config?.explanation, null, 2)}
         </pre>
       </CModalBody>
     </CModal>

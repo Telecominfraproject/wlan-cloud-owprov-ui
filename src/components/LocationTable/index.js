@@ -340,7 +340,7 @@ const LocationTable = ({
 
   return (
     <div>
-      <CCard>
+      <CCard className="m-0">
         <CCardHeader className="p-1">
           <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
             {title}

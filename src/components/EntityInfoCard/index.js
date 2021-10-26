@@ -40,8 +40,7 @@ const initialForm = {
     error: false,
   },
   deviceConfiguration: {
-    value: '',
-    uuid: '',
+    value: [],
     error: false,
   },
   notes: {
@@ -92,16 +91,15 @@ const EntityInfoCard = ({ refreshPage }) => {
     for (const [key] of Object.entries(newFields)) {
       if (entity.extraData[key] !== undefined) {
         if (key === 'deviceConfiguration')
-          newFields.deviceConfiguration = { value: '', uuid: entity.extraData[key] };
+          newFields.deviceConfiguration = { value: entity.extraData[key].map((id) => ({ id })) };
         else if (key === 'rrm')
           newFields[key].value = entity.extraData[key] === '' ? 'inherit' : entity.extraData[key];
         else newFields[key].value = entity.extraData[key];
       }
     }
 
-    if (entity.extraData.deviceConfiguration !== '') {
-      newFields.deviceConfiguration.value = entity.extraData.extendedInfo.deviceConfiguration.name;
-      newFields.deviceConfiguration.uuid = entity.extraData.deviceConfiguration;
+    if (entity.extraData.deviceConfiguration.length > 0) {
+      newFields.deviceConfiguration.value = entity.extraData.extendedInfo.deviceConfiguration;
     }
 
     setFormFields({ ...newFields }, true);
@@ -139,7 +137,7 @@ const EntityInfoCard = ({ refreshPage }) => {
         rrm: fields.rrm.value,
         sourceIP: fields.sourceIP.value,
         notes: newNotes,
-        deviceConfiguration: fields.deviceConfiguration.uuid,
+        deviceConfiguration: fields.deviceConfiguration.value.map((c) => c.id),
       };
 
       axiosInstance
@@ -179,7 +177,7 @@ const EntityInfoCard = ({ refreshPage }) => {
   };
 
   const updateConfiguration = (v) => {
-    updateField('deviceConfiguration', { value: v.value, uuid: v.uuid });
+    updateField('deviceConfiguration', { value: v });
     toggleAssociate();
   };
 
@@ -288,7 +286,7 @@ const EntityInfoCard = ({ refreshPage }) => {
       <AssociateConfigurationModal
         show={showAssociate}
         toggle={toggleAssociate}
-        defaultConfig={fields.deviceConfiguration}
+        defaultConfigs={fields.deviceConfiguration.value}
         updateConfiguration={updateConfiguration}
       />
       <EntityIpModal

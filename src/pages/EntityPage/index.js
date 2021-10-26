@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
-import { CRow, CCol } from '@coreui/react';
+import { CRow, CCol, CCard, CCardBody, CNav, CNavLink, CTabPane, CTabContent } from '@coreui/react';
 import { useEntity, useToast, useToggle } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import InventoryTable from 'components/InventoryTable';
@@ -20,6 +20,7 @@ const EntityPage = () => {
   const { addToast } = useToast();
   const location = useLocation();
   const history = useHistory();
+  const [index, setIndex] = useState(0);
   const [showAddTagModal, toggleShowAddTag] = useToggle(false);
   const [showAddVenueModal, toggleShowAddVenue] = useToggle(false);
   const [showAddContact, toggleShowAddContact] = useToggle(false);
@@ -81,34 +82,78 @@ const EntityPage = () => {
           entity.uuid !== '0000-0000-0000' &&
           !entity.isVenue ? (
             <div>
-              <VenuesTable
-                entity={entity}
-                toggleAdd={toggleShowAddVenue}
-                filterOnEntity
-                title={t('entity.venues')}
-                refreshPageTables={refreshTables}
-              />
-              <InventoryTable
-                entity={entity}
-                toggleAdd={toggleShowAddTag}
-                refreshTable={refreshTables}
-                filterOnEntity
-                title={t('common.devices')}
-              />
-              <ContactsTable
-                entity={entity}
-                toggleAdd={toggleShowAddContact}
-                filterOnEntity
-                title={t('contact.title')}
-                refreshPageTables={refreshTables}
-              />
-              <LocationTable
-                entity={entity}
-                toggleAdd={toggleShowAddLocation}
-                filterOnEntity
-                title={t('location.title')}
-                refreshPageTables={refreshTables}
-              />
+              <CCard>
+                <CCardBody className="p-0">
+                  <CNav variant="tabs">
+                    <CNavLink
+                      className="font-weight-bold"
+                      href="#"
+                      active={index === 0}
+                      onClick={() => setIndex(0)}
+                    >
+                      {t('entity.venues')}
+                    </CNavLink>
+                    <CNavLink
+                      className="font-weight-bold"
+                      href="#"
+                      active={index === 1}
+                      onClick={() => setIndex(1)}
+                    >
+                      {t('common.devices')}
+                    </CNavLink>
+                    <CNavLink
+                      className="font-weight-bold"
+                      href="#"
+                      active={index === 2}
+                      onClick={() => setIndex(2)}
+                    >
+                      {t('contact.title')}
+                    </CNavLink>
+                    <CNavLink
+                      className="font-weight-bold"
+                      href="#"
+                      active={index === 3}
+                      onClick={() => setIndex(3)}
+                    >
+                      {t('location.title')}
+                    </CNavLink>
+                  </CNav>
+                  <CTabContent>
+                    <CTabPane active={index === 0}>
+                      <VenuesTable
+                        entity={entity}
+                        toggleAdd={toggleShowAddVenue}
+                        filterOnEntity
+                        refreshPageTables={refreshTables}
+                      />
+                    </CTabPane>
+                    <CTabPane active={index === 1}>
+                      <InventoryTable
+                        entity={entity}
+                        toggleAdd={toggleShowAddTag}
+                        refreshTable={refreshTables}
+                        filterOnEntity
+                      />
+                    </CTabPane>
+                    <CTabPane active={index === 2}>
+                      <ContactsTable
+                        entity={entity}
+                        toggleAdd={toggleShowAddContact}
+                        filterOnEntity
+                        refreshPageTables={refreshTables}
+                      />
+                    </CTabPane>
+                    <CTabPane active={index === 3}>
+                      <LocationTable
+                        entity={entity}
+                        toggleAdd={toggleShowAddLocation}
+                        filterOnEntity
+                        refreshPageTables={refreshTables}
+                      />
+                    </CTabPane>
+                  </CTabContent>
+                </CCardBody>
+              </CCard>
               <AddInventoryTagModal
                 show={showAddTagModal}
                 toggle={toggleShowAddTag}
