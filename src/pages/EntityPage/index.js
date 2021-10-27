@@ -84,7 +84,7 @@ const EntityPage = () => {
             <div>
               <CCard>
                 <CCardBody className="p-0">
-                  <CNav variant="tabs">
+                  <CNav variant="tabs" className="mb-0 p-0">
                     <CNavLink
                       className="font-weight-bold"
                       href="#"

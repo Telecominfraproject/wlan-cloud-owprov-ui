@@ -205,6 +205,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
                     refreshPageTables={refreshTable}
                     urlId="unassigned"
                     title={t('inventory.unassigned_tags')}
+                    onlyUnassigned
                   />
                 ) : null}
               </CTabPane>
