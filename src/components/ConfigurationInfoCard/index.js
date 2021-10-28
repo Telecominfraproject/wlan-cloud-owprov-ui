@@ -225,68 +225,39 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
 
   return (
     <CCard>
-      <CCardHeader className="p-1">
+      <CCardHeader className="dark-header">
         <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
           {t('configuration.title')}: {config?.name}
         </div>
         <div className="float-right">
           <CButtonToolbar role="group" className="justify-content-end">
             <CPopover content={t('common.save')}>
-              <CButton
-                disabled={!editing}
-                color="primary"
-                variant="outline"
-                onClick={saveConfig}
-                className="mx-1"
-              >
+              <CButton disabled={!editing} color="info" onClick={saveConfig}>
                 <CIcon name="cil-save" content={cilSave} />
               </CButton>
             </CPopover>
-            {'  '}
             <CPopover content={t('common.edit')}>
-              <CButton
-                disabled={editing}
-                color="primary"
-                variant="outline"
-                onClick={toggleEditing}
-                className="mx-1"
-              >
+              <CButton disabled={editing} color="dark" onClick={toggleEditing} className="ml-2">
                 <CIcon name="cil-pencil" content={cilPencil} />
               </CButton>
             </CPopover>
-            {'  '}
             <CPopover content={t('common.stop_editing')}>
-              <CButton
-                disabled={!editing}
-                color="primary"
-                variant="outline"
-                onClick={toggleEditing}
-                className="mx-1"
-              >
+              <CButton disabled={!editing} color="dark" onClick={toggleEditing} className="ml-2">
                 <CIcon name="cil-x" content={cilX} />
               </CButton>
             </CPopover>
-            {'  '}
             <CPopover content={t('common.delete')}>
               <CButton
                 disabled={editing || config?.inUse?.length > 0}
-                color="primary"
-                variant="outline"
+                color="info"
                 onClick={toggleDelete}
-                className="mx-1"
+                className="ml-2"
               >
                 <CIcon name="cil-trash" content={cilTrash} />
               </CButton>
             </CPopover>
-            {'  '}
             <CPopover content={t('common.refresh')}>
-              <CButton
-                disabled={editing}
-                color="primary"
-                variant="outline"
-                onClick={getConfig}
-                className="mx-1"
-              >
+              <CButton disabled={editing} color="info" onClick={getConfig} className="ml-2">
                 <CIcon content={cilSync} />
               </CButton>
             </CPopover>

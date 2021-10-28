@@ -144,6 +144,7 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
         <h5>{t('entity.entities')}</h5>
         <div className="overflow-auto border mb-4" style={{ height: '300px' }}>
           <CDataTable
+            addTableClasses="table-sm"
             items={entities}
             fields={fields}
             loading={loading}
@@ -186,6 +187,7 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
         <h5>{t('entity.venues')}</h5>
         <div className="overflow-auto border" style={{ height: '300px' }}>
           <CDataTable
+            addTableClasses="table-sm"
             items={venues}
             fields={fields}
             loading={loading}

@@ -62,11 +62,19 @@ const ConfigurationPushResultModal = ({ show, toggle, result, loading }) => {
           </pre>
           <h5>Errors</h5>
           <div className="overflow-auto border" style={{ height: '300px' }}>
-            <CDataTable items={getErrors()} columns={[{ key: 'text', label: 'Error' }]} />
+            <CDataTable
+              addTableClasses="table-sm"
+              items={getErrors()}
+              columns={[{ key: 'text', label: 'Error' }]}
+            />
           </div>
           <h5>Warnings</h5>
           <div className="overflow-auto border" style={{ height: '300px' }}>
-            <CDataTable items={getWarnings()} columns={[{ key: 'text', label: 'Warning' }]} />
+            <CDataTable
+              addTableClasses="table-sm"
+              items={getWarnings()}
+              columns={[{ key: 'text', label: 'Warning' }]}
+            />
           </div>
         </CModalBody>
       )}

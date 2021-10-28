@@ -132,6 +132,7 @@ const AssociateConfigurationModal = ({ show, toggle, defaultConfigs, updateConfi
         </CRow>
         <div className="overflow-auto" style={{ height: '300px' }}>
           <CDataTable
+            addTableClasses="table-sm"
             items={selectedConfigs}
             fields={[
               { key: 'name', label: t('user.name'), _style: { width: '20%' }, filter: false },
@@ -219,6 +220,7 @@ const AssociateConfigurationModal = ({ show, toggle, defaultConfigs, updateConfi
         </CRow>
         <div className="overflow-auto" style={{ height: '300px' }}>
           <CDataTable
+            addTableClasses="table-sm"
             items={configs.filter((c) => selectedConfigs.findIndex((s) => s.id === c.id) === -1)}
             fields={[
               { key: 'name', label: t('user.name'), _style: { width: '20%' }, filter: false },

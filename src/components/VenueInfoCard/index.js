@@ -248,7 +248,7 @@ const VenueInfoCard = ({ refreshPage }) => {
 
   return (
     <CCard>
-      <CCardHeader className="p-1">
+      <CCardHeader className="dark-header">
         <CRow>
           <CCol sm="8">
             <div className="text-value-lg">
@@ -263,55 +263,51 @@ const VenueInfoCard = ({ refreshPage }) => {
                   color="primary"
                   variant="outline"
                   onClick={editVenue}
-                  className="mx-1"
+                  className="ml-2"
                 >
                   <CIcon name="cil-save" content={cilSave} />
                 </CButton>
               </CPopover>
-              {'  '}
               <CPopover content={t('common.edit')}>
                 <CButton
                   disabled={editing}
                   color="primary"
                   variant="outline"
                   onClick={toggleEditing}
-                  className="mx-1"
+                  className="ml-2"
                 >
                   <CIcon name="cil-pencil" content={cilPencil} />
                 </CButton>
               </CPopover>
-              {'  '}
               <CPopover content={t('common.stop_editing')}>
                 <CButton
                   disabled={!editing}
                   color="primary"
                   variant="outline"
                   onClick={toggleEditing}
-                  className="mx-1"
+                  className="ml-2"
                 >
                   <CIcon name="cil-x" content={cilX} />
                 </CButton>
               </CPopover>
-              {'  '}
               <CPopover content={t('common.delete')}>
                 <CButton
                   disabled={editing}
                   color="primary"
                   variant="outline"
                   onClick={toggleDelete}
-                  className="mx-1"
+                  className="ml-2"
                 >
                   <CIcon name="cil-trash" content={cilTrash} />
                 </CButton>
               </CPopover>
-              {'  '}
               <CPopover content={t('common.refresh')}>
                 <CButton
                   disabled={editing}
                   color="primary"
                   variant="outline"
                   onClick={refreshPage}
-                  className="mx-1"
+                  className="ml-2"
                 >
                   <CIcon name="cil-sync" content={cilSync} />
                 </CButton>

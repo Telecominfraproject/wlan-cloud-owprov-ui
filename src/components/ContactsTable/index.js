@@ -339,19 +339,19 @@ const ContactsTable = ({
   return (
     <div>
       <CCard className="my-0 py-0">
-        <CCardHeader className="my-0 p-1 text-light" style={{ backgroundColor: '#2f3d54' }}>
+        <CCardHeader className="dark-header">
           <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
             {title}
           </div>
           <div className="pl-3 float-right">
             <CButtonToolbar role="group" className="justify-content-end">
               <CPopover content={t('contact.create_contact')}>
-                <CButton color="info" onClick={toggleAdd} className="mx-1">
+                <CButton color="info" onClick={toggleAdd}>
                   <CIcon content={cilPlus} />
                 </CButton>
               </CPopover>
               <CPopover content={t('common.refresh')}>
-                <CButton color="info" onClick={refresh} className="ml-1">
+                <CButton color="info" onClick={refresh} className="ml-2">
                   <CIcon content={cilSync} />
                 </CButton>
               </CPopover>

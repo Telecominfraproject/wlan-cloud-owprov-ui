@@ -21,7 +21,13 @@ const TestResultTable = ({ devices, assigned }) => {
       ];
 
   return (
-    <CDataTable addTableClasses="ignore-overflow" items={devices} fields={columns} hover border />
+    <CDataTable
+      addTableClasses="ignore-overflow table-sm"
+      items={devices}
+      fields={columns}
+      hover
+      border
+    />
   );
 };
 
