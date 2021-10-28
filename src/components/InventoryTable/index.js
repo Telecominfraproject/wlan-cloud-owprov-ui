@@ -11,10 +11,10 @@ import { getItem, setItem } from 'utils/localStorageHelper';
 import EditTagModal from 'components/EditTagModal';
 import ImportDevicesModal from 'components/ImportDevicesModal';
 import DeleteDevicesModal from 'components/DeleteDevicesModal';
-import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import AssociateVenueEntityModal from 'components/AssociateVenueEntityModal';
 import ComputerConfigModal from 'components/ComputedConfigModal';
 import ConfigurationPushResultModal from 'components/ConfigurationPushResultModal';
+import AssociatedSingleConfigModal from 'components/AssociatedSingleConfigModal';
 
 const InventoryTable = ({
   entity,
@@ -577,7 +577,7 @@ const InventoryTable = ({
         toggle={toggleBulkDeleteModal}
         refreshPageTables={refreshTable}
       />
-      <AssociateConfigurationModal
+      <AssociatedSingleConfigModal
         show={showAssoc}
         toggle={toggleAssoc}
         defaultConfig={assocInfo}
