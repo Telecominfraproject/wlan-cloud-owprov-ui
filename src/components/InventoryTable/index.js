@@ -562,6 +562,7 @@ const InventoryTable = ({
         editEntity={entity !== null}
         tagSerialNumber={selectedTagId}
         refreshTable={getCount}
+        pushConfig={pushConfig}
       />
       {entity === null ? null : (
         <ImportDevicesModal

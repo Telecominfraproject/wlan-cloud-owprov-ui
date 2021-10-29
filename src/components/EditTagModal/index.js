@@ -13,7 +13,7 @@ import {
   CTabContent,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilX, cilSave, cilPen, cilZoomIn } from '@coreui/icons';
+import { cilX, cilSave, cilPen, cilRouter } from '@coreui/icons';
 import {
   useFormFields,
   useAuth,
@@ -76,12 +76,12 @@ const initialForm = {
   },
 };
 
-const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
-  const [gwUi] = useState(localStorage.getItem('owgw-ui'));
+const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig }) => {
   const { t } = useTranslation();
   const { currentToken, endpoints } = useAuth();
   const { deviceTypes } = useEntity();
   const { addToast } = useToast();
+  const [hasConfig, setHasConfig] = useState(false);
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
   const [tag, setTag] = useState({});
@@ -128,6 +128,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
         setFormFields({ ...newFields }, true);
 
         if (response.data.deviceConfiguration !== '') {
+          setHasConfig(true);
           return axiosInstance.get(
             `${endpoints.owprov}/api/v1/configurations/${response.data.deviceConfiguration}`,
             options,
@@ -217,6 +218,11 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
     updateField('notes', { value: newNotes });
   };
 
+  const pushConfigToDevice = () => {
+    pushConfig(fields.serialNumber.value);
+    toggle();
+  };
+
   const toggleEdit = () => {
     if (editing) getTag();
     setEditing(!editing);
@@ -224,6 +230,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
 
   useEffect(() => {
     if (show) {
+      setHasConfig(false);
       setIndex(0);
       getTag();
       setFormFields(initialForm);
@@ -255,17 +262,15 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
               <CIcon content={cilPen} />
             </CButton>
           </CPopover>
-          <CPopover content={t('inventory.view_in_gateway')}>
+          <CPopover content="Push Configuration to Device">
             <CButton
               color="primary"
               variant="outline"
               className="ml-2"
-              onClick={() =>
-                window.open(`${gwUi}/#/devices/${fields.serialNumber.value}`, '_blank')
-              }
-              hidden={!gwUi || gwUi === ''}
+              onClick={pushConfigToDevice}
+              disabled={!hasConfig}
             >
-              <CIcon content={cilZoomIn} />
+              <CIcon name="cil-router" content={cilRouter} size="sm" />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>
@@ -330,6 +335,7 @@ EditTagModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   refreshTable: PropTypes.func,
   tagSerialNumber: PropTypes.string,
+  pushConfig: PropTypes.func.isRequired,
 };
 
 EditTagModal.defaultProps = {
