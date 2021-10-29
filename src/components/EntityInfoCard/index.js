@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { CButton, CButtonToolbar, CCard, CCardBody, CCardHeader, CPopover } from '@coreui/react';
+import {
+  CButton,
+  CButtonToolbar,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CPopover,
+  CNav,
+  CNavLink,
+  CTabPane,
+  CTabContent,
+} from '@coreui/react';
 import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import {
@@ -11,6 +22,7 @@ import {
   useFormFields,
   useToast,
   useToggle,
+  DetailedNotesTable,
 } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import DeleteEntityModal from 'components/DeleteEntityModal';
@@ -64,6 +76,9 @@ const EntityInfoCard = ({ refreshPage }) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showAssociate, setShowAssociate] = useState(false);
   const [showIp, toggleIp] = useToggle(false);
+  const [index, setIndex] = useState(0);
+
+  const switchToNotes = () => setIndex(1);
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
@@ -194,6 +209,7 @@ const EntityInfoCard = ({ refreshPage }) => {
 
   useEffect(() => {
     if (entity !== null && Object.keys(entity.extraData).length > 0) {
+      setIndex(0);
       setEditing(false);
       parseEntity();
     }
@@ -236,17 +252,53 @@ const EntityInfoCard = ({ refreshPage }) => {
         </div>
       </CCardHeader>
       <CCardBody className="py-1">
-        <EditEntityForm
-          t={t}
-          disable={loading}
-          fields={fields}
-          updateField={updateFieldWithId}
-          updateFieldDirectly={updateField}
-          addNote={addNote}
-          editing={editing}
-          toggleAssociate={toggleAssociate}
-          toggleIpModal={toggleIp}
-        />
+        <CNav variant="tabs" className="mb-0 p-0">
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 0}
+            onClick={() => setIndex(0)}
+          >
+            {t('common.main')}
+          </CNavLink>
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 1}
+            onClick={() => setIndex(1)}
+          >
+            {t('configuration.notes')}
+          </CNavLink>
+        </CNav>
+        <CTabContent>
+          <CTabPane active={index === 0}>
+            {index === 0 ? (
+              <EditEntityForm
+                t={t}
+                disable={loading}
+                fields={fields}
+                updateField={updateFieldWithId}
+                updateFieldDirectly={updateField}
+                addNote={addNote}
+                editing={editing}
+                toggleAssociate={toggleAssociate}
+                toggleIpModal={toggleIp}
+                switchToNotes={switchToNotes}
+              />
+            ) : null}
+          </CTabPane>
+          <CTabPane active={index === 1}>
+            {index === 1 ? (
+              <DetailedNotesTable
+                t={t}
+                notes={fields.notes.value}
+                addNote={addNote}
+                loading={loading}
+                editable={editing}
+              />
+            ) : null}
+          </CTabPane>
+        </CTabContent>
       </CCardBody>
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
       <AssociateConfigurationModal
