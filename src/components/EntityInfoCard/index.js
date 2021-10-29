@@ -207,7 +207,6 @@ const EntityInfoCard = ({ refreshPage }) => {
 
   useEffect(() => {
     if (entity !== null && Object.keys(entity.extraData).length > 0) {
-      setIndex(0);
       setEditing(false);
       parseEntity();
     }

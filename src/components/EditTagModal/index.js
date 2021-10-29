@@ -1,9 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
+import {
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CButton,
+  CPopover,
+  CNav,
+  CNavLink,
+  CTabPane,
+  CTabContent,
+} from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave, cilPen } from '@coreui/icons';
-import { useFormFields, useAuth, useToast, useEntity, EditInventoryTagForm } from 'ucentral-libs';
+import {
+  useFormFields,
+  useAuth,
+  useToast,
+  useEntity,
+  EditInventoryTagForm,
+  DetailedNotesTable,
+} from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
@@ -67,6 +85,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
   const [loading, setLoading] = useState(false);
   const [tag, setTag] = useState({});
   const [editing, setEditing] = useState(false);
+  const [index, setIndex] = useState(0);
 
   const validation = () => {
     let success = true;
@@ -151,6 +170,14 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
         }
       }
 
+      const newNotes = [];
+
+      for (let i = 0; i < fields.notes.value.length; i += 1) {
+        if (fields.notes.value[i].new) newNotes.push({ note: fields.notes.value[i].note });
+      }
+
+      parameters.notes = newNotes;
+
       axiosInstance
         .put(`${endpoints.owprov}/api/v1/inventory/${tagSerialNumber}`, parameters, options)
         .then(() => {
@@ -179,36 +206,14 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
   };
 
   const addNote = (newNote) => {
-    setLoading(true);
-
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    const parameters = {
-      notes: [{ note: newNote }],
-    };
-
-    axiosInstance
-      .put(`${endpoints.owprov}/api/v1/inventory/${tagSerialNumber}`, parameters, options)
-      .then(() => {
-        getTag();
-      })
-      .catch(() => {
-        addToast({
-          title: t('common.error'),
-          body: t('inventory.tag_update_error'),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    setLoading(false);
+    const newNotes = fields.notes.value;
+    newNotes.unshift({
+      note: newNote,
+      new: true,
+      created: new Date().getTime() / 1000,
+      createdBy: '',
+    });
+    updateField('notes', { value: newNotes });
   };
 
   const toggleEdit = () => {
@@ -218,6 +223,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
 
   useEffect(() => {
     if (show) {
+      setIndex(0);
       getTag();
       setFormFields(initialForm);
     } else {
@@ -255,17 +261,51 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
           </CPopover>
         </div>
       </CModalHeader>
-      <CModalBody className="px-5">
-        <EditInventoryTagForm
-          t={t}
-          disable={loading}
-          fields={fields}
-          updateField={updateFieldWithId}
-          updateFieldDirectly={updateField}
-          addNote={addNote}
-          deviceTypes={deviceTypes}
-          editing={editing}
-        />
+      <CModalBody className="px-3 pt-0">
+        <CNav variant="tabs" className="mb-0 p-0">
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 0}
+            onClick={() => setIndex(0)}
+          >
+            {t('common.main')}
+          </CNavLink>
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 1}
+            onClick={() => setIndex(1)}
+          >
+            {t('configuration.notes')}
+          </CNavLink>
+        </CNav>
+        <CTabContent>
+          <CTabPane active={index === 0} className="pt-2">
+            {index === 0 ? (
+              <EditInventoryTagForm
+                t={t}
+                disable={loading}
+                fields={fields}
+                updateField={updateFieldWithId}
+                updateFieldDirectly={updateField}
+                deviceTypes={deviceTypes}
+                editing={editing}
+              />
+            ) : null}
+          </CTabPane>
+          <CTabPane active={index === 1}>
+            {index === 1 ? (
+              <DetailedNotesTable
+                t={t}
+                notes={fields.notes.value}
+                addNote={addNote}
+                loading={loading}
+                editable={editing}
+              />
+            ) : null}
+          </CTabPane>
+        </CTabContent>
       </CModalBody>
     </CModal>
   );

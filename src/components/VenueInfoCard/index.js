@@ -10,6 +10,10 @@ import {
   CCol,
   CPopover,
   CRow,
+  CNav,
+  CNavLink,
+  CTabPane,
+  CTabContent,
 } from '@coreui/react';
 import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
@@ -20,6 +24,7 @@ import {
   useFormFields,
   useToast,
   useToggle,
+  DetailedNotesTable,
 } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import DeleteEntityModal from 'components/DeleteEntityModal';
@@ -87,6 +92,7 @@ const VenueInfoCard = ({ refreshPage }) => {
   const [showIp, toggleIp] = useToggle(false);
   const [showContact, toggleContact] = useToggle(false);
   const [showLocation, toggleLocation] = useToggle(false);
+  const [index, setIndex] = useState(0);
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
@@ -287,19 +293,53 @@ const VenueInfoCard = ({ refreshPage }) => {
         </CRow>
       </CCardHeader>
       <CCardBody className="py-1">
-        <EditEntityForm
-          t={t}
-          disable={loading}
-          fields={fields}
-          updateField={updateFieldWithId}
-          updateFieldDirectly={updateField}
-          addNote={addNote}
-          editing={editing}
-          toggleAssociate={toggleAssociate}
-          toggleContact={toggleContact}
-          toggleIpModal={toggleIp}
-          toggleLocation={toggleLocation}
-        />
+        <CNav variant="tabs" className="mb-0 p-0">
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 0}
+            onClick={() => setIndex(0)}
+          >
+            {t('common.main')}
+          </CNavLink>
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 1}
+            onClick={() => setIndex(1)}
+          >
+            {t('configuration.notes')}
+          </CNavLink>
+        </CNav>
+        <CTabContent>
+          <CTabPane active={index === 0} className="pt-2">
+            {index === 0 ? (
+              <EditEntityForm
+                t={t}
+                disable={loading}
+                fields={fields}
+                updateField={updateFieldWithId}
+                updateFieldDirectly={updateField}
+                editing={editing}
+                toggleAssociate={toggleAssociate}
+                toggleContact={toggleContact}
+                toggleIpModal={toggleIp}
+                toggleLocation={toggleLocation}
+              />
+            ) : null}
+          </CTabPane>
+          <CTabPane active={index === 1}>
+            {index === 1 ? (
+              <DetailedNotesTable
+                t={t}
+                notes={fields.notes.value}
+                addNote={addNote}
+                loading={loading}
+                editable={editing}
+              />
+            ) : null}
+          </CTabPane>
+        </CTabContent>
       </CCardBody>
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
       <AssociateConfigurationModal

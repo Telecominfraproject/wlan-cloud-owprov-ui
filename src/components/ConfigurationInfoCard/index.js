@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { CButtonToolbar, CButton, CPopover, CCard, CCardHeader, CCardBody } from '@coreui/react';
+import {
+  CButtonToolbar,
+  CButton,
+  CPopover,
+  CCard,
+  CCardHeader,
+  CCardBody,
+  CNav,
+  CNavLink,
+  CTabPane,
+  CTabContent,
+} from '@coreui/react';
 import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { useAuth, useToast, useFormFields, EditConfigurationForm, useEntity } from 'ucentral-libs';
+import {
+  useAuth,
+  useToast,
+  useFormFields,
+  EditConfigurationForm,
+  useEntity,
+  DetailedNotesTable,
+} from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from 'utils/axiosInstance';
 import ConfigurationInUseModal from 'components/ConfigurationInUseModal';
@@ -65,6 +83,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
   const [editing, setEditing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showInUse, setShowInUse] = useState(false);
+  const [index, setIndex] = useState(0);
 
   const toggleDelete = () => setShowDelete(!showDelete);
 
@@ -265,18 +284,53 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
         </div>
       </CCardHeader>
       <CCardBody className="py-0">
-        <EditConfigurationForm
-          t={t}
-          disable={loading}
-          fields={fields}
-          updateField={updateFieldWithId}
-          updateFieldWithKey={updateField}
-          addNote={addNote}
-          editing={editing}
-          toggleInUseModal={toggleInUse}
-          deviceTypes={deviceTypes}
-          config={config}
-        />
+        <CNav variant="tabs" className="mb-0 p-0">
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 0}
+            onClick={() => setIndex(0)}
+          >
+            {t('common.main')}
+          </CNavLink>
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 1}
+            onClick={() => setIndex(1)}
+          >
+            {t('configuration.notes')}
+          </CNavLink>
+        </CNav>
+        <CTabContent>
+          <CTabPane active={index === 0} className="pt-2">
+            {index === 0 ? (
+              <EditConfigurationForm
+                t={t}
+                disable={loading}
+                fields={fields}
+                updateField={updateFieldWithId}
+                updateFieldWithKey={updateField}
+                addNote={addNote}
+                editing={editing}
+                toggleInUseModal={toggleInUse}
+                deviceTypes={deviceTypes}
+                config={config}
+              />
+            ) : null}
+          </CTabPane>
+          <CTabPane active={index === 1}>
+            {index === 1 ? (
+              <DetailedNotesTable
+                t={t}
+                notes={fields.notes.value}
+                addNote={addNote}
+                loading={loading}
+                editable={editing}
+              />
+            ) : null}
+          </CTabPane>
+        </CTabContent>
       </CCardBody>
       <ConfigurationInUseModal show={showInUse} toggle={toggleInUse} config={config} />
       <DeleteConfigurationModal show={showDelete} toggle={toggleDelete} config={config} />
