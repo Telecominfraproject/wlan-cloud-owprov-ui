@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilX, cilSave } from '@coreui/icons';
+import { cilX, cilSave, cilPen } from '@coreui/icons';
 import { useFormFields, useAuth, useToast, useEntity, EditContactForm } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -99,6 +99,7 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState({});
   const [entities, setEntities] = useState([]);
+  const [editing, setEditing] = useState(false);
 
   const validation = () => {
     let success = true;
@@ -256,11 +257,18 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
     updateField('notes', { value: newNotes });
   };
 
+  const toggleEdit = () => {
+    if (editing) getContact();
+    setEditing(!editing);
+  };
+
   useEffect(() => {
     if (show) {
       getEntities();
       getContact();
       setFormFields(initialForm);
+    } else {
+      setEditing(false);
     }
   }, [show]);
 
@@ -272,8 +280,19 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
         </CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
-            <CButton color="primary" variant="outline" className="mx-2" onClick={editContact}>
+            <CButton color="primary" variant="outline" onClick={editContact} disabled={!editing}>
               <CIcon content={cilSave} />
+            </CButton>
+          </CPopover>
+          <CPopover content={t('common.edit')}>
+            <CButton
+              color="primary"
+              variant="outline"
+              className="ml-2"
+              onClick={toggleEdit}
+              disabled={editing}
+            >
+              <CIcon content={cilPen} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>
@@ -294,6 +313,7 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
           deviceTypes={deviceTypes}
           entities={entities}
           batchSetField={batchSetField}
+          editing={editing}
         />
       </CModalBody>
     </CModal>

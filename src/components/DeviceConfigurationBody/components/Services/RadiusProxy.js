@@ -476,6 +476,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                     </CCol>
                   </CRow>
                   <CDataTable
+                    addTableClasses="table-sm"
                     items={tempValue ?? []}
                     fields={columns}
                     hover

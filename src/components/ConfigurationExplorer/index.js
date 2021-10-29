@@ -486,25 +486,18 @@ const ConfigurationExplorer = ({ config }) => {
     <CRow>
       <CCol>
         <CCard>
-          <CCardHeader className="p-1">
+          <CCardHeader className="dark-header">
             <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
               Configuration Sections
             </div>
             <div className="float-right">
               <CPopover content={t('common.save')}>
-                <CButton
-                  color="primary"
-                  variant="outline"
-                  onClick={save}
-                  disabled={!canSave}
-                  className="mx-1"
-                >
+                <CButton color="info" onClick={save} disabled={!canSave}>
                   <CIcon name="cil-save" content={cilSave} />
                 </CButton>
               </CPopover>
-              {'  '}
               <CPopover content={t('common.refresh')}>
-                <CButton color="primary" variant="outline" onClick={getConfig} className="ml-1">
+                <CButton color="info" onClick={getConfig} className="ml-2">
                   <CIcon name="cil-sync" content={cilSync} />
                 </CButton>
               </CPopover>

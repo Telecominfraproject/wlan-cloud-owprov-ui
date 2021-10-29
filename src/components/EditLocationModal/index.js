@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilX, cilSave } from '@coreui/icons';
+import { cilX, cilSave, cilPen } from '@coreui/icons';
 import {
   useFormFields,
   useAuth,
@@ -100,6 +100,7 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState({});
   const [entities, setEntities] = useState([]);
+  const [editing, setEditing] = useState(false);
 
   const validation = () => {
     for (const [key, field] of Object.entries(fields)) {
@@ -278,11 +279,18 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
     updateField('notes', { value: newNotes });
   };
 
+  const toggleEdit = () => {
+    if (editing) getLocation();
+    setEditing(!editing);
+  };
+
   useEffect(() => {
     if (show) {
       getEntities();
       getLocation();
       setFormFields(initialForm);
+    } else {
+      setEditing(false);
     }
   }, [show]);
 
@@ -294,8 +302,19 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
         </CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
-            <CButton color="primary" variant="outline" className="mx-2" onClick={editLocation}>
+            <CButton color="primary" variant="outline" onClick={editLocation} disabled={!editing}>
               <CIcon content={cilSave} />
+            </CButton>
+          </CPopover>
+          <CPopover content={t('common.edit')}>
+            <CButton
+              color="primary"
+              variant="outline"
+              className="ml-2"
+              onClick={toggleEdit}
+              disabled={editing}
+            >
+              <CIcon content={cilPen} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>
@@ -316,6 +335,7 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
           deviceTypes={deviceTypes}
           entities={entities}
           batchSetField={batchSetField}
+          editing={editing}
           locationSearch={
             <AddressEditor
               t={t}

@@ -201,68 +201,34 @@ const EntityInfoCard = ({ refreshPage }) => {
 
   return (
     <CCard>
-      <CCardHeader className="p-1">
+      <CCardHeader className="dark-header">
         <div className="text-value-lg float-left">
           {t('entity.entity')}: {entity?.name}
         </div>
         <div className="text-right float-right">
           <CButtonToolbar role="group" className="justify-content-end">
             <CPopover content={t('common.save')}>
-              <CButton
-                disabled={!editing}
-                color="primary"
-                variant="outline"
-                onClick={editEntity}
-                className="mx-1"
-              >
+              <CButton disabled={!editing} color="info" onClick={editEntity}>
                 <CIcon name="cil-save" content={cilSave} />
               </CButton>
             </CPopover>
-            {'  '}
             <CPopover content={t('common.edit')}>
-              <CButton
-                disabled={editing}
-                color="primary"
-                variant="outline"
-                onClick={toggleEditing}
-                className="mx-1"
-              >
+              <CButton disabled={editing} color="dark" onClick={toggleEditing} className="ml-2">
                 <CIcon name="cil-pencil" content={cilPencil} />
               </CButton>
             </CPopover>
-            {'  '}
             <CPopover content={t('common.stop_editing')}>
-              <CButton
-                disabled={!editing}
-                color="primary"
-                variant="outline"
-                onClick={toggleEditing}
-                className="mx-1"
-              >
+              <CButton disabled={!editing} color="dark" onClick={toggleEditing} className="ml-2">
                 <CIcon name="cil-x" content={cilX} />
               </CButton>
             </CPopover>
-            {'  '}
             <CPopover content={t('common.delete')}>
-              <CButton
-                disabled={editing}
-                color="primary"
-                variant="outline"
-                onClick={toggleDelete}
-                className="mx-1"
-              >
+              <CButton disabled={editing} color="danger" onClick={toggleDelete} className="ml-2">
                 <CIcon name="cil-trash" content={cilTrash} />
               </CButton>
             </CPopover>
-            {'  '}
             <CPopover content={t('common.refresh')}>
-              <CButton
-                disabled={editing}
-                color="primary"
-                variant="outline"
-                onClick={refreshPage}
-                className="mx-1"
-              >
+              <CButton disabled={editing} color="info" onClick={refreshPage} className="ml-2">
                 <CIcon content={cilSync} />
               </CButton>
             </CPopover>

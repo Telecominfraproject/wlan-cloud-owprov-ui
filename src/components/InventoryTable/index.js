@@ -2,15 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
-import {
-  CButton,
-  CCardBody,
-  CCard,
-  CCardHeader,
-  CPopover,
-  CSwitch,
-  CButtonToolbar,
-} from '@coreui/react';
+import { CButton, CCardBody, CCard, CCardHeader, CPopover, CButtonToolbar } from '@coreui/react';
 import { cilCloudUpload, cilPlus, cilSync, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { useAuth, useToast, InventoryTable as Table, useToggle } from 'ucentral-libs';
@@ -19,10 +11,10 @@ import { getItem, setItem } from 'utils/localStorageHelper';
 import EditTagModal from 'components/EditTagModal';
 import ImportDevicesModal from 'components/ImportDevicesModal';
 import DeleteDevicesModal from 'components/DeleteDevicesModal';
-import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import AssociateVenueEntityModal from 'components/AssociateVenueEntityModal';
 import ComputerConfigModal from 'components/ComputedConfigModal';
 import ConfigurationPushResultModal from 'components/ConfigurationPushResultModal';
+import AssociatedSingleConfigModal from 'components/AssociatedSingleConfigModal';
 
 const InventoryTable = ({
   entity,
@@ -32,6 +24,7 @@ const InventoryTable = ({
   title,
   refreshTable,
   refreshId,
+  onlyUnassigned,
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
@@ -39,7 +32,7 @@ const InventoryTable = ({
   const history = useHistory();
   const path = history.location.pathname.split('?')[0];
   const { search } = useLocation();
-  const page = new URLSearchParams(search).get('page');
+  const page = new URLSearchParams(search).get(onlyUnassigned ? 'unassignedPage' : 'page');
   const [localPage, setLocalPage] = useState('0');
   const [showEditModal, setShowEditModal] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
@@ -71,10 +64,7 @@ const InventoryTable = ({
   const [tagCount, setTagCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [tagsPerPage, setTagsPerPage] = useState(getItem('tagsPerPage') || '10');
-  const [onlyUnassigned, setOnlyUnassigned] = useState(true);
   const [tags, setTags] = useState([]);
-
-  const toggleUnassignedDisplay = () => setOnlyUnassigned(!onlyUnassigned);
 
   const toggleEditModal = (tagId) => {
     setSelectedTagId(tagId);
@@ -153,7 +143,8 @@ const InventoryTable = ({
         let selectedPage = page;
 
         if (page >= pagesCount) {
-          if (useUrl) history.push(`${path}?page=${pagesCount - 1}`);
+          if (useUrl)
+            history.push(`${path}?${onlyUnassigned ? 'unassignedPage' : 'page'}=${pagesCount - 1}`);
           else setLocalPage(`${pagesCount - 1}`);
           selectedPage = pagesCount - 1;
         }
@@ -192,7 +183,10 @@ const InventoryTable = ({
           let selectedPage = page;
 
           if (page >= pagesCount) {
-            if (useUrl) history.push(`${path}?page=${pagesCount - 1}`);
+            if (useUrl)
+              history.push(
+                `${path}?${onlyUnassigned ? 'unassignedPage' : 'page'}=${pagesCount - 1}`,
+              );
             else setLocalPage(`${pagesCount - 1}`);
             selectedPage = pagesCount - 1;
           }
@@ -220,7 +214,8 @@ const InventoryTable = ({
     let selectedPage = page;
 
     if (page >= newPageCount) {
-      if (useUrl) history.push(`${path}?page=${newPageCount - 1}`);
+      if (useUrl)
+        history.push(`${path}?${onlyUnassigned ? 'unassignedPage' : 'page'}=${newPageCount - 1}`);
       else setLocalPage(`${newPageCount - 1}`);
       selectedPage = newPageCount - 1;
     }
@@ -229,7 +224,8 @@ const InventoryTable = ({
   };
 
   const updatePage = ({ selected: selectedPage }) => {
-    if (useUrl) history.push(`${path}?page=${selectedPage}`);
+    if (useUrl)
+      history.push(`${path}?${onlyUnassigned ? 'unassignedPage' : 'page'}=${selectedPage}`);
     else setLocalPage(`${selectedPage}`);
 
     getTagInformation(selectedPage);
@@ -467,7 +463,7 @@ const InventoryTable = ({
 
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
-      history.push(`${path}?page=0`);
+      history.push(`${path}?${onlyUnassigned ? 'unassignedPage' : 'page'}=0`);
     }
     if (!useUrl) setLocalPage('0');
 
@@ -489,7 +485,7 @@ const InventoryTable = ({
 
   useEffect(() => {
     if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
-      history.push(`${path}?page=0`);
+      history.push(`${path}?${onlyUnassigned ? 'unassignedPage' : 'page'}=0`);
     }
     if (!useUrl) setLocalPage('0');
     getCount();
@@ -501,59 +497,39 @@ const InventoryTable = ({
 
   return (
     <div>
-      <CCard className="m-0">
-        <CCardHeader className="p-1">
+      <CCard className="my-0 py-0">
+        <CCardHeader className="dark-header">
           <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
             {title}
           </div>
           <div className="pl-3 float-right">
             <CButtonToolbar role="group" className="justify-content-end">
               <CPopover content={t('inventory.add_tag')}>
-                <CButton color="primary" variant="outline" onClick={toggleAdd} className="mx-1">
+                <CButton color="info" onClick={toggleAdd}>
                   <CIcon content={cilPlus} />
                 </CButton>
               </CPopover>
               <CPopover content={t('inventory.import_devices')}>
                 <CButton
                   hidden={entity === null}
-                  color="primary"
-                  variant="outline"
+                  color="info"
                   onClick={toggleImportModal}
-                  className="mx-1"
+                  className="ml-2"
                 >
                   <CIcon content={cilCloudUpload} />
                 </CButton>
               </CPopover>
               <CPopover content={t('inventory.bulk_delete_devices')}>
-                <CButton
-                  color="primary"
-                  variant="outline"
-                  onClick={toggleBulkDeleteModal}
-                  className="mx-1"
-                >
+                <CButton color="danger" onClick={toggleBulkDeleteModal} className="ml-2">
                   <CIcon content={cilTrash} />
                 </CButton>
               </CPopover>
               <CPopover content={t('common.refresh')}>
-                <CButton color="primary" variant="outline" onClick={refresh} className="ml-1">
+                <CButton color="info" onClick={refresh} className="ml-2">
                   <CIcon content={cilSync} />
                 </CButton>
               </CPopover>
             </CButtonToolbar>
-          </div>
-          <div className="pt-1 text-center float-right">
-            <div hidden={filterOnEntity || entity !== null}>
-              <CSwitch
-                id="showUnassigned"
-                color="primary"
-                defaultChecked={onlyUnassigned}
-                onClick={toggleUnassignedDisplay}
-                size="lg"
-              />
-            </div>
-          </div>
-          <div className="pt-2 text-right px-2 float-right">
-            <div hidden={filterOnEntity || entity !== null}>{t('entity.only_unassigned')}</div>
           </div>
         </CCardHeader>
         <CCardBody className="p-0">
@@ -601,7 +577,7 @@ const InventoryTable = ({
         toggle={toggleBulkDeleteModal}
         refreshPageTables={refreshTable}
       />
-      <AssociateConfigurationModal
+      <AssociatedSingleConfigModal
         show={showAssoc}
         toggle={toggleAssoc}
         defaultConfig={assocInfo}
@@ -636,6 +612,7 @@ InventoryTable.propTypes = {
   title: PropTypes.string,
   refreshTable: PropTypes.func,
   refreshId: PropTypes.number,
+  onlyUnassigned: PropTypes.bool,
 };
 
 InventoryTable.defaultProps = {
@@ -646,6 +623,7 @@ InventoryTable.defaultProps = {
   title: null,
   refreshTable: null,
   refreshId: 0,
+  onlyUnassigned: false,
 };
 
 export default InventoryTable;

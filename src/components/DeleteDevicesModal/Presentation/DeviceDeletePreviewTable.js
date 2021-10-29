@@ -10,7 +10,7 @@ const DeviceDeletePreviewTable = ({ devices, countToShow }) => {
 
   return (
     <CDataTable
-      addTableClasses="ignore-overflow"
+      addTableClasses="ignore-overflow table-sm"
       items={devices.slice(0, countToShow)}
       fields={columns}
       hover

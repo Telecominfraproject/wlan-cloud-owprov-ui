@@ -84,7 +84,7 @@ const EntityPage = () => {
             <div>
               <CCard>
                 <CCardBody className="p-0">
-                  <CNav variant="tabs">
+                  <CNav variant="tabs" className="mb-0 p-0">
                     <CNavLink
                       className="font-weight-bold"
                       href="#"
@@ -120,36 +120,44 @@ const EntityPage = () => {
                   </CNav>
                   <CTabContent>
                     <CTabPane active={index === 0}>
-                      <VenuesTable
-                        entity={entity}
-                        toggleAdd={toggleShowAddVenue}
-                        filterOnEntity
-                        refreshPageTables={refreshTables}
-                      />
+                      {index === 0 ? (
+                        <VenuesTable
+                          entity={entity}
+                          toggleAdd={toggleShowAddVenue}
+                          filterOnEntity
+                          refreshPageTables={refreshTables}
+                        />
+                      ) : null}
                     </CTabPane>
                     <CTabPane active={index === 1}>
-                      <InventoryTable
-                        entity={entity}
-                        toggleAdd={toggleShowAddTag}
-                        refreshTable={refreshTables}
-                        filterOnEntity
-                      />
+                      {index === 1 ? (
+                        <InventoryTable
+                          entity={entity}
+                          toggleAdd={toggleShowAddTag}
+                          refreshTable={refreshTables}
+                          filterOnEntity
+                        />
+                      ) : null}
                     </CTabPane>
                     <CTabPane active={index === 2}>
-                      <ContactsTable
-                        entity={entity}
-                        toggleAdd={toggleShowAddContact}
-                        filterOnEntity
-                        refreshPageTables={refreshTables}
-                      />
+                      {index === 2 ? (
+                        <ContactsTable
+                          entity={entity}
+                          toggleAdd={toggleShowAddContact}
+                          filterOnEntity
+                          refreshPageTables={refreshTables}
+                        />
+                      ) : null}
                     </CTabPane>
                     <CTabPane active={index === 3}>
-                      <LocationTable
-                        entity={entity}
-                        toggleAdd={toggleShowAddLocation}
-                        filterOnEntity
-                        refreshPageTables={refreshTables}
-                      />
+                      {index === 3 ? (
+                        <LocationTable
+                          entity={entity}
+                          toggleAdd={toggleShowAddLocation}
+                          filterOnEntity
+                          refreshPageTables={refreshTables}
+                        />
+                      ) : null}
                     </CTabPane>
                   </CTabContent>
                 </CCardBody>

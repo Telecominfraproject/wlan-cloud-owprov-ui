@@ -132,6 +132,7 @@ const EntityIpModal = ({ show, toggle, ips, updateField }) => {
           <CIcon content={cilPlus} />
         </CButton>
         <CDataTable
+          addTableClasses="table-sm"
           border
           items={ipList}
           fields={columns}

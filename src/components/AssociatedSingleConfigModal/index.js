@@ -19,25 +19,24 @@ import { useTranslation } from 'react-i18next';
 import { useAuth, useToast, FormattedDate } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 
-const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
+const AssociatedSingleConfigModal = ({ show, toggle, defaultConfig, updateConfiguration }) => {
   const { t } = useTranslation();
   const { currentToken, endpoints } = useAuth();
   const { addToast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [entities, setEntities] = useState([]);
-  const [venues, setVenues] = useState([]);
+  const [configs, setConfigs] = useState([]);
   const [filter, setFilter] = useState('');
-  const [selected, setSelected] = useState({ value: '', uuid: '' });
+  const [selectedConfig, setSelectedConfig] = useState({ value: '', uuid: '' });
 
-  const getPartial = async (type, offset) => {
+  const getPartialConfigs = async (offset) => {
     const headers = {
       Accept: 'application/json',
       Authorization: `Bearer ${currentToken}`,
     };
 
     return axiosInstance
-      .get(`${endpoints.owprov}/api/v1/${type}?limit=500&offset=${offset}`, { headers })
-      .then((response) => response.data.entities ?? response.data.venues)
+      .get(`${endpoints.owprov}/api/v1/configurations?limit=500&offset=${offset}`, { headers })
+      .then((response) => response.data.configurations)
       .catch(() => {
         addToast({
           title: t('common.error'),
@@ -49,41 +48,39 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
       });
   };
 
-  const updateConfig = (type, value, uuid) => setSelected({ type, value, uuid });
+  const updateConfig = (value, uuid) => setSelectedConfig({ value, uuid });
 
-  const save = () => updateConfiguration(selected);
+  const save = () => updateConfiguration(selectedConfig);
 
-  const getType = async (type) => {
+  const getConfigList = async () => {
     setLoading(true);
 
-    const allTypes = [];
+    const allConfigs = [];
     let continueGetting = true;
     let i = 1;
     while (continueGetting) {
       // eslint-disable-next-line no-await-in-loop
-      const newStuff = await getPartial(type, i);
-      if (newStuff === null || newStuff.length === 0) continueGetting = false;
-      allTypes.push(...newStuff);
+      const newConfigs = await getPartialConfigs(i);
+      if (newConfigs === null || newConfigs.length === 0) continueGetting = false;
+      allConfigs.push(...newConfigs);
       i += 500;
     }
-    const sorted = allTypes.sort((a, b) => {
+    const sortedFirmware = allConfigs.sort((a, b) => {
       const firstDate = a.created;
       const secondDate = b.created;
       if (firstDate < secondDate) return 1;
       return firstDate > secondDate ? -1 : 0;
     });
-
-    if (type === 'entity') setEntities(sorted);
-    else setVenues(sorted);
+    setConfigs(sortedFirmware);
 
     setLoading(false);
   };
 
   useEffect(() => {
     if (show) {
+      setSelectedConfig(defaultConfig);
       setFilter('');
-      getType('entity');
-      getType('venue');
+      getConfigList();
     }
   }, [show]);
 
@@ -97,7 +94,7 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
   return (
     <CModal show={show} onClose={toggle} size="xl">
       <CModalHeader className="p-1">
-        <CModalTitle className="pl-1 pt-1">{t('inventory.assign_to_entity')}</CModalTitle>
+        <CModalTitle className="pl-1 pt-1">{t('configuration.title')}</CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
             <CButton color="primary" variant="outline" className="ml-2" onClick={save}>
@@ -115,9 +112,9 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
         <CRow>
           <CCol>
             <b>
-              {selected?.type === 'venue'
-                ? t('entity.currently_selected_venue', { config: selected.value })
-                : t('entity.currently_selected_entity', { config: selected.value })}
+              {t('configuration.currently_selected_config', {
+                config: selectedConfig.uuid === '' ? t('common.none') : selectedConfig.value,
+              })}
             </b>
             <CButton
               id=""
@@ -141,11 +138,9 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
           </CCol>
           <CCol />
         </CRow>
-        <h5>{t('entity.entities')}</h5>
-        <div className="overflow-auto border mb-4" style={{ height: '300px' }}>
+        <div className="overflow-auto" style={{ height: '600px' }}>
           <CDataTable
-            addTableClasses="table-sm"
-            items={entities}
+            items={configs}
             fields={fields}
             loading={loading}
             hover
@@ -174,50 +169,7 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
                     <CButton
                       color="primary"
                       variant="outline"
-                      onClick={() => updateConfig('entity', item.name, item.id)}
-                    >
-                      <CIcon content={cilPlus} />
-                    </CButton>
-                  </CPopover>
-                </td>
-              ),
-            }}
-          />
-        </div>
-        <h5>{t('entity.venues')}</h5>
-        <div className="overflow-auto border" style={{ height: '300px' }}>
-          <CDataTable
-            addTableClasses="table-sm"
-            items={venues}
-            fields={fields}
-            loading={loading}
-            hover
-            tableFilterValue={filter}
-            border
-            scopedSlots={{
-              name: (item) => (
-                <td>
-                  <CLink
-                    className="c-subheader-nav-link"
-                    aria-current="page"
-                    to={() => `/configuration/${item.id}`}
-                  >
-                    {item.name}
-                  </CLink>
-                </td>
-              ),
-              created: (item) => (
-                <td>
-                  <FormattedDate date={item.created} />
-                </td>
-              ),
-              actions: (item) => (
-                <td>
-                  <CPopover content={t('configuration.select_configuration')}>
-                    <CButton
-                      color="primary"
-                      variant="outline"
-                      onClick={() => updateConfig('venue', item.name, item.id)}
+                      onClick={() => updateConfig(item.name, item.id)}
                     >
                       <CIcon content={cilPlus} />
                     </CButton>
@@ -232,9 +184,10 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
   );
 };
 
-AssociateVenueEntityModal.propTypes = {
+AssociatedSingleConfigModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  defaultConfig: PropTypes.instanceOf(Object).isRequired,
   updateConfiguration: PropTypes.func.isRequired,
 };
-export default AssociateVenueEntityModal;
+export default AssociatedSingleConfigModal;

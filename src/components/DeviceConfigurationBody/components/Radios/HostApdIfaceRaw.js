@@ -119,7 +119,7 @@ const HostApdIfaceRaw = ({ label, value, save, firstCol, secondCol, length }) =>
             <CIcon content={cilPlus} />
           </CButton>
           <CDataTable
-            addTableClasses="ignore-overflow"
+            addTableClasses="ignore-overflow table-sm"
             items={tempValue.map((v) => ({ value: v }))}
             fields={columns}
             hover

@@ -332,6 +332,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                     </CCol>
                   </CRow>
                   <CDataTable
+                    addTableClasses="table-sm"
                     items={tempValue ?? []}
                     fields={columns}
                     hover

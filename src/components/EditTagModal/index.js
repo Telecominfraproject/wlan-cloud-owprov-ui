@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilX, cilSave } from '@coreui/icons';
+import { cilX, cilSave, cilPen } from '@coreui/icons';
 import { useFormFields, useAuth, useToast, useEntity, EditInventoryTagForm } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -66,6 +66,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
   const [tag, setTag] = useState({});
+  const [editing, setEditing] = useState(false);
 
   const validation = () => {
     let success = true;
@@ -210,10 +211,17 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
     setLoading(false);
   };
 
+  const toggleEdit = () => {
+    if (editing) getTag();
+    setEditing(!editing);
+  };
+
   useEffect(() => {
     if (show) {
       getTag();
       setFormFields(initialForm);
+    } else {
+      setEditing(false);
     }
   }, [show]);
 
@@ -225,8 +233,19 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
         </CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
-            <CButton color="primary" variant="outline" className="mx-2" onClick={editTag}>
+            <CButton color="primary" variant="outline" onClick={editTag} disabled={!editing}>
               <CIcon content={cilSave} />
+            </CButton>
+          </CPopover>
+          <CPopover content={t('common.edit')}>
+            <CButton
+              color="primary"
+              variant="outline"
+              className="ml-2"
+              onClick={toggleEdit}
+              disabled={editing}
+            >
+              <CIcon content={cilPen} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>
@@ -245,6 +264,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
           updateFieldDirectly={updateField}
           addNote={addNote}
           deviceTypes={deviceTypes}
+          editing={editing}
         />
       </CModalBody>
     </CModal>

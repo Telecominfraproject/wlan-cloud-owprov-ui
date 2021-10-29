@@ -94,7 +94,7 @@ const AssociateLocationModal = ({ show, toggle, defaultLocation, updateConfigura
   return (
     <CModal show={show} onClose={toggle} size="xl">
       <CModalHeader className="p-1">
-        <CModalTitle className="pl-1 pt-1">{t('configuration.title')}</CModalTitle>
+        <CModalTitle className="pl-1 pt-1">{t('location.title')}</CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
             <CButton color="primary" variant="outline" className="ml-2" onClick={save}>
@@ -112,8 +112,8 @@ const AssociateLocationModal = ({ show, toggle, defaultLocation, updateConfigura
         <CRow>
           <CCol>
             <b>
-              {t('configuration.currently_selected_config', {
-                config: selectedLocation.uuid === '' ? t('common.none') : selectedLocation.value,
+              {t('location.currently_selected', {
+                location: selectedLocation.uuid === '' ? t('common.none') : selectedLocation.value,
               })}
             </b>
             <CButton
@@ -140,6 +140,7 @@ const AssociateLocationModal = ({ show, toggle, defaultLocation, updateConfigura
         </CRow>
         <div className="overflow-auto" style={{ height: '600px' }}>
           <CDataTable
+            addTableClasses="table-sm"
             items={configs}
             fields={fields}
             loading={loading}
@@ -148,23 +149,28 @@ const AssociateLocationModal = ({ show, toggle, defaultLocation, updateConfigura
             border
             scopedSlots={{
               name: (item) => (
-                <td>
+                <td className="align-middle">
                   <CLink
                     className="c-subheader-nav-link"
                     aria-current="page"
-                    to={() => `/locations`}
+                    to={() => `/location`}
                   >
                     {item.name}
                   </CLink>
                 </td>
               ),
               created: (item) => (
-                <td>
+                <td className="align-middle">
                   <FormattedDate date={item.created} />
                 </td>
               ),
+              description: (item) => (
+                <td className="align-middle">
+                  <FormattedDate date={item.description} />
+                </td>
+              ),
               actions: (item) => (
-                <td>
+                <td className="align-middle">
                   <CPopover content={t('configuration.select_configuration')}>
                     <CButton
                       color="primary"

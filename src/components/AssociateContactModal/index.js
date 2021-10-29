@@ -94,7 +94,7 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
   return (
     <CModal show={show} onClose={toggle} size="xl">
       <CModalHeader className="p-1">
-        <CModalTitle className="pl-1 pt-1">{t('configuration.title')}</CModalTitle>
+        <CModalTitle className="pl-1 pt-1">{t('contact.title')}</CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
             <CButton color="primary" variant="outline" className="ml-2" onClick={save}>
@@ -112,8 +112,8 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
         <CRow>
           <CCol>
             <b>
-              {t('configuration.currently_selected_config', {
-                config: selectedContact.uuid === '' ? t('common.none') : selectedContact.value,
+              {t('contact.currently_selected_contact', {
+                contact: selectedContact.uuid === '' ? t('common.none') : selectedContact.value,
               })}
             </b>
             <CButton
@@ -140,6 +140,7 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
         </CRow>
         <div className="overflow-auto" style={{ height: '600px' }}>
           <CDataTable
+            addTableClasses="table-sm"
             items={configs}
             fields={fields}
             loading={loading}
@@ -148,7 +149,7 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
             border
             scopedSlots={{
               name: (item) => (
-                <td>
+                <td className="align-middle">
                   <CLink
                     className="c-subheader-nav-link"
                     aria-current="page"
@@ -159,12 +160,17 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
                 </td>
               ),
               created: (item) => (
-                <td>
+                <td className="align-middle">
                   <FormattedDate date={item.created} />
                 </td>
               ),
+              description: (item) => (
+                <td className="align-middle">
+                  <FormattedDate date={item.description} />
+                </td>
+              ),
               actions: (item) => (
-                <td>
+                <td className="align-middle">
                   <CPopover content={t('configuration.select_configuration')}>
                     <CButton
                       color="primary"

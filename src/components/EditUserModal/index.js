@@ -52,6 +52,7 @@ const EditUserModal = ({ show, toggle, userId, getUsers }) => {
   const { addToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [initialUser, setInitialUser] = useState({});
+  const [editing, setEditing] = useState(false);
   const [user, updateWithId, updateWithKey, setUser] = useUser(initialState);
   const [policies, setPolicies] = useState({
     passwordPolicy: '',
@@ -98,6 +99,13 @@ const EditUserModal = ({ show, toggle, userId, getUsers }) => {
       .catch(() => {});
   };
 
+  const toggleEditing = () => {
+    if (editing) {
+      getUser();
+    }
+    setEditing(!editing);
+  };
+
   const updateUser = () => {
     setLoading(true);
 
@@ -124,6 +132,13 @@ const EditUserModal = ({ show, toggle, userId, getUsers }) => {
         }
       }
     }
+
+    const newNotes = [];
+    for (let i = 0; i < user.notes.value.length; i += 1) {
+      if (user.notes.value[i].new) newNotes.push({ note: user.notes.value[i].note });
+    }
+
+    parameters.notes = newNotes;
 
     if (newData) {
       const options = {
@@ -171,29 +186,14 @@ const EditUserModal = ({ show, toggle, userId, getUsers }) => {
   };
 
   const addNote = (currentNote) => {
-    setLoading(true);
-
-    const parameters = {
-      id: userId,
-      notes: [{ note: currentNote }],
-    };
-
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    axiosInstance
-      .put(`${endpoints.owsec}/api/v1/user/${userId}`, parameters, options)
-      .then(() => {
-        getUser();
-      })
-      .catch(() => {})
-      .finally(() => {
-        setLoading(false);
-      });
+    const newNotes = [...user.notes.value];
+    newNotes.unshift({
+      note: currentNote,
+      new: true,
+      created: new Date().getTime() / 1000,
+      createdBy: '',
+    });
+    updateWithKey('notes', { value: newNotes });
   };
 
   useEffect(() => {
@@ -205,6 +205,12 @@ const EditUserModal = ({ show, toggle, userId, getUsers }) => {
     }
   }, [userId]);
 
+  useEffect(() => {
+    if (show) {
+      setEditing(false);
+    }
+  }, [show]);
+
   return (
     <Modal
       t={t}
@@ -215,6 +221,8 @@ const EditUserModal = ({ show, toggle, userId, getUsers }) => {
       policies={policies}
       show={show}
       toggle={toggle}
+      editing={editing}
+      toggleEditing={toggleEditing}
       addNote={addNote}
     />
   );
