@@ -206,6 +206,7 @@
 		"device_password": "Passwort",
 		"device_type": "Gerätetyp",
 		"device_types": "Gerätetypen",
+		"devices_affected": "Von dieser Konfiguration betroffene Geräte:",
 		"edit_configuration": "Konfiguration bearbeiten",
 		"error_delete": "Fehler beim Versuch zu löschen: {{error}}",
 		"error_fetching_config": "Fehler beim Abrufen der Konfiguration",
@@ -233,6 +234,7 @@
 		"used_by": "Benutzt von",
 		"used_by_details": "{{entities}} Entitäten, {{venues}} Veranstaltungsorte und {{devices}} Geräte",
 		"uuid": "Konfigurations-ID",
+		"view_affected_devices": "Betroffene Geräte anzeigen",
 		"view_config": "Konfiguration anzeigen",
 		"view_in_use": "In Verwendung anzeigen",
 		"view_json": "Rohe Konfiguration anzeigen"
@@ -459,7 +461,8 @@
 		"unassigned_deleted_devices": "{{number}} Geräte gelöscht und nicht zugewiesen",
 		"unassigned_tags": "Nicht zugewiesene Tags",
 		"validating_import_file": "Importdatei und -daten werden validiert...",
-		"venue": "Tagungsort"
+		"venue": "Tagungsort",
+		"view_in_gateway": "Im Gateway anzeigen"
 	},
 	"location": {
 		"add": "Ort hinzufügen",

@@ -206,6 +206,7 @@
 		"device_password": "Contraseña",
 		"device_type": "Tipo de dispositivo",
 		"device_types": "Tipos de dispositivos",
+		"devices_affected": "Dispositivos afectados por esta configuración:",
 		"edit_configuration": "Editar configuración",
 		"error_delete": "Error al intentar eliminar: {{error}}",
 		"error_fetching_config": "Error al obtener la configuración",
@@ -233,6 +234,7 @@
 		"used_by": "Usado por",
 		"used_by_details": "{{entities}} Entidades, {{venues}} lugares y {{devices}} dispositivos",
 		"uuid": "ID de configuración",
+		"view_affected_devices": "Ver dispositivos afectados",
 		"view_config": "Ver configuración",
 		"view_in_use": "Ver en uso",
 		"view_json": "Ver JSON sin procesar"
@@ -459,7 +461,8 @@
 		"unassigned_deleted_devices": "{{number}} Dispositivos eliminados y sin asignar",
 		"unassigned_tags": "Etiquetas sin asignar",
 		"validating_import_file": "Validando archivo y datos de importación ...",
-		"venue": "Lugar de encuentro"
+		"venue": "Lugar de encuentro",
+		"view_in_gateway": "Ver en Gateway"
 	},
 	"location": {
 		"add": "Añade una ubicación",

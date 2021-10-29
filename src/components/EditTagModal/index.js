@@ -13,7 +13,7 @@ import {
   CTabContent,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilX, cilSave, cilPen } from '@coreui/icons';
+import { cilX, cilSave, cilPen, cilZoomIn } from '@coreui/icons';
 import {
   useFormFields,
   useAuth,
@@ -77,6 +77,7 @@ const initialForm = {
 };
 
 const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
+  const [gwUi] = useState(localStorage.getItem('owgw-ui'));
   const { t } = useTranslation();
   const { currentToken, endpoints } = useAuth();
   const { deviceTypes } = useEntity();
@@ -252,6 +253,19 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable }) => {
               disabled={editing}
             >
               <CIcon content={cilPen} />
+            </CButton>
+          </CPopover>
+          <CPopover content={t('inventory.view_in_gateway')}>
+            <CButton
+              color="primary"
+              variant="outline"
+              className="ml-2"
+              onClick={() =>
+                window.open(`${gwUi}/#/devices/${fields.serialNumber.value}`, '_blank')
+              }
+              hidden={!gwUi || gwUi === ''}
+            >
+              <CIcon content={cilZoomIn} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>
