@@ -103,6 +103,11 @@ const AddContactModal = ({ entity, show, toggle, refreshTable }) => {
   const [loading, setLoading] = useState(false);
   const [entities, setEntities] = useState([]);
 
+  const toggleModal = () => {
+    if (show) refreshTable();
+    toggle();
+  };
+
   const validation = () => {
     let success = true;
 
@@ -149,7 +154,7 @@ const AddContactModal = ({ entity, show, toggle, refreshTable }) => {
             autohide: true,
           });
           refreshTable();
-          toggle();
+          toggleModal();
         })
         .catch((e) => {
           addToast({
@@ -223,13 +228,11 @@ const AddContactModal = ({ entity, show, toggle, refreshTable }) => {
       }
 
       setFormFields(startingForm);
-    } else {
-      refreshTable();
     }
   }, [show]);
 
   return (
-    <CModal size="xl" show={show} onClose={toggle}>
+    <CModal size="xl" show={show} onClose={toggleModal}>
       <CModalHeader className="p-1">
         <CModalTitle className="pl-1 pt-1">Add Contact</CModalTitle>
         <div className="text-right">
@@ -245,7 +248,7 @@ const AddContactModal = ({ entity, show, toggle, refreshTable }) => {
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>
-            <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
+            <CButton color="primary" variant="outline" className="ml-2" onClick={toggleModal}>
               <CIcon content={cilX} />
             </CButton>
           </CPopover>

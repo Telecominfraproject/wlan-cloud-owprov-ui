@@ -9,20 +9,20 @@ import VenueInfoCard from 'components/VenueInfoCard';
 
 const EntityPage = () => {
   const { t } = useTranslation();
-  const { entity, setProviderEntity } = useEntity();
+  const { entity, setEntityId } = useEntity();
   const { venueId } = useParams();
   const { addToast } = useToast();
   const location = useLocation();
   const history = useHistory();
   const [showAddModal, toggleShowAdd] = useToggle(false);
 
-  const refreshTables = () => setProviderEntity(venueId, true);
+  const refreshTables = () => setEntityId(venueId, true);
 
   useEffect(() => {
-    if (entity === null || !entity.result || Object.keys(entity.result).length === 0) {
-      setProviderEntity(venueId, true);
+    if (entity === null || !entity.extraData || Object.keys(entity.extraData).length === 0) {
+      setEntityId(venueId, true);
     }
-  }, [venueId]);
+  }, []);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
