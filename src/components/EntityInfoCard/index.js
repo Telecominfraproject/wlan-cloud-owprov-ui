@@ -78,8 +78,6 @@ const EntityInfoCard = ({ refreshPage }) => {
   const [showIp, toggleIp] = useToggle(false);
   const [index, setIndex] = useState(0);
 
-  const switchToNotes = () => setIndex(1);
-
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
   const toggleDelete = () => setShowDelete(!showDelete);
@@ -271,7 +269,7 @@ const EntityInfoCard = ({ refreshPage }) => {
           </CNavLink>
         </CNav>
         <CTabContent>
-          <CTabPane active={index === 0}>
+          <CTabPane active={index === 0} className="pt-2">
             {index === 0 ? (
               <EditEntityForm
                 t={t}
@@ -279,11 +277,9 @@ const EntityInfoCard = ({ refreshPage }) => {
                 fields={fields}
                 updateField={updateFieldWithId}
                 updateFieldDirectly={updateField}
-                addNote={addNote}
                 editing={editing}
                 toggleAssociate={toggleAssociate}
                 toggleIpModal={toggleIp}
-                switchToNotes={switchToNotes}
               />
             ) : null}
           </CTabPane>
