@@ -15,7 +15,7 @@ import AddLocationModal from 'components/AddLocationModal';
 
 const EntityPage = () => {
   const { t } = useTranslation();
-  const { entity, setProviderEntity } = useEntity();
+  const { entity, setEntityId } = useEntity();
   const { entityId } = useParams();
   const { addToast } = useToast();
   const location = useLocation();
@@ -26,17 +26,11 @@ const EntityPage = () => {
   const [showAddContact, toggleShowAddContact] = useToggle(false);
   const [showAddLocation, toggleShowAddLocation] = useToggle(false);
 
-  const refreshTables = () => setProviderEntity(entityId, false);
+  const refreshTables = () => setEntityId(entityId, false);
 
   useEffect(() => {
     if (entity === null || !entity.extraData || Object.keys(entity.extraData).length === 0) {
-      setProviderEntity(entityId, false);
-    }
-  }, [entityId]);
-
-  useEffect(() => {
-    if (entity === null || !entity.extraData || Object.keys(entity.extraData).length === 0) {
-      setProviderEntity(entityId, false);
+      setEntityId(entityId, false);
     }
   }, []);
 
