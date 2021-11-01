@@ -15,6 +15,7 @@ import AssociateVenueEntityModal from 'components/AssociateVenueEntityModal';
 import ComputerConfigModal from 'components/ComputedConfigModal';
 import ConfigurationPushResultModal from 'components/ConfigurationPushResultModal';
 import AssociatedSingleConfigModal from 'components/AssociatedSingleConfigModal';
+import DeviceSearchBar from 'components/DeviceSearchBar';
 
 const InventoryTable = ({
   entity,
@@ -533,6 +534,11 @@ const InventoryTable = ({
                 </CButton>
               </CPopover>
             </CButtonToolbar>
+          </div>
+        </CCardHeader>
+        <CCardHeader className="p-0">
+          <div style={{ width: '400px' }}>
+            <DeviceSearchBar toggleEditModal={toggleEditModal} />
           </div>
         </CCardHeader>
         <CCardBody className="p-0">

@@ -39,25 +39,29 @@ const InventoryPage = () => {
         </CNav>
         <CTabContent>
           <CTabPane active={index === 0}>
-            <InventoryTable
-              title={t('inventory.title')}
-              entityPage={false}
-              toggleAdd={toggleShowAdd}
-              refreshId={refreshId}
-              useUrl
-              refreshPageTables={refreshTable}
-              onlyUnassigned
-            />
+            {index === 0 ? (
+              <InventoryTable
+                title={t('inventory.title')}
+                entityPage={false}
+                toggleAdd={toggleShowAdd}
+                refreshId={refreshId}
+                useUrl
+                refreshPageTables={refreshTable}
+                onlyUnassigned
+              />
+            ) : null}
           </CTabPane>
           <CTabPane active={index === 1}>
-            <InventoryTable
-              title={t('inventory.title')}
-              entityPage={false}
-              toggleAdd={toggleShowAdd}
-              refreshId={refreshId}
-              useUrl
-              refreshPageTables={refreshTable}
-            />
+            {index === 1 ? (
+              <InventoryTable
+                title={t('inventory.title')}
+                entityPage={false}
+                toggleAdd={toggleShowAdd}
+                refreshId={refreshId}
+                useUrl
+                refreshPageTables={refreshTable}
+              />
+            ) : null}
           </CTabPane>
         </CTabContent>
       </CCardBody>
