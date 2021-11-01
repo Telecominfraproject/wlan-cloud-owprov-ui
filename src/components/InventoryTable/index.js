@@ -25,6 +25,7 @@ const InventoryTable = ({
   refreshTable,
   refreshId,
   onlyUnassigned,
+  hideTopBar,
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
@@ -498,10 +499,12 @@ const InventoryTable = ({
   return (
     <div>
       <CCard className="my-0 py-0">
-        <CCardHeader className="dark-header">
-          <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
-            {title}
-          </div>
+        <CCardHeader className={hideTopBar ? 'p-1' : 'dark-header'}>
+          {hideTopBar ? null : (
+            <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
+              {title}
+            </div>
+          )}
           <div className="pl-3 float-right">
             <CButtonToolbar role="group" className="justify-content-end">
               <CPopover content={t('inventory.add_tag')}>
@@ -614,6 +617,7 @@ InventoryTable.propTypes = {
   refreshTable: PropTypes.func,
   refreshId: PropTypes.number,
   onlyUnassigned: PropTypes.bool,
+  hideTopBar: PropTypes.bool,
 };
 
 InventoryTable.defaultProps = {
@@ -625,6 +629,7 @@ InventoryTable.defaultProps = {
   refreshTable: null,
   refreshId: 0,
   onlyUnassigned: false,
+  hideTopBar: false,
 };
 
 export default InventoryTable;

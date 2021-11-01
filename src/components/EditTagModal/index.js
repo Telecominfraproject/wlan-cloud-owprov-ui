@@ -26,12 +26,6 @@ import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
 const initialForm = {
-  entity: {
-    value: '',
-    error: false,
-    hidden: false,
-    ignore: true,
-  },
   serialNumber: {
     value: '',
     error: false,
@@ -69,8 +63,22 @@ const initialForm = {
     value: '',
     error: false,
   },
+  entity: {
+    value: '',
+    error: false,
+  },
   notes: {
     value: [],
+    error: false,
+    ignore: true,
+  },
+  entityName: {
+    value: '',
+    error: false,
+    ignore: true,
+  },
+  venueName: {
+    value: '',
     error: false,
     ignore: true,
   },
@@ -82,11 +90,14 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
   const { deviceTypes } = useEntity();
   const { addToast } = useToast();
   const [hasConfig, setHasConfig] = useState(false);
-  const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
+  const [fields, updateFieldWithId, updateField, setFormFields, batchSetField] =
+    useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
   const [tag, setTag] = useState({});
   const [editing, setEditing] = useState(false);
   const [index, setIndex] = useState(0);
+  const [entities, setEntities] = useState([]);
+  const [venues, setVenues] = useState([]);
 
   const validation = () => {
     let success = true;
@@ -112,7 +123,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
     };
 
     axiosInstance
-      .get(`${endpoints.owprov}/api/v1/inventory/${tagSerialNumber}`, options)
+      .get(`${endpoints.owprov}/api/v1/inventory/${tagSerialNumber}?withExtendedInfo=true`, options)
       .then((response) => {
         const newFields = fields;
         for (const [key] of Object.entries(newFields)) {
@@ -124,6 +135,8 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
             else newFields[key].value = response.data[key];
           }
         }
+        newFields.entityName.value = response.data.extendedInfo?.entity?.name ?? '';
+        newFields.venueName.value = response.data.extendedInfo?.venue?.name ?? '';
         setTag(response.data);
         setFormFields({ ...newFields }, true);
 
@@ -207,6 +220,71 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
     }
   };
 
+  const getPartialEntities = async (offset, isVenue) => {
+    const headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${currentToken}`,
+    };
+
+    return axiosInstance
+      .get(
+        `${endpoints.owprov}/api/v1/${isVenue ? 'venue' : 'entity'}?limit=500&offset=${offset}`,
+        { headers },
+      )
+      .then((response) => response.data.entities ?? response.data.venues)
+      .catch(() => {
+        addToast({
+          title: t('common.error'),
+          body: t('common.general_error'),
+          color: 'danger',
+          autohide: true,
+        });
+        return [];
+      });
+  };
+
+  const getEntities = async () => {
+    setLoading(true);
+
+    const allEntities = [];
+    let continueGetting = true;
+    let i = 1;
+    while (continueGetting) {
+      // eslint-disable-next-line no-await-in-loop
+      const newStuff = await getPartialEntities(i, false);
+      if (newStuff === null || newStuff.length === 0) continueGetting = false;
+      allEntities.push(...newStuff);
+      i += 500;
+    }
+    const sortedEntities = allEntities.sort((a, b) => {
+      const firstDate = a.created;
+      const secondDate = b.created;
+      if (firstDate < secondDate) return 1;
+      return firstDate > secondDate ? -1 : 0;
+    });
+    setEntities(sortedEntities);
+
+    const allVenues = [];
+    continueGetting = true;
+    i = 1;
+    while (continueGetting) {
+      // eslint-disable-next-line no-await-in-loop
+      const newStuff = await getPartialEntities(i, true);
+      if (newStuff === null || newStuff.length === 0) continueGetting = false;
+      allVenues.push(...newStuff);
+      i += 500;
+    }
+    const sortedVenues = allVenues.sort((a, b) => {
+      const firstDate = a.created;
+      const secondDate = b.created;
+      if (firstDate < secondDate) return 1;
+      return firstDate > secondDate ? -1 : 0;
+    });
+    setVenues(sortedVenues);
+
+    setLoading(false);
+  };
+
   const addNote = (newNote) => {
     const newNotes = fields.notes.value;
     newNotes.unshift({
@@ -230,6 +308,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
 
   useEffect(() => {
     if (show) {
+      getEntities();
       setHasConfig(false);
       setIndex(0);
       getTag();
@@ -309,7 +388,10 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
                 updateField={updateFieldWithId}
                 updateFieldDirectly={updateField}
                 deviceTypes={deviceTypes}
+                entities={entities}
+                venues={venues}
                 editing={editing}
+                batchSetField={batchSetField}
               />
             ) : null}
           </CTabPane>

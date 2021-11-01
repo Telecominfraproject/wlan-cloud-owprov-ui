@@ -15,7 +15,7 @@ import {
   CTabPane,
   CTabContent,
 } from '@coreui/react';
-import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
+import { cilPencil, cilPlus, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import {
   EditEntityForm,
@@ -32,6 +32,7 @@ import AssociateConfigurationModal from 'components/AssociateConfigurationModal'
 import EntityIpModal from 'components/EntityIpModal';
 import AssociateContactModal from 'components/AssociateContactModal';
 import AssociateLocationModal from 'components/AssociateLocationModal';
+import AddEntityModal from 'components/AddEntityModal';
 
 const initialForm = {
   name: {
@@ -92,6 +93,7 @@ const VenueInfoCard = ({ refreshPage }) => {
   const [showIp, toggleIp] = useToggle(false);
   const [showContact, toggleContact] = useToggle(false);
   const [showLocation, toggleLocation] = useToggle(false);
+  const [showAddEntity, toggleShowAddEntity] = useToggle(false);
   const [index, setIndex] = useState(0);
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
@@ -263,8 +265,13 @@ const VenueInfoCard = ({ refreshPage }) => {
           </CCol>
           <CCol sm="4" className="text-right">
             <CButtonToolbar role="group" className="justify-content-end">
+              <CPopover content={t('inventory.add_child_venue', { entityName: entity?.name })}>
+                <CButton color="success" onClick={toggleShowAddEntity}>
+                  <CIcon content={cilPlus} />
+                </CButton>
+              </CPopover>
               <CPopover content={t('common.save')}>
-                <CButton disabled={!editing} color="info" onClick={editVenue}>
+                <CButton disabled={!editing} color="info" onClick={editVenue} className="ml-2">
                   <CIcon name="cil-save" content={cilSave} />
                 </CButton>
               </CPopover>
@@ -366,6 +373,7 @@ const VenueInfoCard = ({ refreshPage }) => {
         ips={fields.sourceIP.value}
         updateField={updateField}
       />
+      <AddEntityModal show={showAddEntity} toggle={toggleShowAddEntity} creatingVenue />
     </CCard>
   );
 };

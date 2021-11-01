@@ -244,17 +244,17 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
   const getEntities = async () => {
     setLoading(true);
 
-    const allEntites = [];
+    const allEntities = [];
     let continueGetting = true;
     let i = 1;
     while (continueGetting) {
       // eslint-disable-next-line no-await-in-loop
       const newStuff = await getPartialEntities(i);
       if (newStuff === null || newStuff.length === 0) continueGetting = false;
-      allEntites.push(...newStuff);
+      allEntities.push(...newStuff);
       i += 500;
     }
-    const sorted = allEntites.sort((a, b) => {
+    const sorted = allEntities.sort((a, b) => {
       const firstDate = a.created;
       const secondDate = b.created;
       if (firstDate < secondDate) return 1;

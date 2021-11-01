@@ -10,11 +10,8 @@ import {
   CSidebarNavDropdown,
   CSidebarNavItem,
   CButton,
-  CRow,
-  CCol,
-  CPopover,
 } from '@coreui/react';
-import { cilBarcode, cilSpreadsheet, cilWc, cilBank, cilSitemap, cilMap } from '@coreui/icons';
+import { cilBarcode, cilSpreadsheet, cilWc, cilMap } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
@@ -26,7 +23,7 @@ import styles from './index.module.scss';
 
 const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
   const { t } = useTranslation();
-  const { entity, entities, rootEntityMissing, resetEntity } = useEntity();
+  const { entities, rootEntityMissing, resetEntity } = useEntity();
   const [showAddEntity, setShowAddEntity] = useState(false);
   const [creatingVenue, setCreatingVenue] = useState(false);
 
@@ -54,40 +51,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
         />
       </CSidebarBrand>
       <CSidebarNav>
-        <CRow className="px-3">
-          <CCol className="px-1">
-            <CPopover content={t('entity.add_child', { entityName: entity?.name })}>
-              <CButton
-                hidden={!showSidebar}
-                block
-                className="text-center px-0 py-2 my-3"
-                color="light"
-                onClick={() => toggleAddEntity(false)}
-                disabled={entity?.isVenue || rootEntityMissing || !entity}
-              >
-                <CIcon content={cilSitemap} />
-              </CButton>
-            </CPopover>
-          </CCol>
-          <CCol className="px-1">
-            <CPopover content={t('inventory.add_child_venue', { entityName: entity?.name })}>
-              <CButton
-                hidden={!showSidebar}
-                block
-                className="text-center px-0 py-2 my-3"
-                color="light"
-                onClick={() => toggleAddEntity(true)}
-                disabled={
-                  (!entity?.isVenue && entity?.uuid === '0000-0000-0000') ||
-                  rootEntityMissing ||
-                  !entity
-                }
-              >
-                <CIcon content={cilBank} />
-              </CButton>
-            </CPopover>
-          </CCol>
-        </CRow>
         <CButton
           hidden={!showSidebar || !rootEntityMissing}
           block

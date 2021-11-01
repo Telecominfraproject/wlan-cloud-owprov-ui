@@ -371,14 +371,16 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
                 batchSetField={batchSetField}
                 editing={editing}
                 locationSearch={
-                  <AddressEditor
-                    t={t}
-                    currentToken={currentToken}
-                    endpoint={endpoints.owprov}
-                    setAddress={setAddress}
-                    show={show}
-                    disabled={!editing || loading}
-                  />
+                  show ? (
+                    <AddressEditor
+                      t={t}
+                      currentToken={currentToken}
+                      endpoint={endpoints.owprov}
+                      setAddress={setAddress}
+                      show={show}
+                      disabled={!editing || loading}
+                    />
+                  ) : null
                 }
               />
             ) : null}

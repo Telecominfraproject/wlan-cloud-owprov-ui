@@ -277,10 +277,20 @@ const AddLocationModal = ({ entity, show, toggle, refreshTable }) => {
         {entity !== null ? (
           <div>
             <CNav variant="tabs">
-              <CNavLink href="#" active={activeTab === 0} onClick={() => setActiveTab(0)}>
+              <CNavLink
+                href="#"
+                active={activeTab === 0}
+                onClick={() => setActiveTab(0)}
+                className="font-weight-bold"
+              >
                 Create New
               </CNavLink>
-              <CNavLink href="#" active={activeTab === 1} onClick={() => setActiveTab(1)}>
+              <CNavLink
+                href="#"
+                active={activeTab === 1}
+                onClick={() => setActiveTab(1)}
+                className="font-weight-bold"
+              >
                 Already Existing Locations
               </CNavLink>
             </CNav>
@@ -294,13 +304,15 @@ const AddLocationModal = ({ entity, show, toggle, refreshTable }) => {
                   updateFieldWithKey={updateField}
                   batchSetField={batchSetField}
                   locationSearch={
-                    <AddressEditor
-                      t={t}
-                      currentToken={currentToken}
-                      endpoint={endpoints.owprov}
-                      setAddress={setAddress}
-                      show={show}
-                    />
+                    show ? (
+                      <AddressEditor
+                        t={t}
+                        currentToken={currentToken}
+                        endpoint={endpoints.owprov}
+                        setAddress={setAddress}
+                        show={show}
+                      />
+                    ) : null
                   }
                 />
               </CTabPane>
@@ -319,13 +331,15 @@ const AddLocationModal = ({ entity, show, toggle, refreshTable }) => {
             entities={entities}
             batchSetField={batchSetField}
             locationSearch={
-              <AddressEditor
-                t={t}
-                currentToken={currentToken}
-                endpoint={endpoints.owprov}
-                setAddress={setAddress}
-                show={show}
-              />
+              show ? (
+                <AddressEditor
+                  t={t}
+                  currentToken={currentToken}
+                  endpoint={endpoints.owprov}
+                  setAddress={setAddress}
+                  show={show}
+                />
+              ) : null
             }
           />
         )}

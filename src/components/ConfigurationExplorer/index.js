@@ -534,11 +534,18 @@ const ConfigurationExplorer = ({ config }) => {
                   active={key === index}
                   id="index"
                   onClick={() => setKey(index)}
+                  className="font-weight-bold"
                 >
                   {conf.name}
                 </CNavLink>
               ))}
-              <CNavLink key={createUuid()} href="#" onClick={toggle} disabled={!editing}>
+              <CNavLink
+                key={createUuid()}
+                href="#"
+                onClick={toggle}
+                disabled={!editing}
+                className="font-weight-bold"
+              >
                 <CIcon content={cilPlus} color="primary" />
               </CNavLink>
             </CNav>

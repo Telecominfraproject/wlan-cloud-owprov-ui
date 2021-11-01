@@ -13,7 +13,7 @@ import {
   CTabPane,
   CTabContent,
 } from '@coreui/react';
-import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
+import { cilPencil, cilPlus, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import {
   EditEntityForm,
@@ -28,6 +28,7 @@ import axiosInstance from 'utils/axiosInstance';
 import DeleteEntityModal from 'components/DeleteEntityModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import EntityIpModal from 'components/EntityIpModal';
+import AddEntityModal from 'components/AddEntityModal';
 
 const initialForm = {
   name: {
@@ -76,6 +77,7 @@ const EntityInfoCard = ({ refreshPage }) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showAssociate, setShowAssociate] = useState(false);
   const [showIp, toggleIp] = useToggle(false);
+  const [showAddEntity, toggleShowAddEntity] = useToggle(false);
   const [index, setIndex] = useState(0);
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
@@ -220,8 +222,13 @@ const EntityInfoCard = ({ refreshPage }) => {
         </div>
         <div className="text-right float-right">
           <CButtonToolbar role="group" className="justify-content-end">
+            <CPopover content={t('entity.add_child', { entityName: entity?.name })}>
+              <CButton color="success" onClick={toggleShowAddEntity}>
+                <CIcon content={cilPlus} />
+              </CButton>
+            </CPopover>
             <CPopover content={t('common.save')}>
-              <CButton disabled={!editing} color="info" onClick={editEntity}>
+              <CButton disabled={!editing} color="info" onClick={editEntity} className="ml-2">
                 <CIcon name="cil-save" content={cilSave} />
               </CButton>
             </CPopover>
@@ -308,6 +315,7 @@ const EntityInfoCard = ({ refreshPage }) => {
         ips={fields.sourceIP.value}
         updateField={updateField}
       />
+      <AddEntityModal show={showAddEntity} toggle={toggleShowAddEntity} />
     </CCard>
   );
 };

@@ -183,10 +183,20 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
         {entity !== null ? (
           <div>
             <CNav variant="tabs">
-              <CNavLink href="#" active={activeTab === 0} onClick={() => setActiveTab(0)}>
+              <CNavLink
+                href="#"
+                active={activeTab === 0}
+                onClick={() => setActiveTab(0)}
+                className="font-weight-bold"
+              >
                 Create New
               </CNavLink>
-              <CNavLink href="#" active={activeTab === 1} onClick={() => setActiveTab(1)}>
+              <CNavLink
+                href="#"
+                active={activeTab === 1}
+                onClick={() => setActiveTab(1)}
+                className="font-weight-bold"
+              >
                 Unassigned Inventory
               </CNavLink>
             </CNav>

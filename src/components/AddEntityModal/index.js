@@ -192,12 +192,13 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
 AddEntityModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  creatingVenue: PropTypes.bool.isRequired,
+  creatingVenue: PropTypes.bool,
   refresh: PropTypes.func,
 };
 
 AddEntityModal.defaultProps = {
   refresh: null,
+  creatingVenue: false,
 };
 
 export default AddEntityModal;
