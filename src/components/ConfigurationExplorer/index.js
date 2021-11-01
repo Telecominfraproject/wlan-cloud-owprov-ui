@@ -18,10 +18,17 @@ import {
   CPopover,
   CRow,
   CCol,
+  CButtonToolbar,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilPlus, cilX, cilSave, cilSync, cilPencil } from '@coreui/icons';
-import { useAuth, useToast, useFormFields, useToggle } from 'ucentral-libs';
+import {
+  useAuth,
+  useToast,
+  useFormFields,
+  useToggle,
+  ConfirmStopEditingButton,
+} from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 import DeviceConfigurationBody from 'components/DeviceConfigurationBody';
@@ -498,26 +505,24 @@ const ConfigurationExplorer = ({ config }) => {
               Configuration Sections
             </div>
             <div className="float-right">
-              <CPopover content={t('common.save')}>
-                <CButton color="info" onClick={save} disabled={!canSave || !editing}>
-                  <CIcon name="cil-save" content={cilSave} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.edit')}>
-                <CButton disabled={editing} color="dark" onClick={toggleEditing} className="ml-2">
-                  <CIcon name="cil-pencil" content={cilPencil} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.stop_editing')}>
-                <CButton disabled={!editing} color="dark" onClick={toggleEditing} className="ml-2">
-                  <CIcon name="cil-x" content={cilX} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.refresh')}>
-                <CButton color="info" onClick={getConfig} className="ml-2">
-                  <CIcon name="cil-sync" content={cilSync} />
-                </CButton>
-              </CPopover>
+              <CButtonToolbar>
+                <CPopover content={t('common.save')}>
+                  <CButton color="info" onClick={save} disabled={!canSave || !editing}>
+                    <CIcon name="cil-save" content={cilSave} />
+                  </CButton>
+                </CPopover>
+                <CPopover content={t('common.edit')}>
+                  <CButton disabled={editing} color="dark" onClick={toggleEditing} className="ml-2">
+                    <CIcon name="cil-pencil" content={cilPencil} />
+                  </CButton>
+                </CPopover>
+                <ConfirmStopEditingButton t={t} stopEditing={toggleEditing} disabled={!editing} />
+                <CPopover content={t('common.refresh')}>
+                  <CButton color="info" onClick={getConfig} className="ml-2">
+                    <CIcon name="cil-sync" content={cilSync} />
+                  </CButton>
+                </CPopover>
+              </CButtonToolbar>
             </div>
           </CCardHeader>
           <CCardBody className="py-0 px-0">
