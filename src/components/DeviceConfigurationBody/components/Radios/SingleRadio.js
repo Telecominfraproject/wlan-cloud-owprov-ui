@@ -11,7 +11,7 @@ import ChannelPicker from './ChannelPicker';
 import ChannelWidth from './ChannelWidth';
 import HostApdIfaceRaw from './HostApdIfaceRaw';
 
-const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) => {
+const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index, disabled }) => {
   const [idStart] = useState(`radios[${index}]`);
 
   const saveHostApd = (newList) => {
@@ -27,7 +27,11 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
               <div className="py-1 pb-0 mb-0">
                 <h6 className="mt-1 float-left">{`Radio ${index} - ${fields.radios[index].band.value}`}</h6>
                 <div className="text-right">
-                  <CButtonClose onClick={() => deleteRadio(index)} style={{ color: 'white' }} />
+                  <CButtonClose
+                    onClick={() => deleteRadio(index)}
+                    style={{ color: 'white' }}
+                    disabled={disabled}
+                  />
                 </div>
               </div>
             }
@@ -54,6 +58,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   field={fields.radios[index].channel}
                   updateField={updateField}
                   band={fields.radios[index].band.value}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -64,6 +69,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   updateField={updateField}
                   band={fields.radios[index].band.value}
                   channel={fields.radios[index].channel.value}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -75,7 +81,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   firstCol="4"
                   secondCol="8"
                   width="100px"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -86,7 +92,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   updateField={updateField}
                   firstCol="4"
                   secondCol="8"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -98,7 +104,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   firstCol="4"
                   secondCol="8"
                   width="250px"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -110,7 +116,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   firstCol="4"
                   secondCol="8"
                   width="250px"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -122,7 +128,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   firstCol="4"
                   secondCol="8"
                   width="100px"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
             </CRow>
@@ -137,7 +143,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   firstCol="4"
                   secondCol="8"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -148,7 +154,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   updateField={updateField}
                   firstCol="4"
                   secondCol="8"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -160,7 +166,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   firstCol="4"
                   secondCol="8"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -172,7 +178,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   firstCol="4"
                   secondCol="8"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -184,7 +190,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   firstCol="4"
                   secondCol="8"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
@@ -195,6 +201,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                   firstCol="4"
                   secondCol="8"
                   length={fields.radios[index]['hostapd-iface-raw'].value.length}
+                  disabled={disabled}
                 />
               </CCol>
             </CRow>
@@ -211,7 +218,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       firstCol="4"
                       secondCol="8"
                       width="120px"
-                      disabled={false}
+                      disabled={disabled}
                     />
                   </CCol>
                   <CCol lg="6" xl="4" xxl="3">
@@ -223,7 +230,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       firstCol="4"
                       secondCol="8"
                       width="120px"
-                      disabled={false}
+                      disabled={disabled}
                     />
                   </CCol>
                 </CRow>
@@ -241,7 +248,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       updateField={updateField}
                       firstCol="4"
                       secondCol="8"
-                      disabled={false}
+                      disabled={disabled}
                     />
                   </CCol>
                   <CCol lg="6" xl="4" xxl="3">
@@ -252,7 +259,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       updateField={updateField}
                       firstCol="4"
                       secondCol="8"
-                      disabled={false}
+                      disabled={disabled}
                     />
                   </CCol>
                   <CCol lg="6" xl="4" xxl="3">
@@ -264,7 +271,7 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index }) 
                       firstCol="4"
                       secondCol="8"
                       errorMessage="Error!!!!"
-                      disabled={false}
+                      disabled={disabled}
                     />
                   </CCol>
                 </CRow>
@@ -283,6 +290,7 @@ SingleRadio.propTypes = {
   updateField: PropTypes.func.isRequired,
   deleteRadio: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default SingleRadio;

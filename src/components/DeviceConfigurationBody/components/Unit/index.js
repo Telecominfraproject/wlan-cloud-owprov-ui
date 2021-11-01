@@ -13,7 +13,7 @@ import {
 import General from '../General';
 
 const Unit = ({
-  creating,
+  disabled,
   deleteConfig,
   baseFields,
   updateBaseWithId,
@@ -29,13 +29,13 @@ const Unit = ({
         <CCol>
           <h5 className="float-left pt-2">Unit Section</h5>
           <div className="float-right">
-            <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
+            <CPopover content={t('common.delete')}>
               <CButton
                 color="primary"
                 variant="outline"
                 onClick={deleteConfig}
                 className="ml-1"
-                disabled={creating}
+                disabled={disabled}
               >
                 <CIcon name="cil-trash" content={cilTrash} />
               </CButton>
@@ -45,7 +45,7 @@ const Unit = ({
       </CRow>
       <CRow>
         <CCol>
-          <General fields={baseFields} updateWithId={updateBaseWithId} />
+          <General fields={baseFields} updateWithId={updateBaseWithId} disabled={disabled} />
         </CCol>
       </CRow>
       <CRow>
@@ -71,7 +71,7 @@ const Unit = ({
                         firstCol="3"
                         secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationStringField
                         id="location"
@@ -81,7 +81,7 @@ const Unit = ({
                         firstCol="3"
                         secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationSelect
                         id="timezone"
@@ -90,7 +90,7 @@ const Unit = ({
                         updateField={updateField}
                         firstCol="3"
                         secondCol="9"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationToggle
                         id="leds-active"
@@ -99,7 +99,7 @@ const Unit = ({
                         updateField={updateField}
                         firstCol="3"
                         secondCol="9"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationToggle
                         id="random-password"
@@ -108,7 +108,7 @@ const Unit = ({
                         updateField={updateField}
                         firstCol="3"
                         secondCol="9"
-                        disabled={false}
+                        disabled={disabled}
                       />
                     </CCol>
                   </CRow>
@@ -123,7 +123,7 @@ const Unit = ({
 };
 
 Unit.propTypes = {
-  creating: PropTypes.bool,
+  disabled: PropTypes.bool.isRequired,
   deleteConfig: PropTypes.func.isRequired,
   baseFields: PropTypes.instanceOf(Object).isRequired,
   fields: PropTypes.instanceOf(Object).isRequired,
@@ -132,7 +132,4 @@ Unit.propTypes = {
   updateField: PropTypes.func.isRequired,
 };
 
-Unit.defaultProps = {
-  creating: false,
-};
 export default Unit;

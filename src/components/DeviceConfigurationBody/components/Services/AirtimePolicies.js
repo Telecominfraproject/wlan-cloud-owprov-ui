@@ -9,7 +9,7 @@ import {
 } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 
-const AirtimePolicies = ({ fields, updateField, updateWithId }) => {
+const AirtimePolicies = ({ fields, updateField, updateWithId, disabled }) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -24,7 +24,7 @@ const AirtimePolicies = ({ fields, updateField, updateWithId }) => {
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             }
             enabled={fields['airtime-policies'].enabled}
@@ -39,7 +39,7 @@ const AirtimePolicies = ({ fields, updateField, updateWithId }) => {
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationIntField
                   id="airtime-policies.dns-weight"
@@ -49,7 +49,7 @@ const AirtimePolicies = ({ fields, updateField, updateWithId }) => {
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
             </CRow>
@@ -64,6 +64,7 @@ AirtimePolicies.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default AirtimePolicies;

@@ -9,7 +9,7 @@ import {
   ConfigurationElement,
 } from 'ucentral-libs';
 
-const WifiSteering = ({ fields, updateField, updateWithId }) => (
+const WifiSteering = ({ fields, updateField, updateWithId, disabled }) => (
   <div>
     <CRow>
       <CCol>
@@ -22,7 +22,7 @@ const WifiSteering = ({ fields, updateField, updateWithId }) => (
               updateField={updateField}
               firstCol="3"
               secondCol="9"
-              disabled={false}
+              disabled={disabled}
             />
           }
           enabled={fields['wifi-steering'].enabled}
@@ -37,7 +37,7 @@ const WifiSteering = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 width="100px"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationToggle
                 id="wifi-steering.assoc-steering"
@@ -46,7 +46,7 @@ const WifiSteering = ({ fields, updateField, updateWithId }) => (
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationIntField
                 id="wifi-steering.required-snr"
@@ -56,7 +56,7 @@ const WifiSteering = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationIntField
                 id="wifi-steering.required-probe-snr"
@@ -66,7 +66,7 @@ const WifiSteering = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationIntField
                 id="wifi-steering.required-roam-snr"
@@ -76,7 +76,7 @@ const WifiSteering = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationIntField
                 id="wifi-steering.load-kick-threshold"
@@ -86,7 +86,7 @@ const WifiSteering = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationToggle
                 id="wifi-steering.auto-channel"
@@ -95,7 +95,7 @@ const WifiSteering = ({ fields, updateField, updateWithId }) => (
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -109,6 +109,7 @@ WifiSteering.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default WifiSteering;

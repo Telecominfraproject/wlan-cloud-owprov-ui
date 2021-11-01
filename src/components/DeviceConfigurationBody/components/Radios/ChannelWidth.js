@@ -3,7 +3,7 @@ import PropTypes, { oneOfType } from 'prop-types';
 import { ConfigurationSelect } from 'ucentral-libs';
 import CHANNELS from './CHANNELS';
 
-const ChannelPicker = ({ id, label, band, channel, field, updateField }) => {
+const ChannelPicker = ({ id, label, band, channel, field, updateField, disabled }) => {
   const [options, setOptions] = useState(null);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const ChannelPicker = ({ id, label, band, channel, field, updateField }) => {
         updateField={updateField}
         firstCol="4"
         secondCol="8"
-        disabled={!(channel === 'auto' || band === '2G')}
+        disabled={!(channel === 'auto' || band === '2G') || disabled}
         width="120px"
         options={options}
       />
@@ -91,6 +91,7 @@ ChannelPicker.propTypes = {
   band: PropTypes.string.isRequired,
   channel: oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   updateField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default ChannelPicker;

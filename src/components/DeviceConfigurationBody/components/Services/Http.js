@@ -7,7 +7,7 @@ import {
   ConfigurationElement,
 } from 'ucentral-libs';
 
-const Http = ({ fields, updateField, updateWithId }) => (
+const Http = ({ fields, updateField, updateWithId, disabled }) => (
   <div>
     <CRow>
       <CCol>
@@ -20,7 +20,7 @@ const Http = ({ fields, updateField, updateWithId }) => (
               updateField={updateField}
               firstCol="3"
               secondCol="9"
-              disabled={false}
+              disabled={disabled}
             />
           }
           enabled={fields.http.enabled}
@@ -35,7 +35,7 @@ const Http = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -49,6 +49,7 @@ Http.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Http;

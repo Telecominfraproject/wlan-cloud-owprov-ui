@@ -7,7 +7,7 @@ import {
   ConfigurationElement,
 } from 'ucentral-libs';
 
-const Mdns = ({ fields, updateField }) => (
+const Mdns = ({ fields, updateField, disabled }) => (
   <div>
     <CRow>
       <CCol>
@@ -20,7 +20,7 @@ const Mdns = ({ fields, updateField }) => (
               updateField={updateField}
               firstCol="3"
               secondCol="9"
-              disabled={false}
+              disabled={disabled}
             />
           }
           enabled={fields.mdns.enabled}
@@ -34,7 +34,7 @@ const Mdns = ({ fields, updateField }) => (
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -47,6 +47,7 @@ const Mdns = ({ fields, updateField }) => (
 Mdns.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Mdns;

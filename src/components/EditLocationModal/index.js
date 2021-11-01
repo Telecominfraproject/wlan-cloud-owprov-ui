@@ -377,6 +377,7 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
                     endpoint={endpoints.owprov}
                     setAddress={setAddress}
                     show={show}
+                    disabled={!editing || loading}
                   />
                 }
               />

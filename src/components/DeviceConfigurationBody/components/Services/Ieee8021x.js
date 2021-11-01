@@ -17,7 +17,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { LOCAL_USER_FORM } from 'components/DeviceConfigurationBody/constants';
 
-const Ieee8021x = ({ fields, updateField, batchSetField }) => {
+const Ieee8021x = ({ fields, updateField, batchSetField, disabled }) => {
   const { t } = useTranslation();
   const saveCa = (value, fileName) => {
     batchSetField([
@@ -169,7 +169,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             }
             enabled={fields.ieee8021x.enabled}
@@ -191,6 +191,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                       acceptedFileTypes=".pem"
                       size="sm"
                       save={saveCa}
+                      disabled={disabled}
                     />
                   }
                 />
@@ -201,7 +202,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationFileField
                   fileName={fields.ieee8021x['server-certificate-filename'].value}
@@ -218,6 +219,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                       acceptedFileTypes=".pem"
                       size="sm"
                       save={saveServ}
+                      disabled={disabled}
                     />
                   }
                 />
@@ -236,6 +238,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                       acceptedFileTypes=".pem"
                       size="sm"
                       save={saveKey}
+                      disabled={disabled}
                     />
                   }
                 />
@@ -249,7 +252,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                   columns={columns}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                   length={fields.ieee8021x.users.value.length}
                   itemName="Users"
                   noTable
@@ -267,7 +270,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                         firstCol="3"
                         secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationStringField
                         id="user-name"
@@ -278,7 +281,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                         firstCol="3"
                         secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationStringField
                         id="password"
@@ -289,7 +292,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                         firstCol="3"
                         secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationIntField
                         id="vlan-id"
@@ -300,7 +303,7 @@ const Ieee8021x = ({ fields, updateField, batchSetField }) => {
                         firstCol="3"
                         secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                     </CCol>
                   </CRow>
@@ -386,6 +389,7 @@ Ieee8021x.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   batchSetField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Ieee8021x;

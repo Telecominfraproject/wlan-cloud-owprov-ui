@@ -8,12 +8,12 @@ import { ConfigurationStringField, ConfigurationElement } from 'ucentral-libs';
 import General from '../General';
 
 const Globals = ({
-  creating,
   deleteConfig,
   baseFields,
   updateBaseWithId,
   fields,
   updateWithId,
+  disabled,
 }) => {
   const { t } = useTranslation();
 
@@ -23,13 +23,13 @@ const Globals = ({
         <CCol>
           <h5 className="float-left pt-2">Globals Section</h5>
           <div className="float-right">
-            <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
+            <CPopover content={t('common.delete')}>
               <CButton
                 color="primary"
                 variant="outline"
                 onClick={deleteConfig}
                 className="ml-1"
-                disabled={creating}
+                disabled={disabled}
               >
                 <CIcon name="cil-trash" content={cilTrash} />
               </CButton>
@@ -39,7 +39,7 @@ const Globals = ({
       </CRow>
       <CRow>
         <CCol>
-          <General fields={baseFields} updateWithId={updateBaseWithId} />
+          <General fields={baseFields} updateWithId={updateBaseWithId} disabled={disabled} />
         </CCol>
       </CRow>
       <CRow>
@@ -65,7 +65,7 @@ const Globals = ({
                         firstCol="3"
                         secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationStringField
                         id="ipv6-network"
@@ -75,7 +75,7 @@ const Globals = ({
                         firstCol="3"
                         secondCol="9"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                     </CCol>
                   </CRow>
@@ -90,16 +90,12 @@ const Globals = ({
 };
 
 Globals.propTypes = {
-  creating: PropTypes.bool,
   deleteConfig: PropTypes.func.isRequired,
   baseFields: PropTypes.instanceOf(Object).isRequired,
   fields: PropTypes.instanceOf(Object).isRequired,
   updateWithId: PropTypes.func.isRequired,
   updateBaseWithId: PropTypes.func.isRequired,
-};
-
-Globals.defaultProps = {
-  creating: false,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Globals;

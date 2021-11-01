@@ -9,7 +9,7 @@ import {
 } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 
-const Ntp = ({ fields, updateField }) => {
+const Ntp = ({ fields, updateField, disabled }) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -24,7 +24,7 @@ const Ntp = ({ fields, updateField }) => {
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             }
             enabled={fields.ntp.enabled}
@@ -39,7 +39,7 @@ const Ntp = ({ fields, updateField }) => {
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationToggle
                   id="ntp.local-server"
@@ -48,7 +48,7 @@ const Ntp = ({ fields, updateField }) => {
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
             </CRow>
@@ -62,6 +62,7 @@ const Ntp = ({ fields, updateField }) => {
 Ntp.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Ntp;

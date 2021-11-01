@@ -111,30 +111,30 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
             }}
           />
         </div>
-        <CSidebarNavDropdown
+        <CSidebarNavItem
           name="Inventory"
+          to="/inventory"
+          onClick={resetEntity}
           icon={<CIcon content={cilSpreadsheet} size="lg" className="mr-3" />}
-        >
-          <CSidebarNavItem name="Table" to="/inventory" onClick={resetEntity} />
-        </CSidebarNavDropdown>
-        <CSidebarNavDropdown
+        />
+        <CSidebarNavItem
           name="Contacts"
+          to="/contacts"
+          onClick={resetEntity}
           icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
-        >
-          <CSidebarNavItem name="Table" to="/contacts" onClick={resetEntity} />
-        </CSidebarNavDropdown>
-        <CSidebarNavDropdown
+        />
+        <CSidebarNavItem
           name="Locations"
+          to="/location"
+          onClick={resetEntity}
           icon={<CIcon content={cilMap} size="lg" className="mr-3" />}
-        >
-          <CSidebarNavItem name="Table" to="/location" onClick={resetEntity} />
-        </CSidebarNavDropdown>
-        <CSidebarNavDropdown
+        />
+        <CSidebarNavItem
           name="Configurations"
+          to="/configuration"
+          onClick={resetEntity}
           icon={<CIcon content={cilBarcode} size="lg" className="mr-3" />}
-        >
-          <CSidebarNavItem name="Table" to="/configuration" onClick={resetEntity} />
-        </CSidebarNavDropdown>
+        />
         <CSidebarNavDropdown
           hidden
           name="Managament Roles"

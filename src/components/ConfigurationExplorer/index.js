@@ -20,7 +20,7 @@ import {
   CCol,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilPlus, cilX, cilSave, cilSync } from '@coreui/icons';
+import { cilPlus, cilX, cilSave, cilSync, cilPencil } from '@coreui/icons';
 import { useAuth, useToast, useFormFields, useToggle } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -188,6 +188,7 @@ const ConfigurationExplorer = ({ config }) => {
   const { t } = useTranslation();
   const { currentToken, endpoints } = useAuth();
   const { addToast } = useToast();
+  const [editing, setEditing] = useState(false);
   const [show, setShow] = useState(false);
   const [configurations, setConfigurations] = useState([]);
   const [orderedBlocks, setOrderedBlocks] = useState(blocksObj);
@@ -318,6 +319,7 @@ const ConfigurationExplorer = ({ config }) => {
           autohide: true,
         });
         getConfig();
+        setEditing(false);
       })
       .catch((e) => {
         setErrorDescription(e.response?.data?.ErrorDescription);
@@ -355,9 +357,14 @@ const ConfigurationExplorer = ({ config }) => {
     refreshConfig(newFullConfiguration, true);
   };
 
+  const toggleEditing = () => {
+    if (editing) getConfig();
+    setEditing(!editing);
+  };
+
   useEffect(() => {
     if (config) getConfig();
-  }, [config]);
+  }, [config?.id]);
 
   useEffect(() => {
     if (activeSection !== '') {
@@ -492,8 +499,18 @@ const ConfigurationExplorer = ({ config }) => {
             </div>
             <div className="float-right">
               <CPopover content={t('common.save')}>
-                <CButton color="info" onClick={save} disabled={!canSave}>
+                <CButton color="info" onClick={save} disabled={!canSave || !editing}>
                   <CIcon name="cil-save" content={cilSave} />
+                </CButton>
+              </CPopover>
+              <CPopover content={t('common.edit')}>
+                <CButton disabled={editing} color="dark" onClick={toggleEditing} className="ml-2">
+                  <CIcon name="cil-pencil" content={cilPencil} />
+                </CButton>
+              </CPopover>
+              <CPopover content={t('common.stop_editing')}>
+                <CButton disabled={!editing} color="dark" onClick={toggleEditing} className="ml-2">
+                  <CIcon name="cil-x" content={cilX} />
                 </CButton>
               </CPopover>
               <CPopover content={t('common.refresh')}>
@@ -516,7 +533,7 @@ const ConfigurationExplorer = ({ config }) => {
                   {conf.name}
                 </CNavLink>
               ))}
-              <CNavLink key={createUuid()} href="#" onClick={toggle}>
+              <CNavLink key={createUuid()} href="#" onClick={toggle} disabled={!editing}>
                 <CIcon content={cilPlus} color="primary" />
               </CNavLink>
             </CNav>
@@ -534,6 +551,7 @@ const ConfigurationExplorer = ({ config }) => {
                   updateField={updateField}
                   setFields={setFields}
                   batchSetField={batchSetField}
+                  disabled={!editing}
                 />
               </CTabPane>
             </CTabContent>

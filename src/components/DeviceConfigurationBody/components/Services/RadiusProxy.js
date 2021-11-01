@@ -98,7 +98,7 @@ const NEW_FORM = {
   },
 };
 
-const RadiusProxy = ({ fields, updateField }) => {
+const RadiusProxy = ({ fields, updateField, disabled }) => {
   const { t } = useTranslation();
   const [customFields, updateCustomWithId, updateCustom, setCustomFields] = useFormFields({
     ...REALMS_FORM,
@@ -273,7 +273,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                 updateField={updateField}
                 firstCol="4"
                 secondCol="8"
-                disabled={false}
+                disabled={disabled}
               />
             }
             enabled={fields['radius-proxy'].enabled}
@@ -290,7 +290,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                   columns={columns}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                   length={fields['radius-proxy'].realms.value.length}
                   modalSize="xl"
                   itemName="Realms"
@@ -309,7 +309,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                         firstCol="4"
                         secondCol="8"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationStringField
                         id="host"
@@ -320,7 +320,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                         firstCol="4"
                         secondCol="8"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationStringField
                         id="secret"
@@ -331,7 +331,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                         firstCol="4"
                         secondCol="8"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationFileField
                         fileName={caFile}
@@ -389,7 +389,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                         updateField={updateCustom}
                         firstCol="4"
                         secondCol="8"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationIntField
                         id="port"
@@ -400,7 +400,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                         firstCol="4"
                         secondCol="8"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationToggle
                         id="use-local-certificates"
@@ -410,7 +410,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                         updateField={updateCustom}
                         firstCol="4"
                         secondCol="8"
-                        disabled={false}
+                        disabled={disabled}
                       />
                       <ConfigurationFileField
                         fileName={certFile}
@@ -444,7 +444,7 @@ const RadiusProxy = ({ fields, updateField }) => {
                         firstCol="4"
                         secondCol="8"
                         errorMessage="Error!!!!"
-                        disabled={false}
+                        disabled={disabled}
                       />
                     </CCol>
                   </CRow>
@@ -529,6 +529,7 @@ const RadiusProxy = ({ fields, updateField }) => {
 RadiusProxy.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default RadiusProxy;

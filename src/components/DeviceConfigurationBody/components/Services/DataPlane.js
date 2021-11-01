@@ -26,7 +26,7 @@ const form = {
   },
 };
 
-const DataPlane = ({ fields, updateField }) => {
+const DataPlane = ({ fields, updateField, disabled }) => {
   const { t } = useTranslation();
   const [customFields, updateCustomWithId, ,] = useFormFields(form);
   const [tempValue, setTempValue] = useState(fields['data-plane']['ingress-filters'].value);
@@ -67,7 +67,7 @@ const DataPlane = ({ fields, updateField }) => {
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             }
             enabled={fields['data-plane'].enabled}
@@ -84,35 +84,46 @@ const DataPlane = ({ fields, updateField }) => {
                   columns={columns}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                   length={fields['data-plane']['ingress-filters'].value.length}
                   itemName="Ingress Filters"
                 >
-                  <ConfigurationStringField
-                    id="name"
-                    label="name"
-                    field={customFields.name}
-                    updateField={updateCustomWithId}
-                    firstCol="3"
-                    secondCol="9"
-                    errorMessage="Error!!!!"
-                    disabled={false}
-                  />
-                  <ConfigurationStringField
-                    id="program"
-                    label="program"
-                    field={customFields.program}
-                    updateField={updateCustomWithId}
-                    firstCol="3"
-                    secondCol="9"
-                    errorMessage="Error!!!!"
-                    disabled={false}
-                  />
-                  <div className="text-right my-3">
-                    <CButton className="w-25" color="primary" onClick={add} disabled={!isValid()}>
-                      {t('common.add')}
-                    </CButton>
-                  </div>
+                  {disabled ? (
+                    <div />
+                  ) : (
+                    <div>
+                      <ConfigurationStringField
+                        id="name"
+                        label="name"
+                        field={customFields.name}
+                        updateField={updateCustomWithId}
+                        firstCol="3"
+                        secondCol="9"
+                        errorMessage="Error!!!!"
+                        disabled={disabled}
+                      />
+                      <ConfigurationStringField
+                        id="program"
+                        label="program"
+                        field={customFields.program}
+                        updateField={updateCustomWithId}
+                        firstCol="3"
+                        secondCol="9"
+                        errorMessage="Error!!!!"
+                        disabled={disabled}
+                      />
+                      <div className="text-right my-3">
+                        <CButton
+                          className="w-25"
+                          color="primary"
+                          onClick={add}
+                          disabled={!isValid()}
+                        >
+                          {t('common.add')}
+                        </CButton>
+                      </div>
+                    </div>
+                  )}
                 </ConfigurationCustomMultiModal>
               </CCol>
             </CRow>
@@ -126,6 +137,7 @@ const DataPlane = ({ fields, updateField }) => {
 DataPlane.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default DataPlane;

@@ -7,7 +7,7 @@ import {
   ConfigurationIntField,
 } from 'ucentral-libs';
 
-const Health = ({ fields, updateWithId, updateField }) => (
+const Health = ({ fields, updateWithId, updateField, disabled }) => (
   <div>
     <CRow>
       <CCol>
@@ -20,7 +20,7 @@ const Health = ({ fields, updateWithId, updateField }) => (
               updateField={updateField}
               firstCol="3"
               secondCol="9"
-              disabled={false}
+              disabled={disabled}
             />
           }
           enabled={fields.health.enabled}
@@ -35,7 +35,7 @@ const Health = ({ fields, updateWithId, updateField }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -49,6 +49,7 @@ Health.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateWithId: PropTypes.func.isRequired,
   updateField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Health;

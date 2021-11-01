@@ -19,6 +19,7 @@ const DeviceConfigurationBody = ({
   setFields,
   batchSetField,
   deleteActive,
+  disabled,
 }) => (
   <div>
     {activeSection === 'globals' && (
@@ -32,6 +33,7 @@ const DeviceConfigurationBody = ({
           updateWithId={updateWithId}
           updateField={updateField}
           setFields={setFields}
+          disabled={disabled}
         />
       </div>
     )}
@@ -46,6 +48,7 @@ const DeviceConfigurationBody = ({
           updateWithId={updateWithId}
           updateField={updateField}
           setFields={setFields}
+          disabled={disabled}
         />
       </div>
     )}
@@ -60,6 +63,7 @@ const DeviceConfigurationBody = ({
           updateWithId={updateWithId}
           updateField={updateField}
           setFields={setFields}
+          disabled={disabled}
         />
       </div>
     )}
@@ -74,6 +78,7 @@ const DeviceConfigurationBody = ({
           updateField={updateField}
           setFields={setFields}
           setCanSave={setCanSave}
+          disabled={disabled}
         />
       </div>
     )}
@@ -88,6 +93,7 @@ const DeviceConfigurationBody = ({
           updateField={updateField}
           setFields={setFields}
           setCanSave={setCanSave}
+          disabled={disabled}
         />
       </div>
     )}
@@ -103,6 +109,7 @@ const DeviceConfigurationBody = ({
           updateField={updateField}
           setFields={setFields}
           batchSetField={batchSetField}
+          disabled={disabled}
         />
       </div>
     )}
@@ -121,6 +128,7 @@ DeviceConfigurationBody.propTypes = {
   updateField: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
   batchSetField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default DeviceConfigurationBody;

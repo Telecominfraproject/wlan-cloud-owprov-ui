@@ -22,6 +22,7 @@ const Interfaces = ({
   setFields,
   setCanSave,
   deleteConfig,
+  disabled,
 }) => {
   const { t } = useTranslation();
   const [newInterfaces, setNewInterfaces] = useState('');
@@ -82,7 +83,13 @@ const Interfaces = ({
           <h5 className="float-left pt-2">Interfaces</h5>
           <div className="float-right">
             <CPopover content={t('common.delete')}>
-              <CButton color="primary" variant="outline" onClick={deleteConfig} className="ml-1">
+              <CButton
+                color="primary"
+                variant="outline"
+                onClick={deleteConfig}
+                className="ml-1"
+                disabled={disabled}
+              >
                 <CIcon name="cil-trash" content={cilTrash} />
               </CButton>
             </CPopover>
@@ -91,7 +98,7 @@ const Interfaces = ({
       </CRow>
       <CRow>
         <CCol>
-          <General fields={baseFields} updateWithId={updateBaseWithId} />
+          <General fields={baseFields} updateWithId={updateBaseWithId} disabled={disabled} />
         </CCol>
       </CRow>
       <CRow>
@@ -108,19 +115,13 @@ const Interfaces = ({
           </div>
         </CCol>
       </CRow>
-      <CRow className="mt-4">
-        <CCol lg="4" xxl="3">
-          {t('configure.choose_file')}
-        </CCol>
-        <CCol>
-          <CInputFile
-            id="file-input"
-            name="file-input"
-            accept=".json"
-            onChange={(e) => handleJsonFile(e.target.files[0])}
-          />
-        </CCol>
-      </CRow>
+      <CInputFile
+        id="file-input"
+        name="file-input"
+        accept=".json"
+        onChange={(e) => handleJsonFile(e.target.files[0])}
+        disabled={disabled}
+      />
       <CRow className="my-4">
         <CCol>
           <CTextarea
@@ -131,6 +132,7 @@ const Interfaces = ({
             value={newInterfaces}
             onChange={onChange}
             invalid={jsonError}
+            disabled={disabled}
           />
           <CInvalidFeedback className="help-block">
             {t('configure.valid_json')}. The JSON document should have the key
@@ -149,6 +151,7 @@ Interfaces.propTypes = {
   setFields: PropTypes.func.isRequired,
   setCanSave: PropTypes.func.isRequired,
   deleteConfig: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Interfaces;

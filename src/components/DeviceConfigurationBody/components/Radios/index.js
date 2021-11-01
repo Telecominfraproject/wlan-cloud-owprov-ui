@@ -29,6 +29,7 @@ const Radios = ({
   updateWithId,
   updateField,
   setFields,
+  disabled,
 }) => {
   const { t } = useTranslation();
   const [show, toggle] = useToggle(false);
@@ -77,7 +78,13 @@ const Radios = ({
           <h5 className="float-left pt-2">Radios</h5>
           <div className="float-right">
             <CPopover content={t('common.delete')}>
-              <CButton color="primary" variant="outline" onClick={deleteConfig} className="ml-1">
+              <CButton
+                color="primary"
+                variant="outline"
+                onClick={deleteConfig}
+                className="ml-1"
+                disabled={disabled}
+              >
                 <CIcon name="cil-trash" content={cilTrash} />
               </CButton>
             </CPopover>
@@ -86,7 +93,7 @@ const Radios = ({
       </CRow>
       <CRow>
         <CCol>
-          <General fields={baseFields} updateWithId={updateBaseWithId} />
+          <General fields={baseFields} updateWithId={updateBaseWithId} disabled={disabled} />
         </CCol>
       </CRow>
       <CRow>
@@ -100,13 +107,14 @@ const Radios = ({
               updateWithId={updateWithId}
               updateField={updateField}
               deleteRadio={deleteRadio}
+              disabled={disabled}
             />
           ))}
         </CCol>
       </CRow>
       <CRow>
         <CCol className="pb-3">
-          <CButton color="primary" block onClick={toggleModal}>
+          <CButton color="primary" block onClick={toggleModal} disabled={disabled}>
             {t('configuration.add_radio')}
           </CButton>
         </CCol>
@@ -116,7 +124,13 @@ const Radios = ({
           <CModalTitle className="pl-1 pt-1">{t('configuration.add_radio')}</CModalTitle>
           <div className="text-right">
             <CPopover content={t('common.close')}>
-              <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
+              <CButton
+                color="primary"
+                variant="outline"
+                className="ml-2"
+                onClick={toggle}
+                disabled={disabled}
+              >
                 <CIcon content={cilX} />
               </CButton>
             </CPopover>
@@ -193,6 +207,7 @@ Radios.propTypes = {
   updateField: PropTypes.func.isRequired,
   updateBaseWithId: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Radios;
