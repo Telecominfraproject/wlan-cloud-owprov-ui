@@ -316,6 +316,7 @@
 		"delete_warning": "Warning: this operation cannot be reverted",
 		"edit_failure": "Update unsuccessful : {{error}}",
 		"enter_here": "Enter the IP(s) you'd like to add here",
+		"entire_tree": "Site Map",
 		"entities": "Entities",
 		"entity": "Entity",
 		"error_fetch_entity": "Error while fetching entity information",

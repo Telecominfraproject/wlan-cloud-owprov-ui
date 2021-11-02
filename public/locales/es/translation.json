@@ -316,6 +316,7 @@
 		"delete_warning": "Advertencia: esta operación no se puede revertir",
 		"edit_failure": "Actualización fallida: {{error}}",
 		"enter_here": "Ingrese las IP que desea agregar aquí",
+		"entire_tree": "Site MAp",
 		"entities": "entidades",
 		"entity": "Entidad",
 		"error_fetch_entity": "Error al obtener la información de la entidad",

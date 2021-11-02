@@ -35,6 +35,10 @@ const EntityPage = () => {
   }, []);
 
   useEffect(() => {
+    if (entity?.id !== entityId) setEntityId(entityId, false);
+  }, [entityId]);
+
+  useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     if (queryParams.has('new')) {
       if (queryParams.get('new') === 'entity') {

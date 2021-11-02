@@ -316,6 +316,7 @@
 		"delete_warning": "Achtung: Dieser Vorgang kann nicht rückgängig gemacht werden",
 		"edit_failure": "Aktualisierung fehlgeschlagen : {{error}}",
 		"enter_here": "Geben Sie hier die IP(s) ein, die Sie hinzufügen möchten",
+		"entire_tree": "Seitenverzeichnis",
 		"entities": "Entitäten",
 		"entity": "Entität",
 		"error_fetch_entity": "Fehler beim Abrufen von Entitätsinformationen",
