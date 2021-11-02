@@ -8,7 +8,6 @@ import Interfaces from './components/Interfaces';
 import Services from './components/Services';
 
 const DeviceConfigurationBody = ({
-  refresh,
   activeSection,
   setCanSave,
   baseFields,
@@ -26,7 +25,6 @@ const DeviceConfigurationBody = ({
       <div>
         <Globals
           deleteConfig={deleteActive}
-          refresh={refresh}
           baseFields={baseFields}
           updateBaseWithId={updateBaseWithId}
           fields={fields}
@@ -41,7 +39,6 @@ const DeviceConfigurationBody = ({
       <div>
         <Unit
           deleteConfig={deleteActive}
-          refresh={refresh}
           baseFields={baseFields}
           updateBaseWithId={updateBaseWithId}
           fields={fields}
@@ -56,7 +53,6 @@ const DeviceConfigurationBody = ({
       <div>
         <Metrics
           deleteConfig={deleteActive}
-          refresh={refresh}
           baseFields={baseFields}
           updateBaseWithId={updateBaseWithId}
           fields={fields}
@@ -101,7 +97,6 @@ const DeviceConfigurationBody = ({
       <div>
         <Services
           deleteConfig={deleteActive}
-          refresh={refresh}
           baseFields={baseFields}
           updateBaseWithId={updateBaseWithId}
           fields={fields}
@@ -117,7 +112,6 @@ const DeviceConfigurationBody = ({
 );
 
 DeviceConfigurationBody.propTypes = {
-  refresh: PropTypes.func.isRequired,
   deleteActive: PropTypes.func.isRequired,
   activeSection: PropTypes.string.isRequired,
   setCanSave: PropTypes.func.isRequired,

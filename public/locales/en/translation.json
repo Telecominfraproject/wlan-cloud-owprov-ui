@@ -358,6 +358,7 @@
 		"latest_version_installed": "Latest Version Installed",
 		"newer_firmware_available": "Newer Revisions Available",
 		"reinstall_latest": "Reinstall ",
+		"release": "Release",
 		"revision": "Revision",
 		"show_dev": "Show Dev Releases",
 		"size": "Size",
@@ -465,7 +466,7 @@
 		"unassigned_tags": "Unassigned tags",
 		"validating_import_file": "Validating import file and data...",
 		"venue": "Venue",
-		"view_in_gateway": "View in Gateway"
+		"view_in_gateway": "Details in Gateway"
 	},
 	"location": {
 		"add": "Add Location",
