@@ -108,6 +108,7 @@ const ComputerConfigModal = ({ show, toggle, serialNumber, pushConfig }) => {
                 <CIcon
                   name={shownCollapses.includes(ind) ? 'cilChevronTop' : 'cilChevronBottom'}
                   style={{ color: 'white' }}
+                  className="ml-2"
                   size="lg"
                 />
               </CButton>
