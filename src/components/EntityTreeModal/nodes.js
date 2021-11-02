@@ -1,29 +1,29 @@
 import React from 'react';
 
 export const worldStyle = {
-  background: '#3399ff',
+  background: '#0F0A0A',
   color: 'white',
   border: '1px solid #777',
   width: 220,
-  padding: 10,
+  padding: 20,
 };
 
 export const entityStyle = {
-  background: '#2eb85c',
+  background: '#2292A4',
   color: 'white',
   width: 220,
   padding: 15,
 };
 
 export const venueStyle = {
-  background: '#e55353',
-  color: 'white',
+  background: '#F5EFED',
+  color: 'black',
   width: 220,
   padding: 15,
 };
 
 export const node = (entity) => (
   <div className="align-middle">
-    <h5 className="align-middle mb-0">{entity.name}</h5>
+    <h5 className="align-middle mb-0 font-weight-bold">{entity.name}</h5>
   </div>
 );

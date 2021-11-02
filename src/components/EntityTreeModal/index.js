@@ -18,7 +18,7 @@ const iterateThroughTree = (el) => {
       id: `${el.type}/${el.uuid}`,
       data: { label: node(el) },
       position: { x: 0, y: 200 },
-      type: 'input',
+      type: 'default',
       style: el.uuid === '0000-0000-0000' ? worldStyle : entityStyle,
     });
 
@@ -54,7 +54,7 @@ const iterateThroughTree = (el) => {
       id: `${el.type}/${el.uuid}`,
       data: { label: node(el) },
       position: { x: 0, y: 200 },
-      type: 'input',
+      type: 'default',
       style: venueStyle,
     });
 

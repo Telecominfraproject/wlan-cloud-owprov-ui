@@ -13,7 +13,7 @@ import {
   CTabPane,
   CTabContent,
 } from '@coreui/react';
-import { cilPencil, cilPlus, cilSave, cilSitemap, cilSync, cilTrash, cilX } from '@coreui/icons';
+import { cilPencil, cilPlus, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import {
   EditEntityForm,
@@ -29,7 +29,6 @@ import DeleteEntityModal from 'components/DeleteEntityModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import EntityIpModal from 'components/EntityIpModal';
 import AddEntityModal from 'components/AddEntityModal';
-import EntityTreeModal from 'components/EntityTreeModal';
 
 const initialForm = {
   name: {
@@ -79,7 +78,6 @@ const EntityInfoCard = ({ refreshPage }) => {
   const [showAssociate, setShowAssociate] = useState(false);
   const [showIp, toggleIp] = useToggle(false);
   const [showAddEntity, toggleShowAddEntity] = useToggle(false);
-  const [showTree, toggleShowTree] = useToggle(false);
   const [index, setIndex] = useState(0);
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
@@ -229,16 +227,6 @@ const EntityInfoCard = ({ refreshPage }) => {
                 <CIcon content={cilPlus} />
               </CButton>
             </CPopover>
-            <CPopover content={t('entity.entire_tree')}>
-              <CButton
-                color="info"
-                onClick={toggleShowTree}
-                className="ml-2"
-                hidden={entity?.uuid !== '0000-0000-0000'}
-              >
-                <CIcon content={cilSitemap} />
-              </CButton>
-            </CPopover>
             <CPopover content={t('common.save')}>
               <CButton disabled={!editing} color="info" onClick={editEntity} className="ml-2">
                 <CIcon name="cil-save" content={cilSave} />
@@ -328,7 +316,6 @@ const EntityInfoCard = ({ refreshPage }) => {
         updateField={updateField}
       />
       <AddEntityModal show={showAddEntity} toggle={toggleShowAddEntity} />
-      <EntityTreeModal show={showTree} toggle={toggleShowTree} />
     </CCard>
   );
 };
