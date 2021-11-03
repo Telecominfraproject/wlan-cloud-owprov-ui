@@ -164,7 +164,7 @@ const AddEntityModal = ({ show, toggle, creatingVenue, refresh }) => {
         </CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
-            <CButton color="primary" variant="outline" className="mx-2" onClick={addEntity}>
+            <CButton color="primary" variant="outline" onClick={addEntity}>
               <CIcon content={cilSave} />
             </CButton>
           </CPopover>

@@ -5,7 +5,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useAuth, useToast, VenueTable as Table } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
-import EditVenueModal from 'components/EditTagModal';
 
 const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refreshPageTables }) => {
   const { t } = useTranslation();
@@ -16,11 +15,9 @@ const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refresh
   const { search } = useLocation();
   const page = new URLSearchParams(search).get('page');
   const [localPage, setLocalPage] = useState('0');
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedVenueId, setSelectedVenueId] = useState(null);
   const [entityVenuesArray, setEntityVenuesArray] = useState([]);
 
-  // States needed for Inventory Table
+  // States needed for Table
   const [loading, setLoading] = useState(false);
   const [venueCount, setVenueCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
@@ -29,10 +26,6 @@ const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refresh
   const [venues, setVenues] = useState([]);
 
   const toggleUnassignedDisplay = () => setOnlyUnassigned(!onlyUnassigned);
-  const toggleEditModal = (venueId) => {
-    setSelectedVenueId(venueId);
-    setShowEditModal(!showEditModal);
-  };
 
   const getVenueInformation = (selectedPage = page, venuePerPage = venuesPerPage) => {
     setLoading(true);
@@ -164,45 +157,6 @@ const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refresh
     getVenueInformation(selectedPage);
   };
 
-  const unassignVenue = (serialNumber) => {
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    const parameters = {};
-
-    axiosInstance
-      .put(
-        `${endpoints.owprov}/api/v1/inventory/${serialNumber}?unassign=true`,
-        parameters,
-        options,
-      )
-      .then(() => {
-        addToast({
-          title: t('common.success'),
-          body: t('inventory.successful_unassign'),
-          color: 'success',
-          autohide: true,
-        });
-        if (refreshPageTables !== null) refreshPageTables();
-        else getCount();
-      })
-      .catch(() => {
-        addToast({
-          title: t('common.error'),
-          body: t('inventory.error_unassign'),
-          color: 'danger',
-          autohide: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
   const deleteVenue = (serialNumber) => {
     const options = {
       headers: {
@@ -211,10 +165,8 @@ const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refresh
       },
     };
 
-    const parameters = {};
-
     axiosInstance
-      .delete(`${endpoints.owprov}/api/v1/inventory/${serialNumber}`, parameters, options)
+      .delete(`${endpoints.owprov}/api/v1/venue/${serialNumber}`, options)
       .then(() => {
         addToast({
           title: t('common.success'),
@@ -287,21 +239,13 @@ const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refresh
         pageCount={pageCount}
         toggleAdd={toggleAdd}
         onlyEntity={filterOnEntity}
-        unassign={unassignVenue}
         entity={entity}
         title={title}
-        toggleEditModal={toggleEditModal}
         deleteVenue={deleteVenue}
         onlyUnassigned={onlyUnassigned}
         toggleUnassignedDisplay={toggleUnassignedDisplay}
         refresh={refresh}
         onlyTable
-      />
-      <EditVenueModal
-        show={showEditModal}
-        toggle={toggleEditModal}
-        venueSerialNumber={selectedVenueId}
-        refreshTable={refreshPageTables}
       />
     </div>
   );

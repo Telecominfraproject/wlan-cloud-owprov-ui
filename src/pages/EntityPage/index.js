@@ -170,7 +170,7 @@ const EntityPage = () => {
                 show={showAddVenueModal}
                 toggle={toggleShowAddVenue}
                 creatingVenue
-                refreshTable={refreshTables}
+                refresh={refreshTables}
               />
               <AddContactModal
                 show={showAddContact}

@@ -414,7 +414,7 @@ const LocationTable = ({
         toggle={toggleEditModal}
         editEntity={entity !== null}
         locationId={selectedLocationId}
-        refreshTable={getCount}
+        refreshTable={refreshPageTables ?? getCount}
       />
     </div>
   );

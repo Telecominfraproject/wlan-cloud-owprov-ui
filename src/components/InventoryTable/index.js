@@ -738,7 +738,7 @@ const InventoryTable = ({
         toggle={toggleEditModal}
         editEntity={entity !== null}
         tagSerialNumber={selectedTagId}
-        refreshTable={getCount}
+        refreshTable={refreshTable ?? getCount}
         pushConfig={pushConfig}
       />
       {entity === null ? null : (
