@@ -99,8 +99,9 @@ const ComputerConfigModal = ({ show, toggle, serialNumber, pushConfig }) => {
           {config?.explanation?.map((exp, ind) => (
             <div>
               <CButton
+                shape="square"
                 block
-                color={exp.action === 'added' ? 'success' : 'danger'}
+                color={exp.action === 'added' ? 'success' : 'warning'}
                 onClick={() => toggleCollapse(ind)}
               >
                 {exp['from-name']}

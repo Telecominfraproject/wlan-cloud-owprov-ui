@@ -88,7 +88,12 @@ const AssociateLocationModal = ({ show, toggle, defaultLocation, updateConfigura
     { key: 'created', label: t('common.created'), _style: { width: '20%' }, filter: false },
     { key: 'name', label: t('user.name'), _style: { width: '25%' }, filter: false },
     { key: 'description', label: t('user.description'), _style: { width: '50%' } },
-    { key: 'actions', label: '', _style: { width: '15%' }, filter: false },
+    {
+      key: 'actions',
+      label: '',
+      _style: { width: '1%' },
+      filter: false,
+    },
   ];
 
   return (
@@ -164,15 +169,12 @@ const AssociateLocationModal = ({ show, toggle, defaultLocation, updateConfigura
                   <FormattedDate date={item.created} />
                 </td>
               ),
-              description: (item) => (
-                <td className="align-middle">
-                  <FormattedDate date={item.description} />
-                </td>
-              ),
+              description: (item) => <td className="align-middle">{item.description}</td>,
               actions: (item) => (
                 <td className="align-middle">
                   <CPopover content={t('configuration.select_configuration')}>
                     <CButton
+                      size="sm"
                       color="primary"
                       variant="outline"
                       onClick={() => updateLocation(`${item.name}`, item.id)}
