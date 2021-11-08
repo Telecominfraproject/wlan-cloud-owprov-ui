@@ -6,6 +6,7 @@ import { cilGlobeAlt } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import routes from 'routes';
 import EntityTreeModal from 'components/EntityTreeModal';
+import { ReactFlowProvider } from 'react-flow-renderer';
 import Sidebar from './Sidebar';
 
 const TheLayout = () => {
@@ -44,7 +45,9 @@ const TheLayout = () => {
           }
           hideBreadcrumb
         />
-        <EntityTreeModal show={showTree} toggle={toggleShowTree} />
+        <ReactFlowProvider>
+          <EntityTreeModal show={showTree} toggle={toggleShowTree} />
+        </ReactFlowProvider>
         <div className="c-body">
           <ToastProvider>
             <PageContainer t={t} routes={routes} redirectTo="/entity/0000-0000-0000" />
