@@ -106,15 +106,29 @@ const EntityTreeModal = ({ show, toggle }) => {
         },
       }));
 
+      // Verifying if there are elements in our old tree that were deleted in the DB
+      let [x, y] = [0, 0];
+      const onlyExistingElements = fixedElements.filter((el) => {
+        if (el.position?.y <= y) [x, y] = [el.position.x, el.position.y];
+        return newTree.find((newEl) => el.id === newEl.id);
+      });
+
+      // Verifying if we are missing elements in our old tree that were added in the DB
+      let posDiff = 1;
       for (const newEl of newTree) {
-        if (!fixedElements.find((el) => el.id === newEl.id)) {
-          fixedElements.push(newEl);
+        if (!onlyExistingElements.find((el) => el.id === newEl.id)) {
+          onlyExistingElements.push({
+            ...newEl,
+            position: { x: x + 100 + posDiff * 100, y: y - 100 + posDiff * 10 },
+          });
+          posDiff += 1;
         }
       }
-      const [x = 0, y = 0] = parsed.position;
+
+      [x = 0, y = 0] = parsed.position;
       transform({ x, y, zoom: parsed.zoom || 0 });
       setRestored(true);
-      setTree(fixedElements);
+      setTree(onlyExistingElements);
     } else {
       setTree(newTree);
       setTimeout(() => reactFlowInstance.fitView(), 100);
@@ -147,9 +161,7 @@ const EntityTreeModal = ({ show, toggle }) => {
       .then((response) => {
         parseData(response.data);
       })
-      .catch(() => {
-        // throw new Error('Error while fetching entity for edit');
-      });
+      .catch(() => {});
   };
 
   useEffect(() => {
