@@ -49,6 +49,10 @@ const EntityPage = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (entity?.id !== venueId) setEntityId(venueId, true);
+  }, [venueId]);
+
   return (
     <>
       <CRow>

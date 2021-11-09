@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { CButton, CButtonToolbar, CCard, CCardBody, CCardHeader, CPopover } from '@coreui/react';
-import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
+import {
+  CButton,
+  CButtonToolbar,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CPopover,
+  CNav,
+  CNavLink,
+  CTabPane,
+  CTabContent,
+} from '@coreui/react';
+import { cilPencil, cilPlus, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import {
   EditEntityForm,
@@ -11,11 +22,13 @@ import {
   useFormFields,
   useToast,
   useToggle,
+  DetailedNotesTable,
 } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import DeleteEntityModal from 'components/DeleteEntityModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import EntityIpModal from 'components/EntityIpModal';
+import AddEntityModal from 'components/AddEntityModal';
 
 const initialForm = {
   name: {
@@ -64,6 +77,8 @@ const EntityInfoCard = ({ refreshPage }) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showAssociate, setShowAssociate] = useState(false);
   const [showIp, toggleIp] = useToggle(false);
+  const [showAddEntity, toggleShowAddEntity] = useToggle(false);
+  const [index, setIndex] = useState(0);
 
   const toggleAssociate = () => setShowAssociate(!showAssociate);
 
@@ -207,8 +222,13 @@ const EntityInfoCard = ({ refreshPage }) => {
         </div>
         <div className="text-right float-right">
           <CButtonToolbar role="group" className="justify-content-end">
+            <CPopover content={t('entity.add_child', { entityName: entity?.name })}>
+              <CButton color="success" onClick={toggleShowAddEntity}>
+                <CIcon content={cilPlus} />
+              </CButton>
+            </CPopover>
             <CPopover content={t('common.save')}>
-              <CButton disabled={!editing} color="info" onClick={editEntity}>
+              <CButton disabled={!editing} color="info" onClick={editEntity} className="ml-2">
                 <CIcon name="cil-save" content={cilSave} />
               </CButton>
             </CPopover>
@@ -236,17 +256,51 @@ const EntityInfoCard = ({ refreshPage }) => {
         </div>
       </CCardHeader>
       <CCardBody className="py-1">
-        <EditEntityForm
-          t={t}
-          disable={loading}
-          fields={fields}
-          updateField={updateFieldWithId}
-          updateFieldDirectly={updateField}
-          addNote={addNote}
-          editing={editing}
-          toggleAssociate={toggleAssociate}
-          toggleIpModal={toggleIp}
-        />
+        <CNav variant="tabs" className="mb-0 p-0">
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 0}
+            onClick={() => setIndex(0)}
+          >
+            {t('common.main')}
+          </CNavLink>
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 1}
+            onClick={() => setIndex(1)}
+          >
+            {t('configuration.notes')}
+          </CNavLink>
+        </CNav>
+        <CTabContent>
+          <CTabPane active={index === 0} className="pt-2">
+            {index === 0 ? (
+              <EditEntityForm
+                t={t}
+                disable={loading}
+                fields={fields}
+                updateField={updateFieldWithId}
+                updateFieldDirectly={updateField}
+                editing={editing}
+                toggleAssociate={toggleAssociate}
+                toggleIpModal={toggleIp}
+              />
+            ) : null}
+          </CTabPane>
+          <CTabPane active={index === 1}>
+            {index === 1 ? (
+              <DetailedNotesTable
+                t={t}
+                notes={fields.notes.value}
+                addNote={addNote}
+                loading={loading}
+                editable={editing}
+              />
+            ) : null}
+          </CTabPane>
+        </CTabContent>
       </CCardBody>
       <DeleteEntityModal show={showDelete} toggle={toggleDelete} />
       <AssociateConfigurationModal
@@ -261,6 +315,7 @@ const EntityInfoCard = ({ refreshPage }) => {
         ips={fields.sourceIP.value}
         updateField={updateField}
       />
+      <AddEntityModal show={showAddEntity} toggle={toggleShowAddEntity} />
     </CCard>
   );
 };

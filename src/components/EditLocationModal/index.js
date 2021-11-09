@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
+import {
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CButton,
+  CPopover,
+  CNav,
+  CNavLink,
+  CTabPane,
+  CTabContent,
+} from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave, cilPen } from '@coreui/icons';
 import {
@@ -10,6 +21,7 @@ import {
   useEntity,
   EditLocationForm,
   AddressEditor,
+  DetailedNotesTable,
 } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -101,6 +113,7 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
   const [location, setLocation] = useState({});
   const [entities, setEntities] = useState([]);
   const [editing, setEditing] = useState(false);
+  const [index, setIndex] = useState(0);
 
   const validation = () => {
     for (const [key, field] of Object.entries(fields)) {
@@ -196,7 +209,7 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
         if (fields.notes.value[i].new) newNotes.push({ note: fields.notes.value[i].note });
       }
 
-      parameters.notes = newNotes.length > 1 ? newNotes : undefined;
+      parameters.notes = newNotes;
 
       axiosInstance
         .put(`${endpoints.owprov}/api/v1/location/${locationId}`, parameters, options)
@@ -286,6 +299,7 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
 
   useEffect(() => {
     if (show) {
+      setIndex(0);
       getEntities();
       getLocation();
       setFormFields(initialForm);
@@ -324,28 +338,65 @@ const EditLocationModal = ({ show, toggle, locationId, refreshTable }) => {
           </CPopover>
         </div>
       </CModalHeader>
-      <CModalBody className="px-5">
-        <EditLocationForm
-          t={t}
-          disable={loading}
-          fields={fields}
-          updateField={updateFieldWithId}
-          updateFieldWithKey={updateField}
-          addNote={addNote}
-          deviceTypes={deviceTypes}
-          entities={entities}
-          batchSetField={batchSetField}
-          editing={editing}
-          locationSearch={
-            <AddressEditor
-              t={t}
-              currentToken={currentToken}
-              endpoint={endpoints.owprov}
-              setAddress={setAddress}
-              show={show}
-            />
-          }
-        />
+      <CModalBody className="px-3 pt-0">
+        <CNav variant="tabs" className="mb-0 p-0">
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 0}
+            onClick={() => setIndex(0)}
+          >
+            {t('common.main')}
+          </CNavLink>
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 1}
+            onClick={() => setIndex(1)}
+          >
+            {t('configuration.notes')}
+          </CNavLink>
+        </CNav>
+        <CTabContent>
+          <CTabPane active={index === 0} className="pt-2">
+            {index === 0 ? (
+              <EditLocationForm
+                t={t}
+                disable={loading}
+                fields={fields}
+                updateField={updateFieldWithId}
+                updateFieldWithKey={updateField}
+                deviceTypes={deviceTypes}
+                entities={entities}
+                batchSetField={batchSetField}
+                editing={editing}
+                locationSearch={
+                  show ? (
+                    <AddressEditor
+                      t={t}
+                      currentToken={currentToken}
+                      endpoint={endpoints.owprov}
+                      setAddress={setAddress}
+                      show={show}
+                      disabled={!editing || loading}
+                    />
+                  ) : null
+                }
+              />
+            ) : null}
+          </CTabPane>
+          <CTabPane active={index === 1}>
+            {index === 1 ? (
+              <DetailedNotesTable
+                t={t}
+                notes={fields.notes.value}
+                addNote={addNote}
+                loading={loading}
+                editable={editing}
+              />
+            ) : null}
+          </CTabPane>
+        </CTabContent>
       </CModalBody>
     </CModal>
   );

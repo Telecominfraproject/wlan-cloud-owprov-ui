@@ -4,7 +4,15 @@ import axiosInstance from 'utils/axiosInstance';
 import { useAuth, useToast } from 'ucentral-libs';
 import CIcon from '@coreui/icons-react';
 import { cilRouter, cilX } from '@coreui/icons';
-import { CButton, CModal, CModalBody, CModalHeader, CModalTitle, CPopover } from '@coreui/react';
+import {
+  CButton,
+  CCollapse,
+  CModal,
+  CModalBody,
+  CModalHeader,
+  CModalTitle,
+  CPopover,
+} from '@coreui/react';
 import { useTranslation } from 'react-i18next';
 
 const ComputerConfigModal = ({ show, toggle, serialNumber, pushConfig }) => {
@@ -13,6 +21,7 @@ const ComputerConfigModal = ({ show, toggle, serialNumber, pushConfig }) => {
   const { currentToken, endpoints } = useAuth();
   const [config, setConfig] = useState({});
   const [, setLoading] = useState(false);
+  const [shownCollapses, setShownCollapses] = useState([]);
 
   const getConfig = () => {
     setLoading(true);
@@ -46,7 +55,20 @@ const ComputerConfigModal = ({ show, toggle, serialNumber, pushConfig }) => {
     pushConfig(serialNumber);
   };
 
+  const toggleCollapse = (index) => {
+    const position = shownCollapses.indexOf(index);
+    let newShown = shownCollapses.slice();
+
+    if (position !== -1) {
+      newShown.splice(position, 1);
+    } else {
+      newShown = [...shownCollapses, index];
+    }
+    setShownCollapses(newShown);
+  };
+
   useEffect(() => {
+    setShownCollapses([]);
     if (show && serialNumber !== '') getConfig();
   }, [show, serialNumber]);
 
@@ -73,9 +95,30 @@ const ComputerConfigModal = ({ show, toggle, serialNumber, pushConfig }) => {
           {JSON.stringify(config?.config, null, 2)}
         </pre>
         <h5>{t('configuration.explanation')}</h5>
-        <pre className="overflow-auto border" style={{ height: '300px' }}>
-          {JSON.stringify(config?.explanation, null, 2)}
-        </pre>
+        <div className="overflow-auto border" style={{ height: '300px' }}>
+          {config?.explanation?.map((exp, ind) => (
+            <div>
+              <CButton
+                shape="square"
+                block
+                color={exp.action === 'added' ? 'success' : 'warning'}
+                onClick={() => toggleCollapse(ind)}
+              >
+                {exp['from-name']}
+                {exp.action === 'added' ? '' : `: ${exp.reason}`}
+                <CIcon
+                  name={shownCollapses.includes(ind) ? 'cilChevronTop' : 'cilChevronBottom'}
+                  style={{ color: 'white' }}
+                  className="ml-2"
+                  size="lg"
+                />
+              </CButton>
+              <CCollapse show={shownCollapses.includes(ind)}>
+                <pre>{JSON.stringify(exp, null, 2)}</pre>
+              </CCollapse>
+            </div>
+          ))}
+        </div>
       </CModalBody>
     </CModal>
   );

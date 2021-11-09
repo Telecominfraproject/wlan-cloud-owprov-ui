@@ -1,9 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
+import {
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CButton,
+  CPopover,
+  CNav,
+  CNavLink,
+  CTabPane,
+  CTabContent,
+} from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave, cilPen } from '@coreui/icons';
-import { useFormFields, useAuth, useToast, useEntity, EditContactForm } from 'ucentral-libs';
+import {
+  useFormFields,
+  useAuth,
+  useToast,
+  useEntity,
+  EditContactForm,
+  DetailedNotesTable,
+} from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
@@ -100,6 +118,7 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
   const [contact, setContact] = useState({});
   const [entities, setEntities] = useState([]);
   const [editing, setEditing] = useState(false);
+  const [index, setIndex] = useState(0);
 
   const validation = () => {
     let success = true;
@@ -174,7 +193,7 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
         if (fields.notes.value[i].new) newNotes.push({ note: fields.notes.value[i].note });
       }
 
-      parameters.notes = newNotes.length > 1 ? newNotes : undefined;
+      parameters.notes = newNotes;
 
       axiosInstance
         .put(`${endpoints.owprov}/api/v1/contact/${contactId}`, parameters, options)
@@ -225,17 +244,17 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
   const getEntities = async () => {
     setLoading(true);
 
-    const allEntites = [];
+    const allEntities = [];
     let continueGetting = true;
     let i = 1;
     while (continueGetting) {
       // eslint-disable-next-line no-await-in-loop
       const newStuff = await getPartialEntities(i);
       if (newStuff === null || newStuff.length === 0) continueGetting = false;
-      allEntites.push(...newStuff);
+      allEntities.push(...newStuff);
       i += 500;
     }
-    const sorted = allEntites.sort((a, b) => {
+    const sorted = allEntities.sort((a, b) => {
       const firstDate = a.created;
       const secondDate = b.created;
       if (firstDate < secondDate) return 1;
@@ -264,6 +283,7 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
 
   useEffect(() => {
     if (show) {
+      setIndex(0);
       getEntities();
       getContact();
       setFormFields(initialForm);
@@ -302,19 +322,53 @@ const EditContactModal = ({ show, toggle, contactId, refreshTable }) => {
           </CPopover>
         </div>
       </CModalHeader>
-      <CModalBody className="px-5">
-        <EditContactForm
-          t={t}
-          disable={loading}
-          fields={fields}
-          updateField={updateFieldWithId}
-          updateFieldWithKey={updateField}
-          addNote={addNote}
-          deviceTypes={deviceTypes}
-          entities={entities}
-          batchSetField={batchSetField}
-          editing={editing}
-        />
+      <CModalBody className="px-3 pt-0">
+        <CNav variant="tabs" className="mb-0 p-0">
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 0}
+            onClick={() => setIndex(0)}
+          >
+            {t('common.main')}
+          </CNavLink>
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 1}
+            onClick={() => setIndex(1)}
+          >
+            {t('configuration.notes')}
+          </CNavLink>
+        </CNav>
+        <CTabContent>
+          <CTabPane active={index === 0} className="pt-2">
+            {index === 0 ? (
+              <EditContactForm
+                t={t}
+                disable={loading}
+                fields={fields}
+                updateField={updateFieldWithId}
+                updateFieldWithKey={updateField}
+                deviceTypes={deviceTypes}
+                entities={entities}
+                batchSetField={batchSetField}
+                editing={editing}
+              />
+            ) : null}
+          </CTabPane>
+          <CTabPane active={index === 1}>
+            {index === 1 ? (
+              <DetailedNotesTable
+                t={t}
+                notes={fields.notes.value}
+                addNote={addNote}
+                loading={loading}
+                editable={editing}
+              />
+            ) : null}
+          </CTabPane>
+        </CTabContent>
       </CModalBody>
     </CModal>
   );

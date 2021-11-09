@@ -11,7 +11,7 @@ import {
 } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 
-const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
+const OpenFlow = ({ fields, updateField, updateWithId, batchSetField, disabled }) => {
   const { t } = useTranslation();
   const saveCa = (value, fileName) => {
     batchSetField([
@@ -45,7 +45,7 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             }
             enabled={fields['open-flow'].enabled}
@@ -60,7 +60,7 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationSelect
                   id="open-flow.mode"
@@ -70,7 +70,7 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                   firstCol="3"
                   secondCol="9"
                   width="100px"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationFileField
                   fileName={fields['open-flow']['ca-certificate-filename'].value}
@@ -78,6 +78,7 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                   label="ca-certificate"
                   firstCol="3"
                   secondCol="9"
+                  disabled={disabled}
                   errorMessage="Error!!!!"
                   extraButton={
                     <FileToStringButton
@@ -87,6 +88,7 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                       acceptedFileTypes=".pem"
                       size="sm"
                       save={saveCa}
+                      disabled={disabled}
                     />
                   }
                 />
@@ -105,6 +107,7 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                       acceptedFileTypes=".pem"
                       size="sm"
                       save={saveSsl}
+                      disabled={disabled}
                     />
                   }
                 />
@@ -114,6 +117,7 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                   label="private-key"
                   firstCol="3"
                   secondCol="9"
+                  disabled={disabled}
                   errorMessage="Error!!!!"
                   extraButton={
                     <FileToStringButton
@@ -123,6 +127,7 @@ const OpenFlow = ({ fields, updateField, updateWithId, batchSetField }) => {
                       acceptedFileTypes=".pem"
                       size="sm"
                       save={saveKey}
+                      disabled={disabled}
                     />
                   }
                 />
@@ -140,6 +145,7 @@ OpenFlow.propTypes = {
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
   batchSetField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default OpenFlow;

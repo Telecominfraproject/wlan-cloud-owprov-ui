@@ -7,7 +7,7 @@ import {
   ConfigurationElement,
 } from 'ucentral-libs';
 
-const QualityOfService = ({ fields, updateField, updateWithId }) => (
+const QualityOfService = ({ fields, updateField, updateWithId, disabled }) => (
   <div>
     <CRow>
       <CCol>
@@ -20,7 +20,7 @@ const QualityOfService = ({ fields, updateField, updateWithId }) => (
               updateField={updateField}
               firstCol="3"
               secondCol="9"
-              disabled={false}
+              disabled={disabled}
             />
           }
           enabled={fields['quality-of-service'].enabled}
@@ -35,7 +35,7 @@ const QualityOfService = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationIntField
                 id="quality-of-service.download-rate"
@@ -45,7 +45,7 @@ const QualityOfService = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -59,6 +59,7 @@ QualityOfService.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default QualityOfService;

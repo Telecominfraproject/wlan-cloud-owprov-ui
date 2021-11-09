@@ -8,7 +8,6 @@ import Interfaces from './components/Interfaces';
 import Services from './components/Services';
 
 const DeviceConfigurationBody = ({
-  refresh,
   activeSection,
   setCanSave,
   baseFields,
@@ -19,19 +18,20 @@ const DeviceConfigurationBody = ({
   setFields,
   batchSetField,
   deleteActive,
+  disabled,
 }) => (
   <div>
     {activeSection === 'globals' && (
       <div>
         <Globals
           deleteConfig={deleteActive}
-          refresh={refresh}
           baseFields={baseFields}
           updateBaseWithId={updateBaseWithId}
           fields={fields}
           updateWithId={updateWithId}
           updateField={updateField}
           setFields={setFields}
+          disabled={disabled}
         />
       </div>
     )}
@@ -39,13 +39,13 @@ const DeviceConfigurationBody = ({
       <div>
         <Unit
           deleteConfig={deleteActive}
-          refresh={refresh}
           baseFields={baseFields}
           updateBaseWithId={updateBaseWithId}
           fields={fields}
           updateWithId={updateWithId}
           updateField={updateField}
           setFields={setFields}
+          disabled={disabled}
         />
       </div>
     )}
@@ -53,13 +53,13 @@ const DeviceConfigurationBody = ({
       <div>
         <Metrics
           deleteConfig={deleteActive}
-          refresh={refresh}
           baseFields={baseFields}
           updateBaseWithId={updateBaseWithId}
           fields={fields}
           updateWithId={updateWithId}
           updateField={updateField}
           setFields={setFields}
+          disabled={disabled}
         />
       </div>
     )}
@@ -74,6 +74,7 @@ const DeviceConfigurationBody = ({
           updateField={updateField}
           setFields={setFields}
           setCanSave={setCanSave}
+          disabled={disabled}
         />
       </div>
     )}
@@ -88,6 +89,7 @@ const DeviceConfigurationBody = ({
           updateField={updateField}
           setFields={setFields}
           setCanSave={setCanSave}
+          disabled={disabled}
         />
       </div>
     )}
@@ -95,7 +97,6 @@ const DeviceConfigurationBody = ({
       <div>
         <Services
           deleteConfig={deleteActive}
-          refresh={refresh}
           baseFields={baseFields}
           updateBaseWithId={updateBaseWithId}
           fields={fields}
@@ -103,6 +104,7 @@ const DeviceConfigurationBody = ({
           updateField={updateField}
           setFields={setFields}
           batchSetField={batchSetField}
+          disabled={disabled}
         />
       </div>
     )}
@@ -110,7 +112,6 @@ const DeviceConfigurationBody = ({
 );
 
 DeviceConfigurationBody.propTypes = {
-  refresh: PropTypes.func.isRequired,
   deleteActive: PropTypes.func.isRequired,
   activeSection: PropTypes.string.isRequired,
   setCanSave: PropTypes.func.isRequired,
@@ -121,6 +122,7 @@ DeviceConfigurationBody.propTypes = {
   updateField: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
   batchSetField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default DeviceConfigurationBody;

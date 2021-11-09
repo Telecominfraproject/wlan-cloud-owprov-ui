@@ -11,13 +11,13 @@ import DhcpSnooping from './DhcpSnooping';
 import General from '../General';
 
 const Metrics = ({
-  creating,
   deleteConfig,
   baseFields,
   updateBaseWithId,
   fields,
   updateWithId,
   updateField,
+  disabled,
 }) => {
   const { t } = useTranslation();
 
@@ -37,13 +37,13 @@ const Metrics = ({
         <CCol>
           <h5 className="float-left pt-2">Metrics Section</h5>
           <div className="float-right">
-            <CPopover content={creating ? t('factory_reset.reset') : t('common.delete')}>
+            <CPopover content={t('common.delete')}>
               <CButton
                 color="primary"
                 variant="outline"
                 onClick={deleteConfig}
                 className="ml-1"
-                disabled={creating}
+                disabled={disabled}
               >
                 <CIcon name="cil-trash" content={cilTrash} />
               </CButton>
@@ -58,21 +58,32 @@ const Metrics = ({
             updateWithId={updateBaseWithId}
             subFields={fields}
             onSubChange={onSubChange}
+            disabled={disabled}
           />
         </CCol>
       </CRow>
       <CRow>
         <CCol xl="6" xxl="4" hidden={!fields.statistics.enabled}>
-          <Statistics fields={fields} updateWithId={updateWithId} updateField={updateField} />
+          <Statistics
+            fields={fields}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            disabled={disabled}
+          />
         </CCol>
         <CCol xl="6" xxl="4" hidden={!fields['dhcp-snooping'].enabled}>
-          <DhcpSnooping fields={fields} updateField={updateField} />
+          <DhcpSnooping fields={fields} updateField={updateField} disabled={disabled} />
         </CCol>
         <CCol xl="6" xxl="4" hidden={!fields.health.enabled}>
-          <Health fields={fields} updateWithId={updateWithId} updateField={updateField} />
+          <Health
+            fields={fields}
+            updateWithId={updateWithId}
+            updateField={updateField}
+            disabled={disabled}
+          />
         </CCol>
         <CCol xl="6" xxl="4" hidden={!fields['wifi-frames'].enabled}>
-          <WifiFrames fields={fields} updateField={updateField} />
+          <WifiFrames fields={fields} updateField={updateField} disabled={disabled} />
         </CCol>
       </CRow>
     </div>
@@ -80,17 +91,13 @@ const Metrics = ({
 };
 
 Metrics.propTypes = {
-  creating: PropTypes.bool,
   deleteConfig: PropTypes.func.isRequired,
   baseFields: PropTypes.instanceOf(Object).isRequired,
   fields: PropTypes.instanceOf(Object).isRequired,
   updateWithId: PropTypes.func.isRequired,
   updateBaseWithId: PropTypes.func.isRequired,
   updateField: PropTypes.func.isRequired,
-};
-
-Metrics.defaultProps = {
-  creating: false,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Metrics;

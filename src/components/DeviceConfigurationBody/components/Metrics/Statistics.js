@@ -8,7 +8,7 @@ import {
   ConfigurationElement,
 } from 'ucentral-libs';
 
-const Statistics = ({ fields, updateWithId, updateField }) => (
+const Statistics = ({ fields, updateWithId, updateField, disabled }) => (
   <div>
     <CRow>
       <CCol>
@@ -21,7 +21,7 @@ const Statistics = ({ fields, updateWithId, updateField }) => (
               updateField={updateField}
               firstCol="3"
               secondCol="9"
-              disabled={false}
+              disabled={disabled}
             />
           }
           enabled={fields.statistics.enabled}
@@ -36,7 +36,7 @@ const Statistics = ({ fields, updateWithId, updateField }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -49,7 +49,7 @@ const Statistics = ({ fields, updateWithId, updateField }) => (
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -63,6 +63,7 @@ Statistics.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateWithId: PropTypes.func.isRequired,
   updateField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Statistics;

@@ -10,7 +10,7 @@ import {
 } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 
-const Ssh = ({ fields, updateField, updateWithId }) => {
+const Ssh = ({ fields, updateField, updateWithId, disabled }) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -25,7 +25,7 @@ const Ssh = ({ fields, updateField, updateWithId }) => {
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             }
             enabled={fields.ssh.enabled}
@@ -40,7 +40,7 @@ const Ssh = ({ fields, updateField, updateWithId }) => {
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationMultiWithInput
                   t={t}
@@ -50,7 +50,7 @@ const Ssh = ({ fields, updateField, updateWithId }) => {
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationToggle
                   id="ssh.password-authentication"
@@ -59,7 +59,7 @@ const Ssh = ({ fields, updateField, updateWithId }) => {
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
             </CRow>
@@ -74,6 +74,7 @@ Ssh.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Ssh;

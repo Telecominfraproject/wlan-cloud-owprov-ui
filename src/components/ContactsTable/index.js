@@ -412,7 +412,7 @@ const ContactsTable = ({
         toggle={toggleEditModal}
         editEntity={entity !== null}
         contactId={selectedContactId}
-        refreshTable={getCount}
+        refreshTable={refreshPageTables ?? getCount}
       />
     </div>
   );

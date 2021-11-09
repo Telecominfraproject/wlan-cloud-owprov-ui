@@ -18,6 +18,7 @@ import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import AddConfigurationModal from 'components/AddConfigurationModal';
 import ConfigurationInUseModal from 'components/ConfigurationInUseModal';
+import ConfigurationEffectsModal from 'components/ConfigurationEffectsModal';
 
 const ConfigurationTable = () => {
   const { t } = useTranslation();
@@ -34,6 +35,7 @@ const ConfigurationTable = () => {
   const [configsPerPage, setConfigsPerPage] = useState(getItem('configPerPage') || '10');
   const [showAdd, setShowAdd] = useState(false);
   const [showInUse, setShowInUse] = useState(false);
+  const [showEffects, setShowEffects] = useState(false);
   const [focusedConfig, setFocusedConfig] = useState(null);
 
   const toggleAdd = () => setShowAdd(!showAdd);
@@ -41,6 +43,11 @@ const ConfigurationTable = () => {
   const toggleInUse = (config) => {
     if (config) setFocusedConfig(config);
     setShowInUse(!showInUse);
+  };
+
+  const toggleEffects = (config) => {
+    if (config) setFocusedConfig(config);
+    setShowEffects(!showEffects);
   };
 
   const getDetailedInformation = (selectedPage = page, configPerPage = configsPerPage) => {
@@ -205,6 +212,7 @@ const ConfigurationTable = () => {
           configs={configs}
           toggleInUse={toggleInUse}
           deleteConfig={deleteConfig}
+          toggleEffects={toggleEffects}
         />
         <div className="pl-3">
           <div style={{ float: 'left' }} className="pr-3">
@@ -245,6 +253,7 @@ const ConfigurationTable = () => {
       </CCardBody>
       <AddConfigurationModal show={showAdd} toggle={toggleAdd} refresh={refresh} />
       <ConfigurationInUseModal show={showInUse} toggle={toggleInUse} config={focusedConfig} />
+      <ConfigurationEffectsModal show={showEffects} toggle={toggleEffects} config={focusedConfig} />
     </CCard>
   );
 };

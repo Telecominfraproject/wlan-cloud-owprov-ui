@@ -20,8 +20,8 @@ import {
   CCol,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilPlus, cilX, cilSave, cilSync } from '@coreui/icons';
-import { useAuth, useToast, useFormFields, useToggle } from 'ucentral-libs';
+import { cilPlus, cilX } from '@coreui/icons';
+import { useAuth, useFormFields, useToggle } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 import DeviceConfigurationBody from 'components/DeviceConfigurationBody';
@@ -184,17 +184,15 @@ const parseBlock = (activeSection, baseFields, fields) => {
   return newConfig;
 };
 
-const ConfigurationExplorer = ({ config }) => {
+const ConfigurationExplorer = ({ config, editing, saveTopCard, saveId, setCanSave }) => {
   const { t } = useTranslation();
   const { currentToken, endpoints } = useAuth();
-  const { addToast } = useToast();
   const [show, setShow] = useState(false);
   const [configurations, setConfigurations] = useState([]);
   const [orderedBlocks, setOrderedBlocks] = useState(blocksObj);
   const [existingSections, setExistingSections] = useState([]);
   const [key, setKey] = useState(0);
   const [activeSection, setActiveSection] = useState('');
-  const [canSave, setCanSave] = useState(false);
   const [showError, toggleError] = useToggle(false);
   const [errorDescription, setErrorDescription] = useState('');
 
@@ -244,37 +242,21 @@ const ConfigurationExplorer = ({ config }) => {
     };
   };
 
-  const getConfig = () => {
+  const parseNewConfig = (newConfig) => {
     const newActive = activeSection;
-    setActiveSection('');
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
 
-    axiosInstance
-      .get(`${endpoints.owprov}/api/v1/configurations/${config.id}`, options)
-      .then((response) => {
-        const obj = parseConfig(response.data);
-        setOrderedBlocks(obj.newConfigObj);
-        setExistingSections(obj.createdSections);
-        setConfigurations(obj.configs);
-        if (key >= obj.configs.length) {
-          setKey(0);
-        }
-        setActiveSection(newActive);
-      })
-      .catch(() => {
-        setConfigurations([]);
-        addToast({
-          title: t('common.error'),
-          body: t('configuration.error_fetching_config'),
-          color: 'danger',
-          autohide: true,
-        });
-      });
+    const obj = parseConfig(newConfig);
+    setOrderedBlocks(obj.newConfigObj);
+    setExistingSections(obj.createdSections);
+    setConfigurations(obj.configs);
+    if (key >= obj.configs.length) {
+      setKey(0);
+    }
+    setActiveSection(newActive);
+  };
+
+  const refreshNewConfig = (newConfig) => {
+    setActiveSection('', parseNewConfig(newConfig));
   };
 
   const refreshConfig = (newConfig, isNew = false) => {
@@ -311,13 +293,7 @@ const ConfigurationExplorer = ({ config }) => {
     axiosInstance
       .put(`${endpoints.owprov}/api/v1/configurations/${config.id}`, parameters, options)
       .then(() => {
-        addToast({
-          title: t('common.success'),
-          body: t('configuration.success_update'),
-          color: 'success',
-          autohide: true,
-        });
-        getConfig();
+        saveTopCard();
       })
       .catch((e) => {
         setErrorDescription(e.response?.data?.ErrorDescription);
@@ -354,10 +330,6 @@ const ConfigurationExplorer = ({ config }) => {
 
     refreshConfig(newFullConfiguration, true);
   };
-
-  useEffect(() => {
-    if (config) getConfig();
-  }, [config]);
 
   useEffect(() => {
     if (activeSection !== '') {
@@ -482,6 +454,14 @@ const ConfigurationExplorer = ({ config }) => {
     } else if (configurations.length === 0) setActiveSection('');
   }, [configurations, key]);
 
+  useEffect(() => {
+    if (config) refreshNewConfig(config);
+  }, [config]);
+
+  useEffect(() => {
+    if (saveId > 0 && config.id) save();
+  }, [saveId]);
+
   return (
     <CRow>
       <CCol>
@@ -489,18 +469,6 @@ const ConfigurationExplorer = ({ config }) => {
           <CCardHeader className="dark-header">
             <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
               Configuration Sections
-            </div>
-            <div className="float-right">
-              <CPopover content={t('common.save')}>
-                <CButton color="info" onClick={save} disabled={!canSave}>
-                  <CIcon name="cil-save" content={cilSave} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.refresh')}>
-                <CButton color="info" onClick={getConfig} className="ml-2">
-                  <CIcon name="cil-sync" content={cilSync} />
-                </CButton>
-              </CPopover>
             </div>
           </CCardHeader>
           <CCardBody className="py-0 px-0">
@@ -516,7 +484,7 @@ const ConfigurationExplorer = ({ config }) => {
                   {conf.name}
                 </CNavLink>
               ))}
-              <CNavLink key={createUuid()} href="#" onClick={toggle}>
+              <CNavLink key={createUuid()} href="#" onClick={toggle} disabled={!editing}>
                 <CIcon content={cilPlus} color="primary" />
               </CNavLink>
             </CNav>
@@ -524,7 +492,6 @@ const ConfigurationExplorer = ({ config }) => {
               <CTabPane active>
                 <DeviceConfigurationBody
                   deleteActive={deleteActive}
-                  refresh={getConfig}
                   activeSection={activeSection}
                   setCanSave={setCanSave}
                   baseFields={baseFields}
@@ -534,6 +501,7 @@ const ConfigurationExplorer = ({ config }) => {
                   updateField={updateField}
                   setFields={setFields}
                   batchSetField={batchSetField}
+                  disabled={!editing}
                 />
               </CTabPane>
             </CTabContent>
@@ -641,5 +609,9 @@ const ConfigurationExplorer = ({ config }) => {
 
 ConfigurationExplorer.propTypes = {
   config: PropTypes.instanceOf(Object).isRequired,
+  saveTopCard: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired,
+  saveId: PropTypes.number.isRequired,
+  setCanSave: PropTypes.func.isRequired,
 };
 export default ConfigurationExplorer;

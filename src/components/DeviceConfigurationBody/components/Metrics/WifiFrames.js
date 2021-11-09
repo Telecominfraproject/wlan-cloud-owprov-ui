@@ -7,7 +7,7 @@ import {
   ConfigurationMulti,
 } from 'ucentral-libs';
 
-const WifiFrames = ({ fields, updateField }) => (
+const WifiFrames = ({ fields, updateField, disabled }) => (
   <div>
     <CRow>
       <CCol>
@@ -20,7 +20,7 @@ const WifiFrames = ({ fields, updateField }) => (
               updateField={updateField}
               firstCol="3"
               secondCol="9"
-              disabled={false}
+              disabled={disabled}
             />
           }
           enabled={fields['wifi-frames'].enabled}
@@ -34,7 +34,7 @@ const WifiFrames = ({ fields, updateField }) => (
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -47,6 +47,7 @@ const WifiFrames = ({ fields, updateField }) => (
 WifiFrames.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default WifiFrames;

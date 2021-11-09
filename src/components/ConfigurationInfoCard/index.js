@@ -1,13 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { CButtonToolbar, CButton, CPopover, CCard, CCardHeader, CCardBody } from '@coreui/react';
-import { cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
+import {
+  CButtonToolbar,
+  CButton,
+  CPopover,
+  CCard,
+  CCardHeader,
+  CCardBody,
+  CNav,
+  CNavLink,
+  CTabPane,
+  CTabContent,
+  CRow,
+  CCol,
+} from '@coreui/react';
+import { cilPencil, cilSave, cilSync, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { useAuth, useToast, useFormFields, EditConfigurationForm, useEntity } from 'ucentral-libs';
+import {
+  useAuth,
+  useToast,
+  useFormFields,
+  EditConfigurationForm,
+  useEntity,
+  DetailedNotesTable,
+  ConfirmStopEditingButton,
+} from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from 'utils/axiosInstance';
 import ConfigurationInUseModal from 'components/ConfigurationInUseModal';
 import DeleteConfigurationModal from 'components/DeleteConfigurationModal';
+import ConfigurationExplorer from 'components/ConfigurationExplorer';
 
 const initialForm = {
   name: {
@@ -62,9 +84,12 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
   const { deviceTypes } = useEntity();
   const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialForm);
   const [loading, setLoading] = useState(false);
-  const [editing, setEditing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showInUse, setShowInUse] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [editing, setEditing] = useState(false);
+  const [saveId, setSaveId] = useState(0);
+  const [canSave, setCanSave] = useState(true);
 
   const toggleDelete = () => setShowDelete(!showDelete);
 
@@ -199,7 +224,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
           getConfig();
           addToast({
             title: t('common.success'),
-            body: t('common.saved'),
+            body: t('configuration.success_update'),
             color: 'success',
             autohide: true,
           });
@@ -219,68 +244,127 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
     }
   };
 
+  const saveBothCards = () => setSaveId(saveId + 1);
+
   useEffect(() => {
+    setCanSave(true);
+    setSaveId(0);
     if (configId && configId !== '') getConfig();
   }, [configId]);
 
   return (
-    <CCard>
-      <CCardHeader className="dark-header">
-        <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
-          {t('configuration.title')}: {config?.name}
-        </div>
-        <div className="float-right">
-          <CButtonToolbar role="group" className="justify-content-end">
-            <CPopover content={t('common.save')}>
-              <CButton disabled={!editing} color="info" onClick={saveConfig}>
-                <CIcon name="cil-save" content={cilSave} />
-              </CButton>
-            </CPopover>
-            <CPopover content={t('common.edit')}>
-              <CButton disabled={editing} color="dark" onClick={toggleEditing} className="ml-2">
-                <CIcon name="cil-pencil" content={cilPencil} />
-              </CButton>
-            </CPopover>
-            <CPopover content={t('common.stop_editing')}>
-              <CButton disabled={!editing} color="dark" onClick={toggleEditing} className="ml-2">
-                <CIcon name="cil-x" content={cilX} />
-              </CButton>
-            </CPopover>
-            <CPopover content={t('common.delete')}>
-              <CButton
-                disabled={editing || config?.inUse?.length > 0}
-                color="info"
-                onClick={toggleDelete}
-                className="ml-2"
-              >
-                <CIcon name="cil-trash" content={cilTrash} />
-              </CButton>
-            </CPopover>
-            <CPopover content={t('common.refresh')}>
-              <CButton disabled={editing} color="info" onClick={getConfig} className="ml-2">
-                <CIcon content={cilSync} />
-              </CButton>
-            </CPopover>
-          </CButtonToolbar>
-        </div>
-      </CCardHeader>
-      <CCardBody className="py-0">
-        <EditConfigurationForm
-          t={t}
-          disable={loading}
-          fields={fields}
-          updateField={updateFieldWithId}
-          updateFieldWithKey={updateField}
-          addNote={addNote}
-          editing={editing}
-          toggleInUseModal={toggleInUse}
-          deviceTypes={deviceTypes}
-          config={config}
-        />
-      </CCardBody>
-      <ConfigurationInUseModal show={showInUse} toggle={toggleInUse} config={config} />
-      <DeleteConfigurationModal show={showDelete} toggle={toggleDelete} config={config} />
-    </CCard>
+    <div>
+      <CRow>
+        <CCol>
+          <CCard>
+            <CCardHeader className="dark-header">
+              <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
+                {t('configuration.title')}: {config?.name}
+              </div>
+              <div className="float-right">
+                <CButtonToolbar role="group" className="justify-content-end">
+                  <CPopover content={t('common.save')}>
+                    <CButton disabled={!editing || !canSave} color="info" onClick={saveBothCards}>
+                      <CIcon name="cil-save" content={cilSave} />
+                    </CButton>
+                  </CPopover>
+                  <CPopover content={t('common.edit')}>
+                    <CButton
+                      disabled={editing}
+                      color="dark"
+                      onClick={toggleEditing}
+                      className="ml-2"
+                    >
+                      <CIcon name="cil-pencil" content={cilPencil} />
+                    </CButton>
+                  </CPopover>
+                  <ConfirmStopEditingButton t={t} stopEditing={toggleEditing} disabled={!editing} />
+                  <CPopover content={t('common.delete')}>
+                    <CButton
+                      disabled={editing || config?.inUse?.length > 0}
+                      color="info"
+                      onClick={toggleDelete}
+                      className="ml-2"
+                    >
+                      <CIcon name="cil-trash" content={cilTrash} />
+                    </CButton>
+                  </CPopover>
+                  <CPopover content={t('common.refresh')}>
+                    <CButton disabled={editing} color="info" onClick={getConfig} className="ml-2">
+                      <CIcon content={cilSync} />
+                    </CButton>
+                  </CPopover>
+                </CButtonToolbar>
+              </div>
+            </CCardHeader>
+            <CCardBody className="py-0">
+              <CNav variant="tabs" className="mb-0 p-0">
+                <CNavLink
+                  className="font-weight-bold"
+                  href="#"
+                  active={index === 0}
+                  onClick={() => setIndex(0)}
+                >
+                  {t('common.main')}
+                </CNavLink>
+                <CNavLink
+                  className="font-weight-bold"
+                  href="#"
+                  active={index === 1}
+                  onClick={() => setIndex(1)}
+                >
+                  {t('configuration.notes')}
+                </CNavLink>
+              </CNav>
+              <CTabContent>
+                <CTabPane active={index === 0} className="pt-2">
+                  {index === 0 ? (
+                    <EditConfigurationForm
+                      t={t}
+                      disable={loading}
+                      fields={fields}
+                      updateField={updateFieldWithId}
+                      updateFieldWithKey={updateField}
+                      addNote={addNote}
+                      editing={editing}
+                      toggleInUseModal={toggleInUse}
+                      deviceTypes={deviceTypes}
+                      config={config}
+                    />
+                  ) : null}
+                </CTabPane>
+                <CTabPane active={index === 1}>
+                  {index === 1 ? (
+                    <DetailedNotesTable
+                      t={t}
+                      notes={fields.notes.value}
+                      addNote={addNote}
+                      loading={loading}
+                      editable={editing}
+                    />
+                  ) : null}
+                </CTabPane>
+              </CTabContent>
+            </CCardBody>
+            <ConfigurationInUseModal show={showInUse} toggle={toggleInUse} config={config} />
+            <DeleteConfigurationModal show={showDelete} toggle={toggleDelete} config={config} />
+          </CCard>
+        </CCol>
+      </CRow>
+      <CRow>
+        <CCol>
+          {config !== null ? (
+            <ConfigurationExplorer
+              config={config}
+              editing={editing}
+              saveTopCard={saveConfig}
+              saveId={saveId}
+              setCanSave={setCanSave}
+            />
+          ) : null}
+        </CCol>
+      </CRow>
+    </div>
   );
 };
 

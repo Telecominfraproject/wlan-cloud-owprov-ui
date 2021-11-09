@@ -8,7 +8,7 @@ import {
 } from 'ucentral-libs';
 import Select from 'react-select';
 
-const General = ({ fields, updateWithId, subFields, onSubChange }) => {
+const General = ({ fields, updateWithId, subFields, onSubChange, disabled }) => {
   const [activated, setActivated] = useState([]);
   const [options, setOptions] = useState([]);
 
@@ -49,7 +49,7 @@ const General = ({ fields, updateWithId, subFields, onSubChange }) => {
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Required"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4">
@@ -61,7 +61,7 @@ const General = ({ fields, updateWithId, subFields, onSubChange }) => {
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol lg="6" xl="4">
@@ -73,7 +73,7 @@ const General = ({ fields, updateWithId, subFields, onSubChange }) => {
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
               <CCol hidden={subFields === null} lg="6" xl="4">
@@ -83,6 +83,7 @@ const General = ({ fields, updateWithId, subFields, onSubChange }) => {
                   </CLabel>
                   <CCol sm="9">
                     <Select
+                      isDisabled={disabled}
                       isMulti
                       closeMenuOnSelect={false}
                       name="Subsystems"
@@ -108,6 +109,7 @@ General.propTypes = {
   updateWithId: PropTypes.func.isRequired,
   subFields: PropTypes.instanceOf(Object),
   onSubChange: PropTypes.func,
+  disabled: PropTypes.bool.isRequired,
 };
 
 General.defaultProps = {

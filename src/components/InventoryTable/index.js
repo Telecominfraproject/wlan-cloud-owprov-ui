@@ -2,7 +2,18 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
-import { CButton, CCardBody, CCard, CCardHeader, CPopover, CButtonToolbar } from '@coreui/react';
+import {
+  CButton,
+  CCardBody,
+  CCard,
+  CCardHeader,
+  CPopover,
+  CButtonToolbar,
+  CTabPane,
+  CTabContent,
+  CNav,
+  CNavLink,
+} from '@coreui/react';
 import { cilCloudUpload, cilPlus, cilSync, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { useAuth, useToast, InventoryTable as Table, useToggle } from 'ucentral-libs';
@@ -15,6 +26,7 @@ import AssociateVenueEntityModal from 'components/AssociateVenueEntityModal';
 import ComputerConfigModal from 'components/ComputedConfigModal';
 import ConfigurationPushResultModal from 'components/ConfigurationPushResultModal';
 import AssociatedSingleConfigModal from 'components/AssociatedSingleConfigModal';
+import DeviceSearchBar from 'components/DeviceSearchBar';
 
 const InventoryTable = ({
   entity,
@@ -25,6 +37,8 @@ const InventoryTable = ({
   refreshTable,
   refreshId,
   onlyUnassigned,
+  hideTopBar,
+  twoTables,
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
@@ -46,6 +60,7 @@ const InventoryTable = ({
   const [pushResult, setPushResult] = useState(null);
   const [pushLoading, setPushLoading] = useState(false);
   const [entityDevicesArray, setEntityDevicesArray] = useState([]);
+  const [index, setIndex] = useState(0);
 
   const toggleAssoc = (info) => {
     if (info) setAssocInfo(info);
@@ -495,41 +510,203 @@ const InventoryTable = ({
     getCount();
   }, [onlyUnassigned]);
 
+  if (twoTables) {
+    return (
+      <div>
+        <CCard className="my-0 py-0">
+          <CCardHeader className={hideTopBar ? 'p-1' : 'dark-header'}>
+            {hideTopBar ? null : (
+              <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
+                {title}
+              </div>
+            )}
+            <div className="pl-3 float-right">
+              <CButtonToolbar role="group" className="justify-content-end">
+                <CPopover content={t('inventory.add_tag')}>
+                  <CButton color="info" onClick={toggleAdd}>
+                    <CIcon content={cilPlus} />
+                  </CButton>
+                </CPopover>
+                <CPopover content={t('inventory.import_devices')}>
+                  <CButton
+                    hidden={entity === null}
+                    color="info"
+                    onClick={toggleImportModal}
+                    className="ml-2"
+                  >
+                    <CIcon content={cilCloudUpload} />
+                  </CButton>
+                </CPopover>
+                <CPopover content={t('inventory.bulk_delete_devices')}>
+                  <CButton color="danger" onClick={toggleBulkDeleteModal} className="ml-2">
+                    <CIcon content={cilTrash} />
+                  </CButton>
+                </CPopover>
+                <CPopover content={t('common.refresh')}>
+                  <CButton color="info" onClick={refresh} className="ml-2">
+                    <CIcon content={cilSync} />
+                  </CButton>
+                </CPopover>
+              </CButtonToolbar>
+            </div>
+          </CCardHeader>
+          <CNav variant="tabs" className="mb-0 p-0">
+            <CNavLink
+              className="font-weight-bold"
+              href="#"
+              active={index === 0}
+              onClick={() => setIndex(0)}
+            >
+              {t('entity.only_unassigned')}
+            </CNavLink>
+            <CNavLink
+              className="font-weight-bold"
+              href="#"
+              active={index === 1}
+              onClick={() => setIndex(1)}
+            >
+              {t('common.show_all')}
+            </CNavLink>
+          </CNav>
+          <CTabContent>
+            <CTabPane active={index === 0}>
+              {index === 0 ? (
+                <div>
+                  <CCardHeader className="p-0">
+                    <div style={{ width: '400px' }}>
+                      <DeviceSearchBar toggleEditModal={toggleEditModal} />
+                    </div>
+                  </CCardHeader>
+                  <CCardBody className="p-0">
+                    <Table
+                      t={t}
+                      loading={loading}
+                      entity={entity}
+                      tags={tags}
+                      tagsPerPage={tagsPerPage}
+                      updateTagsPerPage={updateTagsPerPage}
+                      page={useUrl ? page : localPage}
+                      updatePage={updatePage}
+                      pageCount={pageCount}
+                      onlyEntity={filterOnEntity}
+                      unassign={unassignTag}
+                      assignToEntity={assignTag}
+                      toggleEditModal={toggleEditModal}
+                      deleteTag={deleteTag}
+                      onlyUnassigned={onlyUnassigned}
+                      toggleAssociate={toggleAssoc}
+                      toggleAssocEntity={toggleAssocEntity}
+                      toggleComputed={toggleComputed}
+                      pushConfig={pushConfig}
+                    />
+                  </CCardBody>
+                </div>
+              ) : null}
+            </CTabPane>
+            <CTabPane active={index === 1}>
+              {index === 1 ? (
+                <InventoryTable
+                  title={t('inventory.title')}
+                  entityPage={false}
+                  refreshId={refreshId}
+                  useUrl
+                  refreshPageTables={refreshTable}
+                  hideTopBar
+                />
+              ) : null}
+            </CTabPane>
+          </CTabContent>
+        </CCard>
+        <EditTagModal
+          show={showEditModal}
+          toggle={toggleEditModal}
+          editEntity={entity !== null}
+          tagSerialNumber={selectedTagId}
+          refreshTable={getCount}
+          pushConfig={pushConfig}
+        />
+        {entity === null ? null : (
+          <ImportDevicesModal
+            entity={entity}
+            show={showImportModal}
+            toggle={toggleImportModal}
+            refreshPageTables={refreshTable}
+          />
+        )}
+        <DeleteDevicesModal
+          entity={entity}
+          show={showBulkDeleteModal}
+          toggle={toggleBulkDeleteModal}
+          refreshPageTables={refreshTable}
+        />
+        <AssociatedSingleConfigModal
+          show={showAssoc}
+          toggle={toggleAssoc}
+          defaultConfig={assocInfo}
+          updateConfiguration={updateConfiguration}
+        />
+        <AssociateVenueEntityModal
+          show={showAssocEntity}
+          toggle={toggleAssocEntity}
+          updateConfiguration={assignFromMenu}
+        />
+        <ComputerConfigModal
+          show={showComputed}
+          toggle={toggleComputed}
+          pushConfig={pushConfig}
+          serialNumber={selectedTagId}
+        />
+        <ConfigurationPushResultModal
+          show={showPush}
+          toggle={togglePush}
+          result={pushResult}
+          loading={pushLoading}
+        />
+      </div>
+    );
+  }
   return (
     <div>
       <CCard className="my-0 py-0">
-        <CCardHeader className="dark-header">
-          <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
-            {title}
-          </div>
-          <div className="pl-3 float-right">
-            <CButtonToolbar role="group" className="justify-content-end">
-              <CPopover content={t('inventory.add_tag')}>
-                <CButton color="info" onClick={toggleAdd}>
-                  <CIcon content={cilPlus} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('inventory.import_devices')}>
-                <CButton
-                  hidden={entity === null}
-                  color="info"
-                  onClick={toggleImportModal}
-                  className="ml-2"
-                >
-                  <CIcon content={cilCloudUpload} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('inventory.bulk_delete_devices')}>
-                <CButton color="danger" onClick={toggleBulkDeleteModal} className="ml-2">
-                  <CIcon content={cilTrash} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.refresh')}>
-                <CButton color="info" onClick={refresh} className="ml-2">
-                  <CIcon content={cilSync} />
-                </CButton>
-              </CPopover>
-            </CButtonToolbar>
+        {hideTopBar ? null : (
+          <CCardHeader className={hideTopBar ? 'p-1' : 'dark-header'}>
+            <div style={{ fontWeight: '600' }} className=" text-value-lg float-left">
+              {title}
+            </div>
+            <div className="pl-3 float-right">
+              <CButtonToolbar role="group" className="justify-content-end">
+                <CPopover content={t('inventory.add_tag')}>
+                  <CButton color="info" onClick={toggleAdd}>
+                    <CIcon content={cilPlus} />
+                  </CButton>
+                </CPopover>
+                <CPopover content={t('inventory.import_devices')}>
+                  <CButton
+                    hidden={entity === null}
+                    color="info"
+                    onClick={toggleImportModal}
+                    className="ml-2"
+                  >
+                    <CIcon content={cilCloudUpload} />
+                  </CButton>
+                </CPopover>
+                <CPopover content={t('inventory.bulk_delete_devices')}>
+                  <CButton color="danger" onClick={toggleBulkDeleteModal} className="ml-2">
+                    <CIcon content={cilTrash} />
+                  </CButton>
+                </CPopover>
+                <CPopover content={t('common.refresh')}>
+                  <CButton color="info" onClick={refresh} className="ml-2">
+                    <CIcon content={cilSync} />
+                  </CButton>
+                </CPopover>
+              </CButtonToolbar>
+            </div>
+          </CCardHeader>
+        )}
+        <CCardHeader className="p-0">
+          <div style={{ width: '400px' }}>
+            <DeviceSearchBar toggleEditModal={toggleEditModal} />
           </div>
         </CCardHeader>
         <CCardBody className="p-0">
@@ -561,7 +738,8 @@ const InventoryTable = ({
         toggle={toggleEditModal}
         editEntity={entity !== null}
         tagSerialNumber={selectedTagId}
-        refreshTable={getCount}
+        refreshTable={refreshTable ?? getCount}
+        pushConfig={pushConfig}
       />
       {entity === null ? null : (
         <ImportDevicesModal
@@ -613,6 +791,8 @@ InventoryTable.propTypes = {
   refreshTable: PropTypes.func,
   refreshId: PropTypes.number,
   onlyUnassigned: PropTypes.bool,
+  hideTopBar: PropTypes.bool,
+  twoTables: PropTypes.bool,
 };
 
 InventoryTable.defaultProps = {
@@ -624,6 +804,8 @@ InventoryTable.defaultProps = {
   refreshTable: null,
   refreshId: 0,
   onlyUnassigned: false,
+  hideTopBar: false,
+  twoTables: false,
 };
 
 export default InventoryTable;

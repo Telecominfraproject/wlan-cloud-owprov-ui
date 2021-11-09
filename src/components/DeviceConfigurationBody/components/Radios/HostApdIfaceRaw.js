@@ -25,7 +25,7 @@ const columns = [
   { key: 'value', label: 'Value', _style: { width: '99%' } },
   { key: 'remove', label: '', _style: { width: '1%' } },
 ];
-const HostApdIfaceRaw = ({ label, value, save, firstCol, secondCol, length }) => {
+const HostApdIfaceRaw = ({ label, value, save, firstCol, secondCol, length, disabled }) => {
   const { t } = useTranslation();
   const [show, toggle] = useToggle(false);
   const [newParam, setNewParam] = useState('');
@@ -84,7 +84,13 @@ const HostApdIfaceRaw = ({ label, value, save, firstCol, secondCol, length }) =>
           <CModalTitle className="pl-1 pt-1">{label}</CModalTitle>
           <div className="text-right">
             <CPopover content={t('common.save')}>
-              <CButton color="primary" variant="outline" className="ml-2" onClick={closeAndSave}>
+              <CButton
+                color="primary"
+                variant="outline"
+                className="ml-2"
+                onClick={closeAndSave}
+                disabled={disabled}
+              >
                 <CIcon content={cilSave} />
               </CButton>
             </CPopover>
@@ -96,28 +102,32 @@ const HostApdIfaceRaw = ({ label, value, save, firstCol, secondCol, length }) =>
           </div>
         </CModalHeader>
         <CModalBody>
-          <CAlert color="danger">
-            The parameters you enter cannot be validated and may cause the radio to misbehave or
-            stop functioning. Please be careful as you add these parameters
-          </CAlert>
-          <CInput
-            className="mb-3 w-75 float-left mr-4"
-            id="description"
-            type="text"
-            required
-            value={newParam}
-            onChange={onChange}
-            placeholder="Enter a valid url parameter combination (example: name=john)"
-          />
-          <CButton
-            className="float-left"
-            color="primary"
-            variant="outline"
-            onClick={addParam}
-            disabled={!testParam(newParam)}
-          >
-            <CIcon content={cilPlus} />
-          </CButton>
+          {disabled ? null : (
+            <div>
+              <CAlert color="danger">
+                The parameters you enter cannot be validated and may cause the radio to misbehave or
+                stop functioning. Please be careful as you add these parameters
+              </CAlert>
+              <CInput
+                className="mb-3 w-75 float-left mr-4"
+                id="description"
+                type="text"
+                required
+                value={newParam}
+                onChange={onChange}
+                placeholder="Enter a valid url parameter combination (example: name=john)"
+              />
+              <CButton
+                className="float-left"
+                color="primary"
+                variant="outline"
+                onClick={addParam}
+                disabled={!testParam(newParam)}
+              >
+                <CIcon content={cilPlus} />
+              </CButton>
+            </div>
+          )}
           <CDataTable
             addTableClasses="ignore-overflow table-sm"
             items={tempValue.map((v) => ({ value: v }))}
@@ -147,6 +157,7 @@ HostApdIfaceRaw.propTypes = {
   firstCol: PropTypes.string,
   secondCol: PropTypes.string,
   length: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 HostApdIfaceRaw.defaultProps = {

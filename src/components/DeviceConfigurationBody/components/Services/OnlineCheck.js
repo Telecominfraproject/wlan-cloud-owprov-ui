@@ -10,7 +10,7 @@ import {
 } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 
-const OnlineCheck = ({ fields, updateField, updateWithId }) => {
+const OnlineCheck = ({ fields, updateField, updateWithId, disabled }) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -25,7 +25,7 @@ const OnlineCheck = ({ fields, updateField, updateWithId }) => {
                 updateField={updateField}
                 firstCol="3"
                 secondCol="9"
-                disabled={false}
+                disabled={disabled}
               />
             }
             enabled={fields['online-check'].enabled}
@@ -40,7 +40,7 @@ const OnlineCheck = ({ fields, updateField, updateWithId }) => {
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationMultiWithInput
                   t={t}
@@ -50,7 +50,7 @@ const OnlineCheck = ({ fields, updateField, updateWithId }) => {
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationIntField
                   id="online-check.check-interval"
@@ -60,7 +60,7 @@ const OnlineCheck = ({ fields, updateField, updateWithId }) => {
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationIntField
                   id="online-check.check-threshold"
@@ -70,7 +70,7 @@ const OnlineCheck = ({ fields, updateField, updateWithId }) => {
                   firstCol="3"
                   secondCol="9"
                   errorMessage="Error!!!!"
-                  disabled={false}
+                  disabled={disabled}
                 />
                 <ConfigurationMulti
                   id="online-check.action"
@@ -79,7 +79,7 @@ const OnlineCheck = ({ fields, updateField, updateWithId }) => {
                   updateField={updateField}
                   firstCol="3"
                   secondCol="9"
-                  disabled={false}
+                  disabled={disabled}
                 />
               </CCol>
             </CRow>
@@ -94,6 +94,7 @@ OnlineCheck.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default OnlineCheck;

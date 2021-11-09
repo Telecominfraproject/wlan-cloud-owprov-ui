@@ -9,7 +9,7 @@ import {
   ConfigurationElement,
 } from 'ucentral-libs';
 
-const Log = ({ fields, updateField, updateWithId }) => (
+const Log = ({ fields, updateField, updateWithId, disabled }) => (
   <div>
     <CRow>
       <CCol>
@@ -22,7 +22,7 @@ const Log = ({ fields, updateField, updateWithId }) => (
               updateField={updateField}
               firstCol="3"
               secondCol="9"
-              disabled={false}
+              disabled={disabled}
             />
           }
           enabled={fields.log.enabled}
@@ -37,7 +37,7 @@ const Log = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationIntField
                 id="log.port"
@@ -47,7 +47,7 @@ const Log = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationSelect
                 id="log.proto"
@@ -57,7 +57,7 @@ const Log = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 width="100px"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationIntField
                 id="log.size"
@@ -67,7 +67,7 @@ const Log = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -81,6 +81,7 @@ Log.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Log;

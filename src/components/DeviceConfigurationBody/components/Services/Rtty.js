@@ -8,7 +8,7 @@ import {
   ConfigurationElement,
 } from 'ucentral-libs';
 
-const Rtty = ({ fields, updateField, updateWithId }) => (
+const Rtty = ({ fields, updateField, updateWithId, disabled }) => (
   <div>
     <CRow>
       <CCol>
@@ -21,7 +21,7 @@ const Rtty = ({ fields, updateField, updateWithId }) => (
               updateField={updateField}
               firstCol="3"
               secondCol="9"
-              disabled={false}
+              disabled={disabled}
             />
           }
           enabled={fields.rtty.enabled}
@@ -36,7 +36,7 @@ const Rtty = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationIntField
                 id="rtty.port"
@@ -46,7 +46,7 @@ const Rtty = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
               <ConfigurationStringField
                 id="rtty.token"
@@ -56,7 +56,7 @@ const Rtty = ({ fields, updateField, updateWithId }) => (
                 firstCol="3"
                 secondCol="9"
                 errorMessage="Error!!!!"
-                disabled={false}
+                disabled={disabled}
               />
             </CCol>
           </CRow>
@@ -70,6 +70,7 @@ Rtty.propTypes = {
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
   updateWithId: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Rtty;
