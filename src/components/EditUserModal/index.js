@@ -13,7 +13,7 @@ const initialState = {
   changePassword: {
     value: false,
     error: false,
-    editable: false,
+    editable: true,
   },
   currentPassword: {
     value: '',

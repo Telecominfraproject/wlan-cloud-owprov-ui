@@ -88,7 +88,32 @@ const EntityTreeModal = ({ show, toggle }) => {
 
   const { transform } = useZoomPanHelper();
 
-  const parseData = (data) => {
+  const addDeviceData = async (entities) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const entitiesToFetch = entities.filter((ent) => ent.id.split('/')[0] !== 'edge');
+
+    const entityInfo = await Promise.all(
+      entitiesToFetch.map((ent) =>
+        axiosInstance.get(
+          `${endpoints.owprov}/api/v1/${ent.id.split('/')[0]}/${ent.id.split('/')[1]}`,
+          options,
+        ),
+      ),
+    ).then((results) => results.map((result) => result.data));
+
+    return entities.map((ent) => ({
+      ...ent,
+      extraData: entityInfo.find((entity) => entity.id === ent.id.split('/')[1]),
+    }));
+  };
+
+  const parseData = async (data) => {
     const newTree = iterateThroughTree(data, history);
 
     const oldFlow = localStorage.getItem('entityMap');
@@ -128,7 +153,22 @@ const EntityTreeModal = ({ show, toggle }) => {
       [x = 0, y = 0] = parsed.position;
       transform({ x, y, zoom: parsed.zoom || 0 });
       setRestored(true);
-      setTree(onlyExistingElements);
+      const withDevices = await addDeviceData(onlyExistingElements);
+      setTree(
+        withDevices.map((ent) => ({
+          ...ent,
+          data: {
+            label: (
+              <div className="align-middle">
+                <h3 className="align-middle mb-0 font-weight-bold">{ent.entityName}</h3>
+                <h5 className="align-middle mb-0 font-weight-bold">
+                  {ent.extraData.devices.length} Devices
+                </h5>
+              </div>
+            ),
+          },
+        })),
+      );
     } else {
       setTree(newTree);
       setTimeout(() => reactFlowInstance.fitView(), 100);
