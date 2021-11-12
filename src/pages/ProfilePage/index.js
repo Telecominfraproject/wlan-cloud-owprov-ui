@@ -40,6 +40,10 @@ const initialState = {
     error: false,
     editable: true,
   },
+  notes: {
+    value: [],
+    editable: false,
+  },
   userTypeProprietaryInfo: {
     value: {},
     error: false,
@@ -186,6 +190,12 @@ const ProfilePage = () => {
       });
       setLoading(false);
     } else {
+      const newNotes = [];
+
+      for (let i = 0; i < userForm.notes.value.length; i += 1) {
+        if (userForm.notes.value[i].new) newNotes.push({ note: userForm.notes.value[i].note });
+      }
+
       const propInfo = { ...userForm.userTypeProprietaryInfo.value };
       propInfo.mfa.method = userForm.mfaMethod.value === '' ? undefined : userForm.mfaMethod.value;
       propInfo.mfa.enabled = userForm.mfaMethod.value !== '';
@@ -194,6 +204,7 @@ const ProfilePage = () => {
         id: user.Id,
         description: userForm.description.value,
         name: userForm.name.value,
+        notes: newNotes,
         userTypeProprietaryInfo: propInfo,
         currentPassword: userForm.newPassword.value !== '' ? userForm.newPassword.value : undefined,
       };
@@ -230,6 +241,17 @@ const ProfilePage = () => {
           setLoading(false);
         });
     }
+  };
+
+  const addNote = (currentNote) => {
+    const newNotes = [...userForm.notes.value];
+    newNotes.unshift({
+      note: currentNote,
+      new: true,
+      created: new Date().getTime() / 1000,
+      createdBy: '',
+    });
+    updateWithKey('notes', { value: newNotes });
   };
 
   const showPreview = (e) => {
@@ -321,22 +343,22 @@ const ProfilePage = () => {
         <div className="text-right float-right">
           <CButtonToolbar role="group" className="justify-content-end">
             <CPopover content={t('common.save')}>
-              <CButton disabled={!editing} color="info" onClick={updateUser}>
+              <CButton disabled={!editing} color="info" onClick={updateUser} className="mx-1">
                 <CIcon name="cil-save" content={cilSave} />
               </CButton>
             </CPopover>
             <CPopover content={t('common.edit')}>
-              <CButton disabled={editing} color="dark" onClick={toggleEditing} className="ml-2">
+              <CButton disabled={editing} color="dark" onClick={toggleEditing} className="mx-1">
                 <CIcon name="cil-pencil" content={cilPencil} />
               </CButton>
             </CPopover>
             <CPopover content={t('common.stop_editing')}>
-              <CButton disabled={!editing} color="dark" onClick={toggleEditing} className="ml-2">
+              <CButton disabled={!editing} color="dark" onClick={toggleEditing} className="mx-1">
                 <CIcon name="cil-x" content={cilX} />
               </CButton>
             </CPopover>
             <CPopover content={t('common.refresh')}>
-              <CButton disabled={editing} color="info" onClick={getUser} className="ml-2">
+              <CButton disabled={editing} color="info" onClick={getUser} className="mx-1">
                 <CIcon content={cilSync} />
               </CButton>
             </CPopover>
@@ -351,6 +373,7 @@ const ProfilePage = () => {
           updateWithKey={updateWithKey}
           loading={loading}
           policies={policies}
+          addNote={addNote}
           avatar={avatar}
           newAvatar={newAvatar}
           showPreview={showPreview}
