@@ -109,7 +109,9 @@
 		"hour": "stunde",
 		"hours": "std",
 		"id": "ID",
+		"invalid_credentials": "Ungültiger Benutzername und / oder Passwort",
 		"invalid_file": "Die ausgewählte Datei war ungültig, bitte lesen Sie die Anweisungen und passen Sie Ihre Datei entsprechend an",
+		"invalid_password": "Dieses Passwort entspricht nicht den grundlegenden Passwortregeln. Bitte besuchen Sie unsere Seite Passwortrichtlinien, um mehr zu erfahren",
 		"invalid_pem": "Ihre PEM-Datei ist ungültig. Es sollte mit '-----BEGIN CERTIFICATE-----' ODER '-----BEGIN PRIVATE KEY-----' beginnen und mit '-----END CERTIFICATE--- enden. --' ODER '-----END PRIVATSCHLÜSSEL-----'",
 		"ip_address": "IP Adresse",
 		"ips": "IPs",
@@ -298,8 +300,12 @@
 		"healthchecks_title": "Healthchecks löschen"
 	},
 	"device": {
+		"certificate_explanation": "Zertifikate der angeschlossenen Geräte",
 		"error_fetching_device": "Fehler beim Abrufen der Geräteinformationen: {{error}}",
-		"error_fetching_devices": "Fehler beim Abrufen von Geräten: {{error}}"
+		"error_fetching_devices": "Fehler beim Abrufen von Geräten: {{error}}",
+		"health_explanation": "Zustand der angeschlossenen Geräte",
+		"memory_explanation": "Von angeschlossenen Geräten belegter Speicher",
+		"uptimes_explanation": "Zeit, zu der verbundene Geräte aktiv und verbunden waren"
 	},
 	"device_logs": {
 		"log": "Protokoll",
@@ -350,6 +356,7 @@
 		"warning": "Achtung: Nach dem Absenden kann dies nicht rückgängig gemacht werden"
 	},
 	"firmware": {
+		"age_explanation": "Durchschnittliche Anzahl der Tage für alle Geräte, von denen wir diesen Wert erhalten können",
 		"average_age": "Durchschnittliches Firmware-Alter",
 		"choose_custom": "Wählen",
 		"details_title": "Bild #{{image}} Details",
@@ -362,6 +369,7 @@
 		"image": "Bild",
 		"image_date": "Bilddatum",
 		"installed_firmware": "Installierte Firmware",
+		"latest_explanation": "Geräte, auf denen erkannte Firmware in der neuesten Version ausgeführt wird",
 		"latest_version_installed": "Neueste Version installiert Version",
 		"newer_firmware_available": "Neuere Versionen verfügbar",
 		"reinstall_latest": "Neu installieren",
@@ -692,6 +700,7 @@
 		"email_address": "E-Mail-Addresse",
 		"enter_new_phone": "Geben Sie Ihre neue Telefonnummer ein:",
 		"error_fetching_users": "Fehler beim Abrufen der Nutzer: {{error}}",
+		"error_retrieving": "Fehler beim Abrufen des Benutzers",
 		"error_sending_code": "Fehler beim Versuch, den Validierungscode zu senden. Bitte bestätigen Sie, dass Ihre Telefonnummer gültig ist.",
 		"force_password_change": "Passwortänderung bei der Anmeldung erzwingen",
 		"id": "Benutzeridentifikation.",

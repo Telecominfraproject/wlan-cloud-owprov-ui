@@ -109,7 +109,9 @@
 		"hour": "hora",
 		"hours": "horas",
 		"id": "identidade",
+		"invalid_credentials": "Nome de usuário e / ou senha inválidos",
 		"invalid_file": "O arquivo escolhido era inválido, por favor, leia as instruções e ajuste seu arquivo de acordo",
+		"invalid_password": "Esta senha não está de acordo com as regras básicas de senha. Visite nossa página de Política de Senha para saber mais",
 		"invalid_pem": "Seu arquivo .pem é inválido. Deve começar com '----- BEGIN CERTIFICATE -----' OU '----- BEGIN PRIVATE KEY -----' e deve terminar com '----- END CERTIFICATE --- - 'OU' ----- END PRIVATE KEY ----- '",
 		"ip_address": "Endereço de IP",
 		"ips": "IPs",
@@ -298,8 +300,12 @@
 		"healthchecks_title": "Excluir verificações de saúde"
 	},
 	"device": {
+		"certificate_explanation": "Certificados de dispositivos conectados",
 		"error_fetching_device": "Erro ao buscar informações do dispositivo: {{error}}",
-		"error_fetching_devices": "Erro ao buscar dispositivos: {{error}}"
+		"error_fetching_devices": "Erro ao buscar dispositivos: {{error}}",
+		"health_explanation": "Saúde de dispositivos conectados",
+		"memory_explanation": "Memória usada por dispositivos conectados",
+		"uptimes_explanation": "Há tempo em que os dispositivos conectados estão ativados e conectados"
 	},
 	"device_logs": {
 		"log": "Registro",
@@ -350,6 +356,7 @@
 		"warning": "Aviso: depois de enviar, isso não pode ser revertido"
 	},
 	"firmware": {
+		"age_explanation": "Número médio de dias para todos os dispositivos dos quais podemos obter esse valor",
 		"average_age": "Idade Média do Firmware",
 		"choose_custom": "Escolher",
 		"details_title": "Detalhes da imagem #{{image}} ",
@@ -362,6 +369,7 @@
 		"image": "Imagem",
 		"image_date": "Data da Imagem",
 		"installed_firmware": "Firmware Instalado",
+		"latest_explanation": "Dispositivos executando firmware reconhecido em sua versão mais recente",
 		"latest_version_installed": "Última versão instalada",
 		"newer_firmware_available": "Novas revisões disponíveis",
 		"reinstall_latest": "Reinstalar",
@@ -692,6 +700,7 @@
 		"email_address": "Endereço de e-mail",
 		"enter_new_phone": "Insira seu novo número de telefone:",
 		"error_fetching_users": "Erro ao buscar usuários: {{error}}",
+		"error_retrieving": "Erro ao recuperar usuário",
 		"error_sending_code": "Erro ao tentar enviar o código de validação. Por favor, confirme se o seu número de telefone é válido.",
 		"force_password_change": "Forçar mudança de senha no login",
 		"id": "ID do usuário.",
