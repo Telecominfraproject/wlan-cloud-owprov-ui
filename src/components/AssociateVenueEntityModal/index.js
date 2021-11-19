@@ -58,7 +58,7 @@ const AssociateVenueEntityModal = ({ show, toggle, updateConfiguration }) => {
 
     const allTypes = [];
     let continueGetting = true;
-    let i = 1;
+    let i = 0;
     while (continueGetting) {
       // eslint-disable-next-line no-await-in-loop
       const newStuff = await getPartial(type, i);

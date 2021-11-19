@@ -113,7 +113,7 @@ const InventoryTable = ({
       params = {
         withExtendedInfo: true,
         limit: tagPerPage,
-        offset: tagPerPage * selectedPage + 1,
+        offset: tagPerPage * selectedPage,
         unassigned: onlyUnassigned ? true : undefined,
       };
     }

@@ -67,7 +67,7 @@ const ContactsTable = ({
       params = {
         withExtendedInfo: true,
         limit: contactPerPage,
-        offset: contactPerPage * selectedPage + 1,
+        offset: contactPerPage * selectedPage,
       };
     }
 

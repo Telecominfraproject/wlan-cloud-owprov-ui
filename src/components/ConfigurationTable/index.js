@@ -60,7 +60,7 @@ const ConfigurationTable = () => {
       },
       params: {
         limit: configPerPage,
-        offset: configPerPage * selectedPage + 1,
+        offset: configPerPage * selectedPage,
       },
     };
     axiosInstance

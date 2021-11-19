@@ -214,7 +214,7 @@ const AddLocationModal = ({ entity, show, toggle, refreshTable }) => {
 
     const allEntites = [];
     let continueGetting = true;
-    let i = 1;
+    let i = 0;
     while (continueGetting) {
       // eslint-disable-next-line no-await-in-loop
       const newStuff = await getPartialEntities(i);

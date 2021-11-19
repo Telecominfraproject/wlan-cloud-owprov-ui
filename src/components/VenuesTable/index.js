@@ -41,7 +41,7 @@ const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refresh
       params = {
         withExtendedInfo: true,
         limit: venuePerPage,
-        offset: venuePerPage * selectedPage + 1,
+        offset: venuePerPage * selectedPage,
       };
     }
     const options = {

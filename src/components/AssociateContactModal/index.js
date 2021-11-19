@@ -57,7 +57,7 @@ const AssociateContactModal = ({ show, toggle, defaultContact, updateConfigurati
 
     const allConfigs = [];
     let continueGetting = true;
-    let i = 1;
+    let i = 0;
     while (continueGetting) {
       // eslint-disable-next-line no-await-in-loop
       const newConfigs = await getPartialContacts(i);
