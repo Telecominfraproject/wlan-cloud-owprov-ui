@@ -57,7 +57,7 @@ const AssociateLocationModal = ({ show, toggle, defaultLocation, updateConfigura
 
     const allConfigs = [];
     let continueGetting = true;
-    let i = 1;
+    let i = 0;
     while (continueGetting) {
       // eslint-disable-next-line no-await-in-loop
       const newConfigs = await getPartialLocations(i);

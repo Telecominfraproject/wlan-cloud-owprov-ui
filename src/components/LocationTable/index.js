@@ -67,7 +67,7 @@ const LocationTable = ({
       params = {
         withExtendedInfo: true,
         limit: locationPerPage,
-        offset: locationPerPage * selectedPage + 1,
+        offset: locationPerPage * selectedPage,
       };
     }
 

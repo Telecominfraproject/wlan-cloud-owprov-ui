@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
   CModal,
@@ -13,37 +12,76 @@ import {
   CInput,
   CInvalidFeedback,
   CLabel,
-  CSelect,
   CAlert,
+  CCard,
+  CCardHeader,
+  CCardBody,
+  CButtonToolbar,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilAlignCenter, cilPencil, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
+import {
+  cilAlignCenter,
+  cilPencil,
+  cilPlus,
+  cilSave,
+  cilSync,
+  cilTrash,
+  cilX,
+} from '@coreui/icons';
 import { useHistory } from 'react-router-dom';
-import { useAuth, useToast, EntityTree } from 'ucentral-libs';
+import { useAuth, useToast, useToggle, EntityTree } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useZoomPanHelper } from 'react-flow-renderer';
+import Select from 'react-select';
 import createLayoutedElements from './dagreAdapter';
 import parseNewData from './treeHelper';
 
+const groupStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+};
+const groupBadgeStyles = {
+  backgroundColor: '#EBECF0',
+  borderRadius: '2em',
+  color: '#172B4D',
+  display: 'inline-block',
+  fontSize: 12,
+  fontWeight: 'normal',
+  lineHeight: '1',
+  minWidth: 1,
+  padding: '0.16666666666667em 0.5em',
+  textAlign: 'center',
+};
+
+const formatGroupLabel = (data) => (
+  <div style={groupStyles}>
+    <span>{data.label}</span>
+    <span style={groupBadgeStyles}>{data.options.length}</span>
+  </div>
+);
+
 const defaultTreeInfo = {
-  name: '',
+  name: 'Auto-Map',
   description: '',
   visibility: 'public',
   id: '',
   creator: '',
 };
 
-const EntityTreeModal = ({ show, toggle }) => {
+const TreeCard = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { endpoints, currentToken } = useAuth();
+  const { endpoints, currentToken, updatePreferences, user } = useAuth();
   const { addToast } = useToast();
-  const [tree, setTree] = useState([]);
+  const [tree, setTree] = useState(null);
   const [treeInfo, setTreeInfo] = useState(defaultTreeInfo);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [mapList, setMapList] = useState([]);
+  const [othersMaps, setOthersMaps] = useState([]);
+  const [myMaps, setMyMaps] = useState([]);
   const [editing, setEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [, toggleDuplicateModal] = useToggle(false);
 
   const toggleEditing = () => {
     setEditing(!editing);
@@ -83,7 +121,6 @@ const EntityTreeModal = ({ show, toggle }) => {
   const parseData = async (data, savedInfo) => {
     const newTree = await parseNewData(data, savedInfo, addDeviceData, transform, history);
     setTree(newTree);
-    if (!savedInfo) setTimeout(() => reactFlowInstance.fitView(), 100);
   };
 
   const getTree = (savedMap) => {
@@ -109,12 +146,16 @@ const EntityTreeModal = ({ show, toggle }) => {
       });
   };
 
-  const chooseMap = (id) => {
+  const chooseMap = async (id) => {
+    updatePreferences({ defaultNetworkMap: id });
     setEditing(false);
-    if (id === '') setTreeInfo(defaultTreeInfo);
-    else if (id === 'create') {
+    if (id === '') {
+      setTreeInfo(defaultTreeInfo);
+      getTree();
+    } else if (id === 'create') {
       setEditing(true);
       setTreeInfo({ ...defaultTreeInfo, id: 'create' });
+      getTree();
     } else {
       const options = {
         headers: {
@@ -140,7 +181,7 @@ const EntityTreeModal = ({ show, toggle }) => {
     }
   };
 
-  const getMapArray = () => {
+  const getMapArray = (refreshOnly = false) => {
     const options = {
       headers: {
         Accept: 'application/json',
@@ -151,8 +192,16 @@ const EntityTreeModal = ({ show, toggle }) => {
     axiosInstance
       .get(`${endpoints.owprov}/api/v1/map`, options)
       .then((response) => {
-        setMapList(response.data.list);
-        getTree();
+        const mapsByUser = [];
+        const mapsByOthers = [];
+
+        for (let i = 0; i < response.data.list.length; i += 1) {
+          if (response.data.list[i].creator === user.id) mapsByUser.push(response.data.list[i]);
+          else mapsByOthers.push(response.data.list[i]);
+        }
+        setMyMaps(mapsByUser);
+        setOthersMaps(mapsByOthers);
+        if (!refreshOnly) getTree();
       })
       .catch((e) => {
         addToast({
@@ -191,8 +240,8 @@ const EntityTreeModal = ({ show, toggle }) => {
             color: 'success',
             autohide: true,
           });
-          setTreeInfo(response.data);
-          getMapArray();
+          chooseMap(response.data.id);
+          getMapArray(true);
         })
         .catch((e) => {
           addToast({
@@ -277,89 +326,106 @@ const EntityTreeModal = ({ show, toggle }) => {
   };
 
   useEffect(() => {
-    if (show) {
-      setEditing(false);
-      setTreeInfo(defaultTreeInfo);
-      getMapArray();
-    }
-  }, [show]);
+    setEditing(false);
+    setTreeInfo({ ...defaultTreeInfo, id: user.preferences?.defaultNetworkMap ?? '' });
+    chooseMap(user.preferences?.defaultNetworkMap ?? '');
+    getMapArray(true);
+  }, []);
 
   return (
     <>
-      <CModal size="xl" show={show && !deleting} onClose={toggle}>
-        <CModalHeader className="p-1">
-          <CModalTitle className="pl-1 pt-1">{t('entity.entire_tree')}</CModalTitle>
-          <div className="text-right">
-            <CLabel className="mr-2 pt-1" htmlFor="deviceType">
-              {t('entity.selected_map')}
-            </CLabel>
-            <CSelect
-              custom
-              style={{ width: '200px' }}
-              id="deviceType"
-              type="text"
-              required
-              value={treeInfo.id}
-              onChange={(e) => chooseMap(e.target.value)}
-              disabled={false}
-            >
-              <option value="create">Create New Map</option>
-              <option value="">Default Map</option>
-              {mapList.map((map) => (
-                <option value={map.id}>{map.name}</option>
-              ))}
-            </CSelect>
-            <CPopover content={t('common.save')}>
-              <CButton
-                color="primary"
-                variant="outline"
-                className="ml-2"
-                onClick={saveMap}
-                disabled={treeInfo.id === '' || !editing}
-              >
-                <CIcon content={cilSave} />
-              </CButton>
-            </CPopover>
-            <CPopover content="Automatically Align Map">
-              <CButton color="primary" variant="outline" className="ml-2" onClick={resetLayout}>
-                <CIcon content={cilAlignCenter} />
-              </CButton>
-            </CPopover>
-            <CPopover content={t('common.edit')}>
-              <CButton
-                color="primary"
-                variant="outline"
-                className="ml-2"
-                onClick={toggleEditing}
-                disabled={treeInfo.id === ''}
-              >
-                <CIcon content={cilPencil} />
-              </CButton>
-            </CPopover>
-            <CPopover content={t('common.refresh')}>
-              <CButton color="primary" variant="outline" className="ml-2" onClick={refreshTree}>
-                <CIcon content={cilSync} />
-              </CButton>
-            </CPopover>
-            <CPopover content={t('common.delete')}>
-              <CButton
-                color="primary"
-                variant="outline"
-                className="ml-2"
-                onClick={toggleDelete}
-                disabled={treeInfo.id === ''}
-              >
-                <CIcon content={cilTrash} />
-              </CButton>
-            </CPopover>
-            <CPopover content={t('common.close')}>
-              <CButton color="primary" variant="outline" className="ml-2" onClick={toggle}>
-                <CIcon content={cilX} />
-              </CButton>
-            </CPopover>
+      <CCard>
+        <CCardHeader className="dark-header">
+          <div className="text-value-lg float-left">{t('entity.entire_tree')}</div>
+          <div className="text-right float-right">
+            <CButtonToolbar role="group" className="justify-content-end">
+              <CLabel className="mr-2 pt-1" htmlFor="deviceType">
+                {t('entity.selected_map')}
+              </CLabel>
+              <div style={{ width: '300px', zIndex: '1080' }} className="text-dark text-left">
+                <Select
+                  closeMenuOnSelect={false}
+                  name="TreeMaps"
+                  options={[
+                    { label: 'Auto-Map', value: '' },
+                    {
+                      label: 'My Maps',
+                      options: myMaps.map((m) => ({ value: m.id, label: m.name })),
+                    },
+                    {
+                      label: 'Maps Created By Others',
+                      options: othersMaps.map((m) => ({ value: m.id, label: m.name })),
+                    },
+                  ]}
+                  onChange={(c) => chooseMap(c.value)}
+                  value={{ value: treeInfo.id, label: treeInfo.name }}
+                  formatGroupLabel={formatGroupLabel}
+                />
+              </div>
+              <CPopover content={t('common.duplicate')}>
+                <CButton
+                  color="info"
+                  className="ml-2"
+                  onClick={toggleDuplicateModal}
+                  disabled={editing}
+                >
+                  <CIcon content={cilPlus} />
+                </CButton>
+              </CPopover>
+              <CPopover content={t('common.save')}>
+                <CButton
+                  color="info"
+                  className="ml-2"
+                  onClick={saveMap}
+                  disabled={treeInfo.id === '' || !editing}
+                >
+                  <CIcon content={cilSave} />
+                </CButton>
+              </CPopover>
+              <CPopover content="Automatically Align Map">
+                <CButton color="info" className="ml-2" onClick={resetLayout}>
+                  <CIcon content={cilAlignCenter} />
+                </CButton>
+              </CPopover>
+              <CPopover content={t('common.edit')}>
+                <CButton
+                  color="light"
+                  className="ml-2"
+                  onClick={toggleEditing}
+                  disabled={treeInfo.id === '' || editing}
+                >
+                  <CIcon content={cilPencil} />
+                </CButton>
+              </CPopover>
+              <CPopover content={t('common.stop_editing')}>
+                <CButton
+                  color="light"
+                  className="ml-2"
+                  onClick={toggleEditing}
+                  disabled={treeInfo.id === '' || !editing}
+                >
+                  <CIcon content={cilX} />
+                </CButton>
+              </CPopover>
+              <CPopover content={t('common.refresh')}>
+                <CButton color="info" className="ml-2" onClick={refreshTree}>
+                  <CIcon content={cilSync} />
+                </CButton>
+              </CPopover>
+              <CPopover content={t('common.delete')}>
+                <CButton
+                  color="danger"
+                  className="ml-2"
+                  onClick={toggleDelete}
+                  disabled={treeInfo.id === ''}
+                >
+                  <CIcon content={cilTrash} />
+                </CButton>
+              </CPopover>
+            </CButtonToolbar>
           </div>
-        </CModalHeader>
-        <CModalBody className="pt-0">
+        </CCardHeader>
+        <CCardBody>
           <CRow className="my-2" hidden={!editing || treeInfo.id === 'create'}>
             <CLabel col sm="2" md="2" xl="1" htmlFor="owner">
               {t('common.creator')}
@@ -400,19 +466,19 @@ const EntityTreeModal = ({ show, toggle }) => {
               />
             </CCol>
           </CRow>
-          <EntityTree
-            show={show}
-            elements={tree}
-            reactFlowInstance={reactFlowInstance}
-            setReactFlowInstance={setReactFlowInstance}
-            setElements={setTree}
-            history={history}
-            toggle={toggle}
-          />
-        </CModalBody>
-      </CModal>
-
-      <CModal show={show && deleting} onClose={toggleDelete}>
+          {tree && (
+            <EntityTree
+              elements={tree}
+              reactFlowInstance={reactFlowInstance}
+              setReactFlowInstance={setReactFlowInstance}
+              setElements={setTree}
+              history={history}
+              editable={editing}
+            />
+          )}
+        </CCardBody>
+      </CCard>
+      <CModal show={deleting} onClose={toggleDelete}>
         <CModalHeader className="p-1">
           <CModalTitle className="pl-1 pt-1">
             {t('common.delete')} {treeInfo.name}
@@ -447,9 +513,4 @@ const EntityTreeModal = ({ show, toggle }) => {
   );
 };
 
-EntityTreeModal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
-};
-
-export default EntityTreeModal;
+export default TreeCard;

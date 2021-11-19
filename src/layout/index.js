@@ -24,30 +24,32 @@ const TheLayout = () => {
         redirectTo="/entity/0000-0000-0000"
       />
       <div className="c-wrapper">
-        <Header
-          showSidebar={showSidebar}
-          setShowSidebar={setShowSidebar}
-          routes={routes}
-          t={t}
-          i18n={i18n}
-          logout={logout}
-          logo="assets/OpenWiFi_LogoLockup_DarkGreyColour.svg"
-          authToken={currentToken}
-          endpoints={endpoints}
-          user={user}
-          avatar={avatar}
-          extraButton={
-            <CPopover content={t('entity.entire_tree')}>
-              <CButton color="info" onClick={toggleShowTree} className="ml-2">
-                <CIcon content={cilGlobeAlt} />
-              </CButton>
-            </CPopover>
-          }
-          hideBreadcrumb
-        />
-        <ReactFlowProvider>
-          <EntityTreeModal show={showTree} toggle={toggleShowTree} />
-        </ReactFlowProvider>
+        <ToastProvider>
+          <Header
+            showSidebar={showSidebar}
+            setShowSidebar={setShowSidebar}
+            routes={routes}
+            t={t}
+            i18n={i18n}
+            logout={logout}
+            logo="assets/OpenWiFi_LogoLockup_DarkGreyColour.svg"
+            authToken={currentToken}
+            endpoints={endpoints}
+            user={user}
+            avatar={avatar}
+            extraButton={
+              <CPopover content={t('entity.entire_tree')}>
+                <CButton color="info" onClick={toggleShowTree} className="ml-2">
+                  <CIcon content={cilGlobeAlt} />
+                </CButton>
+              </CPopover>
+            }
+            hideBreadcrumb
+          />
+          <ReactFlowProvider>
+            <EntityTreeModal show={showTree} toggle={toggleShowTree} />
+          </ReactFlowProvider>
+        </ToastProvider>
         <div className="c-body">
           <ToastProvider>
             <PageContainer t={t} routes={routes} redirectTo="/entity/0000-0000-0000" />

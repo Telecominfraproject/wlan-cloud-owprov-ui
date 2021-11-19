@@ -80,7 +80,7 @@ const AssociateConfigurationModal = ({ show, toggle, defaultConfigs, updateConfi
 
     const allConfigs = [];
     let continueGetting = true;
-    let i = 1;
+    let i = 0;
     while (continueGetting) {
       // eslint-disable-next-line no-await-in-loop
       const newConfigs = await getPartialConfigs(i);
