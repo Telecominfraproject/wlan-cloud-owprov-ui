@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave } from '@coreui/icons';
-import { useFormFields, AddConfigurationForm } from 'ucentral-libs';
+import { useFormFields, DuplicateEntityMapForm } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
 
 const initialForm = {
@@ -21,9 +21,8 @@ const initialForm = {
     error: false,
   },
   visibility: {
-    value: [],
+    value: 'public',
     error: false,
-    notEmpty: true,
   },
 };
 
@@ -31,17 +30,38 @@ const DuplicateModal = ({ show, toggle, duplicateMap }) => {
   const { t } = useTranslation();
   const [fields, updateFieldWithId, updateField] = useFormFields(initialForm);
 
+  const validation = () => {
+    let success = true;
+
+    for (const [key, field] of Object.entries(fields)) {
+      if (field.required && field.value === '') {
+        updateField(key, { error: true });
+        success = false;
+        break;
+      }
+    }
+
+    return success;
+  };
+
   const save = () => {
-    duplicateMap({});
+    if (validation()) {
+      duplicateMap({
+        name: fields.name.value,
+        description: fields.description.value,
+        notes: fields.note.value.length > 0 ? [{ note: fields.note.value }] : undefined,
+        visibility: fields.visibility.value,
+      });
+    }
   };
 
   return (
     <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
       <CModalHeader className="p-1">
-        <CModalTitle className="pl-1 pt-1">{t('configuration.create')}</CModalTitle>
+        <CModalTitle className="pl-1 pt-1">{t('entity.duplicate_map')}</CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.add')}>
-            <CButton color="primary" variant="outline" className="mx-2" onClick={save}>
+            <CButton color="primary" variant="outline" onClick={save}>
               <CIcon content={cilSave} />
             </CButton>
           </CPopover>
@@ -53,15 +73,7 @@ const DuplicateModal = ({ show, toggle, duplicateMap }) => {
         </div>
       </CModalHeader>
       <CModalBody className="px-5">
-        <AddConfigurationForm
-          t={t}
-          disable={null}
-          fields={fields}
-          updateField={updateFieldWithId}
-          updateFieldWithKey={updateField}
-          deviceTypes={null}
-          show={show}
-        />
+        <DuplicateEntityMapForm t={t} fields={fields} updateField={updateFieldWithId} />
       </CModalBody>
     </CModal>
   );

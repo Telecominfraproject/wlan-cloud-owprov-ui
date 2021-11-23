@@ -13,9 +13,14 @@ import {
   CInvalidFeedback,
   CLabel,
   CAlert,
+  CNav,
+  CNavLink,
+  CTabContent,
+  CTabPane,
   CCard,
   CCardHeader,
   CCardBody,
+  CSelect,
   CButtonToolbar,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
@@ -29,12 +34,13 @@ import {
   cilX,
 } from '@coreui/icons';
 import { useHistory } from 'react-router-dom';
-import { useAuth, useToast, useToggle, EntityTree } from 'ucentral-libs';
+import { useAuth, useToast, useToggle, EntityTree, DetailedNotesTable } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useZoomPanHelper } from 'react-flow-renderer';
 import Select from 'react-select';
 import createLayoutedElements from './dagreAdapter';
 import parseNewData from './treeHelper';
+import DuplicateModal from './DuplicateModal';
 
 const groupStyles = {
   display: 'flex',
@@ -72,6 +78,7 @@ const defaultTreeInfo = {
 const TreeCard = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const [index, setIndex] = useState(0);
   const { endpoints, currentToken, updatePreferences, user } = useAuth();
   const { addToast } = useToast();
   const [tree, setTree] = useState(null);
@@ -81,7 +88,8 @@ const TreeCard = () => {
   const [myMaps, setMyMaps] = useState([]);
   const [editing, setEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [, toggleDuplicateModal] = useToggle(false);
+  const [showDuplicateModal, toggleDuplicateModal] = useToggle(false);
+  const [users, setUsers] = useState([]);
 
   const toggleEditing = () => {
     setEditing(!editing);
@@ -92,6 +100,29 @@ const TreeCard = () => {
   };
 
   const { transform } = useZoomPanHelper();
+
+  const getUsers = () => {
+    const headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${currentToken}`,
+    };
+
+    axiosInstance
+      .get(`${endpoints.owsec}/api/v1/users`, {
+        headers,
+      })
+      .then((response) => {
+        setUsers(response.data.users);
+      })
+      .catch((e) => {
+        addToast({
+          title: t('common.error'),
+          body: t('user.error_fetching_users', { error: e.response?.data?.ErrorDescription }),
+          color: 'danger',
+          autohide: true,
+        });
+      });
+  };
 
   const addDeviceData = async (entities) => {
     const options = {
@@ -196,7 +227,7 @@ const TreeCard = () => {
         const mapsByOthers = [];
 
         for (let i = 0; i < response.data.list.length; i += 1) {
-          if (response.data.list[i].creator === user.id) mapsByUser.push(response.data.list[i]);
+          if (response.data.list[i].creator === user.Id) mapsByUser.push(response.data.list[i]);
           else mapsByOthers.push(response.data.list[i]);
         }
         setMyMaps(mapsByUser);
@@ -221,67 +252,79 @@ const TreeCard = () => {
       },
     };
 
-    // If we have an ID we have to PUT, else its a POST
-    if (treeInfo.id === '' || treeInfo.id === 'create') {
-      const params = {
-        name: treeInfo.name,
-        description: treeInfo.description,
-        data: JSON.stringify(reactFlowInstance.toObject()),
-        visibility: treeInfo.visibility,
-        uuid: 1,
-      };
+    const newNotes = [];
 
-      axiosInstance
-        .post(`${endpoints.owprov}/api/v1/map/1`, params, options)
-        .then((response) => {
-          addToast({
-            title: t('common.success'),
-            body: t('entity.tree_saved'),
-            color: 'success',
-            autohide: true,
-          });
-          chooseMap(response.data.id);
-          getMapArray(true);
-        })
-        .catch((e) => {
-          addToast({
-            title: t('common.error'),
-            body: t('entity.error_saving_map', { error: e.response?.data?.ErrorDescription }),
-            color: 'danger',
-            autohide: true,
-          });
-        });
-    } else {
-      const params = {
-        name: treeInfo.name,
-        description: treeInfo.description,
-        data: JSON.stringify(reactFlowInstance.toObject()),
-        visibility: treeInfo.visibility,
-        id: treeInfo.id,
-      };
-
-      axiosInstance
-        .put(`${endpoints.owprov}/api/v1/map/${treeInfo.id}`, params, options)
-        .then((response) => {
-          addToast({
-            title: t('common.success'),
-            body: t('entity.tree_saved'),
-            color: 'success',
-            autohide: true,
-          });
-          setTreeInfo(response.data);
-          getMapArray();
-          toggleEditing();
-        })
-        .catch((e) => {
-          addToast({
-            title: t('common.error'),
-            body: t('entity.error_saving_map', { error: e.response?.data?.ErrorDescription }),
-            color: 'danger',
-            autohide: true,
-          });
-        });
+    for (let i = 0; i < treeInfo.notes.length; i += 1) {
+      if (treeInfo.notes[i].new) newNotes.push({ note: treeInfo.notes[i].note });
     }
+
+    const params = {
+      name: treeInfo.name,
+      description: treeInfo.description,
+      data: JSON.stringify(reactFlowInstance.toObject()),
+      visibility: treeInfo.creator === user.Id ? treeInfo.visibility : undefined,
+      notes: newNotes,
+      id: treeInfo.id,
+    };
+
+    axiosInstance
+      .put(`${endpoints.owprov}/api/v1/map/${treeInfo.id}`, params, options)
+      .then((response) => {
+        addToast({
+          title: t('common.success'),
+          body: t('entity.tree_saved'),
+          color: 'success',
+          autohide: true,
+        });
+        setTreeInfo(response.data);
+        getMapArray(true);
+        toggleEditing();
+      })
+      .catch((e) => {
+        addToast({
+          title: t('common.error'),
+          body: t('entity.error_saving_map', { error: e.response?.data?.ErrorDescription }),
+          color: 'danger',
+          autohide: true,
+        });
+      });
+  };
+
+  const duplicateMap = (details) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const params = {
+      ...details,
+      data: JSON.stringify(reactFlowInstance.toObject()),
+      uuid: 1,
+    };
+
+    axiosInstance
+      .post(`${endpoints.owprov}/api/v1/map/1`, params, options)
+      .then((response) => {
+        addToast({
+          title: t('common.success'),
+          body: t('entity.tree_saved'),
+          color: 'success',
+          autohide: true,
+        });
+        chooseMap(response.data.id);
+        getMapArray(true);
+        toggleDuplicateModal();
+      })
+      .catch((e) => {
+        addToast({
+          title: t('common.error'),
+          body: t('entity.error_saving_map', { error: e.response?.data?.ErrorDescription }),
+          color: 'danger',
+          autohide: true,
+        });
+      });
   };
 
   const deleteMap = () => {
@@ -325,12 +368,33 @@ const TreeCard = () => {
     setTimeout(() => reactFlowInstance.fitView(), 100);
   };
 
+  const addNote = (newNote) => {
+    const newNotes = treeInfo.notes;
+    newNotes.unshift({
+      note: newNote,
+      new: true,
+      created: new Date().getTime() / 1000,
+      createdBy: '',
+    });
+    setTreeInfo({ ...treeInfo, notes: newNotes });
+  };
+
   useEffect(() => {
     setEditing(false);
-    setTreeInfo({ ...defaultTreeInfo, id: user.preferences?.defaultNetworkMap ?? '' });
-    chooseMap(user.preferences?.defaultNetworkMap ?? '');
     getMapArray(true);
+    getUsers();
   }, []);
+
+  useEffect(() => {
+    if (user.Id) {
+      setTreeInfo({ ...defaultTreeInfo, id: user.preferences?.defaultNetworkMap ?? '' });
+      chooseMap(user.preferences?.defaultNetworkMap ?? '');
+    }
+  }, [user.Id]);
+
+  useEffect(() => {
+    if (reactFlowInstance !== null) reactFlowInstance.fitView();
+  }, [reactFlowInstance?.toObject()]);
 
   return (
     <>
@@ -342,9 +406,8 @@ const TreeCard = () => {
               <CLabel className="mr-2 pt-1" htmlFor="deviceType">
                 {t('entity.selected_map')}
               </CLabel>
-              <div style={{ width: '300px', zIndex: '1080' }} className="text-dark text-left">
+              <div style={{ width: '300px', zIndex: '1028' }} className="text-dark text-left">
                 <Select
-                  closeMenuOnSelect={false}
                   name="TreeMaps"
                   options={[
                     { label: 'Auto-Map', value: '' },
@@ -425,57 +488,110 @@ const TreeCard = () => {
             </CButtonToolbar>
           </div>
         </CCardHeader>
-        <CCardBody>
-          <CRow className="my-2" hidden={!editing || treeInfo.id === 'create'}>
-            <CLabel col sm="2" md="2" xl="1" htmlFor="owner">
-              {t('common.creator')}
-            </CLabel>
-            <CCol sm="4" md="4" xl="5" className="pt-2">
-              {treeInfo.creator}
-            </CCol>
-          </CRow>
-          <CRow className="my-2" hidden={!editing}>
-            <CLabel col sm="2" md="2" xl="1" htmlFor="name">
-              {t('user.name')}
-            </CLabel>
-            <CCol sm="4" md="4" xl="5">
-              <CInput
-                id="name"
-                type="text"
-                required
-                value={treeInfo.name}
-                onChange={(e) => setTreeInfo({ ...treeInfo, name: e.target.value })}
-                invalid={treeInfo.name.length === 0}
-                disabled={false}
-                maxLength="50"
-              />
-              <CInvalidFeedback>{t('common.required')}</CInvalidFeedback>
-            </CCol>
-            <CLabel col sm="2" md="2" xl="1" htmlFor="description">
-              {t('user.description')}
-            </CLabel>
-            <CCol sm="4" md="4" xl="5">
-              <CInput
-                id="name"
-                type="description"
-                required
-                value={treeInfo.description}
-                onChange={(e) => setTreeInfo({ ...treeInfo, description: e.target.value })}
-                disabled={false}
-                maxLength="50"
-              />
-            </CCol>
-          </CRow>
-          {tree && (
-            <EntityTree
-              elements={tree}
-              reactFlowInstance={reactFlowInstance}
-              setReactFlowInstance={setReactFlowInstance}
-              setElements={setTree}
-              history={history}
-              editable={editing}
-            />
-          )}
+        <CCardBody className="py-0">
+          <CNav variant="tabs">
+            <CNavLink
+              href="#"
+              active={index === 0}
+              onClick={() => setIndex(0)}
+              className="font-weight-bold"
+            >
+              {t('entity.map')}
+            </CNavLink>
+            <CNavLink
+              href="#"
+              active={index === 1}
+              onClick={() => setIndex(1)}
+              className="font-weight-bold"
+            >
+              {t('configuration.notes')}
+            </CNavLink>
+          </CNav>
+          <CTabContent>
+            {index === 0 ? (
+              <>
+                <CRow className="my-2" hidden={!editing || treeInfo.id === 'create'}>
+                  <CLabel col sm="2" md="2" xl="1" htmlFor="owner">
+                    {t('common.creator')}
+                  </CLabel>
+                  <CCol sm="4" md="4" xl="5" className="pt-2">
+                    {users.find((u) => u.Id === treeInfo.creator)?.email}
+                  </CCol>
+                  <CLabel col sm="2" md="2" xl="1" htmlFor="visibility">
+                    <div>{t('common.visibility')}:</div>
+                  </CLabel>
+                  <CCol sm="4" md="4" xl="5">
+                    <CSelect
+                      custom
+                      id="visibility"
+                      type="text"
+                      required
+                      value={treeInfo.visibility}
+                      onChange={(e) => setTreeInfo({ ...treeInfo, visibility: e.target.value })}
+                      disabled={treeInfo.creator !== user.Id}
+                      style={{ width: '100px' }}
+                      maxLength="50"
+                    >
+                      <option value="public">public</option>
+                      <option value="private">private</option>
+                    </CSelect>
+                  </CCol>
+                </CRow>
+                <CRow className="my-2" hidden={!editing}>
+                  <CLabel col sm="2" md="2" xl="1" htmlFor="name">
+                    {t('user.name')}
+                  </CLabel>
+                  <CCol sm="4" md="4" xl="5">
+                    <CInput
+                      id="name"
+                      type="text"
+                      required
+                      value={treeInfo.name}
+                      onChange={(e) => setTreeInfo({ ...treeInfo, name: e.target.value })}
+                      invalid={treeInfo.name.length === 0}
+                      disabled={false}
+                      maxLength="50"
+                    />
+                    <CInvalidFeedback>{t('common.required')}</CInvalidFeedback>
+                  </CCol>
+                  <CLabel col sm="2" md="2" xl="1" htmlFor="description">
+                    {t('user.description')}
+                  </CLabel>
+                  <CCol sm="4" md="4" xl="5">
+                    <CInput
+                      id="name"
+                      type="description"
+                      required
+                      value={treeInfo.description}
+                      onChange={(e) => setTreeInfo({ ...treeInfo, description: e.target.value })}
+                      disabled={false}
+                      maxLength="50"
+                    />
+                  </CCol>
+                </CRow>
+                {tree && (
+                  <EntityTree
+                    elements={tree}
+                    reactFlowInstance={reactFlowInstance}
+                    setReactFlowInstance={setReactFlowInstance}
+                    setElements={setTree}
+                    history={history}
+                    editable={editing}
+                  />
+                )}
+              </>
+            ) : null}
+            <CTabPane active={index === 1}>
+              {index === 1 ? (
+                <DetailedNotesTable
+                  t={t}
+                  notes={treeInfo.notes}
+                  addNote={addNote}
+                  editable={editing}
+                />
+              ) : null}
+            </CTabPane>
+          </CTabContent>
         </CCardBody>
       </CCard>
       <CModal show={deleting} onClose={toggleDelete}>
@@ -509,6 +625,11 @@ const TreeCard = () => {
           </CRow>
         </CModalBody>
       </CModal>
+      <DuplicateModal
+        show={showDuplicateModal}
+        toggle={toggleDuplicateModal}
+        duplicateMap={duplicateMap}
+      />
     </>
   );
 };
