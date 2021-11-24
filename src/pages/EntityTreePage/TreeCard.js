@@ -1,71 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CButton,
-  CPopover,
-  CRow,
-  CCol,
-  CInput,
-  CInvalidFeedback,
-  CLabel,
-  CAlert,
-  CNav,
-  CNavLink,
-  CTabContent,
-  CTabPane,
-  CCard,
-  CCardHeader,
-  CCardBody,
-  CSelect,
-  CButtonToolbar,
-} from '@coreui/react';
-import CIcon from '@coreui/icons-react';
-import {
-  cilAlignCenter,
-  cilPencil,
-  cilPlus,
-  cilSave,
-  cilSync,
-  cilTrash,
-  cilX,
-} from '@coreui/icons';
+import { CNav, CNavLink, CTabContent, CTabPane, CCard, CCardBody } from '@coreui/react';
 import { useHistory } from 'react-router-dom';
 import { useAuth, useToast, useToggle, EntityTree, DetailedNotesTable } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useZoomPanHelper } from 'react-flow-renderer';
-import Select from 'react-select';
 import createLayoutedElements from './dagreAdapter';
 import parseNewData from './treeHelper';
 import DuplicateModal from './DuplicateModal';
-
-const groupStyles = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-};
-const groupBadgeStyles = {
-  backgroundColor: '#EBECF0',
-  borderRadius: '2em',
-  color: '#172B4D',
-  display: 'inline-block',
-  fontSize: 12,
-  fontWeight: 'normal',
-  lineHeight: '1',
-  minWidth: 1,
-  padding: '0.16666666666667em 0.5em',
-  textAlign: 'center',
-};
-
-const formatGroupLabel = (data) => (
-  <div style={groupStyles}>
-    <span>{data.label}</span>
-    <span style={groupBadgeStyles}>{data.options.length}</span>
-  </div>
-);
+import TreeForm from './TreeForm';
+import TreeHeader from './TreeHeader';
+import DeleteModal from './DeleteModal';
 
 const defaultTreeInfo = {
   name: 'Auto-Map',
@@ -399,96 +344,20 @@ const TreeCard = () => {
   return (
     <>
       <CCard>
-        <CCardHeader className="dark-header">
-          <div className="text-value-lg float-left">{t('entity.entire_tree')}</div>
-          <div className="text-right float-right">
-            <CButtonToolbar role="group" className="justify-content-end">
-              <CLabel className="mr-2 pt-1" htmlFor="deviceType">
-                {t('entity.selected_map')}
-              </CLabel>
-              <div style={{ width: '300px', zIndex: '1028' }} className="text-dark text-left">
-                <Select
-                  name="TreeMaps"
-                  options={[
-                    { label: 'Auto-Map', value: '' },
-                    {
-                      label: 'My Maps',
-                      options: myMaps.map((m) => ({ value: m.id, label: m.name })),
-                    },
-                    {
-                      label: 'Maps Created By Others',
-                      options: othersMaps.map((m) => ({ value: m.id, label: m.name })),
-                    },
-                  ]}
-                  onChange={(c) => chooseMap(c.value)}
-                  value={{ value: treeInfo.id, label: treeInfo.name }}
-                  formatGroupLabel={formatGroupLabel}
-                />
-              </div>
-              <CPopover content={t('common.duplicate')}>
-                <CButton
-                  color="info"
-                  className="ml-2"
-                  onClick={toggleDuplicateModal}
-                  disabled={editing}
-                >
-                  <CIcon content={cilPlus} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.save')}>
-                <CButton
-                  color="info"
-                  className="ml-2"
-                  onClick={saveMap}
-                  disabled={treeInfo.id === '' || !editing}
-                >
-                  <CIcon content={cilSave} />
-                </CButton>
-              </CPopover>
-              <CPopover content="Automatically Align Map">
-                <CButton color="info" className="ml-2" onClick={resetLayout}>
-                  <CIcon content={cilAlignCenter} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.edit')}>
-                <CButton
-                  color="light"
-                  className="ml-2"
-                  onClick={toggleEditing}
-                  disabled={treeInfo.id === '' || editing}
-                >
-                  <CIcon content={cilPencil} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.stop_editing')}>
-                <CButton
-                  color="light"
-                  className="ml-2"
-                  onClick={toggleEditing}
-                  disabled={treeInfo.id === '' || !editing}
-                >
-                  <CIcon content={cilX} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.refresh')}>
-                <CButton color="info" className="ml-2" onClick={refreshTree}>
-                  <CIcon content={cilSync} />
-                </CButton>
-              </CPopover>
-              <CPopover content={t('common.delete')}>
-                <CButton
-                  color="danger"
-                  className="ml-2"
-                  onClick={toggleDelete}
-                  disabled={treeInfo.id === ''}
-                >
-                  <CIcon content={cilTrash} />
-                </CButton>
-              </CPopover>
-            </CButtonToolbar>
-          </div>
-        </CCardHeader>
-        <CCardBody className="py-0">
+        <TreeHeader
+          myMaps={myMaps}
+          othersMaps={othersMaps}
+          chooseMap={chooseMap}
+          treeInfo={treeInfo}
+          toggleDuplicateModal={toggleDuplicateModal}
+          resetLayout={resetLayout}
+          refreshTree={refreshTree}
+          toggleDelete={toggleDelete}
+          toggleEditing={toggleEditing}
+          editing={editing}
+          saveMap={saveMap}
+        />
+        <CCardBody className="p-0">
           <CNav variant="tabs">
             <CNavLink
               href="#"
@@ -510,65 +379,13 @@ const TreeCard = () => {
           <CTabContent>
             {index === 0 ? (
               <>
-                <CRow className="my-2" hidden={!editing || treeInfo.id === 'create'}>
-                  <CLabel col sm="2" md="2" xl="1" htmlFor="owner">
-                    {t('common.creator')}
-                  </CLabel>
-                  <CCol sm="4" md="4" xl="5" className="pt-2">
-                    {users.find((u) => u.Id === treeInfo.creator)?.email}
-                  </CCol>
-                  <CLabel col sm="2" md="2" xl="1" htmlFor="visibility">
-                    <div>{t('common.visibility')}:</div>
-                  </CLabel>
-                  <CCol sm="4" md="4" xl="5">
-                    <CSelect
-                      custom
-                      id="visibility"
-                      type="text"
-                      required
-                      value={treeInfo.visibility}
-                      onChange={(e) => setTreeInfo({ ...treeInfo, visibility: e.target.value })}
-                      disabled={treeInfo.creator !== user.Id}
-                      style={{ width: '100px' }}
-                      maxLength="50"
-                    >
-                      <option value="public">public</option>
-                      <option value="private">private</option>
-                    </CSelect>
-                  </CCol>
-                </CRow>
-                <CRow className="my-2" hidden={!editing}>
-                  <CLabel col sm="2" md="2" xl="1" htmlFor="name">
-                    {t('user.name')}
-                  </CLabel>
-                  <CCol sm="4" md="4" xl="5">
-                    <CInput
-                      id="name"
-                      type="text"
-                      required
-                      value={treeInfo.name}
-                      onChange={(e) => setTreeInfo({ ...treeInfo, name: e.target.value })}
-                      invalid={treeInfo.name.length === 0}
-                      disabled={false}
-                      maxLength="50"
-                    />
-                    <CInvalidFeedback>{t('common.required')}</CInvalidFeedback>
-                  </CCol>
-                  <CLabel col sm="2" md="2" xl="1" htmlFor="description">
-                    {t('user.description')}
-                  </CLabel>
-                  <CCol sm="4" md="4" xl="5">
-                    <CInput
-                      id="name"
-                      type="description"
-                      required
-                      value={treeInfo.description}
-                      onChange={(e) => setTreeInfo({ ...treeInfo, description: e.target.value })}
-                      disabled={false}
-                      maxLength="50"
-                    />
-                  </CCol>
-                </CRow>
+                <TreeForm
+                  user={user}
+                  users={users}
+                  editing={editing}
+                  treeInfo={treeInfo}
+                  setTreeInfo={setTreeInfo}
+                />
                 {tree && (
                   <EntityTree
                     elements={tree}
@@ -581,7 +398,7 @@ const TreeCard = () => {
                 )}
               </>
             ) : null}
-            <CTabPane active={index === 1}>
+            <CTabPane active={index === 1} className="px-3 py-1">
               {index === 1 ? (
                 <DetailedNotesTable
                   t={t}
@@ -594,37 +411,12 @@ const TreeCard = () => {
           </CTabContent>
         </CCardBody>
       </CCard>
-      <CModal show={deleting} onClose={toggleDelete}>
-        <CModalHeader className="p-1">
-          <CModalTitle className="pl-1 pt-1">
-            {t('common.delete')} {treeInfo.name}
-          </CModalTitle>
-          <div className="text-right">
-            <CPopover content={t('common.close')}>
-              <CButton color="primary" variant="outline" className="ml-2" onClick={toggleDelete}>
-                <CIcon content={cilX} />
-              </CButton>
-            </CPopover>
-          </div>
-        </CModalHeader>
-        <CModalBody className="pt-0">
-          <CAlert className="my-3" color="danger">
-            {t('entity.confirm_map_delete', { name: treeInfo.name })}
-          </CAlert>
-          <CRow className="mb-2">
-            <CCol className="text-right">
-              <CButton onClick={deleteMap} color="danger">
-                {t('common.delete')}
-              </CButton>
-            </CCol>
-            <CCol>
-              <CButton onClick={toggleDelete} color="light">
-                {t('common.cancel')}
-              </CButton>
-            </CCol>
-          </CRow>
-        </CModalBody>
-      </CModal>
+      <DeleteModal
+        show={deleting}
+        toggle={toggleDelete}
+        treeInfo={treeInfo}
+        deleteMap={deleteMap}
+      />
       <DuplicateModal
         show={showDuplicateModal}
         toggle={toggleDuplicateModal}
