@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave } from '@coreui/icons';
-import { useFormFields, DuplicateEntityMapForm } from 'ucentral-libs';
+import { useFormFields } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
+import Form from './Form';
 
 const initialForm = {
   name: {
@@ -73,7 +74,7 @@ const DuplicateModal = ({ show, toggle, duplicateMap }) => {
         </div>
       </CModalHeader>
       <CModalBody className="px-5">
-        <DuplicateEntityMapForm t={t} fields={fields} updateField={updateFieldWithId} />
+        <Form t={t} fields={fields} updateField={updateFieldWithId} />
       </CModalBody>
     </CModal>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { AddInventoryTagForm, useAuth, useEntity, useFormFields, useToast } from 'ucentral-libs';
+import { useAuth, useEntity, useFormFields, useToast } from 'ucentral-libs';
 import {
   CModal,
   CModalHeader,
@@ -18,6 +18,7 @@ import { cilX, cilSave } from '@coreui/icons';
 import InventoryTable from 'components/InventoryTable';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import AddInventoryTagForm from './Form';
 
 const initialForm = {
   entity: {

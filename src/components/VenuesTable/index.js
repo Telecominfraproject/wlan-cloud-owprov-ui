@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth, useToast, VenueTable as Table } from 'ucentral-libs';
+import { useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
+import Table from './Table';
 
 const VenuesTable = ({ entity, toggleAdd, filterOnEntity, useUrl, title, refreshPageTables }) => {
   const { t } = useTranslation();

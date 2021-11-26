@@ -14,16 +14,10 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave, cilPen, cilRouter } from '@coreui/icons';
-import {
-  useFormFields,
-  useAuth,
-  useToast,
-  useEntity,
-  EditInventoryTagForm,
-  DetailedNotesTable,
-} from 'ucentral-libs';
+import { useFormFields, useAuth, useToast, useEntity, DetailedNotesTable } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import EditInventoryTagForm from './Form';
 
 const initialForm = {
   serialNumber: {

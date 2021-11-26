@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { AddContactForm, useAuth, useFormFields, useToast } from 'ucentral-libs';
+import { useAuth, useFormFields, useToast } from 'ucentral-libs';
 import {
   CModal,
   CModalHeader,
@@ -18,6 +18,7 @@ import { cilX, cilSave } from '@coreui/icons';
 import ContactsTable from 'components/ContactsTable';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import AddContactForm from './Form';
 
 const initialForm = {
   name: {

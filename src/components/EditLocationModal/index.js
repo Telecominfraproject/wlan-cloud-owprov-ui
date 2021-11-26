@@ -19,12 +19,12 @@ import {
   useAuth,
   useToast,
   useEntity,
-  EditLocationForm,
   AddressEditor,
   DetailedNotesTable,
 } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import EditLocationForm from './Form';
 
 const initialForm = {
   entity: {

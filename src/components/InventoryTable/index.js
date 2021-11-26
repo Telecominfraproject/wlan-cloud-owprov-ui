@@ -16,7 +16,7 @@ import {
 } from '@coreui/react';
 import { cilCloudUpload, cilPlus, cilSync, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { useAuth, useToast, InventoryTable as Table, useToggle } from 'ucentral-libs';
+import { useAuth, useToast, useToggle } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import EditTagModal from 'components/EditTagModal';
@@ -27,6 +27,7 @@ import ComputerConfigModal from 'components/ComputedConfigModal';
 import ConfigurationPushResultModal from 'components/ConfigurationPushResultModal';
 import AssociatedSingleConfigModal from 'components/AssociatedSingleConfigModal';
 import DeviceSearchBar from 'components/DeviceSearchBar';
+import Table from './Table';
 
 const InventoryTable = ({
   entity,

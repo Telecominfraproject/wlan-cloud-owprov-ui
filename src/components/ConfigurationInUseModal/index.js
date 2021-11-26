@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useAuth, useToast, ConfigurationInUseModal as Modal } from 'ucentral-libs';
+import { useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
+import Modal from './Modal';
 
 const ConfigurationInUseModal = ({ show, toggle, config }) => {
   const { t } = useTranslation();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { AddLocationForm, useAuth, useFormFields, useToast, AddressEditor } from 'ucentral-libs';
+import { useAuth, useFormFields, useToast, AddressEditor } from 'ucentral-libs';
 import {
   CModal,
   CModalHeader,
@@ -18,6 +18,7 @@ import { cilX, cilSave } from '@coreui/icons';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
 import LocationTable from 'components/LocationTable';
+import AddLocationForm from './Form';
 
 const initialForm = {
   name: {

@@ -16,7 +16,6 @@ import {
 import { cilPencil, cilPlus, cilSave, cilSync, cilTrash, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import {
-  EditEntityForm,
   useAuth,
   useEntity,
   useFormFields,
@@ -29,6 +28,7 @@ import DeleteEntityModal from 'components/DeleteEntityModal';
 import AssociateConfigurationModal from 'components/AssociateConfigurationModal';
 import EntityIpModal from 'components/EntityIpModal';
 import AddEntityModal from 'components/AddEntityModal';
+import EditEntityForm from './Form';
 
 const initialForm = {
   name: {

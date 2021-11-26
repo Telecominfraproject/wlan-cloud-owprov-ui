@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CNav, CNavLink, CTabContent, CTabPane, CCard, CCardBody } from '@coreui/react';
 import { useHistory } from 'react-router-dom';
-import { useAuth, useToast, useToggle, EntityTree, DetailedNotesTable } from 'ucentral-libs';
+import { useAuth, useToast, useToggle, DetailedNotesTable } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useZoomPanHelper } from 'react-flow-renderer';
 import createLayoutedElements from './dagreAdapter';
@@ -11,6 +11,7 @@ import DuplicateModal from './DuplicateModal';
 import TreeForm from './TreeForm';
 import TreeHeader from './TreeHeader';
 import DeleteModal from './DeleteModal';
+import EntityTree from './Tree';
 
 const defaultTreeInfo = {
   name: 'Auto-Map',

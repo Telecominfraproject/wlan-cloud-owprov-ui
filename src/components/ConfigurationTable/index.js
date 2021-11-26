@@ -13,12 +13,13 @@ import {
 } from '@coreui/react';
 import { cilPlus, cilSync } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { useAuth, useToast, ConfigurationTable as Table } from 'ucentral-libs';
+import { useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import AddConfigurationModal from 'components/AddConfigurationModal';
 import ConfigurationInUseModal from 'components/ConfigurationInUseModal';
 import ConfigurationEffectsModal from 'components/ConfigurationEffectsModal';
+import Table from './Table';
 
 const ConfigurationTable = () => {
   const { t } = useTranslation();

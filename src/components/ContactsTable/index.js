@@ -14,10 +14,11 @@ import {
 } from '@coreui/react';
 import { cilPlus, cilSync } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { useAuth, useToast, ContactTable as Table } from 'ucentral-libs';
+import { useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import EditContactModal from 'components/EditContactModal';
+import Table from './Table';
 
 const ContactsTable = ({
   entity,

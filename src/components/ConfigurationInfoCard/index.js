@@ -20,7 +20,6 @@ import {
   useAuth,
   useToast,
   useFormFields,
-  EditConfigurationForm,
   useEntity,
   DetailedNotesTable,
   ConfirmStopEditingButton,
@@ -30,6 +29,7 @@ import axiosInstance from 'utils/axiosInstance';
 import ConfigurationInUseModal from 'components/ConfigurationInUseModal';
 import DeleteConfigurationModal from 'components/DeleteConfigurationModal';
 import ConfigurationExplorer from 'components/ConfigurationExplorer';
+import EditConfigurationForm from './Form';
 
 const initialForm = {
   name: {

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave } from '@coreui/icons';
-import { useToast, useFormFields, useAuth, AddConfigurationForm, useEntity } from 'ucentral-libs';
+import { useToast, useFormFields, useAuth, useEntity } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import AddConfigurationForm from './Form';
 
 const initialForm = {
   name: {
