@@ -132,7 +132,7 @@ const VenueTable = ({
                       onClick={() => history.push(`/venue/${item.id}`)}
                       style={{ width: '33px', height: '30px' }}
                     >
-                      <CIcon name="cil-pencil" content={cilPencil} size="sm" />
+                      <CIcon content={cilPencil} size="sm" />
                     </CButton>
                   </CPopover>
                   <DeleteButton

@@ -27,7 +27,7 @@ const DeleteButton = ({ t, config, deleteConfig, hideTooltips }) => {
           data-event="click"
           style={{ width: '33px', height: '30px' }}
         >
-          <CIcon name="cil-trash" content={cilTrash} size="sm" />
+          <CIcon content={cilTrash} size="sm" />
         </CButton>
         <ReactTooltip
           id={tooltipId}

@@ -229,22 +229,22 @@ const EntityInfoCard = ({ refreshPage }) => {
             </CPopover>
             <CPopover content={t('common.save')}>
               <CButton disabled={!editing} color="info" onClick={editEntity} className="ml-2">
-                <CIcon name="cil-save" content={cilSave} />
+                <CIcon content={cilSave} />
               </CButton>
             </CPopover>
             <CPopover content={t('common.edit')}>
               <CButton disabled={editing} color="dark" onClick={toggleEditing} className="ml-2">
-                <CIcon name="cil-pencil" content={cilPencil} />
+                <CIcon content={cilPencil} />
               </CButton>
             </CPopover>
             <CPopover content={t('common.stop_editing')}>
               <CButton disabled={!editing} color="dark" onClick={toggleEditing} className="ml-2">
-                <CIcon name="cil-x" content={cilX} />
+                <CIcon content={cilX} />
               </CButton>
             </CPopover>
             <CPopover content={t('common.delete')}>
               <CButton disabled={editing} color="danger" onClick={toggleDelete} className="ml-2">
-                <CIcon name="cil-trash" content={cilTrash} />
+                <CIcon content={cilTrash} />
               </CButton>
             </CPopover>
             <CPopover content={t('common.refresh')}>

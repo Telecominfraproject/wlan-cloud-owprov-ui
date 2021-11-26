@@ -27,7 +27,7 @@ const UnassignButton = ({ t, tag, unassignTag, hideTooltips }) => {
           data-event="click"
           style={{ width: '33px', height: '30px' }}
         >
-          <CIcon name="cil-minus" content={cilMinus} size="sm" />
+          <CIcon content={cilMinus} size="sm" />
         </CButton>
         <ReactTooltip
           id={tooltipId}

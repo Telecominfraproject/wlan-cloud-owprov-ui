@@ -343,7 +343,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
               onClick={pushConfigToDevice}
               disabled={!hasConfig}
             >
-              <CIcon name="cil-router" content={cilRouter} size="sm" />
+              <CIcon content={cilRouter} size="sm" />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>

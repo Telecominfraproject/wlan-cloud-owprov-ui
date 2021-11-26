@@ -128,7 +128,7 @@ const ContactTable = ({
                     onClick={() => toggleEditModal(item.id)}
                     style={{ width: '33px', height: '30px' }}
                   >
-                    <CIcon name="cil-magnifying-glass" content={cilMagnifyingGlass} size="sm" />
+                    <CIcon content={cilMagnifyingGlass} size="sm" />
                   </CButton>
                 </CPopover>
               </CButtonToolbar>

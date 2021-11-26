@@ -81,7 +81,7 @@ const ConfigurationTable = ({
                   onClick={() => toggleInUse(item)}
                   style={{ width: '33px', height: '30px' }}
                 >
-                  <CIcon name="cil-spreadsheet" content={cilSpreadsheet} size="sm" />
+                  <CIcon content={cilSpreadsheet} size="sm" />
                 </CButton>
               </CPopover>
               <CPopover content={t('configuration.view_affected_devices')}>
@@ -95,7 +95,7 @@ const ConfigurationTable = ({
                   onClick={() => toggleEffects(item)}
                   style={{ width: '33px', height: '30px' }}
                 >
-                  <CIcon name="cil-filter-square" content={cilFilterSquare} size="sm" />
+                  <CIcon content={cilFilterSquare} size="sm" />
                 </CButton>
               </CPopover>
               <DeleteButton
@@ -114,7 +114,7 @@ const ConfigurationTable = ({
                   onClick={() => history.push(`/configuration/${item.id}`)}
                   style={{ width: '33px', height: '30px' }}
                 >
-                  <CIcon name="cil-magnifying-glass" content={cilMagnifyingGlass} size="sm" />
+                  <CIcon content={cilMagnifyingGlass} size="sm" />
                 </CButton>
               </CPopover>
             </CButtonToolbar>

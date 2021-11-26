@@ -11,7 +11,7 @@ import {
   CSidebarNavItem,
   CButton,
 } from '@coreui/react';
-import { cilBarcode, cilSpreadsheet, cilWc, cilMap } from '@coreui/icons';
+import { cilBarcode, cilSpreadsheet, cilWc, cilMap, cilSettings, cilPeople } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
@@ -106,13 +106,13 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
         <CSidebarNavItem
           name={t('user.users')}
           to="/users"
-          icon="cilPeople"
+          icon={<CIcon content={cilPeople} size="lg" className="mr-3" />}
           onClick={resetEntity}
         />
         <CSidebarNavItem
           name={t('common.system')}
           to="/system"
-          icon="cilSettings"
+          icon={<CIcon content={cilSettings} size="lg" className="mr-3" />}
           onClick={resetEntity}
         />
       </CSidebarNav>

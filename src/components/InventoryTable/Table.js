@@ -187,7 +187,7 @@ const InventoryTable = ({
                     style={{ width: '33px', height: '30px' }}
                     disabled={item.deviceConfigurationName === ''}
                   >
-                    <CIcon name="cil-router" content={cilRouter} size="sm" />
+                    <CIcon content={cilRouter} size="sm" />
                   </CButton>
                 </CPopover>
                 <CPopover content="See Computed Configuration">
@@ -200,7 +200,7 @@ const InventoryTable = ({
                     onClick={() => toggleComputed(item.serialNumber)}
                     style={{ width: '33px', height: '30px' }}
                   >
-                    <CIcon name="cil-spreadsheet" content={cilSpreadsheet} size="sm" />
+                    <CIcon content={cilSpreadsheet} size="sm" />
                   </CButton>
                 </CPopover>
                 <CPopover content={t('common.details')}>
@@ -213,7 +213,7 @@ const InventoryTable = ({
                     onClick={() => toggleEditModal(item.serialNumber)}
                     style={{ width: '33px', height: '30px' }}
                   >
-                    <CIcon name="cil-magnifying-glass" content={cilMagnifyingGlass} size="sm" />
+                    <CIcon content={cilMagnifyingGlass} size="sm" />
                   </CButton>
                 </CPopover>
                 <CPopover content={t('inventory.view_in_gateway')}>
