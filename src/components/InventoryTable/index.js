@@ -478,7 +478,7 @@ const InventoryTable = ({
   };
 
   useEffect(() => {
-    if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
+    if (useUrl && (page === undefined || page === null || Number.isNaN(page))) {
       history.push(`${path}?${onlyUnassigned ? 'unassignedPage' : 'page'}=0`);
     }
     if (!useUrl) setLocalPage('0');
@@ -500,7 +500,7 @@ const InventoryTable = ({
   }, [refreshId]);
 
   useEffect(() => {
-    if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
+    if (useUrl && (page === undefined || page === null || Number.isNaN(page))) {
       history.push(`${path}?${onlyUnassigned ? 'unassignedPage' : 'page'}=0`);
     }
     if (!useUrl) setLocalPage('0');
@@ -610,7 +610,7 @@ const InventoryTable = ({
                   title={t('inventory.title')}
                   entityPage={false}
                   refreshId={refreshId}
-                  useUrl
+                  useUrl={useUrl}
                   refreshPageTables={refreshTable}
                   hideTopBar
                 />

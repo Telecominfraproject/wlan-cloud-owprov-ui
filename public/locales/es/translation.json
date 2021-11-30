@@ -147,7 +147,7 @@
 		"no_items": "No hay articulos",
 		"none": "Ninguna",
 		"not_connected": "No conectado",
-		"of_connected": "% de dispositivos",
+		"of_connected": "% de dispositivos conectados",
 		"off": "Apagado",
 		"on": "en",
 		"optional": "Opcional",
@@ -272,6 +272,7 @@
 	"contact": {
 		"access_pin": "PIN de acceso",
 		"add_contact": "Agregar contacto",
+		"contact": "Contacto",
 		"create_contact": "Crear contacto",
 		"currently_selected_contact": "Contacto seleccionado actualmente: {{contact}}",
 		"delete": "¿Borrar contacto?",
@@ -321,13 +322,13 @@
 		"error_edit_blacklist": "Error al editar la lista negra: {{error}}",
 		"error_fetching_device": "Error al obtener la información del dispositivo: {{error}}",
 		"error_fetching_devices": "Error al recuperar dispositivos: {{error}}",
-		"health_explanation": "Salud de los dispositivos conectados",
-		"memory_explanation": "Memoria utilizada por dispositivos conectados",
+		"health_explanation": "Estado de los dispositivos conectados ((Dispositivos = 100% * 100 + Dispositivos> 90% * 95 + Dispositivos> 60% * 75 + Dispositivos <60% * 35) / Dispositivos conectados)",
+		"memory_explanation": "Cantidad de dispositivos conectados con la memoria correspondiente utilizada%",
 		"remove_from_blacklist": "ELIMINAR DE LA LISTA NEGRA",
 		"success_added_blacklist": "¡Dispositivo agregado exitosamente a la lista negra!",
 		"success_edit_blacklist": "Lista negra editada con éxito!",
 		"success_removed_blacklist": "¡Dispositivo eliminado con éxito de la lista negra!",
-		"uptimes_explanation": "Tiempo que los dispositivos conectados han estado en funcionamiento y conectados"
+		"uptimes_explanation": "Cantidad de dispositivos conectados según su tiempo de actividad"
 	},
 	"device_logs": {
 		"log": "Iniciar sesión",
@@ -347,7 +348,9 @@
 		"currently_selected_venue": "Lugar seleccionado actualmente: {{config}}",
 		"delete_success": "Entidad eliminada correctamente",
 		"delete_warning": "Advertencia: esta operación no se puede revertir",
+		"duplicate_from_node": "Duplicar con un nodo raíz específico",
 		"duplicate_map": "Mapa duplicado",
+		"duplicate_with_node": "Duplicar {{mapName}} con {{rootName}} como nodo raíz",
 		"edit_failure": "Actualización fallida: {{error}}",
 		"enter_here": "Ingrese las IP que desea agregar aquí",
 		"entire_tree": "Mapa de red",

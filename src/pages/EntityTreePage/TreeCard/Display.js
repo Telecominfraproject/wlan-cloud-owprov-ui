@@ -2,12 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactFlow, { removeElements, MiniMap, Controls, Background } from 'react-flow-renderer';
 
-const EntityTree = ({ elements, setElements, history, setReactFlowInstance, editable }) => {
+const EntityTree = ({
+  elements,
+  setElements,
+  history,
+  setReactFlowInstance,
+  mode,
+  toggleDuplicateFromNode,
+}) => {
   const onElementsRemove = (elementsToRemove) => {
     setElements((els) => removeElements(elementsToRemove, els));
   };
 
-  const onClick = (e, el) => {
+  const goToEntity = (e, el) => {
     const split = el.id.split('/');
     const type = split[0];
 
@@ -18,18 +25,36 @@ const EntityTree = ({ elements, setElements, history, setReactFlowInstance, edit
     }
   };
 
+  const onClick = (e, el) => {
+    if (mode === 'edit') return null;
+    if (mode === 'view') return goToEntity(e, el);
+
+    return toggleDuplicateFromNode(el);
+  };
+
   const onLoad = (instance) => {
     setReactFlowInstance(instance);
   };
 
+  const onNodeDragStop = (event, node) => {
+    const newEls = elements;
+    const index = elements.findIndex((element) => element.id === node.id);
+    const newPositionNode = elements[index];
+    newPositionNode.position = node.position;
+    newEls.splice(index, 1, newPositionNode);
+    setElements([...newEls]);
+  };
+
+  // Footer height 50px, top is 64px, header is 38 + 39 = 191
   return (
-    <div style={{ height: '75vh', width: '100%' }} className="border">
+    <div style={{ height: 'calc(100vh - 250px)', width: '100%' }} className="border">
       <ReactFlow
         elements={elements}
         onElementsRemove={onElementsRemove}
-        nodesDraggable={editable}
-        elementsSelectable={editable}
-        onElementClick={editable ? null : onClick}
+        nodesDraggable={mode === 'edit'}
+        elementsSelectable={mode === 'edit'}
+        onElementClick={onClick}
+        onNodeDragStop={onNodeDragStop}
         deleteKeyCode={null}
         onLoad={onLoad}
         snapToGrid
@@ -41,8 +66,8 @@ const EntityTree = ({ elements, setElements, history, setReactFlowInstance, edit
             style={{
               backgroundColor: '#0F0A0A',
               color: 'white',
-              width: '150px',
-              borderRadius: '0px',
+              height: '30px',
+              borderRadius: '50%',
             }}
           >
             <h4 className="align-middle mb-0 font-weight-bold">Root</h4>
@@ -95,7 +120,8 @@ EntityTree.propTypes = {
   setElements: PropTypes.func.isRequired,
   history: PropTypes.instanceOf(Object).isRequired,
   setReactFlowInstance: PropTypes.func.isRequired,
-  editable: PropTypes.bool.isRequired,
+  mode: PropTypes.string.isRequired,
+  toggleDuplicateFromNode: PropTypes.func.isRequired,
 };
 
 export default React.memo(EntityTree);

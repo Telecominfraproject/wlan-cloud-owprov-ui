@@ -147,7 +147,7 @@
 		"no_items": "Keine Gegenstände",
 		"none": "Keiner",
 		"not_connected": "Nicht verbunden",
-		"of_connected": "% der Geräte",
+		"of_connected": "% der verbundenen Geräte",
 		"off": "Aus",
 		"on": "An",
 		"optional": "Wahlweise",
@@ -272,6 +272,7 @@
 	"contact": {
 		"access_pin": "Zugangs-PIN",
 		"add_contact": "Kontakt hinzufügen",
+		"contact": "Kontakt",
 		"create_contact": "Kontakt erstellen",
 		"currently_selected_contact": "Aktuell ausgewählter Kontakt: {{contact}}",
 		"delete": "Kontakt löschen?",
@@ -321,13 +322,13 @@
 		"error_edit_blacklist": "Fehler beim Bearbeiten der schwarzen Liste: {{error}}",
 		"error_fetching_device": "Fehler beim Abrufen der Geräteinformationen: {{error}}",
 		"error_fetching_devices": "Fehler beim Abrufen von Geräten: {{error}}",
-		"health_explanation": "Zustand der angeschlossenen Geräte",
-		"memory_explanation": "Von angeschlossenen Geräten belegter Speicher",
+		"health_explanation": "Zustand der verbundenen Geräte ((Geräte = 100 % * 100 + Geräte > 90 % * 95 + Geräte > 60 % * 75 + Geräte < 60 % * 35) / Verbundene Geräte)",
+		"memory_explanation": "Anzahl verbundener Geräte mit entsprechendem belegtem Speicher %",
 		"remove_from_blacklist": "Von der schwarzen Liste entfernen",
 		"success_added_blacklist": "Gerät erfolgreich zur Blacklist hinzugefügt!",
 		"success_edit_blacklist": "Blacklist erfolgreich bearbeitet!",
 		"success_removed_blacklist": "Gerät erfolgreich von Blacklist entfernt!",
-		"uptimes_explanation": "Zeit, zu der verbundene Geräte aktiv und verbunden waren"
+		"uptimes_explanation": "Anzahl der verbundenen Geräte basierend auf ihrer Betriebszeit"
 	},
 	"device_logs": {
 		"log": "Protokoll",
@@ -347,7 +348,9 @@
 		"currently_selected_venue": "Aktuell ausgewählter Veranstaltungsort: {{config}}",
 		"delete_success": "Entität erfolgreich gelöscht",
 		"delete_warning": "Achtung: Dieser Vorgang kann nicht rückgängig gemacht werden",
+		"duplicate_from_node": "Mit einem bestimmten Root-Knoten duplizieren",
 		"duplicate_map": "Karte duplizieren",
+		"duplicate_with_node": "Dupliziere {{mapName}} mit {{rootName}} als Root-Knoten",
 		"edit_failure": "Aktualisierung fehlgeschlagen : {{error}}",
 		"enter_here": "Geben Sie hier die IP(s) ein, die Sie hinzufügen möchten",
 		"entire_tree": "Netzwerkkarte",

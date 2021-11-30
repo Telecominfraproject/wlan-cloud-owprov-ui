@@ -5,34 +5,52 @@ const worldStyle = {
   background: '#0F0A0A',
   color: 'white',
   border: '1px solid #777',
-  width: 250,
-  padding: 20,
-  borderRadius: '0px',
+  width: 175,
+  padding: 10,
+  borderRadius: '50%',
 };
 
 const entityStyle = {
   background: '#2292A4',
   color: 'white',
-  width: 250,
-  padding: 15,
+  width: 200,
+  padding: 10,
   borderRadius: '5px',
 };
 
 const venueStyle = {
   background: '#F5EFED',
   color: 'black',
-  width: 250,
+  width: 200,
   padding: 10,
   borderRadius: '60px',
 };
 
 const node = (entity) => (
   <div className="align-middle">
-    <h3 className="align-middle mb-0 font-weight-bold">{entity.name}</h3>
+    <h5 className="align-middle mb-0 font-weight-bold">{entity.name}</h5>
   </div>
 );
 
-const iterateThroughTree = (el) => {
+const iterateThroughTreeWithRoot = (el, rootNode) => {
+  if (el.uuid === rootNode) {
+    return el;
+  }
+  let result = null;
+
+  for (const child of el.children) {
+    result = iterateThroughTreeWithRoot(child, rootNode);
+
+    if (result !== null) return result;
+  }
+  for (const child of el.venues ?? []) {
+    result = iterateThroughTreeWithRoot(child, rootNode);
+  }
+
+  return result;
+};
+
+const iterateThroughTree = (el, rootNodeId) => {
   let newArray = [];
 
   if (el.type === 'entity') {
@@ -42,7 +60,7 @@ const iterateThroughTree = (el) => {
       entityName: el.name,
       position: { x: 0, y: 200 },
       type: 'default',
-      style: el.uuid === '0000-0000-0000' ? worldStyle : entityStyle,
+      style: el.uuid === rootNodeId ? worldStyle : entityStyle,
     });
 
     // Creating edges for children and venues
@@ -99,25 +117,17 @@ const iterateThroughTree = (el) => {
   return newArray;
 };
 
-export default async (data, savedInfo, addDeviceData, transform, history) => {
-  const newTree = iterateThroughTree(data, history);
+export default async (data, savedInfo, addDeviceData, transform) => {
+  const parsed = savedInfo ? JSON.parse(savedInfo.data) : undefined;
+  const rootNodeId = parsed?.rootNode?.split('/')[1] ?? '0000-0000-0000';
+
+  const elements = iterateThroughTreeWithRoot(data, rootNodeId);
+  const newTree = iterateThroughTree(elements, rootNodeId);
 
   if (savedInfo) {
-    const parsed = JSON.parse(savedInfo.data);
-    const fixedElements = parsed.elements.map((el) => ({
-      ...el,
-      data: {
-        label: (
-          <div className="align-middle">
-            <h3 className="align-middle mb-0 font-weight-bold">{el.entityName}</h3>
-          </div>
-        ),
-      },
-    }));
-
     // Verifying if there are elements in our old tree that were deleted in the DB
     let [x, y] = [0, 0];
-    const onlyExistingElements = fixedElements.filter((el) => {
+    const onlyExistingElements = parsed.elements.filter((el) => {
       if (el.position?.y <= y) [x, y] = [el.position.x, el.position.y];
       return newTree.find((newEl) => el.id === newEl.id);
     });
@@ -137,36 +147,44 @@ export default async (data, savedInfo, addDeviceData, transform, history) => {
     [x = 0, y = 0] = parsed.position;
     transform({ x, y, zoom: parsed.zoom || 0 });
     const withDevices = await addDeviceData(onlyExistingElements);
-    return withDevices.map((ent) => ({
-      ...ent,
-      data: {
-        label: (
-          <div className="align-middle">
-            <h3 className="align-middle mb-0 font-weight-bold">{ent.entityName}</h3>
-            <h5 className="align-middle mb-0 font-weight-bold">
-              {ent.extraData.devices.length} Devices
-            </h5>
-          </div>
-        ),
-      },
-    }));
+    return withDevices.map((ent) => {
+      let style = entityStyle;
+      if (ent.id.split('/')[0] === 'venue') style = venueStyle;
+      else if (ent.id.split('/')[1] === rootNodeId) style = worldStyle;
+
+      return {
+        ...ent,
+        style,
+        data: {
+          label: (
+            <div className="align-middle">
+              <h5 className="align-middle mb-0 font-weight-bold">{ent.entityName}</h5>
+              <h6 className="align-middle mb-0 font-weight-bold">
+                {ent.extraData.devices.length} Devices
+              </h6>
+            </div>
+          ),
+        },
+      };
+    });
   }
+
   const withDevices = await addDeviceData(newTree);
   return createLayoutedElements(
     withDevices.map((ent) => ({
       ...ent,
       data: {
         label: (
-          <div className="align-middle">
-            <h3 className="align-middle mb-0 font-weight-bold">{ent.entityName}</h3>
-            <h5 className="align-middle mb-0 font-weight-bold">
+          <div>
+            <h5 className="align-middle mb-0 font-weight-bold">{ent.entityName}</h5>
+            <h6 className="align-middle mb-0 font-weight-bold">
               {ent.extraData.devices.length} Devices
-            </h5>
+            </h6>
           </div>
         ),
       },
     })),
-    220,
-    50,
+    200,
+    40,
   );
 };

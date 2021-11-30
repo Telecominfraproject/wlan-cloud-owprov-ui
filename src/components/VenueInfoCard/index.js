@@ -32,7 +32,7 @@ import EntityIpModal from 'components/EntityIpModal';
 import AssociateContactModal from 'components/AssociateContactModal';
 import AssociateLocationModal from 'components/AssociateLocationModal';
 import AddEntityModal from 'components/AddEntityModal';
-import EditEntityForm from 'components/EntityInfoCard/Form';
+import EditEntityForm from './Form';
 
 const initialForm = {
   name: {

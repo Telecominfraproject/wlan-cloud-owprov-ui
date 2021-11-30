@@ -306,7 +306,7 @@ const ContactsTable = ({
   };
 
   useEffect(() => {
-    if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
+    if (useUrl && (page === undefined || page === null || Number.isNaN(page))) {
       history.push(`${path}?page=0`);
     }
     if (!useUrl) setLocalPage('0');
@@ -325,7 +325,7 @@ const ContactsTable = ({
   }, [entityContactsArray]);
 
   useEffect(() => {
-    if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
+    if (useUrl && (page === undefined || page === null || Number.isNaN(page))) {
       history.push(`${path}?page=0`);
     }
     if (!useUrl) setLocalPage('0');

@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CNav, CNavLink, CTabContent, CTabPane, CCard, CCardBody } from '@coreui/react';
+import {
+  CAlert,
+  CNav,
+  CNavLink,
+  CTabContent,
+  CTabPane,
+  CCard,
+  CCardBody,
+  CSpinner,
+  CButton,
+} from '@coreui/react';
 import { useHistory } from 'react-router-dom';
-import { useAuth, useToast, useToggle, DetailedNotesTable } from 'ucentral-libs';
+import { useAuth, useToast, DetailedNotesTable } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useZoomPanHelper } from 'react-flow-renderer';
 import createLayoutedElements from './dagreAdapter';
 import parseNewData from './treeHelper';
-import DuplicateModal from './DuplicateModal';
-import TreeForm from './TreeForm';
-import TreeHeader from './TreeHeader';
-import DeleteModal from './DeleteModal';
-import EntityTree from './Tree';
+import DuplicateModal from '../DuplicateModal';
+import Form from './Form';
+import Header from './Header';
+import DeleteModal from '../DeleteModal';
+import Display from './Display';
 
 const defaultTreeInfo = {
   name: 'Auto-Map',
@@ -32,17 +42,23 @@ const TreeCard = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [othersMaps, setOthersMaps] = useState([]);
   const [myMaps, setMyMaps] = useState([]);
-  const [editing, setEditing] = useState(false);
+  const [mode, setMode] = useState('view');
   const [deleting, setDeleting] = useState(false);
-  const [showDuplicateModal, toggleDuplicateModal] = useToggle(false);
+  const [showDuplicateModal, setShowDuplicateModal] = useState(false);
+  const [duplicateRoot, setDuplicateRoot] = useState(null);
   const [users, setUsers] = useState([]);
-
-  const toggleEditing = () => {
-    setEditing(!editing);
-  };
-
   const toggleDelete = () => {
     setDeleting(!deleting);
+  };
+
+  const toggleDuplicateModal = () => {
+    setDuplicateRoot(null);
+    setShowDuplicateModal(!showDuplicateModal);
+  };
+
+  const toggleDuplicateFromNode = (ent) => {
+    setDuplicateRoot(ent);
+    setShowDuplicateModal(true);
   };
 
   const { transform } = useZoomPanHelper();
@@ -124,14 +140,12 @@ const TreeCard = () => {
   };
 
   const chooseMap = async (id) => {
+    setTree(null);
     updatePreferences({ defaultNetworkMap: id });
-    setEditing(false);
+    setMode('view');
+
     if (id === '') {
-      setTreeInfo(defaultTreeInfo);
-      getTree();
-    } else if (id === 'create') {
-      setEditing(true);
-      setTreeInfo({ ...defaultTreeInfo, id: 'create' });
+      setTreeInfo({ ...defaultTreeInfo });
       getTree();
     } else {
       const options = {
@@ -144,7 +158,7 @@ const TreeCard = () => {
       axiosInstance
         .get(`${endpoints.owprov}/api/v1/map/${id}`, options)
         .then((response) => {
-          setTreeInfo(response.data);
+          setTreeInfo({ ...response.data });
           getTree(response.data);
         })
         .catch((e) => {
@@ -156,6 +170,21 @@ const TreeCard = () => {
           });
         });
     }
+  };
+
+  const refreshTree = () => {
+    chooseMap(treeInfo.id);
+  };
+
+  const toggleEditing = () => {
+    if (mode === 'edit' || mode === 'duplicateFromNode') {
+      setMode('view');
+      refreshTree();
+    } else setMode('edit');
+  };
+
+  const startDuplicateFromNode = () => {
+    setMode('duplicateFromNode');
   };
 
   const getMapArray = (refreshOnly = false) => {
@@ -204,10 +233,12 @@ const TreeCard = () => {
       if (treeInfo.notes[i].new) newNotes.push({ note: treeInfo.notes[i].note });
     }
 
+    const instance = reactFlowInstance.toObject();
+
     const params = {
       name: treeInfo.name,
       description: treeInfo.description,
-      data: JSON.stringify(reactFlowInstance.toObject()),
+      data: JSON.stringify({ ...instance, rootNode: instance.elements[0].id }),
       visibility: treeInfo.creator === user.Id ? treeInfo.visibility : undefined,
       notes: newNotes,
       id: treeInfo.id,
@@ -236,7 +267,7 @@ const TreeCard = () => {
       });
   };
 
-  const duplicateMap = (details) => {
+  const duplicateMap = (details, rootNode) => {
     const options = {
       headers: {
         Accept: 'application/json',
@@ -246,7 +277,10 @@ const TreeCard = () => {
 
     const params = {
       ...details,
-      data: JSON.stringify(reactFlowInstance.toObject()),
+      data: JSON.stringify({
+        ...reactFlowInstance.toObject(),
+        rootNode: rootNode ? rootNode.id : undefined,
+      }),
       uuid: 1,
     };
 
@@ -291,7 +325,7 @@ const TreeCard = () => {
           autohide: true,
         });
         toggleDelete();
-        setEditing(false);
+        setMode('view');
         setTreeInfo(defaultTreeInfo);
         getMapArray();
       })
@@ -303,10 +337,6 @@ const TreeCard = () => {
           autohide: true,
         });
       });
-  };
-
-  const refreshTree = () => {
-    chooseMap(treeInfo.id);
   };
 
   const resetLayout = () => {
@@ -326,7 +356,7 @@ const TreeCard = () => {
   };
 
   useEffect(() => {
-    setEditing(false);
+    setMode('view');
     getMapArray(true);
     getUsers();
   }, []);
@@ -345,7 +375,7 @@ const TreeCard = () => {
   return (
     <>
       <CCard>
-        <TreeHeader
+        <Header
           myMaps={myMaps}
           othersMaps={othersMaps}
           chooseMap={chooseMap}
@@ -355,7 +385,8 @@ const TreeCard = () => {
           refreshTree={refreshTree}
           toggleDelete={toggleDelete}
           toggleEditing={toggleEditing}
-          editing={editing}
+          startDuplicateFromNode={startDuplicateFromNode}
+          mode={mode}
           saveMap={saveMap}
         />
         <CCardBody className="p-0">
@@ -380,22 +411,44 @@ const TreeCard = () => {
           <CTabContent>
             {index === 0 ? (
               <>
-                <TreeForm
+                <Form
                   user={user}
                   users={users}
-                  editing={editing}
+                  mode={mode}
                   treeInfo={treeInfo}
                   setTreeInfo={setTreeInfo}
                 />
-                {tree && (
-                  <EntityTree
-                    elements={tree}
-                    reactFlowInstance={reactFlowInstance}
-                    setReactFlowInstance={setReactFlowInstance}
-                    setElements={setTree}
-                    history={history}
-                    editable={editing}
-                  />
+                {tree ? (
+                  <>
+                    <CAlert
+                      hidden={mode !== 'duplicateFromNode'}
+                      color="info"
+                      className="m-3 align-middle"
+                    >
+                      <h3 className="font-weight-bold">
+                        Click on the entity you want as the root of your new map!{' '}
+                        <CButton color="danger font-weight-bold" onClick={() => setMode('view')}>
+                          Click here to cancel
+                        </CButton>
+                      </h3>
+                    </CAlert>
+                    <Display
+                      elements={tree}
+                      reactFlowInstance={reactFlowInstance}
+                      setReactFlowInstance={setReactFlowInstance}
+                      setElements={setTree}
+                      history={history}
+                      mode={mode}
+                      toggleDuplicateFromNode={toggleDuplicateFromNode}
+                    />
+                  </>
+                ) : (
+                  <div
+                    style={{ height: 'calc(100vh - 250px)', width: '100%', paddingTop: '20%' }}
+                    className="border text-center align-middle"
+                  >
+                    <CSpinner style={{ height: '5rem', width: '5rem' }} size="lg" />
+                  </div>
                 )}
               </>
             ) : null}
@@ -405,7 +458,7 @@ const TreeCard = () => {
                   t={t}
                   notes={treeInfo.notes}
                   addNote={addNote}
-                  editable={editing}
+                  editable={mode}
                 />
               ) : null}
             </CTabPane>
@@ -419,8 +472,11 @@ const TreeCard = () => {
         deleteMap={deleteMap}
       />
       <DuplicateModal
+        mode={mode}
         show={showDuplicateModal}
         toggle={toggleDuplicateModal}
+        treeInfo={treeInfo}
+        nodeInfo={duplicateRoot}
         duplicateMap={duplicateMap}
       />
     </>

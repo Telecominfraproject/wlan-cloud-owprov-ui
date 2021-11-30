@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { CModal, CModalHeader, CModalTitle, CModalBody, CButton, CPopover } from '@coreui/react';
-import CIcon from '@coreui/icons-react';
-import { cilX, cilSave } from '@coreui/icons';
-import { useFormFields } from 'ucentral-libs';
 import { useTranslation } from 'react-i18next';
+import { CButton, CPopover } from '@coreui/react';
+import { cilX, cilSave } from '@coreui/icons';
+import CIcon from '@coreui/icons-react';
+import { Modal, useFormFields } from 'ucentral-libs';
 import Form from './Form';
 
 const initialForm = {
@@ -27,9 +27,9 @@ const initialForm = {
   },
 };
 
-const DuplicateModal = ({ show, toggle, duplicateMap }) => {
+const DuplicateModal = ({ show, toggle, treeInfo, nodeInfo, duplicateMap }) => {
   const { t } = useTranslation();
-  const [fields, updateFieldWithId, updateField] = useFormFields(initialForm);
+  const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields({ ...initialForm });
 
   const validation = () => {
     let success = true;
@@ -47,20 +47,37 @@ const DuplicateModal = ({ show, toggle, duplicateMap }) => {
 
   const save = () => {
     if (validation()) {
-      duplicateMap({
-        name: fields.name.value,
-        description: fields.description.value,
-        notes: fields.note.value.length > 0 ? [{ note: fields.note.value }] : undefined,
-        visibility: fields.visibility.value,
-      });
+      duplicateMap(
+        {
+          name: fields.name.value,
+          description: fields.description.value,
+          notes: fields.note.value.length > 0 ? [{ note: fields.note.value }] : undefined,
+          visibility: fields.visibility.value,
+        },
+        nodeInfo,
+      );
     }
   };
 
+  useEffect(() => {
+    if (show) setFormFields({ ...initialForm });
+  }, [show]);
+
   return (
-    <CModal className="text-dark" size="lg" show={show} onClose={toggle}>
-      <CModalHeader className="p-1">
-        <CModalTitle className="pl-1 pt-1">{t('entity.duplicate_map')}</CModalTitle>
-        <div className="text-right">
+    <Modal
+      size="lg"
+      show={show}
+      toggle={toggle}
+      title={
+        nodeInfo
+          ? t('entity.duplicate_with_node', {
+              mapName: treeInfo.name,
+              rootName: nodeInfo.name,
+            })
+          : t('entity.duplicate_map')
+      }
+      headerButtons={
+        <>
           <CPopover content={t('common.add')}>
             <CButton color="primary" variant="outline" onClick={save}>
               <CIcon content={cilSave} />
@@ -71,19 +88,24 @@ const DuplicateModal = ({ show, toggle, duplicateMap }) => {
               <CIcon content={cilX} />
             </CButton>
           </CPopover>
-        </div>
-      </CModalHeader>
-      <CModalBody className="px-5">
-        <Form t={t} fields={fields} updateField={updateFieldWithId} />
-      </CModalBody>
-    </CModal>
+        </>
+      }
+    >
+      <Form t={t} fields={fields} updateField={updateFieldWithId} />
+    </Modal>
   );
 };
 
 DuplicateModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  treeInfo: PropTypes.instanceOf(Object).isRequired,
+  nodeInfo: PropTypes.instanceOf(Object),
   duplicateMap: PropTypes.func.isRequired,
+};
+
+DuplicateModal.defaultProps = {
+  nodeInfo: null,
 };
 
 export default DuplicateModal;

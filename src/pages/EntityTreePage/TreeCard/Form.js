@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { CRow, CCol, CInput, CInvalidFeedback, CLabel, CSelect } from '@coreui/react';
 import PropTypes from 'prop-types';
 
-const TreeForm = ({ user, users, editing, treeInfo, setTreeInfo }) => {
+const TreeForm = ({ user, users, mode, treeInfo, setTreeInfo }) => {
   const { t } = useTranslation();
 
   return (
     <>
-      <CRow className="my-2" hidden={!editing || treeInfo.id === 'create'}>
+      <CRow className="my-2" hidden={mode !== 'edit'}>
         <CLabel col sm="2" md="2" xl="1" htmlFor="owner">
           {t('common.creator')}
         </CLabel>
@@ -35,7 +35,7 @@ const TreeForm = ({ user, users, editing, treeInfo, setTreeInfo }) => {
           </CSelect>
         </CCol>
       </CRow>
-      <CRow className="my-2" hidden={!editing}>
+      <CRow className="my-2" hidden={mode !== 'edit'}>
         <CLabel col sm="2" md="2" xl="1" htmlFor="name">
           {t('user.name')}
         </CLabel>
@@ -74,7 +74,7 @@ const TreeForm = ({ user, users, editing, treeInfo, setTreeInfo }) => {
 TreeForm.propTypes = {
   user: PropTypes.instanceOf(Object).isRequired,
   users: PropTypes.instanceOf(Array).isRequired,
-  editing: PropTypes.bool.isRequired,
+  mode: PropTypes.string.isRequired,
   treeInfo: PropTypes.instanceOf(Object).isRequired,
   setTreeInfo: PropTypes.func.isRequired,
 };

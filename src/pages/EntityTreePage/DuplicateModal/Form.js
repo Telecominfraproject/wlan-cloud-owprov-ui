@@ -12,7 +12,7 @@ import {
   CSelect,
 } from '@coreui/react';
 
-const DuplicateEntityMapForm = ({ t, disable, fields, updateField }) => (
+const DuplicateEntityMapForm = ({ t, fields, updateField }) => (
   <CForm>
     <CFormGroup row className="pb-3">
       <CLabel col htmlFor="name">
@@ -26,7 +26,6 @@ const DuplicateEntityMapForm = ({ t, disable, fields, updateField }) => (
           value={fields.name.value}
           onChange={updateField}
           invalid={fields.name.error}
-          disabled={disable}
           maxLength="50"
         />
         <CFormText color={fields.name.error ? 'danger' : ''}>{t('common.required')}</CFormText>
@@ -44,7 +43,6 @@ const DuplicateEntityMapForm = ({ t, disable, fields, updateField }) => (
           value={fields.description.value}
           onChange={updateField}
           invalid={fields.description.error}
-          disabled={disable}
           maxLength="50"
         />
         <CInvalidFeedback>{t('common.required')}</CInvalidFeedback>
@@ -63,7 +61,6 @@ const DuplicateEntityMapForm = ({ t, disable, fields, updateField }) => (
           value={fields.visibility.value}
           onChange={updateField}
           invalid={fields.visibility.error}
-          disabled={disable}
           style={{ width: '100px' }}
           maxLength="50"
         >
@@ -84,7 +81,6 @@ const DuplicateEntityMapForm = ({ t, disable, fields, updateField }) => (
           value={fields.note.value}
           onChange={updateField}
           invalid={fields.note.error}
-          disabled={disable}
         />
       </CCol>
     </CFormGroup>
@@ -93,7 +89,6 @@ const DuplicateEntityMapForm = ({ t, disable, fields, updateField }) => (
 
 DuplicateEntityMapForm.propTypes = {
   t: PropTypes.func.isRequired,
-  disable: PropTypes.bool.isRequired,
   fields: PropTypes.instanceOf(Object).isRequired,
   updateField: PropTypes.func.isRequired,
 };

@@ -49,7 +49,8 @@ const TreeHeader = ({
   refreshTree,
   toggleDelete,
   toggleEditing,
-  editing,
+  startDuplicateFromNode,
+  mode,
   saveMap,
 }) => {
   const { t } = useTranslation();
@@ -81,12 +82,23 @@ const TreeHeader = ({
               formatGroupLabel={formatGroupLabel}
             />
           </div>
+          <CPopover content={t('entity.duplicate_from_node')}>
+            <CButton
+              color="info"
+              className="ml-2 p-2"
+              onClick={startDuplicateFromNode}
+              disabled={mode !== 'view'}
+            >
+              <CIcon size="sm" content={cilPlus} />
+              <CIcon size="sm" content={cilPlus} />
+            </CButton>
+          </CPopover>
           <CPopover content={t('common.duplicate')}>
             <CButton
               color="info"
               className="ml-2"
               onClick={toggleDuplicateModal}
-              disabled={editing}
+              disabled={mode !== 'view'}
             >
               <CIcon content={cilPlus} />
             </CButton>
@@ -96,13 +108,13 @@ const TreeHeader = ({
               color="info"
               className="ml-2"
               onClick={saveMap}
-              disabled={treeInfo.id === '' || !editing}
+              disabled={treeInfo.id === '' || mode !== 'edit'}
             >
               <CIcon content={cilSave} />
             </CButton>
           </CPopover>
           <CPopover content="Automatically Align Map">
-            <CButton color="info" className="ml-2" onClick={resetLayout}>
+            <CButton color="info" className="ml-2" onClick={resetLayout} disabled={mode !== 'edit'}>
               <CIcon content={cilAlignCenter} />
             </CButton>
           </CPopover>
@@ -111,7 +123,7 @@ const TreeHeader = ({
               color="light"
               className="ml-2"
               onClick={toggleEditing}
-              disabled={treeInfo.id === '' || editing}
+              disabled={treeInfo.id === '' || mode !== 'view'}
             >
               <CIcon content={cilPencil} />
             </CButton>
@@ -121,13 +133,13 @@ const TreeHeader = ({
               color="light"
               className="ml-2"
               onClick={toggleEditing}
-              disabled={treeInfo.id === '' || !editing}
+              disabled={treeInfo.id === '' || mode === 'view'}
             >
               <CIcon content={cilX} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.refresh')}>
-            <CButton color="info" className="ml-2" onClick={refreshTree}>
+            <CButton color="info" className="ml-2" onClick={refreshTree} disabled={mode !== 'view'}>
               <CIcon content={cilSync} />
             </CButton>
           </CPopover>
@@ -157,7 +169,8 @@ TreeHeader.propTypes = {
   refreshTree: PropTypes.func.isRequired,
   toggleDelete: PropTypes.func.isRequired,
   toggleEditing: PropTypes.func.isRequired,
-  editing: PropTypes.bool.isRequired,
+  startDuplicateFromNode: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired,
   saveMap: PropTypes.func.isRequired,
 };
 export default TreeHeader;
