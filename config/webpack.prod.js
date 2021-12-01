@@ -57,7 +57,7 @@ module.exports = merge(common, {
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
-      maxInitialRequests: 15,
+      minSize: 100000,
       maxSize: 500000,
       cacheGroups: {
         vendor: {

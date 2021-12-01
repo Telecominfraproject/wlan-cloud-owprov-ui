@@ -123,6 +123,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           onClick={resetEntity}
         />
         <CSidebarNavItem
+          className="font-weight-bold"
           name={t('user.users')}
           to="/users"
           icon={<CIcon content={cilPeople} size="xl" className="mr-3" />}
