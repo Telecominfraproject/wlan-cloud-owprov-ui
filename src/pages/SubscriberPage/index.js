@@ -41,7 +41,7 @@ const SubscriberPage = () => {
 
   const getPasswordPolicy = () => {
     axiosInstance
-      .post(`${endpoints.owsec}/api/v1/oauth2?requirements=true`, {})
+      .post(`${endpoints.owsec}/api/v1/suboauth2?requirements=true`, {})
       .then((response) => {
         const newPolicies = response.data;
         newPolicies.accessPolicy = `${endpoints.owsec}${newPolicies.accessPolicy}`;
