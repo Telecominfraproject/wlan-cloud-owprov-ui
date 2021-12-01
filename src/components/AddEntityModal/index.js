@@ -12,9 +12,10 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave } from '@coreui/icons';
-import { useEntity, useFormFields, useAuth, AddEntityForm } from 'ucentral-libs';
+import { useEntity, useFormFields, useAuth } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import AddEntityForm from './Form';
 
 const initialForm = {
   name: {

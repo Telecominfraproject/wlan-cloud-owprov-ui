@@ -79,7 +79,7 @@ const ComputerConfigModal = ({ show, toggle, serialNumber, pushConfig }) => {
         <div className="text-right">
           <CPopover content="Push Configuration to Device">
             <CButton color="primary" variant="outline" onClick={push}>
-              <CIcon name="cil-router" content={cilRouter} />
+              <CIcon content={cilRouter} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>

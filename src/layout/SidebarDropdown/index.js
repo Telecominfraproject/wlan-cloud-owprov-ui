@@ -9,9 +9,9 @@ import CIcon from '@coreui/icons-react';
 
 const getIcon = (uuid, isVenue) => {
   if (uuid === '0000-0000-0000' && !isVenue)
-    return <CIcon size="lg" content={cilGlobeAlt} className="mr-3" />;
-  if (!isVenue) return <CIcon size="lg" content={cilSitemap} className="mr-3" />;
-  return <CIcon size="lg" content={cilBank} className="mr-3" />;
+    return <CIcon size="xl" content={cilGlobeAlt} className="mr-3" />;
+  if (!isVenue) return <CIcon size="xl" content={cilSitemap} className="mr-3" />;
+  return <CIcon size="xl" content={cilBank} className="mr-3" />;
 };
 
 const SidebarDropdown = ({ uuid, name, children, onClick, path, isVenue }) => {
@@ -24,7 +24,7 @@ const SidebarDropdown = ({ uuid, name, children, onClick, path, isVenue }) => {
     <li className={show ? 'c-sidebar-nav-dropdown c-show' : 'c-sidebar-nav-dropdown'}>
       <a
         role="button"
-        className={`c-sidebar-nav-dropdown-toggle ${
+        className={`c-sidebar-nav-dropdown-toggle font-weight-bold ${
           uuid === entity?.uuid ? 'bg-light text-dark' : ''
         }`}
         onClick={() => {

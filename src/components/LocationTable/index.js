@@ -14,10 +14,11 @@ import {
 } from '@coreui/react';
 import { cilPlus, cilSync } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { useAuth, useToast, LocationTable as Table } from 'ucentral-libs';
+import { useAuth, useToast } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { getItem, setItem } from 'utils/localStorageHelper';
 import EditLocationModal from 'components/EditLocationModal';
+import Table from './Table';
 
 const LocationTable = ({
   entity,
@@ -305,7 +306,7 @@ const LocationTable = ({
   };
 
   useEffect(() => {
-    if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
+    if (useUrl && (page === undefined || page === null || Number.isNaN(page))) {
       history.push(`${path}?page=0`);
     }
     if (!useUrl) setLocalPage('0');
@@ -326,7 +327,7 @@ const LocationTable = ({
   }, [entityLocationsArray]);
 
   useEffect(() => {
-    if ((useUrl && page === undefined) || page === null || Number.isNaN(page)) {
+    if (useUrl && (page === undefined || page === null || Number.isNaN(page))) {
       history.push(`${path}?page=0`);
     }
     if (!useUrl) setLocalPage('0');

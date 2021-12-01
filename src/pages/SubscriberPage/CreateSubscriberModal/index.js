@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CModal, CModalHeader, CModalBody, CModalTitle, CPopover, CButton } from '@coreui/react';
+import axiosInstance from 'utils/axiosInstance';
 import CIcon from '@coreui/icons-react';
 import { cilSave, cilX } from '@coreui/icons';
-import { CreateUserForm, useFormFields, useAuth, useToast } from 'ucentral-libs';
-import axiosInstance from 'utils/axiosInstance';
 import { testRegex, validateEmail } from 'utils/helper';
+import { useFormFields, useAuth, useToast } from 'ucentral-libs';
+import Form from './Form';
 
 const initialState = {
   name: {
@@ -27,7 +28,7 @@ const initialState = {
     error: false,
   },
   userRole: {
-    value: 'accounting',
+    value: 'subscriber',
     error: false,
   },
   notes: {
@@ -42,9 +43,9 @@ const initialState = {
   },
 };
 
-const CreateUserModal = ({ show, toggle, getUsers, policies }) => {
+const CreateSubscriberModal = ({ show, toggle, getUsers, policies }) => {
   const { t } = useTranslation();
-  const { currentToken, endpoints } = useAuth();
+  const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [formFields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialState);
@@ -88,7 +89,7 @@ const CreateUserModal = ({ show, toggle, getUsers, policies }) => {
       };
 
       axiosInstance
-        .post(`${endpoints.owsec}/api/v1/user/0`, parameters, {
+        .post(`${endpoints.owsec}/api/v1/subuser/0`, parameters, {
           headers,
         })
         .then(() => {
@@ -96,7 +97,7 @@ const CreateUserModal = ({ show, toggle, getUsers, policies }) => {
           setFormFields(initialState);
           addToast({
             title: t('common.success'),
-            body: t('user.create_success'),
+            body: t('subscriber.success_create'),
             color: 'success',
             autohide: true,
           });
@@ -105,7 +106,7 @@ const CreateUserModal = ({ show, toggle, getUsers, policies }) => {
         .catch((e) => {
           addToast({
             title: t('common.error'),
-            body: t('user.create_failure', { error: e.response?.data?.ErrorDescription }),
+            body: t('subscriber.error_create', { error: e.response?.data?.ErrorDescription }),
             color: 'danger',
             autohide: true,
           });
@@ -124,9 +125,9 @@ const CreateUserModal = ({ show, toggle, getUsers, policies }) => {
   return (
     <CModal show={show} onClose={toggle} size="xl">
       <CModalHeader className="p-1">
-        <CModalTitle className="pl-1 pt-1">{t('user.create')}</CModalTitle>
+        <CModalTitle className="pl-1 pt-1">{t('subscriber.create')}</CModalTitle>
         <div className="text-right">
-          <CPopover content={t('user.create')}>
+          <CPopover content={t('common.create')}>
             <CButton color="primary" variant="outline" onClick={createUser} disabled={loading}>
               <CIcon content={cilSave} />
             </CButton>
@@ -139,7 +140,7 @@ const CreateUserModal = ({ show, toggle, getUsers, policies }) => {
         </div>
       </CModalHeader>
       <CModalBody>
-        <CreateUserForm
+        <Form
           t={t}
           fields={formFields}
           updateField={updateFieldWithId}
@@ -151,11 +152,11 @@ const CreateUserModal = ({ show, toggle, getUsers, policies }) => {
   );
 };
 
-CreateUserModal.propTypes = {
+CreateSubscriberModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,
   policies: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default React.memo(CreateUserModal);
+export default React.memo(CreateSubscriberModal);

@@ -45,7 +45,7 @@ const Metrics = ({
                 className="ml-1"
                 disabled={disabled}
               >
-                <CIcon name="cil-trash" content={cilTrash} />
+                <CIcon content={cilTrash} />
               </CButton>
             </CPopover>
           </div>

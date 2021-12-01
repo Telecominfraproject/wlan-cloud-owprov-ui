@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from 'utils/axiosInstance';
-import { useUser, EditUserModal as Modal, useAuth, useToast } from 'ucentral-libs';
+import { useAuth, useToast, useUser } from 'ucentral-libs';
+import Modal from './Modal';
 
 const initialState = {
   Id: {
@@ -36,7 +37,7 @@ const initialState = {
     editable: true,
   },
   userRole: {
-    value: 'accounting',
+    value: 'subscriber',
     error: false,
     editable: true,
   },
@@ -46,9 +47,9 @@ const initialState = {
   },
 };
 
-const EditUserModal = ({ show, toggle, userId, getUsers, policies }) => {
+const EditSubscriberModal = ({ show, toggle, userId, getUsers, policies }) => {
   const { t } = useTranslation();
-  const { currentToken, endpoints } = useAuth();
+  const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [initialUser, setInitialUser] = useState({});
@@ -64,7 +65,7 @@ const EditUserModal = ({ show, toggle, userId, getUsers, policies }) => {
     };
 
     axiosInstance
-      .get(`${endpoints.owsec}/api/v1/user/${userId}`, options)
+      .get(`${endpoints.owsec}/api/v1/subuser/${userId}`, options)
       .then((response) => {
         const newUser = {};
 
@@ -82,7 +83,7 @@ const EditUserModal = ({ show, toggle, userId, getUsers, policies }) => {
       .catch(() => {
         addToast({
           title: t('common.error'),
-          body: t('user.error_retrieving'),
+          body: t('subscriber.error_fetching_single'),
           color: 'danger',
           autohide: true,
         });
@@ -141,11 +142,11 @@ const EditUserModal = ({ show, toggle, userId, getUsers, policies }) => {
       };
 
       axiosInstance
-        .put(`${endpoints.owsec}/api/v1/user/${userId}`, parameters, options)
+        .put(`${endpoints.owsec}/api/v1/subuser/${userId}`, parameters, options)
         .then(() => {
           addToast({
-            title: t('user.update_success_title'),
-            body: t('user.update_success'),
+            title: t('common.success'),
+            body: t('subscriber.success_update'),
             color: 'success',
             autohide: true,
           });
@@ -154,8 +155,8 @@ const EditUserModal = ({ show, toggle, userId, getUsers, policies }) => {
         })
         .catch((e) => {
           addToast({
-            title: t('user.update_failure_title'),
-            body: t('user.update_failure', { error: e.response?.data?.ErrorDescription }),
+            title: t('common.error'),
+            body: t('subscriber.error_update', { error: e.response?.data?.ErrorDescription }),
             color: 'danger',
             autohide: true,
           });
@@ -167,8 +168,8 @@ const EditUserModal = ({ show, toggle, userId, getUsers, policies }) => {
     } else {
       setLoading(false);
       addToast({
-        title: t('user.update_success_title'),
-        body: t('user.update_success'),
+        title: t('common.success'),
+        body: t('subscriber.success_update'),
         color: 'success',
         autohide: true,
       });
@@ -218,7 +219,7 @@ const EditUserModal = ({ show, toggle, userId, getUsers, policies }) => {
   );
 };
 
-EditUserModal.propTypes = {
+EditSubscriberModal.propTypes = {
   userId: PropTypes.string.isRequired,
   show: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
@@ -226,4 +227,4 @@ EditUserModal.propTypes = {
   policies: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default React.memo(EditUserModal);
+export default React.memo(EditSubscriberModal);

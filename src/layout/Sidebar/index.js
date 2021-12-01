@@ -6,12 +6,19 @@ import {
   CSidebarNav,
   CSidebarNavDivider,
   CSidebarNavTitle,
-  CSidebarMinimizer,
   CSidebarNavDropdown,
   CSidebarNavItem,
   CButton,
 } from '@coreui/react';
-import { cilBarcode, cilSpreadsheet, cilWc, cilMap } from '@coreui/icons';
+import {
+  cilBarcode,
+  cilSpreadsheet,
+  cilWc,
+  cilMap,
+  cilSettings,
+  cilPeople,
+  cilAddressBook,
+} from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import PropTypes from 'prop-types';
 import { useEntity } from 'ucentral-libs';
@@ -75,48 +82,61 @@ const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
           />
         </div>
         <CSidebarNavItem
+          className="font-weight-bold"
           name="Inventory"
           to="/inventory"
           onClick={resetEntity}
-          icon={<CIcon content={cilSpreadsheet} size="lg" className="mr-3" />}
+          icon={<CIcon content={cilSpreadsheet} size="xl" className="mr-3" />}
         />
         <CSidebarNavItem
+          className="font-weight-bold"
           name="Contacts"
           to="/contacts"
           onClick={resetEntity}
-          icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
+          icon={<CIcon content={cilWc} size="xl" className="mr-3" />}
         />
         <CSidebarNavItem
+          className="font-weight-bold"
           name="Locations"
           to="/location"
           onClick={resetEntity}
-          icon={<CIcon content={cilMap} size="lg" className="mr-3" />}
+          icon={<CIcon content={cilMap} size="xl" className="mr-3" />}
         />
         <CSidebarNavItem
+          className="font-weight-bold"
           name="Configurations"
           to="/configuration"
           onClick={resetEntity}
-          icon={<CIcon content={cilBarcode} size="lg" className="mr-3" />}
+          icon={<CIcon content={cilBarcode} size="xl" className="mr-3" />}
         />
         <CSidebarNavDropdown
+          className="font-weight-bold"
           hidden
           name="Managament Roles"
-          icon={<CIcon content={cilWc} size="lg" className="mr-3" />}
+          icon={<CIcon content={cilWc} size="xl" className="mr-3" />}
         />
         <CSidebarNavItem
-          name={t('user.users')}
-          to="/users"
-          icon="cilPeople"
+          className="font-weight-bold"
+          name="Subscribers"
+          to="/subscribers"
+          icon={<CIcon content={cilAddressBook} size="xl" className="mr-3" />}
           onClick={resetEntity}
         />
         <CSidebarNavItem
+          className="font-weight-bold"
+          name={t('user.users')}
+          to="/users"
+          icon={<CIcon content={cilPeople} size="xl" className="mr-3" />}
+          onClick={resetEntity}
+        />
+        <CSidebarNavItem
+          className="font-weight-bold"
           name={t('common.system')}
           to="/system"
-          icon="cilSettings"
+          icon={<CIcon content={cilSettings} size="xl" className="mr-3" />}
           onClick={resetEntity}
         />
       </CSidebarNav>
-      <CSidebarMinimizer className="c-d-md-down-none" />
       <AddEntityModal show={showAddEntity} toggle={toggleAddEntity} creatingVenue={creatingVenue} />
     </CSidebar>
   );

@@ -20,7 +20,6 @@ import {
   useAuth,
   useToast,
   useFormFields,
-  EditConfigurationForm,
   useEntity,
   DetailedNotesTable,
   ConfirmStopEditingButton,
@@ -30,6 +29,7 @@ import axiosInstance from 'utils/axiosInstance';
 import ConfigurationInUseModal from 'components/ConfigurationInUseModal';
 import DeleteConfigurationModal from 'components/DeleteConfigurationModal';
 import ConfigurationExplorer from 'components/ConfigurationExplorer';
+import EditConfigurationForm from './Form';
 
 const initialForm = {
   name: {
@@ -265,7 +265,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
                 <CButtonToolbar role="group" className="justify-content-end">
                   <CPopover content={t('common.save')}>
                     <CButton disabled={!editing || !canSave} color="info" onClick={saveBothCards}>
-                      <CIcon name="cil-save" content={cilSave} />
+                      <CIcon content={cilSave} />
                     </CButton>
                   </CPopover>
                   <CPopover content={t('common.edit')}>
@@ -275,7 +275,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
                       onClick={toggleEditing}
                       className="ml-2"
                     >
-                      <CIcon name="cil-pencil" content={cilPencil} />
+                      <CIcon content={cilPencil} />
                     </CButton>
                   </CPopover>
                   <ConfirmStopEditingButton t={t} stopEditing={toggleEditing} disabled={!editing} />
@@ -286,7 +286,7 @@ const ConfigurationDetails = ({ configId, config, setConfig }) => {
                       onClick={toggleDelete}
                       className="ml-2"
                     >
-                      <CIcon name="cil-trash" content={cilTrash} />
+                      <CIcon content={cilTrash} />
                     </CButton>
                   </CPopover>
                   <CPopover content={t('common.refresh')}>

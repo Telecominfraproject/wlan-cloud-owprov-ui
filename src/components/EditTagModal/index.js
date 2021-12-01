@@ -14,16 +14,10 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave, cilPen, cilRouter } from '@coreui/icons';
-import {
-  useFormFields,
-  useAuth,
-  useToast,
-  useEntity,
-  EditInventoryTagForm,
-  DetailedNotesTable,
-} from 'ucentral-libs';
+import { useFormFields, useAuth, useToast, useEntity, DetailedNotesTable } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import EditInventoryTagForm from './Form';
 
 const initialForm = {
   serialNumber: {
@@ -349,7 +343,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
               onClick={pushConfigToDevice}
               disabled={!hasConfig}
             >
-              <CIcon name="cil-router" content={cilRouter} size="sm" />
+              <CIcon content={cilRouter} size="sm" />
             </CButton>
           </CPopover>
           <CPopover content={t('common.close')}>

@@ -14,16 +14,10 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave, cilPen } from '@coreui/icons';
-import {
-  useFormFields,
-  useAuth,
-  useToast,
-  useEntity,
-  EditContactForm,
-  DetailedNotesTable,
-} from 'ucentral-libs';
+import { useFormFields, useAuth, useToast, useEntity, DetailedNotesTable } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import EditContactForm from './Form';
 
 const initialForm = {
   name: {
