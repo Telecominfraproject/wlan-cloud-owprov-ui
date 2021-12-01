@@ -667,6 +667,19 @@
 		"uptime": "La disponibilité",
 		"used_total_memory": "{{used}} utilisé / {{total}} total"
 	},
+	"subscriber": {
+		"create": "Créer un abonné",
+		"edit": "Modifier l'abonné",
+		"error_create": "Erreur lors de la création de l'abonné : {{error}}",
+		"error_delete": "Erreur lors de la suppression de l'abonné : {{error}}",
+		"error_fetching": "Erreur lors de la récupération des abonnés : {{error}}",
+		"error_fetching_single": "Erreur lors de la récupération de l'abonné : {{error}}",
+		"error_update": "Erreur lors de la mise à jour de l'abonné : {{error}}",
+		"subscribers": "Les abonnés",
+		"success_create": "Abonné créé avec succès !",
+		"success_delete": "Abonné supprimé avec succès !",
+		"success_update": "Abonné mis à jour avec succès !"
+	},
 	"system": {
 		"error_fetching": "Erreur lors de la récupération des informations système",
 		"error_reloading": "Erreur lors du rechargement : {{error}}",

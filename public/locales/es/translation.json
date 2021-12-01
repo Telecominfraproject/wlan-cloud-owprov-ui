@@ -667,6 +667,19 @@
 		"uptime": "Tiempo de actividad",
 		"used_total_memory": "{{used}} usado / {{total}} total"
 	},
+	"subscriber": {
+		"create": "Crear suscriptor",
+		"edit": "Editar suscriptor",
+		"error_create": "Error al crear el suscriptor: {{error}}",
+		"error_delete": "Error al eliminar el suscriptor: {{error}}",
+		"error_fetching": "Error al obtener suscriptores: {{error}}",
+		"error_fetching_single": "Error al obtener el suscriptor: {{error}}",
+		"error_update": "Error al actualizar el suscriptor: {{error}}",
+		"subscribers": "Suscriptores",
+		"success_create": "¡Suscriptor creado correctamente!",
+		"success_delete": "¡Suscriptor eliminado correctamente!",
+		"success_update": "Suscriptor actualizado con éxito!"
+	},
 	"system": {
 		"error_fetching": "Error al obtener información del sistema",
 		"error_reloading": "Error al recargar: {{error}}",

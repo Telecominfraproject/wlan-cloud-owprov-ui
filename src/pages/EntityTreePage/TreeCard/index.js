@@ -99,7 +99,9 @@ const TreeCard = () => {
     const entityInfo = await Promise.all(
       entitiesToFetch.map((ent) =>
         axiosInstance.get(
-          `${endpoints.owprov}/api/v1/${ent.id.split('/')[0]}/${ent.id.split('/')[1]}`,
+          `${endpoints.owprov}/api/v1/${ent.id.split('/')[0]}/${
+            ent.id.split('/')[1]
+          }?withExtendedInfo=true`,
           options,
         ),
       ),

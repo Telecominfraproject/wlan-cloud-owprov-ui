@@ -667,6 +667,19 @@
 		"uptime": "Uptime",
 		"used_total_memory": "{{used}} used / {{total}} total "
 	},
+	"subscriber": {
+		"create": "Create Subscriber",
+		"edit": "Edit Subscriber",
+		"error_create": "Error creating subscriber: {{error}}",
+		"error_delete": "Error deleting subscriber: {{error}}",
+		"error_fetching": "Error fetching subscribers: {{error}}",
+		"error_fetching_single": "Error fetching subscriber: {{error}}",
+		"error_update": "Error updating subscriber: {{error}}",
+		"subscribers": "Subscribers",
+		"success_create": "Subscriber successfully created!",
+		"success_delete": "Subscriber successfully deleted!",
+		"success_update": "Successfully updated subscriber!"
+	},
 	"system": {
 		"error_fetching": "Error while fetching system information",
 		"error_reloading": "Error while reloading: {{error}}",

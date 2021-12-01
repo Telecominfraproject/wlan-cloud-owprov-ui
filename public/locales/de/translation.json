@@ -667,6 +667,19 @@
 		"uptime": "Betriebszeit",
 		"used_total_memory": "{{used}} verwendet / {{total}} insgesamt"
 	},
+	"subscriber": {
+		"create": "Abonnenten erstellen",
+		"edit": "Abonnent bearbeiten",
+		"error_create": "Fehler beim Erstellen des Abonnenten: {{error}}",
+		"error_delete": "Fehler beim Löschen des Abonnenten: {{error}}",
+		"error_fetching": "Fehler beim Abrufen von Abonnenten: {{error}}",
+		"error_fetching_single": "Fehler beim Abrufen des Abonnenten: {{error}}",
+		"error_update": "Fehler beim Aktualisieren des Abonnenten: {{error}}",
+		"subscribers": "Abonnenten",
+		"success_create": "Abonnent erfolgreich erstellt!",
+		"success_delete": "Abonnent erfolgreich gelöscht!",
+		"success_update": "Abonnent erfolgreich aktualisiert!"
+	},
 	"system": {
 		"error_fetching": "Fehler beim Abrufen von Systeminformationen",
 		"error_reloading": "Fehler beim Neuladen: {{error}}",

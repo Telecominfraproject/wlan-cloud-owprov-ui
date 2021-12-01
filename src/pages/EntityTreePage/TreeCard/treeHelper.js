@@ -1,4 +1,7 @@
 import React from 'react';
+import { cilPeople, cilRouter, cilWifiSignal4 } from '@coreui/icons';
+import { CPopover, CRow, CCol } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
 import createLayoutedElements from './dagreAdapter';
 
 const worldStyle = {
@@ -11,8 +14,8 @@ const worldStyle = {
 };
 
 const entityStyle = {
-  background: '#2292A4',
-  color: 'white',
+  background: '#CCDAD1',
+  color: 'black',
   width: 200,
   padding: 10,
   borderRadius: '5px',
@@ -24,6 +27,69 @@ const venueStyle = {
   width: 200,
   padding: 10,
   borderRadius: '60px',
+};
+
+const getRrmClass = (rrm) => {
+  switch (rrm) {
+    case 'on':
+      return 'text-success';
+    case 'off':
+      return 'text-danger';
+    default:
+      return 'text-warning';
+  }
+};
+
+const nodeWithData = (ent) => {
+  if (ent.extraData.id === '0000-0000-0000') {
+    return (
+      <div className="align-middle">
+        <h5 className="align-middle font-weight-bold mb-0">{ent.entityName}</h5>
+      </div>
+    );
+  }
+  return (
+    <CPopover
+      content={
+        <div>
+          <CRow>
+            <CCol>{ent.extraData.devices.length} devices</CCol>
+          </CRow>
+          <CRow>
+            <CCol>
+              {ent.extraData.contacts !== undefined
+                ? `${ent.extraData.contacts} contacts`
+                : `Contact: ${ent.extraData.extendedInfo.contact?.name}`}
+            </CCol>
+          </CRow>
+          <CRow>
+            <CCol>RRM: {ent.extraData.rrm}</CCol>
+          </CRow>
+        </div>
+      }
+    >
+      <div className="align-middle">
+        <h5 className="align-middle font-weight-bold mb-0">{ent.entityName}</h5>
+        <div className="border border-dark">
+          <div className="float-left ml-4 mt-1 pl-2">
+            <CIcon content={cilRouter} />{' '}
+          </div>
+          <div className="ml-1 mt-1 font-weight-bold float-left">
+            {ent.extraData.devices.length}
+          </div>
+          <div className="ml-3 mt-1 float-left">
+            <CIcon className={getRrmClass(ent.extraData.rrm)} content={cilWifiSignal4} />
+          </div>
+          <div className="ml-3 mt-1 float-left">
+            <CIcon content={cilPeople} />
+          </div>
+          <div className="ml-1 mt-1 font-weight-bold float-left">
+            {ent.extraData.contacts?.length ?? ''}
+          </div>
+        </div>
+      </div>
+    </CPopover>
+  );
 };
 
 const node = (entity) => (
@@ -156,14 +222,7 @@ export default async (data, savedInfo, addDeviceData, transform) => {
         ...ent,
         style,
         data: {
-          label: (
-            <div className="align-middle">
-              <h5 className="align-middle mb-0 font-weight-bold">{ent.entityName}</h5>
-              <h6 className="align-middle mb-0 font-weight-bold">
-                {ent.extraData.devices.length} Devices
-              </h6>
-            </div>
-          ),
+          label: nodeWithData(ent),
         },
       };
     });
@@ -174,14 +233,7 @@ export default async (data, savedInfo, addDeviceData, transform) => {
     withDevices.map((ent) => ({
       ...ent,
       data: {
-        label: (
-          <div>
-            <h5 className="align-middle mb-0 font-weight-bold">{ent.entityName}</h5>
-            <h6 className="align-middle mb-0 font-weight-bold">
-              {ent.extraData.devices.length} Devices
-            </h6>
-          </div>
-        ),
+        label: nodeWithData(ent),
       },
     })),
     200,

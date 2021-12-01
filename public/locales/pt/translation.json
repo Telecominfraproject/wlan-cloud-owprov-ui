@@ -667,6 +667,19 @@
 		"uptime": "Tempo de atividade",
 		"used_total_memory": "{{used}} usado / {{total}} total"
 	},
+	"subscriber": {
+		"create": "Criar assinante",
+		"edit": "Editar Assinante",
+		"error_create": "Erro ao criar assinante: {{error}}",
+		"error_delete": "Erro ao excluir assinante: {{error}}",
+		"error_fetching": "Erro ao buscar assinantes: {{error}}",
+		"error_fetching_single": "Erro ao buscar assinante: {{error}}",
+		"error_update": "Erro ao atualizar assinante: {{error}}",
+		"subscribers": "Inscritos",
+		"success_create": "Assinante criado com sucesso!",
+		"success_delete": "Assinante excluído com sucesso!",
+		"success_update": "Assinante atualizado com sucesso!"
+	},
 	"system": {
 		"error_fetching": "Erro ao buscar informações do sistema",
 		"error_reloading": "Erro ao recarregar: {{error}}",
