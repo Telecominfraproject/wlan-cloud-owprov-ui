@@ -460,7 +460,7 @@ const TreeCard = () => {
                   t={t}
                   notes={treeInfo.notes}
                   addNote={addNote}
-                  editable={mode}
+                  editable={mode === 'edit'}
                 />
               ) : null}
             </CTabPane>

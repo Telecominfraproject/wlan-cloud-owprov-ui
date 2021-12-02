@@ -1,6 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { v4 as createUuid } from 'uuid';
 import ReactFlow, { removeElements, MiniMap, Controls, Background } from 'react-flow-renderer';
+import EntityNode from './EntityNode';
+import VenueNode from './VenueNode';
+import EntityTooltip from './EntityTooltip';
+import VenueTooltip from './VenueTooltip';
+import Legend from './Legend';
+
+const nodeTypes = {
+  entity: EntityNode,
+  venue: VenueNode,
+};
+
+const tooltips = (elements) => {
+  const arr = [];
+
+  for (const el of elements) {
+    if (el.type === 'entity' && el.extraData.id !== '0000-0000-0000') {
+      arr.push(<EntityTooltip key={createUuid()} data={el.data} />);
+    } else {
+      arr.push(<VenueTooltip key={createUuid()} data={el.data} />);
+    }
+  }
+
+  return arr;
+};
 
 const EntityTree = ({
   elements,
@@ -45,9 +70,14 @@ const EntityTree = ({
     setElements([...newEls]);
   };
 
-  // Footer height 50px, top is 64px, header is 38 + 39 = 191
   return (
-    <div style={{ height: 'calc(100vh - 250px)', width: '100%' }} className="border">
+    <div
+      style={{
+        height: mode === 'edit' ? 'calc(100vh - 350px)' : 'calc(100vh - 250px)',
+        width: '100%',
+      }}
+      className="border"
+    >
       <ReactFlow
         elements={elements}
         onElementsRemove={onElementsRemove}
@@ -57,49 +87,11 @@ const EntityTree = ({
         onNodeDragStop={onNodeDragStop}
         deleteKeyCode={null}
         onLoad={onLoad}
+        nodeTypes={nodeTypes}
         snapToGrid
         snapGrid={[10, 10]}
       >
-        <div className="float-left pl-2 pt-2">
-          <div
-            className="align-middle text-center mx-auto mb-2"
-            style={{
-              backgroundColor: '#0F0A0A',
-              color: 'white',
-              height: '30px',
-              borderRadius: '50%',
-            }}
-          >
-            <h4 className="align-middle mb-0 font-weight-bold">Root</h4>
-          </div>
-          <div
-            className="align-middle text-center mx-auto mb-2"
-            style={{
-              backgroundColor: '#2292A4',
-              color: 'white',
-              width: '150px',
-              borderRadius: '5px',
-              borderColor: 'black',
-              borderWidth: '1px',
-              borderStyle: 'solid',
-            }}
-          >
-            <h4 className="align-middle mb-0 font-weight-bold">Entity</h4>
-          </div>
-          <div
-            className="align-middle text-center mx-auto"
-            style={{
-              backgroundColor: '#F5EFED',
-              width: '150px',
-              borderRadius: '60px',
-              borderColor: 'black',
-              borderWidth: '1px',
-              borderStyle: 'solid',
-            }}
-          >
-            <h4 className="align-middle mb-0 font-weight-bold">Venue</h4>
-          </div>
-        </div>
+        <Legend />
         <MiniMap
           nodeColor={(n) => {
             if (n.style?.background) return n.style.background;
@@ -111,6 +103,7 @@ const EntityTree = ({
         <Controls />
         <Background color="#aaa" gap={20} />
       </ReactFlow>
+      {mode === 'view' ? tooltips(elements) : null}
     </div>
   );
 };
