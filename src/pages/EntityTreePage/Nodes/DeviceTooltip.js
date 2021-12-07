@@ -149,9 +149,7 @@ const DeviceTooltip = ({ data }) => {
               shape="square"
               size="sm"
               className="ml-2"
-              onClick={() =>
-                window.open(`${gwUi}/#/devices/${data.entityName.serialNumber}`, '_blank')
-              }
+              onClick={() => window.open(`${gwUi}/#/devices/${data.entityName}`, '_blank')}
               disabled={!gwUi || gwUi === ''}
               style={{ width: '33px', height: '30px' }}
             >
