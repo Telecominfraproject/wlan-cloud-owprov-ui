@@ -7,12 +7,11 @@ const worldStyle = {
   border: '1px solid #777',
   width: 175,
   padding: 10,
-  borderRadius: '20%',
+  borderRadius: '5px',
 };
 
 const entityStyle = {
   background: '#CCDAD1',
-  color: 'black',
   width: 200,
   padding: 10,
   borderRadius: '5px',
@@ -23,7 +22,15 @@ const venueStyle = {
   color: 'white',
   width: 200,
   padding: 10,
-  borderRadius: '60px',
+  borderRadius: '5px',
+};
+
+const deviceStyle = {
+  background: '#4B3B40',
+  color: 'white',
+  width: 200,
+  padding: 10,
+  borderRadius: '5px',
 };
 
 const iterateThroughTreeWithRoot = (el, rootNode) => {
@@ -44,80 +51,80 @@ const iterateThroughTreeWithRoot = (el, rootNode) => {
   return result;
 };
 
-const iterateThroughTree = (el, rootNodeId) => {
+const iterateThroughTree = (el, rootNodeId, data) => {
   let newArray = [];
 
   if (el.type === 'entity') {
+    const entId = `entity/${el.uuid}`;
+
     newArray.push({
-      id: `${el.type}/${el.uuid}`,
-      entityName: el.name,
+      ...data.find((d) => d.id === entId),
       position: { x: 0, y: 200 },
-      type: 'entity',
       style: el.uuid === rootNodeId ? worldStyle : entityStyle,
     });
 
-    // Creating edges for children and venues
-    for (const child of el.children) {
-      newArray.push({
-        id: `edge/${el.uuid}/${child.uuid}`,
-        source: `${el.type}/${el.uuid}`,
-        target: `${child.type}/${child.uuid}`,
-        arrowHeadType: 'arrow',
-        arrowHeadColor: '#000000',
-      });
+    // Finding all edges/devices linked
+    const toPush = [];
+    for (const element of data) {
+      if (element.source === entId) {
+        toPush.push(element);
+        if (element.target.split('/')[0] === 'device') {
+          const device = data.find((d) => d.id === `device/${element.target.split('/')[1]}`);
+          if (device) toPush.push(device);
+        }
+      }
     }
-    for (const child of el.venues) {
-      newArray.push({
-        id: `edge/${el.uuid}/${child.uuid}`,
-        source: `${el.type}/${el.uuid}`,
-        target: `${child.type}/${child.uuid}`,
-        arrowHeadType: 'arrow',
-        arrowHeadColor: '#000000',
-      });
-    }
+    newArray = newArray.concat(toPush);
 
     // Creating children/venue elements
     let childrenArray = [];
     for (const child of el.children) {
-      childrenArray = childrenArray.concat(iterateThroughTree(child));
+      childrenArray = childrenArray.concat(iterateThroughTree(child, rootNodeId, data));
     }
     for (const child of el.venues) {
-      childrenArray = childrenArray.concat(iterateThroughTree(child));
+      childrenArray = childrenArray.concat(iterateThroughTree(child, rootNodeId, data));
     }
     newArray = newArray.concat(childrenArray);
-  } else {
+  } else if (el.type === 'venue') {
+    const entId = `venue/${el.uuid}`;
+
     newArray.push({
-      id: `${el.type}/${el.uuid}`,
-      entityName: el.name,
+      ...data.find((d) => d.id === entId),
       position: { x: 0, y: 200 },
-      type: 'venue',
       style: venueStyle,
     });
 
+    // Finding all edges/devices linked
+    const toPush = [];
+    for (const element of data) {
+      if (element.source === entId) {
+        toPush.push(element);
+        if (element.target.split('/')[0] === 'device') {
+          const device = data.find((d) => d.id === `device/${element.target.split('/')[1]}`);
+          if (device) toPush.push(device);
+        }
+      }
+    }
+    newArray = newArray.concat(toPush);
+
+    // Creating children/venue elements
+    let childrenArray = [];
     for (const child of el.children) {
-      newArray.push({
-        id: `edge/${el.uuid}/${child.uuid}`,
-        source: `${el.type}/${el.uuid}`,
-        target: `${child.type}/${child.uuid}`,
-        arrowHeadType: 'arrow',
-        arrowHeadColor: '#000000',
-      });
+      childrenArray = childrenArray.concat(iterateThroughTree(child, rootNodeId, data));
     }
 
-    for (const child of el.children) {
-      newArray = newArray.concat(iterateThroughTree(child));
-    }
+    newArray = newArray.concat(childrenArray);
   }
 
   return newArray;
 };
 
-export default async (data, savedInfo, addDeviceData, transform) => {
-  const parsed = savedInfo ? JSON.parse(savedInfo.data) : undefined;
+export default async (rawTree, data, savedInfo, transform) => {
+  const parsed = savedInfo ? JSON.parse(savedInfo) : undefined;
   const rootNodeId = parsed?.rootNode?.split('/')[1] ?? '0000-0000-0000';
 
-  const elements = iterateThroughTreeWithRoot(data, rootNodeId);
-  const newTree = iterateThroughTree(elements, rootNodeId);
+  const treeWithRoot = iterateThroughTreeWithRoot(rawTree, rootNodeId);
+  const newTree = iterateThroughTree(treeWithRoot, rootNodeId, data);
 
   if (savedInfo) {
     // Verifying if there are elements in our old tree that were deleted in the DB
@@ -141,28 +148,35 @@ export default async (data, savedInfo, addDeviceData, transform) => {
 
     [x = 0, y = 0] = parsed.position;
     transform({ x, y, zoom: parsed.zoom || 0 });
-    const withDevices = await addDeviceData(onlyExistingElements);
-    return withDevices.map((ent) => {
+
+    return onlyExistingElements.map((ent) => {
       let style = entityStyle;
       const type = ent.id.split('/')[0];
       if (type === 'venue') style = venueStyle;
+      else if (type === 'device') style = deviceStyle;
       else if (ent.id.split('/')[1] === rootNodeId) style = worldStyle;
 
       return {
         ...ent,
-        type,
         style,
         data: { ...ent, tooltipId: createUuid() },
       };
     });
   }
-
-  const withDevices = await addDeviceData(newTree);
   return createLayoutedElements(
-    withDevices.map((ent) => ({
-      ...ent,
-      data: { ...ent, tooltipId: createUuid() },
-    })),
+    newTree.map((ent) => {
+      let style = entityStyle;
+      const type = ent.id.split('/')[0];
+      if (type === 'venue') style = venueStyle;
+      else if (type === 'device') style = deviceStyle;
+      else if (ent.id.split('/')[1] === rootNodeId) style = worldStyle;
+
+      return {
+        ...ent,
+        style,
+        data: { ...ent, tooltipId: createUuid() },
+      };
+    }),
     200,
     40,
   );

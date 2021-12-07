@@ -37,7 +37,7 @@ const EntityTooltip = ({ data }) => {
           <CCol>{`${data.extraData.locations.length} ${t('location.title')}`}</CCol>
         </CRow>
         <CRow>
-          <CCol>RRM: {data.extraData.rrm}</CCol>
+          <CCol>RRM: {data.extraData.rrm.length > 0 ? data.extraData.rrm : 'inherit'}</CCol>
         </CRow>
       </div>
     </ReactTooltip>

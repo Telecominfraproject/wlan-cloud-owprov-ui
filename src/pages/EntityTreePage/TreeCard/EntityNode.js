@@ -5,6 +5,7 @@ import { CButtonToolbar } from '@coreui/react';
 import { cilPeople, cilRouter, cilWifiSignal4 } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { Handle } from 'react-flow-renderer';
+import { numberToCompact } from 'ucentral-libs';
 
 const getRrmClass = (rrm) => {
   switch (rrm) {
@@ -55,7 +56,9 @@ const EntityNode = ({ data, isConnectable }) => {
           <div className="mt-1 mr-1">
             <CIcon content={cilRouter} />{' '}
           </div>
-          <div className="mt-1 mr-2 font-weight-bold">{data.extraData.devices.length}</div>
+          <div className="mt-1 mr-2 font-weight-bold">
+            {numberToCompact(data.extraData.devices.length, 2)}
+          </div>
           <div className="mt-1 mr-2">
             <CIcon className={getRrmClass(data.extraData.rrm)} content={cilWifiSignal4} />
           </div>
@@ -65,13 +68,17 @@ const EntityNode = ({ data, isConnectable }) => {
           <div className="mt-1 font-weight-bold">{data.extraData.contacts?.length ?? ''}</div>
         </CButtonToolbar>
       </div>
-      <Handle
-        type="source"
-        position="bottom"
-        id="a"
-        style={{ background: '#555' }}
-        isConnectable={isConnectable}
-      />
+      {data.extraData.children.length > 0 ||
+      data.extraData.venues.length > 0 ||
+      data.extraData.devices.length > 0 ? (
+        <Handle
+          type="source"
+          position="bottom"
+          id="a"
+          style={{ background: '#555' }}
+          isConnectable={isConnectable}
+        />
+      ) : null}
     </>
   );
 };

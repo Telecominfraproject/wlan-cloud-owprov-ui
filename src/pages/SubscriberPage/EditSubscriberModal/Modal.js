@@ -19,7 +19,7 @@ import EditUserForm from './Form';
 
 const EditUserModal = ({
   t,
-  user,
+  fields,
   updateUserWithId,
   saveUser,
   loading,
@@ -45,7 +45,7 @@ const EditUserModal = ({
     <CModal show={show} onClose={toggle} size="xl">
       <CModalHeader className="p-1">
         <CModalTitle className="pl-1 pt-1">
-          {t('subscriber.edit')} {user.email.value}
+          {t('subscriber.edit')} {fields.email.value}
         </CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
@@ -100,7 +100,7 @@ const EditUserModal = ({
             {index === 0 ? (
               <EditUserForm
                 t={t}
-                user={user}
+                user={fields}
                 updateUserWithId={updateUserWithId}
                 policies={policies}
                 editing={editing}
@@ -111,7 +111,7 @@ const EditUserModal = ({
             {index === 1 ? (
               <DetailedNotesTable
                 t={t}
-                notes={user.notes.value}
+                notes={fields.notes.value}
                 addNote={addNote}
                 loading={loading}
                 editable={editing}
@@ -126,7 +126,7 @@ const EditUserModal = ({
 
 EditUserModal.propTypes = {
   t: PropTypes.func.isRequired,
-  user: PropTypes.instanceOf(Object).isRequired,
+  fields: PropTypes.instanceOf(Object).isRequired,
   updateUserWithId: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   saveUser: PropTypes.func.isRequired,

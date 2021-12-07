@@ -51,6 +51,18 @@ const Legend = () => (
           />
         </CCol>
       </CRow>
+      <CRow>
+        <CCol sm="6">Device</CCol>
+        <CCol className="pt-1">
+          <div
+            style={{
+              height: '80%',
+              backgroundColor: '#4B3B40',
+              width: '100%',
+            }}
+          />
+        </CCol>
+      </CRow>
     </div>
   </>
 );

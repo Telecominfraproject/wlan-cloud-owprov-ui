@@ -43,7 +43,7 @@ const VenueTooltip = ({ data }) => {
           </CCol>
         </CRow>
         <CRow>
-          <CCol>RRM: {data.extraData.rrm}</CCol>
+          <CCol>RRM: {data.extraData.rrm.length > 0 ? data.extraData.rrm : 'inherit'}</CCol>
         </CRow>
       </div>
     </ReactTooltip>

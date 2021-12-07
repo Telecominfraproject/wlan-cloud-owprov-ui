@@ -13,6 +13,7 @@ import {
   CPopover,
   CRow,
   CSwitch,
+  CFormText,
 } from '@coreui/react';
 import PropTypes from 'prop-types';
 import CIcon from '@coreui/icons-react';
@@ -37,6 +38,29 @@ const EditUserForm = ({ t, user, updateUserWithId, policies, editing }) => {
             <p className="mt-2 mb-0">{user.name.value}</p>
           )}
         </CCol>
+        <CLabel sm="2" col htmlFor="owner">
+          {t('common.serial_number')}
+        </CLabel>
+        <CCol sm="4">
+          {editing ? (
+            <>
+              <CInput
+                id="owner"
+                type="text"
+                required
+                value={user.owner.value}
+                onChange={updateUserWithId}
+                invalid={user.owner.error}
+                maxLength="50"
+              />
+              <CFormText color={user.owner.error ? 'danger' : ''}>
+                {t('entity.valid_serial')}
+              </CFormText>
+            </>
+          ) : (
+            <p className="mt-2 mb-0">{user.description.value}</p>
+          )}
+        </CCol>
         <CLabel sm="2" col htmlFor="description">
           {t('user.description')}
         </CLabel>
@@ -52,12 +76,10 @@ const EditUserForm = ({ t, user, updateUserWithId, policies, editing }) => {
             <p className="mt-2 mb-0">{user.description.value}</p>
           )}
         </CCol>
-      </CFormGroup>
-      <CFormGroup row>
         <CLabel sm="2" col htmlFor="currentPassword">
           {t('login.new_password')}
         </CLabel>
-        <CCol sm="4">
+        <CCol sm="4" className="mb-2">
           {editing ? (
             <CInputGroup>
               <CInput
@@ -84,7 +106,7 @@ const EditUserForm = ({ t, user, updateUserWithId, policies, editing }) => {
             <p className="mt-2 mb-0" />
           )}
         </CCol>
-        <CLabel sm="3" col htmlFor="changePassword">
+        <CLabel sm="2" col htmlFor="changePassword">
           {t('user.force_password_change')}
         </CLabel>
         <CCol sm="1">
