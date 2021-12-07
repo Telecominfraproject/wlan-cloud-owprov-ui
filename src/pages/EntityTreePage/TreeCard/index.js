@@ -196,7 +196,7 @@ const TreeCard = () => {
     setTree(newTree);
   };
 
-  const makeDefault = () => updatePreferences({ defaultNetworkMap: treeInfo.id });
+  const makeDefault = () => updatePreferences({ 'provisioning.defaultNetworkMap': treeInfo.id });
 
   const chooseMap = async (id) => {
     setTree(null);
@@ -517,7 +517,7 @@ const TreeCard = () => {
 
   useEffect(() => {
     if (user.Id && generalInfo) {
-      chooseMap(user.preferences?.defaultNetworkMap ?? '');
+      chooseMap(user.preferences['provisioning.defaultNetworkMap'] ?? '');
     }
   }, [user.Id, generalInfo]);
 
@@ -530,7 +530,7 @@ const TreeCard = () => {
       <CCard className="m-0">
         <Header
           myMaps={myMaps}
-          isDefault={user.preferences?.defaultNetworkMap === treeInfo.id}
+          isDefault={user.preferences['provisioning.defaultNetworkMap'] === treeInfo.id}
           makeDefault={makeDefault}
           othersMaps={othersMaps}
           chooseMap={chooseMap}

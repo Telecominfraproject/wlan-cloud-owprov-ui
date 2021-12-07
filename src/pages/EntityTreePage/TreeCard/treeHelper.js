@@ -5,7 +5,7 @@ const worldStyle = {
   background: '#0F0A0A',
   color: 'white',
   border: '1px solid #777',
-  width: 175,
+  width: 200,
   padding: 10,
   borderRadius: '5px',
 };

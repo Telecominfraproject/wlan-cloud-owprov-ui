@@ -7,13 +7,13 @@ import { cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import ReactFlow, { removeElements, MiniMap, Controls } from 'react-flow-renderer';
 import { Modal, useToggle } from 'ucentral-libs';
-import EntityNode from './EntityNode';
-import VenueNode from './VenueNode';
-import EntityTooltip from './EntityTooltip';
-import VenueTooltip from './VenueTooltip';
-import DeviceTooltip from './DeviceTooltip';
+import EntityNode from '../Nodes/EntityNode';
+import VenueNode from '../Nodes/VenueNode';
+import EntityTooltip from '../Nodes/EntityTooltip';
+import VenueTooltip from '../Nodes/VenueTooltip';
+import DeviceTooltip from '../Nodes/DeviceTooltip';
 import Legend from './Legend';
-import DeviceNode from './DeviceNode';
+import DeviceNode from '../Nodes/DeviceNode';
 
 const nodeTypes = {
   entity: EntityNode,

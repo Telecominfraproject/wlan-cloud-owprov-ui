@@ -4,7 +4,7 @@ import { CRow, CCol } from '@coreui/react';
 import ReactTooltip from 'react-tooltip';
 import { useTranslation } from 'react-i18next';
 
-const VenueTooltip = ({ data }) => {
+const EntityTooltip = ({ data }) => {
   const { t } = useTranslation();
 
   return (
@@ -23,7 +23,7 @@ const VenueTooltip = ({ data }) => {
           <u>{data.entityName}</u>
         </h5>
         {data.extraData.description.trim().length > 0 ? (
-          <h6 className="font-italic">{data.extraData.description}</h6>
+          <h6 className="font-italic mb-1">{data.extraData.description}</h6>
         ) : null}
         <CRow>
           <CCol>
@@ -31,16 +31,10 @@ const VenueTooltip = ({ data }) => {
           </CCol>
         </CRow>
         <CRow>
-          <CCol>
-            {`${t('contact.contact')}: ${data.extraData.extendedInfo.contact?.name ?? 'None'}`}
-          </CCol>
+          <CCol>{`${data.extraData.contacts.length} ${t('contact.title')}`}</CCol>
         </CRow>
         <CRow>
-          <CCol>
-            {`${t('configuration.location')}: ${
-              data.extraData.extendedInfo.location?.name ?? 'None'
-            }`}
-          </CCol>
+          <CCol>{`${data.extraData.locations.length} ${t('location.title')}`}</CCol>
         </CRow>
         <CRow>
           <CCol>RRM: {data.extraData.rrm.length > 0 ? data.extraData.rrm : 'inherit'}</CCol>
@@ -50,8 +44,8 @@ const VenueTooltip = ({ data }) => {
   );
 };
 
-VenueTooltip.propTypes = {
+EntityTooltip.propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default React.memo(VenueTooltip);
+export default React.memo(EntityTooltip);
