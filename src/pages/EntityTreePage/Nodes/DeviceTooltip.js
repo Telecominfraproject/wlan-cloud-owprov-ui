@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { CRow, CCol, CDataTable } from '@coreui/react';
+import { CRow, CCol, CDataTable, CButton, CPopover } from '@coreui/react';
+import { cilZoomIn } from '@coreui/icons';
+import CIcon from '@coreui/icons-react';
 import ReactTooltip from 'react-tooltip';
 import { useTranslation } from 'react-i18next';
 
@@ -16,14 +18,14 @@ const getConnection = (t, data) => {
       ? t('common.connected')
       : t('common.not_connected');
   }
-  return 'Information Unavailable';
+  return 'N/A';
 };
 
 const getHealth = (t, data) => {
   if (data.extraData.healthCheckInfo && data.extraData.healthCheckInfo.recorded > 0) {
     return `${data.extraData.healthCheckInfo.sanity}%`;
   }
-  return 'Information Unavailable';
+  return 'N/A';
 };
 
 const parseAssoc = (data) => {
@@ -45,6 +47,8 @@ const parseAssoc = (data) => {
           );
           radioInfo.found = radioInfo.radio !== undefined;
           radioInfo.radioIndex = radioInfo.radio;
+          radioInfo.type =
+            data.extraData.statsInfo.radios[radioInfo.radio].channel < 16 ? '2G' : '5G';
         }
 
         if (!radioInfo.found && ssid.radio !== undefined) {
@@ -58,6 +62,8 @@ const parseAssoc = (data) => {
         if (!radioInfo.found) {
           radioInfo.radio = '-';
         }
+
+        // console.log(radioInfo);
 
         if ('associations' in ssid) {
           for (const association of ssid.associations) {
@@ -79,13 +85,43 @@ const parseAssoc = (data) => {
 const DeviceTooltip = ({ data }) => {
   const { t } = useTranslation();
   const [associations] = useState(parseAssoc(data));
+  const [gwUi] = useState(localStorage.getItem('owgw-ui'));
 
   const columns = [
-    { key: 'radio', label: 'Radio', _style: { width: '1%' } },
+    { key: 'radio', label: 'R', _style: { width: '1%' } },
     { key: 'bssid', label: 'BSSID', _style: { width: '1%' } },
     { key: 'ssid', label: 'SSID' },
     { key: 'rssi', label: 'RSSI', _style: { width: '1%' } },
   ];
+
+  const getAssociations = () => {
+    if (!associations) return null;
+
+    return associations.length === 0 ? (
+      <h6 className="mt-2">No Associations</h6>
+    ) : (
+      <>
+        <h6 className="mt-2">Associations</h6>
+        <div className="overflow-auto" style={{ maxHeight: '200px' }}>
+          <CDataTable
+            style={{ width: '500px' }}
+            addTableClasses="table-sm"
+            items={associations}
+            fields={columns}
+            hover
+            border
+            noItemsViewSlot={<h5>No Associations</h5>}
+            scopedSlots={{
+              radio: (item) => <td className="align-middle p-1">{item.radio.type}</td>,
+              bssid: (item) => <td className="align-middle p-1">{item.bssid}</td>,
+              ssid: (item) => <td className="align-middle p-1">{item.ssid}</td>,
+              rssi: (item) => <td className="align-middle p-1">{item.rssi}</td>,
+            }}
+          />
+        </div>
+      </>
+    );
+  };
 
   return (
     <ReactTooltip
@@ -100,41 +136,43 @@ const DeviceTooltip = ({ data }) => {
     >
       <div>
         <h5 className="mb-1">
-          <u>{data.entityName}</u>
+          <u>
+            {data.entityName}
+            {data.extraData?.deviceInfo?.deviceType
+              ? `, ${data.extraData?.deviceInfo?.deviceType}`
+              : ''}
+          </u>
+          <CPopover content={t('inventory.view_in_gateway')}>
+            <CButton
+              color="primary"
+              variant="outline"
+              shape="square"
+              size="sm"
+              className="ml-2"
+              onClick={() =>
+                window.open(`${gwUi}/#/devices/${data.entityName.serialNumber}`, '_blank')
+              }
+              disabled={!gwUi || gwUi === ''}
+              style={{ width: '33px', height: '30px' }}
+            >
+              <CIcon content={cilZoomIn} />
+            </CButton>
+          </CPopover>
         </h5>
         {data.extraData.tagInfo && data.extraData.tagInfo.description.trim().length > 0 ? (
           <h6 className="font-italic">{data.extraData.tagInfo?.description}</h6>
         ) : null}
         <CRow>
           <CCol>
-            {t('common.device_status')}: {getConnection(t, data)}
+            {t('common.status')}: {getConnection(t, data)}
           </CCol>
         </CRow>
         <CRow>
           <CCol>
-            {t('common.device_health')}: {getHealth(t, data)}
+            {t('health.title')}: {getHealth(t, data)}
           </CCol>
         </CRow>
-        {associations && (
-          <>
-            <h6 className="mt-2">Associations</h6>
-            <CDataTable
-              style={{ width: '500px' }}
-              addTableClasses="table-sm"
-              items={associations}
-              fields={columns}
-              hover
-              border
-              noItemsViewSlot={<h5>No Associations</h5>}
-              scopedSlots={{
-                radio: (item) => <td className="align-middle p-1">{item.radio.radio}</td>,
-                bssid: (item) => <td className="align-middle p-1">{item.bssid}</td>,
-                ssid: (item) => <td className="align-middle p-1">{item.ssid}</td>,
-                rssi: (item) => <td className="align-middle p-1">{item.rssi}</td>,
-              }}
-            />
-          </>
-        )}
+        {getAssociations()}
       </div>
     </ReactTooltip>
   );

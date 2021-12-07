@@ -127,42 +127,74 @@ export default async (rawTree, data, savedInfo, transform) => {
   const newTree = iterateThroughTree(treeWithRoot, rootNodeId, data);
 
   if (savedInfo) {
-    // Verifying if there are elements in our old tree that were deleted in the DB
+    // Adding saved positions to info from
     let [x, y] = [0, 0];
-    const onlyExistingElements = parsed.elements.filter((el) => {
+
+    // Adding saved positions to array
+    const elementsWithSavedPosition = newTree.map((el) => {
+      let style = entityStyle;
+      const type = el.id.split('/')[0];
+      if (type === 'venue') style = venueStyle;
+      else if (type === 'device') style = deviceStyle;
+      else if (el.id.split('/')[1] === rootNodeId) style = worldStyle;
+
       if (el.position?.y <= y) [x, y] = [el.position.x, el.position.y];
-      return newTree.find((newEl) => el.id === newEl.id);
+
+      return {
+        ...el,
+        type,
+        style,
+        data: { ...el, tooltipId: createUuid() },
+        position: parsed.elements.find((oldEl) => oldEl.id === el.id)?.position ?? undefined,
+      };
     });
 
-    // Verifying if we are missing elements in our old tree that were added in the DB
-    let posDiff = 1;
-    for (const newEl of newTree) {
-      if (!onlyExistingElements.find((el) => el.id === newEl.id)) {
-        onlyExistingElements.push({
-          ...newEl,
-          position: { x: x + 100 + posDiff * 100, y: y - 100 + posDiff * 10 },
-        });
-        posDiff += 1;
+    let posDiff = 0;
+
+    // Adding best-as-possible positions to entities which weren't saved
+    const elementsWithAutoPosition = elementsWithSavedPosition.map((el) => {
+      if (el.position) return el;
+
+      let parent;
+      if (el.type === 'entity') {
+        parent = elementsWithSavedPosition.find((t) => t.id === `entity/${el.extraData.parent}`);
       }
-    }
+      if (el.type === 'venue') {
+        const parentId =
+          el.extraData.parent !== ''
+            ? `venue/${el.extraData.parent}`
+            : `entity/${el.extraData.entity}`;
+        parent = elementsWithSavedPosition.find(
+          (t) => t.id === parentId && t.position !== undefined,
+        );
+      }
+      if (el.type === 'device') {
+        const parentId =
+          el.extraData.tagInfo.venue !== ''
+            ? `venue/${el.extraData.tagInfo.venue}`
+            : `entity/${el.extraData.tagInfo.entity}`;
+        parent = elementsWithSavedPosition.find(
+          (t) => t.id === parentId && t.position !== undefined,
+        );
+      }
+      if (parent) {
+        return {
+          ...el,
+          position: { x: parent.position.x + 100, y: parent.position.y + 100 },
+        };
+      }
+
+      posDiff += 1;
+      return {
+        ...el,
+        position: { x: x + 100 + posDiff * 100, y: y - 100 + posDiff * 10 },
+      };
+    });
 
     [x = 0, y = 0] = parsed.position;
     transform({ x, y, zoom: parsed.zoom || 0 });
 
-    return onlyExistingElements.map((ent) => {
-      let style = entityStyle;
-      const type = ent.id.split('/')[0];
-      if (type === 'venue') style = venueStyle;
-      else if (type === 'device') style = deviceStyle;
-      else if (ent.id.split('/')[1] === rootNodeId) style = worldStyle;
-
-      return {
-        ...ent,
-        type,
-        style,
-        data: { ...ent, tooltipId: createUuid() },
-      };
-    });
+    return elementsWithAutoPosition;
   }
   return createLayoutedElements(
     newTree.map((ent) => {

@@ -4,6 +4,7 @@ import { CButton, CPopover, CLabel, CCardHeader, CButtonToolbar } from '@coreui/
 import CIcon from '@coreui/icons-react';
 import {
   cilAlignCenter,
+  cilLibraryAdd,
   cilPencil,
   cilPlus,
   cilSave,
@@ -63,7 +64,7 @@ const TreeHeader = ({
       <div className="text-right float-right">
         <CButtonToolbar role="group" className="justify-content-end">
           <CButton className="mr-2 p-1" disabled={isDefault} color="info" onClick={makeDefault}>
-            {isDefault ? 'Default Map' : 'Mark as default'}
+            {isDefault ? 'Default Map' : 'Set as Default'}
           </CButton>
           <CLabel className="mr-2 pt-2" htmlFor="deviceType">
             {t('entity.selected_map')}
@@ -90,12 +91,11 @@ const TreeHeader = ({
           <CPopover content={t('entity.duplicate_from_node')}>
             <CButton
               color="info"
-              className="ml-2 p-2"
+              className="ml-2"
               onClick={startDuplicateFromNode}
               disabled={mode !== 'view'}
             >
-              <CIcon size="sm" content={cilPlus} />
-              <CIcon size="sm" content={cilPlus} />
+              <CIcon content={cilLibraryAdd} />
             </CButton>
           </CPopover>
           <CPopover content={t('common.duplicate')}>

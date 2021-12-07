@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as createUuid } from 'uuid';
-import { CButtonToolbar } from '@coreui/react';
 import { Dot } from 'ucentral-libs';
+import { CButtonToolbar } from '@coreui/react';
 import { Handle } from 'react-flow-renderer';
 import HeartShape from './HeartShape';
 
