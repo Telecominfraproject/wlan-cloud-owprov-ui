@@ -196,9 +196,10 @@ const TreeCard = () => {
     setTree(newTree);
   };
 
+  const makeDefault = () => updatePreferences({ defaultNetworkMap: treeInfo.id });
+
   const chooseMap = async (id) => {
     setTree(null);
-    updatePreferences({ defaultNetworkMap: id });
     setMode('view');
 
     if (id === '') {
@@ -529,6 +530,8 @@ const TreeCard = () => {
       <CCard className="m-0">
         <Header
           myMaps={myMaps}
+          isDefault={user.preferences?.defaultNetworkMap === treeInfo.id}
+          makeDefault={makeDefault}
           othersMaps={othersMaps}
           chooseMap={chooseMap}
           treeInfo={treeInfo}

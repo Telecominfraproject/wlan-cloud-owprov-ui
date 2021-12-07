@@ -32,13 +32,13 @@ const VenueTooltip = ({ data }) => {
         </CRow>
         <CRow>
           <CCol>
-            {`${t('contact.contact')}: ${data.extraData.extendedInfo.contact?.name ?? 'None'}`}
+            {`${t('contact.contact')}: ${data.extraData.extendedInfo?.contact?.name ?? 'None'}`}
           </CCol>
         </CRow>
         <CRow>
           <CCol>
             {`${t('configuration.location')}: ${
-              data.extraData.extendedInfo.location?.name ?? 'None'
+              data.extraData.extendedInfo?.location?.name ?? 'None'
             }`}
           </CCol>
         </CRow>

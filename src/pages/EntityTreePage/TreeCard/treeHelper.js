@@ -158,6 +158,7 @@ export default async (rawTree, data, savedInfo, transform) => {
 
       return {
         ...ent,
+        type,
         style,
         data: { ...ent, tooltipId: createUuid() },
       };

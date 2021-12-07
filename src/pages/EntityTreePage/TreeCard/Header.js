@@ -46,6 +46,8 @@ const TreeHeader = ({
   treeInfo,
   toggleDuplicateModal,
   resetLayout,
+  isDefault,
+  makeDefault,
   refreshTree,
   toggleDelete,
   toggleEditing,
@@ -60,7 +62,10 @@ const TreeHeader = ({
       <div className="text-value-lg float-left">{t('entity.entire_tree')}</div>
       <div className="text-right float-right">
         <CButtonToolbar role="group" className="justify-content-end">
-          <CLabel className="mr-2 pt-1" htmlFor="deviceType">
+          <CButton className="mr-2 p-1" disabled={isDefault} color="info" onClick={makeDefault}>
+            {isDefault ? 'Default Map' : 'Mark as default'}
+          </CButton>
+          <CLabel className="mr-2 pt-2" htmlFor="deviceType">
             {t('entity.selected_map')}
           </CLabel>
           <div style={{ width: '300px', zIndex: '1028' }} className="text-dark text-left">
@@ -166,6 +171,8 @@ TreeHeader.propTypes = {
   treeInfo: PropTypes.instanceOf(Object).isRequired,
   toggleDuplicateModal: PropTypes.func.isRequired,
   resetLayout: PropTypes.func.isRequired,
+  isDefault: PropTypes.bool.isRequired,
+  makeDefault: PropTypes.func.isRequired,
   refreshTree: PropTypes.func.isRequired,
   toggleDelete: PropTypes.func.isRequired,
   toggleEditing: PropTypes.func.isRequired,
