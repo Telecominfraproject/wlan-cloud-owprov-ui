@@ -105,7 +105,7 @@ const TreeCard = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [index, setIndex] = useState(0);
-  const { endpoints, currentToken, updatePreferences, user } = useAuth();
+  const { endpoints, currentToken, updatePreferences, user, deletePreference } = useAuth();
   const { addToast } = useToast();
   const [generalInfo, setGeneralInfo] = useState(null);
   const [rawTree, setRawTree] = useState(null);
@@ -196,7 +196,11 @@ const TreeCard = () => {
     setTree(newTree);
   };
 
-  const makeDefault = () => updatePreferences({ 'provisioning.defaultNetworkMap': treeInfo.id });
+  const toggleDefault = () => {
+    if (user.preferences['provisioning.defaultNetworkMap'] === treeInfo.id)
+      deletePreference('provisioning.defaultNetworkMap');
+    else updatePreferences({ 'provisioning.defaultNetworkMap': treeInfo.id });
+  };
 
   const chooseMap = async (id) => {
     setTree(null);
@@ -531,7 +535,7 @@ const TreeCard = () => {
         <Header
           myMaps={myMaps}
           isDefault={user.preferences['provisioning.defaultNetworkMap'] === treeInfo.id}
-          makeDefault={makeDefault}
+          toggleDefault={toggleDefault}
           othersMaps={othersMaps}
           chooseMap={chooseMap}
           treeInfo={treeInfo}

@@ -48,7 +48,7 @@ const TreeHeader = ({
   toggleDuplicateModal,
   resetLayout,
   isDefault,
-  makeDefault,
+  toggleDefault,
   refreshTree,
   toggleDelete,
   toggleEditing,
@@ -63,11 +63,20 @@ const TreeHeader = ({
       <div className="text-value-lg float-left">{t('entity.entire_tree')}</div>
       <div className="text-right float-right">
         <CButtonToolbar role="group" className="justify-content-end">
-          <CButton className="mr-2 p-1" disabled={isDefault} color="info" onClick={makeDefault}>
-            {isDefault ? 'Default Map' : 'Set as Default'}
-          </CButton>
+          {isDefault ? (
+            <CPopover content="Make this map not your default">
+              <CButton className="mr-2 p-1" color="danger" onClick={toggleDefault}>
+                Default Map
+                <CIcon className="ml-1" content={cilX} />
+              </CButton>
+            </CPopover>
+          ) : (
+            <CButton className="mr-2 p-1" color="info" onClick={toggleDefault}>
+              Set as Default
+            </CButton>
+          )}
           <CLabel className="mr-2 pt-2" htmlFor="deviceType">
-            {t('entity.selected_map')}
+            {t('common.current')}
           </CLabel>
           <div style={{ width: '300px', zIndex: '1028' }} className="text-dark text-left">
             <Select
@@ -172,7 +181,7 @@ TreeHeader.propTypes = {
   toggleDuplicateModal: PropTypes.func.isRequired,
   resetLayout: PropTypes.func.isRequired,
   isDefault: PropTypes.bool.isRequired,
-  makeDefault: PropTypes.func.isRequired,
+  toggleDefault: PropTypes.func.isRequired,
   refreshTree: PropTypes.func.isRequired,
   toggleDelete: PropTypes.func.isRequired,
   toggleEditing: PropTypes.func.isRequired,
