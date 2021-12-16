@@ -52,12 +52,14 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index, di
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
-                <ChannelPicker
-                  id={`${idStart}.channel`}
-                  label="channel"
-                  field={fields.radios[index].channel}
+                <ConfigurationSelect
+                  id={`${idStart}.bandwidth`}
+                  label="bandwidth"
+                  field={fields.radios[index].bandwidth}
                   updateField={updateField}
-                  band={fields.radios[index].band.value}
+                  firstCol="4"
+                  secondCol="8"
+                  width="100px"
                   disabled={disabled}
                 />
               </CCol>
@@ -73,14 +75,13 @@ const SingleRadio = ({ fields, updateWithId, updateField, deleteRadio, index, di
                 />
               </CCol>
               <CCol lg="6" xl="4" xxl="3">
-                <ConfigurationSelect
-                  id={`${idStart}.bandwidth`}
-                  label="bandwidth"
-                  field={fields.radios[index].bandwidth}
+                <ChannelPicker
+                  id={`${idStart}.channel`}
+                  label="channel"
+                  field={fields.radios[index].channel}
                   updateField={updateField}
-                  firstCol="4"
-                  secondCol="8"
-                  width="100px"
+                  band={fields.radios[index].band.value}
+                  channelWidth={fields.radios[index]['channel-width'].value}
                   disabled={disabled}
                 />
               </CCol>
