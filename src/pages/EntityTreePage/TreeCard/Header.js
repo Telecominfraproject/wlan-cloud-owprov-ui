@@ -65,7 +65,7 @@ const TreeHeader = ({
         <CButtonToolbar role="group" className="justify-content-end">
           {isDefault ? (
             <CPopover content="Make this map not your default">
-              <CButton className="mr-2 p-1" color="danger" onClick={toggleDefault}>
+              <CButton className="mr-2 p-1" color="light" onClick={toggleDefault}>
                 Default Map
                 <CIcon className="ml-1" content={cilX} />
               </CButton>
