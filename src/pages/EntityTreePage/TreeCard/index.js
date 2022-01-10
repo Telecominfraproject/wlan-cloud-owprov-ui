@@ -264,7 +264,7 @@ const TreeCard = () => {
         const mapsByOthers = [];
 
         for (let i = 0; i < response.data.list.length; i += 1) {
-          if (response.data.list[i].creator === user.Id) mapsByUser.push(response.data.list[i]);
+          if (response.data.list[i].creator === user.id) mapsByUser.push(response.data.list[i]);
           else mapsByOthers.push(response.data.list[i]);
         }
         setMyMaps(mapsByUser);
@@ -300,7 +300,7 @@ const TreeCard = () => {
       name: treeInfo.name,
       description: treeInfo.description,
       data: JSON.stringify({ ...instance, rootNode: instance.elements[0].id }),
-      visibility: treeInfo.creator === user.Id ? treeInfo.visibility : undefined,
+      visibility: treeInfo.creator === user.id ? treeInfo.visibility : undefined,
       notes: newNotes,
       id: treeInfo.id,
     };
@@ -520,10 +520,10 @@ const TreeCard = () => {
   }, []);
 
   useEffect(() => {
-    if (user.Id && generalInfo) {
+    if (user.id && generalInfo) {
       chooseMap(user.preferences['provisioning.defaultNetworkMap'] ?? '');
     }
-  }, [user.Id, generalInfo]);
+  }, [user.id, generalInfo]);
 
   useEffect(() => {
     if (reactFlowInstance !== null) reactFlowInstance.fitView();

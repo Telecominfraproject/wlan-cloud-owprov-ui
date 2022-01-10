@@ -1,6 +1,6 @@
 {
   "name": "ow-prov",
-  "version": "2.5.16",
+  "version": "2.5.17",
   "dependencies": {
     "@coreui/coreui": "^3.4.0",
     "@coreui/icons": "^2.0.1",
@@ -27,7 +27,7 @@
     "sass": "^1.35.1",
     "stream": "^0.0.2",
     "svg-inline-loader": "^0.8.2",
-    "ucentral-libs": "^1.0.56",
+    "ucentral-libs": "^1.0.57",
     "uuid": "^8.3.2"
   },
   "main": "index.js",

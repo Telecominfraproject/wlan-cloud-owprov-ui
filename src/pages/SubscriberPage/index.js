@@ -220,7 +220,7 @@ const SubscriberPage = () => {
         show={showDeleteModal}
         toggleShow={toggleDeleteModal}
         deleteRequest={deleteUser}
-        idToDelete={userToDelete?.Id}
+        idToDelete={userToDelete?.id}
         deleteLoading={deleteLoading}
         title={`Delete Subscriber ${userToDelete?.email}`}
         explanation=""

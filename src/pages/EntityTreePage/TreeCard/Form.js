@@ -13,7 +13,7 @@ const TreeForm = ({ user, users, mode, treeInfo, setTreeInfo }) => {
           {t('common.creator')}
         </CLabel>
         <CCol sm="4" md="4" xl="5" className="pt-2">
-          {users.find((u) => u.Id === treeInfo.creator)?.email}
+          {users.find((u) => u.id === treeInfo.creator)?.email}
         </CCol>
         <CLabel col sm="2" md="2" xl="1" htmlFor="visibility">
           <div>{t('common.visibility')}:</div>
@@ -26,7 +26,7 @@ const TreeForm = ({ user, users, mode, treeInfo, setTreeInfo }) => {
             required
             value={treeInfo.visibility}
             onChange={(e) => setTreeInfo({ ...treeInfo, visibility: e.target.value })}
-            disabled={treeInfo.creator !== user.Id}
+            disabled={treeInfo.creator !== user.id}
             style={{ width: '100px' }}
             maxLength="50"
           >

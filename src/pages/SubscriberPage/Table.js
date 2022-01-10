@@ -134,7 +134,7 @@ const SubscriberTable = ({
                         variant="outline"
                         shape="square"
                         size="sm"
-                        onClick={() => toggleEdit(item.Id)}
+                        onClick={() => toggleEdit(item.id)}
                       >
                         <CIcon content={cilSearch} size="sm" />
                       </CButton>
