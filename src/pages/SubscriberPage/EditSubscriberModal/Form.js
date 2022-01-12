@@ -13,7 +13,6 @@ import {
   CPopover,
   CRow,
   CSwitch,
-  CFormText,
 } from '@coreui/react';
 import PropTypes from 'prop-types';
 import CIcon from '@coreui/icons-react';
@@ -36,29 +35,6 @@ const EditUserForm = ({ t, user, updateUserWithId, policies, editing }) => {
             <CInput id="name" value={user.name.value} onChange={updateUserWithId} maxLength="20" />
           ) : (
             <p className="mt-2 mb-0">{user.name.value}</p>
-          )}
-        </CCol>
-        <CLabel sm="2" col htmlFor="owner">
-          {t('common.serial_number')}
-        </CLabel>
-        <CCol sm="4">
-          {editing ? (
-            <>
-              <CInput
-                id="owner"
-                type="text"
-                required
-                value={user.owner.value}
-                onChange={updateUserWithId}
-                invalid={user.owner.error}
-                maxLength="50"
-              />
-              <CFormText color={user.owner.error ? 'danger' : ''}>
-                {t('entity.valid_serial')}
-              </CFormText>
-            </>
-          ) : (
-            <p className="mt-2 mb-0">{user.description.value}</p>
           )}
         </CCol>
         <CLabel sm="2" col htmlFor="description">

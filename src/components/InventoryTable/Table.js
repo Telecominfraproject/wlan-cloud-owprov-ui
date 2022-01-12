@@ -29,6 +29,8 @@ const InventoryTable = ({
   toggleAssocEntity,
   toggleComputed,
   pushConfig,
+  claimedSerials,
+  claim,
 }) => {
   const [gwUi] = useState(localStorage.getItem('owgw-ui'));
 
@@ -38,6 +40,7 @@ const InventoryTable = ({
           { key: 'serialNumber', label: t('common.serial_number'), _style: { width: '6%' } },
           { key: 'name', label: t('user.name'), _style: { width: '10%' } },
           { key: 'deviceConfiguration', label: t('configuration.title'), _style: { width: '10%' } },
+          { key: 'subscriber', label: t('inventory.subscriber'), _style: { width: '10%' } },
           { key: 'description', label: t('user.description'), _style: { width: '24%' } },
           { key: 'created', label: t('common.created'), _style: { width: '10%' } },
           { key: 'actions', label: t('actions.actions'), _style: { width: '1%' } },
@@ -48,6 +51,7 @@ const InventoryTable = ({
           { key: 'deviceConfiguration', label: t('configuration.title'), _style: { width: '10%' } },
           { key: 'entity', label: t('entity.entity'), _style: { width: '24%' } },
           { key: 'venue', label: t('inventory.venue'), _style: { width: '24%' } },
+          { key: 'subscriber', label: t('inventory.subscriber'), _style: { width: '10%' } },
           { key: 'created', label: t('common.created'), _style: { width: '10%' } },
           { key: 'actions', label: t('actions.actions'), _style: { width: '1%' } },
         ];
@@ -95,6 +99,7 @@ const InventoryTable = ({
           deviceConfiguration: (item) => (
             <td className="align-middle">
               <CButton
+                disabled={claim !== null}
                 id={item.serialNumber}
                 className="pl-0 text-left"
                 color="link"
@@ -142,97 +147,136 @@ const InventoryTable = ({
               )}
             </td>
           ),
-          actions: (item) => (
-            <td className="text-center align-middle py-0">
-              <CButtonToolbar
-                role="group"
-                className="justify-content-flex-end"
-                style={{ width: '290px' }}
-              >
-                <CPopover content={t('inventory.assign_ent_ven')}>
-                  <div>
+          subscriber: (item) => (
+            <td className="align-middle">
+              {item.extendedInfo?.subscriber?.name ?? item.subscriber}
+            </td>
+          ),
+          actions: (item) => {
+            if (claim !== null) {
+              return (
+                <td className="text-center align-middle py-0">
+                  <CPopover content={t('common.claim')}>
+                    <div>
+                      <CButton
+                        disabled={
+                          item.subscriber.length > 0 ||
+                          claimedSerials.find((serial) => serial === item.serialNumber)
+                        }
+                        color="primary"
+                        variant="outline"
+                        shape="square"
+                        size="sm"
+                        className="mx-1"
+                        onClick={() => claim(item.serialNumber)}
+                        style={{ width: '33px', height: '30px' }}
+                      >
+                        <CIcon content={cilPlus} />
+                      </CButton>
+                    </div>
+                  </CPopover>
+                </td>
+              );
+            }
+            return (
+              <td className="text-center align-middle py-0">
+                <CButtonToolbar
+                  role="group"
+                  className="justify-content-flex-end"
+                  style={{ width: '290px' }}
+                >
+                  <CPopover content={t('inventory.assign_ent_ven')}>
+                    <div>
+                      <CButton
+                        disabled={onlyEntity || item.entity !== '' || item.venue !== ''}
+                        color="primary"
+                        variant="outline"
+                        shape="square"
+                        size="sm"
+                        className="mx-1"
+                        onClick={() =>
+                          entity !== null
+                            ? assignToEntity(item.serialNumber)
+                            : toggleAssocEntity({ serialNumber: item.serialNumber })
+                        }
+                        style={{ width: '33px', height: '30px' }}
+                      >
+                        <CIcon content={cilPlus} />
+                      </CButton>
+                    </div>
+                  </CPopover>
+                  <UnassignButton
+                    t={t}
+                    tag={item}
+                    unassignTag={unassign}
+                    hideTooltips={hideTooltips}
+                  />
+                  <DeleteButton
+                    t={t}
+                    tag={item}
+                    deleteTag={deleteTag}
+                    hideTooltips={hideTooltips}
+                  />
+                  <CPopover content="Push Configuration to Device">
                     <CButton
-                      disabled={onlyEntity || item.entity !== '' || item.venue !== ''}
+                      color="primary"
+                      variant="outline"
+                      shape="square"
+                      size="sm"
+                      className="mx-1 d"
+                      onClick={() => pushConfig(item.serialNumber)}
+                      style={{ width: '33px', height: '30px' }}
+                      disabled={item.deviceConfigurationName === ''}
+                    >
+                      <CIcon content={cilRouter} size="sm" />
+                    </CButton>
+                  </CPopover>
+                  <CPopover content="See Computed Configuration">
+                    <CButton
+                      color="primary"
+                      variant="outline"
+                      shape="square"
+                      size="sm"
+                      className="mx-1"
+                      onClick={() => toggleComputed(item.serialNumber)}
+                      style={{ width: '33px', height: '30px' }}
+                    >
+                      <CIcon content={cilSpreadsheet} size="sm" />
+                    </CButton>
+                  </CPopover>
+                  <CPopover content={t('common.details')}>
+                    <CButton
+                      color="primary"
+                      variant="outline"
+                      shape="square"
+                      size="sm"
+                      className="mx-1"
+                      onClick={() => toggleEditModal(item.serialNumber)}
+                      style={{ width: '33px', height: '30px' }}
+                    >
+                      <CIcon content={cilMagnifyingGlass} size="sm" />
+                    </CButton>
+                  </CPopover>
+                  <CPopover content={t('inventory.view_in_gateway')}>
+                    <CButton
                       color="primary"
                       variant="outline"
                       shape="square"
                       size="sm"
                       className="mx-1"
                       onClick={() =>
-                        entity !== null
-                          ? assignToEntity(item.serialNumber)
-                          : toggleAssocEntity({ serialNumber: item.serialNumber })
+                        window.open(`${gwUi}/#/devices/${item.serialNumber}`, '_blank')
                       }
+                      disabled={!gwUi || gwUi === ''}
                       style={{ width: '33px', height: '30px' }}
                     >
-                      <CIcon content={cilPlus} />
+                      <CIcon content={cilZoomIn} />
                     </CButton>
-                  </div>
-                </CPopover>
-                <UnassignButton
-                  t={t}
-                  tag={item}
-                  unassignTag={unassign}
-                  hideTooltips={hideTooltips}
-                />
-                <DeleteButton t={t} tag={item} deleteTag={deleteTag} hideTooltips={hideTooltips} />
-                <CPopover content="Push Configuration to Device">
-                  <CButton
-                    color="primary"
-                    variant="outline"
-                    shape="square"
-                    size="sm"
-                    className="mx-1 d"
-                    onClick={() => pushConfig(item.serialNumber)}
-                    style={{ width: '33px', height: '30px' }}
-                    disabled={item.deviceConfigurationName === ''}
-                  >
-                    <CIcon content={cilRouter} size="sm" />
-                  </CButton>
-                </CPopover>
-                <CPopover content="See Computed Configuration">
-                  <CButton
-                    color="primary"
-                    variant="outline"
-                    shape="square"
-                    size="sm"
-                    className="mx-1"
-                    onClick={() => toggleComputed(item.serialNumber)}
-                    style={{ width: '33px', height: '30px' }}
-                  >
-                    <CIcon content={cilSpreadsheet} size="sm" />
-                  </CButton>
-                </CPopover>
-                <CPopover content={t('common.details')}>
-                  <CButton
-                    color="primary"
-                    variant="outline"
-                    shape="square"
-                    size="sm"
-                    className="mx-1"
-                    onClick={() => toggleEditModal(item.serialNumber)}
-                    style={{ width: '33px', height: '30px' }}
-                  >
-                    <CIcon content={cilMagnifyingGlass} size="sm" />
-                  </CButton>
-                </CPopover>
-                <CPopover content={t('inventory.view_in_gateway')}>
-                  <CButton
-                    color="primary"
-                    variant="outline"
-                    shape="square"
-                    size="sm"
-                    className="mx-1"
-                    onClick={() => window.open(`${gwUi}/#/devices/${item.serialNumber}`, '_blank')}
-                    disabled={!gwUi || gwUi === ''}
-                    style={{ width: '33px', height: '30px' }}
-                  >
-                    <CIcon content={cilZoomIn} />
-                  </CButton>
-                </CPopover>
-              </CButtonToolbar>
-            </td>
-          ),
+                  </CPopover>
+                </CButtonToolbar>
+              </td>
+            );
+          },
         }}
       />
       <div className="pl-3">
@@ -293,12 +337,16 @@ InventoryTable.propTypes = {
   toggleAssocEntity: PropTypes.func.isRequired,
   toggleComputed: PropTypes.func.isRequired,
   pushConfig: PropTypes.func.isRequired,
+  claimedSerials: PropTypes.instanceOf(Array),
+  claim: PropTypes.func,
 };
 
 InventoryTable.defaultProps = {
   page: '0',
   onlyEntity: false,
   entity: null,
+  claimedSerials: [],
+  claim: null,
 };
 
 export default InventoryTable;

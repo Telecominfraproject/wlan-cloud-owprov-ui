@@ -39,7 +39,10 @@ const InventoryTable = ({
   refreshId,
   onlyUnassigned,
   hideTopBar,
+  hideSearch,
   twoTables,
+  claimedSerials,
+  claim,
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
@@ -705,11 +708,13 @@ const InventoryTable = ({
             </div>
           </CCardHeader>
         )}
-        <CCardHeader className="p-0">
-          <div style={{ width: '400px' }}>
-            <DeviceSearchBar toggleEditModal={toggleEditModal} />
-          </div>
-        </CCardHeader>
+        {!hideSearch && (
+          <CCardHeader className="p-0">
+            <div style={{ width: '400px' }}>
+              <DeviceSearchBar toggleEditModal={toggleEditModal} />
+            </div>
+          </CCardHeader>
+        )}
         <CCardBody className="p-0">
           <Table
             t={t}
@@ -731,6 +736,8 @@ const InventoryTable = ({
             toggleAssocEntity={toggleAssocEntity}
             toggleComputed={toggleComputed}
             pushConfig={pushConfig}
+            claim={claim}
+            claimedSerials={claimedSerials}
           />
         </CCardBody>
       </CCard>
@@ -793,6 +800,9 @@ InventoryTable.propTypes = {
   refreshId: PropTypes.number,
   onlyUnassigned: PropTypes.bool,
   hideTopBar: PropTypes.bool,
+  hideSearch: PropTypes.bool,
+  claimedSerials: PropTypes.instanceOf(Array),
+  claim: PropTypes.func,
   twoTables: PropTypes.bool,
 };
 
@@ -806,6 +816,9 @@ InventoryTable.defaultProps = {
   refreshId: 0,
   onlyUnassigned: false,
   hideTopBar: false,
+  hideSearch: false,
+  claimedSerials: [],
+  claim: null,
   twoTables: false,
 };
 

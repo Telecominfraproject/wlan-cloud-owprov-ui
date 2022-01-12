@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from 'utils/axiosInstance';
@@ -32,12 +32,6 @@ const initialState = {
     error: false,
     editable: true,
   },
-  owner: {
-    value: '',
-    error: false,
-    regex: '^[a-fA-F0-9]+$',
-    length: 12,
-  },
   name: {
     value: '',
     error: false,
@@ -58,6 +52,8 @@ const EditSubscriberModal = ({ show, toggle, userId, getUsers, policies }) => {
   const { t } = useTranslation();
   const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
+  const [initialDevices, setInitialDevices] = useState([]);
+  const [newDevices, setNewDevices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
   const [fields, updateWithId, updateWithKey, setFormFields] = useFormFields({ ...initialState });
@@ -67,11 +63,6 @@ const EditSubscriberModal = ({ show, toggle, userId, getUsers, policies }) => {
 
     for (const [key, field] of Object.entries(fields)) {
       if (field.required && field.value === '') {
-        updateWithKey(key, { error: true });
-        success = false;
-        break;
-      }
-      if (key === 'owner' && field.value !== '' && field.value.length !== 12) {
         updateWithKey(key, { error: true });
         success = false;
         break;
@@ -111,6 +102,15 @@ const EditSubscriberModal = ({ show, toggle, userId, getUsers, policies }) => {
           }
         }
         setFormFields({ ...initialState, ...newUser });
+
+        return axiosInstance.get(
+          `${endpoints.owprov}/api/v1/inventory?subscriber=${userId}&withExtendedInfo=true`,
+          options,
+        );
+      })
+      .then((response) => {
+        setInitialDevices([...response.data.taglist]);
+        setNewDevices([...response.data.taglist]);
       })
       .catch(() => {
         addToast({
@@ -130,14 +130,45 @@ const EditSubscriberModal = ({ show, toggle, userId, getUsers, policies }) => {
     setEditing(!editing);
   };
 
-  const updateUser = () => {
+  const getDeviceRequests = useCallback(() => {
+    const toRemove = initialDevices.filter(
+      (old) => !newDevices.find((edited) => edited.id === old.id),
+    );
+    const toAdd = newDevices.filter(
+      (edited) => !initialDevices.find((old) => edited.id === old.id),
+    );
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const removePromises = toRemove.map(async (device) =>
+      axiosInstance.put(
+        `${endpoints.owprov}/api/v1/inventory/${device.serialNumber}`,
+        { subscriber: '' },
+        options,
+      ),
+    );
+    const addPromises = toAdd.map(async (device) =>
+      axiosInstance.put(
+        `${endpoints.owprov}/api/v1/inventory/${device.serialNumber}`,
+        { subscriber: userId },
+        options,
+      ),
+    );
+
+    return [...removePromises, ...addPromises];
+  }, [initialDevices, newDevices]);
+
+  const updateUser = async () => {
     if (validation()) {
       setLoading(true);
 
       const parameters = {
         name: fields.name.value,
         changePassword: fields.changePassword.value === 'on',
-        owner: fields.owner.value.trim() !== '' ? fields.owner.value : undefined,
         description: fields.description.value,
         currentPassword:
           fields.currentPassword.value !== '' ? fields.currentPassword.value : undefined,
@@ -157,6 +188,8 @@ const EditSubscriberModal = ({ show, toggle, userId, getUsers, policies }) => {
           Authorization: `Bearer ${currentToken}`,
         },
       };
+
+      getDeviceRequests();
 
       axiosInstance
         .put(`${endpoints.owsec}/api/v1/subuser/${userId}`, parameters, options)
@@ -197,17 +230,11 @@ const EditSubscriberModal = ({ show, toggle, userId, getUsers, policies }) => {
   };
 
   useEffect(() => {
-    if (userId) {
-      getUser();
-    }
-  }, [userId]);
-
-  useEffect(() => {
     if (show) {
       getUser();
       setEditing(false);
     }
-  }, [show]);
+  }, [show, userId]);
 
   return (
     <Modal
@@ -221,6 +248,8 @@ const EditSubscriberModal = ({ show, toggle, userId, getUsers, policies }) => {
       toggle={toggle}
       editing={editing}
       toggleEditing={toggleEditing}
+      serialNumbers={newDevices}
+      setSerialNumbers={setNewDevices}
       addNote={addNote}
     />
   );
