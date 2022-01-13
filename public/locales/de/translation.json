@@ -680,7 +680,8 @@
 	"subscriber": {
 		"add_device_subscriber_explanation": "Um andere Geräte zu reklamieren, kannst du unsere Suchleiste verwenden oder direkt aus der Tabelle reklamieren. Wenn ein Gerät bereits von einem Benutzer beansprucht wurde, müssen Sie zu dessen Details gehen und die Zuweisung aufheben, bevor Sie es beanspruchen.",
 		"create": "Abonnenten erstellen",
-		"devices": "{{nb}} Geräte",
+		"devices_one": "{{count}} Gerät",
+		"devices_other": "{{count}} Geräte",
 		"edit": "Abonnent bearbeiten",
 		"error_create": "Fehler beim Erstellen des Abonnenten: {{error}}",
 		"error_delete": "Fehler beim Löschen des Abonnenten: {{error}}",

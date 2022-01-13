@@ -680,7 +680,8 @@
 	"subscriber": {
 		"add_device_subscriber_explanation": "Pour réclamer d'autres appareils, vous pouvez utiliser notre barre de recherche ou réclamer directement à partir du tableau. Si un appareil a déjà été réclamé par un utilisateur, vous devrez accéder à ses détails et le désaffecter avant de le réclamer.",
 		"create": "Créer un abonné",
-		"devices": " {{nb}} appareils",
+		"devices_one": "{{count}} Appareil",
+		"devices_other": "{{count}} appareils",
 		"edit": "Modifier l'abonné",
 		"error_create": "Erreur lors de la création de l'abonné : {{error}}",
 		"error_delete": "Erreur lors de la suppression de l'abonné : {{error}}",

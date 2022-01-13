@@ -680,7 +680,8 @@
 	"subscriber": {
 		"add_device_subscriber_explanation": "Para reivindicar outros dispositivos, você pode usar nossa barra de pesquisa ou reivindicar diretamente na tabela. Se um dispositivo já foi reivindicado por um usuário, você precisará acessar os detalhes dele e cancelar a atribuição antes de reivindicá-lo.",
 		"create": "Criar assinante",
-		"devices": "{{nb}} dispositivos",
+		"devices_one": "{{count}} Dispositivo",
+		"devices_other": "{{count}} dispositivos",
 		"edit": "Editar Assinante",
 		"error_create": "Erro ao criar assinante: {{error}}",
 		"error_delete": "Erro ao excluir assinante: {{error}}",

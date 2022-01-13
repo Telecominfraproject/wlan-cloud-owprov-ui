@@ -680,7 +680,8 @@
 	"subscriber": {
 		"add_device_subscriber_explanation": "Para reclamar otros dispositivos, puede usar nuestra barra de búsqueda o reclamar directamente desde la tabla. Si un dispositivo ya fue reclamado por un usuario, deberá ir a sus detalles y anular la asignación antes de reclamarlo.",
 		"create": "Crear suscriptor",
-		"devices": "{{nb}} dispositivos",
+		"devices_one": "{{count}} dispositivo",
+		"devices_other": "{{count}} dispositivos",
 		"edit": "Editar suscriptor",
 		"error_create": "Error al crear el suscriptor: {{error}}",
 		"error_delete": "Error al eliminar el suscriptor: {{error}}",

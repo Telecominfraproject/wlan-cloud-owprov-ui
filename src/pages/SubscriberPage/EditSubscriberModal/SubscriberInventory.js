@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CDataTable, CPopover, CButton, CAlert } from '@coreui/react';
 import { useTranslation } from 'react-i18next';
 import CIcon from '@coreui/icons-react';
-import { cilX } from '@coreui/icons';
+import { cilTrash } from '@coreui/icons';
 import DeviceSearchBar from 'components/DeviceSearchBar';
 import { useAuth } from 'ucentral-libs';
 import axiosInstance from 'utils/axiosInstance';
@@ -15,7 +15,7 @@ const SubscriberInventory = ({ serialNumbers, setSerialNumbers, loading, editabl
   const [deviceError, setDeviceError] = useState(null);
 
   const columns = [
-    { key: 'serialNumber', label: t('common.serial_number') },
+    { key: 'serialNumber', label: t('common.serial_number'), _style: { width: '1%' } },
     { key: 'entity' },
     { key: 'venue' },
     { key: 'actions', label: '', _style: { width: '1%' } },
@@ -59,11 +59,14 @@ const SubscriberInventory = ({ serialNumbers, setSerialNumbers, loading, editabl
         <CDataTable
           addTableClasses="table-sm"
           items={serialNumbers}
-          fields={columns}
+          fields={editable ? columns : columns.filter((col) => col.key !== 'actions')}
           hover
           border
           loading={loading}
           scopedSlots={{
+            serialNumber: (item) => (
+              <td className="align-middle text-monospace">{item.serialNumber}</td>
+            ),
             entity: (item) => (
               <td className="align-middle">{item.extendedInfo?.entity?.name ?? item.entity}</td>
             ),
@@ -83,7 +86,7 @@ const SubscriberInventory = ({ serialNumbers, setSerialNumbers, loading, editabl
                     onClick={() => removeSerial(item.id)}
                     style={{ width: '33px', height: '30px' }}
                   >
-                    <CIcon content={cilX} />
+                    <CIcon content={cilTrash} />
                   </CButton>
                 </CPopover>
               </td>

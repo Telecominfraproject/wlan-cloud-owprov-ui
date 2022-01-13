@@ -95,7 +95,9 @@ const EditUserModal = ({
             active={index === 1}
             onClick={() => setIndex(1)}
           >
-            {t('subscriber.devices', { nb: serialNumbers.length })}
+            {serialNumbers.length === 1
+              ? t('subscriber.devices_one', { count: serialNumbers.length })
+              : t('subscriber.devices_other', { count: serialNumbers.length })}
           </CNavLink>
           <CNavLink
             className="font-weight-bold"
