@@ -198,25 +198,29 @@ const SubscriberPage = () => {
         toggleDelete={toggleDeleteModal}
         refreshUsers={getUsers}
       />
-      <EditSubscriberModal
-        show={showEditModal}
-        toggle={toggleEditModal}
-        userId={userToEdit}
-        getUsers={getUsers}
-        policies={policies}
-      />
-      <CreateSubscriberModal
-        show={showCreateModal}
-        toggle={toggleCreateModal}
-        getUsers={getUsers}
-        policies={policies}
-      />
+      {showEditModal && (
+        <EditSubscriberModal
+          show={showEditModal}
+          toggle={toggleEditModal}
+          userId={userToEdit}
+          getUsers={getUsers}
+          policies={policies}
+        />
+      )}
+      {showCreateModal && (
+        <CreateSubscriberModal
+          show={showCreateModal}
+          toggle={toggleCreateModal}
+          getUsers={getUsers}
+          policies={policies}
+        />
+      )}
       <DeleteModal
         t={t}
         show={showDeleteModal}
         toggleShow={toggleDeleteModal}
         deleteRequest={deleteUser}
-        idToDelete={userToDelete?.Id}
+        idToDelete={userToDelete?.id}
         deleteLoading={deleteLoading}
         title={`Delete Subscriber ${userToDelete?.email}`}
         explanation=""

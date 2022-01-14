@@ -71,7 +71,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        use: ['@svgr/webpack'],
+        use: ['svg-inline-loader', '@svgr/webpack'],
       },
       { test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource' },
     ],

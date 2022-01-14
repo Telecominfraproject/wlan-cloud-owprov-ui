@@ -5,7 +5,7 @@ import { CModal, CModalHeader, CModalBody, CModalTitle, CPopover, CButton } from
 import axiosInstance from 'utils/axiosInstance';
 import CIcon from '@coreui/icons-react';
 import { cilSave, cilX } from '@coreui/icons';
-import { testRegex, validateEmail } from 'utils/helper';
+import { testRegex } from 'utils/helper';
 import { useFormFields, useAuth, useToast } from 'ucentral-libs';
 import Form from './Form';
 
@@ -13,7 +13,6 @@ const initialState = {
   name: {
     value: '',
     error: false,
-    optional: true,
   },
   email: {
     value: '',
@@ -31,6 +30,12 @@ const initialState = {
     value: 'subscriber',
     error: false,
   },
+  owner: {
+    value: '',
+    error: false,
+    regex: '^[a-fA-F0-9]+$',
+    length: 12,
+  },
   notes: {
     value: '',
     error: false,
@@ -39,7 +44,6 @@ const initialState = {
   description: {
     value: '',
     error: false,
-    optional: true,
   },
 };
 
@@ -48,41 +52,51 @@ const CreateSubscriberModal = ({ show, toggle, getUsers, policies }) => {
   const { endpoints, currentToken } = useAuth();
   const { addToast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [formFields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialState);
+  const [fields, updateFieldWithId, updateField, setFormFields] = useFormFields(initialState);
 
   const toggleChange = () => {
-    updateField('changePassword', { value: !formFields.changePassword.value });
+    updateField('changePassword', { value: !fields.changePassword.value });
+  };
+
+  const validation = () => {
+    let success = true;
+
+    for (const [key, field] of Object.entries(fields)) {
+      if (field.required && field.value === '') {
+        updateField(key, { error: true });
+        success = false;
+        break;
+      }
+      if (key === 'owner' && field.value !== '' && field.value.length !== 12) {
+        updateField(key, { error: true });
+        success = false;
+        break;
+      }
+      if (key === 'currentPassword' && !testRegex(field.value, policies.passwordPattern)) {
+        updateField(key, { error: true });
+        success = false;
+        break;
+      }
+    }
+    return success;
   };
 
   const createUser = () => {
-    setLoading(true);
+    if (validation()) {
+      setLoading(true);
 
-    const parameters = {
-      id: 0,
-    };
+      const parameters = {
+        id: 0,
+        name: fields.name.value,
+        email: fields.email.value,
+        changePassword: fields.changePassword.value === 'on',
+        userRole: 'subscriber',
+        notes: fields.notes.value.trim() !== '' ? [{ note: fields.notes.value }] : undefined,
+        owner: fields.owner.value.trim() !== '' ? fields.owner.value : undefined,
+        description: fields.description.value,
+        currentPassword: fields.currentPassword.value,
+      };
 
-    let validationSuccess = true;
-
-    for (const [key, value] of Object.entries(formFields)) {
-      if (!value.optional && value.value === '') {
-        validationSuccess = false;
-        updateField(key, { value: value.value, error: true });
-      } else if (key === 'currentPassword' && !testRegex(value.value, policies.passwordPattern)) {
-        validationSuccess = false;
-        updateField(key, { value: value.value, error: true });
-      } else if (key === 'email' && !validateEmail(value.value)) {
-        validationSuccess = false;
-        updateField(key, { value: value.value, error: true });
-      } else if (key === 'notes') {
-        parameters[key] = [{ note: value.value }];
-      } else if (key === 'changePassword') {
-        parameters[key] = value.value === 'on';
-      } else {
-        parameters[key] = value.value;
-      }
-    }
-
-    if (validationSuccess) {
       const headers = {
         Accept: 'application/json',
         Authorization: `Bearer ${currentToken}`,
@@ -142,7 +156,7 @@ const CreateSubscriberModal = ({ show, toggle, getUsers, policies }) => {
       <CModalBody>
         <Form
           t={t}
-          fields={formFields}
+          fields={fields}
           updateField={updateFieldWithId}
           policies={policies}
           toggleChange={toggleChange}

@@ -31,12 +31,84 @@ const defaultTreeInfo = {
   creator: '',
 };
 
+const treeToArray = (el) => {
+  let newArray = [];
+
+  if (el.type === 'entity') {
+    newArray.push({
+      id: `${el.type}/${el.uuid}`,
+      entityName: el.name,
+      type: 'entity',
+    });
+
+    // Creating edges for children and venues
+    for (const child of el.children) {
+      newArray.push({
+        id: `edge/${el.uuid}/${child.uuid}`,
+        source: `${el.type}/${el.uuid}`,
+        target: `${child.type}/${child.uuid}`,
+        arrowHeadType: 'arrow',
+        arrowHeadColor: '#000000',
+      });
+    }
+    for (const child of el.venues) {
+      newArray.push({
+        id: `edge/${el.uuid}/${child.uuid}`,
+        source: `${el.type}/${el.uuid}`,
+        target: `${child.type}/${child.uuid}`,
+        arrowHeadType: 'arrow',
+        arrowHeadColor: '#000000',
+      });
+    }
+
+    // Creating children/venue elements
+    let childrenArray = [];
+    for (const child of el.children) {
+      childrenArray = childrenArray.concat(treeToArray(child));
+    }
+    for (const child of el.venues) {
+      childrenArray = childrenArray.concat(treeToArray(child));
+    }
+    newArray = newArray.concat(childrenArray);
+  } else if (el.type === 'venue') {
+    newArray.push({
+      id: `${el.type}/${el.uuid}`,
+      entityName: el.name,
+      type: 'venue',
+    });
+
+    for (const child of el.children) {
+      newArray.push({
+        id: `edge/${el.uuid}/${child.uuid}`,
+        source: `${el.type}/${el.uuid}`,
+        target: `${child.type}/${child.uuid}`,
+        arrowHeadType: 'arrow',
+        arrowHeadColor: '#000000',
+      });
+    }
+
+    for (const child of el.children) {
+      newArray = newArray.concat(treeToArray(child));
+    }
+  } else if (el.type === 'device') {
+    newArray.push({
+      id: `${el.type}/${el.serialNumber}`,
+      entityName: el.name,
+      type: 'device',
+    });
+  }
+
+  return newArray;
+};
+
 const TreeCard = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [index, setIndex] = useState(0);
-  const { endpoints, currentToken, updatePreferences, user } = useAuth();
+  const { endpoints, currentToken, updatePreferences, user, deletePreference } = useAuth();
   const { addToast } = useToast();
+  const [generalInfo, setGeneralInfo] = useState(null);
+  const [rawTree, setRawTree] = useState(null);
   const [tree, setTree] = useState(null);
   const [treeInfo, setTreeInfo] = useState(defaultTreeInfo);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
@@ -63,6 +135,39 @@ const TreeCard = () => {
 
   const { transform } = useZoomPanHelper();
 
+  const getTags = (tagsToFetch, options) =>
+    axiosInstance
+      .get(`${endpoints.owprov}/api/v1/inventory?select=${tagsToFetch.join(',')}`, options)
+      .then((response) => response.data.taglist)
+      .catch(() => []);
+  const getDeviceInfo = (devicesToFetch, options) =>
+    axiosInstance
+      .get(
+        `${endpoints.owgw}/api/v1/devices?completeInfo=true&select=${devicesToFetch.join(',')}`,
+        options,
+      )
+      .then((response) => response.data.devices)
+      .catch(() => []);
+  const getEntities = (entitiesToFetch, options) =>
+    axiosInstance
+      .get(
+        `${endpoints.owprov}/api/v1/entity?withExtendedInfo=true&select=${entitiesToFetch
+          .map((ent) => ent.id.split('/')[1])
+          .join(',')}`,
+        options,
+      )
+      .then((response) => response.data.entities)
+      .catch(() => []);
+  const getVenues = (venuesToFetch, options) =>
+    axiosInstance
+      .get(
+        `${endpoints.owprov}/api/v1/venue?withExtendedInfo=true&select=${venuesToFetch
+          .map((ent) => ent.id.split('/')[1])
+          .join(',')}`,
+        options,
+      )
+      .then((response) => response.data.venues)
+      .catch(() => []);
   const getUsers = () => {
     const headers = {
       Accept: 'application/json',
@@ -86,69 +191,24 @@ const TreeCard = () => {
       });
   };
 
-  const addDeviceData = async (entities) => {
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    const entitiesToFetch = entities.filter((ent) => ent.id.split('/')[0] !== 'edge');
-
-    const entityInfo = await Promise.all(
-      entitiesToFetch.map((ent) =>
-        axiosInstance.get(
-          `${endpoints.owprov}/api/v1/${ent.id.split('/')[0]}/${
-            ent.id.split('/')[1]
-          }?withExtendedInfo=true`,
-          options,
-        ),
-      ),
-    ).then((results) => results.map((result) => result.data));
-
-    return entities.map((ent) => ({
-      ...ent,
-      extraData: entityInfo.find((entity) => entity.id === ent.id.split('/')[1]),
-    }));
-  };
-
   const parseData = async (data, savedInfo) => {
-    const newTree = await parseNewData(data, savedInfo, addDeviceData, transform, history);
+    const newTree = await parseNewData(rawTree, data, savedInfo, transform);
     setTree(newTree);
   };
 
-  const getTree = (savedMap) => {
-    const options = {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${currentToken}`,
-      },
-    };
-
-    axiosInstance
-      .get(`${endpoints.owprov}/api/v1/entity?getTree=true`, options)
-      .then((response) => {
-        parseData(response.data, savedMap);
-      })
-      .catch((e) => {
-        addToast({
-          title: t('common.error'),
-          body: t('entity.error_fetching_tree', { error: e.response?.data?.ErrorDescription }),
-          color: 'danger',
-          autohide: true,
-        });
-      });
+  const toggleDefault = () => {
+    if (user.preferences['provisioning.defaultNetworkMap'] === treeInfo.id)
+      deletePreference('provisioning.defaultNetworkMap');
+    else updatePreferences({ 'provisioning.defaultNetworkMap': treeInfo.id });
   };
 
   const chooseMap = async (id) => {
     setTree(null);
-    updatePreferences({ defaultNetworkMap: id });
     setMode('view');
 
     if (id === '') {
       setTreeInfo({ ...defaultTreeInfo });
-      getTree();
+      parseData(generalInfo);
     } else {
       const options = {
         headers: {
@@ -161,7 +221,7 @@ const TreeCard = () => {
         .get(`${endpoints.owprov}/api/v1/map/${id}`, options)
         .then((response) => {
           setTreeInfo({ ...response.data });
-          getTree(response.data);
+          parseData(generalInfo, response.data.data);
         })
         .catch((e) => {
           addToast({
@@ -189,7 +249,7 @@ const TreeCard = () => {
     setMode('duplicateFromNode');
   };
 
-  const getMapArray = (refreshOnly = false) => {
+  const getMapArray = () => {
     const options = {
       headers: {
         Accept: 'application/json',
@@ -204,12 +264,11 @@ const TreeCard = () => {
         const mapsByOthers = [];
 
         for (let i = 0; i < response.data.list.length; i += 1) {
-          if (response.data.list[i].creator === user.Id) mapsByUser.push(response.data.list[i]);
+          if (response.data.list[i].creator === user.id) mapsByUser.push(response.data.list[i]);
           else mapsByOthers.push(response.data.list[i]);
         }
         setMyMaps(mapsByUser);
         setOthersMaps(mapsByOthers);
-        if (!refreshOnly) getTree();
       })
       .catch((e) => {
         addToast({
@@ -241,7 +300,7 @@ const TreeCard = () => {
       name: treeInfo.name,
       description: treeInfo.description,
       data: JSON.stringify({ ...instance, rootNode: instance.elements[0].id }),
-      visibility: treeInfo.creator === user.Id ? treeInfo.visibility : undefined,
+      visibility: treeInfo.creator === user.id ? treeInfo.visibility : undefined,
       notes: newNotes,
       id: treeInfo.id,
     };
@@ -328,8 +387,8 @@ const TreeCard = () => {
         });
         toggleDelete();
         setMode('view');
-        setTreeInfo(defaultTreeInfo);
         getMapArray();
+        chooseMap('');
       })
       .catch((e) => {
         addToast({
@@ -357,18 +416,114 @@ const TreeCard = () => {
     setTreeInfo({ ...treeInfo, notes: newNotes });
   };
 
+  const addExtendedDeviceInfo = async (entities) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+    const tagsToFetch = entities.reduce((acc, cur) => acc.concat(cur.extraData?.devices ?? []), []);
+
+    const tags = await getTags(tagsToFetch, options);
+    const serialsToGet = tags.map((tag) => tag.serialNumber);
+    const devices = await getDeviceInfo(serialsToGet, options);
+
+    const mergedDevicesData = [];
+
+    for (const tag of tags) {
+      mergedDevicesData.push({
+        id: `device/${tag.id}`,
+        entityName: tag.serialNumber,
+        type: 'device',
+        extraData: {
+          ...devices.find((device) => device.deviceInfo.serialNumber === tag.serialNumber),
+          tagInfo: tag,
+        },
+      });
+
+      const isParentEntity = tag.entity !== '';
+
+      mergedDevicesData.push({
+        id: `edge/${isParentEntity ? tag.entity : tag.venue}/${tag.id}`,
+        source: `${isParentEntity ? 'entity' : 'venue'}/${isParentEntity ? tag.entity : tag.venue}`,
+        target: `device/${tag.id}`,
+        arrowHeadType: 'arrow',
+        arrowHeadColor: '#000000',
+      });
+    }
+
+    return [...mergedDevicesData, ...entities];
+  };
+
+  const addExtendedEntityInfo = async (entities) => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    const entitiesToFetch = entities.filter((ent) => ent.id.split('/')[0] === 'entity');
+    const venuesToFetch = entities.filter((ent) => ent.id.split('/')[0] === 'venue');
+
+    const entityInfo = await getEntities(entitiesToFetch, options);
+    const venueInfo = await getVenues(venuesToFetch, options);
+
+    return entities.map((ent) => ({
+      ...ent,
+      extraData:
+        ent.id.split('/')[0] === 'entity'
+          ? entityInfo.find((entity) => entity.id === ent.id.split('/')[1])
+          : venueInfo.find((entity) => entity.id === ent.id.split('/')[1]),
+    }));
+  };
+
+  const getTree = async () => {
+    const options = {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+
+    return axiosInstance
+      .get(`${endpoints.owprov}/api/v1/entity?getTree=true`, options)
+      .then((response) => {
+        setRawTree(response.data);
+        return treeToArray(response.data);
+      })
+      .catch((e) => {
+        addToast({
+          title: t('common.error'),
+          body: t('entity.error_fetching_tree', { error: e.response?.data?.ErrorDescription }),
+          color: 'danger',
+          autohide: true,
+        });
+        return [];
+      });
+  };
+
+  const getData = async () => {
+    const array = await getTree();
+    const withEntityInfo = await addExtendedEntityInfo(array);
+    const withDeviceInfo = await addExtendedDeviceInfo(withEntityInfo);
+
+    setGeneralInfo(withDeviceInfo);
+  };
+
   useEffect(() => {
     setMode('view');
-    getMapArray(true);
     getUsers();
+    getMapArray(true);
+    getData();
   }, []);
 
   useEffect(() => {
-    if (user.Id) {
-      setTreeInfo({ ...defaultTreeInfo, id: user.preferences?.defaultNetworkMap ?? '' });
-      chooseMap(user.preferences?.defaultNetworkMap ?? '');
+    if (user.id && generalInfo) {
+      chooseMap(user.preferences['provisioning.defaultNetworkMap'] ?? '');
     }
-  }, [user.Id]);
+  }, [user.id, generalInfo]);
 
   useEffect(() => {
     if (reactFlowInstance !== null) reactFlowInstance.fitView();
@@ -376,9 +531,11 @@ const TreeCard = () => {
 
   return (
     <>
-      <CCard>
+      <CCard className="m-0">
         <Header
           myMaps={myMaps}
+          isDefault={user.preferences['provisioning.defaultNetworkMap'] === treeInfo.id}
+          toggleDefault={toggleDefault}
           othersMaps={othersMaps}
           chooseMap={chooseMap}
           treeInfo={treeInfo}
@@ -460,7 +617,7 @@ const TreeCard = () => {
                   t={t}
                   notes={treeInfo.notes}
                   addNote={addNote}
-                  editable={mode}
+                  editable={mode === 'edit'}
                 />
               ) : null}
             </CTabPane>

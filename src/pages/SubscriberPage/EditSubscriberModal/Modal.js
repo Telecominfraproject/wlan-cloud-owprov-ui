@@ -16,10 +16,11 @@ import CIcon from '@coreui/icons-react';
 import { cilPencil, cilSave, cilX } from '@coreui/icons';
 import { DetailedNotesTable } from 'ucentral-libs';
 import EditUserForm from './Form';
+import SubscriberInventory from './SubscriberInventory';
 
 const EditUserModal = ({
   t,
-  user,
+  fields,
   updateUserWithId,
   saveUser,
   loading,
@@ -29,6 +30,8 @@ const EditUserModal = ({
   toggleEditing,
   toggle,
   addNote,
+  serialNumbers,
+  setSerialNumbers,
 }) => {
   const [index, setIndex] = useState(0);
 
@@ -45,7 +48,7 @@ const EditUserModal = ({
     <CModal show={show} onClose={toggle} size="xl">
       <CModalHeader className="p-1">
         <CModalTitle className="pl-1 pt-1">
-          {t('subscriber.edit')} {user.email.value}
+          {t('subscriber.edit')} {fields.email.value}
         </CModalTitle>
         <div className="text-right">
           <CPopover content={t('common.save')}>
@@ -92,6 +95,16 @@ const EditUserModal = ({
             active={index === 1}
             onClick={() => setIndex(1)}
           >
+            {serialNumbers.length === 1
+              ? t('subscriber.devices_one', { count: serialNumbers.length })
+              : t('subscriber.devices_other', { count: serialNumbers.length })}
+          </CNavLink>
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 2}
+            onClick={() => setIndex(2)}
+          >
             {t('configuration.notes')}
           </CNavLink>
         </CNav>
@@ -100,7 +113,7 @@ const EditUserModal = ({
             {index === 0 ? (
               <EditUserForm
                 t={t}
-                user={user}
+                user={fields}
                 updateUserWithId={updateUserWithId}
                 policies={policies}
                 editing={editing}
@@ -109,9 +122,19 @@ const EditUserModal = ({
           </CTabPane>
           <CTabPane active={index === 1}>
             {index === 1 ? (
+              <SubscriberInventory
+                serialNumbers={serialNumbers}
+                setSerialNumbers={setSerialNumbers}
+                loading={loading}
+                editable={editing}
+              />
+            ) : null}
+          </CTabPane>
+          <CTabPane active={index === 2}>
+            {index === 2 ? (
               <DetailedNotesTable
                 t={t}
-                notes={user.notes.value}
+                notes={fields.notes.value}
                 addNote={addNote}
                 loading={loading}
                 editable={editing}
@@ -126,7 +149,7 @@ const EditUserModal = ({
 
 EditUserModal.propTypes = {
   t: PropTypes.func.isRequired,
-  user: PropTypes.instanceOf(Object).isRequired,
+  fields: PropTypes.instanceOf(Object).isRequired,
   updateUserWithId: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   saveUser: PropTypes.func.isRequired,
@@ -136,6 +159,8 @@ EditUserModal.propTypes = {
   toggleEditing: PropTypes.func.isRequired,
   toggle: PropTypes.func.isRequired,
   addNote: PropTypes.func.isRequired,
+  serialNumbers: PropTypes.instanceOf(Array).isRequired,
+  setSerialNumbers: PropTypes.func.isRequired,
 };
 
 export default React.memo(EditUserModal);

@@ -44,6 +44,35 @@ pre.ignore {
   width: 10rem;
 }
 
+// Entity Map
 .map-tooltip {
-  width: 200px
+  width: 300px;
+  background-color:white !important;
+  border-radius: 15px !important;
+  color: black !important;
+  opacity: 1 !important;
+  z-index: 1040 !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 };
+
+.device-tooltip {
+  width: 400px;
+};
+
+.react-flow__node {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.react-flow__edge-path {
+  stroke: black !important;
+  stroke-width: 2 !important;
+}
+
+.react-flow__minimap {
+  background-color: #f5f6f7 !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.react-flow__controls {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

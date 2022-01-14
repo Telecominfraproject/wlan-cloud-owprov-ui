@@ -1,102 +1,37 @@
-import React from 'react';
-import { cilPeople, cilRouter, cilWifiSignal4 } from '@coreui/icons';
-import { CPopover, CRow, CCol } from '@coreui/react';
-import CIcon from '@coreui/icons-react';
+import { v4 as createUuid } from 'uuid';
 import createLayoutedElements from './dagreAdapter';
 
 const worldStyle = {
   background: '#0F0A0A',
   color: 'white',
   border: '1px solid #777',
-  width: 175,
+  width: 200,
   padding: 10,
-  borderRadius: '50%',
+  borderRadius: '5px',
 };
 
 const entityStyle = {
   background: '#CCDAD1',
-  color: 'black',
   width: 200,
   padding: 10,
   borderRadius: '5px',
 };
 
 const venueStyle = {
-  background: '#F5EFED',
-  color: 'black',
+  background: '#40798C',
+  color: 'white',
   width: 200,
   padding: 10,
-  borderRadius: '60px',
+  borderRadius: '5px',
 };
 
-const getRrmClass = (rrm) => {
-  switch (rrm) {
-    case 'on':
-      return 'text-success';
-    case 'off':
-      return 'text-danger';
-    default:
-      return 'text-warning';
-  }
+const deviceStyle = {
+  background: '#4B3B40',
+  color: 'white',
+  width: 200,
+  padding: 10,
+  borderRadius: '5px',
 };
-
-const nodeWithData = (ent) => {
-  if (ent.extraData.id === '0000-0000-0000') {
-    return (
-      <div className="align-middle">
-        <h5 className="align-middle font-weight-bold mb-0">{ent.entityName}</h5>
-      </div>
-    );
-  }
-  return (
-    <CPopover
-      content={
-        <div>
-          <CRow>
-            <CCol>{ent.extraData.devices.length} devices</CCol>
-          </CRow>
-          <CRow>
-            <CCol>
-              {ent.extraData.contacts !== undefined
-                ? `${ent.extraData.contacts} contacts`
-                : `Contact: ${ent.extraData.extendedInfo.contact?.name}`}
-            </CCol>
-          </CRow>
-          <CRow>
-            <CCol>RRM: {ent.extraData.rrm}</CCol>
-          </CRow>
-        </div>
-      }
-    >
-      <div className="align-middle">
-        <h5 className="align-middle font-weight-bold mb-0">{ent.entityName}</h5>
-        <div className="border border-dark">
-          <div className="float-left ml-4 mt-1 pl-2">
-            <CIcon content={cilRouter} />{' '}
-          </div>
-          <div className="ml-1 mt-1 font-weight-bold float-left">
-            {ent.extraData.devices.length}
-          </div>
-          <div className="ml-3 mt-1 float-left">
-            <CIcon className={getRrmClass(ent.extraData.rrm)} content={cilWifiSignal4} />
-          </div>
-          <div className="ml-3 mt-1 float-left">
-            <CIcon content={cilPeople} />
-          </div>
-          <div className="ml-1 mt-1 font-weight-bold float-left">
-            {ent.extraData.contacts?.length ?? ''}
-          </div>
-        </div>
-      </div>
-    </CPopover>
-  );
-};
-
-const node = (entity) => (
-  <div className="align-middle">
-    <h5 className="align-middle mb-0 font-weight-bold">{entity.name}</h5>
-  </div>
-);
 
 const iterateThroughTreeWithRoot = (el, rootNode) => {
   if (el.uuid === rootNode) {
@@ -116,126 +51,165 @@ const iterateThroughTreeWithRoot = (el, rootNode) => {
   return result;
 };
 
-const iterateThroughTree = (el, rootNodeId) => {
+const iterateThroughTree = (el, rootNodeId, data) => {
   let newArray = [];
 
   if (el.type === 'entity') {
+    const entId = `entity/${el.uuid}`;
+
     newArray.push({
-      id: `${el.type}/${el.uuid}`,
-      data: { label: node(el) },
-      entityName: el.name,
+      ...data.find((d) => d.id === entId),
       position: { x: 0, y: 200 },
-      type: 'default',
       style: el.uuid === rootNodeId ? worldStyle : entityStyle,
     });
 
-    // Creating edges for children and venues
-    for (const child of el.children) {
-      newArray.push({
-        id: `edge/${el.uuid}/${child.uuid}`,
-        source: `${el.type}/${el.uuid}`,
-        target: `${child.type}/${child.uuid}`,
-        arrowHeadType: 'arrowclosed',
-      });
+    // Finding all edges/devices linked
+    const toPush = [];
+    for (const element of data) {
+      if (element.source === entId) {
+        toPush.push(element);
+        if (element.target.split('/')[0] === 'device') {
+          const device = data.find((d) => d.id === `device/${element.target.split('/')[1]}`);
+          if (device) toPush.push(device);
+        }
+      }
     }
-    for (const child of el.venues) {
-      newArray.push({
-        id: `edge/${el.uuid}/${child.uuid}`,
-        source: `${el.type}/${el.uuid}`,
-        target: `${child.type}/${child.uuid}`,
-        arrowHeadType: 'arrowclosed',
-      });
-    }
+    newArray = newArray.concat(toPush);
 
     // Creating children/venue elements
     let childrenArray = [];
     for (const child of el.children) {
-      childrenArray = childrenArray.concat(iterateThroughTree(child));
+      childrenArray = childrenArray.concat(iterateThroughTree(child, rootNodeId, data));
     }
     for (const child of el.venues) {
-      childrenArray = childrenArray.concat(iterateThroughTree(child));
+      childrenArray = childrenArray.concat(iterateThroughTree(child, rootNodeId, data));
     }
     newArray = newArray.concat(childrenArray);
-  } else {
+  } else if (el.type === 'venue') {
+    const entId = `venue/${el.uuid}`;
+
     newArray.push({
-      id: `${el.type}/${el.uuid}`,
-      data: { label: node(el) },
-      entityName: el.name,
+      ...data.find((d) => d.id === entId),
       position: { x: 0, y: 200 },
-      type: 'default',
       style: venueStyle,
     });
 
+    // Finding all edges/devices linked
+    const toPush = [];
+    for (const element of data) {
+      if (element.source === entId) {
+        toPush.push(element);
+        if (element.target.split('/')[0] === 'device') {
+          const device = data.find((d) => d.id === `device/${element.target.split('/')[1]}`);
+          if (device) toPush.push(device);
+        }
+      }
+    }
+    newArray = newArray.concat(toPush);
+
+    // Creating children/venue elements
+    let childrenArray = [];
     for (const child of el.children) {
-      newArray.push({
-        id: `edge/${el.uuid}/${child.uuid}`,
-        source: `${el.type}/${el.uuid}`,
-        target: `${child.type}/${child.uuid}`,
-        arrowHeadType: 'arrowclosed',
-      });
+      childrenArray = childrenArray.concat(iterateThroughTree(child, rootNodeId, data));
     }
 
-    for (const child of el.children) {
-      newArray = newArray.concat(iterateThroughTree(child));
-    }
+    newArray = newArray.concat(childrenArray);
   }
 
   return newArray;
 };
 
-export default async (data, savedInfo, addDeviceData, transform) => {
-  const parsed = savedInfo ? JSON.parse(savedInfo.data) : undefined;
+export default async (rawTree, data, savedInfo, transform) => {
+  const parsed = savedInfo ? JSON.parse(savedInfo) : undefined;
   const rootNodeId = parsed?.rootNode?.split('/')[1] ?? '0000-0000-0000';
 
-  const elements = iterateThroughTreeWithRoot(data, rootNodeId);
-  const newTree = iterateThroughTree(elements, rootNodeId);
+  const treeWithRoot = iterateThroughTreeWithRoot(rawTree, rootNodeId);
+  const newTree = iterateThroughTree(treeWithRoot, rootNodeId, data);
 
   if (savedInfo) {
-    // Verifying if there are elements in our old tree that were deleted in the DB
+    // Adding saved positions to info from
     let [x, y] = [0, 0];
-    const onlyExistingElements = parsed.elements.filter((el) => {
+
+    // Adding saved positions to array
+    const elementsWithSavedPosition = newTree.map((el) => {
+      let style = entityStyle;
+      const type = el.id.split('/')[0];
+      if (type === 'venue') style = venueStyle;
+      else if (type === 'device') style = deviceStyle;
+      else if (el.id.split('/')[1] === rootNodeId) style = worldStyle;
+
       if (el.position?.y <= y) [x, y] = [el.position.x, el.position.y];
-      return newTree.find((newEl) => el.id === newEl.id);
+
+      return {
+        ...el,
+        type,
+        style,
+        data: { ...el, tooltipId: createUuid() },
+        position: parsed.elements.find((oldEl) => oldEl.id === el.id)?.position ?? undefined,
+      };
     });
 
-    // Verifying if we are missing elements in our old tree that were added in the DB
-    let posDiff = 1;
-    for (const newEl of newTree) {
-      if (!onlyExistingElements.find((el) => el.id === newEl.id)) {
-        onlyExistingElements.push({
-          ...newEl,
-          position: { x: x + 100 + posDiff * 100, y: y - 100 + posDiff * 10 },
-        });
-        posDiff += 1;
+    let posDiff = 0;
+
+    // Adding best-as-possible positions to entities which weren't saved
+    const elementsWithAutoPosition = elementsWithSavedPosition.map((el) => {
+      if (el.position) return el;
+
+      let parent;
+      if (el.type === 'entity') {
+        parent = elementsWithSavedPosition.find((t) => t.id === `entity/${el.extraData.parent}`);
       }
-    }
+      if (el.type === 'venue') {
+        const parentId =
+          el.extraData.parent !== ''
+            ? `venue/${el.extraData.parent}`
+            : `entity/${el.extraData.entity}`;
+        parent = elementsWithSavedPosition.find(
+          (t) => t.id === parentId && t.position !== undefined,
+        );
+      }
+      if (el.type === 'device') {
+        const parentId =
+          el.extraData.tagInfo.venue !== ''
+            ? `venue/${el.extraData.tagInfo.venue}`
+            : `entity/${el.extraData.tagInfo.entity}`;
+        parent = elementsWithSavedPosition.find(
+          (t) => t.id === parentId && t.position !== undefined,
+        );
+      }
+      if (parent) {
+        return {
+          ...el,
+          position: { x: parent.position.x + 100, y: parent.position.y + 100 },
+        };
+      }
+
+      posDiff += 1;
+      return {
+        ...el,
+        position: { x: x + 100 + posDiff * 100, y: y - 100 + posDiff * 10 },
+      };
+    });
 
     [x = 0, y = 0] = parsed.position;
     transform({ x, y, zoom: parsed.zoom || 0 });
-    const withDevices = await addDeviceData(onlyExistingElements);
-    return withDevices.map((ent) => {
+
+    return elementsWithAutoPosition;
+  }
+  return createLayoutedElements(
+    newTree.map((ent) => {
       let style = entityStyle;
-      if (ent.id.split('/')[0] === 'venue') style = venueStyle;
+      const type = ent.id.split('/')[0];
+      if (type === 'venue') style = venueStyle;
+      else if (type === 'device') style = deviceStyle;
       else if (ent.id.split('/')[1] === rootNodeId) style = worldStyle;
 
       return {
         ...ent,
         style,
-        data: {
-          label: nodeWithData(ent),
-        },
+        data: { ...ent, tooltipId: createUuid() },
       };
-    });
-  }
-
-  const withDevices = await addDeviceData(newTree);
-  return createLayoutedElements(
-    withDevices.map((ent) => ({
-      ...ent,
-      data: {
-        label: nodeWithData(ent),
-      },
-    })),
+    }),
     200,
     40,
   );

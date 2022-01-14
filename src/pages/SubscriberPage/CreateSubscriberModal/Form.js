@@ -13,6 +13,7 @@ import {
   CPopover,
   CRow,
   CSwitch,
+  CFormText,
 } from '@coreui/react';
 import PropTypes from 'prop-types';
 import CIcon from '@coreui/icons-react';
@@ -26,7 +27,7 @@ const CreateUserForm = ({ t, fields, updateField, policies, toggleChange }) => {
 
   return (
     <CForm>
-      <CFormGroup row className="pb-3">
+      <CFormGroup row>
         <CLabel sm="2" col htmlFor="email">
           {t('user.email_address')}
         </CLabel>
@@ -41,13 +42,28 @@ const CreateUserForm = ({ t, fields, updateField, policies, toggleChange }) => {
           <CInvalidFeedback>{t('user.provide_email')}</CInvalidFeedback>
         </CCol>
         <CLabel sm="2" col htmlFor="name">
+          {t('common.serial_number')}
+        </CLabel>
+        <CCol sm="4">
+          <CInput
+            id="owner"
+            type="text"
+            required
+            value={fields.owner.value}
+            onChange={updateField}
+            invalid={fields.owner.error}
+            maxLength="50"
+          />
+          <CFormText color={fields.owner.error ? 'danger' : ''}>
+            {t('entity.valid_serial')}
+          </CFormText>
+        </CCol>
+        <CLabel sm="2" col htmlFor="name">
           {t('user.name')}
         </CLabel>
         <CCol sm="4">
           <CInput id="name" value={fields.name.value} onChange={updateField} maxLength="20" />
         </CCol>
-      </CFormGroup>
-      <CFormGroup row>
         <CLabel sm="2" col htmlFor="description">
           {t('user.description')}
         </CLabel>
@@ -86,8 +102,6 @@ const CreateUserForm = ({ t, fields, updateField, policies, toggleChange }) => {
             <CInvalidFeedback>{t('user.provide_password')}</CInvalidFeedback>
           </CInputGroup>
         </CCol>
-      </CFormGroup>
-      <CFormGroup row className="pb-3">
         <CLabel sm="2" col htmlFor="changePassword">
           {t('user.force_password_change')}
         </CLabel>

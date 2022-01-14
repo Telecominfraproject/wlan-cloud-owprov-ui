@@ -52,12 +52,10 @@ const EditUserForm = ({ t, user, updateUserWithId, policies, editing }) => {
             <p className="mt-2 mb-0">{user.description.value}</p>
           )}
         </CCol>
-      </CFormGroup>
-      <CFormGroup row>
         <CLabel sm="2" col htmlFor="currentPassword">
           {t('login.new_password')}
         </CLabel>
-        <CCol sm="4">
+        <CCol sm="4" className="mb-2">
           {editing ? (
             <CInputGroup>
               <CInput
@@ -84,7 +82,7 @@ const EditUserForm = ({ t, user, updateUserWithId, policies, editing }) => {
             <p className="mt-2 mb-0" />
           )}
         </CCol>
-        <CLabel sm="3" col htmlFor="changePassword">
+        <CLabel sm="2" col htmlFor="changePassword">
           {t('user.force_password_change')}
         </CLabel>
         <CCol sm="1">

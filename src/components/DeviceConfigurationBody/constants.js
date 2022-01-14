@@ -969,7 +969,7 @@ export const RADIOS_FORM = {
   },
   'channel-width': {
     type: 'select',
-    value: 80,
+    value: 40,
     error: false,
     required: true,
     options: [
@@ -977,7 +977,6 @@ export const RADIOS_FORM = {
       { value: 40, label: '40 MHz' },
       { value: 80, label: '80 MHz' },
       { value: 160, label: '160 MHz' },
-      { value: 8080, label: '8080 MHz' },
     ],
   },
   'require-mode': {
