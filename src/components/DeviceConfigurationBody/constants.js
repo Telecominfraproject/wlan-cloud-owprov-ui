@@ -94,6 +94,12 @@ export const UNIT_FORM = {
     value: false,
     error: false,
   },
+  hostname: {
+    type: 'string',
+    value: '',
+    error: false,
+    required: false,
+  },
 };
 
 export const METRICS_FORM = {
