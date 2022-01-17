@@ -83,6 +83,16 @@ const Unit = ({
                         errorMessage="Error!!!!"
                         disabled={disabled}
                       />
+                      <ConfigurationStringField
+                        id="hostname"
+                        label="hostname"
+                        field={fields.hostname}
+                        updateField={updateWithId}
+                        firstCol="3"
+                        secondCol="9"
+                        errorMessage="Error!!!!"
+                        disabled={disabled}
+                      />
                       <ConfigurationSelect
                         id="timezone"
                         label="timezone"
