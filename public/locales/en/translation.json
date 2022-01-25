@@ -62,6 +62,7 @@
 		"confirm_stop_editing": "Are you sure you want to stop editing? This will cancel any unsaved changes you have made.",
 		"connected": "Connected",
 		"copied": "Copied!",
+		"copied_to_clipboard": "Copied to Clipboard!",
 		"copy_to_clipboard": "Copy to clipboard",
 		"create": "Create",
 		"created": "Created",
@@ -118,6 +119,7 @@
 		"hours": "hours",
 		"id": "Id",
 		"invalid_credentials": "Invalid username and/or password",
+		"invalid_date_explanation": "Invalid Date, please use the calendar accessible with the button on the right ",
 		"invalid_file": "The chosen file was invalid, please read the instructions and adjust your file accordingly",
 		"invalid_password": "This password does not confirm to basic password rules. Please visit our Password Policy page to learn more",
 		"invalid_pem": "Your .pem file is invalid. It should start with '-----BEGIN CERTIFICATE-----' OR '-----BEGIN PRIVATE KEY-----' and it should end with '-----END CERTIFICATE-----' OR '-----END PRIVATE KEY-----'",
@@ -657,11 +659,14 @@
 	},
 	"statistics": {
 		"data": "Data (KB)",
+		"data_mb": "Data (MB)",
 		"latest_statistics": "Latest Statistics",
 		"lifetime_stats": "Lifetime Statistics",
+		"memory": "Memory",
 		"no_interfaces": "No interface lifetime statistics available",
 		"show_latest": "Last Statistics",
-		"title": "Statistics"
+		"title": "Statistics",
+		"used": "Used Memory %"
 	},
 	"status": {
 		"connection_status": "Status",
@@ -800,6 +805,7 @@
 		"mode": "Mode",
 		"network_diagram": "Network Diagram",
 		"radios": "Radios",
-		"title": "Wi-Fi Analysis"
+		"title": "Wi-Fi Analysis",
+		"vendor": "Vendor"
 	}
 }

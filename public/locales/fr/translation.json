@@ -62,6 +62,7 @@
 		"confirm_stop_editing": "Voulez-vous vraiment arrêter la modification ? Cela annulera toutes les modifications non enregistrées que vous avez apportées.",
 		"connected": "Connecté",
 		"copied": "Copié!",
+		"copied_to_clipboard": "Copié dans le presse-papier!",
 		"copy_to_clipboard": "Copier dans le presse-papier",
 		"create": "Créer",
 		"created": "Créé",
@@ -118,6 +119,7 @@
 		"hours": "heures",
 		"id": "Id",
 		"invalid_credentials": "Nom d'utilisateur et / ou mot de passe incorrect",
+		"invalid_date_explanation": "Date invalide, merci d'utiliser le calendrier accessible avec le bouton à droite",
 		"invalid_file": "Le fichier choisi n'était pas valide, veuillez lire les instructions et ajuster votre fichier en conséquence",
 		"invalid_password": "Ce mot de passe ne confirme pas les règles de base des mots de passe. Veuillez visiter notre page Politique de mot de passe pour en savoir plus",
 		"invalid_pem": "Votre fichier .pem n'est pas valide. Il doit commencer par '-----BEGIN CERTIFICATE-----' OU '-----BEGIN PRIVATE KEY-----' et il doit se terminer par '-----END CERTIFICATE--- --' OU '-----FIN CLÉ PRIVÉE-----'",
@@ -657,11 +659,14 @@
 	},
 	"statistics": {
 		"data": "Données (Ko)",
+		"data_mb": "Données (Mo)",
 		"latest_statistics": "Dernières statistiques",
 		"lifetime_stats": "Statistiques à vie",
+		"memory": "mémoire",
 		"no_interfaces": "Aucune statistique de durée de vie de l'interface disponible",
 		"show_latest": "Dernières statistiques",
-		"title": "statistiques"
+		"title": "statistiques",
+		"used": "Mémoire utilisée %"
 	},
 	"status": {
 		"connection_status": "Statut",
@@ -800,6 +805,7 @@
 		"mode": "Mode",
 		"network_diagram": "Diagramme de réseau",
 		"radios": "Radios",
-		"title": "Analyse Wi-Fi"
+		"title": "Analyse Wi-Fi",
+		"vendor": "vendeur"
 	}
 }
