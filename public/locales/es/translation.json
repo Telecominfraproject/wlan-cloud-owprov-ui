@@ -62,6 +62,7 @@
 		"confirm_stop_editing": "¿Estás seguro de que quieres dejar de editar? Esto cancelará cualquier cambio no guardado que haya realizado.",
 		"connected": "Conectado",
 		"copied": "Copiado!",
+		"copied_to_clipboard": "¡Copiado al portapapeles!",
 		"copy_to_clipboard": "Copiar al portapapeles",
 		"create": "Crear",
 		"created": "creado",
@@ -118,6 +119,7 @@
 		"hours": "horas",
 		"id": "Carné de identidad",
 		"invalid_credentials": "Nombre de usuario y / o contraseña inválido",
+		"invalid_date_explanation": "Fecha no válida, utilice el calendario accesible con el botón de la derecha",
 		"invalid_file": "El archivo elegido no es válido, lea las instrucciones y ajuste su archivo en consecuencia",
 		"invalid_password": "Esta contraseña no confirma las reglas básicas de contraseña. Visite nuestra página de Política de contraseñas para obtener más información.",
 		"invalid_pem": "Su archivo .pem no es válido. Debe comenzar con '----- BEGIN CERTIFICATE -----' O '----- BEGIN PRIVATE KEY -----' y debe terminar con '----- END CERTIFICATE --- - 'O' ----- FIN DE CLAVE PRIVADA ----- '",
@@ -657,11 +659,14 @@
 	},
 	"statistics": {
 		"data": "Datos (KB)",
+		"data_mb": "Datos (MB)",
 		"latest_statistics": "Últimas estadísticas",
 		"lifetime_stats": "Estadísticas de por vida",
+		"memory": "Memoria",
 		"no_interfaces": "No hay estadísticas de vida útil de la interfaz disponibles",
 		"show_latest": "Últimas estadísticas",
-		"title": "estadística"
+		"title": "estadística",
+		"used": "Memoria usada %"
 	},
 	"status": {
 		"connection_status": "Estado",
@@ -800,6 +805,7 @@
 		"mode": "Modo",
 		"network_diagram": "Diagrama de Red",
 		"radios": "Radios",
-		"title": "Análisis de Wi-Fi"
+		"title": "Análisis de Wi-Fi",
+		"vendor": "Vendedor"
 	}
 }
