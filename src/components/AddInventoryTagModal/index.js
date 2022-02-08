@@ -48,6 +48,11 @@ const initialForm = {
     error: false,
     required: true,
   },
+  devClass: {
+    value: 'any',
+    error: false,
+    required: true,
+  },
   description: {
     value: '',
     error: false,
@@ -108,6 +113,7 @@ const AddInventoryTagModal = ({ entity, show, toggle, refreshTable }) => {
           fields.description.value.trim() !== '' ? fields.description.value.trim() : undefined,
         notes: fields.note.value !== '' ? [{ note: fields.note.value }] : undefined,
         rrm: fields.rrm.value,
+        devClass: fields.devClass.value,
       };
 
       axiosInstance

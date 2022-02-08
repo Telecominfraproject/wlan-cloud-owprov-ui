@@ -47,6 +47,11 @@ const initialForm = {
     error: false,
     required: true,
   },
+  devClass: {
+    value: 'any',
+    error: false,
+    required: true,
+  },
   deviceConfiguration: {
     value: '',
     uuid: '',
@@ -126,6 +131,8 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
               newFields.deviceConfiguration = { value: '', uuid: response.data[key] };
             else if (key === 'rrm')
               newFields[key].value = response.data[key] === '' ? 'inherit' : response.data[key];
+            else if (key === 'devClass')
+              newFields[key].value = response.data[key] === '' ? 'any' : response.data[key];
             else newFields[key].value = response.data[key];
           }
         }
