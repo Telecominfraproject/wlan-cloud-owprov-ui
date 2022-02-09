@@ -11,6 +11,7 @@ import {
   CNavLink,
   CTabPane,
   CTabContent,
+  CTextarea,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX, cilSave, cilPen, cilRouter } from '@coreui/icons';
@@ -63,6 +64,10 @@ const initialForm = {
     error: false,
   },
   entity: {
+    value: '',
+    error: false,
+  },
+  state: {
     value: '',
     error: false,
   },
@@ -180,7 +185,7 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
             if (tag[key] !== field.uuid) {
               parameters[key] = field.uuid;
             }
-          } else if (tag[key] !== field.value) {
+          } else {
             parameters[key] = field.value;
           }
         }
@@ -378,6 +383,14 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
           >
             {t('configuration.notes')}
           </CNavLink>
+          <CNavLink
+            className="font-weight-bold"
+            href="#"
+            active={index === 2}
+            onClick={() => setIndex(2)}
+          >
+            State
+          </CNavLink>
         </CNav>
         <CTabContent>
           <CTabPane active={index === 0} className="pt-2">
@@ -404,6 +417,18 @@ const EditTagModal = ({ show, toggle, tagSerialNumber, refreshTable, pushConfig 
                 addNote={addNote}
                 loading={loading}
                 editable={editing}
+              />
+            ) : null}
+          </CTabPane>
+          <CTabPane active={index === 2}>
+            {index === 2 ? (
+              <CTextarea
+                name="textarea-input"
+                id="textarea-input"
+                rows="9"
+                value={fields.state.value}
+                onChange={(e) => updateField('state', { value: e.target.value })}
+                disabled={!editing}
               />
             ) : null}
           </CTabPane>

@@ -201,7 +201,7 @@ const EditInventoryTagForm = ({
                 { value: 'venue', label: 'venue' },
                 { value: 'subscriber', label: 'subscriber' },
               ]}
-              isDisabled={disable}
+              isDisabled={disable || !editing}
             />
           </div>
           <CFormText hidden={!fields.rrm.error} color={fields.rrm.error ? 'danger' : ''}>
