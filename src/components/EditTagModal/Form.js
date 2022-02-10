@@ -183,6 +183,32 @@ const EditInventoryTagForm = ({
           </CFormText>
         </CCol>
       </CRow>
+      <CRow className="mb-1">
+        <CLabel sm="4" col htmlFor="name">
+          Device Class
+          <RequiredAsterisk />
+        </CLabel>
+        <CCol sm="8">
+          <div style={{ width: '120px' }}>
+            <Select
+              id="devClass"
+              styles={SELECT_STYLES}
+              value={{ value: fields.devClass.value, label: fields.devClass.value }}
+              onChange={(v) => updateFieldDirectly('devClass', { value: v.value, error: false })}
+              options={[
+                { value: 'any', label: 'any' },
+                { value: 'entity', label: 'entity' },
+                { value: 'venue', label: 'venue' },
+                { value: 'subscriber', label: 'subscriber' },
+              ]}
+              isDisabled={disable || !editing}
+            />
+          </div>
+          <CFormText hidden={!fields.rrm.error} color={fields.rrm.error ? 'danger' : ''}>
+            {t('common.required')}
+          </CFormText>
+        </CCol>
+      </CRow>
       <CFormGroup row className="pb-1">
         <CLabel sm="4" col htmlFor="title">
           {getEntityLabel()}
