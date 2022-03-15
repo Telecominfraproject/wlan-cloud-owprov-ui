@@ -10,6 +10,7 @@ import { CreateUserNonRootSchema, CreateUserSchema } from 'constants/formSchemas
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import { RequirementsShape } from 'constants/propShapes';
+import { secUrl } from 'utils/axiosInstances';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -161,7 +162,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
           <Flex justifyContent="center" alignItems="center" maxW="100%" mt="50px" mb={6}>
             <Box w="100%">
               <Link
-                href={`https://ucentral.dpaas.arilia.com:16061${requirements?.passwordPolicy}`}
+                href={`${secUrl}${requirements?.passwordPolicy}`}
                 isExternal
                 textColor={textColor}
               >

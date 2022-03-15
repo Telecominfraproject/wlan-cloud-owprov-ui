@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { axiosSec } from 'utils/axiosInstances';
+import { axiosSec, secUrl } from 'utils/axiosInstances';
 import {
   Alert,
   Box,
@@ -151,11 +151,7 @@ const ForgotPasswordForm = ({ requirements, setActiveForm }) => {
       </Formik>
       <Flex justifyContent="center" alignItems="center" maxW="100%" mt="0px">
         <Box w="100%">
-          <Link
-            href={`https://ucentral.dpaas.arilia.com:16061/${requirements?.accessPolicy}`}
-            isExternal
-            textColor={textColor}
-          >
+          <Link href={`${secUrl}${requirements?.accessPolicy}`} isExternal textColor={textColor}>
             {t('login.access_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>

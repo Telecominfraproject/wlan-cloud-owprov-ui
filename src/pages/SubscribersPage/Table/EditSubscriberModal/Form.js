@@ -239,7 +239,7 @@ const EditSubscriberForm = ({
           <Flex justifyContent="center" alignItems="center" maxW="100%" mt="25px" mb={6} px={4}>
             <Box w="100%">
               <Link
-                href={`https://ucentral.dpaas.arilia.com:16061${requirements?.data?.passwordPolicy}`}
+                href={`${secUrl}${requirements?.data?.passwordPolicy}`}
                 isExternal
                 textColor={textColor}
                 pb={2}

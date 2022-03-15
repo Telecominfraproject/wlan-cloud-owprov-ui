@@ -28,7 +28,7 @@ const getAvatar = async (id, cache) =>
 
 const getConfigDescriptions = async (baseUrl) =>
   axios
-    .get(`${baseUrl.split('/api')[0]}/wwwassets/ucentral.schema.pretty.json`)
+    .get(`${baseUrl.split('/api')[0]}wwwassets/ucentral.schema.pretty.json`)
     .then(({ data }) => data.$defs);
 const getUser = async () => axiosSec.get('oauth2?me=true').then(({ data }) => data);
 

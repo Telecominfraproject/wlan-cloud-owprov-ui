@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { axiosSec } from 'utils/axiosInstances';
+import { axiosSec, secUrl } from 'utils/axiosInstances';
 import {
   Alert,
   Box,
@@ -188,7 +188,7 @@ const LoginForm = ({ requirements, setActiveForm }) => {
       <Flex justifyContent="center" alignItems="center" maxW="100%" mt="0px">
         <Box w="100%">
           <Link
-            href={`https://ucentral.dpaas.arilia.com:16061${requirements?.passwordPolicy}`}
+            href={`${secUrl}${requirements?.passwordPolicy}`}
             isExternal
             textColor={textColor}
             mr="24px"
@@ -196,11 +196,7 @@ const LoginForm = ({ requirements, setActiveForm }) => {
             {t('login.password_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>
-          <Link
-            href={`https://ucentral.dpaas.arilia.com:16061${requirements?.accessPolicy}`}
-            isExternal
-            textColor={textColor}
-          >
+          <Link href={`${secUrl}${requirements?.accessPolicy}`} isExternal textColor={textColor}>
             {t('login.access_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>

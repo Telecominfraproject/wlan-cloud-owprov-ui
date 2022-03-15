@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { axiosSec } from 'utils/axiosInstances';
+import { axiosSec, secUrl } from 'utils/axiosInstances';
 import {
   Alert,
   Box,
@@ -212,17 +212,13 @@ const ChangePasswordForm = ({ requirements, activeForm, setActiveForm }) => {
       </Formik>
       <Flex justifyContent="center" alignItems="center" maxW="100%" mt="0px">
         <Box w="100%">
-          <Link
-            href={`https://ucentral.dpaas.arilia.com:16061/${requirements?.passwordPolicy}`}
-            isExternal
-            textColor={textColor}
-          >
+          <Link href={`${secUrl}${requirements?.passwordPolicy}`} isExternal textColor={textColor}>
             {t('login.password_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>
           <Link
             ml="24px"
-            href={`https://ucentral.dpaas.arilia.com:16061/${requirements?.accessPolicy}`}
+            href={`${secUrl}${requirements?.accessPolicy}`}
             isExternal
             textColor={textColor}
           >

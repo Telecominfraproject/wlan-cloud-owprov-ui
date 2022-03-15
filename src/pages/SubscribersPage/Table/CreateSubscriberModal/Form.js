@@ -22,7 +22,7 @@ import { CreateSubscriberSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
 import { DefaultRequirements, RequirementsShape } from 'constants/propShapes';
 import InventoryTable from 'components/Tables/InventoryTable';
-import { axiosProv } from 'utils/axiosInstances';
+import { axiosProv, secUrl } from 'utils/axiosInstances';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import { useGetEntities } from 'hooks/Network/Entity';
 
@@ -215,11 +215,7 @@ const CreateSubscriberForm = ({ isOpen, onClose, create, requirements, refresh, 
       </Accordion>
       <Flex justifyContent="center" alignItems="center" maxW="100%" mt={4} mb={6}>
         <Box w="100%">
-          <Link
-            href={`https://ucentral.dpaas.arilia.com:16061${requirements?.passwordPolicy}`}
-            isExternal
-            textColor={textColor}
-          >
+          <Link href={`${secUrl}${requirements?.passwordPolicy}`} isExternal textColor={textColor}>
             {t('login.password_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>

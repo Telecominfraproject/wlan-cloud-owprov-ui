@@ -23,6 +23,7 @@ import NotesTable from 'components/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import { RequirementsShape } from 'constants/propShapes';
+import { secUrl } from 'utils/axiosInstances';
 
 const CreateUserSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -220,7 +221,7 @@ const UpdateUserForm = ({
           <Flex justifyContent="center" alignItems="center" maxW="100%" mt="25px" mb={6} px={4}>
             <Box w="100%">
               <Link
-                href={`https://ucentral.dpaas.arilia.com:16061${requirements?.passwordPolicy}`}
+                href={`${secUrl}${requirements?.passwordPolicy}`}
                 isExternal
                 textColor={textColor}
                 pb={2}
