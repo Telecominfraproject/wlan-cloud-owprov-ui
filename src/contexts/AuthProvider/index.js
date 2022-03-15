@@ -28,7 +28,7 @@ const getAvatar = async (id, cache) =>
 
 const getConfigDescriptions = async (baseUrl) =>
   axios
-    .get(`${baseUrl.split('/api')[0]}wwwassets/ucentral.schema.pretty.json`)
+    .get(`${baseUrl.split('/api')[0]}/wwwassets/ucentral.schema.pretty.json`)
     .then(({ data }) => data.$defs);
 const getUser = async () => axiosSec.get('oauth2?me=true').then(({ data }) => data);
 
@@ -199,7 +199,7 @@ export const AuthProvider = ({ token, children }) => {
       configurationDescriptions,
       isUserLoaded: preferences !== undefined && user !== undefined && loadedEndpoints,
     }),
-    [currentToken, user, avatar, preferences, loadedEndpoints],
+    [currentToken, user, avatar, preferences, loadedEndpoints, configurationDescriptions],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
