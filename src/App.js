@@ -1,40 +1,36 @@
-import React from 'react';
-import { HashRouter, Switch } from 'react-router-dom';
-import 'scss/style.scss';
+import React, { Suspense } from 'react';
+import { HashRouter } from 'react-router-dom';
+import { ChakraProvider, Spinner } from '@chakra-ui/react';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import theme from 'theme/theme';
+import { AuthProvider } from 'contexts/AuthProvider';
 import Router from 'router';
-import { AuthProvider, EntityProvider } from 'ucentral-libs';
-import { checkIfJson } from 'utils/helper';
-import { getItem } from 'utils/localStorageHelper';
-import axiosInstance from 'utils/axiosInstance';
 
-const loading = (
-  <div className="pt-3 text-center">
-    <div className="sk-spinner sk-spinner-pulse" />
-  </div>
-);
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
-  const storageToken = getItem('access_token');
-  const apiEndpoints = checkIfJson(getItem('gateway_endpoints'))
-    ? JSON.parse(getItem('gateway_endpoints'))
-    : {};
+  const storageToken =
+    localStorage.getItem('access_token') ?? sessionStorage.getItem('access_token');
 
   return (
-    <AuthProvider
-      axiosInstance={axiosInstance}
-      token={storageToken ?? ''}
-      apiEndpoints={apiEndpoints}
-    >
+    <QueryClientProvider client={queryClient}>
       <HashRouter>
-        <EntityProvider axiosInstance={axiosInstance}>
-          <React.Suspense fallback={loading}>
-            <Switch>
+        <ChakraProvider portalZIndex={40} theme={theme} resetCss={false}>
+          <Suspense fallback={<Spinner />}>
+            <AuthProvider token={storageToken}>
               <Router />
-            </Switch>
-          </React.Suspense>
-        </EntityProvider>
+            </AuthProvider>
+          </Suspense>
+        </ChakraProvider>
       </HashRouter>
-    </AuthProvider>
+    </QueryClientProvider>
   );
 };
 
