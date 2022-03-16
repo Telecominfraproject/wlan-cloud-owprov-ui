@@ -17,18 +17,11 @@ export const SERVICES_USER_SCHEMA = (t, useDefault = false) => {
       .test('services.ieee8021x.user.mac.length', t('form.invalid_mac_uc'), testUcMac)
       .default(''),
     'user-name': string().required(t('form.required')).default(''),
-    'vlan-id': number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(4097)
-      .integer()
-      .default(1),
+    'vlan-id': number().required(t('form.required')).moreThan(-1).lessThan(4097).integer().default(1),
     password: string()
       .required(t('form.required'))
-      .test(
-        'services.ieee8021x.user.password.length',
-        t('form.min_max_string', { min: 8, max: 63 }),
-        (val) => testLength({ val, min: 8, max: 63 }),
+      .test('services.ieee8021x.user.password.length', t('form.min_max_string', { min: 8, max: 63 }), (val) =>
+        testLength({ val, min: 8, max: 63 }),
       )
       .default(''),
   });
@@ -66,11 +59,7 @@ export const SERVICES_LLDP_SCHEMA = (t, useDefault = false) => {
 export const SERVICES_SSH_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     port: number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(22),
-    'authorized-keys': array()
-      .of(string())
-      .required(t('form.required'))
-      .min(1, t('form.required'))
-      .default([]),
+    'authorized-keys': array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
     'password-authentication': bool().default(false),
   });
 
@@ -78,11 +67,7 @@ export const SERVICES_SSH_SCHEMA = (t, useDefault = false) => {
 };
 export const SERVICES_NTP_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    servers: array()
-      .of(string())
-      .required(t('form.required'))
-      .min(1, t('form.required'))
-      .default([]),
+    servers: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
     'local-server': bool().default(false),
   });
 
@@ -101,12 +86,7 @@ export const SERVICES_RTTY_SCHEMA = (t, useDefault = false) => {
       .required(t('form.required'))
       .test('rtty.host.value', t('form.invalid_fqdn_host'), testFqdnHostname)
       .default(''),
-    port: number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(65535)
-      .integer()
-      .default(5912),
+    port: number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(5912),
     token: string()
       .required(t('form.required'))
       .test('rtty.token.length', t('form.min_max_string', { min: 32, max: 32 }), (val) =>
@@ -123,31 +103,16 @@ export const SERVICES_LOG_SCHEMA = (t, useDefault = false) => {
       .required(t('form.required'))
       .test('rtty.host.value', t('form.invalid_fqdn_host'), testFqdnHostname)
       .default(''),
-    port: number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(65535)
-      .integer()
-      .default(5912),
+    port: number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(5912),
     proto: string().required(t('form.required')).default('udp'),
-    size: number()
-      .required(t('form.required'))
-      .moreThan(31)
-      .lessThan(65535)
-      .integer()
-      .default(1000),
+    size: number().required(t('form.required')).moreThan(31).lessThan(65535).integer().default(1000),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 export const SERVICES_HTTP_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    'http-port': number()
-      .required(t('form.required'))
-      .moreThan(0)
-      .lessThan(65535)
-      .integer()
-      .default(80),
+    'http-port': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(80),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);
@@ -190,33 +155,11 @@ export const SERVICES_RADIUS_PROXY_SCHEMA = (t, useDefault = false) => {
 };
 export const SERVICES_ONLINE_CHECK_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    'ping-hosts': array()
-      .of(string())
-      .required(t('form.required'))
-      .min(1, t('form.required'))
-      .default([]),
-    'download-hosts': array()
-      .of(string())
-      .required(t('form.required'))
-      .min(1, t('form.required'))
-      .default([]),
-    'check-interval': number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(65535)
-      .integer()
-      .default(60),
-    'check-threshold': number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(65535)
-      .integer()
-      .default(1),
-    action: array()
-      .of(string())
-      .required(t('form.required'))
-      .min(1, t('form.required'))
-      .default([]),
+    'ping-hosts': array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
+    'download-hosts': array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
+    'check-interval': number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(60),
+    'check-threshold': number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(1),
+    action: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);
@@ -264,18 +207,8 @@ export const SERVICES_WIFI_STEERING_SCHEMA = (t, useDefault = false) => {
 };
 export const SERVICES_QUALITY_OF_SERVICE_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    'upload-rate': number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(65535)
-      .integer()
-      .default(0),
-    'download-rate': number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(65535)
-      .integer()
-      .default(0),
+    'upload-rate': number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(0),
+    'download-rate': number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(0),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);
@@ -291,17 +224,8 @@ export const SERVICES_FACEBOOK_WIFI_SCHEMA = (t, useDefault = false) => {
 };
 export const SERVICES_AIRTIME_POLICIES_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    'dns-match': array()
-      .of(string())
-      .required(t('form.required'))
-      .min(1, t('form.required'))
-      .default([]),
-    'dns-weight': number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(65535)
-      .integer()
-      .default(256),
+    'dns-match': array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
+    'dns-weight': number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(256),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);

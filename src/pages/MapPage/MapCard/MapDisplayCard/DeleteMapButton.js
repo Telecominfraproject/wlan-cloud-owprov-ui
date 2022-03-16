@@ -37,13 +37,7 @@ const DeleteMapButton = ({ deleteMap, isDisabled, ...props }) => {
   return (
     <>
       <Tooltip label={t('crud.delete')}>
-        <IconButton
-          colorScheme="red"
-          onClick={onOpen}
-          icon={<Trash size={20} />}
-          isDisabled={isDisabled}
-          {...props}
-        />
+        <IconButton colorScheme="red" onClick={onOpen} icon={<Trash size={20} />} isDisabled={isDisabled} {...props} />
       </Tooltip>
       <AlertDialog isOpen={isOpen} onClose={onClose} isCentered>
         <AlertDialogOverlay>

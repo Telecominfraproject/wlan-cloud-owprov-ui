@@ -73,27 +73,14 @@ const InventoryTable = ({ title }) => {
   };
 
   const memoizedActions = useCallback(
-    (cell) => (
-      <Actions
-        cell={cell.row}
-        refreshTable={refetchCount}
-        key={uuid()}
-        openEditModal={openEditModal}
-      />
-    ),
+    (cell) => <Actions cell={cell.row} refreshTable={refetchCount} key={uuid()} openEditModal={openEditModal} />,
     [],
   );
-  const memoizedDate = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
-    [],
-  );
+  const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
 
   const entityCell = useCallback(
     (cell) => (
-      <EntityCell
-        entityName={cell.row.original.extendedInfo?.entity?.name ?? ''}
-        entityId={cell.row.original.entity}
-      />
+      <EntityCell entityName={cell.row.original.extendedInfo?.entity?.name ?? ''} entityId={cell.row.original.entity} />
     ),
     [],
   );
@@ -210,22 +197,14 @@ const InventoryTable = ({ title }) => {
                 preference="provisioning.inventoryTable.hiddenColumns"
               />
               <CreateConfigurationModal refresh={refetchCount} />
-              <RefreshButton
-                onClick={refetchCount}
-                isLoading={isFetchingCount || isFetchingTags}
-                ml={2}
-              />
+              <RefreshButton onClick={refetchCount} isLoading={isFetchingCount || isFetchingTags} ml={2} />
             </Box>
           </Flex>
         </CardHeader>
         <CardBody>
           <Box overflowX="auto" w="100%">
             <DataTable
-              columns={
-                onlyUnassigned
-                  ? columns.filter((col) => col.id !== 'entity' && col.id !== 'venue')
-                  : columns
-              }
+              columns={onlyUnassigned ? columns.filter((col) => col.id !== 'entity' && col.id !== 'venue') : columns}
               data={tags ?? []}
               isLoading={isFetchingCount || isFetchingTags}
               isManual
@@ -245,11 +224,7 @@ const InventoryTable = ({ title }) => {
         refresh={refetchTags}
         pushConfig={pushConfiguration}
       />
-      <ConfigurationPushModal
-        isOpen={isPushOpen}
-        onClose={closePush}
-        pushResult={pushConfiguration.data}
-      />
+      <ConfigurationPushModal isOpen={isPushOpen} onClose={closePush} pushResult={pushConfiguration.data} />
     </>
   );
 };

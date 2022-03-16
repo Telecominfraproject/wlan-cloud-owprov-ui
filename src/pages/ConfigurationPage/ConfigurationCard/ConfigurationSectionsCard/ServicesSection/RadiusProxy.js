@@ -33,12 +33,7 @@ const RadiusProxy = ({ editing }) => {
               <>
                 <StringField name="realm" label="realm" isRequired />
                 <NumberField name="port" label="port" isDisabled={!editing} isRequired w={24} />
-                <ToggleField
-                  name="auto-discover"
-                  label="auto-discover"
-                  isDisabled={!editing}
-                  isRequired
-                />
+                <ToggleField name="auto-discover" label="auto-discover" isDisabled={!editing} isRequired />
                 <StringField name="secret" label="secret" isRequired />
                 <ToggleField
                   name="use-local-certificates"

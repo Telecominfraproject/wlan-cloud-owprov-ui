@@ -66,9 +66,7 @@ const EditSubscriberModal = ({ isOpen, onClose, subscriber, requirements, refres
     id: subscriber?.id,
     enabled: subscriber?.id !== '' && isOpen,
   });
-  const updateSubscriber = useMutation((subInfo) =>
-    axiosSec.put(`subuser/${subscriber?.id}`, subInfo),
-  );
+  const updateSubscriber = useMutation((subInfo) => axiosSec.put(`subuser/${subscriber?.id}`, subInfo));
   const { data: tagSerials } = useGetInventoryTags({
     t,
     toast,
@@ -150,9 +148,7 @@ const EditSubscriberModal = ({ isOpen, onClose, subscriber, requirements, refres
               <SaveButton
                 onClick={form.submitForm}
                 isLoading={form.isSubmitting}
-                isDisabled={
-                  !editing || !form.isValid || (!form.dirty && deviceSerials === tagSerials)
-                }
+                isDisabled={!editing || !form.isValid || (!form.dirty && deviceSerials === tagSerials)}
               />
               <EditButton ml={2} isDisabled={editing} onClick={setEditing.toggle} isCompact />
               <CloseButton ml={2} onClick={closeModal} />

@@ -16,8 +16,7 @@ const LoadingOverlay = ({ isLoading, children }) => {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor:
-      colorMode === 'light' ? 'var(--chakra-colors-gray-200)' : 'var(--chakra-colors-gray-900)',
+    backgroundColor: colorMode === 'light' ? 'var(--chakra-colors-gray-200)' : 'var(--chakra-colors-gray-900)',
     zIndex: '1100',
     opacity: '0.4',
     filter: 'alpha(opacity=40)',

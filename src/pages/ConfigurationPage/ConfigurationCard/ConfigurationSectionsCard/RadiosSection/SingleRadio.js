@@ -28,11 +28,7 @@ const SingleRadio = ({ editing, index, remove }) => {
       <CardHeader flex="auto">
         <Box>#{index} Radio</Box>
         <Spacer />
-        <DeleteButton
-          isDisabled={!editing}
-          onClick={removeRadio}
-          label={t('configurations.delete_radio')}
-        />
+        <DeleteButton isDisabled={!editing} onClick={removeRadio} label={t('configurations.delete_radio')} />
       </CardHeader>
       <CardBody>
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">

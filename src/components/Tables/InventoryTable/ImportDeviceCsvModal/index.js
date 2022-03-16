@@ -94,12 +94,7 @@ const ImportDeviceCsvModal = ({ refresh, deviceClass, parent }) => {
   const getButton = () => {
     if (breakpoint !== 'base' && breakpoint !== 'sm') {
       return (
-        <Button
-          ml={2}
-          colorScheme="blue"
-          onClick={openModal}
-          rightIcon={<UploadSimple size={20} />}
-        >
+        <Button ml={2} colorScheme="blue" onClick={openModal} rightIcon={<UploadSimple size={20} />}>
           {t('devices.import_batch_tags')}
         </Button>
       );
@@ -107,12 +102,7 @@ const ImportDeviceCsvModal = ({ refresh, deviceClass, parent }) => {
 
     return (
       <Tooltip label={t('devices.import_batch_tags')}>
-        <IconButton
-          ml={2}
-          colorScheme="blue"
-          onClick={openModal}
-          icon={<UploadSimple size={20} />}
-        />
+        <IconButton ml={2} colorScheme="blue" onClick={openModal} icon={<UploadSimple size={20} />} />
       </Tooltip>
     );
   };
@@ -130,17 +120,10 @@ const ImportDeviceCsvModal = ({ refresh, deviceClass, parent }) => {
       <Modal onClose={closeModal} isOpen={isOpen} size="xl">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
-          <ModalHeader
-            title={t('devices.import_batch_tags')}
-            right={<CloseButton ml={2} onClick={closeModal} />}
-          />
+          <ModalHeader title={t('devices.import_batch_tags')} right={<CloseButton ml={2} onClick={closeModal} />} />
           <ModalBody>{getPhase()}</ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );

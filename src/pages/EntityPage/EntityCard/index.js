@@ -73,12 +73,7 @@ const EntityCard = ({ id }) => {
           </Center>
         ) : (
           <LoadingOverlay isLoading={isFetching}>
-            <EditEntityForm
-              editing={editing}
-              entity={entity}
-              stopEditing={setEditing.off}
-              formRef={formRef}
-            />
+            <EditEntityForm editing={editing} entity={entity} stopEditing={setEditing.off} formRef={formRef} />
           </LoadingOverlay>
         )}
       </CardBody>

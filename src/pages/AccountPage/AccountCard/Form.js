@@ -43,14 +43,7 @@ const propTypes = {
   deleteAvatar: PropTypes.instanceOf(Object).isRequired,
 };
 
-const UpdateAccountForm = ({
-  updateUser,
-  deleteAvatar,
-  updateAvatar,
-  finishUpdate,
-  editing,
-  formRef,
-}) => {
+const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdate, editing, formRef }) => {
   const { t } = useTranslation();
   const [verifNumber, setVerifNumber] = useState('');
   const { avatar: savedAvatar } = useAuth();
@@ -90,19 +83,14 @@ const UpdateAccountForm = ({
         key={formKey}
         initialValues={{
           ...user,
-          mfa: user.userTypeProprietaryInfo.mfa.enabled
-            ? user.userTypeProprietaryInfo.mfa.method
-            : '',
+          mfa: user.userTypeProprietaryInfo.mfa.enabled ? user.userTypeProprietaryInfo.mfa.method : '',
           phoneNumber:
             user.userTypeProprietaryInfo.mobiles.length > 0
               ? user.userTypeProprietaryInfo.mobiles[0].number.replace('+', '')
               : '',
         }}
         validationSchema={UpdateUserSchema(t)}
-        onSubmit={(
-          { description, name, currentPassword, phoneNumber, mfa, notes },
-          { setSubmitting },
-        ) => {
+        onSubmit={({ description, name, currentPassword, phoneNumber, mfa, notes }, { setSubmitting }) => {
           const onSuccess = () => {
             finishUpdate();
             setSubmitting(false);
@@ -147,10 +135,7 @@ const UpdateAccountForm = ({
           updateUser.mutateAsync(params, {
             onSuccess,
             onError: (e) => {
-              if (
-                e?.response?.data?.ErrorDescription ===
-                'You must provide at least one validated phone number.'
-              ) {
+              if (e?.response?.data?.ErrorDescription === 'You must provide at least one validated phone number.') {
                 toggleVerifyNumber(params, onSuccess);
               } else {
                 toast({
@@ -216,11 +201,7 @@ const UpdateAccountForm = ({
                             </Field>
                             <Field name="userRole">
                               {({ field }) => (
-                                <FormControl
-                                  isInvalid={errors.userRole && touched.userRole}
-                                  isRequired
-                                  isDisabled
-                                >
+                                <FormControl isInvalid={errors.userRole && touched.userRole} isRequired isDisabled>
                                   <FormLabel ms="4px" fontSize="md" fontWeight="normal">
                                     {t('user.role')}
                                   </FormLabel>
@@ -309,13 +290,7 @@ const UpdateAccountForm = ({
                 </TabPanel>
                 <TabPanel>
                   <Field name="notes">
-                    {({ field }) => (
-                      <NotesTable
-                        notes={field.value}
-                        setNotes={setFieldValue}
-                        isDisabled={!editing}
-                      />
-                    )}
+                    {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
                   </Field>
                 </TabPanel>
               </TabPanels>

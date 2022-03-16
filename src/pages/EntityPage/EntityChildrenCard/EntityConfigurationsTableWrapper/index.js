@@ -30,12 +30,7 @@ const EntityConfigurationsTableWrapper = ({ entity }) => {
 
   const actions = useCallback(
     (cell) => (
-      <Actions
-        key={uuid()}
-        cell={cell.row}
-        openInUseModal={openInUseModal}
-        openAffectedModal={openAffectedModal}
-      />
+      <Actions key={uuid()} cell={cell.row} openInUseModal={openInUseModal} openAffectedModal={openAffectedModal} />
     ),
     [],
   );
@@ -49,11 +44,7 @@ const EntityConfigurationsTableWrapper = ({ entity }) => {
       </Box>
       <ConfigurationsTable select={entity.configurations} actions={actions} />
       <ConfigurationInUseModal isOpen={isInUseOpen} onClose={closeInUse} config={config} />
-      <ConfigurationViewAffectedModal
-        isOpen={isAffectedOpen}
-        onClose={closeAffected}
-        config={config}
-      />
+      <ConfigurationViewAffectedModal isOpen={isAffectedOpen} onClose={closeAffected} config={config} />
     </>
   );
 };

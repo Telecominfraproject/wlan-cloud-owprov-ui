@@ -32,19 +32,11 @@ const AddSubsectionModal = ({ editing, activeSubs, addSub }) => {
 
   return (
     <>
-      <CreateButton
-        label={t('configurations.add_subsection')}
-        onClick={onOpen}
-        isDisabled={!editing}
-        ml={2}
-      />
+      <CreateButton label={t('configurations.add_subsection')} onClick={onOpen} isDisabled={!editing} ml={2} />
       <Modal onClose={onClose} isOpen={isOpen} size="sm" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader
-            title={t('configurations.add_subsection')}
-            right={<CloseButton ml={2} onClick={onClose} />}
-          />
+          <ModalHeader title={t('configurations.add_subsection')} right={<CloseButton ml={2} onClick={onClose} />} />
           <ModalBody>
             <SimpleGrid minChildWidth="200px" spacing={4}>
               <Center>
@@ -57,11 +49,7 @@ const AddSubsectionModal = ({ editing, activeSubs, addSub }) => {
                 </Button>
               </Center>
               <Center>
-                <Button
-                  colorScheme="blue"
-                  isDisabled={activeSubs.includes('unit')}
-                  onClick={() => addNewSub('unit')}
-                >
+                <Button colorScheme="blue" isDisabled={activeSubs.includes('unit')} onClick={() => addNewSub('unit')}>
                   {t('configurations.unit')}
                 </Button>
               </Center>

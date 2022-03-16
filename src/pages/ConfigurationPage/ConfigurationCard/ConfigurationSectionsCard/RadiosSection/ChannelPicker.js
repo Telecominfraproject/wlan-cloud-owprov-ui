@@ -12,9 +12,7 @@ const CHANNELS = {
     80: [36, 52, 100, 116, 132, 149],
   },
   '5G-lower': {
-    20: [
-      36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144,
-    ],
+    20: [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144],
     40: [38, 46, 54, 63, 102, 110, 118, 126, 134, 142],
     80: [42, 58, 106, 122, 138],
     160: [50, 114],
@@ -26,13 +24,13 @@ const CHANNELS = {
   },
   '6G': {
     20: [
-      1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93,
-      97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169,
-      173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233,
+      1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109,
+      113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201,
+      205, 209, 213, 217, 221, 225, 229, 233,
     ],
     40: [
-      3, 11, 19, 27, 35, 43, 51, 59, 67, 75, 83, 91, 99, 107, 115, 123, 131, 139, 147, 155, 163,
-      171, 17, 187, 195, 203, 211, 219, 227,
+      3, 11, 19, 27, 35, 43, 51, 59, 67, 75, 83, 91, 99, 107, 115, 123, 131, 139, 147, 155, 163, 171, 17, 187, 195, 203,
+      211, 219, 227,
     ],
     80: [7, 23, 39, 55, 71, 87, 103, 119, 135, 151, 167, 183, 199, 215],
     160: [15, 47, 79, 143],
@@ -91,12 +89,7 @@ const ChannelPicker = ({ index, isDisabled }) => {
           options = [...options, ...CHANNELS['5G-upper'][80]];
           break;
         default:
-          options = [
-            ...options,
-            ...CHANNELS['5G-upper'][20],
-            ...CHANNELS['5G-upper'][40],
-            ...CHANNELS['5G-upper'][80],
-          ];
+          options = [...options, ...CHANNELS['5G-upper'][20], ...CHANNELS['5G-upper'][40], ...CHANNELS['5G-upper'][80]];
       }
     } else if (band === '5G') {
       switch (channelWidth) {
@@ -171,13 +164,7 @@ const ChannelPicker = ({ index, isDisabled }) => {
           <FormLabel ms="4px" fontSize="md" fontWeight="normal">
             channel <ConfigurationFieldExplanation definitionKey="radio.channel" />
           </FormLabel>
-          <Select
-            {...field}
-            onChange={updateValue}
-            borderRadius="15px"
-            fontSize="sm"
-            isDisabled={isDisabled}
-          >
+          <Select {...field} onChange={updateValue} borderRadius="15px" fontSize="sm" isDisabled={isDisabled}>
             {channelOptions.map((option) => (
               <option value={option.value} key={uuid()}>
                 {option.label}

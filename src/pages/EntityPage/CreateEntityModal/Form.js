@@ -90,13 +90,7 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
       {({ errors, touched }) => (
         <Form>
           <SimpleGrid minChildWidth="300px" spacing="20px" mb={6}>
-            <StringField
-              name="name"
-              label={t('common.name')}
-              errors={errors}
-              touched={touched}
-              isRequired
-            />
+            <StringField name="name" label={t('common.name')} errors={errors} touched={touched} isRequired />
             <SelectField
               name="rrm"
               label="RRM"
@@ -110,12 +104,7 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
               isRequired
               w={28}
             />
-            <StringField
-              name="description"
-              label={t('common.description')}
-              errors={errors}
-              touched={touched}
-            />
+            <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>
         </Form>

@@ -17,14 +17,7 @@ const defaultProps = {
   isDisabled: false,
 };
 
-const DeviceConfigurationsModalField = ({
-  name,
-  label,
-  setFieldValue,
-  errors,
-  isDisabled,
-  isRequired,
-}) => {
+const DeviceConfigurationsModalField = ({ name, label, setFieldValue, errors, isDisabled, isRequired }) => {
   const setValue = (value) => setFieldValue(name, value);
 
   return (

@@ -23,15 +23,7 @@ const defaultProps = {
   isHidden: false,
 };
 
-const SelectWithSearchField = ({
-  options,
-  name,
-  isDisabled,
-  label,
-  isRequired,
-  isHidden,
-  isPortal,
-}) => {
+const SelectWithSearchField = ({ options, name, isDisabled, label, isRequired, isHidden, isPortal }) => {
   const { errors, touched, setFieldValue } = useFormikContext();
   const onChange = (ent) => {
     setFieldValue(name, ent.value);

@@ -95,8 +95,7 @@ export const CreateCertificateSchema = (t) =>
 
               const splitPort = v.split(':');
 
-              if ((splitPort.length === 2 && splitPort[1] < 1) || splitPort[1] > 65535)
-                return false;
+              if ((splitPort.length === 2 && splitPort[1] < 1) || splitPort[1] > 65535) return false;
             }
             return true;
           }),
@@ -175,10 +174,7 @@ export const BatchSchema = (t) =>
     redirector: Yup.string().required(t('form.required')),
     manufacturer: Yup.string().required(t('form.required')),
     model: Yup.string().required(t('form.required')),
-    commonNames: Yup.array()
-      .of(Yup.string())
-      .required(t('form.required'))
-      .min(1, t('batch.need_devices')),
+    commonNames: Yup.array().of(Yup.string()).required(t('form.required')).min(1, t('batch.need_devices')),
     note: Yup.string(),
   });
 
@@ -204,10 +200,7 @@ export const CreateConfigurationSchema = (t) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     rrm: Yup.string().required(t('form.required')),
-    deviceTypes: Yup.array()
-      .of(Yup.string())
-      .required(t('form.required'))
-      .min(1, t('form.required')),
+    deviceTypes: Yup.array().of(Yup.string()).required(t('form.required')).min(1, t('form.required')),
     description: Yup.string(),
     entity: Yup.string().required(t('form.required')),
     note: Yup.string(),

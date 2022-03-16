@@ -19,16 +19,11 @@ const LoginPage = () => {
       return <LoginForm setActiveForm={setActiveForm} requirements={requirements.data} />;
     if (activeForm.form === 'change-password')
       return (
-        <ChangePasswordForm
-          activeForm={activeForm}
-          setActiveForm={setActiveForm}
-          requirements={requirements.data}
-        />
+        <ChangePasswordForm activeForm={activeForm} setActiveForm={setActiveForm} requirements={requirements.data} />
       );
     if (activeForm.form === 'forgot-password')
       return <ForgotPasswordForm activeForm={activeForm} setActiveForm={setActiveForm} />;
-    if (activeForm.form === 'mfa')
-      return <MfaForm activeForm={activeForm} setActiveForm={setActiveForm} />;
+    if (activeForm.form === 'mfa') return <MfaForm activeForm={activeForm} setActiveForm={setActiveForm} />;
     return null;
   };
 

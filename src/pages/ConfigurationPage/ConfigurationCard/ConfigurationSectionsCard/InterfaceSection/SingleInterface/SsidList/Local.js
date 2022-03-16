@@ -6,10 +6,7 @@ import StringField from 'components/FormFields/StringField';
 import { FormControl, FormLabel, SimpleGrid, Switch } from '@chakra-ui/react';
 import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
 import NumberField from 'components/FormFields/NumberField';
-import {
-  INTERFACE_SSID_RADIUS_LOCAL_SCHEMA,
-  INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA,
-} from '../../interfacesConstants';
+import { INTERFACE_SSID_RADIUS_LOCAL_SCHEMA, INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA } from '../../interfacesConstants';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -28,10 +25,7 @@ const Local = ({ editing, namePrefix }) => {
     }
   };
 
-  const isEnabled = useMemo(
-    () => getIn(values, `${namePrefix}`) !== undefined,
-    [getIn(values, `${namePrefix}`)],
-  );
+  const isEnabled = useMemo(() => getIn(values, `${namePrefix}`) !== undefined, [getIn(values, `${namePrefix}`)]);
 
   return (
     <>
@@ -67,13 +61,7 @@ const Local = ({ editing, namePrefix }) => {
                 <StringField name="mac" label="mac" isRequired />
                 <StringField name="user-name" label="user-name" isRequired />
                 <StringField name="password" label="password" isRequired hideButton />
-                <NumberField
-                  name="vlan-id"
-                  label="vlan-id"
-                  isDisabled={!editing}
-                  isRequired
-                  w={24}
-                />
+                <NumberField name="vlan-id" label="vlan-id" isDisabled={!editing} isRequired w={24} />
               </>
             }
             columns={[

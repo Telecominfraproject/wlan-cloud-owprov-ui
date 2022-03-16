@@ -8,18 +8,11 @@ export const INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA = (t, useDefault = false) =
       .test('services.ieee8021x.user.mac.length', t('form.invalid_mac_uc'), testUcMac)
       .default(''),
     'user-name': string().required(t('form.required')).default(''),
-    'vlan-id': number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(4097)
-      .integer()
-      .default(1),
+    'vlan-id': number().required(t('form.required')).moreThan(-1).lessThan(4097).integer().default(1),
     password: string()
       .required(t('form.required'))
-      .test(
-        'services.ieee8021x.user.password.length',
-        t('form.min_max_string', { min: 8, max: 63 }),
-        (val) => testLength({ val, min: 8, max: 63 }),
+      .test('services.ieee8021x.user.password.length', t('form.min_max_string', { min: 8, max: 63 }), (val) =>
+        testLength({ val, min: 8, max: 63 }),
       )
       .default(''),
   });
@@ -55,23 +48,13 @@ export const RADIUS_SCHEMA = (t, useDefault = false) => {
       'chargeable-user-id': bool().required(t('form.required')).default(false),
       authentication: object().shape({
         host: string().required(t('form.required')).default('192.168.178.192'),
-        port: number()
-          .required(t('form.required'))
-          .positive()
-          .lessThan(4050)
-          .integer()
-          .default(1812),
+        port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1812),
         secret: string().required(t('form.required')).min(8).max(63).default(''),
       }),
       accounting: object()
         .shape({
           host: string().required(t('form.required')).default('192.168.178.192'),
-          port: number()
-            .required(t('form.required'))
-            .positive()
-            .lessThan(4050)
-            .integer()
-            .default(1813),
+          port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
           secret: string().required(t('form.required')).min(8).max(63).default(''),
         })
         .nullable()
@@ -79,12 +62,7 @@ export const RADIUS_SCHEMA = (t, useDefault = false) => {
       'dynamic-authorization': object()
         .shape({
           host: string().required(t('form.required')).default('192.168.178.192'),
-          port: number()
-            .required(t('form.required'))
-            .positive()
-            .lessThan(4050)
-            .integer()
-            .default(1813),
+          port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
           secret: string().required(t('form.required')).min(8).max(63).default(''),
         })
         .nullable()
@@ -118,12 +96,7 @@ export const EDIT_SCHEMA = (t) =>
     accounting: object()
       .shape({
         host: string().required(t('form.required')).default(''),
-        port: number()
-          .required(t('form.required'))
-          .positive()
-          .lessThan(4050)
-          .integer()
-          .default(1813),
+        port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
         secret: string().required(t('form.required')).min(8).max(63).default(''),
       })
       .nullable()
@@ -131,12 +104,7 @@ export const EDIT_SCHEMA = (t) =>
     'dynamic-authorization': object()
       .shape({
         host: string().required(t('form.required')).default(''),
-        port: number()
-          .required(t('form.required'))
-          .positive()
-          .lessThan(4050)
-          .integer()
-          .default(1813),
+        port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
         secret: string().required(t('form.required')).min(8).max(63).default(''),
       })
       .nullable()

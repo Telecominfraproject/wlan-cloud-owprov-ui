@@ -52,15 +52,10 @@ const ResourcesTable = ({ title }) => {
   };
 
   const actionCell = useCallback(
-    (cell) => (
-      <Actions cell={cell.row} refreshTable={refresh} key={uuid()} openEditModal={openEditModal} />
-    ),
+    (cell) => <Actions cell={cell.row} refreshTable={refresh} key={uuid()} openEditModal={openEditModal} />,
     [],
   );
-  const dateCell = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
-    [],
-  );
+  const dateCell = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
   const prefixCell = useCallback((cell) => cell.row.values.variables[0]?.prefix ?? '-', []);
 
   // Columns array. This array contains your table headings and accessors which maps keys from data array
@@ -171,12 +166,7 @@ const ResourcesTable = ({ title }) => {
         </CardBody>
       </Card>
       {isEditOpen && (
-        <EditResourceModal
-          isOpen={isEditOpen}
-          onClose={closeEdit}
-          resource={resource}
-          refresh={refresh}
-        />
+        <EditResourceModal isOpen={isEditOpen} onClose={closeEdit} resource={resource} refresh={refresh} />
       )}
     </>
   );

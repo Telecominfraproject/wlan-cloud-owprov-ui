@@ -26,10 +26,7 @@ const EntityNavButton = ({ activeRoute, route, role, toggleSidebar }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const activeArrowColor = useColorModeValue('var(--chakra-colors-gray-700)', 'white');
-  const inactiveArrowColor = useColorModeValue(
-    'var(--chakra-colors-gray-600)',
-    'var(--chakra-colors-gray-200)',
-  );
+  const inactiveArrowColor = useColorModeValue('var(--chakra-colors-gray-600)', 'var(--chakra-colors-gray-200)');
   const activeTextColor = useColorModeValue('gray.700', 'white');
   const inactiveTextColor = useColorModeValue('gray.600', 'gray.200');
   const inactiveIconColor = useColorModeValue('gray.100', 'gray.600');
@@ -63,14 +60,7 @@ const EntityNavButton = ({ activeRoute, route, role, toggleSidebar }) => {
           rightIcon={<ArrowCircleRight size={24} color={activeArrowColor} />}
         >
           <Flex>
-            <IconBox
-              bg="blue.300"
-              color="white"
-              h="42px"
-              w="42px"
-              me="12px"
-              transition={variantChange}
-            >
+            <IconBox bg="blue.300" color="white" h="42px" w="42px" me="12px" transition={variantChange}>
               {route.icon(true)}
             </IconBox>
             <Text color={activeTextColor} my="auto" fontSize="lg">
@@ -103,14 +93,7 @@ const EntityNavButton = ({ activeRoute, route, role, toggleSidebar }) => {
           rightIcon={<ArrowCircleRight size={20} color={inactiveArrowColor} />}
         >
           <Flex>
-            <IconBox
-              bg={inactiveIconColor}
-              color="blue.300"
-              h="34px"
-              w="34px"
-              me="12px"
-              transition={variantChange}
-            >
+            <IconBox bg={inactiveIconColor} color="blue.300" h="34px" w="34px" me="12px" transition={variantChange}>
               {route.icon(false)}
             </IconBox>
             <Text color={inactiveTextColor} my="auto" fontSize="sm">

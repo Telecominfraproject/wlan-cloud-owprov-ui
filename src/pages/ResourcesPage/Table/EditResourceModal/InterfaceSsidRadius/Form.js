@@ -7,10 +7,7 @@ import NumberField from 'components/FormFields/NumberField';
 import { FormControl, FormLabel, Heading, SimpleGrid, Switch } from '@chakra-ui/react';
 import ToggleField from 'components/FormFields/ToggleField';
 import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
-import {
-  INTERFACE_SSID_RADIUS_LOCAL_SCHEMA,
-  INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA,
-} from './schemas';
+import { INTERFACE_SSID_RADIUS_LOCAL_SCHEMA, INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA } from './schemas';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -31,10 +28,7 @@ const InterfaceSsidRadiusForm = ({ editing }) => {
     }
   };
 
-  const isAccountingEnabled = useMemo(
-    () => getIn(values, 'accounting') !== undefined,
-    [getIn(values, 'accounting')],
-  );
+  const isAccountingEnabled = useMemo(() => getIn(values, 'accounting') !== undefined, [getIn(values, 'accounting')]);
 
   const onEnableDynamicChange = (e) => {
     if (e.target.checked) {
@@ -61,10 +55,7 @@ const InterfaceSsidRadiusForm = ({ editing }) => {
     }
   };
 
-  const isLocalEnabled = useMemo(
-    () => getIn(values, 'local') !== undefined,
-    [getIn(values, 'local')],
-  );
+  const isLocalEnabled = useMemo(() => getIn(values, 'local') !== undefined, [getIn(values, 'local')]);
 
   return (
     <>
@@ -72,12 +63,7 @@ const InterfaceSsidRadiusForm = ({ editing }) => {
         interface.ssid.radius
       </Heading>
       <SimpleGrid minChildWidth="300px" spacing="20px">
-        <StringField
-          name="authentication.host"
-          label="authentication.host"
-          isRequired
-          isDisabled={!editing}
-        />
+        <StringField name="authentication.host" label="authentication.host" isRequired isDisabled={!editing} />
         <NumberField
           name="authentication.port"
           label="authentication.port"
@@ -109,12 +95,7 @@ const InterfaceSsidRadiusForm = ({ editing }) => {
       </FormControl>
       {isAccountingEnabled && (
         <SimpleGrid minChildWidth="300px" spacing="20px">
-          <StringField
-            name="accounting.host"
-            label="accounting.host"
-            isRequired
-            isDisabled={!editing}
-          />
+          <StringField name="accounting.host" label="accounting.host" isRequired isDisabled={!editing} />
           <NumberField
             name="accounting.port"
             label="accounting.port"
@@ -123,13 +104,7 @@ const InterfaceSsidRadiusForm = ({ editing }) => {
             w={24}
             isDisabled={!editing}
           />
-          <StringField
-            name="accounting.secret"
-            label="accounting.secret"
-            isRequired
-            hideButton
-            isDisabled={!editing}
-          />
+          <StringField name="accounting.secret" label="accounting.secret" isRequired hideButton isDisabled={!editing} />
         </SimpleGrid>
       )}
       <FormControl>
@@ -187,12 +162,7 @@ const InterfaceSsidRadiusForm = ({ editing }) => {
       </FormControl>
       {isLocalEnabled && (
         <SimpleGrid minChildWidth="300px" spacing="20px">
-          <StringField
-            name="local.server-identity"
-            label="server-identity"
-            isRequired
-            isDisabled={!editing}
-          />
+          <StringField name="local.server-identity" label="server-identity" isRequired isDisabled={!editing} />
           <ObjectArrayFieldModal
             name="local.users"
             label="users"

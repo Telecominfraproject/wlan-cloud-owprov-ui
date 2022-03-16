@@ -21,15 +21,7 @@ const defaultProps = {
   isDirty: false,
 };
 
-const ToggleEditButton = ({
-  toggleEdit,
-  isEditing,
-  isDirty,
-  isDisabled,
-  isLoading,
-  isCompact,
-  ...props
-}) => {
+const ToggleEditButton = ({ toggleEdit, isEditing, isDirty, isDisabled, isLoading, isCompact, ...props }) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
@@ -61,11 +53,7 @@ const ToggleEditButton = ({
         >
           {isEditing ? t('common.stop_editing') : t('common.edit')}
         </Button>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </>
     );
   }

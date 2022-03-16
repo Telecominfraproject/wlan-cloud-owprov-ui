@@ -22,14 +22,7 @@ const InterfaceExpertModal = ({ editing }) => {
   return (
     <>
       <EditButton mt={2} label={t('configurations.expert_name')} onClick={onOpen} />
-      {isOpen && (
-        <InterfaceExpertForm
-          config={value}
-          onClose={onClose}
-          setConfig={setConfig}
-          editing={editing}
-        />
-      )}
+      {isOpen && <InterfaceExpertForm config={value} onClose={onClose} setConfig={setConfig} editing={editing} />}
     </>
   );
 };

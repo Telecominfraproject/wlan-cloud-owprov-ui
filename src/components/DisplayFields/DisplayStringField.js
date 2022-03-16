@@ -1,14 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightElement,
-  useBoolean,
-} from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, useBoolean } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
 const propTypes = {
@@ -44,12 +36,7 @@ const DisplayStringField = ({ label, value, isRequired, hideButton }) => {
         />
         {hideButton && (
           <InputRightElement width="4.5rem">
-            <Button
-              h="1.75rem"
-              size="sm"
-              onClick={setShow.toggle}
-              _disabled={{ opacity: 0.8, cursor: 'not-allowed' }}
-            >
+            <Button h="1.75rem" size="sm" onClick={setShow.toggle} _disabled={{ opacity: 0.8, cursor: 'not-allowed' }}>
               {show ? t('common.hide') : t('common.show')}
             </Button>
           </InputRightElement>

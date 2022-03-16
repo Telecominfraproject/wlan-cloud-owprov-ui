@@ -22,19 +22,14 @@ const AddressSearchField = ({ namePrefix, isDisabled, placeholder, isHidden, ...
 
   const onSelect = (v) => {
     const city =
-      v.locality.long_name ??
-      v.administrative_area_level_3.long_name ??
-      v.administrative_area_level_2.long_name;
+      v.locality.long_name ?? v.administrative_area_level_3.long_name ?? v.administrative_area_level_2.long_name;
 
     setFieldValue(
       `${namePrefix ? `${namePrefix}.` : ''}addressLineOne`,
       `${v.street_number.long_name} ${v.route.long_name}`,
     );
     setFieldValue(`${namePrefix ? `${namePrefix}.` : ''}city`, city);
-    setFieldValue(
-      `${namePrefix ? `${namePrefix}.` : ''}state`,
-      v.administrative_area_level_1.long_name,
-    );
+    setFieldValue(`${namePrefix ? `${namePrefix}.` : ''}state`, v.administrative_area_level_1.long_name);
     setFieldValue(`${namePrefix ? `${namePrefix}.` : ''}postal`, v.postal_code.long_name);
     setFieldValue(`${namePrefix ? `${namePrefix}.` : ''}country`, v.country.short_name);
     setFieldValue(`${namePrefix ? `${namePrefix}.` : ''}geoCode`, JSON.stringify(v.geoCode));

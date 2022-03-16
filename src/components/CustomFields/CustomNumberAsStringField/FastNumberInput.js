@@ -33,17 +33,7 @@ const defaultProps = {
   isDisabled: false,
 };
 
-const FastNumberInput = ({
-  label,
-  value,
-  unit,
-  onChange,
-  onBlur,
-  error,
-  touched,
-  isRequired,
-  isDisabled,
-}) => (
+const FastNumberInput = ({ label, value, unit, onChange, onBlur, error, touched, isRequired, isDisabled }) => (
   <FormControl isInvalid={error && touched} isRequired={isRequired} isDisabled={isDisabled}>
     <FormLabel ms="4px" fontSize="md" fontWeight="normal">
       {label}

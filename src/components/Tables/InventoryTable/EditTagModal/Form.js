@@ -2,16 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import {
-  useToast,
-  Tabs,
-  TabList,
-  TabPanels,
-  TabPanel,
-  Tab,
-  SimpleGrid,
-  Textarea,
-} from '@chakra-ui/react';
+import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Textarea } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
 import NotesTable from 'components/NotesTable';
 import StringField from 'components/FormFields/StringField';
@@ -199,23 +190,9 @@ const EditTagForm = ({
             <TabPanel>
               <Form>
                 <SimpleGrid minChildWidth="300px" spacing="20px">
-                  <StringField
-                    name="serialNumber"
-                    label={t('inventory.serial_number')}
-                    isDisabled
-                    isRequired
-                  />
-                  <StringField
-                    name="name"
-                    label={t('common.name')}
-                    isDisabled={!editing}
-                    isRequired
-                  />
-                  <StringField
-                    name="description"
-                    label={t('common.description')}
-                    isDisabled={!editing}
-                  />
+                  <StringField name="serialNumber" label={t('inventory.serial_number')} isDisabled isRequired />
+                  <StringField name="name" label={t('common.name')} isDisabled={!editing} isRequired />
+                  <StringField name="description" label={t('common.description')} isDisabled={!editing} />
                   <SelectField
                     name="deviceType"
                     label={t('inventory.device_type')}
@@ -289,15 +266,11 @@ const EditTagForm = ({
             </TabPanel>
             <TabPanel>
               <Field name="notes">
-                {({ field }) => (
-                  <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />
-                )}
+                {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
               </Field>
             </TabPanel>
             <TabPanel>
-              <Field name="state">
-                {({ field }) => <Textarea {...field} isDisabled={!editing} />}
-              </Field>
+              <Field name="state">{({ field }) => <Textarea {...field} isDisabled={!editing} />}</Field>
             </TabPanel>
           </TabPanels>
         </Tabs>

@@ -16,11 +16,7 @@ const defaultProps = {
 const SortIcon = ({ isSorted, isSortedDesc, canSort }) => {
   if (canSort) {
     if (isSorted) {
-      return isSortedDesc ? (
-        <Icon pt={2} h={5} w={5} as={ArrowDown} />
-      ) : (
-        <Icon pt={2} h={5} w={5} as={ArrowUp} />
-      );
+      return isSortedDesc ? <Icon pt={2} h={5} w={5} as={ArrowDown} /> : <Icon pt={2} h={5} w={5} as={ArrowUp} />;
     }
     return <Icon pt={2} h={5} w={5} as={Circle} />;
   }

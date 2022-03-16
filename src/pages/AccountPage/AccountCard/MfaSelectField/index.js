@@ -23,16 +23,7 @@ const defaultProps = {
   isHidden: false,
 };
 
-const MfaSelectField = ({
-  name,
-  errors,
-  touched,
-  isDisabled,
-  label,
-  isRequired,
-  isHidden,
-  setFieldValue,
-}) => {
+const MfaSelectField = ({ name, errors, touched, isDisabled, label, isRequired, isHidden, setFieldValue }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
 

@@ -9,13 +9,7 @@ const MapLegend = () => {
   const deviceBg = useColorModeValue('blue.200', 'blue.200');
 
   return (
-    <Box
-      w="140px"
-      position="absolute"
-      boxShadow="0 4px 8px 0 rgba(0,0,0,0.2)"
-      borderRadius="5px"
-      px={2}
-    >
+    <Box w="140px" position="absolute" boxShadow="0 4px 8px 0 rgba(0,0,0,0.2)" borderRadius="5px" px={2}>
       <Flex mt={1}>
         <Heading size="sm" sm="6">
           {t('map.root')}

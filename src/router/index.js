@@ -8,13 +8,7 @@ const Login = React.lazy(() => import('pages/LoginPage'));
 const Router = () => {
   const { token } = useAuth();
   return (
-    <Routes>
-      {token !== '' ? (
-        <Route path="/*" element={<Layout />} />
-      ) : (
-        <Route path="/*" element={<Login />} />
-      )}
-    </Routes>
+    <Routes>{token !== '' ? <Route path="/*" element={<Layout />} /> : <Route path="/*" element={<Login />} />}</Routes>
   );
 };
 

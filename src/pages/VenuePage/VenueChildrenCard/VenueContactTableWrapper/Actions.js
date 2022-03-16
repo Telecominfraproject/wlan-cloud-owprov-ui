@@ -98,12 +98,7 @@ const Actions = ({ cell: { original: contact }, refreshEntity, openEditModal }) 
               <Button colorScheme="gray" mr="1" onClick={onClose}>
                 {t('common.cancel')}
               </Button>
-              <Button
-                colorScheme="red"
-                ml="1"
-                onClick={handleDeleteClick}
-                isLoading={deleteConfig.isLoading}
-              >
+              <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteConfig.isLoading}>
                 Yes
               </Button>
             </Center>
@@ -111,13 +106,7 @@ const Actions = ({ cell: { original: contact }, refreshEntity, openEditModal }) 
         </PopoverContent>
       </Popover>
       <Tooltip hasArrow label={t('common.view_details')} placement="top">
-        <IconButton
-          ml={2}
-          colorScheme="blue"
-          icon={<MagnifyingGlass size={20} />}
-          size="sm"
-          onClick={handleOpenEdit}
-        />
+        <IconButton ml={2} colorScheme="blue" icon={<MagnifyingGlass size={20} />} size="sm" onClick={handleOpenEdit} />
       </Tooltip>
     </Flex>
   );

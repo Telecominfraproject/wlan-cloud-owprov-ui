@@ -45,13 +45,7 @@ const defaultProps = {
   isOnlySections: false,
 };
 
-const SpecialConfigurationManager = ({
-  editing,
-  configId,
-  onChange,
-  isEnabledByDefault,
-  isOnlySections,
-}) => {
+const SpecialConfigurationManager = ({ editing, configId, onChange, isEnabledByDefault, isOnlySections }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [sections, setSections] = useState(isEnabledByDefault ? BASE_SECTIONS : null);
@@ -120,11 +114,7 @@ const SpecialConfigurationManager = ({
             <Spacer />
             <DeleteButton onClick={handleDeleteClick} isDisabled={!editing} />
           </Heading>
-          <SpecialConfigurationForm
-            editing={editing}
-            formRef={formRef}
-            configuration={configuration}
-          />
+          <SpecialConfigurationForm editing={editing} formRef={formRef} configuration={configuration} />
         </>
       )}
       <ConfigurationSectionsCard

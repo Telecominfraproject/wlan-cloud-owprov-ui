@@ -32,14 +32,7 @@ const VenueContactTableWrapper = ({ venue }) => {
   };
 
   const actions = useCallback(
-    (cell) => (
-      <Actions
-        key={uuid()}
-        cell={cell.row}
-        refreshEntity={refreshEntity}
-        openEditModal={openEditModal}
-      />
-    ),
+    (cell) => <Actions key={uuid()} cell={cell.row} refreshEntity={refreshEntity} openEditModal={openEditModal} />,
     [refreshId],
   );
 
@@ -54,12 +47,7 @@ const VenueContactTableWrapper = ({ venue }) => {
         refreshId={refreshId}
         ignoredColumns={['entity', 'venue']}
       />
-      <EditContactModal
-        isOpen={isEditOpen}
-        onClose={closeEdit}
-        contact={contact}
-        refresh={refetchLocations}
-      />
+      <EditContactModal isOpen={isEditOpen} onClose={closeEdit} contact={contact} refresh={refetchLocations} />
     </>
   );
 };

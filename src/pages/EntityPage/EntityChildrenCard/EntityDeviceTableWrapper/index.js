@@ -37,25 +37,14 @@ const EntityDeviceTableWrapper = ({ entity }) => {
   const refetchTags = () => setRefreshId(refreshId + 1);
 
   const actions = useCallback(
-    (cell) => (
-      <Actions
-        key={uuid()}
-        cell={cell.row}
-        refreshEntity={refreshEntity}
-        openEditModal={openEditModal}
-      />
-    ),
+    (cell) => <Actions key={uuid()} cell={cell.row} refreshEntity={refreshEntity} openEditModal={openEditModal} />,
     [refreshId],
   );
 
   return (
     <>
       <Box textAlign="right" mb={2}>
-        <ImportDeviceCsvModal
-          refresh={refreshEntity}
-          parent={{ entity: entity.id }}
-          deviceClass="entity"
-        />
+        <ImportDeviceCsvModal refresh={refreshEntity} parent={{ entity: entity.id }} deviceClass="entity" />
         <CreateTagModal refresh={refreshEntity} entityId={`entity:${entity.id}`} />
       </Box>
       <InventoryTable
@@ -71,11 +60,7 @@ const EntityDeviceTableWrapper = ({ entity }) => {
         refresh={refetchTags}
         pushConfig={pushConfiguration}
       />
-      <ConfigurationPushModal
-        isOpen={isPushOpen}
-        onClose={closePush}
-        pushResult={pushConfiguration.data}
-      />
+      <ConfigurationPushModal isOpen={isPushOpen} onClose={closePush} pushResult={pushConfiguration.data} />
     </>
   );
 };

@@ -1,14 +1,6 @@
 import React from 'react';
 import { Flex, SimpleGrid } from '@chakra-ui/react';
-import {
-  axiosAnalytics,
-  axiosFms,
-  axiosGw,
-  axiosOwls,
-  axiosProv,
-  axiosSec,
-  axiosSub,
-} from 'utils/axiosInstances';
+import { axiosAnalytics, axiosFms, axiosGw, axiosOwls, axiosProv, axiosSec, axiosSub } from 'utils/axiosInstances';
 import SystemTile from './SystemTile';
 
 const SystemPage = () => (

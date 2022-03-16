@@ -20,10 +20,7 @@ const DhcpLeaseIpV4 = ({ editing, index }) => {
 
   const onEnabledChange = (e) => {
     if (e.target.checked) {
-      setFieldValue(
-        `configuration[${index}].ipv4.dhcp-lease`,
-        INTERFACE_IPV4_DHCP_LEASE_SCHEMA(t, true).cast(),
-      );
+      setFieldValue(`configuration[${index}].ipv4.dhcp-lease`, INTERFACE_IPV4_DHCP_LEASE_SCHEMA(t, true).cast());
     } else {
       setFieldValue(`configuration[${index}].ipv4.dhcp-lease`, undefined);
     }
@@ -40,13 +37,7 @@ const DhcpLeaseIpV4 = ({ editing, index }) => {
         <FormLabel ms="4px" fontSize="md" fontWeight="normal">
           Enable DHCP-LEASE
         </FormLabel>
-        <Switch
-          onChange={onEnabledChange}
-          isChecked={isEnabled}
-          borderRadius="15px"
-          size="lg"
-          isDisabled={!editing}
-        />
+        <Switch onChange={onEnabledChange} isChecked={isEnabled} borderRadius="15px" size="lg" isDisabled={!editing} />
       </FormControl>
       {isEnabled && (
         <>

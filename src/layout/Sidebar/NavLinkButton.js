@@ -54,14 +54,7 @@ const NavLinkButton = ({ activeRoute, route, role }) => {
           }}
         >
           <Flex>
-            <IconBox
-              bg="blue.300"
-              color="white"
-              h="42px"
-              w="42px"
-              me="12px"
-              transition={variantChange}
-            >
+            <IconBox bg="blue.300" color="white" h="42px" w="42px" me="12px" transition={variantChange}>
               {route.icon(true)}
             </IconBox>
             <Text color={activeTextColor} my="auto" fontSize="lg">
@@ -92,14 +85,7 @@ const NavLinkButton = ({ activeRoute, route, role }) => {
           }}
         >
           <Flex>
-            <IconBox
-              bg={inactiveIconColor}
-              color="blue.300"
-              h="34px"
-              w="34px"
-              me="12px"
-              transition={variantChange}
-            >
+            <IconBox bg={inactiveIconColor} color="blue.300" h="34px" w="34px" me="12px" transition={variantChange}>
               {route.icon(false)}
             </IconBox>
             <Text color={inactiveTextColor} my="auto" fontSize="sm">

@@ -67,13 +67,9 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
             name: formData.name,
             description: formData.description,
             entity:
-              formData.entity === '' || formData.entity.split(':')[0] !== 'ent'
-                ? ''
-                : formData.entity.split(':')[1],
+              formData.entity === '' || formData.entity.split(':')[0] !== 'ent' ? '' : formData.entity.split(':')[1],
             venue:
-              formData.entity === '' || formData.entity.split(':')[0] !== 'ven'
-                ? ''
-                : formData.entity.split(':')[1],
+              formData.entity === '' || formData.entity.split(':')[0] !== 'ven' ? '' : formData.entity.split(':')[1],
             notes: formData.notes.filter((note) => note.isNew),
           },
           {
@@ -123,17 +119,8 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
           <TabPanels>
             <TabPanel>
               <SimpleGrid minChildWidth="300px" spacing="20px" mt={4}>
-                <StringField
-                  name="name"
-                  label={t('common.name')}
-                  isRequired
-                  isDisabled={!editing}
-                />
-                <StringField
-                  name="description"
-                  label={t('common.description')}
-                  isDisabled={!editing}
-                />
+                <StringField name="name" label={t('common.name')} isRequired isDisabled={!editing} />
+                <StringField name="description" label={t('common.description')} isDisabled={!editing} />
                 <SelectWithSearchField
                   name="entity"
                   label={t('inventory.parent')}
@@ -166,9 +153,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
             </TabPanel>
             <TabPanel>
               <Field name="notes">
-                {({ field }) => (
-                  <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />
-                )}
+                {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
               </Field>
             </TabPanel>
           </TabPanels>

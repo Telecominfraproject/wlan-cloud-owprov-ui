@@ -116,12 +116,7 @@ const DeleteEntityPopover = ({ entity, isDisabled }) => {
             <Button colorScheme="gray" mr="1" onClick={onClose}>
               {t('common.cancel')}
             </Button>
-            <Button
-              colorScheme="red"
-              ml="1"
-              onClick={handleDeleteClick}
-              isLoading={deleteEntity.isLoading}
-            >
+            <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteEntity.isLoading}>
               {t('common.yes')}
             </Button>
           </Center>

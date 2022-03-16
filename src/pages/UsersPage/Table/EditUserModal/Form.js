@@ -94,10 +94,7 @@ const UpdateUserForm = ({
       key={formKey}
       initialValues={userToUpdate}
       validationSchema={CreateUserSchema}
-      onSubmit={(
-        { name, description, currentPassword, userRole, notes },
-        { setSubmitting, resetForm },
-      ) =>
+      onSubmit={({ name, description, currentPassword, userRole, notes }, { setSubmitting, resetForm }) =>
         updateUser.mutateAsync(
           {
             name,
@@ -207,25 +204,14 @@ const UpdateUserForm = ({
               </TabPanel>
               <TabPanel>
                 <Field name="notes">
-                  {({ field }) => (
-                    <NotesTable
-                      notes={field.value}
-                      setNotes={setFieldValue}
-                      isDisabled={!editing}
-                    />
-                  )}
+                  {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
                 </Field>
               </TabPanel>
             </TabPanels>
           </Tabs>
           <Flex justifyContent="center" alignItems="center" maxW="100%" mt="25px" mb={6} px={4}>
             <Box w="100%">
-              <Link
-                href={`${secUrl}${requirements?.passwordPolicy}`}
-                isExternal
-                textColor={textColor}
-                pb={2}
-              >
+              <Link href={`${secUrl}${requirements?.passwordPolicy}`} isExternal textColor={textColor} pb={2}>
                 {t('login.password_policy')}
                 <ExternalLinkIcon mx="2px" />
               </Link>

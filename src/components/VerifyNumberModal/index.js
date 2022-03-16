@@ -121,11 +121,7 @@ const VerifyNumberModal = ({ isOpen, cancel, phoneNumber }) => {
             <Button ref={cancelRef} onClick={cancel} mr={4}>
               {t('common.cancel')}
             </Button>
-            <Button
-              colorScheme="blue"
-              isLoading={sendPhoneTest.isLoading}
-              onClick={handleSendClick}
-            >
+            <Button colorScheme="blue" isLoading={sendPhoneTest.isLoading} onClick={handleSendClick}>
               {t('account.resend')}
             </Button>
           </AlertDialogFooter>

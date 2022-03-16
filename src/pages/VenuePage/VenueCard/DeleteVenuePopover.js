@@ -55,11 +55,7 @@ const DeleteVenuePopover = ({ venue, isDisabled }) => {
           isClosable: true,
           position: 'top-right',
         });
-        navigate(
-          `/${venue.parent !== '' ? 'venue' : 'entity'}/${
-            venue.parent !== '' ? venue.parent : venue.entity
-          }`,
-        );
+        navigate(`/${venue.parent !== '' ? 'venue' : 'entity'}/${venue.parent !== '' ? venue.parent : venue.entity}`);
       },
       onError: (e) => {
         if (!toast.isActive('venue-fetching-error'))
@@ -120,12 +116,7 @@ const DeleteVenuePopover = ({ venue, isDisabled }) => {
             <Button colorScheme="gray" mr="1" onClick={onClose}>
               {t('common.cancel')}
             </Button>
-            <Button
-              colorScheme="red"
-              ml="1"
-              onClick={handleDeleteClick}
-              isLoading={deleteVenue.isLoading}
-            >
+            <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteVenue.isLoading}>
               {t('common.yes')}
             </Button>
           </Center>

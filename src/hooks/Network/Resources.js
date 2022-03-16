@@ -2,52 +2,44 @@ import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetResourcesCount = ({ t, toast }) =>
-  useQuery(
-    ['get-resources-count'],
-    () => axiosProv.get(`variables?countOnly=true`).then(({ data }) => data.count),
-    {
-      staleTime: 30000,
-      onError: (e) => {
-        if (!toast.isActive('variables-fetching-error'))
-          toast({
-            id: 'variables-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('resources.title'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+  useQuery(['get-resources-count'], () => axiosProv.get(`variables?countOnly=true`).then(({ data }) => data.count), {
+    staleTime: 30000,
+    onError: (e) => {
+      if (!toast.isActive('variables-fetching-error'))
+        toast({
+          id: 'variables-fetching-error',
+          title: t('common.error'),
+          description: t('crud.error_fetching_obj', {
+            obj: t('resources.title'),
+            e: e?.response?.data?.ErrorDescription,
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
     },
-  );
+  });
 
 export const useGetAllResources = ({ t, toast }) =>
-  useQuery(
-    ['get-all-resources'],
-    () => axiosProv.get(`variables?limit=500`).then(({ data }) => data.variableBlocks),
-    {
-      staleTime: 1000 * 1000,
-      onError: (e) => {
-        if (!toast.isActive('resource-fetching-error'))
-          toast({
-            id: 'resource-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('resources.configuration_resource'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+  useQuery(['get-all-resources'], () => axiosProv.get(`variables?limit=500`).then(({ data }) => data.variableBlocks), {
+    staleTime: 1000 * 1000,
+    onError: (e) => {
+      if (!toast.isActive('resource-fetching-error'))
+        toast({
+          id: 'resource-fetching-error',
+          title: t('common.error'),
+          description: t('crud.error_fetching_obj', {
+            obj: t('resources.configuration_resource'),
+            e: e?.response?.data?.ErrorDescription,
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
     },
-  );
+  });
 
 export const useGetResources = ({ t, toast, pageInfo, select, count }) => {
   if (select !== undefined && select !== null) {
@@ -55,9 +47,7 @@ export const useGetResources = ({ t, toast, pageInfo, select, count }) => {
       ['get-resources-with-select', select],
       () =>
         select.length > 0
-          ? axiosProv
-              .get(`variables?withExtendedInfo=true&select=${select}`)
-              .then(({ data }) => data.variableBlocks)
+          ? axiosProv.get(`variables?withExtendedInfo=true&select=${select}`).then(({ data }) => data.variableBlocks)
           : [],
       {
         keepPreviousData: true,
@@ -136,8 +126,6 @@ export const useGetResource = ({ t, toast, id, enabled }) =>
     },
   );
 
-export const useCreateResource = () =>
-  useMutation((newResource) => axiosProv.post('variables/0', newResource));
-export const useUpdateResource = (id) =>
-  useMutation((resource) => axiosProv.put(`variables/${id}`, resource));
+export const useCreateResource = () => useMutation((newResource) => axiosProv.post('variables/0', newResource));
+export const useUpdateResource = (id) => useMutation((resource) => axiosProv.put(`variables/${id}`, resource));
 export const useDeleteResource = () => useMutation((id) => axiosProv.delete(`variables/${id}`, {}));

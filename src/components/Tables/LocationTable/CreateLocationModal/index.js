@@ -1,13 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-} from '@chakra-ui/react';
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
@@ -92,11 +85,7 @@ const CreateLocationModal = ({ refresh, entityId }) => {
             />
           </ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );

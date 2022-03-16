@@ -34,30 +34,16 @@ const VenueNode = ({ data, isConnectable }) => {
   const { t } = useTranslation();
   const bgColor = useColorModeValue('cyan.200', 'cyan.400');
 
-  const hasLowerHandle = useCallback(
-    () => data.details.children.length > 0 || data.details.devices.length > 0,
-    [],
-  );
+  const hasLowerHandle = useCallback(() => data.details.children.length > 0 || data.details.devices.length > 0, []);
 
   return (
     <>
-      <Handle
-        type="target"
-        position="top"
-        style={{ background: '#555' }}
-        isConnectable={isConnectable}
-      />
+      <Handle type="target" position="top" style={{ background: '#555' }} isConnectable={isConnectable} />
       <Popover isLazy trigger="hover">
         <PopoverTrigger>
           <Box width="200px" bgColor={bgColor} p="4px" borderRadius={4} pointerEvents="all">
             <Center>
-              <Heading
-                size="md"
-                id={uuid()}
-                textOverflow="ellipsis"
-                overflow="hidden"
-                whiteSpace="nowrap"
-              >
+              <Heading size="md" id={uuid()} textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
                 {data.label}
               </Heading>
             </Center>
@@ -75,9 +61,7 @@ const VenueNode = ({ data, isConnectable }) => {
             <PopoverCloseButton />
             <PopoverHeader>{data.label}</PopoverHeader>
             <PopoverBody>
-              {data.details.description !== '' && (
-                <Text fontStyle="italic">{data.details.description}</Text>
-              )}
+              {data.details.description !== '' && <Text fontStyle="italic">{data.details.description}</Text>}
               <Text>
                 {data.details.cumulativeDevices} {t('map.cumulative_devices')}
               </Text>
@@ -85,12 +69,10 @@ const VenueNode = ({ data, isConnectable }) => {
                 {data.details.devices.length} {t('devices.title')}
               </Text>
               <Text>
-                {t('contacts.one')}:{' '}
-                {data?.details?.extendedInfo?.contact?.name ?? t('common.none')}
+                {t('contacts.one')}: {data?.details?.extendedInfo?.contact?.name ?? t('common.none')}
               </Text>
               <Text>
-                {t('locations.one')}:{' '}
-                {data?.details?.extendedInfo?.location?.name ?? t('common.none')}
+                {t('locations.one')}: {data?.details?.extendedInfo?.location?.name ?? t('common.none')}
               </Text>
               <Text>RRM {data.details.rrm}</Text>
             </PopoverBody>
@@ -98,13 +80,7 @@ const VenueNode = ({ data, isConnectable }) => {
         </Portal>
       </Popover>
       {hasLowerHandle() && (
-        <Handle
-          type="source"
-          position="bottom"
-          id="a"
-          style={{ background: '#555' }}
-          isConnectable={isConnectable}
-        />
+        <Handle type="source" position="bottom" id="a" style={{ background: '#555' }} isConnectable={isConnectable} />
       )}
     </>
   );

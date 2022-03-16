@@ -132,17 +132,8 @@ const EditLocationForm = ({ editing, isOpen, onClose, refresh, location, formRef
             <TabPanel>
               <Form>
                 <SimpleGrid minChildWidth="300px" spacing="20px" mb={8}>
-                  <StringField
-                    name="name"
-                    label={t('common.name')}
-                    isRequired
-                    isDisabled={!editing}
-                  />
-                  <StringField
-                    name="description"
-                    label={t('common.description')}
-                    isDisabled={!editing}
-                  />
+                  <StringField name="name" label={t('common.name')} isRequired isDisabled={!editing} />
+                  <StringField name="description" label={t('common.description')} isDisabled={!editing} />
                   <SelectWithSearchField
                     name="entity"
                     label={t('inventory.parent')}
@@ -196,53 +187,24 @@ const EditLocationForm = ({ editing, isOpen, onClose, refresh, location, formRef
                     isRequired
                     isDisabled={!editing}
                   />
-                  <StringField
-                    name="addressLineTwo"
-                    label={t('locations.address_line_two')}
-                    isDisabled={!editing}
-                  />
-                  <StringField
-                    name="city"
-                    label={t('locations.city')}
-                    isRequired
-                    isDisabled={!editing}
-                  />
-                  <StringField
-                    name="state"
-                    label={t('locations.state')}
-                    isRequired
-                    isDisabled={!editing}
-                  />
-                  <StringField
-                    name="postal"
-                    label={t('locations.postal')}
-                    isRequired
-                    isDisabled={!editing}
-                  />
+                  <StringField name="addressLineTwo" label={t('locations.address_line_two')} isDisabled={!editing} />
+                  <StringField name="city" label={t('locations.city')} isRequired isDisabled={!editing} />
+                  <StringField name="state" label={t('locations.state')} isRequired isDisabled={!editing} />
+                  <StringField name="postal" label={t('locations.postal')} isRequired isDisabled={!editing} />
                   <SelectField
                     name="country"
                     label={t('locations.country')}
                     options={COUNTRY_LIST}
                     isDisabled={!editing}
                   />
-                  <StringField
-                    name="buildingName"
-                    label={t('locations.building_name')}
-                    isDisabled={!editing}
-                  />
-                  <StringField
-                    name="geoCode"
-                    label={t('locations.geocode')}
-                    isDisabled={!editing}
-                  />
+                  <StringField name="buildingName" label={t('locations.building_name')} isDisabled={!editing} />
+                  <StringField name="geoCode" label={t('locations.geocode')} isDisabled={!editing} />
                 </SimpleGrid>
               </Form>
             </TabPanel>
             <TabPanel>
               <Field name="notes">
-                {({ field }) => (
-                  <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />
-                )}
+                {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
               </Field>
             </TabPanel>
           </TabPanels>

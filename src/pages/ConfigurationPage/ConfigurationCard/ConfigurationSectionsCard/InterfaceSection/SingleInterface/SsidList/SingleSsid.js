@@ -32,11 +32,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
       <CardHeader flex="auto">
         <Heading size="md">#{index}</Heading>
         <Spacer />
-        <DeleteButton
-          isDisabled={!editing}
-          onClick={removeSsid}
-          label={t('configurations.delete_ssid')}
-        />
+        <DeleteButton isDisabled={!editing} onClick={removeSsid} label={t('configurations.delete_ssid')} />
       </CardHeader>
       <CardBody display="unset">
         <SimpleGrid minChildWidth="300px" spacing="20px">

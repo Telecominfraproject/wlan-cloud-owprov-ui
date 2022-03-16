@@ -34,11 +34,7 @@ const UserTable = ({ title }) => {
   const [editId, setEditId] = useState('');
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const { isOpen: editOpen, onOpen: openEdit, onClose: closeEdit } = useDisclosure();
-  const {
-    data: users,
-    refetch: refreshUsers,
-    isFetching,
-  } = useGetUsers({ t, toast, setUsersWithAvatars });
+  const { data: users, refetch: refreshUsers, isFetching } = useGetUsers({ t, toast, setUsersWithAvatars });
 
   const openEditModal = (userId) => {
     setEditId(userId);
@@ -46,20 +42,10 @@ const UserTable = ({ title }) => {
   };
 
   const memoizedActions = useCallback(
-    (cell) => (
-      <UserActions
-        cell={cell.row}
-        refreshTable={refreshUsers}
-        key={uuid()}
-        openEdit={openEditModal}
-      />
-    ),
+    (cell) => <UserActions cell={cell.row} refreshTable={refreshUsers} key={uuid()} openEdit={openEditModal} />,
     [],
   );
-  const memoizedDate = useCallback(
-    (cell) => <FormattedDate date={cell.row.values.lastLogin} key={uuid()} />,
-    [],
-  );
+  const memoizedDate = useCallback((cell) => <FormattedDate date={cell.row.values.lastLogin} key={uuid()} />, []);
 
   const memoizedAvatar = useCallback(
     (cell) => <Avatar name={cell.row.values.name} src={cell.row.original.avatar} />,

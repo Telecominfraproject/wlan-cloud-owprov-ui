@@ -21,15 +21,7 @@ const defaultProps = {
   definitionKey: null,
 };
 
-const ToggleField = ({
-  name,
-  isDisabled,
-  label,
-  isRequired,
-  element,
-  falseIsUndefined,
-  definitionKey,
-}) => {
+const ToggleField = ({ name, isDisabled, label, isRequired, element, falseIsUndefined, definitionKey }) => {
   const [{ value }, { touched, error }, { setValue, setTouched }] = useField(name);
 
   const onChange = useCallback((e) => {

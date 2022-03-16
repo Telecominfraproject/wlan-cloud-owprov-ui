@@ -26,9 +26,7 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
   const { data: entities } = useGetEntities({ t, toast });
   const [formKey, setFormKey] = useState(uuid());
   const queryClient = useQueryClient();
-  const updateSubscriber = useMutation((subInfo) =>
-    axiosSec.put(`subuser/${subscriber?.id}`, subInfo),
-  );
+  const updateSubscriber = useMutation((subInfo) => axiosSec.put(`subuser/${subscriber?.id}`, subInfo));
 
   useEffect(() => {
     setFormKey(uuid());
@@ -41,10 +39,7 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
       key={formKey}
       initialValues={{ ...subscriber }}
       validationSchema={UpdateSubscriberSchema(t)}
-      onSubmit={(
-        { name, description, currentPassword, notes, owner },
-        { setSubmitting, resetForm },
-      ) =>
+      onSubmit={({ name, description, currentPassword, notes, owner }, { setSubmitting, resetForm }) =>
         updateSubscriber.mutateAsync(
           {
             name,
@@ -104,23 +99,9 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
               <Form>
                 <SimpleGrid minChildWidth="300px" spacing="20px">
                   <StringField name="email" label={t('common.email')} isDisabled isRequired />
-                  <StringField
-                    name="name"
-                    label={t('common.name')}
-                    isDisabled={!editing}
-                    isRequired
-                  />
-                  <StringField
-                    name="currentPassword"
-                    label={t('user.password')}
-                    isDisabled={!editing}
-                    hideButton
-                  />
-                  <StringField
-                    name="description"
-                    label={t('common.description')}
-                    isDisabled={!editing}
-                  />
+                  <StringField name="name" label={t('common.name')} isDisabled={!editing} isRequired />
+                  <StringField name="currentPassword" label={t('user.password')} isDisabled={!editing} hideButton />
+                  <StringField name="description" label={t('common.description')} isDisabled={!editing} />
                   <SelectWithSearchField
                     name="owner"
                     label={t('entities.one')}
@@ -139,9 +120,7 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
             </TabPanel>
             <TabPanel>
               <Field name="notes">
-                {({ field }) => (
-                  <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />
-                )}
+                {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
               </Field>
             </TabPanel>
           </TabPanels>

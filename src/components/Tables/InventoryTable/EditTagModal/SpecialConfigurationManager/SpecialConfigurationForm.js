@@ -71,11 +71,7 @@ const SpecialConfigurationForm = ({ editing, configuration, formRef }) => {
           isDisabled={!editing}
           w={36}
         />
-        <ToggleField
-          name="firmwareRCOnly"
-          label={t('configurations.rc_only')}
-          isDisabled={!editing}
-        />
+        <ToggleField name="firmwareRCOnly" label={t('configurations.rc_only')} isDisabled={!editing} />
       </SimpleGrid>
     </Formik>
   );

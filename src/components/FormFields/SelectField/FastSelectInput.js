@@ -50,12 +50,7 @@ const FastSelectInput = ({
   w,
   definitionKey,
 }) => (
-  <FormControl
-    isInvalid={error && touched}
-    isRequired={isRequired}
-    isDisabled={isDisabled}
-    hidden={isHidden}
-  >
+  <FormControl isInvalid={error && touched} isRequired={isRequired} isDisabled={isDisabled} hidden={isHidden}>
     <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
       {label} <ConfigurationFieldExplanation definitionKey={definitionKey} />
     </FormLabel>

@@ -143,19 +143,8 @@ const CreateLocationForm = ({ isOpen, onClose, refresh, formRef, entityId }) => 
       {({ errors, touched, setFieldValue }) => (
         <Form>
           <SimpleGrid minChildWidth="300px" spacing="20px" mb={8}>
-            <StringField
-              name="name"
-              label={t('common.name')}
-              errors={errors}
-              touched={touched}
-              isRequired
-            />
-            <StringField
-              name="description"
-              label={t('common.description')}
-              errors={errors}
-              touched={touched}
-            />
+            <StringField name="name" label={t('common.name')} errors={errors} touched={touched} isRequired />
+            <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <SelectWithSearchField
               name="entity"
               label={t('inventory.parent')}
@@ -204,11 +193,7 @@ const CreateLocationForm = ({ isOpen, onClose, refresh, formRef, entityId }) => 
             />
           </SimpleGrid>
 
-          <AddressSearchField
-            placeholder={t('common.address_search_autofill')}
-            maxWidth="600px"
-            mb={2}
-          />
+          <AddressSearchField placeholder={t('common.address_search_autofill')} maxWidth="600px" mb={2} />
           <SimpleGrid minChildWidth="300px" spacing="20px" mb={8}>
             <StringField
               name="addressLineOne"
@@ -223,27 +208,9 @@ const CreateLocationForm = ({ isOpen, onClose, refresh, formRef, entityId }) => 
               errors={errors}
               touched={touched}
             />
-            <StringField
-              name="city"
-              label={t('locations.city')}
-              errors={errors}
-              touched={touched}
-              isRequired
-            />
-            <StringField
-              name="state"
-              label={t('locations.state')}
-              errors={errors}
-              touched={touched}
-              isRequired
-            />
-            <StringField
-              name="postal"
-              label={t('locations.postal')}
-              errors={errors}
-              touched={touched}
-              isRequired
-            />
+            <StringField name="city" label={t('locations.city')} errors={errors} touched={touched} isRequired />
+            <StringField name="state" label={t('locations.state')} errors={errors} touched={touched} isRequired />
+            <StringField name="postal" label={t('locations.postal')} errors={errors} touched={touched} isRequired />
             <SelectField
               name="country"
               label={t('locations.country')}
@@ -251,18 +218,8 @@ const CreateLocationForm = ({ isOpen, onClose, refresh, formRef, entityId }) => 
               touched={touched}
               options={COUNTRY_LIST}
             />
-            <StringField
-              name="buildingName"
-              label={t('locations.building_name')}
-              errors={errors}
-              touched={touched}
-            />
-            <StringField
-              name="geoCode"
-              label={t('locations.geocode')}
-              errors={errors}
-              touched={touched}
-            />
+            <StringField name="buildingName" label={t('locations.building_name')} errors={errors} touched={touched} />
+            <StringField name="geoCode" label={t('locations.geocode')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>
         </Form>

@@ -136,13 +136,7 @@ const AssignTagModal = ({ entityId, alreadyClaimedDevices }) => {
 
   return (
     <>
-      <Button
-        alignItems="center"
-        colorScheme="blue"
-        rightIcon={<Lock size={20} />}
-        onClick={openModal}
-        ml={2}
-      >
+      <Button alignItems="center" colorScheme="blue" rightIcon={<Lock size={20} />} onClick={openModal} ml={2}>
         {t('common.claim')}
       </Button>
       <Modal onClose={closeModal} isOpen={isOpen} size="xl">
@@ -184,11 +178,7 @@ const AssignTagModal = ({ entityId, alreadyClaimedDevices }) => {
             </Box>
           </ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );

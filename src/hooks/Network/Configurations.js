@@ -5,9 +5,7 @@ export const useGetConfigurations = ({ t, toast }) =>
   useQuery(
     ['get-configurations'],
     () =>
-      axiosProv
-        .get('configurations?withExtendedInfo=true&offset=0, limit=500')
-        .then(({ data }) => data.configurations),
+      axiosProv.get('configurations?withExtendedInfo=true&offset=0, limit=500').then(({ data }) => data.configurations),
     {
       staleTime: 200 * 1000,
       onError: (e) => {
@@ -131,10 +129,7 @@ export const useGetConfigurationInUse = ({ t, toast, id, enabled }) =>
 export const useGetConfigurationAffected = ({ t, toast, id, enabled }) =>
   useQuery(
     ['get-config-affected', id],
-    () =>
-      axiosProv
-        .get(`/configurations/${id}?computedAffected=true`)
-        .then(({ data }) => data.affectedDevices),
+    () => axiosProv.get(`/configurations/${id}?computedAffected=true`).then(({ data }) => data.affectedDevices),
     {
       enabled,
       onError: (e) => {
@@ -154,8 +149,7 @@ export const useGetConfigurationAffected = ({ t, toast, id, enabled }) =>
     },
   );
 
-export const useDeleteConfiguration = () =>
-  useMutation((id) => axiosProv.delete(`configurations/${id}`));
+export const useDeleteConfiguration = () => useMutation((id) => axiosProv.delete(`configurations/${id}`));
 
 export const useUpdateConfiguration = ({ id }) =>
   useMutation((newConf) => axiosProv.put(`configurations/${id}`, newConf));

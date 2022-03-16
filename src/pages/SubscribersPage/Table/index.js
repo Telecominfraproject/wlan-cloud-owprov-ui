@@ -30,14 +30,8 @@ const SubscribersTable = ({ title }) => {
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const { data: subscribers, refetch: refresh, isFetching } = useGetSubscribers({ t, toast });
 
-  const memoizedActions = useCallback(
-    (cell) => <Actions cell={cell.row} refreshTable={refresh} key={uuid()} />,
-    [],
-  );
-  const memoizedDate = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
-    [],
-  );
+  const memoizedActions = useCallback((cell) => <Actions cell={cell.row} refreshTable={refresh} key={uuid()} />, []);
+  const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
 
   // Columns array. This array contains your table headings and accessors which maps keys from data array
   const columns = React.useMemo(() => {
@@ -115,13 +109,7 @@ const SubscribersTable = ({ title }) => {
               preference="provisioning.subscriberTable.hiddenColumns"
             />
             <CreateSubscriberModal refresh={refresh} requirements={requirements} />
-            <Button
-              colorScheme="gray"
-              onClick={refresh}
-              rightIcon={<ArrowsClockwise />}
-              ml={2}
-              isLoading={isFetching}
-            >
+            <Button colorScheme="gray" onClick={refresh} rightIcon={<ArrowsClockwise />} ml={2} isLoading={isFetching}>
               {t('common.refresh')}
             </Button>
           </Box>

@@ -52,9 +52,7 @@ const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => 
           {errorAmount} {errorAmount === 1 ? t('common.error') : t('common.errors')}
         </Button>
       ) : (
-        <Tooltip
-          label={`${errorAmount} ${errorAmount === 1 ? t('common.error') : t('common.errors')}`}
-        >
+        <Tooltip label={`${errorAmount} ${errorAmount === 1 ? t('common.error') : t('common.errors')}`}>
           <IconButton
             colorScheme={errorAmount === 0 ? 'green' : 'red'}
             type="submit"
@@ -80,9 +78,7 @@ const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => 
                   metrics: activeConfigurations.includes('metrics') ? errors.metrics : undefined,
                   services: activeConfigurations.includes('services') ? errors.services : undefined,
                   radios: activeConfigurations.includes('radios') ? errors.radios : undefined,
-                  interfaces: activeConfigurations.includes('interfaces')
-                    ? errors.interfaces
-                    : undefined,
+                  interfaces: activeConfigurations.includes('interfaces') ? errors.interfaces : undefined,
                 },
                 null,
                 2,

@@ -22,12 +22,8 @@ export const compactDate = (dateString) => {
   if (!dateString || dateString === null) return '-';
   const convertedTimestamp = unixToDateString(dateString);
   const date = new Date(convertedTimestamp);
-  return `${date.getFullYear()}-${twoDigitNumber(date.getMonth() + 1)}-${twoDigitNumber(
-    date.getDate(),
-  )}
-  ${twoDigitNumber(date.getHours())}:${twoDigitNumber(date.getMinutes())}:${twoDigitNumber(
-    date.getSeconds(),
-  )}`;
+  return `${date.getFullYear()}-${twoDigitNumber(date.getMonth() + 1)}-${twoDigitNumber(date.getDate())}
+  ${twoDigitNumber(date.getHours())}:${twoDigitNumber(date.getMinutes())}:${twoDigitNumber(date.getSeconds())}`;
 };
 
 export const formatDaysAgo = (d1, d2 = new Date()) => {
@@ -36,8 +32,7 @@ export const formatDaysAgo = (d1, d2 = new Date()) => {
   const elapsed = date - d2;
 
   for (const [key] of Object.entries(UNITS))
-    if (Math.abs(elapsed) > UNITS[key] || key === 'second')
-      return RTF.format(Math.round(elapsed / UNITS[key]), key);
+    if (Math.abs(elapsed) > UNITS[key] || key === 'second') return RTF.format(Math.round(elapsed / UNITS[key]), key);
 
   return compactDate(date);
 };
@@ -55,9 +50,7 @@ export const compactSecondsToDetailed = (seconds, t) => {
   let finalString = '';
 
   finalString =
-    days === 1
-      ? `${finalString}${days} ${t('common.day')}, `
-      : `${finalString}${days} ${t('common.days')}, `;
+    days === 1 ? `${finalString}${days} ${t('common.day')}, ` : `${finalString}${days} ${t('common.days')}, `;
   finalString = `${finalString}${twoDigitNumber(hours)}:`;
   finalString = `${finalString}${twoDigitNumber(minutes)}:`;
   finalString = `${finalString}${twoDigitNumber(secondsLeft)}`;

@@ -14,18 +14,11 @@ export const INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA = (t, useDefault = false) =
       .test('services.ieee8021x.user.mac.length', t('form.invalid_mac_uc'), testUcMac)
       .default(''),
     'user-name': string().required(t('form.required')).default(''),
-    'vlan-id': number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(4097)
-      .integer()
-      .default(1),
+    'vlan-id': number().required(t('form.required')).moreThan(-1).lessThan(4097).integer().default(1),
     password: string()
       .required(t('form.required'))
-      .test(
-        'services.ieee8021x.user.password.length',
-        t('form.min_max_string', { min: 8, max: 63 }),
-        (val) => testLength({ val, min: 8, max: 63 }),
+      .test('services.ieee8021x.user.password.length', t('form.min_max_string', { min: 8, max: 63 }), (val) =>
+        testLength({ val, min: 8, max: 63 }),
       )
       .default(''),
   });
@@ -59,12 +52,7 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
       authentication: object()
         .shape({
           host: string().required(t('form.required')).default('192.168.178.192'),
-          port: number()
-            .required(t('form.required'))
-            .positive()
-            .lessThan(4050)
-            .integer()
-            .default(1812),
+          port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1812),
           secret: string().required(t('form.required')).min(8).max(63).default('YOUR_SECRET'),
         })
         .nullable()
@@ -72,12 +60,7 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
       accounting: object()
         .shape({
           host: string().required(t('form.required')).default('192.168.178.192'),
-          port: number()
-            .required(t('form.required'))
-            .positive()
-            .lessThan(4050)
-            .integer()
-            .default(1813),
+          port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
           secret: string().required(t('form.required')).min(8).max(63).default('YOUR_SECRET'),
         })
         .nullable()
@@ -85,12 +68,7 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
       'dynamic-authorization': object()
         .shape({
           host: string().required(t('form.required')).default('YOUR_SECRET'),
-          port: number()
-            .required(t('form.required'))
-            .positive()
-            .lessThan(4050)
-            .integer()
-            .default(1813),
+          port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
           secret: string().required(t('form.required')).min(8).max(63).default(''),
         })
         .nullable()
@@ -175,11 +153,7 @@ export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     name: string().required(t('form.required')).default('YOUR_SSID'),
     purpose: string().default(undefined),
-    'wifi-bands': array()
-      .of(string())
-      .required(t('form.required'))
-      .min(1, t('form.required'))
-      .default(['2G', '5G']),
+    'wifi-bands': array().of(string()).required(t('form.required')).min(1, t('form.required')).default(['2G', '5G']),
     'bss-mode': string().required(t('form.required')).default('ap'),
     'hidden-ssid': bool().required(t('form.required')).default(false),
     'isolate-clients': bool().required(t('form.required')).default(false),
@@ -187,12 +161,7 @@ export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
     'broadcast-time': bool().default(undefined),
     'unicast-conversion': bool().default(undefined),
     services: array().of(string()).default([]),
-    'maximum-clients': number()
-      .required(t('form.required'))
-      .moreThan(0)
-      .lessThan(65535)
-      .integer()
-      .default(64),
+    'maximum-clients': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(64),
     'proxy-arp': bool().default(undefined),
     'disassoc-low-ack': bool().default(undefined),
     'vendor-elements': string(),
@@ -244,12 +213,7 @@ export const INTERFACE_IPV4_DHCP_LEASE_SCHEMA = (t, useDefault = false) => {
 export const INTERFACE_BRIDGE_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
-      mtu: number()
-        .required(t('form.required'))
-        .moreThan(255)
-        .lessThan(65535)
-        .integer()
-        .default(1500),
+      mtu: number().required(t('form.required')).moreThan(255).lessThan(65535).integer().default(1500),
       'tx-queue-len': number().required(t('form.required')).positive().integer().default(5000),
       'isolate-ports': bool().required(t('form.required')).default(false),
     })
@@ -279,11 +243,7 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
     'use-dns': array().when('addressing', {
       is: 'dynamic',
       then: array().nullable(),
-      otherwise: array()
-        .of(string())
-        .required(t('form.required'))
-        .min(1, t('form.required'))
-        .default([]),
+      otherwise: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
     }),
     dhcp: INTERFACE_IPV4_DHCP_SCHEMA(t, useDefault),
     'dhcp-lease': INTERFACE_IPV4_DHCP_LEASE_SCHEMA(t, useDefault),
@@ -302,12 +262,7 @@ export const INTERFACE_TUNNEL_SCHEMA = (t, useDefault = false) => {
     }),
     'peer-port': number().when('proto', {
       is: 'vxlan',
-      then: number()
-        .required(t('form.required'))
-        .moreThan(0)
-        .lessThan(65535)
-        .integer()
-        .default(4700),
+      then: number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(4700),
       otherwise: number().nullable(),
     }),
     server: string().when('proto', {

@@ -17,10 +17,7 @@ const ConfigurationsTable = ({ select, actions }) => {
   const toast = useToast();
   const { data: configurations, isFetching } = useGetSelectConfigurations({ t, toast, select });
 
-  const dateCell = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
-    [],
-  );
+  const dateCell = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
   const typesCell = useCallback((cell) => cell.row.values.deviceTypes.join(', '), []);
 
   // Columns array. This array contains your table headings and accessors which maps keys from data array

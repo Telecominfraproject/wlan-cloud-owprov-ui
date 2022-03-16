@@ -7,9 +7,7 @@ const propTypes = {
   field: PropTypes.instanceOf(Object).isRequired,
 };
 
-const PhoneInput = ({ editing, field }) => (
-  <Input borderRadius="15px" type="string" isDisabled={!editing} {...field} />
-);
+const PhoneInput = ({ editing, field }) => <Input borderRadius="15px" type="string" isDisabled={!editing} {...field} />;
 
 PhoneInput.propTypes = propTypes;
 

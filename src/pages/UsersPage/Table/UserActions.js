@@ -96,12 +96,7 @@ const UserActions = ({ cell: { original: user }, refreshTable, openEdit }) => {
               <Button colorScheme="gray" mr="1" onClick={onClose}>
                 Cancel
               </Button>
-              <Button
-                colorScheme="red"
-                ml="1"
-                onClick={handleDeleteClick}
-                isLoading={deleteUser.isLoading}
-              >
+              <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteUser.isLoading}>
                 Yes
               </Button>
             </Center>

@@ -41,9 +41,7 @@ const SubSectionPicker = ({ editing, subsections, onSubsectionsChange }) => {
             closeMenuOnSelect={false}
             options={subsections.map((sub) => ({ value: sub, label: sub }))}
             value={field.value.map((val) =>
-              subsections
-                .map((sub) => ({ value: sub, label: sub }))
-                .find((opt) => opt.value === val),
+              subsections.map((sub) => ({ value: sub, label: sub })).find((opt) => opt.value === val),
             )}
             onChange={(option) => onChange(option, field.value)}
             onBlur={() => setFieldTouched(name)}

@@ -183,9 +183,9 @@ const EditConfigurationForm = ({ editing, configuration, formRef }) => {
                         In Use By
                       </FormLabel>
                       <Button variant="link" mt={2} onClick={onOpen}>
-                        {`${inUse?.ent?.length ?? 0} ${t('entities.one')}, ${
-                          inUse?.ven?.length ?? 0
-                        } ${t('venues.one')}, ${inUse?.inv?.length ?? 0} ${t('devices.title')}`}
+                        {`${inUse?.ent?.length ?? 0} ${t('entities.one')}, ${inUse?.ven?.length ?? 0} ${t(
+                          'venues.one',
+                        )}, ${inUse?.inv?.length ?? 0} ${t('devices.title')}`}
                       </Button>
                     </FormControl>
                   </SimpleGrid>
@@ -193,13 +193,7 @@ const EditConfigurationForm = ({ editing, configuration, formRef }) => {
               </TabPanel>
               <TabPanel>
                 <Field name="notes">
-                  {({ field }) => (
-                    <NotesTable
-                      notes={field.value}
-                      setNotes={setFieldValue}
-                      isDisabled={!editing}
-                    />
-                  )}
+                  {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
                 </Field>
               </TabPanel>
             </TabPanels>

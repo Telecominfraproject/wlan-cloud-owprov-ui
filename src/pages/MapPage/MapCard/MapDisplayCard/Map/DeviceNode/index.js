@@ -74,12 +74,7 @@ const DeviceNode = ({ data, isConnectable }) => {
 
   return (
     <>
-      <Handle
-        type="target"
-        position="top"
-        style={{ background: '#555' }}
-        isConnectable={isConnectable}
-      />
+      <Handle type="target" position="top" style={{ background: '#555' }} isConnectable={isConnectable} />
       <Popover isLazy trigger="hover">
         <PopoverTrigger>
           <Box width="200px" bgColor={bgColor} p="4px" borderRadius={4} pointerEvents="all">
@@ -111,9 +106,7 @@ const DeviceNode = ({ data, isConnectable }) => {
               </Tooltip>
             </PopoverHeader>
             <PopoverBody>
-              {data.tag.description !== '' && (
-                <Text fontStyle="italic">{data.tag.description}</Text>
-              )}
+              {data.tag.description !== '' && <Text fontStyle="italic">{data.tag.description}</Text>}
               <Text>
                 {t('devices.sanity')}: {getHealth().value}
               </Text>

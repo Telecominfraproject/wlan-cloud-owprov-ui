@@ -57,10 +57,7 @@ const InventoryTable = ({
     pageInfo,
     tagSelect,
     owner,
-    enabled:
-      (!isManual && pageInfo !== null) ||
-      (isManual && tagSelect?.length > 0) ||
-      (isManual && owner !== null),
+    enabled: (!isManual && pageInfo !== null) || (isManual && tagSelect?.length > 0) || (isManual && owner !== null),
   });
 
   const deviceActions = useCallback(
@@ -77,8 +74,7 @@ const InventoryTable = ({
                 icon={<Plus size={20} />}
                 size="sm"
                 isDisabled={serialsToDisable.find(
-                  (serial) =>
-                    serial === cell.row.values.serialNumber || serial === cell.row.original.id,
+                  (serial) => serial === cell.row.values.serialNumber || serial === cell.row.original.id,
                 )}
                 onClick={() => addAction(cell.row.values.serialNumber)}
               />
@@ -91,9 +87,7 @@ const InventoryTable = ({
                 colorScheme="blue"
                 icon={<Trash size={20} />}
                 size="sm"
-                isDisabled={serialsToDisable.find(
-                  (serial) => serial === cell.row.values.serialNumber,
-                )}
+                isDisabled={serialsToDisable.find((serial) => serial === cell.row.values.serialNumber)}
                 onClick={() => removeAction(cell.row.values.serialNumber)}
               />
             </Tooltip>

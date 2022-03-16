@@ -49,11 +49,7 @@ const UnitSection = ({ editing, setSection, sectionInformation, removeSub }) => 
         <Spacer />
         <DeleteButton my={2} onClick={removeUnit} isDisabled={!editing} />
       </Flex>
-      <Formik
-        innerRef={sectionRef}
-        initialValues={sectionInformation.data}
-        validationSchema={UNIT_SCHEMA(t)}
-      >
+      <Formik innerRef={sectionRef} initialValues={sectionInformation.data} validationSchema={UNIT_SCHEMA(t)}>
         <SimpleGrid minChildWidth="400px" spacing={4}>
           <SectionGeneralCard editing={editing} />
           <Unit editing={editing} />

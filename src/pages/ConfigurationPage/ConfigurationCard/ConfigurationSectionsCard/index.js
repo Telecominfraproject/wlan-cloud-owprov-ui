@@ -51,9 +51,7 @@ const getActiveConfigurations = (configurations) =>
   configurations.map((config) => Object.keys(JSON.parse(config.configuration))[0]);
 
 const getConfigurationData = (configurations, section) => {
-  const data = configurations.find(
-    (conf) => Object.keys(JSON.parse(conf.configuration))[0] === section,
-  );
+  const data = configurations.find((conf) => Object.keys(JSON.parse(conf.configuration))[0] === section);
 
   if (section === 'metrics' || section === 'services') {
     const activeSubs = Object.keys(JSON.parse(data.configuration)[section]);
@@ -353,11 +351,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
             isDisabled={isFetching}
           />
           <ImportConfigurationButton isDisabled={!editing} setConfig={importConfig} />
-          <AddSubsectionModal
-            editing={editing}
-            activeSubs={activeConfigurations}
-            addSub={addSubsection}
-          />
+          <AddSubsectionModal editing={editing} activeSubs={activeConfigurations} addSub={addSubsection} />
         </Box>
       </CardHeader>
       <CardBody>
@@ -370,22 +364,12 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
             <Box display="unset" position="unset" w="100%">
               <Tabs variant="enclosed" w="100%">
                 <TabList>
-                  {activeConfigurations.includes('globals') && (
-                    <Tab>{t('configurations.globals')}</Tab>
-                  )}
+                  {activeConfigurations.includes('globals') && <Tab>{t('configurations.globals')}</Tab>}
                   {activeConfigurations.includes('unit') && <Tab>{t('configurations.unit')}</Tab>}
-                  {activeConfigurations.includes('metrics') && (
-                    <Tab>{t('configurations.metrics')}</Tab>
-                  )}
-                  {activeConfigurations.includes('services') && (
-                    <Tab>{t('configurations.services')}</Tab>
-                  )}
-                  {activeConfigurations.includes('radios') && (
-                    <Tab>{t('configurations.radios')}</Tab>
-                  )}
-                  {activeConfigurations.includes('interfaces') && (
-                    <Tab>{t('configurations.interfaces')}</Tab>
-                  )}
+                  {activeConfigurations.includes('metrics') && <Tab>{t('configurations.metrics')}</Tab>}
+                  {activeConfigurations.includes('services') && <Tab>{t('configurations.services')}</Tab>}
+                  {activeConfigurations.includes('radios') && <Tab>{t('configurations.radios')}</Tab>}
+                  {activeConfigurations.includes('interfaces') && <Tab>{t('configurations.interfaces')}</Tab>}
                 </TabList>
                 <TabPanels>
                   {activeConfigurations.includes('globals') && (

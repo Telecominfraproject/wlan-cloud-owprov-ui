@@ -11,9 +11,7 @@ import Sidebar from './Sidebar';
 
 const Layout = () => {
   const breakpoint = useBreakpoint();
-  const [isSidebarOpen, { toggle: toggleSidebar }] = useBoolean(
-    breakpoint !== 'base' && breakpoint !== 'sm',
-  );
+  const [isSidebarOpen, { toggle: toggleSidebar }] = useBoolean(breakpoint !== 'base' && breakpoint !== 'sm');
   document.documentElement.dir = 'ltr';
 
   const getActiveRoute = (r) => {
@@ -52,8 +50,7 @@ const Layout = () => {
     }
     return activeNavbar;
   };
-  const getRoutes = (r) =>
-    r.map((route) => <Route path={route.path} element={<route.component />} key={uuid()} />);
+  const getRoutes = (r) => r.map((route) => <Route path={route.path} element={<route.component />} key={uuid()} />);
 
   return (
     <>

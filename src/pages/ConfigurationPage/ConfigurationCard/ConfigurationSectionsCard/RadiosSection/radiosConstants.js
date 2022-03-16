@@ -10,25 +10,10 @@ export const SINGLE_RADIO_SCHEMA = (t, useDefault = false, band = '2G') => {
     'require-mode': string().default(undefined),
     'channel-width': number().required(t('form.required')).integer().default(40),
     mimo: string().default(undefined),
-    'tx-power': number()
-      .required(t('form.required'))
-      .moreThan(-1)
-      .lessThan(31)
-      .integer()
-      .default(0),
+    'tx-power': number().required(t('form.required')).moreThan(-1).lessThan(31).integer().default(0),
     'legacy-rates': bool().default(undefined),
-    'beacon-interval': number()
-      .required(t('form.required'))
-      .moreThan(14)
-      .lessThan(65535)
-      .integer()
-      .default(100),
-    'dtim-period': number()
-      .required(t('form.required'))
-      .moreThan(0)
-      .lessThan(256)
-      .integer()
-      .default(2),
+    'beacon-interval': number().required(t('form.required')).moreThan(14).lessThan(65535).integer().default(100),
+    'dtim-period': number().required(t('form.required')).moreThan(0).lessThan(256).integer().default(2),
     'maximum-clients': number().positive().integer().default(64),
     'hostadp-iface-raw': array().of(string()).default(undefined),
     rates: object().shape({

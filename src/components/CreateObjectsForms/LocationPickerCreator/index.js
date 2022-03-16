@@ -24,14 +24,7 @@ const defaultProps = {
   venueId: null,
 };
 
-const LocationPickerCreator = ({
-  locationName,
-  createLocationName,
-  editing,
-  isModal,
-  entityId,
-  venueId,
-}) => {
+const LocationPickerCreator = ({ locationName, createLocationName, editing, isModal, entityId, venueId }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [{ value: location }, , { setValue: setLocation }] = useField(locationName);

@@ -43,17 +43,7 @@ const defaultProps = {
   isHidden: false,
 };
 
-const ObjectArrayFieldModal = ({
-  name,
-  label,
-  fields,
-  schema,
-  columns,
-  editing,
-  isDisabled,
-  isRequired,
-  isHidden,
-}) => {
+const ObjectArrayFieldModal = ({ name, label, fields, schema, columns, editing, isDisabled, isRequired, isHidden }) => {
   const { t } = useTranslation();
   const [tempValue, setTempValue] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -96,12 +86,7 @@ const ObjectArrayFieldModal = ({
     <Field name={name}>
       {({ field, meta: { touched, error } }) => (
         <>
-          <FormControl
-            isInvalid={error && touched}
-            isRequired={isRequired}
-            isDisabled={isDisabled}
-            hidden={isHidden}
-          >
+          <FormControl isInvalid={error && touched} isRequired={isRequired} isDisabled={isDisabled} hidden={isHidden}>
             <FormLabel ms="4px" fontSize="md" fontWeight="normal">
               {label}
             </FormLabel>
@@ -119,11 +104,7 @@ const ObjectArrayFieldModal = ({
                 title={name}
                 right={
                   <>
-                    <SaveButton
-                      onClick={onChange}
-                      hidden={!editing}
-                      isDisabled={tempValue.length === 0}
-                    />
+                    <SaveButton onClick={onChange} hidden={!editing} isDisabled={tempValue.length === 0} />
                     <CloseButton ml={2} onClick={onClose} />
                   </>
                 }
@@ -150,12 +131,7 @@ const ObjectArrayFieldModal = ({
                           <Button colorScheme="blue" isDisabled={!isValid} onClick={submitForm}>
                             {t('crud.add')}
                           </Button>
-                          <Button
-                            colorScheme="gray"
-                            isDisabled={!isDirty}
-                            ml={2}
-                            onClick={resetForm}
-                          >
+                          <Button colorScheme="gray" isDisabled={!isDirty} ml={2} onClick={resetForm}>
                             {t('common.reset')}
                           </Button>
                         </Box>

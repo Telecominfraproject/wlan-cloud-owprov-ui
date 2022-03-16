@@ -4,20 +4,12 @@ export const METRICS_STATISTICS_SCHEMA = (t, useDefault = false) =>
   useDefault
     ? object().shape({
         interval: number().required(t('form.required')).moreThan(59).lessThan(1000).default(60),
-        types: array()
-          .of(string())
-          .required(t('form.required'))
-          .min(1, t('form.required'))
-          .default([]),
+        types: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
       })
     : object()
         .shape({
           interval: number().required(t('form.required')).moreThan(59).lessThan(1000).default(60),
-          types: array()
-            .of(string())
-            .required(t('form.required'))
-            .min(1, t('form.required'))
-            .default([]),
+          types: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
         })
         .nullable()
         .default(undefined);
@@ -37,19 +29,11 @@ export const METRICS_HEALTH_SCHEMA = (t, useDefault = false) =>
 export const METRICS_WIFI_FRAMES_SCHEMA = (t, useDefault = false) =>
   useDefault
     ? object().shape({
-        filters: array()
-          .of(string())
-          .required(t('form.required'))
-          .min(1, t('form.required'))
-          .default([]),
+        filters: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
       })
     : object()
         .shape({
-          filters: array()
-            .of(string())
-            .required(t('form.required'))
-            .min(1, t('form.required'))
-            .default([]),
+          filters: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
         })
         .nullable()
         .default(undefined);
@@ -57,19 +41,11 @@ export const METRICS_WIFI_FRAMES_SCHEMA = (t, useDefault = false) =>
 export const METRICS_DHCP_SNOOPING_SCHEMA = (t, useDefault = false) =>
   useDefault
     ? object().shape({
-        filters: array()
-          .of(string())
-          .required(t('form.required'))
-          .min(1, t('form.required'))
-          .default([]),
+        filters: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
       })
     : object()
         .shape({
-          filters: array()
-            .of(string())
-            .required(t('form.required'))
-            .min(1, t('form.required'))
-            .default([]),
+          filters: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
         })
         .nullable()
         .default(undefined);

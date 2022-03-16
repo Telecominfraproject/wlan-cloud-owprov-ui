@@ -16,8 +16,7 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  const storageToken =
-    localStorage.getItem('access_token') ?? sessionStorage.getItem('access_token');
+  const storageToken = localStorage.getItem('access_token') ?? sessionStorage.getItem('access_token');
 
   return (
     <QueryClientProvider client={queryClient}>

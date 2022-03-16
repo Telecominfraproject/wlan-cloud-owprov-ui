@@ -16,21 +16,11 @@ const propTypes = {
 
 const Radios = ({ editing, arrayHelpers, radioBands, radioBandsLength }) => (
   <>
-    {radioBandsLength >= 1 && (
-      <SingleRadio index={0} remove={arrayHelpers.remove} editing={editing} />
-    )}
-    {radioBandsLength >= 2 && (
-      <SingleRadio index={1} remove={arrayHelpers.remove} editing={editing} />
-    )}
-    {radioBandsLength >= 3 && (
-      <SingleRadio index={2} remove={arrayHelpers.remove} editing={editing} />
-    )}
-    {radioBandsLength >= 4 && (
-      <SingleRadio index={3} remove={arrayHelpers.remove} editing={editing} />
-    )}
-    {radioBandsLength >= 5 && (
-      <SingleRadio index={4} remove={arrayHelpers.remove} editing={editing} />
-    )}
+    {radioBandsLength >= 1 && <SingleRadio index={0} remove={arrayHelpers.remove} editing={editing} />}
+    {radioBandsLength >= 2 && <SingleRadio index={1} remove={arrayHelpers.remove} editing={editing} />}
+    {radioBandsLength >= 3 && <SingleRadio index={2} remove={arrayHelpers.remove} editing={editing} />}
+    {radioBandsLength >= 4 && <SingleRadio index={3} remove={arrayHelpers.remove} editing={editing} />}
+    {radioBandsLength >= 5 && <SingleRadio index={4} remove={arrayHelpers.remove} editing={editing} />}
     <RadioPicker radios={radioBands} editing={editing} arrayHelpers={arrayHelpers} />
   </>
 );

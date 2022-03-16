@@ -17,10 +17,7 @@ const VenueTable = ({ actions, select }) => {
   const toast = useToast();
   const { data: venues, isFetching } = useGetSelectVenues({ t, toast, select });
 
-  const memoizedDate = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
-    [],
-  );
+  const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
 
   // Columns array. This array contains your table headings and accessors which maps keys from data array
   const columns = React.useMemo(() => {

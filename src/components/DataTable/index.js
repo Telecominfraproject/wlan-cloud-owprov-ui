@@ -119,8 +119,7 @@ const DataTable = ({
   );
 
   useEffect(() => {
-    if (setPageInfo && pageIndex !== undefined)
-      setPageInfo({ index: pageIndex, limit: queryPageSize });
+    if (setPageInfo && pageIndex !== undefined) setPageInfo({ index: pageIndex, limit: queryPageSize });
   }, [queryPageSize, pageIndex]);
 
   useEffect(() => {
@@ -133,13 +132,7 @@ const DataTable = ({
 
   // If this is a manual DataTable, with a page index that is higher than 0 and higher than the max possible page, we send to index 0
   useEffect(() => {
-    if (
-      isManual &&
-      data &&
-      isManual &&
-      pageIndex > 0 &&
-      Math.ceil(count / queryPageSize) - 1 < pageIndex
-    ) {
+    if (isManual && data && isManual && pageIndex > 0 && Math.ceil(count / queryPageSize) - 1 < pageIndex) {
       gotoPage(0);
       setPageInfo({ index: 0, limit: queryPageSize });
     }
@@ -239,11 +232,7 @@ const DataTable = ({
               />
             </Tooltip>
             <Tooltip label={t('table.previous_page')}>
-              <IconButton
-                onClick={previousPage}
-                isDisabled={!canPreviousPage}
-                icon={<ChevronLeftIcon h={6} w={6} />}
-              />
+              <IconButton onClick={previousPage} isDisabled={!canPreviousPage} icon={<ChevronLeftIcon h={6} w={6} />} />
             </Tooltip>
           </Flex>
 
@@ -298,11 +287,7 @@ const DataTable = ({
 
           <Flex>
             <Tooltip label={t('table.next_page')}>
-              <IconButton
-                onClick={nextPage}
-                isDisabled={!canNextPage}
-                icon={<ChevronRightIcon h={6} w={6} />}
-              />
+              <IconButton onClick={nextPage} isDisabled={!canNextPage} icon={<ChevronRightIcon h={6} w={6} />} />
             </Tooltip>
             <Tooltip label={t('table.last_page')}>
               <IconButton

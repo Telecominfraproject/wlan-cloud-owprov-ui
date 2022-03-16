@@ -43,12 +43,9 @@ const ForgotPasswordForm = ({ requirements, setActiveForm }) => {
   const { t } = useTranslation();
   const titleColor = useColorModeValue('blue.300', 'white');
   const textColor = useColorModeValue('gray.400', 'white');
-  const forgotPassword = useMutation(
-    (loginInfo) => axiosSec.post('oauth2?forgotPassword=true', loginInfo),
-    {
-      onError: (e) => e,
-    },
-  );
+  const forgotPassword = useMutation((loginInfo) => axiosSec.post('oauth2?forgotPassword=true', loginInfo), {
+    onError: (e) => e,
+  });
 
   return (
     <>

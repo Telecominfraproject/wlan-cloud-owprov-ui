@@ -150,15 +150,7 @@ const FileInput = ({ setValue, refreshId, errors }) => {
         {t('certificates.device_macs')}
       </FormLabel>
       <InputGroup>
-        <Input
-          borderRadius="15px"
-          pt={1}
-          fontSize="sm"
-          type="file"
-          onChange={changeFile}
-          key={fileKey}
-          accept=".csv"
-        />
+        <Input borderRadius="15px" pt={1} fontSize="sm" type="file" onChange={changeFile} key={fileKey} accept=".csv" />
         <InputRightElement hidden={!result}>
           {' '}
           <IconButton icon={<CloseIcon />} onClick={resetFile} />

@@ -44,9 +44,7 @@ export const useGetInventoryTags = ({
       ['get-inventory-with-select', tagSelect],
       () =>
         tagSelect.length > 0
-          ? axiosProv
-              .get(`inventory?withExtendedInfo=true&select=${tagSelect}`)
-              .then(({ data }) => data.taglist)
+          ? axiosProv.get(`inventory?withExtendedInfo=true&select=${tagSelect}`).then(({ data }) => data.taglist)
           : [],
       {
         enabled,
@@ -73,10 +71,7 @@ export const useGetInventoryTags = ({
   if (owner !== undefined && owner !== null) {
     return useQuery(
       ['get-inventory-with-owner', owner],
-      () =>
-        axiosProv
-          .get(`inventory?serialOnly=true&subscriber=${owner}`)
-          .then(({ data }) => data.serialNumbers),
+      () => axiosProv.get(`inventory?serialOnly=true&subscriber=${owner}`).then(({ data }) => data.serialNumbers),
       {
         enabled,
         onError: (e) => {
@@ -158,8 +153,7 @@ export const useGetTag = ({ t, toast, enabled, serialNumber }) =>
 export const useGetComputedConfiguration = ({ t, toast, enabled, serialNumber }) =>
   useQuery(
     ['get-tag-computed-configuration', serialNumber],
-    () =>
-      axiosProv.get(`inventory/${serialNumber}?config=true&explain=true`).then(({ data }) => data),
+    () => axiosProv.get(`inventory/${serialNumber}?config=true&explain=true`).then(({ data }) => data),
     {
       enabled,
       onError: (e) => {
@@ -183,8 +177,7 @@ export const useGetComputedConfiguration = ({ t, toast, enabled, serialNumber })
 export const usePushConfig = ({ t, toast, onSuccess }) =>
   useMutation(
     ['apply-tag-configuration'],
-    (serialNumber) =>
-      axiosProv.get(`inventory/${serialNumber}?applyConfiguration=true`).then(({ data }) => data),
+    (serialNumber) => axiosProv.get(`inventory/${serialNumber}?applyConfiguration=true`).then(({ data }) => data),
     {
       onSuccess,
       onError: (e) => {
@@ -227,9 +220,7 @@ const claimDevices = async (serialNumbers, entity, isVenue) => {
   );
 
   const unassignResults = await Promise.all(unassignPromises);
-  const unassignErrors = await unassignResults
-    .filter((res) => res.error)
-    .map((res) => res.serialNumber);
+  const unassignErrors = await unassignResults.filter((res) => res.error).map((res) => res.serialNumber);
 
   const claimResults = await Promise.all(addPromises);
   const claimErrors = claimResults.filter((res) => res.error).map((res) => res.serialNumber);

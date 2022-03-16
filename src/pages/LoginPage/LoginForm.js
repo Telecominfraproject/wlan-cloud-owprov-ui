@@ -78,8 +78,7 @@ const LoginForm = ({ requirements, setActiveForm }) => {
                     },
                   });
                 } else {
-                  if (values.rememberMe)
-                    localStorage.setItem('access_token', response.data.access_token);
+                  if (values.rememberMe) localStorage.setItem('access_token', response.data.access_token);
                   else sessionStorage.setItem('access_token', response.data.access_token);
                   setToken(response.data.access_token);
                 }
@@ -187,12 +186,7 @@ const LoginForm = ({ requirements, setActiveForm }) => {
       </Formik>
       <Flex justifyContent="center" alignItems="center" maxW="100%" mt="0px">
         <Box w="100%">
-          <Link
-            href={`${secUrl}${requirements?.passwordPolicy}`}
-            isExternal
-            textColor={textColor}
-            mr="24px"
-          >
+          <Link href={`${secUrl}${requirements?.passwordPolicy}`} isExternal textColor={textColor} mr="24px">
             {t('login.password_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>

@@ -52,11 +52,7 @@ const ImportDeviceTests = ({ devicesToTest, setPhase, setDevicesToImport }) => {
     return axios
       .get(`${axiosProv.defaults.baseURL}/inventory/${device.SerialNumber}`, options)
       .then((response) => {
-        if (
-          response.data.venue !== '' ||
-          response.data.entity !== '' ||
-          response.data.subscriber !== ''
-        )
+        if (response.data.venue !== '' || response.data.entity !== '' || response.data.subscriber !== '')
           deviceResult.alreadyAssigned = true;
         else deviceResult.foundUnassigned = true;
         return deviceResult;
@@ -68,14 +64,9 @@ const ImportDeviceTests = ({ devicesToTest, setPhase, setDevicesToImport }) => {
   };
 
   const testDevice = (device, alreadyTested) => {
-    if (
-      device.SerialNumber === '' ||
-      device.SerialNumber.length !== 12 ||
-      !device.SerialNumber.match('^[a-fA-F0-9]+$')
-    )
+    if (device.SerialNumber === '' || device.SerialNumber.length !== 12 || !device.SerialNumber.match('^[a-fA-F0-9]+$'))
       return t('devices.invalid_serial_number');
-    if (!deviceTypes.find((devType) => devType === device.DeviceType))
-      return t('devices.device_type_not_found');
+    if (!deviceTypes.find((devType) => devType === device.DeviceType)) return t('devices.device_type_not_found');
     if (alreadyTested.find((testedDevice) => device.SerialNumber === testedDevice))
       return t('devices.duplicate_serial');
     return null;
@@ -127,11 +118,7 @@ const ImportDeviceTests = ({ devicesToTest, setPhase, setDevicesToImport }) => {
     const newLength = testResult?.newDevices?.length ?? -1;
     const unassignedLength = testResult?.foundNotAssigned?.length ?? -1;
     const assignedLength = testResult?.foundAssigned?.length ?? -1;
-    return (
-      newLength > 0 ||
-      (unassignedLength > 0 && assignUnassigned) ||
-      (assignedLength > 0 && reassign)
-    );
+    return newLength > 0 || (unassignedLength > 0 && assignUnassigned) || (assignedLength > 0 && reassign);
   };
 
   const startImport = () => {

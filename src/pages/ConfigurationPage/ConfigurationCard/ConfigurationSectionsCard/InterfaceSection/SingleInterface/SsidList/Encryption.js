@@ -26,15 +26,10 @@ const Encryption = ({ editing, namePrefix }) => {
     }
   };
 
-  const isEnabled = useMemo(
-    () => getIn(values, `${namePrefix}`) !== undefined,
-    [getIn(values, `${namePrefix}`)],
-  );
+  const isEnabled = useMemo(() => getIn(values, `${namePrefix}`) !== undefined, [getIn(values, `${namePrefix}`)]);
 
   const isKeyNeeded = useMemo(
-    () =>
-      getIn(values, `${namePrefix}`) !== undefined &&
-      keyProtos.includes(getIn(values, `${namePrefix}`).proto),
+    () => getIn(values, `${namePrefix}`) !== undefined && keyProtos.includes(getIn(values, `${namePrefix}`).proto),
     [getIn(values, `${namePrefix}`)],
   );
 

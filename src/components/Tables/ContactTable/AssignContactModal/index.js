@@ -210,11 +210,7 @@ const AssignContactModal = ({ entityId, venueId, alreadyClaimed }) => {
             </Box>
           </ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );

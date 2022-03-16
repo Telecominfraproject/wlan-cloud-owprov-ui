@@ -113,20 +113,8 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
       {({ errors, touched }) => (
         <Form>
           <SimpleGrid minChildWidth="300px" spacing="20px">
-            <StringField
-              name="email"
-              label={t('common.email')}
-              errors={errors}
-              touched={touched}
-              isRequired
-            />
-            <StringField
-              name="name"
-              label={t('common.name')}
-              errors={errors}
-              touched={touched}
-              isRequired
-            />
+            <StringField name="email" label={t('common.email')} errors={errors} touched={touched} isRequired />
+            <StringField name="name" label={t('common.name')} errors={errors} touched={touched} isRequired />
             <SelectField
               name="userRole"
               label={t('user.role')}
@@ -151,21 +139,12 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
               isRequired
               hideButton
             />
-            <StringField
-              name="description"
-              label={t('common.description')}
-              errors={errors}
-              touched={touched}
-            />
+            <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>
           <Flex justifyContent="center" alignItems="center" maxW="100%" mt="50px" mb={6}>
             <Box w="100%">
-              <Link
-                href={`${secUrl}${requirements?.passwordPolicy}`}
-                isExternal
-                textColor={textColor}
-              >
+              <Link href={`${secUrl}${requirements?.passwordPolicy}`} isExternal textColor={textColor}>
                 {t('login.password_policy')}
                 <ExternalLinkIcon mx="2px" />
               </Link>

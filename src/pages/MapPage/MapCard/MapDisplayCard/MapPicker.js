@@ -58,15 +58,11 @@ const MapPicker = ({ isLoading, map, setMap, isDisabled }) => {
         { label: t('map.auto_map'), value: '' },
         {
           label: t('map.my_maps'),
-          options: maps
-            .filter((m) => m.creator === id)
-            .map((m) => ({ value: m.id, label: m.name })),
+          options: maps.filter((m) => m.creator === id).map((m) => ({ value: m.id, label: m.name })),
         },
         {
           label: t('map.by_others'),
-          options: maps
-            .filter((m) => m.creator !== id)
-            .map((m) => ({ value: m.id, label: m.name })),
+          options: maps.filter((m) => m.creator !== id).map((m) => ({ value: m.id, label: m.name })),
         },
       ];
     }

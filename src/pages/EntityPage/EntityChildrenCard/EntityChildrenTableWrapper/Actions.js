@@ -23,13 +23,7 @@ const Actions = ({ cell: { original: entity } }) => {
   return (
     <Flex>
       <Tooltip hasArrow label={t('venues.go_to_page')} placement="top">
-        <IconButton
-          ml={2}
-          colorScheme="blue"
-          icon={<ArrowSquareOut size={20} />}
-          size="sm"
-          onClick={handleGoToPage}
-        />
+        <IconButton ml={2} colorScheme="blue" icon={<ArrowSquareOut size={20} />} size="sm" onClick={handleGoToPage} />
       </Tooltip>
     </Flex>
   );

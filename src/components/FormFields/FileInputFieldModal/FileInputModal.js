@@ -95,12 +95,7 @@ const FileInputModal = ({
 
   return (
     <>
-      <FormControl
-        isInvalid={error && touched}
-        isRequired={isRequired}
-        isDisabled={isDisabled}
-        hidden={isHidden}
-      >
+      <FormControl isInvalid={error && touched} isRequired={isRequired} isDisabled={isDisabled} hidden={isHidden}>
         <FormLabel ms="4px" fontSize="md" fontWeight="normal">
           {label}
           <ConfigurationFieldExplanation definitionKey={definitionKey} />
@@ -126,10 +121,7 @@ const FileInputModal = ({
             title={label}
             right={
               <>
-                <SaveButton
-                  onClick={saveValue}
-                  isDisabled={tempValue.length === 0 || !test(tempValue)}
-                />
+                <SaveButton onClick={saveValue} isDisabled={tempValue.length === 0 || !test(tempValue)} />
                 <CloseButton ml={2} onClick={onClose} />
               </>
             }

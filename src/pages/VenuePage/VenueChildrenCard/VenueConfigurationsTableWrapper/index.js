@@ -30,12 +30,7 @@ const VenueConfigurationsTableWrapper = ({ venue }) => {
 
   const actions = useCallback(
     (cell) => (
-      <Actions
-        key={uuid()}
-        cell={cell.row}
-        openInUseModal={openInUseModal}
-        openAffectedModal={openAffectedModal}
-      />
+      <Actions key={uuid()} cell={cell.row} openInUseModal={openInUseModal} openAffectedModal={openAffectedModal} />
     ),
     [],
   );
@@ -48,11 +43,7 @@ const VenueConfigurationsTableWrapper = ({ venue }) => {
       </Box>
       <ConfigurationsTable select={venue.configurations} actions={actions} />
       <ConfigurationInUseModal isOpen={isInUseOpen} onClose={closeInUse} config={config} />
-      <ConfigurationViewAffectedModal
-        isOpen={isAffectedOpen}
-        onClose={closeAffected}
-        config={config}
-      />
+      <ConfigurationViewAffectedModal isOpen={isAffectedOpen} onClose={closeAffected} config={config} />
     </>
   );
 };

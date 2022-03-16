@@ -269,9 +269,7 @@ const EditContactForm = ({ editing, isOpen, onClose, refresh, contact, formRef }
             </TabPanel>
             <TabPanel>
               <Field name="notes">
-                {({ field }) => (
-                  <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />
-                )}
+                {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
               </Field>
             </TabPanel>
           </TabPanels>

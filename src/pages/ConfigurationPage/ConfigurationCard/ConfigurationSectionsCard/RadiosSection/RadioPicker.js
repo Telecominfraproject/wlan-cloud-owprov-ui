@@ -1,15 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
-import {
-  Button,
-  useDisclosure,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-  Center,
-} from '@chakra-ui/react';
+import { Button, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Center } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from 'phosphor-react';
 import ModalHeader from 'components/ModalHeader';
@@ -38,23 +30,13 @@ const RadioPicker = ({ editing, radios, arrayHelpers: { push: pushRadio } }) => 
 
   return (
     <>
-      <Button
-        colorScheme="blue"
-        type="submit"
-        onClick={onOpen}
-        rightIcon={<Plus size={20} />}
-        hidden={!editing}
-        ml={2}
-      >
+      <Button colorScheme="blue" type="submit" onClick={onOpen} rightIcon={<Plus size={20} />} hidden={!editing} ml={2}>
         {t('configurations.add_radio')}
       </Button>
       <Modal onClose={onClose} isOpen={isOpen} size="sm" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader
-            title={t('configurations.add_radio')}
-            right={<CloseButton ml={2} onClick={onClose} />}
-          />
+          <ModalHeader title={t('configurations.add_radio')} right={<CloseButton ml={2} onClick={onClose} />} />
           <ModalBody>
             <Center my={2}>
               <Button

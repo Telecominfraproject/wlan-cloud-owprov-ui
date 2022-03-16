@@ -80,10 +80,7 @@ export const flatTreeFromRootNode = (tree, rootNode) => {
 };
 
 // Generating a list of map elements automatically with dagre or with a saved map
-export const mapToFlowElements = (
-  { tree, flatTree, tags, devices, autoAlign = false },
-  savedMap,
-) => {
+export const mapToFlowElements = ({ tree, flatTree, tags, devices, autoAlign = false }, savedMap) => {
   const elements = [];
 
   for (const el of flatTree) {
@@ -155,9 +152,7 @@ export const mapToFlowElements = (
         finalElements.push({ ...el, position: foundSaved ? foundSaved.position : { x: 0, y: 0 } });
       }
     } else if (type === 'device') {
-      const found = includedElements.find(
-        (incl) => incl === el.data.tag.entity || incl === el.data.tag.venue,
-      );
+      const found = includedElements.find((incl) => incl === el.data.tag.entity || incl === el.data.tag.venue);
       if (found) {
         const foundSaved = parsedMap.elements.find((saved) => saved.id === el.id);
         finalElements.push({

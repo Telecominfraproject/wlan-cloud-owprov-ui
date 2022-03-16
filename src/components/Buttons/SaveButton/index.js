@@ -22,15 +22,7 @@ const defaultProps = {
   dirtyCheck: false,
 };
 
-const SaveButton = ({
-  onClick,
-  isDisabled,
-  isLoading,
-  isCompact,
-  isDirty,
-  dirtyCheck,
-  ...props
-}) => {
+const SaveButton = ({ onClick, isDisabled, isLoading, isCompact, isDirty, dirtyCheck, ...props }) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

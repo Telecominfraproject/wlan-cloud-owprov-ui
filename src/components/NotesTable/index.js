@@ -38,10 +38,7 @@ const NotesTable = ({ notes, setNotes, isDisabled }) => {
     setNewNote('');
   };
 
-  const memoizedDate = useCallback(
-    (cell) => <FormattedDate date={cell.row.values.created} key={uuid()} />,
-    [],
-  );
+  const memoizedDate = useCallback((cell) => <FormattedDate date={cell.row.values.created} key={uuid()} />, []);
 
   const columns = useMemo(
     () => [

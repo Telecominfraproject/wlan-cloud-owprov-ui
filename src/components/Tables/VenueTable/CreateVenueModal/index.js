@@ -77,11 +77,7 @@ const CreateVenueModal = ({ parentId, entityId, isDisabled }) => {
             />
           </ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );

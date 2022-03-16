@@ -39,15 +39,7 @@ const defaultProps = {
   isDisabled: false,
 };
 
-const DeviceConfigurationsModal = ({
-  name,
-  initialValue,
-  setValue,
-  errors,
-  isDisabled,
-  isRequired,
-  label,
-}) => {
+const DeviceConfigurationsModal = ({ name, initialValue, setValue, errors, isDisabled, isRequired, label }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [localValue, setLocalValue] = useState([]);
@@ -86,10 +78,7 @@ const DeviceConfigurationsModal = ({
     const { length } = initialValue;
     if (length === 0) return t('entities.add_configurations');
     if (length === 1 && configurations)
-      return (
-        configurations.find((conf) => conf.id === initialValue[0])?.name ??
-        `1 ${t('configurations.one')}`
-      );
+      return configurations.find((conf) => conf.id === initialValue[0])?.name ?? `1 ${t('configurations.one')}`;
     return `${length} ${t('configurations.title')}`;
   }, [initialValue, configurations]);
 
@@ -221,22 +210,14 @@ const DeviceConfigurationsModal = ({
           <ModalBody overflowX="auto">
             <DataTable
               columns={columns(true)}
-              data={
-                configurations
-                  ? localValue.map((id) => configurations.find((config) => config.id === id))
-                  : []
-              }
+              data={configurations ? localValue.map((id) => configurations.find((config) => config.id === id)) : []}
               isLoading={isFetching}
               obj={t('configurations.title')}
             />
             <Box h="100px" />
             <DataTable
               columns={columns(false)}
-              data={
-                configurations?.filter(
-                  (config) => !localValue.find((local) => local === config.id),
-                ) ?? []
-              }
+              data={configurations?.filter((config) => !localValue.find((local) => local === config.id)) ?? []}
               isLoading={isFetching}
               obj={t('configurations.title')}
             />

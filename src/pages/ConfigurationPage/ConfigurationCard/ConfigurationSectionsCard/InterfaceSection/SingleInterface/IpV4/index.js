@@ -24,8 +24,7 @@ const IpV4 = ({ editing, index }) => {
   const onIpv4Change = (e) => {
     if (e.target.value === '') {
       setFieldValue(`configuration[${index}].ipv4`, undefined);
-    } else if (e.target.value === 'dynamic')
-      setFieldValue(`configuration[${index}].ipv4`, { addressing: 'dynamic' });
+    } else if (e.target.value === 'dynamic') setFieldValue(`configuration[${index}].ipv4`, { addressing: 'dynamic' });
     else {
       setFieldValue(`configuration[${index}].ipv4`, {
         ...INTERFACE_IPV4_SCHEMA(t, true).cast(),
@@ -56,25 +55,13 @@ const IpV4 = ({ editing, index }) => {
           mx={2}
         />
         <FormControl isDisabled={!editing} hidden={getIpv4Value() === ''}>
-          <Select
-            value={getIpv4Value()}
-            onChange={onIpv4Change}
-            borderRadius="15px"
-            fontSize="sm"
-            w="120px"
-          >
+          <Select value={getIpv4Value()} onChange={onIpv4Change} borderRadius="15px" fontSize="sm" w="120px">
             <option value="dynamic">dynamic</option>
             <option value="static">static</option>
           </Select>
         </FormControl>
       </Heading>
-      <SimpleGrid
-        minChildWidth="300px"
-        spacing="20px"
-        mb={getIpv4Value() === 'static' ? 8 : undefined}
-        mt={2}
-        w="100%"
-      >
+      <SimpleGrid minChildWidth="300px" spacing="20px" mb={getIpv4Value() === 'static' ? 8 : undefined} mt={2} w="100%">
         <StaticIpV4 index={index} isEnabled={getIpv4Value() === 'static'} editing={editing} />
       </SimpleGrid>
     </>

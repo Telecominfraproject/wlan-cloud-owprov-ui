@@ -17,10 +17,7 @@ const EntityTable = ({ actions, select }) => {
   const toast = useToast();
   const { data: entities, isFetching } = useGetSelectEntities({ t, toast, select });
 
-  const dateCell = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
-    [],
-  );
+  const dateCell = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
 
   // Columns array. This array contains your table headings and accessors which maps keys from data array
   const columns = useMemo(() => {

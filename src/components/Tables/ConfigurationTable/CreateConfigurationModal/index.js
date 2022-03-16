@@ -1,14 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  toast,
-} from '@chakra-ui/react';
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, toast } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
@@ -64,8 +56,7 @@ const CreateConfigurationModal = ({ refresh, entityId }) => {
     setConfiguration(null);
     onOpen();
   };
-  const closeModal = () =>
-    form.dirty || configuration?.__form?.isDirty ? openConfirm() : onClose();
+  const closeModal = () => (form.dirty || configuration?.__form?.isDirty ? openConfirm() : onClose());
   const closeCancelAndForm = () => {
     closeConfirm();
     onClose();
@@ -73,13 +64,7 @@ const CreateConfigurationModal = ({ refresh, entityId }) => {
 
   return (
     <>
-      <Button
-        alignItems="center"
-        colorScheme="blue"
-        rightIcon={<AddIcon />}
-        onClick={openModal}
-        ml={2}
-      >
+      <Button alignItems="center" colorScheme="blue" rightIcon={<AddIcon />} onClick={openModal} ml={2}>
         {t('crud.create')}
       </Button>
       <Modal onClose={closeModal} isOpen={isOpen} size="xl" scrollBehavior="inside">
@@ -92,11 +77,7 @@ const CreateConfigurationModal = ({ refresh, entityId }) => {
                 <SaveButton
                   onClick={form.submitForm}
                   isLoading={form.isSubmitting}
-                  isDisabled={
-                    !form.isValid ||
-                    !form.dirty ||
-                    (configuration !== null && !configuration.__form.isValid)
-                  }
+                  isDisabled={!form.isValid || !form.dirty || (configuration !== null && !configuration.__form.isValid)}
                 />
                 <CloseButton ml={2} onClick={closeModal} />
               </>
@@ -115,11 +96,7 @@ const CreateConfigurationModal = ({ refresh, entityId }) => {
             />
           </ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );

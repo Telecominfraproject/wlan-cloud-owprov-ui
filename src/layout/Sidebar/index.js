@@ -62,12 +62,7 @@ const Sidebar = ({ routes, isOpen, toggle }) => {
         alignItems="center"
         fontSize="11px"
       >
-        <img
-          src={colorMode === 'light' ? lightLogo : darkLogo}
-          alt="OpenWifi"
-          width="180px"
-          height="100px"
-        />
+        <img src={colorMode === 'light' ? lightLogo : darkLogo} alt="OpenWifi" width="180px" height="100px" />
       </Link>
     </Box>
   );
@@ -92,9 +87,7 @@ const Sidebar = ({ routes, isOpen, toggle }) => {
             <Box maxW="100%" h="90vh">
               <Box>{brand}</Box>
               <Flex direction="column" mb="40px" h="calc(100vh - 200px)" alignItems="center">
-                <Box overflowY="auto">
-                  {createLinks(routes, activeRoute, user?.userRole ?? '', toggle)}
-                </Box>
+                <Box overflowY="auto">{createLinks(routes, activeRoute, user?.userRole ?? '', toggle)}</Box>
                 <Spacer />
                 <Box>
                   <Text color="gray.400">
@@ -132,9 +125,7 @@ const Sidebar = ({ routes, isOpen, toggle }) => {
         >
           <Box>{brand}</Box>
           <Flex direction="column" mb="40px" h="calc(100vh - 200px)" alignItems="center">
-            <Box overflowY="auto">
-              {createLinks(routes, activeRoute, user?.userRole ?? '', toggle)}
-            </Box>
+            <Box overflowY="auto">{createLinks(routes, activeRoute, user?.userRole ?? '', toggle)}</Box>
             <Spacer />
             <Box>
               <Text color="gray.400">

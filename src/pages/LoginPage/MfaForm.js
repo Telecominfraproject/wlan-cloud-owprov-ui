@@ -42,9 +42,7 @@ const MfaForm = ({ activeForm, setActiveForm }) => {
   const { setToken } = useAuth();
   const titleColor = useColorModeValue('blue.300', 'white');
   const textColor = useColorModeValue('gray.400', 'white');
-  const verifyCode = useMutation((verifInfo) =>
-    axiosSec.post('oauth2?completeMFAChallenge=true', verifInfo),
-  );
+  const verifyCode = useMutation((verifInfo) => axiosSec.post('oauth2?completeMFAChallenge=true', verifInfo));
   const sendPhoneTest = useMutation(
     () =>
       axiosSec.post(`oauth2?resendMFACode=true`, {
@@ -85,8 +83,7 @@ const MfaForm = ({ activeForm, setActiveForm }) => {
       },
       {
         onSuccess: (response) => {
-          if (activeForm.data.rememberMe)
-            localStorage.setItem('access_token', response.data.access_token);
+          if (activeForm.data.rememberMe) localStorage.setItem('access_token', response.data.access_token);
           else sessionStorage.setItem('access_token', response.data.access_token);
           setToken(response.data.access_token);
         },

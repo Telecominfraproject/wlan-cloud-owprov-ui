@@ -76,10 +76,7 @@ const EditSubscriberForm = ({
       key={formKey}
       initialValues={subscriber}
       validationSchema={UpdateSubscriberSchema(t)}
-      onSubmit={(
-        { name, description, currentPassword, notes, owner },
-        { setSubmitting, resetForm },
-      ) =>
+      onSubmit={({ name, description, currentPassword, notes, owner }, { setSubmitting, resetForm }) =>
         updateSubscriber.mutateAsync(
           {
             name,
@@ -167,23 +164,9 @@ const EditSubscriberForm = ({
                 <Form>
                   <SimpleGrid minChildWidth="300px" spacing="20px">
                     <StringField name="email" label={t('common.email')} isDisabled isRequired />
-                    <StringField
-                      name="name"
-                      label={t('common.name')}
-                      isDisabled={!editing}
-                      isRequired
-                    />
-                    <StringField
-                      name="currentPassword"
-                      label={t('user.password')}
-                      isDisabled={!editing}
-                      hideButton
-                    />
-                    <StringField
-                      name="description"
-                      label={t('common.description')}
-                      isDisabled={!editing}
-                    />
+                    <StringField name="name" label={t('common.name')} isDisabled={!editing} isRequired />
+                    <StringField name="currentPassword" label={t('user.password')} isDisabled={!editing} hideButton />
+                    <StringField name="description" label={t('common.description')} isDisabled={!editing} />
                     <SelectWithSearchField
                       name="owner"
                       label={t('entities.one')}
@@ -225,25 +208,14 @@ const EditSubscriberForm = ({
               </TabPanel>
               <TabPanel>
                 <Field name="notes">
-                  {({ field }) => (
-                    <NotesTable
-                      notes={field.value}
-                      setNotes={setFieldValue}
-                      isDisabled={!editing}
-                    />
-                  )}
+                  {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
                 </Field>
               </TabPanel>
             </TabPanels>
           </Tabs>
           <Flex justifyContent="center" alignItems="center" maxW="100%" mt="25px" mb={6} px={4}>
             <Box w="100%">
-              <Link
-                href={`${secUrl}${requirements?.data?.passwordPolicy}`}
-                isExternal
-                textColor={textColor}
-                pb={2}
-              >
+              <Link href={`${secUrl}${requirements?.data?.passwordPolicy}`} isExternal textColor={textColor} pb={2}>
                 {t('login.password_policy')}
                 <ExternalLinkIcon mx="2px" />
               </Link>

@@ -34,11 +34,7 @@ const SingleInterface = ({ editing, index, remove }) => {
       <CardHeader flex="auto">
         <Heading size="lg">{values.configuration[index].name}</Heading>
         <Spacer />
-        <DeleteButton
-          isDisabled={!editing}
-          onClick={removeRadio}
-          label={t('configurations.delete_interface')}
-        />
+        <DeleteButton isDisabled={!editing} onClick={removeRadio} label={t('configurations.delete_interface')} />
       </CardHeader>
       <CardBody display="unset">
         <Heading size="md">General</Heading>
@@ -181,9 +177,7 @@ const SingleInterface = ({ editing, index, remove }) => {
               editing={editing}
               arrayHelpers={arrayHelpers}
               ssidsLength={
-                values.configuration[index].ssids !== undefined
-                  ? values.configuration[index].ssids.length
-                  : 0
+                values.configuration[index].ssids !== undefined ? values.configuration[index].ssids.length : 0
               }
             />
           )}

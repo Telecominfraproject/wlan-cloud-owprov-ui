@@ -18,15 +18,7 @@ const defaultProps = {
   isStringFile: false,
 };
 
-const FileInputButton = ({
-  value,
-  setValue,
-  setFileName,
-  refreshId,
-  accept,
-  isHidden,
-  isStringFile,
-}) => {
+const FileInputButton = ({ value, setValue, setFileName, refreshId, accept, isHidden, isStringFile }) => {
   const [fileKey, setFileKey] = useState(uuid());
   let fileReader;
 

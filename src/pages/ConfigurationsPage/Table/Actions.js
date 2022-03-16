@@ -25,8 +25,7 @@ import { axiosProv } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 
-const deleteApi = async (configId) =>
-  axiosProv.delete(`/configurations/${configId}`).then(() => true);
+const deleteApi = async (configId) => axiosProv.delete(`/configurations/${configId}`).then(() => true);
 
 const propTypes = {
   cell: PropTypes.shape({
@@ -41,12 +40,7 @@ const propTypes = {
   openAffectedModal: PropTypes.func.isRequired,
 };
 
-const Actions = ({
-  cell: { original: configuration },
-  refreshTable,
-  openInUseModal,
-  openAffectedModal,
-}) => {
+const Actions = ({ cell: { original: configuration }, refreshTable, openInUseModal, openAffectedModal }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const navigate = useNavigate();
@@ -109,20 +103,13 @@ const Actions = ({
           <PopoverHeader>
             {t('crud.delete')} {configuration.name}
           </PopoverHeader>
-          <PopoverBody px={0}>
-            {t('crud.delete_confirm', { obj: t('configurations.one') })}
-          </PopoverBody>
+          <PopoverBody px={0}>{t('crud.delete_confirm', { obj: t('configurations.one') })}</PopoverBody>
           <PopoverFooter>
             <Center>
               <Button colorScheme="gray" mr="1" onClick={onClose}>
                 {t('common.cancel')}
               </Button>
-              <Button
-                colorScheme="red"
-                ml="1"
-                onClick={handleDeleteClick}
-                isLoading={deleteConfig.isLoading}
-              >
+              <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteConfig.isLoading}>
                 Yes
               </Button>
             </Center>
@@ -130,31 +117,13 @@ const Actions = ({
         </PopoverContent>
       </Popover>
       <Tooltip hasArrow label={t('configurations.view_in_use')} placement="top">
-        <IconButton
-          ml={2}
-          colorScheme="blue"
-          icon={<ListDashes size={20} />}
-          size="sm"
-          onClick={handleOpenInUse}
-        />
+        <IconButton ml={2} colorScheme="blue" icon={<ListDashes size={20} />} size="sm" onClick={handleOpenInUse} />
       </Tooltip>
       <Tooltip hasArrow label={t('configurations.view_affected_devices')} placement="top">
-        <IconButton
-          ml={2}
-          colorScheme="blue"
-          icon={<ListChecks size={20} />}
-          size="sm"
-          onClick={handleOpenAffected}
-        />
+        <IconButton ml={2} colorScheme="blue" icon={<ListChecks size={20} />} size="sm" onClick={handleOpenAffected} />
       </Tooltip>
       <Tooltip hasArrow label={t('common.view_details')} placement="top">
-        <IconButton
-          ml={2}
-          colorScheme="blue"
-          icon={<MagnifyingGlass size={20} />}
-          size="sm"
-          onClick={handleGoTo}
-        />
+        <IconButton ml={2} colorScheme="blue" icon={<MagnifyingGlass size={20} />} size="sm" onClick={handleGoTo} />
       </Tooltip>
     </Flex>
   );

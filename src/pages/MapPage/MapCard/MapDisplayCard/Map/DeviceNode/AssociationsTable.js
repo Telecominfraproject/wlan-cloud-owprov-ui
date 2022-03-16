@@ -124,12 +124,7 @@ const AssociationsTable = ({ statsInfo }) => {
       </Heading>
       {associations.length > 0 && (
         <Box overflowY="auto" maxH="150px" w="100%">
-          <DataTable
-            columns={columns}
-            data={associations}
-            hideControls
-            obj={t('devices.associations')}
-          />
+          <DataTable columns={columns} data={associations} hideControls obj={t('devices.associations')} />
         </Box>
       )}
     </>

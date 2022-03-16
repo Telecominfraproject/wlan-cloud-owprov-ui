@@ -116,12 +116,7 @@ const DeleteConfigurationPopover = ({ configuration, isDisabled }) => {
             <Button colorScheme="gray" mr="1" onClick={onClose}>
               {t('common.cancel')}
             </Button>
-            <Button
-              colorScheme="red"
-              ml="1"
-              onClick={handleDeleteClick}
-              isLoading={deleteConfig.isLoading}
-            >
+            <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteConfig.isLoading}>
               {t('common.yes')}
             </Button>
           </Center>

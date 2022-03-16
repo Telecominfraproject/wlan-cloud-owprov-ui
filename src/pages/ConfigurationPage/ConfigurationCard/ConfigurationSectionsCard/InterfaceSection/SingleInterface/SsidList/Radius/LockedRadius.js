@@ -34,22 +34,9 @@ const LockedRadius = ({ variableBlockId }) => {
   return (
     <>
       <SimpleGrid minChildWidth="300px" spacing="20px">
-        <DisplayStringField
-          label="authentication.host"
-          value={data.authentication.host}
-          isRequired
-        />
-        <DisplayNumberField
-          label="authentication.port"
-          value={data.authentication.port}
-          isRequired
-        />
-        <DisplayStringField
-          label="authentication.secret"
-          value={data.authentication.secret}
-          isRequired
-          hideButton
-        />
+        <DisplayStringField label="authentication.host" value={data.authentication.host} isRequired />
+        <DisplayNumberField label="authentication.port" value={data.authentication.port} isRequired />
+        <DisplayStringField label="authentication.secret" value={data.authentication.secret} isRequired hideButton />
       </SimpleGrid>
       <FormControl isDisabled>
         <FormLabel ms="4px" fontSize="md" fontWeight="normal">
@@ -67,12 +54,7 @@ const LockedRadius = ({ variableBlockId }) => {
         <SimpleGrid minChildWidth="300px" spacing="20px">
           <DisplayStringField label="accounting.host" value={data.accounting?.host} isRequired />
           <DisplayNumberField label="accounting.port" value={data.accounting?.port} isRequired />
-          <DisplayStringField
-            label="accounting.secret"
-            value={data.accounting?.secret}
-            isRequired
-            hideButton
-          />
+          <DisplayStringField label="accounting.secret" value={data.accounting?.secret} isRequired hideButton />
         </SimpleGrid>
       )}
       <FormControl isDisabled>

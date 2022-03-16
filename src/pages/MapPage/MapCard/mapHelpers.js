@@ -18,12 +18,7 @@ export const getDevices = async (devices) =>
     .catch(() => []);
 
 // Transforming the nested entity/venue tree object into an array ready to use with the map
-export const flattenEntityTree = (
-  { uuid: id, name, type, children, venues = [] },
-  parentType,
-  parentId,
-  parentArr,
-) => {
+export const flattenEntityTree = ({ uuid: id, name, type, children, venues = [] }, parentType, parentId, parentArr) => {
   let newArray = [];
 
   const newParentArr = parentId !== undefined ? [...parentArr, { parentId, parentType }] : [];

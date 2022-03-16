@@ -158,9 +158,7 @@ const SystemTile = ({ axiosInstance, name }) => {
               <Box w="400px">
                 <MultiSelect
                   options={
-                    subsystems?.list?.length > 0
-                      ? subsystems.list.map((sys) => ({ value: sys, label: sys }))
-                      : []
+                    subsystems?.list?.length > 0 ? subsystems.list.map((sys) => ({ value: sys, label: sys })) : []
                   }
                   onChange={setSubs}
                   value={subs}

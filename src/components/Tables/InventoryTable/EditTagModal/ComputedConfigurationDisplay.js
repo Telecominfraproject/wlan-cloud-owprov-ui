@@ -50,16 +50,9 @@ const ComputedConfigurationDisplay = ({ computedConfig }) => {
           {computedConfig.explanation?.map((exp) => (
             <AccordionItem key={uuid()}>
               <AccordionButton
-                bg={
-                  exp.action === 'added'
-                    ? 'var(--chakra-colors-green-500)'
-                    : 'var(--chakra-colors-red-500)'
-                }
+                bg={exp.action === 'added' ? 'var(--chakra-colors-green-500)' : 'var(--chakra-colors-red-500)'}
                 _hover={{
-                  bg:
-                    exp.action === 'added'
-                      ? 'var(--chakra-colors-green-700)'
-                      : 'var(--chakra-colors-red-700)',
+                  bg: exp.action === 'added' ? 'var(--chakra-colors-green-700)' : 'var(--chakra-colors-red-700)',
                 }}
               >
                 <Center>

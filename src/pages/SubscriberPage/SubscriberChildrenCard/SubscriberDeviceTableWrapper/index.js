@@ -37,20 +37,12 @@ const SubscriberDeviceTableWrapper = ({ subscriber }) => {
     openEdit();
   };
 
-  const refreshEntity = () =>
-    queryClient.invalidateQueries(['get-inventory-with-owner', subscriber.id]);
+  const refreshEntity = () => queryClient.invalidateQueries(['get-inventory-with-owner', subscriber.id]);
 
   const refetchTags = () => setRefreshId(refreshId + 1);
 
   const actions = useCallback(
-    (cell) => (
-      <Actions
-        key={uuid()}
-        cell={cell.row}
-        refreshEntity={refreshEntity}
-        openEditModal={openEditModal}
-      />
-    ),
+    (cell) => <Actions key={uuid()} cell={cell.row} refreshEntity={refreshEntity} openEditModal={openEditModal} />,
     [refreshId],
   );
 
@@ -74,11 +66,7 @@ const SubscriberDeviceTableWrapper = ({ subscriber }) => {
         refresh={refetchTags}
         pushConfig={pushConfiguration}
       />
-      <ConfigurationPushModal
-        isOpen={isPushOpen}
-        onClose={closePush}
-        pushResult={pushConfiguration.data}
-      />
+      <ConfigurationPushModal isOpen={isPushOpen} onClose={closePush} pushResult={pushConfiguration.data} />
     </>
   );
 };

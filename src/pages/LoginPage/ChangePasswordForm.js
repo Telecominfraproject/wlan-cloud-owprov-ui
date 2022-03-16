@@ -155,10 +155,7 @@ const ChangePasswordForm = ({ requirements, activeForm, setActiveForm }) => {
             </Field>
             <Field name="confirmNewPassword">
               {({ field }) => (
-                <FormControl
-                  mt="24px"
-                  isInvalid={errors.confirmNewPassword && touched.confirmNewPassword}
-                >
+                <FormControl mt="24px" isInvalid={errors.confirmNewPassword && touched.confirmNewPassword}>
                   <FormLabel ms="4px" fontSize="md" fontWeight="normal">
                     {t('login.confirm_new_password')}
                   </FormLabel>
@@ -216,12 +213,7 @@ const ChangePasswordForm = ({ requirements, activeForm, setActiveForm }) => {
             {t('login.password_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>
-          <Link
-            ml="24px"
-            href={`${secUrl}${requirements?.accessPolicy}`}
-            isExternal
-            textColor={textColor}
-          >
+          <Link ml="24px" href={`${secUrl}${requirements?.accessPolicy}`} isExternal textColor={textColor}>
             {t('login.access_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>

@@ -54,10 +54,7 @@ const ConfigurationsTable = ({ title }) => {
     ),
     [],
   );
-  const memoizedDate = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
-    [],
-  );
+  const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
   const memoizedTypes = useCallback((cell) => cell.row.values.deviceTypes.join(', '), []);
 
   // Columns array. This array contains your table headings and accessors which maps keys from data array
@@ -164,11 +161,7 @@ const ConfigurationsTable = ({ title }) => {
         </CardBody>
       </Card>
       <ConfigurationInUseModal isOpen={isInUseOpen} onClose={closeInUse} config={config} />
-      <ConfigurationViewAffectedModal
-        isOpen={isAffectedOpen}
-        onClose={closeAffected}
-        config={config}
-      />
+      <ConfigurationViewAffectedModal isOpen={isAffectedOpen} onClose={closeAffected} config={config} />
     </>
   );
 };

@@ -21,10 +21,7 @@ export const useGetUsers = ({ t, toast, setUsersWithAvatars }) =>
         results.map((response) => {
           if (response.status === 'fulfilled' && response?.value !== '') {
             const base64 = btoa(
-              new Uint8Array(response.value.data).reduce(
-                (respData, byte) => respData + String.fromCharCode(byte),
-                '',
-              ),
+              new Uint8Array(response.value.data).reduce((respData, byte) => respData + String.fromCharCode(byte), ''),
             );
             return `data:;base64,${base64}`;
           }
@@ -53,25 +50,21 @@ export const useGetUsers = ({ t, toast, setUsersWithAvatars }) =>
   });
 
 export const useGetUser = ({ t, toast, id, enabled }) =>
-  useQuery(
-    ['get-user', id],
-    () => axiosSec.get(`user/${id}?withExtendedInfo=true`).then(({ data }) => data),
-    {
-      enabled,
-      onError: (e) => {
-        if (!toast.isActive('user-fetching-error'))
-          toast({
-            id: 'user-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('users.one'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+  useQuery(['get-user', id], () => axiosSec.get(`user/${id}?withExtendedInfo=true`).then(({ data }) => data), {
+    enabled,
+    onError: (e) => {
+      if (!toast.isActive('user-fetching-error'))
+        toast({
+          id: 'user-fetching-error',
+          title: t('common.error'),
+          description: t('crud.error_fetching_obj', {
+            obj: t('users.one'),
+            e: e?.response?.data?.ErrorDescription,
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
     },
-  );
+  });

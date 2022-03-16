@@ -50,15 +50,7 @@ const CreateConfigurationForm = ({
     return `ven:${splitEntity[1]}`;
   };
 
-  const createParameters = ({
-    name,
-    description,
-    note,
-    deviceTypes,
-    entity,
-    rrm,
-    __CREATE_CONFIG,
-  }) => ({
+  const createParameters = ({ name, description, note, deviceTypes, entity, rrm, __CREATE_CONFIG }) => ({
     name,
     rrm,
     deviceTypes,
@@ -127,13 +119,7 @@ const CreateConfigurationForm = ({
       {({ errors, touched, setFieldValue }) => (
         <>
           <SimpleGrid minChildWidth="300px" spacing="20px" mb={6}>
-            <StringField
-              name="name"
-              label={t('common.name')}
-              errors={errors}
-              touched={touched}
-              isRequired
-            />
+            <StringField name="name" label={t('common.name')} errors={errors} touched={touched} isRequired />
             <MultiSelectField
               name="deviceTypes"
               label={t('configurations.device_types')}
@@ -189,20 +175,10 @@ const CreateConfigurationForm = ({
               isRequired
               w={28}
             />
-            <StringField
-              name="description"
-              label={t('common.description')}
-              errors={errors}
-              touched={touched}
-            />
+            <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>
-          <SpecialConfigurationManager
-            editing
-            isEnabledByDefault
-            isOnlySections
-            onChange={onConfigurationChange}
-          />
+          <SpecialConfigurationManager editing isEnabledByDefault isOnlySections onChange={onConfigurationChange} />
         </>
       )}
     </Formik>

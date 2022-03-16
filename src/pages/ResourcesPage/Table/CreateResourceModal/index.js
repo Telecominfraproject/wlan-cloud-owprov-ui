@@ -125,12 +125,7 @@ const CreateResourceModal = ({ refresh }) => {
                 <FormLabel ms="4px" fontSize="md" fontWeight="normal">
                   {t('resources.variable')}
                 </FormLabel>
-                <Select
-                  value={selectedVariable}
-                  onChange={onVariableChange}
-                  borderRadius="15px"
-                  fontSize="sm"
-                >
+                <Select value={selectedVariable} onChange={onVariableChange} borderRadius="15px" fontSize="sm">
                   <option value="interface.ssid.radius">interface.ssid.radius</option>
                 </Select>
               </FormControl>
@@ -169,11 +164,7 @@ const CreateResourceModal = ({ refresh }) => {
             )}
           </ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );

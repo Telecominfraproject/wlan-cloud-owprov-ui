@@ -28,10 +28,7 @@ const Radius = ({ editing, namePrefix }) => {
     }
   };
 
-  const isRadiusEnabled = useMemo(
-    () => getIn(values, `${namePrefix}`) !== undefined,
-    [getIn(values, `${namePrefix}`)],
-  );
+  const isRadiusEnabled = useMemo(() => getIn(values, `${namePrefix}`) !== undefined, [getIn(values, `${namePrefix}`)]);
 
   const isUsingCustomRadius = useMemo(() => {
     const v = getIn(values, `${namePrefix}`);

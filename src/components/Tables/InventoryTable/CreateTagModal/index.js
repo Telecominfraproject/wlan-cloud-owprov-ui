@@ -64,8 +64,7 @@ const CreateTagModal = ({ refresh, entityId, subId }) => {
     setConfiguration(null);
     onOpen();
   };
-  const closeModal = () =>
-    form.dirty || configuration?.__form?.isDirty ? openConfirm() : onClose();
+  const closeModal = () => (form.dirty || configuration?.__form?.isDirty ? openConfirm() : onClose());
   const closeCancelAndForm = () => {
     closeConfirm();
     onClose();
@@ -84,11 +83,7 @@ const CreateTagModal = ({ refresh, entityId, subId }) => {
                 <SaveButton
                   onClick={form.submitForm}
                   isLoading={form.isSubmitting}
-                  isDisabled={
-                    !form.isValid ||
-                    !form.dirty ||
-                    (configuration !== null && !configuration.__form.isValid)
-                  }
+                  isDisabled={!form.isValid || !form.dirty || (configuration !== null && !configuration.__form.isValid)}
                 />
                 <CloseButton ml={2} onClick={closeModal} />
               </>
@@ -109,11 +104,7 @@ const CreateTagModal = ({ refresh, entityId, subId }) => {
             />
           </ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );

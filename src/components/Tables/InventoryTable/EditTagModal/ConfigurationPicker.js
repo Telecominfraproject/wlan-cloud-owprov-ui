@@ -45,9 +45,7 @@ const ConfigurationPicker = ({ tagId, name, isDisabled }) => {
         classNamePrefix="chakra-react-select"
         menuPortalTarget={document.body}
         options={[{ value: '', label: t('common.none') }, ...options]}
-        value={[{ value: '', label: t('common.none') }, ...options].find(
-          (opt) => opt.value === value,
-        )}
+        value={[{ value: '', label: t('common.none') }, ...options].find((opt) => opt.value === value)}
         onChange={onChange}
         onBlur={onBlur}
       />

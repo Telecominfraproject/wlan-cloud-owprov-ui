@@ -54,16 +54,7 @@ const CreateTagForm = ({
     return `ven:${splitEntity[1]}`;
   };
 
-  const createParameters = ({
-    serialNumber,
-    name,
-    description,
-    note,
-    deviceType,
-    devClass,
-    rrm,
-    entity,
-  }) => ({
+  const createParameters = ({ serialNumber, name, description, note, deviceType, devClass, rrm, entity }) => ({
     serialNumber,
     name,
     rrm,
@@ -152,13 +143,7 @@ const CreateTagForm = ({
               touched={touched}
               isRequired
             />
-            <StringField
-              name="name"
-              label={t('common.name')}
-              errors={errors}
-              touched={touched}
-              isRequired
-            />
+            <StringField name="name" label={t('common.name')} errors={errors} touched={touched} isRequired />
             <SelectField
               name="deviceType"
               label={t('inventory.device_type')}
@@ -223,12 +208,7 @@ const CreateTagForm = ({
               ]}
               isRequired
             />
-            <StringField
-              name="description"
-              label={t('common.description')}
-              errors={errors}
-              touched={touched}
-            />
+            <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>
           <SpecialConfigurationManager editing onChange={onConfigurationChange} />

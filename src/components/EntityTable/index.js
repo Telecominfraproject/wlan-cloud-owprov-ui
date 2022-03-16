@@ -9,17 +9,11 @@ import { Plus, Trash } from 'phosphor-react';
 
 const getEntitiesApi = async (pageInfo) => {
   if (Array.isArray(pageInfo)) {
-    return axiosProv
-      .get(`entity?withExtendedInfo=true&select=${pageInfo}`)
-      .then(({ data }) => data);
+    return axiosProv.get(`entity?withExtendedInfo=true&select=${pageInfo}`).then(({ data }) => data);
   }
 
   return axiosProv
-    .get(
-      `entity?withExtendedInfo=true&limit=${pageInfo.limit}&offset=${
-        pageInfo.limit * pageInfo.index
-      }`,
-    )
+    .get(`entity?withExtendedInfo=true&limit=${pageInfo.limit}&offset=${pageInfo.limit * pageInfo.index}`)
     .then(({ data }) => data);
 };
 const getCountApi = async () => axiosProv.get(`entity?countOnly=true`).then(({ data }) => data);

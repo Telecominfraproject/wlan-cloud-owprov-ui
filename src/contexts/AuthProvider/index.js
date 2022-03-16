@@ -1,15 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import {
-  axiosAnalytics,
-  axiosFms,
-  axiosGw,
-  axiosOwls,
-  axiosProv,
-  axiosSec,
-  axiosSub,
-} from 'utils/axiosInstances';
+import { axiosAnalytics, axiosFms, axiosGw, axiosOwls, axiosProv, axiosSec, axiosSub } from 'utils/axiosInstances';
 import { useToast } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useGetEndpoints } from 'hooks/Network/Endpoints';
@@ -23,13 +15,10 @@ const deleteToken = async (currentToken) =>
     .then(() => true)
     .catch(() => false);
 
-const getAvatar = async (id, cache) =>
-  axiosSec.get(`avatar/${id}?cache=${cache}`, { responseType: 'arraybuffer' });
+const getAvatar = async (id, cache) => axiosSec.get(`avatar/${id}?cache=${cache}`, { responseType: 'arraybuffer' });
 
 const getConfigDescriptions = async (baseUrl) =>
-  axios
-    .get(`${baseUrl.split('/api')[0]}/wwwassets/ucentral.schema.pretty.json`)
-    .then(({ data }) => data.$defs);
+  axios.get(`${baseUrl.split('/api')[0]}/wwwassets/ucentral.schema.pretty.json`).then(({ data }) => data.$defs);
 const getUser = async () => axiosSec.get('oauth2?me=true').then(({ data }) => data);
 
 const getPreferences = async () => axiosSec.get('preferences').then(({ data }) => data);
@@ -105,13 +94,9 @@ export const AuthProvider = ({ token, children }) => {
       enabled: !!userId,
     },
   );
-  const { data: avatar } = useQuery(
-    ['get-user-avatar', userId, userAvatar],
-    () => getAvatar(userId, userAvatar),
-    {
-      enabled: userAvatar !== '' && userAvatar !== '0',
-    },
-  );
+  const { data: avatar } = useQuery(['get-user-avatar', userId, userAvatar], () => getAvatar(userId, userAvatar), {
+    enabled: userAvatar !== '' && userAvatar !== '0',
+  });
   const updatePreferences = useMutation((newPrefs) => putPreferences(newPrefs), {
     onSuccess: (data) => {
       queryClient.setQueryData(['get-preferences', userId], data.data);
@@ -181,10 +166,7 @@ export const AuthProvider = ({ token, children }) => {
     () => ({
       avatar: avatar?.data
         ? `data:;base64,${btoa(
-            new Uint8Array(avatar.data).reduce(
-              (data, byte) => data + String.fromCharCode(byte),
-              '',
-            ),
+            new Uint8Array(avatar.data).reduce((data, byte) => data + String.fromCharCode(byte), ''),
           )}`
         : '',
       refetchUser,

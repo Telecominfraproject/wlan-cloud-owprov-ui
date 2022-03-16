@@ -37,14 +37,7 @@ const VenueDeviceTableWrapper = ({ venue }) => {
   const refetchTags = () => setRefreshId(refreshId + 1);
 
   const actions = useCallback(
-    (cell) => (
-      <Actions
-        key={uuid()}
-        cell={cell.row}
-        refreshEntity={refreshEntity}
-        openEditModal={openEditModal}
-      />
-    ),
+    (cell) => <Actions key={uuid()} cell={cell.row} refreshEntity={refreshEntity} openEditModal={openEditModal} />,
     [refreshId],
   );
 
@@ -53,11 +46,7 @@ const VenueDeviceTableWrapper = ({ venue }) => {
       <Flex>
         <Heading size="md">{t('devices.title')}</Heading>
         <Spacer />
-        <ImportDeviceCsvModal
-          refresh={refreshEntity}
-          parent={{ venue: venue.id }}
-          deviceClass="venue"
-        />
+        <ImportDeviceCsvModal refresh={refreshEntity} parent={{ venue: venue.id }} deviceClass="venue" />
         <CreateTagModal refresh={refreshEntity} entityId={`venue:${venue.id}`} />
       </Flex>
       <InventoryTable
@@ -73,11 +62,7 @@ const VenueDeviceTableWrapper = ({ venue }) => {
         refresh={refetchTags}
         pushConfig={pushConfiguration}
       />
-      <ConfigurationPushModal
-        isOpen={isPushOpen}
-        onClose={closePush}
-        pushResult={pushConfiguration.data}
-      />
+      <ConfigurationPushModal isOpen={isPushOpen} onClose={closePush} pushResult={pushConfiguration.data} />
     </>
   );
 };

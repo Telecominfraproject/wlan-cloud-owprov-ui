@@ -88,8 +88,7 @@ const EditTagModal = ({ isOpen, onClose, tag, refresh, pushConfig }) => {
 
   const onConfigurationChange = useCallback((conf) => setConfiguration(conf), []);
 
-  const closeModal = () =>
-    form.dirty || configuration?.__form?.isDirty ? openConfirm() : onClose();
+  const closeModal = () => (form.dirty || configuration?.__form?.isDirty ? openConfirm() : onClose());
   const closeCancelAndForm = () => {
     closeConfirm();
     onClose();
@@ -115,11 +114,7 @@ const EditTagModal = ({ isOpen, onClose, tag, refresh, pushConfig }) => {
               <SaveButton
                 onClick={form.submitForm}
                 isLoading={form.isSubmitting}
-                isDisabled={
-                  !editing ||
-                  !form.isValid ||
-                  (configuration !== null && !configuration.__form.isValid)
-                }
+                isDisabled={!editing || !form.isValid || (configuration !== null && !configuration.__form.isValid)}
               />
               <Tooltip hasArrow label={t('configurations.push_configuration')} placement="top">
                 <IconButton

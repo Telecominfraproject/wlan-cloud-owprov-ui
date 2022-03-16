@@ -73,12 +73,7 @@ const VenueCard = ({ id }) => {
           </Center>
         ) : (
           <LoadingOverlay isLoading={isFetching}>
-            <EditVenueForm
-              editing={editing}
-              venue={venue}
-              stopEditing={setEditing.off}
-              formRef={formRef}
-            />
+            <EditVenueForm editing={editing} venue={venue} stopEditing={setEditing.off} formRef={formRef} />
           </LoadingOverlay>
         )}
       </CardBody>

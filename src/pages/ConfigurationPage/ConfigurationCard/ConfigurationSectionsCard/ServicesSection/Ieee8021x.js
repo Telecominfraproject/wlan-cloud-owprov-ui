@@ -74,13 +74,7 @@ const Ieee8021x = ({ editing }) => {
                 <StringField name="mac" label="mac" isRequired />
                 <StringField name="user-name" label="user-name" isRequired />
                 <StringField name="password" label="password" isRequired hideButton />
-                <NumberField
-                  name="vlan-id"
-                  label="vlan-id"
-                  isDisabled={!editing}
-                  isRequired
-                  w={24}
-                />
+                <NumberField name="vlan-id" label="vlan-id" isDisabled={!editing} isRequired w={24} />
               </>
             }
             columns={[

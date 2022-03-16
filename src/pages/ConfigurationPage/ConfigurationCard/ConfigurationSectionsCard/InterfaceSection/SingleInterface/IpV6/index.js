@@ -43,13 +43,7 @@ const IpV6 = ({ editing, index }) => {
         mx={2}
       />
       <FormControl isDisabled hidden={getIpv6Value() === ''}>
-        <Select
-          value={getIpv6Value()}
-          onChange={onIpv6Change}
-          borderRadius="15px"
-          fontSize="sm"
-          w="120px"
-        >
+        <Select value={getIpv6Value()} onChange={onIpv6Change} borderRadius="15px" fontSize="sm" w="120px">
           <option value="dynamic">dynamic</option>
         </Select>
       </FormControl>

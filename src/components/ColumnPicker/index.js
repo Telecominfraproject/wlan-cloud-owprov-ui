@@ -2,16 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
-import {
-  Button,
-  Checkbox,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  useBreakpoint,
-} from '@chakra-ui/react';
+import { Button, Checkbox, IconButton, Menu, MenuButton, MenuItem, MenuList, useBreakpoint } from '@chakra-ui/react';
 import { useAuth } from 'contexts/AuthProvider';
 import { FunnelSimple } from 'phosphor-react';
 
@@ -34,8 +25,7 @@ const ColumnPicker = ({ preference, columns, hiddenColumns, setHiddenColumns }) 
 
   const handleColumnClick = (id) => {
     let newHidden = [];
-    if (hiddenColumns.find((hidden) => hidden === id))
-      newHidden = [...hiddenColumns.filter((hidden) => hidden !== id)];
+    if (hiddenColumns.find((hidden) => hidden === id)) newHidden = [...hiddenColumns.filter((hidden) => hidden !== id)];
     else newHidden = [...hiddenColumns, id];
     setPref({ preference, value: newHidden.join(',') });
     setHiddenColumns(newHidden);
@@ -52,11 +42,7 @@ const ColumnPicker = ({ preference, columns, hiddenColumns, setHiddenColumns }) 
         <MenuButton as={IconButton} icon={<FunnelSimple />} />
         <MenuList>
           {columns.map((column) => (
-            <MenuItem
-              key={uuid()}
-              isDisabled={column.alwaysShow}
-              onClick={() => handleColumnClick(column.id)}
-            >
+            <MenuItem key={uuid()} isDisabled={column.alwaysShow} onClick={() => handleColumnClick(column.id)}>
               <Checkbox
                 defaultChecked={!hiddenColumns.find((hidden) => hidden === column.id)}
                 isDisabled={column.alwaysShow}
@@ -77,11 +63,7 @@ const ColumnPicker = ({ preference, columns, hiddenColumns, setHiddenColumns }) 
       </MenuButton>
       <MenuList>
         {columns.map((column) => (
-          <MenuItem
-            key={uuid()}
-            isDisabled={column.alwaysShow}
-            onClick={() => handleColumnClick(column.id)}
-          >
+          <MenuItem key={uuid()} isDisabled={column.alwaysShow} onClick={() => handleColumnClick(column.id)}>
             <Checkbox
               defaultChecked={!hiddenColumns.find((hidden) => hidden === column.id)}
               isDisabled={column.alwaysShow}

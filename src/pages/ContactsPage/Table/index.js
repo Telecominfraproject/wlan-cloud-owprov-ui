@@ -58,36 +58,20 @@ const ContactsTable = ({ title }) => {
   };
 
   const memoizedActions = useCallback(
-    (cell) => (
-      <Actions
-        cell={cell.row}
-        refreshTable={refetchCount}
-        key={uuid()}
-        openEditModal={openEditModal}
-      />
-    ),
+    (cell) => <Actions cell={cell.row} refreshTable={refetchCount} key={uuid()} openEditModal={openEditModal} />,
     [],
   );
-  const memoizedDate = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
-    [],
-  );
+  const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
 
   const entityCell = useCallback(
     (cell) => (
-      <EntityCell
-        entityName={cell.row.original.extendedInfo?.entity?.name ?? ''}
-        entityId={cell.row.original.entity}
-      />
+      <EntityCell entityName={cell.row.original.extendedInfo?.entity?.name ?? ''} entityId={cell.row.original.entity} />
     ),
     [],
   );
   const venueCell = useCallback(
     (cell) => (
-      <VenueCell
-        venueName={cell.row.original.extendedInfo?.venue?.name ?? ''}
-        venueId={cell.row.original.venue}
-      />
+      <VenueCell venueName={cell.row.original.extendedInfo?.venue?.name ?? ''} venueId={cell.row.original.venue} />
     ),
     [],
   );
@@ -208,12 +192,7 @@ const ContactsTable = ({ title }) => {
         </CardBody>
       </Card>
       {isEditOpen && (
-        <EditSubscriberModal
-          isOpen={isEditOpen}
-          onClose={closeEdit}
-          contact={contact}
-          refresh={refetchContacts}
-        />
+        <EditSubscriberModal isOpen={isEditOpen} onClose={closeEdit} contact={contact} refresh={refetchContacts} />
       )}
     </>
   );

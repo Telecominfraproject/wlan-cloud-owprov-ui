@@ -2,16 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import {
-  useToast,
-  Tabs,
-  TabList,
-  TabPanels,
-  TabPanel,
-  Tab,
-  SimpleGrid,
-  Box,
-} from '@chakra-ui/react';
+import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
 import NotesTable from 'components/NotesTable';
 import StringField from 'components/FormFields/StringField';
@@ -166,9 +157,7 @@ const EditEntityForm = ({ editing, entity, formRef, stopEditing }) => {
             </TabPanel>
             <TabPanel>
               <Field name="notes">
-                {({ field }) => (
-                  <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />
-                )}
+                {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
               </Field>
             </TabPanel>
           </TabPanels>

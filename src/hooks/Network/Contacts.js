@@ -2,40 +2,32 @@ import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetContactCount = ({ t, toast, enabled }) =>
-  useQuery(
-    ['get-contact-count'],
-    () => axiosProv.get('contact?countOnly=true').then(({ data }) => data.count),
-    {
-      enabled,
-      staleTime: 30000,
-      onError: (e) => {
-        if (!toast.isActive('contact-count-fetching-error'))
-          toast({
-            id: 'contact-count-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('contacts.other'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+  useQuery(['get-contact-count'], () => axiosProv.get('contact?countOnly=true').then(({ data }) => data.count), {
+    enabled,
+    staleTime: 30000,
+    onError: (e) => {
+      if (!toast.isActive('contact-count-fetching-error'))
+        toast({
+          id: 'contact-count-fetching-error',
+          title: t('common.error'),
+          description: t('crud.error_fetching_obj', {
+            obj: t('contacts.other'),
+            e: e?.response?.data?.ErrorDescription,
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
     },
-  );
+  });
 
 export const useGetContacts = ({ t, toast, pageInfo, enabled, count }) =>
   useQuery(
     ['get-contacts-with-pagination', pageInfo, count],
     () =>
       axiosProv
-        .get(
-          `contact?withExtendedInfo=true&limit=${pageInfo.limit}&offset=${
-            pageInfo.limit * pageInfo.index
-          }`,
-        )
+        .get(`contact?withExtendedInfo=true&limit=${pageInfo.limit}&offset=${pageInfo.limit * pageInfo.index}`)
         .then(({ data }) => data.contacts),
     {
       keepPreviousData: true,
@@ -65,9 +57,7 @@ export const useGetSelectContacts = ({ t, toast, select }) =>
     () =>
       select.length === 0
         ? []
-        : axiosProv
-            .get(`contact?withExtendedInfo=true&select=${select}`)
-            .then(({ data }) => data.contacts),
+        : axiosProv.get(`contact?withExtendedInfo=true&select=${select}`).then(({ data }) => data.contacts),
     {
       staleTime: 100 * 1000,
       onError: (e) => {
@@ -91,10 +81,7 @@ export const useGetSelectContacts = ({ t, toast, select }) =>
 export const useGetAllContacts = ({ t, toast }) =>
   useQuery(
     ['get-all-contacts'],
-    () =>
-      axiosProv
-        .get(`contact?withExtendedInfo=true&limit=500&offset=0`)
-        .then(({ data }) => data.contacts),
+    () => axiosProv.get(`contact?withExtendedInfo=true&limit=500&offset=0`).then(({ data }) => data.contacts),
     {
       staleTime: 1000 * 1000,
       onError: (e) => {
@@ -135,11 +122,9 @@ export const useGetContact = ({ t, toast, enabled, id }) =>
     },
   });
 
-export const useCreateContact = () =>
-  useMutation((newContact) => axiosProv.post('contact/0', newContact));
+export const useCreateContact = () => useMutation((newContact) => axiosProv.post('contact/0', newContact));
 
-export const useUpdateContact = ({ id }) =>
-  useMutation((newContact) => axiosProv.put(`contact/${id}`, newContact));
+export const useUpdateContact = ({ id }) => useMutation((newContact) => axiosProv.put(`contact/${id}`, newContact));
 
 const claimContacts = async (contactIds, entity, venue) => {
   const addPromises = contactIds.map(async (id) =>

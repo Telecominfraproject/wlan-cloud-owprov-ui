@@ -55,10 +55,7 @@ const MultiPhoneNumberFieldInput = ({
   definitionKey,
 }) => {
   const { t } = useTranslation();
-  const NoOptionsMessage = useCallback(
-    () => <h6 className="text-center pt-2">{t('common.type_for_options')}</h6>,
-    [],
-  );
+  const NoOptionsMessage = useCallback(() => <h6 className="text-center pt-2">{t('common.type_for_options')}</h6>, []);
 
   return (
     <FormControl isInvalid={error && touched} isRequired={isRequired} hidden={isHidden}>

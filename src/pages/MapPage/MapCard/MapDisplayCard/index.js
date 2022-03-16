@@ -62,11 +62,7 @@ const MapDisplayCard = ({ data, isLoading, refreshData }) => {
         <Flex w="100%" flexDirection="row" alignItems="center">
           <Box ms="auto" display="flex">
             <MapPicker map={mapId} setMap={setMapId} isLoading={isLoading} isDisabled={isEditing} />
-            <CreateMapButton
-              isDisabled={isEditing || isLoading}
-              setMapId={setMapId}
-              mapRef={mapRef}
-            />
+            <CreateMapButton isDisabled={isEditing || isLoading} setMapId={setMapId} mapRef={mapRef} />
             <SaveMapButton
               mapId={mapId}
               mapRef={mapRef}
@@ -80,19 +76,9 @@ const MapDisplayCard = ({ data, isLoading, refreshData }) => {
               isCompact
               ml={2}
             />
-            <RefreshButton
-              onClick={refreshData}
-              isDisabled={isEditing}
-              isFetching={isLoading}
-              isCompact
-              ml={2}
-            />
+            <RefreshButton onClick={refreshData} isDisabled={isEditing} isFetching={isLoading} isCompact ml={2} />
             <AutoAlignButton onClick={mapRef?.current?.autoAlign} isDisabled={!isEditing} ml={2} />
-            <DeleteMapButton
-              deleteMap={deleteMap}
-              isDisabled={isEditing || isLoading || mapId === ''}
-              ml={2}
-            />
+            <DeleteMapButton deleteMap={deleteMap} isDisabled={isEditing || isLoading || mapId === ''} ml={2} />
           </Box>
         </Flex>
       </CardHeader>

@@ -6,10 +6,7 @@ import NumberField from 'components/FormFields/NumberField';
 import { FormControl, FormLabel, Heading, SimpleGrid, Switch } from '@chakra-ui/react';
 import ToggleField from 'components/FormFields/ToggleField';
 import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
-import {
-  INTERFACE_SSID_RADIUS_LOCAL_SCHEMA,
-  INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA,
-} from './schemas';
+import { INTERFACE_SSID_RADIUS_LOCAL_SCHEMA, INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA } from './schemas';
 
 const InterfaceSsidRadiusForm = () => {
   const { t } = useTranslation();
@@ -27,10 +24,7 @@ const InterfaceSsidRadiusForm = () => {
     }
   };
 
-  const isAccountingEnabled = useMemo(
-    () => getIn(values, 'accounting') !== undefined,
-    [getIn(values, 'accounting')],
-  );
+  const isAccountingEnabled = useMemo(() => getIn(values, 'accounting') !== undefined, [getIn(values, 'accounting')]);
 
   const onEnableDynamicChange = (e) => {
     if (e.target.checked) {
@@ -57,10 +51,7 @@ const InterfaceSsidRadiusForm = () => {
     }
   };
 
-  const isLocalEnabled = useMemo(
-    () => getIn(values, 'local') !== undefined,
-    [getIn(values, 'local')],
-  );
+  const isLocalEnabled = useMemo(() => getIn(values, 'local') !== undefined, [getIn(values, 'local')]);
 
   return (
     <>
@@ -69,19 +60,8 @@ const InterfaceSsidRadiusForm = () => {
       </Heading>
       <SimpleGrid minChildWidth="300px" spacing="20px">
         <StringField name="authentication.host" label="authentication.host" isRequired />
-        <NumberField
-          name="authentication.port"
-          label="authentication.port"
-          isRequired
-          hideArrows
-          w={24}
-        />
-        <StringField
-          name="authentication.secret"
-          label="authentication.secret"
-          isRequired
-          hideButton
-        />
+        <NumberField name="authentication.port" label="authentication.port" isRequired hideArrows w={24} />
+        <StringField name="authentication.secret" label="authentication.secret" isRequired hideButton />
       </SimpleGrid>
       <FormControl>
         <FormLabel ms="4px" fontSize="md" fontWeight="normal">
@@ -98,13 +78,7 @@ const InterfaceSsidRadiusForm = () => {
       {isAccountingEnabled && (
         <SimpleGrid minChildWidth="300px" spacing="20px">
           <StringField name="accounting.host" label="accounting.host" isRequired />
-          <NumberField
-            name="accounting.port"
-            label="accounting.port"
-            isRequired
-            hideArrows
-            w={24}
-          />
+          <NumberField name="accounting.port" label="accounting.port" isRequired hideArrows w={24} />
           <StringField name="accounting.secret" label="accounting.secret" isRequired hideButton />
         </SimpleGrid>
       )}
@@ -122,22 +96,9 @@ const InterfaceSsidRadiusForm = () => {
       </FormControl>
       {isDynamicEnabled && (
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={4}>
-          <StringField
-            name="dynamic-authorization.host"
-            label="dynamic-authorization.host"
-            isRequired
-          />
-          <NumberField
-            name="dynamic-authorization.port"
-            label="dynamic-authorization.port"
-            isRequired
-          />
-          <StringField
-            name="dynamic-authorization.secret"
-            label="dynamic-authorization.secret"
-            isRequired
-            hideButton
-          />
+          <StringField name="dynamic-authorization.host" label="dynamic-authorization.host" isRequired />
+          <NumberField name="dynamic-authorization.port" label="dynamic-authorization.port" isRequired />
+          <StringField name="dynamic-authorization.secret" label="dynamic-authorization.secret" isRequired hideButton />
         </SimpleGrid>
       )}
       <SimpleGrid minChildWidth="300px" spacing="20px">

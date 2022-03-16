@@ -18,8 +18,7 @@ const Tunnel = ({ editing, index }) => {
   };
 
   const onChange = (e) => {
-    if (e.target.value === 'mesh')
-      setFieldValue(`configuration[${index}].tunnel`, { proto: 'mesh' });
+    if (e.target.value === 'mesh') setFieldValue(`configuration[${index}].tunnel`, { proto: 'mesh' });
     else if (e.target.value === 'vxlan') {
       setFieldValue(`configuration[${index}].tunnel`, {
         proto: 'vxlan',
@@ -62,13 +61,7 @@ const Tunnel = ({ editing, index }) => {
           mx={2}
         />
         <FormControl isDisabled={!editing} hidden={getTunnelProto() === ''}>
-          <Select
-            value={getTunnelProto()}
-            onChange={onChange}
-            borderRadius="15px"
-            fontSize="sm"
-            w="120px"
-          >
+          <Select value={getTunnelProto()} onChange={onChange} borderRadius="15px" fontSize="sm" w="120px">
             <option value="mesh">mesh</option>
             <option value="vxlan">vxlan</option>
             <option value="l2tp">l2tp</option>
@@ -76,13 +69,7 @@ const Tunnel = ({ editing, index }) => {
           </Select>
         </FormControl>
       </Heading>
-      <SimpleGrid
-        minChildWidth="300px"
-        spacing="20px"
-        mb={getTunnelProto() !== '' ? 8 : undefined}
-        mt={2}
-        w="100%"
-      >
+      <SimpleGrid minChildWidth="300px" spacing="20px" mb={getTunnelProto() !== '' ? 8 : undefined} mt={2} w="100%">
         <TunnelValues index={index} type={getTunnelProto()} editing={editing} />
       </SimpleGrid>
     </>

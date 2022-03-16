@@ -14,12 +14,7 @@ const IpV4 = ({ editing, index, isEnabled }) => {
 
   return (
     <>
-      <NumberField
-        name={`configuration[${index}].bridge.mtu`}
-        label="bridge.mtu"
-        isDisabled={!editing}
-        isRequired
-      />
+      <NumberField name={`configuration[${index}].bridge.mtu`} label="bridge.mtu" isDisabled={!editing} isRequired />
       <NumberField
         name={`configuration[${index}].bridge.tx-queue-len`}
         label="bridge.tx-queue-len"

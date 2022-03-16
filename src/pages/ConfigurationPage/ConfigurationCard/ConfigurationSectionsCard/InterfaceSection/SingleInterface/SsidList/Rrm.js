@@ -24,10 +24,7 @@ const Rrm = ({ editing, namePrefix }) => {
     }
   };
 
-  const isEnabled = useMemo(
-    () => getIn(values, `${namePrefix}`) !== undefined,
-    [getIn(values, `${namePrefix}`)],
-  );
+  const isEnabled = useMemo(() => getIn(values, `${namePrefix}`) !== undefined, [getIn(values, `${namePrefix}`)]);
 
   return (
     <>

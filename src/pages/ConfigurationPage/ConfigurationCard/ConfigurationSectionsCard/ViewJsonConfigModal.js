@@ -78,19 +78,11 @@ const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled 
             <pre>
               {JSON.stringify(
                 {
-                  globals: activeConfigurations.includes('globals')
-                    ? configurations.globals
-                    : undefined,
+                  globals: activeConfigurations.includes('globals') ? configurations.globals : undefined,
                   unit: activeConfigurations.includes('unit') ? configurations.unit : undefined,
-                  metrics: activeConfigurations.includes('metrics')
-                    ? configurations.metrics
-                    : undefined,
-                  services: activeConfigurations.includes('services')
-                    ? configurations.services
-                    : undefined,
-                  radios: activeConfigurations.includes('radios')
-                    ? configurations.radios
-                    : undefined,
+                  metrics: activeConfigurations.includes('metrics') ? configurations.metrics : undefined,
+                  services: activeConfigurations.includes('services') ? configurations.services : undefined,
+                  radios: activeConfigurations.includes('radios') ? configurations.radios : undefined,
                   interfaces: activeConfigurations.includes('interfaces')
                     ? tryParseInter(configurations.interfaces)
                     : undefined,

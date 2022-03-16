@@ -26,24 +26,11 @@ const Vlan = ({ editing, index }) => {
     <>
       <Heading size="md" display="flex">
         <Text>Vlan</Text>
-        <Switch
-          onChange={onToggle}
-          isChecked={isActive()}
-          borderRadius="15px"
-          size="lg"
-          mx={2}
-          isDisabled={!editing}
-        />
+        <Switch onChange={onToggle} isChecked={isActive()} borderRadius="15px" size="lg" mx={2} isDisabled={!editing} />
       </Heading>
       {isActive() && (
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">
-          <NumberField
-            name={`configuration[${index}].vlan.id`}
-            label="id"
-            isDisabled={!editing}
-            isRequired
-            w={36}
-          />
+          <NumberField name={`configuration[${index}].vlan.id`} label="id" isDisabled={!editing} isRequired w={36} />
         </SimpleGrid>
       )}
     </>

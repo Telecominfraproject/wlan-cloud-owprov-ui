@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import {
-  CloseButton,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
 import ModalHeader from 'components/ModalHeader';
@@ -54,13 +47,9 @@ const GoogleAuthenticatorModal = ({ isOpen, onClose, onSuccess }) => {
         />
         <ModalBody>
           {currentStep === 'intro' && <GoogleAuthenticatorIntro setCurrentStep={setCurrentStep} />}
-          {currentStep === 'qr-code' && (
-            <GoogleAuthenticatorQrDisplay setCurrentStep={setCurrentStep} />
-          )}
+          {currentStep === 'qr-code' && <GoogleAuthenticatorQrDisplay setCurrentStep={setCurrentStep} />}
           {currentStep === 'tests' && <GoogleAuthenticatorTests setCurrentStep={setCurrentStep} />}
-          {currentStep === 'activated' && (
-            <GoogleAuthenticatorActivationSuccess onSuccess={onActivated} />
-          )}
+          {currentStep === 'activated' && <GoogleAuthenticatorActivationSuccess onSuccess={onActivated} />}
         </ModalBody>
       </ModalContent>
       <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />

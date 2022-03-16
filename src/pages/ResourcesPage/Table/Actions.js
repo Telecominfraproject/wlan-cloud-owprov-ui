@@ -90,20 +90,13 @@ const Actions = ({ cell: { original: resource }, refreshTable, openEditModal }) 
           <PopoverHeader>
             {t('crud.delete')} {resource.name}
           </PopoverHeader>
-          <PopoverBody>
-            {t('crud.delete_confirm', { obj: t('resources.configuration_resource') })}
-          </PopoverBody>
+          <PopoverBody>{t('crud.delete_confirm', { obj: t('resources.configuration_resource') })}</PopoverBody>
           <PopoverFooter>
             <Center>
               <Button colorScheme="gray" mr="1" onClick={onClose}>
                 {t('common.cancel')}
               </Button>
-              <Button
-                colorScheme="red"
-                ml="1"
-                onClick={handleDeleteClick}
-                isLoading={deleteResource.isLoading}
-              >
+              <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteResource.isLoading}>
                 {t('common.yes')}
               </Button>
             </Center>

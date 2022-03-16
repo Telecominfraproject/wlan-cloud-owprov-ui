@@ -130,11 +130,7 @@ const ListInputModalField = ({
                   h="1.75rem"
                   size="sm"
                   onClick={addEntry}
-                  isDisabled={
-                    entry.length === 0 ||
-                    !validation(entry) ||
-                    localValue.find((val) => val === entry)
-                  }
+                  isDisabled={entry.length === 0 || !validation(entry) || localValue.find((val) => val === entry)}
                 >
                   {t('crud.add')}
                 </Button>

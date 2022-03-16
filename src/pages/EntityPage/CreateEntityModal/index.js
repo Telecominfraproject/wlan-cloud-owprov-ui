@@ -65,19 +65,10 @@ const CreateEntityModal = ({ parentId, isDisabled }) => {
             }
           />
           <ModalBody>
-            <CreateEntityForm
-              isOpen={isOpen}
-              onClose={onClose}
-              formRef={formRef}
-              parentId={parentId}
-            />
+            <CreateEntityForm isOpen={isOpen} onClose={onClose} formRef={formRef} parentId={parentId} />
           </ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );

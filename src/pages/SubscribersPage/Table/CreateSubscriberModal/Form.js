@@ -98,10 +98,7 @@ const CreateSubscriberForm = ({ isOpen, onClose, create, requirements, refresh, 
           note: '',
         }}
         validationSchema={CreateSubscriberSchema(t)}
-        onSubmit={async (
-          { name, description, email, currentPassword, note, owner },
-          { setSubmitting, resetForm },
-        ) =>
+        onSubmit={async ({ name, description, email, currentPassword, note, owner }, { setSubmitting, resetForm }) =>
           create.mutateAsync(
             {
               name,

@@ -1,14 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import {
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  CloseButton,
-} from '@chakra-ui/react';
+import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, CloseButton } from '@chakra-ui/react';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
 import ModalHeader from 'components/ModalHeader';
@@ -81,11 +74,7 @@ const CreateMapButton = ({ mapRef, setMapId, isDisabled }) => {
             )}
           </ModalBody>
         </ModalContent>
-        <ConfirmCloseAlert
-          isOpen={showConfirm}
-          confirm={closeCancelAndForm}
-          cancel={closeConfirm}
-        />
+        <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
       </Modal>
     </>
   );
