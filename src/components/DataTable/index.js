@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   Table,
   Tbody,
@@ -165,10 +165,10 @@ const DataTable = ({
           <Table {...getTableProps()} size="small" textColor={textColor} w="100%">
             <Thead fontSize="14px">
               {headerGroups.map((group) => (
-                <Tr {...group.getHeaderGroupProps()} key={createUuid()}>
+                <Tr {...group.getHeaderGroupProps()} key={uuid()}>
                   {group.headers.map((column) => (
                     <Th
-                      key={createUuid()}
+                      key={uuid()}
                       color="gray.400"
                       {...column.getHeaderProps()}
                       minWidth={column.customMinWidth ?? null}
@@ -196,10 +196,10 @@ const DataTable = ({
                 {page.map((row) => {
                   prepareRow(row);
                   return (
-                    <Tr {...row.getRowProps()} key={createUuid()}>
+                    <Tr {...row.getRowProps()} key={uuid()}>
                       {row.cells.map((cell) => (
                         <Td
-                          key={createUuid()}
+                          key={uuid()}
                           px={1}
                           minWidth={cell.column.customMinWidth ?? null}
                           maxWidth={cell.column.customMaxWidth ?? null}
@@ -289,7 +289,7 @@ const DataTable = ({
               }}
             >
               {[10, 20, 30, 40, 50].map((opt) => (
-                <option key={createUuid()} value={opt}>
+                <option key={uuid()} value={opt}>
                   {t('common.show')} {opt}
                 </option>
               ))}

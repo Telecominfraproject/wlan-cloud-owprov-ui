@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   useToast,
   Tabs,
@@ -39,7 +39,7 @@ const propTypes = {
 const EditConfigurationForm = ({ editing, configuration, formRef }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: entities } = useGetEntities({ t, toast });
   const { data: venues } = useGetVenues({ t, toast });
@@ -58,7 +58,7 @@ const EditConfigurationForm = ({ editing, configuration, formRef }) => {
   };
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [editing]);
 
   return (

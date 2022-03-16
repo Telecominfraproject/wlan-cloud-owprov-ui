@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Flex, Portal, Spinner, useBoolean, useBreakpoint } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router-dom';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import routes from 'router/routes';
 import MainPanel from './MainPanel';
 import Navbar from './Navbar';
@@ -53,7 +53,7 @@ const Layout = () => {
     return activeNavbar;
   };
   const getRoutes = (r) =>
-    r.map((route) => <Route path={route.path} element={<route.component />} key={createUuid()} />);
+    r.map((route) => <Route path={route.path} element={<route.component />} key={uuid()} />);
 
   return (
     <>

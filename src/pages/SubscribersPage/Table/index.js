@@ -6,7 +6,7 @@ import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Flex, Heading, useToast } from '@chakra-ui/react';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import { ArrowsClockwise } from 'phosphor-react';
 import ColumnPicker from 'components/ColumnPicker';
@@ -31,11 +31,11 @@ const SubscribersTable = ({ title }) => {
   const { data: subscribers, refetch: refresh, isFetching } = useGetSubscribers({ t, toast });
 
   const memoizedActions = useCallback(
-    (cell) => <Actions cell={cell.row} refreshTable={refresh} key={createUuid()} />,
+    (cell) => <Actions cell={cell.row} refreshTable={refresh} key={uuid()} />,
     [],
   );
   const memoizedDate = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={createUuid()} />,
+    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
     [],
   );
 

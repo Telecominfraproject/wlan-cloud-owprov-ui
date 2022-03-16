@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import {
@@ -97,7 +97,7 @@ const ConfigurationCard = ({ id }) => {
         },
         onError: (e) => {
           toast({
-            id: createUuid(),
+            id: uuid(),
             title: t('common.error'),
             description: t('crud.error_update_obj', {
               obj: t('configurations.one'),

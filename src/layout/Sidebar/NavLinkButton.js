@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { Button, Flex, Text, useColorModeValue } from '@chakra-ui/react';
@@ -28,7 +28,7 @@ const NavLinkButton = ({ activeRoute, route, role }) => {
   const inactiveIconColor = useColorModeValue('gray.100', 'gray.600');
 
   return (
-    <NavLink to={route.path} key={createUuid()}>
+    <NavLink to={route.path} key={uuid()}>
       {activeRoute(route.path, route.isCustom) === 'active' ? (
         <Button
           hidden={route.hidden || !route.authorized.includes(role)}

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { SubscriberShape } from 'constants/propShapes';
 import InventoryTable from 'components/Tables/InventoryTable';
 import { Flex, Heading, Spacer, useDisclosure, useToast } from '@chakra-ui/react';
@@ -45,7 +45,7 @@ const SubscriberDeviceTableWrapper = ({ subscriber }) => {
   const actions = useCallback(
     (cell) => (
       <Actions
-        key={createUuid()}
+        key={uuid()}
         cell={cell.row}
         refreshEntity={refreshEntity}
         openEditModal={openEditModal}

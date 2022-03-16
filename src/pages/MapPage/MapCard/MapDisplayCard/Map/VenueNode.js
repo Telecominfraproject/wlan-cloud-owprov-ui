@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { Handle } from 'react-flow-renderer';
 import {
   Box,
@@ -53,7 +53,7 @@ const VenueNode = ({ data, isConnectable }) => {
             <Center>
               <Heading
                 size="md"
-                id={createUuid()}
+                id={uuid()}
                 textOverflow="ellipsis"
                 overflow="hidden"
                 whiteSpace="nowrap"

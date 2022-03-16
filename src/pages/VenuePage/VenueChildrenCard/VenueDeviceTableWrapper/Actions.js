@@ -22,7 +22,7 @@ import {
 import { ArrowSquareOut, MagnifyingGlass, Minus, Trash } from 'phosphor-react';
 import { useMutation, useQueryClient } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import { useRemoveClaim } from 'hooks/Network/Inventory';
 
@@ -54,7 +54,7 @@ const Actions = ({ cell: { original: tag }, refreshEntity, openEditModal }) => {
       onClose();
       refreshEntity();
       toast({
-        id: `tag-delete-success${createUuid()}`,
+        id: `tag-delete-success${uuid()}`,
         title: t('common.success'),
         description: t('crud.success_delete_obj', {
           obj: tag.name,
@@ -85,7 +85,7 @@ const Actions = ({ cell: { original: tag }, refreshEntity, openEditModal }) => {
     removeClaim.mutateAsync(tag.serialNumber, {
       onSuccess: () => {
         toast({
-          id: `tag-unclaim-success${createUuid()}`,
+          id: `tag-unclaim-success${uuid()}`,
           title: t('common.success'),
           description: t('inventory.success_remove_claim', {
             obj: tag.serialNumber,

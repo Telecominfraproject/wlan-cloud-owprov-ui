@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useToast, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { EntitySchema } from 'constants/formSchemas';
@@ -23,7 +23,7 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
   const toast = useToast();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const create = useCreateEntity();
 
   const createParameters = ({ name, description, note, rrm }) => ({
@@ -35,7 +35,7 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
   });
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -71,7 +71,7 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
           },
           onError: (e) => {
             toast({
-              id: createUuid(),
+              id: uuid(),
               title: t('common.error'),
               description: t('crud.error_create_obj', {
                 obj: t('entities.one'),

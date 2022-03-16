@@ -12,7 +12,7 @@ import {
   ListItem,
   Heading,
 } from '@chakra-ui/react';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';
@@ -58,7 +58,7 @@ const ConfigurationViewAffectedModal = ({ isOpen, onClose, config }) => {
               </Heading>
               <UnorderedList maxH="800px" overflowY="auto">
                 {affected?.map((dev) => (
-                  <ListItem ml={4} key={createUuid()}>
+                  <ListItem ml={4} key={uuid()}>
                     {dev}
                   </ListItem>
                 ))}

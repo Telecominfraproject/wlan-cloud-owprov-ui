@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import parsePhoneNumber from 'libphonenumber-js';
 import {
   Box,
@@ -59,7 +59,7 @@ const UpdateAccountForm = ({
   const { isOpen: showVerify, onOpen: openVerify, onClose: closeVerify } = useDisclosure();
   const toast = useToast();
   const { user } = useAuth();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
 
   const toggleVerifyNumber = (params) => {
     setVerifNumber(params.userTypeProprietaryInfo.mobiles[0].number);
@@ -79,7 +79,7 @@ const UpdateAccountForm = ({
   useEffect(() => {
     setCurrentAvatarLink(savedAvatar ?? '');
     setCurrentAvatarFile(null);
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [editing, savedAvatar]);
 
   return (
@@ -154,7 +154,7 @@ const UpdateAccountForm = ({
                 toggleVerifyNumber(params, onSuccess);
               } else {
                 toast({
-                  id: createUuid(),
+                  id: uuid(),
                   title: t('common.error'),
                   description: t('crud.error_update_obj', {
                     obj: t('account.account'),
@@ -225,16 +225,16 @@ const UpdateAccountForm = ({
                                     {t('user.role')}
                                   </FormLabel>
                                   <Select {...field} borderRadius="15px" fontSize="sm">
-                                    <option key={createUuid()} value="root">
+                                    <option key={uuid()} value="root">
                                       Root
                                     </option>
-                                    <option key={createUuid()} value="partner">
+                                    <option key={uuid()} value="partner">
                                       Partner
                                     </option>
-                                    <option key={createUuid()} value="admin">
+                                    <option key={uuid()} value="admin">
                                       Admin
                                     </option>
-                                    <option key={createUuid()} value="csr">
+                                    <option key={uuid()} value="csr">
                                       CSR
                                     </option>
                                   </Select>

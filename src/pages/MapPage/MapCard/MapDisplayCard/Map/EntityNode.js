@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { Handle } from 'react-flow-renderer';
 import {
   Box,
@@ -38,7 +38,7 @@ const EntityNode = ({ data, isConnectable }) => {
       <>
         <Box width="200px" bgColor="black" p="4px" borderRadius={4} textColor="white">
           <Center>
-            <Heading size="md" id={createUuid()}>
+            <Heading size="md" id={uuid()}>
               {data.label}
             </Heading>
           </Center>
@@ -87,7 +87,7 @@ const EntityNode = ({ data, isConnectable }) => {
             id="testotest"
           >
             <Center>
-              <Heading size="md" id={createUuid()}>
+              <Heading size="md" id={uuid()}>
                 {data.label}
               </Heading>
             </Center>

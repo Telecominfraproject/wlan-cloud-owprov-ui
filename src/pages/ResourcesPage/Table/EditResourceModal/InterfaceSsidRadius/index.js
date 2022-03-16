@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { useUpdateResource } from 'hooks/Network/Resources';
@@ -27,12 +27,12 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
   const toast = useToast();
   const { data: entities } = useGetEntities({ t, toast });
   const { data: venues } = useGetVenues({ t, toast });
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
 
   const update = useUpdateResource(resource.id);
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -97,7 +97,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
             },
             onError: (e) => {
               toast({
-                id: createUuid(),
+                id: uuid(),
                 title: t('common.error'),
                 description: t('crud.error_create_obj', {
                   obj: t('resources.configuration_resource'),

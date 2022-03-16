@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { EntityShape } from 'constants/propShapes';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import { useQueryClient } from 'react-query';
@@ -34,7 +34,7 @@ const VenueContactTableWrapper = ({ venue }) => {
   const actions = useCallback(
     (cell) => (
       <Actions
-        key={createUuid()}
+        key={uuid()}
         cell={cell.row}
         refreshEntity={refreshEntity}
         openEditModal={openEditModal}

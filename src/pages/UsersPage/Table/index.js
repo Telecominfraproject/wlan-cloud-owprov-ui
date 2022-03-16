@@ -6,7 +6,7 @@ import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import { useTranslation } from 'react-i18next';
 import { Avatar, Box, Button, Flex, Heading, useDisclosure, useToast } from '@chakra-ui/react';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import { ArrowsClockwise } from 'phosphor-react';
 import { useAuth } from 'contexts/AuthProvider';
@@ -50,14 +50,14 @@ const UserTable = ({ title }) => {
       <UserActions
         cell={cell.row}
         refreshTable={refreshUsers}
-        key={createUuid()}
+        key={uuid()}
         openEdit={openEditModal}
       />
     ),
     [],
   );
   const memoizedDate = useCallback(
-    (cell) => <FormattedDate date={cell.row.values.lastLogin} key={createUuid()} />,
+    (cell) => <FormattedDate date={cell.row.values.lastLogin} key={uuid()} />,
     [],
   );
 

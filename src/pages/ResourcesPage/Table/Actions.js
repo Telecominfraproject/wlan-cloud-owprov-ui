@@ -20,7 +20,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useDeleteResource } from 'hooks/Network/Resources';
 
 const propTypes = {
@@ -46,7 +46,7 @@ const Actions = ({ cell: { original: resource }, refreshTable, openEditModal }) 
         onClose();
         refreshTable();
         toast({
-          id: `resource-delete-success${createUuid()}`,
+          id: `resource-delete-success${uuid()}`,
           title: t('common.success'),
           description: t('crud.success_delete_obj', {
             obj: resource.name,

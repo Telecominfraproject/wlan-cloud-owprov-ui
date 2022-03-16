@@ -22,7 +22,7 @@ import {
 import { ArrowSquareOut, MagnifyingGlass, Trash } from 'phosphor-react';
 import { useMutation } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 
 const deleteApi = async (id) => axiosProv.delete(`/inventory/${id}`).then(() => true);
@@ -49,7 +49,7 @@ const Actions = ({ cell: { original: tag }, refreshTable, openEditModal }) => {
       onClose();
       refreshTable();
       toast({
-        id: `tag-delete-success${createUuid()}`,
+        id: `tag-delete-success${uuid()}`,
         title: t('common.success'),
         description: t('crud.success_delete_obj', {
           obj: tag.name,

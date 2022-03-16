@@ -22,7 +22,7 @@ import {
 import { MagnifyingGlass, Trash } from 'phosphor-react';
 import { useMutation } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 const deleteApi = async (id) => axiosProv.delete(`/contact/${id}`).then(() => true);
 
@@ -46,7 +46,7 @@ const Actions = ({ cell: { original: contact }, refreshEntity, openEditModal }) 
       onClose();
       refreshEntity();
       toast({
-        id: `contact-delete-success${createUuid()}`,
+        id: `contact-delete-success${uuid()}`,
         title: t('common.success'),
         description: t('crud.success_delete_obj', {
           obj: contact.name,

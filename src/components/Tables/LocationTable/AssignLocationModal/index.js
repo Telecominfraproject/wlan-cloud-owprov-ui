@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   Button,
   useDisclosure,
@@ -77,7 +77,7 @@ const AssignLocationModal = ({ entityId, alreadyClaimed }) => {
       onSuccess: ({ claimErrors }) => {
         if (claimErrors.length > 0) {
           toast({
-            id: createUuid(),
+            id: uuid(),
             title: t('common.error'),
             description: t('common.error_claiming_obj'),
             status: 'error',
@@ -104,7 +104,7 @@ const AssignLocationModal = ({ entityId, alreadyClaimed }) => {
       },
       onError: () => {
         toast({
-          id: createUuid(),
+          id: uuid(),
           title: t('common.error'),
           description: t('common.error_claiming_obj'),
           status: 'error',

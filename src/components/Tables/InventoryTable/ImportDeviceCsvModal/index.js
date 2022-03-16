@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   useDisclosure,
   Modal,
@@ -37,7 +37,7 @@ const defaultProps = {
 const ImportDeviceCsvModal = ({ refresh, deviceClass, parent }) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
-  const [refreshId, setRefreshId] = useState(createUuid());
+  const [refreshId, setRefreshId] = useState(uuid());
   // 0: explanation, file import and file analysis
   // 1: testing the serial number list with the API
   // 2: do the POSTs and PUTs necessary, show the results
@@ -84,7 +84,7 @@ const ImportDeviceCsvModal = ({ refresh, deviceClass, parent }) => {
 
   const openModal = () => {
     setPhase(0);
-    setRefreshId(createUuid());
+    setRefreshId(uuid());
     setIsCloseable(true);
     setDevicesToTest([]);
     setDevicesToImport([]);

@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { ConfigurationSectionShape } from 'constants/propShapes';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ const propTypes = {
 
 const GlobalsSection = ({ editing, setSection, sectionInformation, removeSub }) => {
   const { t } = useTranslation();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const sectionRef = useCallback(
     (node) => {
       if (node !== null) {
@@ -47,7 +47,7 @@ const GlobalsSection = ({ editing, setSection, sectionInformation, removeSub }) 
 
   useEffect(() => {
     if (!editing) {
-      setFormKey(createUuid());
+      setFormKey(uuid());
     }
   }, [editing]);
 

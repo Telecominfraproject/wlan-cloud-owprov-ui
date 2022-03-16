@@ -6,7 +6,7 @@ import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Flex, Heading, useDisclosure, useToast } from '@chakra-ui/react';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import { ArrowsClockwise } from 'phosphor-react';
 import ColumnPicker from 'components/ColumnPicker';
@@ -53,17 +53,12 @@ const ResourcesTable = ({ title }) => {
 
   const actionCell = useCallback(
     (cell) => (
-      <Actions
-        cell={cell.row}
-        refreshTable={refresh}
-        key={createUuid()}
-        openEditModal={openEditModal}
-      />
+      <Actions cell={cell.row} refreshTable={refresh} key={uuid()} openEditModal={openEditModal} />
     ),
     [],
   );
   const dateCell = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={createUuid()} />,
+    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
     [],
   );
   const prefixCell = useCallback((cell) => cell.row.values.variables[0]?.prefix ?? '-', []);

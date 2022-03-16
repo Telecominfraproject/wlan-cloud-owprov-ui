@@ -1,6 +1,6 @@
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
-export const errorToast = ({ t, description, id = createUuid() }) => ({
+export const errorToast = ({ t, description, id = uuid() }) => ({
   id,
   title: t('common.error'),
   description,
@@ -10,7 +10,7 @@ export const errorToast = ({ t, description, id = createUuid() }) => ({
   position: 'top-right',
 });
 
-export const successToast = ({ t, description, id = createUuid() }) => ({
+export const successToast = ({ t, description, id = uuid() }) => ({
   id,
   title: t('common.success'),
   description,

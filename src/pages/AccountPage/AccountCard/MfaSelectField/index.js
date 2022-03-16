@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormControl, FormErrorMessage, FormLabel, Select, useDisclosure } from '@chakra-ui/react';
 import { Field } from 'formik';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import GoogleAuthenticatorModal from '../GoogleAuthenticatorModal';
 
@@ -64,16 +64,16 @@ const MfaSelectField = ({
               {label}
             </FormLabel>
             <Select value={field.value} onChange={onChange} borderRadius="15px" fontSize="sm">
-              <option key={createUuid()} value="">
+              <option key={uuid()} value="">
                 {t('common.none')}
               </option>
-              <option key={createUuid()} value="email">
+              <option key={uuid()} value="email">
                 {t('common.email')}
               </option>
-              <option key={createUuid()} value="sms">
+              <option key={uuid()} value="sms">
                 {t('account.sms')}
               </option>
-              <option key={createUuid()} value="authenticator">
+              <option key={uuid()} value="authenticator">
                 {t('account.google_authenticator')}
               </option>
             </Select>

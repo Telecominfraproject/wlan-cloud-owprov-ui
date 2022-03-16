@@ -22,7 +22,7 @@ import {
 import { MagnifyingGlass, Trash } from 'phosphor-react';
 import { useMutation } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 
 const deleteApi = async (subId) => axiosSec.delete(`/subuser/${subId}`).then(() => true);
@@ -47,7 +47,7 @@ const Actions = ({ cell: { original: subscriber }, refreshTable }) => {
       onClose();
       refreshTable();
       toast({
-        id: `subscriber-delete-success${createUuid()}`,
+        id: `subscriber-delete-success${uuid()}`,
         title: t('common.success'),
         description: t('crud.success_delete_obj', {
           obj: subscriber.name,

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { Box, Flex, useColorModeValue, Link, useToast, SimpleGrid } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Formik, Form } from 'formik';
@@ -32,7 +32,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
   const { t } = useTranslation();
   const toast = useToast();
   const { user } = useAuth();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const textColor = useColorModeValue('gray.400', 'white');
 
   const createParameters = ({ name, description, email, currentPassword, note, userRole }) => {
@@ -57,7 +57,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
   };
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -94,7 +94,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
           },
           onError: (e) => {
             toast({
-              id: createUuid(),
+              id: uuid(),
               title: t('common.error'),
               description: t('crud.error_create_obj', {
                 obj: t('user.title'),

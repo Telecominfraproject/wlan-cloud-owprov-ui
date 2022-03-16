@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { SimpleGrid, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useCreateResource } from 'hooks/Network/Resources';
@@ -24,12 +24,12 @@ const propTypes = {
 const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
 
   const create = useCreateResource();
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -80,7 +80,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
             },
             onError: (e) => {
               toast({
-                id: createUuid(),
+                id: uuid(),
                 title: t('common.error'),
                 description: t('crud.error_create_obj', {
                   obj: t('user.title'),

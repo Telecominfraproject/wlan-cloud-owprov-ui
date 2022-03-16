@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
 import NotesTable from 'components/NotesTable';
@@ -28,12 +28,12 @@ const propTypes = {
 const EditLocationForm = ({ editing, isOpen, onClose, refresh, location, formRef }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const { data: entities } = useGetEntities({ t, toast });
   const updateLocation = useUpdateLocation({ id: location.id });
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -105,7 +105,7 @@ const EditLocationForm = ({ editing, isOpen, onClose, refresh, location, formRef
             },
             onError: (e) => {
               toast({
-                id: createUuid(),
+                id: uuid(),
                 title: t('common.error'),
                 description: t('crud.error_update_obj', {
                   obj: t('locations.one'),

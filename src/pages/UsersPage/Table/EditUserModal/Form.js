@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   Box,
   Flex,
@@ -69,7 +69,7 @@ const UpdateUserForm = ({
   const { t } = useTranslation();
   const toast = useToast();
   const { user } = useAuth();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const textColor = useColorModeValue('gray.400', 'white');
 
   const formIsDisabled = () => {
@@ -84,7 +84,7 @@ const UpdateUserForm = ({
   };
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -126,7 +126,7 @@ const UpdateUserForm = ({
             },
             onError: (e) => {
               toast({
-                id: createUuid(),
+                id: uuid(),
                 title: t('common.error'),
                 description: t('crud.error_update_obj', {
                   obj: t('user.title'),

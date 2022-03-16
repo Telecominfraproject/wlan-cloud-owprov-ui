@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
 import NotesTable from 'components/NotesTable';
@@ -26,12 +26,12 @@ const propTypes = {
 const EditContactForm = ({ editing, isOpen, onClose, refresh, contact, formRef }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const { data: entities } = useGetEntities({ t, toast });
   const updateContact = useUpdateContact({ id: contact.id });
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -100,7 +100,7 @@ const EditContactForm = ({ editing, isOpen, onClose, refresh, contact, formRef }
             },
             onError: (e) => {
               toast({
-                id: createUuid(),
+                id: uuid(),
                 title: t('common.error'),
                 description: t('crud.error_update_obj', {
                   obj: t('contacts.one'),

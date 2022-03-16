@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import {
   Button,
@@ -57,7 +57,7 @@ const renderList = (tree, depth, goTo) => {
     }
     return (
       <UnorderedList ml={depth}>
-        <ListItem key={createUuid()}>{tree.name}</ListItem>
+        <ListItem key={uuid()}>{tree.name}</ListItem>
       </UnorderedList>
     );
   }
@@ -68,7 +68,7 @@ const renderList = (tree, depth, goTo) => {
 
       if (childrenLength === 0)
         return (
-          <ListItem key={createUuid()}>
+          <ListItem key={uuid()}>
             <Button
               colorScheme="blue"
               variant="link"
@@ -83,7 +83,7 @@ const renderList = (tree, depth, goTo) => {
         );
 
       return (
-        <ListItem key={createUuid()}>
+        <ListItem key={uuid()}>
           <Button
             colorScheme="blue"
             variant="link"
@@ -106,7 +106,7 @@ const renderList = (tree, depth, goTo) => {
 
     if (childrenLength === 0 && venuesLength === 0)
       return (
-        <ListItem key={createUuid()}>
+        <ListItem key={uuid()}>
           <Button
             colorScheme="blue"
             variant="link"
@@ -119,7 +119,7 @@ const renderList = (tree, depth, goTo) => {
       );
 
     return (
-      <ListItem key={createUuid()}>
+      <ListItem key={uuid()}>
         <Button
           colorScheme="blue"
           variant="link"

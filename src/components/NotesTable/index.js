@@ -5,7 +5,7 @@ import { IconButton, Input, InputGroup, InputRightElement, Tooltip } from '@chak
 import { AddIcon } from '@chakra-ui/icons';
 import { useAuth } from 'contexts/AuthProvider';
 import DataTable from 'components/DataTable';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 
 const propTypes = {
@@ -39,7 +39,7 @@ const NotesTable = ({ notes, setNotes, isDisabled }) => {
   };
 
   const memoizedDate = useCallback(
-    (cell) => <FormattedDate date={cell.row.values.created} key={createUuid()} />,
+    (cell) => <FormattedDate date={cell.row.values.created} key={uuid()} />,
     [],
   );
 

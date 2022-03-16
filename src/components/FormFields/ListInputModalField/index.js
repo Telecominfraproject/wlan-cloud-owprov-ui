@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   Button,
   useDisclosure,
@@ -147,7 +147,7 @@ const ListInputModalField = ({
             ) : (
               <UnorderedList>
                 {localValue.map((val) => (
-                  <ListItem key={createUuid()}>
+                  <ListItem key={uuid()}>
                     {val}
                     <Tooltip label={t('crud.delete')}>
                       <IconButton

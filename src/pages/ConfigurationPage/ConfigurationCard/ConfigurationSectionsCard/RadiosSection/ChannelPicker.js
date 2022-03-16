@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { Field, useFormikContext } from 'formik';
 import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/react';
 import ConfigurationFieldExplanation from 'components/FormFields/ConfigurationFieldExplanation';
@@ -179,7 +179,7 @@ const ChannelPicker = ({ index, isDisabled }) => {
             isDisabled={isDisabled}
           >
             {channelOptions.map((option) => (
-              <option value={option.value} key={createUuid()}>
+              <option value={option.value} key={uuid()}>
                 {option.label}
               </option>
             ))}

@@ -12,7 +12,7 @@ import {
   ListItem,
   Heading,
 } from '@chakra-ui/react';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';
@@ -61,7 +61,7 @@ const ConfigurationInUseModal = ({ isOpen, onClose, config }) => {
               </Heading>
               <UnorderedList>
                 {inUse?.ent?.map((ent) => (
-                  <ListItem ml={4} key={createUuid()}>
+                  <ListItem ml={4} key={uuid()}>
                     <EntityCell entityName={ent.name} entityId={ent.uuid} />
                   </ListItem>
                 ))}
@@ -71,7 +71,7 @@ const ConfigurationInUseModal = ({ isOpen, onClose, config }) => {
               </Heading>
               <UnorderedList>
                 {inUse?.ven?.map((ven) => (
-                  <ListItem ml={4} key={createUuid()}>
+                  <ListItem ml={4} key={uuid()}>
                     <VenueCell venueName={ven.name} venueId={ven.uuid} />
                   </ListItem>
                 ))}
@@ -81,7 +81,7 @@ const ConfigurationInUseModal = ({ isOpen, onClose, config }) => {
               </Heading>
               <UnorderedList>
                 {inUse?.inv?.map((dev) => (
-                  <ListItem ml={4} key={createUuid()}>
+                  <ListItem ml={4} key={uuid()}>
                     {dev.name}
                   </ListItem>
                 ))}

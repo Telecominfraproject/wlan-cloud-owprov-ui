@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { Handle } from 'react-flow-renderer';
 import {
   Box,
@@ -84,7 +84,7 @@ const DeviceNode = ({ data, isConnectable }) => {
         <PopoverTrigger>
           <Box width="200px" bgColor={bgColor} p="4px" borderRadius={4} pointerEvents="all">
             <Center>
-              <Heading size="md" id={createUuid()}>
+              <Heading size="md" id={uuid()}>
                 {data.label}
               </Heading>
             </Center>

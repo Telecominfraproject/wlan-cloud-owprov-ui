@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { EntityShape } from 'constants/propShapes';
 import { Box } from '@chakra-ui/react';
 import EntityTable from 'components/Tables/EntityTable';
@@ -12,7 +12,7 @@ const propTypes = {
 };
 
 const EntityChildrenTableWrapper = ({ entity }) => {
-  const actions = useCallback((cell) => <Actions key={createUuid()} cell={cell.row} />, []);
+  const actions = useCallback((cell) => <Actions key={uuid()} cell={cell.row} />, []);
 
   return (
     <>

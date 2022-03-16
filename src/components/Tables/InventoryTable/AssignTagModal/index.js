@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   Button,
   useDisclosure,
@@ -77,7 +77,7 @@ const AssignTagModal = ({ entityId, alreadyClaimedDevices }) => {
       onSuccess: ({ claimErrors, unassignErrors }) => {
         if (unassignErrors.length > 0) {
           toast({
-            id: createUuid(),
+            id: uuid(),
             title: t('common.error'),
             description: t('subscribers.error_removing_claim', {
               serials: unassignErrors.join(','),
@@ -89,7 +89,7 @@ const AssignTagModal = ({ entityId, alreadyClaimedDevices }) => {
           });
         } else if (claimErrors.length > 0) {
           toast({
-            id: createUuid(),
+            id: uuid(),
             title: t('common.error'),
             description: t('subscribers.error_claiming', {
               serials: claimErrors.join(','),
@@ -121,7 +121,7 @@ const AssignTagModal = ({ entityId, alreadyClaimedDevices }) => {
       },
       onError: () => {
         toast({
-          id: createUuid(),
+          id: uuid(),
           title: t('common.error'),
           description: t('subscribers.error_claiming', {
             serials: serialNumbers.join(','),

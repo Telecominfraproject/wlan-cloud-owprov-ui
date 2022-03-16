@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   useToast,
   Tabs,
@@ -57,7 +57,7 @@ const EditTagForm = ({
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const { data: entities } = useGetEntities({ t, toast });
   const { data: venues } = useGetVenues({ t, toast });
   const updateConfiguration = useUpdateConfiguration({ id: tag.deviceConfiguration });
@@ -70,7 +70,7 @@ const EditTagForm = ({
   };
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -130,7 +130,7 @@ const EditTagForm = ({
               },
               onError: (e) => {
                 toast({
-                  id: createUuid(),
+                  id: uuid(),
                   title: t('common.error'),
                   description: t('crud.error_update_obj', {
                     obj: t('configurations.one'),
@@ -169,7 +169,7 @@ const EditTagForm = ({
             },
             onError: (e) => {
               toast({
-                id: createUuid(),
+                id: uuid(),
                 title: t('common.error'),
                 description: t('crud.error_update_obj', {
                   obj: t('inventory.tag_one'),

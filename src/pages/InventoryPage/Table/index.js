@@ -17,7 +17,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useGetInventoryCount, useGetInventoryTags, usePushConfig } from 'hooks/Network/Inventory';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import ColumnPicker from 'components/ColumnPicker';
 import EditTagModal from 'components/Tables/InventoryTable/EditTagModal';
@@ -77,14 +77,14 @@ const InventoryTable = ({ title }) => {
       <Actions
         cell={cell.row}
         refreshTable={refetchCount}
-        key={createUuid()}
+        key={uuid()}
         openEditModal={openEditModal}
       />
     ),
     [],
   );
   const memoizedDate = useCallback(
-    (cell, key) => <FormattedDate date={cell.row.values[key]} key={createUuid()} />,
+    (cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />,
     [],
   );
 

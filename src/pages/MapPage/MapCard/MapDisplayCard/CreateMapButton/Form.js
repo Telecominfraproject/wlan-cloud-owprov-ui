@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useToast, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { CreateMapSchema } from 'constants/formSchemas';
@@ -29,7 +29,7 @@ const propTypes = {
 const CreateMapForm = ({ isOpen, onClose, create, formRef, setMapId, currentMapInformation }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const { data: entities } = useGetEntities({ t, toast });
   const { data: venues } = useGetVenues({ t, toast });
   const queryClient = useQueryClient();
@@ -43,7 +43,7 @@ const CreateMapForm = ({ isOpen, onClose, create, formRef, setMapId, currentMapI
   });
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -80,7 +80,7 @@ const CreateMapForm = ({ isOpen, onClose, create, formRef, setMapId, currentMapI
           },
           onError: (e) => {
             toast({
-              id: createUuid(),
+              id: uuid(),
               title: t('common.error'),
               description: t('crud.error_create_obj', {
                 obj: t('map.title'),

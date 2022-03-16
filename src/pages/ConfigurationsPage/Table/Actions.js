@@ -22,7 +22,7 @@ import {
 import { ListChecks, ListDashes, MagnifyingGlass, Trash } from 'phosphor-react';
 import { useMutation } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 
 const deleteApi = async (configId) =>
@@ -56,7 +56,7 @@ const Actions = ({
       onClose();
       refreshTable();
       toast({
-        id: `configuration-delete-success${createUuid()}`,
+        id: `configuration-delete-success${uuid()}`,
         title: t('common.success'),
         description: t('crud.success_delete_obj', {
           obj: configuration.name,

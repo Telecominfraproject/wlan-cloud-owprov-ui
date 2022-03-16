@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   Box,
   CloseButton,
@@ -87,7 +87,7 @@ const FileInputModal = ({
 
   useEffect(() => {
     if (!isOpen) {
-      setRefreshId(createUuid());
+      setRefreshId(uuid());
       setTempValue('');
       setTempFilename('');
     }

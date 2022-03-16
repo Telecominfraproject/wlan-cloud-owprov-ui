@@ -13,7 +13,7 @@ import {
   AccordionPanel,
   Center,
 } from '@chakra-ui/react';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 const propTypes = {
   computedConfig: PropTypes.shape({
@@ -48,7 +48,7 @@ const ComputedConfigurationDisplay = ({ computedConfig }) => {
       <Box border="1px" borderRadius="5px" h="calc(30vh)" overflowY="auto">
         <Accordion allowMultiple>
           {computedConfig.explanation?.map((exp) => (
-            <AccordionItem key={createUuid()}>
+            <AccordionItem key={uuid()}>
               <AccordionButton
                 bg={
                   exp.action === 'added'

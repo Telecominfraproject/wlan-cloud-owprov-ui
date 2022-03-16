@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { uppercaseFirstLetter } from 'utils/stringHelper';
 import {
   Alert,
@@ -98,12 +98,12 @@ const ImportConfigurationModal = ({ isOpen, onClose, setValue }) => {
 
   const onChange = (e) => {
     if (e.target.files?.length > 0) parseFile(e.target.files[0]);
-    setRefreshId(createUuid());
+    setRefreshId(uuid());
   };
 
   useEffect(() => {
     if (!isOpen) {
-      setRefreshId(createUuid());
+      setRefreshId(uuid());
       setTempValue('');
     }
   }, [isOpen]);

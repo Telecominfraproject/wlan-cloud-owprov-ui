@@ -22,7 +22,7 @@ import {
 import { MagnifyingGlass, Trash } from 'phosphor-react';
 import { useMutation } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 const deleteUserApi = async (userId) => axiosSec.delete(`/user/${userId}`).then(() => true);
 
@@ -46,7 +46,7 @@ const UserActions = ({ cell: { original: user }, refreshTable, openEdit }) => {
       onClose();
       refreshTable();
       toast({
-        id: `user-delete-success${createUuid()}`,
+        id: `user-delete-success${uuid()}`,
         title: t('common.success'),
         description: t('crud.success_delete_obj', {
           obj: user.name,

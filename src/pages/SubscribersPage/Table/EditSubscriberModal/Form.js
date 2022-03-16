@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   Box,
   Flex,
@@ -61,12 +61,12 @@ const EditSubscriberForm = ({
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const [formKey, setFormKey] = useState(createUuid());
+  const [formKey, setFormKey] = useState(uuid());
   const { data: entities } = useGetEntities({ t, toast });
   const textColor = useColorModeValue('gray.400', 'white');
 
   useEffect(() => {
-    setFormKey(createUuid());
+    setFormKey(uuid());
   }, [isOpen]);
 
   return (
@@ -108,7 +108,7 @@ const EditSubscriberForm = ({
               const results = await claimDevices();
               if (results[0].length > 0) {
                 toast({
-                  id: createUuid(),
+                  id: uuid(),
                   title: t('common.error'),
                   description: t('subscribers.error_removing_claim', {
                     serials: results[0].join(', '),
@@ -120,7 +120,7 @@ const EditSubscriberForm = ({
                 });
               } else if (results[1].length > 0) {
                 toast({
-                  id: createUuid(),
+                  id: uuid(),
                   title: t('common.error'),
                   description: t('subscribers.error_claiming', {
                     serials: results[1].join(', '),
@@ -137,7 +137,7 @@ const EditSubscriberForm = ({
             },
             onError: (e) => {
               toast({
-                id: createUuid(),
+                id: uuid(),
                 title: t('common.error'),
                 description: t('crud.error_update_obj', {
                   obj: t('subscribers.one'),

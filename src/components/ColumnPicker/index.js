@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as createUuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import {
   Button,
@@ -53,7 +53,7 @@ const ColumnPicker = ({ preference, columns, hiddenColumns, setHiddenColumns }) 
         <MenuList>
           {columns.map((column) => (
             <MenuItem
-              key={createUuid()}
+              key={uuid()}
               isDisabled={column.alwaysShow}
               onClick={() => handleColumnClick(column.id)}
             >
@@ -78,7 +78,7 @@ const ColumnPicker = ({ preference, columns, hiddenColumns, setHiddenColumns }) 
       <MenuList>
         {columns.map((column) => (
           <MenuItem
-            key={createUuid()}
+            key={uuid()}
             isDisabled={column.alwaysShow}
             onClick={() => handleColumnClick(column.id)}
           >
