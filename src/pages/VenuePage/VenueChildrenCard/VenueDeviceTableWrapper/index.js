@@ -10,6 +10,7 @@ import { useQueryClient } from 'react-query';
 import EditTagModal from 'components/Tables/InventoryTable/EditTagModal';
 import ConfigurationPushModal from 'components/Tables/InventoryTable/ConfigurationPushModal';
 import CreateTagModal from 'components/Tables/InventoryTable/CreateTagModal';
+import ImportDeviceCsvModal from 'components/Tables/InventoryTable/ImportDeviceCsvModal';
 import Actions from './Actions';
 
 const propTypes = {
@@ -52,6 +53,11 @@ const VenueDeviceTableWrapper = ({ venue }) => {
       <Flex>
         <Heading size="md">{t('devices.title')}</Heading>
         <Spacer />
+        <ImportDeviceCsvModal
+          refresh={refreshEntity}
+          parent={{ venue: venue.id }}
+          deviceClass="venue"
+        />
         <CreateTagModal refresh={refreshEntity} entityId={`venue:${venue.id}`} />
       </Flex>
       <InventoryTable

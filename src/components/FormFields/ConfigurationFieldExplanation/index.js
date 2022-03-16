@@ -18,7 +18,11 @@ const findDefinition = (definitionKey, CONFIGURATION_DESCRIPTIONS) => {
 };
 
 const propTypes = {
-  definitionKey: PropTypes.string.isRequired,
+  definitionKey: PropTypes.string,
+};
+
+const defaultProps = {
+  definitionKey: null,
 };
 
 const ConfigurationFieldExplanation = ({ definitionKey }) => {
@@ -37,4 +41,5 @@ const ConfigurationFieldExplanation = ({ definitionKey }) => {
 };
 
 ConfigurationFieldExplanation.propTypes = propTypes;
+ConfigurationFieldExplanation.defaultProps = defaultProps;
 export default React.memo(ConfigurationFieldExplanation);

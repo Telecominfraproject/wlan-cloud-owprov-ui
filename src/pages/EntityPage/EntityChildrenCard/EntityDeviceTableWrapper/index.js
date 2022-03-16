@@ -10,6 +10,7 @@ import { useQueryClient } from 'react-query';
 import EditTagModal from 'components/Tables/InventoryTable/EditTagModal';
 import ConfigurationPushModal from 'components/Tables/InventoryTable/ConfigurationPushModal';
 import CreateTagModal from 'components/Tables/InventoryTable/CreateTagModal';
+import ImportDeviceCsvModal from 'components/Tables/InventoryTable/ImportDeviceCsvModal';
 import Actions from './Actions';
 
 const propTypes = {
@@ -50,6 +51,11 @@ const EntityDeviceTableWrapper = ({ entity }) => {
   return (
     <>
       <Box textAlign="right" mb={2}>
+        <ImportDeviceCsvModal
+          refresh={refreshEntity}
+          parent={{ entity: entity.id }}
+          deviceClass="entity"
+        />
         <CreateTagModal refresh={refreshEntity} entityId={`entity:${entity.id}`} />
       </Box>
       <InventoryTable
