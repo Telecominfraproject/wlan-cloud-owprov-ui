@@ -10,6 +10,7 @@ import VenueDeviceTableWrapper from './VenueDeviceTableWrapper';
 import VenueConfigurationsTableWrapper from './VenueConfigurationsTableWrapper';
 import VenueChildrenTableWrapper from './VenueChildrenTableWrapper';
 import VenueContactTableWrapper from './VenueContactTableWrapper';
+import VenueDashboard from './VenueDashboard';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -25,6 +26,7 @@ const VenueChildrenCard = ({ id }) => {
       <CardBody>
         <Tabs isLazy variant="enclosed" w="100%">
           <TabList>
+            {venue?.boards.length > 0 && <Tab>{t('analytics.dashboard')}</Tab>}
             <Tab>{t('venues.subvenues')}</Tab>
             <Tab>{t('configurations.title')}</Tab>
             <Tab>{t('inventory.title')}</Tab>
@@ -37,6 +39,11 @@ const VenueChildrenCard = ({ id }) => {
           ) : (
             <LoadingOverlay isLoading={isFetching}>
               <TabPanels>
+                {venue?.boards.length > 0 && (
+                  <TabPanel overflowX="auto">
+                    <VenueDashboard boardId={venue.boards[0]} />
+                  </TabPanel>
+                )}
                 <TabPanel overflowX="auto">
                   <VenueChildrenTableWrapper venue={venue} />
                 </TabPanel>

@@ -30,6 +30,7 @@
 		"analyze_sub_venues": "Monitor Sub Venues",
 		"board": "Analytics Board",
 		"create_board": "Start Monitoring",
+		"dashboard": "Dashboard",
 		"interval": "Interval",
 		"retention": "Retention",
 		"stop_monitoring": "Stop Monitoring",
