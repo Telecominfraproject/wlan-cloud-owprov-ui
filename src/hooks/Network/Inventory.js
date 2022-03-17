@@ -1,16 +1,19 @@
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
-export const useGetInventoryCount = ({ t, toast, enabled, onlyUnassigned = false }) =>
+export const useGetInventoryCount = ({ t, toast, enabled, onlyUnassigned = false, isSubscribersOnly }) =>
   useQuery(
     ['get-inventory-count', onlyUnassigned],
     () =>
       axiosProv
-        .get(`inventory?countOnly=true${onlyUnassigned ? '&unassigned=true' : ''}`)
+        .get(
+          `inventory?countOnly=true${onlyUnassigned ? '&unassigned=true' : ''}${
+            isSubscribersOnly ? '&subscribersOnly=true' : ''
+          }`,
+        )
         .then(({ data }) => data.count),
     {
       enabled,
-      staleTime: 30000,
       onError: (e) => {
         if (!toast.isActive('inventory-fetching-error'))
           toast({
@@ -38,13 +41,20 @@ export const useGetInventoryTags = ({
   enabled,
   count,
   onlyUnassigned = false,
+  isSubscribersOnly,
 }) => {
   if (tagSelect !== undefined && tagSelect !== null) {
     return useQuery(
       ['get-inventory-with-select', tagSelect],
       () =>
         tagSelect.length > 0
-          ? axiosProv.get(`inventory?withExtendedInfo=true&select=${tagSelect}`).then(({ data }) => data.taglist)
+          ? axiosProv
+              .get(
+                `inventory?withExtendedInfo=true&select=${tagSelect}${
+                  isSubscribersOnly ? '&subscribersOnly=true' : ''
+                }`,
+              )
+              .then(({ data }) => data.taglist)
           : [],
       {
         enabled,
@@ -100,7 +110,7 @@ export const useGetInventoryTags = ({
         .get(
           `inventory?withExtendedInfo=true&limit=${pageInfo?.limit ?? 10}&offset=${
             (pageInfo?.limit ?? 10) * (pageInfo?.index ?? 1)
-          }${onlyUnassigned ? '&unassigned=true' : ''}`,
+          }${onlyUnassigned ? '&unassigned=true' : ''}${isSubscribersOnly ? '&subscribersOnly=true' : ''}`,
         )
         .then(({ data }) => data.taglist),
     {

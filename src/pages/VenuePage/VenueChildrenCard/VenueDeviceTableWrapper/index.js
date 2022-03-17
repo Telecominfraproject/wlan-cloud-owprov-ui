@@ -47,7 +47,7 @@ const VenueDeviceTableWrapper = ({ venue }) => {
         <Heading size="md">{t('devices.title')}</Heading>
         <Spacer />
         <ImportDeviceCsvModal refresh={refreshEntity} parent={{ venue: venue.id }} deviceClass="venue" />
-        <CreateTagModal refresh={refreshEntity} entityId={`venue:${venue.id}`} />
+        <CreateTagModal refresh={refreshEntity} entityId={`venue:${venue.id}`} deviceClass="venue" />
       </Flex>
       <InventoryTable
         tagSelect={venue.devices}

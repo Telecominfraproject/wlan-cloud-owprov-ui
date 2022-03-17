@@ -13,8 +13,11 @@ const propTypes = {
   ignoredColumns: PropTypes.arrayOf(PropTypes.string),
   addAction: PropTypes.func,
   removeAction: PropTypes.func,
+  isSubscribersOnly: PropTypes.bool,
   actions: PropTypes.func,
   refreshId: PropTypes.number,
+  onlyUnassigned: PropTypes.bool,
+  minHeight: PropTypes.instanceOf(Object),
 };
 
 const defaultProps = {
@@ -22,21 +25,27 @@ const defaultProps = {
   owner: null,
   addAction: null,
   removeAction: null,
+  isSubscribersOnly: false,
+  onlyUnassigned: false,
   ignoredColumns: [],
   serialsToDisable: [],
   actions: null,
   refreshId: 0,
+  minHeight: null,
 };
 
 const InventoryTable = ({
   tagSelect,
   owner,
+  isSubscribersOnly,
   serialsToDisable,
   addAction,
   removeAction,
   ignoredColumns,
+  onlyUnassigned,
   actions,
   refreshId,
+  minHeight,
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
@@ -46,6 +55,8 @@ const InventoryTable = ({
     t,
     toast,
     enabled: !isManual,
+    isSubscribersOnly,
+    onlyUnassigned,
   });
   const {
     data: tags,
@@ -57,6 +68,8 @@ const InventoryTable = ({
     pageInfo,
     tagSelect,
     owner,
+    isSubscribersOnly,
+    onlyUnassigned,
     enabled: (!isManual && pageInfo !== null) || (isManual && tagSelect?.length > 0) || (isManual && owner !== null),
   });
 
@@ -180,7 +193,7 @@ const InventoryTable = ({
         obj={t('devices.title')}
         count={count || 0}
         setPageInfo={setPageInfo}
-        minHeight="200px"
+        minHeight={minHeight ?? '200px'}
       />
     );
   }
@@ -194,7 +207,7 @@ const InventoryTable = ({
       obj={t('devices.title')}
       count={count || 0}
       setPageInfo={setPageInfo}
-      minHeight="200px"
+      minHeight={minHeight ?? '200px'}
     />
   );
 };

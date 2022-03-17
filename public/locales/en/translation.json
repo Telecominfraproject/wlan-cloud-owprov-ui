@@ -26,6 +26,15 @@
 		"verify_phone_instructions": "You should receive a code on your phone number in the next few seconds. Please enter it below to verify your phone number",
 		"verify_phone_number": "Verify your phone number"
 	},
+	"analytics": {
+		"analyze_sub_venues": "Monitor Sub Venues",
+		"board": "Analytics Board",
+		"create_board": "Start Monitoring",
+		"interval": "Interval",
+		"retention": "Retention",
+		"stop_monitoring": "Stop Monitoring",
+		"title": "Analytics"
+	},
 	"batch": {
 		"batches": "Batches",
 		"cannot_edit_macs": "Because jobs have already been run on this batch, you cannot edit its MAC addresses",

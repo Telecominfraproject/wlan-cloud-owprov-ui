@@ -45,7 +45,7 @@ const EntityDeviceTableWrapper = ({ entity }) => {
     <>
       <Box textAlign="right" mb={2}>
         <ImportDeviceCsvModal refresh={refreshEntity} parent={{ entity: entity.id }} deviceClass="entity" />
-        <CreateTagModal refresh={refreshEntity} entityId={`entity:${entity.id}`} />
+        <CreateTagModal refresh={refreshEntity} entityId={`entity:${entity.id}`} deviceClass="entity" />
       </Box>
       <InventoryTable
         tagSelect={entity.devices}
