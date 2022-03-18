@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useGetAnalyticsBoardDevices } from 'hooks/Network/Analytics';
 import { useTranslation } from 'react-i18next';
-import { Box, Center, Spinner, useToast } from '@chakra-ui/react';
+import { Box, Center, Spinner, useDisclosure, useToast } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import VenueAnalyticsHeader from './Header';
@@ -15,8 +15,15 @@ const propTypes = {
 const VenueDashboard = ({ boardId }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure(false);
+  const [tableOptions, setTableOptions] = useState(null);
 
   const { data: devices, isFetching, refetch } = useGetAnalyticsBoardDevices({ t, toast, id: boardId });
+
+  const openModal = (newOptions) => {
+    setTableOptions(newOptions);
+    onOpen();
+  };
 
   const parsedData = useMemo(() => {
     if (!devices) return {};
@@ -74,11 +81,13 @@ const VenueDashboard = ({ boardId }) => {
     }
 
     finalData.totalDevices = finalDevices.length + ignoredDevices.length;
-    finalData.connectedPercentage = Math.floor((finalData.connectedDevices / finalData.totalDevices) * 100);
+    finalData.connectedPercentage = Math.floor(
+      (finalData.connectedDevices / Math.max(1, finalData.totalDevices)) * 100,
+    );
     finalData.devices = finalDevices;
-    finalData.avgHealth = Math.floor(totalHealth / finalData.totalDevices);
-    finalData.avgUptime = Math.floor(totalUptime / finalData.totalDevices);
-    finalData.avgMemoryUsed = Math.floor(totalMemory / finalData.totalDevices);
+    finalData.avgHealth = Math.floor(totalHealth / Math.max(1, finalData.connectedDevices));
+    finalData.avgUptime = Math.floor(totalUptime / Math.max(1, finalData.connectedDevices));
+    finalData.avgMemoryUsed = Math.floor(totalMemory / Math.max(1, finalData.connectedDevices));
     finalData.devices = finalDevices;
     finalData.ignoredDevices = ignoredDevices;
     return finalData;
@@ -92,10 +101,16 @@ const VenueDashboard = ({ boardId }) => {
     <LoadingOverlay isLoading={isFetching}>
       <Box>
         <Box textAlign="right" mb={4}>
-          <VenueDashboardTableModal data={parsedData} />
+          <VenueDashboardTableModal
+            data={parsedData}
+            tableOptions={tableOptions}
+            isOpen={isOpen}
+            onOpen={onOpen}
+            onClose={onClose}
+          />
           <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
         </Box>
-        <VenueAnalyticsHeader data={parsedData} />
+        <VenueAnalyticsHeader data={parsedData} openModal={openModal} />
       </Box>
     </LoadingOverlay>
   );

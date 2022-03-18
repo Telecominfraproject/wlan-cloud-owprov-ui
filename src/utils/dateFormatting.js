@@ -27,14 +27,18 @@ export const compactDate = (dateString) => {
 };
 
 export const formatDaysAgo = (d1, d2 = new Date()) => {
-  const convertedTimestamp = unixToDateString(d1);
-  const date = new Date(convertedTimestamp);
-  const elapsed = date - d2;
+  try {
+    const convertedTimestamp = unixToDateString(d1);
+    const date = new Date(convertedTimestamp);
+    const elapsed = date - d2;
 
-  for (const [key] of Object.entries(UNITS))
-    if (Math.abs(elapsed) > UNITS[key] || key === 'second') return RTF.format(Math.round(elapsed / UNITS[key]), key);
+    for (const [key] of Object.entries(UNITS))
+      if (Math.abs(elapsed) > UNITS[key] || key === 'second') return RTF.format(Math.round(elapsed / UNITS[key]), key);
 
-  return compactDate(date);
+    return compactDate(date);
+  } catch {
+    return '-';
+  }
 };
 
 export const compactSecondsToDetailed = (seconds, t) => {

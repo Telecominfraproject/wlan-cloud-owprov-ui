@@ -1,16 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import {
-  Box,
-  Button,
-  CloseButton,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Button, CloseButton, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import ModalHeader from 'components/ModalHeader';
 import { useTranslation } from 'react-i18next';
 import { ArrowsOut } from 'phosphor-react';
@@ -18,28 +9,47 @@ import ColumnPicker from 'components/ColumnPicker';
 import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
 import { minimalSecondsToDetailed } from 'utils/dateFormatting';
+import { useGetGatewayUi } from 'hooks/Network/Endpoints';
+import { arrayMoveIndex } from 'utils/arrayHelpers';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object),
+  isOpen: PropTypes.bool.isRequired,
+  onOpen: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  tableOptions: PropTypes.shape({
+    prioritizedColumns: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
 const defaultProps = {
   data: null,
+  tableOptions: null,
 };
 
-const VenueDashboardTableModal = ({ data }) => {
+const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions }) => {
   const { t } = useTranslation();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [hiddenColumns, setHiddenColumns] = useState([]);
+  const { data: gwUi } = useGetGatewayUi();
+  const handleOpenInGateway = (serialNumber) => window.open(`${gwUi}/#/devices/${serialNumber}`, '_blank');
 
   const serialCell = useCallback(
     (cell) => (
-      <Box fontFamily="monospace" fontSize="0.8rem">
+      <Button
+        onClick={() => handleOpenInGateway(cell.row.values.serialNumber)}
+        variant="link"
+        fontFamily="monospace"
+        fontSize="0.8rem"
+      >
         {cell.row.values.serialNumber}
-      </Box>
+      </Button>
     ),
     [],
   );
-  const dateCell = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
+
+  const dateCell = useCallback(
+    (cell, key) => (cell.row.values[key] ? <FormattedDate date={cell.row.values[key]} key={uuid()} /> : '-'),
+    [],
+  );
   const healthCell = useCallback((cell) => `${cell.row.values.health}%`, []);
   const statusCell = useCallback(
     (cell) => (cell.row.values.connected ? t('common.connected') : t('common.disconnected')),
@@ -51,8 +61,8 @@ const VenueDashboardTableModal = ({ data }) => {
     [],
   );
 
-  const columns = React.useMemo(
-    () => [
+  const columns = React.useMemo(() => {
+    let cols = [
       {
         id: 'serialNumber',
         Header: t('inventory.serial_number'),
@@ -161,9 +171,18 @@ const VenueDashboardTableModal = ({ data }) => {
         Footer: '',
         accessor: 'lastFirmware',
       },
-    ],
-    [],
-  );
+    ];
+
+    if (tableOptions?.prioritizedColumns?.length > 0) {
+      cols = arrayMoveIndex(
+        cols,
+        cols.find((col) => col.id === tableOptions.prioritizedColumns[0]),
+        1,
+      );
+    }
+
+    return cols;
+  }, []);
 
   return (
     <>
@@ -188,10 +207,17 @@ const VenueDashboardTableModal = ({ data }) => {
             </Box>
             <Box overflowX="auto" w="100%">
               <DataTable
+                sortBy={[
+                  {
+                    id: 'serialNumber',
+                    desc: false,
+                  },
+                ]}
                 columns={columns}
-                data={data?.devices ?? []}
+                data={data ? [...data.devices, ...data.ignoredDevices] : []}
                 hiddenColumns={hiddenColumns}
                 obj={t('devices.title')}
+                saveSettingsId="venue.dashboard.table"
               />
             </Box>
           </ModalBody>

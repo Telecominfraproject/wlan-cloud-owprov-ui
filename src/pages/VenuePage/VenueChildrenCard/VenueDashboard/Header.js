@@ -7,34 +7,58 @@ import { minimalSecondsToDetailed } from 'utils/dateFormatting';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
+  openModal: PropTypes.func.isRequired,
 };
 
-const VenueAnalyticsHeader = ({ data }) => {
+const VenueAnalyticsHeader = ({ data, openModal }) => {
   const { t } = useTranslation();
 
+  const handleModalClick = (tableOptions) => () => openModal(tableOptions);
+
   return (
-    <SimpleGrid minChildWidth="300px" spacing="20px">
+    <SimpleGrid minChildWidth="340px" spacing="20px">
       <SimpleStatDisplay
-        label={t('analytics.total_devices', { count: data.totalDevices })}
+        label={`${t('analytics.total_devices', { count: data.totalDevices })}, ${t('analytics.connection_percentage', {
+          count: data.connectedPercentage,
+        })}`}
         explanation={t('analytics.total_devices_explanation', {
           connectedCount: data.connectedDevices,
           disconnectedCount: data.disconnectedDevices,
         })}
-      />
-      <SimpleStatDisplay
-        label={t('analytics.connection_percentage', { count: data.connectedPercentage })}
-        explanation={t('analytics.connection_percentage_explanation', {
-          connectedCount: data.connectedDevices,
-          disconnectedCount: data.disconnectedDevices,
+        openModal={handleModalClick({
+          prioritizedColumns: ['connected'],
+          sortBy: [
+            {
+              id: 'connected',
+              desc: 'true',
+            },
+          ],
         })}
       />
       <SimpleStatDisplay
         label={t('analytics.average_health', { count: data.avgHealth })}
         explanation={t('analytics.average_health_explanation')}
+        openModal={handleModalClick({
+          prioritizedColumns: ['health', 'lastHealth'],
+          sortBy: [
+            {
+              id: 'health',
+            },
+          ],
+        })}
       />
       <SimpleStatDisplay
         label={t('analytics.average_memory', { count: data.avgMemoryUsed })}
         explanation={t('analytics.average_memory_explanation')}
+        openModal={handleModalClick({
+          prioritizedColumns: ['memory', 'lastPing'],
+          sortBy: [
+            {
+              id: 'memory',
+              desc: 'true',
+            },
+          ],
+        })}
       />
       <SimpleStatDisplay
         label={t('analytics.average_uptime', { uptime: minimalSecondsToDetailed(data.avgUptime, t) })}
@@ -47,6 +71,23 @@ const VenueAnalyticsHeader = ({ data }) => {
           sixG: data.sixGAssociations,
         })}
         explanation={t('analytics.associations_explanation')}
+        openModal={handleModalClick({
+          prioritizedColumns: ['2g', '5g', '6g'],
+          sortBy: [
+            {
+              id: '2g',
+              desc: 'true',
+            },
+            {
+              id: '5g',
+              desc: 'true',
+            },
+            {
+              id: '6g',
+              desc: 'true',
+            },
+          ],
+        })}
       />
     </SimpleGrid>
   );

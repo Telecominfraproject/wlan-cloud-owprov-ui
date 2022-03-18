@@ -56,6 +56,7 @@ const propTypes = {
   minHeight: PropTypes.string,
   fullScreen: PropTypes.bool,
   isManual: PropTypes.bool,
+  saveSettingsId: PropTypes.string,
 };
 
 const defaultProps = {
@@ -68,6 +69,7 @@ const defaultProps = {
   hiddenColumns: [],
   hideControls: false,
   isManual: false,
+  saveSettingsId: null,
 };
 
 const DataTable = ({
@@ -83,11 +85,17 @@ const DataTable = ({
   count,
   setPageInfo,
   isManual,
+  saveSettingsId,
 }) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
   const textColor = useColorModeValue('gray.700', 'white');
-  const [queryPageSize, setQueryPageSize] = useState(10);
+  const getPageSize = () => {
+    const saved = localStorage.getItem(saveSettingsId);
+    if (saved) return Number.parseInt(saved, 10);
+    return 10;
+  };
+  const [queryPageSize, setQueryPageSize] = useState(getPageSize());
 
   // Use the state and functions returned from useTable to build your UI
   const {
@@ -110,7 +118,7 @@ const DataTable = ({
     {
       columns,
       data,
-      initialState: { sortBy, pagination: !hideControls },
+      initialState: { sortBy, pagination: !hideControls, pageSize: queryPageSize },
       manualPagination: isManual,
       pageCount: isManual ? Math.ceil(count / queryPageSize) : null,
     },
@@ -123,6 +131,7 @@ const DataTable = ({
   }, [queryPageSize, pageIndex]);
 
   useEffect(() => {
+    if (saveSettingsId) localStorage.setItem(saveSettingsId, pageSize);
     setQueryPageSize(pageSize);
   }, [pageSize]);
 
