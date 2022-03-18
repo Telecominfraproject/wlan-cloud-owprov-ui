@@ -57,3 +57,23 @@ export const compactSecondsToDetailed = (seconds, t) => {
 
   return finalString;
 };
+
+export const minimalSecondsToDetailed = (seconds, t) => {
+  if (!seconds || seconds === 0) return `0 ${t('common.seconds')}`;
+  let secondsLeft = seconds;
+  const days = Math.floor(secondsLeft / (3600 * 24));
+  secondsLeft -= days * (3600 * 24);
+  const hours = Math.floor(secondsLeft / 3600);
+  secondsLeft -= hours * 3600;
+  const minutes = Math.floor(secondsLeft / 60);
+  secondsLeft -= minutes * 60;
+
+  let finalString = '';
+
+  finalString = `${finalString}${twoDigitNumber(days)}:`;
+  finalString = `${finalString}${twoDigitNumber(hours)}:`;
+  finalString = `${finalString}${twoDigitNumber(minutes)}:`;
+  finalString = `${finalString}${twoDigitNumber(secondsLeft)}`;
+
+  return finalString;
+};
