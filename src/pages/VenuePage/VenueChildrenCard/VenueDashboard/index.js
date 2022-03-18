@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useGetAnalyticsBoardDevices } from 'hooks/Network/Analytics';
 import { useTranslation } from 'react-i18next';
@@ -92,6 +92,10 @@ const VenueDashboard = ({ boardId }) => {
     finalData.ignoredDevices = ignoredDevices;
     return finalData;
   }, [devices]);
+
+  useEffect(() => {
+    if (!isOpen) setTableOptions(null);
+  }, [isOpen]);
 
   return !devices ? (
     <Center mt={6}>

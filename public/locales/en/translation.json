@@ -49,6 +49,7 @@
 		"last_health": "Last Health",
 		"last_ping": "Last Ping",
 		"memory": "Memory",
+		"raw_analytics_data": "Raw Analytics Data",
 		"raw_data": "Raw Data",
 		"retention": "Retention",
 		"stop_monitoring": "Stop Monitoring",

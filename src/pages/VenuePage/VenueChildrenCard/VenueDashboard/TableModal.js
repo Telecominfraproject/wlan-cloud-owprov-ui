@@ -19,6 +19,7 @@ const propTypes = {
   onClose: PropTypes.func.isRequired,
   tableOptions: PropTypes.shape({
     prioritizedColumns: PropTypes.arrayOf(PropTypes.string),
+    sortBy: PropTypes.instanceOf(Array),
   }),
 };
 const defaultProps = {
@@ -174,15 +175,17 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
     ];
 
     if (tableOptions?.prioritizedColumns?.length > 0) {
-      cols = arrayMoveIndex(
-        cols,
-        cols.find((col) => col.id === tableOptions.prioritizedColumns[0]),
-        1,
-      );
+      for (const prioritizedColumn of tableOptions.prioritizedColumns) {
+        cols = arrayMoveIndex(
+          cols,
+          cols.findIndex((col) => col.id === prioritizedColumn),
+          1,
+        );
+      }
     }
 
     return cols;
-  }, []);
+  }, [tableOptions]);
 
   return (
     <>
@@ -192,10 +195,7 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
       <Modal onClose={onClose} isOpen={isOpen} size="xl">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
-          <ModalHeader
-            title={t('crud.create_object', { obj: t('contacts.one') })}
-            right={<CloseButton ml={2} onClick={onClose} />}
-          />
+          <ModalHeader title={t('analytics.raw_analytics_data')} right={<CloseButton ml={2} onClick={onClose} />} />
           <ModalBody>
             <Box textAlign="right">
               <ColumnPicker
@@ -207,12 +207,14 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
             </Box>
             <Box overflowX="auto" w="100%">
               <DataTable
-                sortBy={[
-                  {
-                    id: 'serialNumber',
-                    desc: false,
-                  },
-                ]}
+                sortBy={
+                  tableOptions?.sortBy ?? [
+                    {
+                      id: 'serialNumber',
+                      desc: false,
+                    },
+                  ]
+                }
                 columns={columns}
                 data={data ? [...data.devices, ...data.ignoredDevices] : []}
                 hiddenColumns={hiddenColumns}

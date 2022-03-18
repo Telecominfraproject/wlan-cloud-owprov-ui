@@ -8,14 +8,22 @@ const propTypes = {
   label: PropTypes.string.isRequired,
   explanation: PropTypes.string.isRequired,
   color: PropTypes.string,
+  openModal: PropTypes.func,
 };
 
 const defaultProps = {
   color: null,
+  openModal: null,
 };
 
-const SimpleStatDisplay = ({ label, explanation, color }) => (
-  <Card bgColor={color} variant="widget">
+const SimpleStatDisplay = ({ label, explanation, color, openModal }) => (
+  <Card
+    bgColor={color}
+    variant="widget"
+    onClick={openModal}
+    cursor={openModal ? 'pointer' : ''}
+    _hover={{ boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.1)' }}
+  >
     <Heading size="md">
       {label}
       <Tooltip hasArrow label={explanation}>

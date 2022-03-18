@@ -30,7 +30,7 @@ const VenueAnalyticsHeader = ({ data, openModal }) => {
           sortBy: [
             {
               id: 'connected',
-              desc: 'true',
+              desc: true,
             },
           ],
         })}
@@ -39,10 +39,11 @@ const VenueAnalyticsHeader = ({ data, openModal }) => {
         label={t('analytics.average_health', { count: data.avgHealth })}
         explanation={t('analytics.average_health_explanation')}
         openModal={handleModalClick({
-          prioritizedColumns: ['health', 'lastHealth'],
+          prioritizedColumns: ['lastHealth', 'health'],
           sortBy: [
             {
               id: 'health',
+              desc: false,
             },
           ],
         })}
@@ -51,11 +52,11 @@ const VenueAnalyticsHeader = ({ data, openModal }) => {
         label={t('analytics.average_memory', { count: data.avgMemoryUsed })}
         explanation={t('analytics.average_memory_explanation')}
         openModal={handleModalClick({
-          prioritizedColumns: ['memory', 'lastPing'],
+          prioritizedColumns: ['lastPing', 'memory'],
           sortBy: [
             {
               id: 'memory',
-              desc: 'true',
+              desc: true,
             },
           ],
         })}
@@ -63,6 +64,15 @@ const VenueAnalyticsHeader = ({ data, openModal }) => {
       <SimpleStatDisplay
         label={t('analytics.average_uptime', { uptime: minimalSecondsToDetailed(data.avgUptime, t) })}
         explanation={t('analytics.average_uptime_explanation')}
+        openModal={handleModalClick({
+          prioritizedColumns: ['uptime', 'lastPing'],
+          sortBy: [
+            {
+              id: 'uptime',
+              desc: true,
+            },
+          ],
+        })}
       />
       <SimpleStatDisplay
         label={t('analytics.associations', {
@@ -72,19 +82,19 @@ const VenueAnalyticsHeader = ({ data, openModal }) => {
         })}
         explanation={t('analytics.associations_explanation')}
         openModal={handleModalClick({
-          prioritizedColumns: ['2g', '5g', '6g'],
+          prioritizedColumns: ['6g', '5g', '2g'],
           sortBy: [
             {
               id: '2g',
-              desc: 'true',
+              desc: true,
             },
             {
               id: '5g',
-              desc: 'true',
+              desc: true,
             },
             {
               id: '6g',
-              desc: 'true',
+              desc: true,
             },
           ],
         })}
