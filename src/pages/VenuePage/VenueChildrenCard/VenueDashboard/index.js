@@ -53,9 +53,10 @@ const VenueDashboard = ({ boardId }) => {
     for (let i = 0; i < devices.length; i += 1) {
       const device = devices[i];
       if (device.deviceType !== '') {
-        if (finalData.deviceFirmwareTotals[device.lastFirmware])
-          finalData.deviceFirmwareTotals[device.lastFirmware] += 1;
-        else finalData.deviceFirmwareTotals[device.lastFirmware] = 1;
+        const splitFirmware = device.lastFirmware.split(' / ');
+        if (finalData.deviceFirmwareTotals[splitFirmware.length > 0 ? splitFirmware[1] : 'Unknown'])
+          finalData.deviceFirmwareTotals[splitFirmware.length > 0 ? splitFirmware[1] : 'Unknown'] += 1;
+        else finalData.deviceFirmwareTotals[splitFirmware.length > 0 ? splitFirmware[1] : 'Unknown'] = 1;
 
         if (finalData.deviceTypeTotals[device.deviceType]) finalData.deviceTypeTotals[device.deviceType] += 1;
         else finalData.deviceTypeTotals[device.deviceType] = 1;

@@ -15,6 +15,50 @@ const VenueAnalyticsHeader = ({ data, openModal }) => {
 
   const handleModalClick = (tableOptions) => () => openModal(tableOptions);
 
+  const getTopDeviceTypes = () => {
+    const orderedTotals = Object.keys(data.deviceTypeTotals)
+      .map((k) => ({
+        deviceType: k,
+        amount: data.deviceTypeTotals[k],
+      }))
+      .sort((a, b) => (a.amount < b.amount ? 1 : -1));
+
+    if (orderedTotals.length <= 3) {
+      return orderedTotals.map((v) => `${v.amount} ${v.deviceType}`).join(', ');
+    }
+
+    let othersTotal = 0;
+    for (let i = 3; i < orderedTotals.length; i += 1) {
+      othersTotal += orderedTotals[i].amount;
+    }
+
+    return `${orderedTotals[0].amount} ${orderedTotals[0].deviceType}, ${orderedTotals[1].amount} ${
+      orderedTotals[1].deviceType
+    }, ${othersTotal} ${t('common.others')}`;
+  };
+
+  const getTopFirmware = () => {
+    const orderedTotals = Object.keys(data.deviceFirmwareTotals)
+      .map((k) => ({
+        lastFirmware: k,
+        amount: data.deviceFirmwareTotals[k],
+      }))
+      .sort((a, b) => (a.amount < b.amount ? 1 : -1));
+
+    if (orderedTotals.length <= 3) {
+      return orderedTotals.map((v) => `${v.amount} ${v.lastFirmware}`).join(', ');
+    }
+
+    let othersTotal = 0;
+    for (let i = 3; i < orderedTotals.length; i += 1) {
+      othersTotal += orderedTotals[i].amount;
+    }
+
+    return `${orderedTotals[0].amount} ${orderedTotals[0].lastFirmware}, ${orderedTotals[1].amount} ${
+      orderedTotals[1].lastFirmware
+    }, ${othersTotal} ${t('common.others')}`;
+  };
+
   return (
     <SimpleGrid minChildWidth="340px" spacing="20px">
       <SimpleStatDisplay
@@ -95,6 +139,32 @@ const VenueAnalyticsHeader = ({ data, openModal }) => {
             {
               id: '6g',
               desc: true,
+            },
+          ],
+        })}
+      />
+      <SimpleStatDisplay
+        label={getTopDeviceTypes()}
+        explanation={t('analytics.device_types_explanation')}
+        openModal={handleModalClick({
+          prioritizedColumns: ['deviceType'],
+          sortBy: [
+            {
+              id: 'deviceType',
+              desc: false,
+            },
+          ],
+        })}
+      />
+      <SimpleStatDisplay
+        label={getTopFirmware()}
+        explanation={t('analytics.last_firmware_explanation')}
+        openModal={handleModalClick({
+          prioritizedColumns: ['lastFirmware'],
+          sortBy: [
+            {
+              id: 'lastFirmware',
+              desc: false,
             },
           ],
         })}
