@@ -26,13 +26,13 @@ const SimpleStatDisplay = ({ label, explanation, color, openModal, element, ...p
     variant="widget"
     onClick={openModal}
     cursor={openModal ? 'pointer' : ''}
-    _hover={{ boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.1)' }}
+    className="tile-shadow-animate"
     {...props}
   >
     {element ?? (
       <Heading size="md">
         {label}
-        <Tooltip hasArrow label={explanation}>
+        <Tooltip hasArrow label={explanation} zIndex="1000">
           <InfoIcon ml={2} mb="2px" />
         </Tooltip>
       </Heading>
