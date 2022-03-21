@@ -1,7 +1,18 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import { Box, Button, CloseButton, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  CloseButton,
+  Flex,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
+  Spacer,
+} from '@chakra-ui/react';
 import ModalHeader from 'components/ModalHeader';
 import { useTranslation } from 'react-i18next';
 import { ArrowsOut } from 'phosphor-react';
@@ -31,6 +42,7 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
   const { t } = useTranslation();
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const { data: gwUi } = useGetGatewayUi();
+  const [filter, setFilter] = useState('');
   const handleOpenInGateway = (serialNumber) => window.open(`${gwUi}/#/devices/${serialNumber}`, '_blank');
 
   const serialCell = useCallback(
@@ -61,6 +73,16 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
     (cell, key) => (cell.row.values[key] !== undefined ? minimalSecondsToDetailed(cell.row.values[key], t) : ''),
     [],
   );
+
+  const onFilterChange = useCallback((e) => setFilter(e.target.value));
+
+  const filteredData = useMemo(() => {
+    if (!data) return [];
+    if (filter.trim().length === 0) return [...data.devices, ...data.ignoredDevices];
+
+    const devices = data.devices.filter((entry) => entry.serialNumber.includes(filter));
+    return devices.concat(data.ignoredDevices.filter((entry) => entry.serialNumber.includes(filter)));
+  }, [data, filter]);
 
   const columns = React.useMemo(() => {
     let cols = [
@@ -187,6 +209,10 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
     return cols;
   }, [tableOptions]);
 
+  useEffect(() => {
+    if (isOpen) setFilter('');
+  }, [isOpen]);
+
   return (
     <>
       <Button colorScheme="blue" onClick={onOpen} isDisabled={!data} rightIcon={<ArrowsOut size={20} />}>
@@ -197,14 +223,16 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
         <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
           <ModalHeader title={t('analytics.raw_analytics_data')} right={<CloseButton ml={2} onClick={onClose} />} />
           <ModalBody>
-            <Box textAlign="right">
+            <Flex>
+              <Input value={filter} onChange={onFilterChange} placeholder={t('analytics.search_serials')} maxW={300} />
+              <Spacer />
               <ColumnPicker
                 columns={columns}
                 hiddenColumns={hiddenColumns}
                 setHiddenColumns={setHiddenColumns}
                 preference="provisioning.venue.dashboard.hiddenColumns"
               />
-            </Box>
+            </Flex>
             <Box overflowX="auto" w="100%">
               <DataTable
                 sortBy={
@@ -216,7 +244,7 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
                   ]
                 }
                 columns={columns}
-                data={data ? [...data.devices, ...data.ignoredDevices] : []}
+                data={filteredData}
                 hiddenColumns={
                   tableOptions?.prioritizedColumns
                     ? hiddenColumns.filter(

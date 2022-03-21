@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import SimpleStatDisplay from 'components/StatisticsDisplay/SimpleStatDisplay';
-import { Heading, Text, Tooltip } from '@chakra-ui/react';
-import { InfoIcon } from '@chakra-ui/icons';
+import { Heading, List, ListItem } from '@chakra-ui/react';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
@@ -22,7 +22,7 @@ const DeviceTypeStat = ({ data, handleModalClick }) => {
       .sort((a, b) => (a.amount < b.amount ? 1 : -1));
 
     if (orderedTotals.length <= 3) {
-      return orderedTotals.map((v) => `${v.amount} ${v.deviceType}`).join(', ');
+      return orderedTotals;
     }
 
     let othersTotal = 0;
@@ -30,25 +30,23 @@ const DeviceTypeStat = ({ data, handleModalClick }) => {
       othersTotal += orderedTotals[i].amount;
     }
 
-    return `${orderedTotals[0].amount} ${orderedTotals[0].deviceType}, ${orderedTotals[1].amount} ${
-      orderedTotals[1].deviceType
-    }, ${othersTotal} ${t('common.others')}`;
+    return [orderedTotals[0], orderedTotals[1], { deviceType: 'Others', amount: othersTotal }];
   };
 
   return (
     <SimpleStatDisplay
+      title={t('analytics.device_types')}
+      explanation={t('analytics.device_types_explanation')}
       element={
-        <>
-          <Heading size="md" display="flex">
-            <Text mt="2px">{t('configurations.device_types')}</Text>
-            <Tooltip hasArrow label={t('analytics.device_types_explanation')}>
-              <InfoIcon ml={2} mt="4px" />
-            </Tooltip>
-          </Heading>
-          <Heading size="sm">
-            <Text>{getTopDeviceTypes()}</Text>
-          </Heading>
-        </>
+        <Heading size="sm">
+          <List>
+            {getTopDeviceTypes().map(({ deviceType, amount }) => (
+              <ListItem key={uuid()}>
+                {deviceType}: {amount}
+              </ListItem>
+            ))}
+          </List>
+        </Heading>
       }
       openModal={handleModalClick({
         prioritizedColumns: ['deviceType'],

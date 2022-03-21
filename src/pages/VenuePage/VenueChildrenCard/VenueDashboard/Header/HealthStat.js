@@ -23,7 +23,8 @@ const HealthStat = ({ data, handleModalClick }) => {
 
   return (
     <SimpleStatDisplay
-      label={t('analytics.average_health', { count: data.avgHealth })}
+      title={t('analytics.average_health')}
+      label={`${data.avgHealth}%`}
       explanation={t('analytics.average_health_explanation')}
       openModal={handleModalClick({
         prioritizedColumns: ['lastHealth', 'health'],

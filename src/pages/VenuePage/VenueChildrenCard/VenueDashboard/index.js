@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useGetAnalyticsBoardDevices } from 'hooks/Network/Analytics';
 import { useTranslation } from 'react-i18next';
-import { Box, Center, Spinner, useDisclosure, useToast } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spacer, Spinner, useDisclosure, useToast } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import VenueAnalyticsHeader from './Header';
@@ -109,7 +109,11 @@ const VenueDashboard = ({ boardId }) => {
   ) : (
     <LoadingOverlay isLoading={isFetching}>
       <Box>
-        <Box textAlign="right" mb={4}>
+        <Flex mb={2}>
+          <Heading size="lg">
+            {parsedData?.totalDevices} {t('devices.title')}
+          </Heading>
+          <Spacer />
           <VenueDashboardTableModal
             data={parsedData}
             tableOptions={tableOptions}
@@ -118,7 +122,7 @@ const VenueDashboard = ({ boardId }) => {
             onClose={onClose}
           />
           <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
-        </Box>
+        </Flex>
         <VenueAnalyticsHeader data={parsedData} openModal={openModal} />
       </Box>
     </LoadingOverlay>

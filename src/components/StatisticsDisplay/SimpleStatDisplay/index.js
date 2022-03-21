@@ -5,6 +5,7 @@ import { InfoIcon } from '@chakra-ui/icons';
 import Card from 'components/Card';
 
 const propTypes = {
+  title: PropTypes.string,
   label: PropTypes.string,
   explanation: PropTypes.string,
   color: PropTypes.string,
@@ -13,6 +14,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  title: '',
   label: '',
   explanation: '',
   color: null,
@@ -20,7 +22,7 @@ const defaultProps = {
   element: null,
 };
 
-const SimpleStatDisplay = ({ label, explanation, color, openModal, element, ...props }) => (
+const SimpleStatDisplay = ({ title, label, explanation, color, openModal, element, ...props }) => (
   <Card
     bgColor={color}
     variant="widget"
@@ -29,12 +31,22 @@ const SimpleStatDisplay = ({ label, explanation, color, openModal, element, ...p
     className="tile-shadow-animate"
     {...props}
   >
-    {element ?? (
+    {title !== '' && (
       <Heading size="md">
-        {label}
-        <Tooltip hasArrow label={explanation} zIndex="1000">
+        {title}
+        <Tooltip hasArrow label={explanation}>
           <InfoIcon ml={2} mb="2px" />
         </Tooltip>
+      </Heading>
+    )}
+    {element ?? (
+      <Heading size="sm">
+        {label}
+        {title === '' && (
+          <Tooltip hasArrow label={explanation}>
+            <InfoIcon ml={2} mb="2px" />
+          </Tooltip>
+        )}
       </Heading>
     )}
   </Card>

@@ -42,7 +42,6 @@
 }
 
 .tile-shadow-animate:hover {
-  z-index: 200;
   -webkit-transform: scale(1.05, 1.05);
   transform: scale(1.05, 1.05);
 }
