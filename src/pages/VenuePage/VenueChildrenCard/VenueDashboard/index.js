@@ -7,6 +7,7 @@ import LoadingOverlay from 'components/LoadingOverlay';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import VenueAnalyticsHeader from './Header';
 import VenueDashboardTableModal from './TableModal';
+import CirclePackTest from './CirclePackTest';
 
 const propTypes = {
   boardId: PropTypes.string.isRequired,
@@ -124,6 +125,7 @@ const VenueDashboard = ({ boardId }) => {
           <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
         </Flex>
         <VenueAnalyticsHeader data={parsedData} openModal={openModal} />
+        <CirclePackTest />
       </Box>
     </LoadingOverlay>
   );
