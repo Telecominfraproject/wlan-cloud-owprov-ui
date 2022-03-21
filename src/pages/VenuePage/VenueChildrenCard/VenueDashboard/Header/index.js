@@ -9,6 +9,7 @@ import Masonry from 'react-masonry-css';
 import HealthStat from './HealthStat';
 import FirmwareStat from './FirmwareStat';
 import DeviceTypeStat from './DeviceTypeStat';
+import MemoryStat from './MemoryStat';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
@@ -67,21 +68,7 @@ const VenueAnalyticsHeader = ({ data, openModal }) => {
         mb={4}
       />
       <HealthStat data={data} handleModalClick={handleModalClick} />
-      <SimpleStatDisplay
-        title={t('analytics.average_memory')}
-        label={`${data.avgMemoryUsed}%`}
-        explanation={t('analytics.average_memory_explanation')}
-        openModal={handleModalClick({
-          prioritizedColumns: ['lastPing', 'memory'],
-          sortBy: [
-            {
-              id: 'memory',
-              desc: true,
-            },
-          ],
-        })}
-        mb={4}
-      />
+      <MemoryStat data={data} handleModalClick={handleModalClick} />
       <DeviceTypeStat data={data} handleModalClick={handleModalClick} />
       <FirmwareStat data={data} handleModalClick={handleModalClick} />
       <SimpleStatDisplay
