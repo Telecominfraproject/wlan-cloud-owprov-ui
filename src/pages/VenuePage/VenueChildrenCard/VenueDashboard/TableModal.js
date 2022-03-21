@@ -217,7 +217,13 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
                 }
                 columns={columns}
                 data={data ? [...data.devices, ...data.ignoredDevices] : []}
-                hiddenColumns={hiddenColumns}
+                hiddenColumns={
+                  tableOptions?.prioritizedColumns
+                    ? hiddenColumns.filter(
+                        (col) => !tableOptions?.prioritizedColumns.find((prioCol) => prioCol === col),
+                      )
+                    : hiddenColumns
+                }
                 obj={t('devices.title')}
                 saveSettingsId="venue.dashboard.table"
               />

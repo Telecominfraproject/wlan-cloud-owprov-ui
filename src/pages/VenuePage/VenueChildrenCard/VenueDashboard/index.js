@@ -78,6 +78,10 @@ const VenueDashboard = ({ boardId }) => {
         ignoredDevices.push(device);
         if (device.connected) finalData.connectedDevices += 1;
         else finalData.disconnectedDevices += 1;
+        if (finalData.deviceFirmwareTotals.Unknown > 0) finalData.deviceFirmwareTotals.Unknown += 1;
+        else finalData.deviceFirmwareTotals.Unknown = 1;
+        if (finalData.deviceTypeTotals.Unknown > 0) finalData.deviceTypeTotals.Unknown += 1;
+        else finalData.deviceTypeTotals.Unknown = 1;
       }
     }
 

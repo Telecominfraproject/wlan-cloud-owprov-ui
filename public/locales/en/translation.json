@@ -37,6 +37,7 @@
 		"average_uptime": "{{uptime}} average uptime",
 		"average_uptime_explanation": "Average device uptime (DD:HH:MM:SS)",
 		"board": "Analytics Board",
+		"connection_explanation": "{{connectedCount}} connected, {{disconnectedCount}} not connected",
 		"connection_percentage": "{{count}}% connected",
 		"connection_percentage_explanation": "Percentage of all devices under this venue which are connected ({{connectedCount}} connected, {{disconnectedCount}} not connected)",
 		"create_board": "Start Monitoring",

@@ -5,31 +5,38 @@ import { InfoIcon } from '@chakra-ui/icons';
 import Card from 'components/Card';
 
 const propTypes = {
-  label: PropTypes.string.isRequired,
-  explanation: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  explanation: PropTypes.string,
   color: PropTypes.string,
   openModal: PropTypes.func,
+  element: PropTypes.node,
 };
 
 const defaultProps = {
+  label: '',
+  explanation: '',
   color: null,
   openModal: null,
+  element: null,
 };
 
-const SimpleStatDisplay = ({ label, explanation, color, openModal }) => (
+const SimpleStatDisplay = ({ label, explanation, color, openModal, element, ...props }) => (
   <Card
     bgColor={color}
     variant="widget"
     onClick={openModal}
     cursor={openModal ? 'pointer' : ''}
     _hover={{ boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.1)' }}
+    {...props}
   >
-    <Heading size="md">
-      {label}
-      <Tooltip hasArrow label={explanation}>
-        <InfoIcon ml={2} mb="2px" />
-      </Tooltip>
-    </Heading>
+    {element ?? (
+      <Heading size="md">
+        {label}
+        <Tooltip hasArrow label={explanation}>
+          <InfoIcon ml={2} mb="2px" />
+        </Tooltip>
+      </Heading>
+    )}
   </Card>
 );
 
