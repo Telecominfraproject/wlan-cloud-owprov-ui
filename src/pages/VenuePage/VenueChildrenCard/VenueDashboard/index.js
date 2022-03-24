@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useGetAnalyticsBoardDevices } from 'hooks/Network/Analytics';
+import { useGetAnalyticsBoardDevices, useGetAnalyticsBoardTimepoints } from 'hooks/Network/Analytics';
 import { useTranslation } from 'react-i18next';
 import { Box, Center, Flex, Heading, Spacer, Spinner, useDisclosure, useToast } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import VenueAnalyticsHeader from './Header';
 import VenueDashboardTableModal from './TableModal';
-import CirclePackTest from './CirclePackTest';
+import CirclePack from './CirclePack';
 
 const propTypes = {
   boardId: PropTypes.string.isRequired,
@@ -20,6 +20,16 @@ const VenueDashboard = ({ boardId }) => {
   const [tableOptions, setTableOptions] = useState(null);
 
   const { data: devices, isFetching, refetch } = useGetAnalyticsBoardDevices({ t, toast, id: boardId });
+  const {
+    data: timepoints,
+    isFetching: isFetchingTimepoints,
+    refetch: refetchTimepoints,
+  } = useGetAnalyticsBoardTimepoints({ t, toast, id: boardId });
+
+  const handleRefreshClick = () => {
+    refetch();
+    refetchTimepoints();
+  };
 
   const openModal = (newOptions) => {
     setTableOptions(newOptions);
@@ -108,7 +118,7 @@ const VenueDashboard = ({ boardId }) => {
       <Spinner size="xl" />
     </Center>
   ) : (
-    <LoadingOverlay isLoading={isFetching}>
+    <LoadingOverlay isLoading={isFetching || isFetchingTimepoints}>
       <Box>
         <Flex mb={2}>
           <Heading size="lg">
@@ -122,10 +132,10 @@ const VenueDashboard = ({ boardId }) => {
             onOpen={onOpen}
             onClose={onClose}
           />
-          <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
+          <RefreshButton onClick={handleRefreshClick} isLoading={isFetching} ml={2} />
         </Flex>
         <VenueAnalyticsHeader data={parsedData} openModal={openModal} />
-        <CirclePackTest />
+        {timepoints && <CirclePack timepoints={timepoints} />}
       </Box>
     </LoadingOverlay>
   );

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useColorMode } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import SimpleStatDisplay from 'components/StatisticsDisplay/SimpleStatDisplay';
+import { errorColor, successColor, warningColor } from 'utils/colors';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
@@ -14,11 +15,9 @@ const HealthStat = ({ data, handleModalClick }) => {
   const { colorMode } = useColorMode();
 
   const getHealthColor = () => {
-    if (data.avgHealth >= 90)
-      return colorMode === 'light' ? 'var(--chakra-colors-green-200)' : 'var(--chakra-colors-green-400)';
-    if (data.avgHealth >= 70)
-      return colorMode === 'light' ? 'var(--chakra-colors-yellow-200)' : 'var(--chakra-colors-yellow-400)';
-    return colorMode === 'light' ? 'var(--chakra-colors-red-200)' : 'var(--chakra-colors-red-400)';
+    if (data.avgHealth >= 90) return successColor(colorMode);
+    if (data.avgHealth >= 70) return warningColor(colorMode);
+    return errorColor(colorMode);
   };
 
   return (

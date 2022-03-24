@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useColorMode } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import SimpleStatDisplay from 'components/StatisticsDisplay/SimpleStatDisplay';
+import { errorColor, successColor, warningColor } from 'utils/colors';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
@@ -14,11 +15,9 @@ const MemoryStat = ({ data, handleModalClick }) => {
   const { colorMode } = useColorMode();
 
   const getMemoryColor = () => {
-    if (data.avgMemoryUsed < 65)
-      return colorMode === 'light' ? 'var(--chakra-colors-green-200)' : 'var(--chakra-colors-green-400)';
-    if (data.avgMemoryUsed < 80)
-      return colorMode === 'light' ? 'var(--chakra-colors-yellow-200)' : 'var(--chakra-colors-yellow-400)';
-    return colorMode === 'light' ? 'var(--chakra-colors-red-200)' : 'var(--chakra-colors-red-400)';
+    if (data.avgMemoryUsed < 65) return successColor(colorMode);
+    if (data.avgMemoryUsed < 80) return warningColor(colorMode);
+    return errorColor(colorMode);
   };
 
   return (
