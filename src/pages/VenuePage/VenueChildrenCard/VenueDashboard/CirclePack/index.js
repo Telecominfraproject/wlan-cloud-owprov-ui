@@ -6,6 +6,7 @@ import { useGetVenue } from 'hooks/Network/Venues';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Box, useToast } from '@chakra-ui/react';
+import { parseDbm } from 'utils/stringHelper';
 import CircleComponent from './CircleComponent';
 import CircleLabel from './CircleLabel';
 
@@ -63,7 +64,7 @@ const CirclePack = ({ timepoints }) => {
             type: 'association',
             details: {
               station,
-              rssi,
+              rssi: parseDbm(rssi),
               ...associationDetails,
             },
             scale: 1,
@@ -72,7 +73,7 @@ const CirclePack = ({ timepoints }) => {
           totalRssi += rssi;
           finalSsid.children.push(finalAssociation);
         }
-        finalSsid.details.avgRssi = Math.floor(totalRssi / Math.max(associations.length, 1));
+        finalSsid.details.avgRssi = parseDbm(Math.floor(totalRssi / Math.max(associations.length, 1)));
         finalDevice.children.push(finalSsid);
       }
 

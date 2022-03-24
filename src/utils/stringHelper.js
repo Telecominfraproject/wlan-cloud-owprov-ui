@@ -11,7 +11,7 @@ export const bytesString = (bytes, decimals = 2) => {
   return `${parseFloat((bytes / k ** i).toFixed(dm))} ${sizes[i]}`;
 };
 export const parseDbm = (value) => {
-  if (!value) return '-';
+  if (value === undefined || value === null) return '-';
   if (value > -150 && value < 100) return value;
   return (4294967295 - value) * -1;
 };

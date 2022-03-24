@@ -17,7 +17,7 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { errorColor, successColor, warningColor } from 'utils/colors';
-import { bytesString, parseDbm, uppercaseFirstLetter } from 'utils/stringHelper';
+import { bytesString, uppercaseFirstLetter } from 'utils/stringHelper';
 import { t } from 'i18next';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import { ArrowSquareOut } from 'phosphor-react';
@@ -46,13 +46,15 @@ const CircleComponent = ({ node, style, onClick }) => {
         if (node.data.details.deviceInfo.health >= 70) return warningColor(colorMode);
         return errorColor(colorMode);
       case 'ssid': {
-        if (node.data.detailsavgRssi >= 90) return successColor(colorMode);
-        if (node.data.detailsavgRssi >= 70) return warningColor(colorMode);
+        if (node.data.children.length === 0)
+          return colorMode === 'light' ? 'var(--chakra-colors-orange-200)' : 'var(--chakra-colors-orange-400)';
+        if (node.data.details.avgRssi >= -45) return successColor(colorMode);
+        if (node.data.details.avgRssi >= -60) return warningColor(colorMode);
         return errorColor(colorMode);
       }
       case 'association':
-        if (node.data.details.rssi >= 90) return successColor(colorMode);
-        if (node.data.details.rssi >= 70) return warningColor(colorMode);
+        if (node.data.details.rssi >= -45) return successColor(colorMode);
+        if (node.data.details.rssi >= -60) return warningColor(colorMode);
         return errorColor(colorMode);
       default:
         return colorMode === 'light' ? 'var(--chakra-colors-teal-200)' : 'var(--chakra-colors-teal-400)';
@@ -87,7 +89,7 @@ const CircleComponent = ({ node, style, onClick }) => {
             <Heading size="sm">
               {node.data.children.length} {t('analytics.associations')}
             </Heading>
-            <Heading size="sm">RSSI {parseDbm(node.data.details.avgRssi)}</Heading>
+            <Heading size="sm">RSSI {node.data.details.avgRssi}</Heading>
           </>
         );
       case 'association':

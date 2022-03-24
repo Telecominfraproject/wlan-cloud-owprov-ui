@@ -48,7 +48,7 @@ export const useGetAnalyticsBoardDevices = ({ t, toast, id }) =>
 export const useGetAnalyticsBoardTimepoints = ({ t, toast, id }) =>
   useQuery(
     ['get-board-timepoints', id],
-    () => axiosAnalytics.get(`board/${id}/timepoints?maxRecords=30`).then(({ data }) => data.points),
+    () => axiosAnalytics.get(`board/${id}/timepoints?fromDate=1648124510`).then(({ data }) => data.points),
     {
       enabled: id !== null,
       onError: (e) => {
