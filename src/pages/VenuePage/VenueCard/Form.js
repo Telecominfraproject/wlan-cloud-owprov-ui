@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
+import { useAuth } from 'contexts/AuthProvider';
 import NotesTable from 'components/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { EntityShape } from 'constants/propShapes';
@@ -41,6 +42,7 @@ const defaultProps = {
 const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const { endpoints } = useAuth();
   const [formKey, setFormKey] = useState(uuid());
   const queryClient = useQueryClient();
   const updateVenue = useUpdateVenue({ id: venue.id });
@@ -226,7 +228,7 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
           <TabList>
             <Tab>{t('common.main')}</Tab>
             <Tab>{t('common.notes')}</Tab>
-            <Tab>{t('analytics.title')}</Tab>
+            {endpoints.owanalytics && <Tab>{t('analytics.title')}</Tab>}
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -303,9 +305,11 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
                 {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
               </Field>
             </TabPanel>
-            <TabPanel>
-              <VenueAnalytics editing={editing} venueName={venue?.name} />
-            </TabPanel>
+            {endpoints.owanalytics && (
+              <TabPanel>
+                <VenueAnalytics editing={editing} venueName={venue?.name} />
+              </TabPanel>
+            )}
           </TabPanels>
         </Tabs>
       )}

@@ -31,6 +31,7 @@ export const AuthProvider = ({ token, children }) => {
   const [loadedEndpoints, setLoadedEndpoints] = useState(false);
   const [currentToken, setCurrentToken] = useState(token ?? '');
   const queryClient = useQueryClient();
+  const [endpoints, setEndpoints] = useState(null);
   const { data: configurationDescriptions } = useQuery(
     ['get-configuration-descriptions'],
     () => getConfigDescriptions(axiosProv.defaults.baseURL),
@@ -57,11 +58,14 @@ export const AuthProvider = ({ token, children }) => {
   const { refetch: refetchEndpoints } = useGetEndpoints({
     t,
     toast,
-    onSuccess: (endpoints) => {
-      for (const endpoint of endpoints) {
+    onSuccess: (newEndpoints) => {
+      const foundEndpoints = {};
+      for (const endpoint of newEndpoints) {
+        foundEndpoints[endpoint.type] = endpoint.uri;
         switch (endpoint.type) {
           case 'owprov':
             axiosProv.defaults.baseURL = `${endpoint.uri}/api/v1`;
+
             break;
           case 'owfms':
             axiosFms.defaults.baseURL = `${endpoint.uri}/api/v1`;
@@ -82,6 +86,7 @@ export const AuthProvider = ({ token, children }) => {
             break;
         }
       }
+      setEndpoints(foundEndpoints);
       setLoadedEndpoints(true);
     },
   });
@@ -178,10 +183,11 @@ export const AuthProvider = ({ token, children }) => {
       getPref,
       setPref,
       deletePref,
+      endpoints,
       configurationDescriptions,
       isUserLoaded: preferences !== undefined && user !== undefined && loadedEndpoints,
     }),
-    [currentToken, user, avatar, preferences, loadedEndpoints, configurationDescriptions],
+    [currentToken, user, avatar, preferences, loadedEndpoints, configurationDescriptions, endpoints],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

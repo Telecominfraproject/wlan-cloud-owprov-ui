@@ -72,9 +72,9 @@ const VenueDashboard = ({ boardId }) => {
         if (finalData.deviceTypeTotals[device.deviceType]) finalData.deviceTypeTotals[device.deviceType] += 1;
         else finalData.deviceTypeTotals[device.deviceType] = 1;
 
-        if (device.associations_2g > 0) finalData.twoGAssocations += device.associations_2g;
-        if (device.associations_5g > 0) finalData.fiveGAssocations += device.associations_2g;
-        if (device.associations_6g > 0) finalData.sixGAssocations += device.associations_2g;
+        if (device.associations_2g > 0) finalData.twoGAssociations += device.associations_2g;
+        if (device.associations_5g > 0) finalData.fiveGAssociations += device.associations_2g;
+        if (device.associations_6g > 0) finalData.sixGAssociations += device.associations_2g;
 
         if (device.connected) finalData.connectedDevices += 1;
         else finalData.disconnectedDevices += 1;

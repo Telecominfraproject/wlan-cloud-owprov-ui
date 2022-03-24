@@ -13,6 +13,9 @@ const propTypes = {
 const CirclePackSlider = ({ index, setIndex, points }) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
+  const onMouseEnter = () => setShowTooltip(true);
+  const onMouseLeave = () => setShowTooltip(false);
+
   const stepsDetails = useMemo(
     () => ({
       steps: points.length,
@@ -30,22 +33,15 @@ const CirclePackSlider = ({ index, setIndex, points }) => {
         max={stepsDetails.steps - 1}
         colorScheme="teal"
         onChange={setIndex}
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
-        <SliderTrack>
+        <SliderTrack h="6px" borderRadius="4px">
           <SliderFilledTrack />
         </SliderTrack>
-        <Tooltip
-          hasArrow
-          bg="teal.500"
-          color="white"
-          placement="top"
-          isOpen={showTooltip}
-          label={stepsDetails.allTimestamps[index]}
-        >
+        <Tooltip hasArrow placement="top" isOpen={showTooltip} label={stepsDetails.allTimestamps[index]}>
           <SliderThumb boxSize={6}>
-            <Box as={Clock} />
+            <Box textColor="black" as={Clock} />
           </SliderThumb>
         </Tooltip>
       </Slider>

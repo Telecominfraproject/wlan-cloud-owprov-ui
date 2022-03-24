@@ -48,12 +48,12 @@ const CirclePack = ({ timepoints }) => {
         children: [],
       };
 
-      for (const { bssid, associations, ...ssidDetails } of ssidData) {
+      for (const { ssid, associations, ...ssidDetails } of ssidData) {
         const finalSsid = {
-          name: `${bssid}/ssid/${uuid()}`,
+          name: `${ssid}/ssid/${uuid()}`,
           type: 'ssid',
           details: {
-            bssid,
+            ssid,
             associations,
             ...ssidDetails,
           },
@@ -102,7 +102,7 @@ const CirclePack = ({ timepoints }) => {
           value="scale"
           data={data}
           enableLabels
-          labelsSkipRadius={16}
+          labelsSkipRadius={32}
           labelsFilter={(label) => label.node.height === 0}
           labelTextColor={{
             from: 'color',

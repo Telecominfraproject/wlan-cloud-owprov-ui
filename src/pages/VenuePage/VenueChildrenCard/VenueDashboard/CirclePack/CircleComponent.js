@@ -47,7 +47,7 @@ const CircleComponent = ({ node, style, onClick }) => {
         return errorColor(colorMode);
       case 'ssid': {
         if (node.data.children.length === 0)
-          return colorMode === 'light' ? 'var(--chakra-colors-orange-200)' : 'var(--chakra-colors-orange-400)';
+          return colorMode === 'light' ? 'var(--chakra-colors-blue-200)' : 'var(--chakra-colors-blue-400)';
         if (node.data.details.avgRssi >= -45) return successColor(colorMode);
         if (node.data.details.avgRssi >= -60) return warningColor(colorMode);
         return errorColor(colorMode);
@@ -86,6 +86,7 @@ const CircleComponent = ({ node, style, onClick }) => {
       case 'ssid':
         return (
           <>
+            <Heading size="sm">BSSID {node.data.details.bssid}</Heading>
             <Heading size="sm">
               {node.data.children.length} {t('analytics.associations')}
             </Heading>
@@ -128,6 +129,15 @@ const CircleComponent = ({ node, style, onClick }) => {
           </>
         );
       }
+      case 'ssid':
+        return (
+          <>
+            <PopoverCloseButton alignContent="center" mt={2} />
+            <PopoverHeader>
+              SSID: {node.data.details.band}G - {node?.data?.name.split('/')[0]}
+            </PopoverHeader>
+          </>
+        );
       default:
         return (
           <>

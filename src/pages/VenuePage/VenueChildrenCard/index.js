@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetVenue } from 'hooks/Network/Venues';
 import CardBody from 'components/Card/CardBody';
+import { useAuth } from 'contexts/AuthProvider';
 import VenueDeviceTableWrapper from './VenueDeviceTableWrapper';
 import VenueConfigurationsTableWrapper from './VenueConfigurationsTableWrapper';
 import VenueChildrenTableWrapper from './VenueChildrenTableWrapper';
@@ -19,6 +20,7 @@ const propTypes = {
 const VenueChildrenCard = ({ id }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const { endpoints } = useAuth();
   const { data: venue, isFetching } = useGetVenue({ t, toast, id });
 
   return (
@@ -26,7 +28,7 @@ const VenueChildrenCard = ({ id }) => {
       <CardBody>
         <Tabs isLazy variant="enclosed" w="100%">
           <TabList>
-            {venue?.boards.length > 0 && <Tab>{t('analytics.dashboard')}</Tab>}
+            {endpoints.owanalytics && venue?.boards.length > 0 && <Tab>{t('analytics.dashboard')}</Tab>}
             <Tab>{t('venues.subvenues')}</Tab>
             <Tab>{t('configurations.title')}</Tab>
             <Tab>{t('inventory.title')}</Tab>
@@ -39,7 +41,7 @@ const VenueChildrenCard = ({ id }) => {
           ) : (
             <LoadingOverlay isLoading={isFetching}>
               <TabPanels>
-                {venue?.boards.length > 0 && (
+                {endpoints.owanalytics && venue?.boards.length > 0 && (
                   <TabPanel overflowX="auto">
                     <VenueDashboard boardId={venue.boards[0]} />
                   </TabPanel>
