@@ -94,13 +94,12 @@ const CirclePack = ({ timepoints }) => {
         value="scale"
         data={data}
         enableLabels
-        labelsSkipRadius={32}
+        labelsSkipRadius={16}
         labelsFilter={(label) => label.node.height === 0}
         labelTextColor={{
           from: 'color',
           modifiers: [['darker', 2]],
         }}
-        // eslint-disable-next-line react/no-unstable-nested-components
         labelComponent={CircleLabel}
         onMouseEnter={null}
         tooltip={null}
