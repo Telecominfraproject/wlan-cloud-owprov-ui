@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
@@ -24,6 +24,49 @@ const VenueChildrenCard = ({ id }) => {
   const { endpoints } = useAuth();
   const { data: venue, isFetching } = useGetVenue({ t, toast, id });
 
+  const panels = useMemo(() => {
+    if (endpoints.owanalytics && venue?.boards.length > 0) {
+      return (
+        <TabPanels>
+          <TabPanel overflowX="auto">
+            <VenueDashboard boardId={venue.boards[0]} />
+          </TabPanel>
+          <TabPanel overflowX="auto">
+            <VenueLiveView boardId={venue.boards[0]} />
+          </TabPanel>
+          <TabPanel overflowX="auto">
+            <VenueChildrenTableWrapper venue={venue} />
+          </TabPanel>
+          <TabPanel overflowX="auto">
+            <VenueConfigurationsTableWrapper venue={venue} />
+          </TabPanel>
+          <TabPanel overflowX="auto">
+            <VenueDeviceTableWrapper venue={venue} />
+          </TabPanel>
+          <TabPanel overflowX="auto">
+            <VenueContactTableWrapper venue={venue} />
+          </TabPanel>
+        </TabPanels>
+      );
+    }
+    return (
+      <TabPanels>
+        <TabPanel overflowX="auto">
+          <VenueChildrenTableWrapper venue={venue} />
+        </TabPanel>
+        <TabPanel overflowX="auto">
+          <VenueConfigurationsTableWrapper venue={venue} />
+        </TabPanel>
+        <TabPanel overflowX="auto">
+          <VenueDeviceTableWrapper venue={venue} />
+        </TabPanel>
+        <TabPanel overflowX="auto">
+          <VenueContactTableWrapper venue={venue} />
+        </TabPanel>
+      </TabPanels>
+    );
+  }, [endpoints, venue]);
+
   return (
     <Card>
       <CardBody>
@@ -45,32 +88,7 @@ const VenueChildrenCard = ({ id }) => {
               <Spinner size="xl" />
             </Center>
           ) : (
-            <LoadingOverlay isLoading={isFetching}>
-              <TabPanels>
-                {endpoints.owanalytics && venue?.boards.length > 0 && (
-                  <>
-                    <TabPanel overflowX="auto">
-                      <VenueDashboard boardId={venue.boards[0]} />
-                    </TabPanel>
-                    <TabPanel overflowX="auto">
-                      <VenueLiveView boardId={venue.boards[0]} />
-                    </TabPanel>
-                  </>
-                )}
-                <TabPanel overflowX="auto">
-                  <VenueChildrenTableWrapper venue={venue} />
-                </TabPanel>
-                <TabPanel overflowX="auto">
-                  <VenueConfigurationsTableWrapper venue={venue} />
-                </TabPanel>
-                <TabPanel overflowX="auto">
-                  <VenueDeviceTableWrapper venue={venue} />
-                </TabPanel>
-                <TabPanel overflowX="auto">
-                  <VenueContactTableWrapper venue={venue} />
-                </TabPanel>
-              </TabPanels>
-            </LoadingOverlay>
+            <LoadingOverlay isLoading={isFetching}>{panels}</LoadingOverlay>
           )}
         </Tabs>
       </CardBody>

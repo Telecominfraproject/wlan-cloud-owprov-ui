@@ -45,15 +45,16 @@ export const useGetAnalyticsBoardDevices = ({ t, toast, id }) =>
     },
   );
 
-export const useGetAnalyticsBoardTimepoints = ({ t, toast, id }) => {
-  const date = new Date();
-  date.setHours(date.getHours() - 2);
-
-  return useQuery(
-    ['get-board-timepoints', id],
+export const useGetAnalyticsBoardTimepoints = ({ t, toast, id, startTime, endTime }) =>
+  useQuery(
+    ['get-board-timepoints', id, startTime, endTime],
     () =>
       axiosAnalytics
-        .get(`board/${id}/timepoints?fromDate=${Math.floor(date.getTime() / 1000)}`)
+        .get(
+          `board/${id}/timepoints?fromDate=${Math.floor(startTime.getTime() / 1000)}${
+            endTime ? `${Math.floor(endTime.getTime() / 1000)}` : ''
+          }`,
+        )
         .then(({ data }) => data.points),
     {
       enabled: id !== null,
@@ -74,7 +75,6 @@ export const useGetAnalyticsBoardTimepoints = ({ t, toast, id }) => {
       },
     },
   );
-};
 
 export const useCreateAnalyticsBoard = () => useMutation((newBoard) => axiosAnalytics.post('board/0', newBoard));
 

@@ -1,6 +1,6 @@
 {
   "name": "wlan-cloud-owprov-ui",
-  "version": "2.6.75",
+  "version": "2.6.76",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-app-polyfill": "^3.0.0",
+    "react-datepicker": "^4.7.0",
     "react-fast-compare": "^3.2.0",
     "react-flow-renderer": "^9.7.4",
     "react-i18next": "^11.15.1",

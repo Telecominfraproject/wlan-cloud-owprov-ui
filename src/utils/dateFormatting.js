@@ -81,3 +81,9 @@ export const minimalSecondsToDetailed = (seconds, t) => {
 
   return finalString;
 };
+
+export const getHoursAgo = (hoursAgo = 1, date = new Date()) => {
+  const newDate = date;
+  newDate.setHours(date.getHours() - hoursAgo);
+  return newDate;
+};
