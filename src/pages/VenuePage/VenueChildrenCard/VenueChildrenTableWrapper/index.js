@@ -8,7 +8,11 @@ import CreateVenueModal from 'components/Tables/VenueTable/CreateVenueModal';
 import Actions from './Actions';
 
 const propTypes = {
-  venue: PropTypes.shape(EntityShape).isRequired,
+  venue: PropTypes.shape(EntityShape),
+};
+
+const defaultProps = {
+  venue: null,
 };
 
 const VenueChildrenTableWrapper = ({ venue }) => {
@@ -24,4 +28,5 @@ const VenueChildrenTableWrapper = ({ venue }) => {
   );
 };
 VenueChildrenTableWrapper.propTypes = propTypes;
+VenueChildrenTableWrapper.defaultProps = defaultProps;
 export default VenueChildrenTableWrapper;

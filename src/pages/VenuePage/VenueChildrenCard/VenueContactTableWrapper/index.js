@@ -10,7 +10,10 @@ import ContactTable from 'components/Tables/ContactTable';
 import Actions from './Actions';
 
 const propTypes = {
-  venue: PropTypes.shape(EntityShape).isRequired,
+  venue: PropTypes.shape(EntityShape),
+};
+const defaultProps = {
+  venue: null,
 };
 
 const VenueContactTableWrapper = ({ venue }) => {
@@ -53,4 +56,5 @@ const VenueContactTableWrapper = ({ venue }) => {
 };
 
 VenueContactTableWrapper.propTypes = propTypes;
+VenueContactTableWrapper.defaultProps = defaultProps;
 export default VenueContactTableWrapper;

@@ -11,6 +11,7 @@ import ToggleEditButton from 'components/Buttons/ToggleEditButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetAnalyticsBoard } from 'hooks/Network/Analytics';
+import { useAuth } from 'contexts/AuthProvider';
 import EditVenueForm from './Form';
 import DeleteVenuePopover from './DeleteVenuePopover';
 import CreateVenueModal from '../../../components/Tables/VenueTable/CreateVenueModal';
@@ -22,12 +23,13 @@ const propTypes = {
 const VenueCard = ({ id }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const { endpoints } = useAuth();
   const [editing, setEditing] = useBoolean();
   const { data: venue, refetch, isFetching } = useGetVenue({ t, toast, id });
   const { data: board, isFetching: isFetchingBoard } = useGetAnalyticsBoard({
     t,
     toast,
-    id: venue?.boards.length > 0 ? venue.boards[0] : null,
+    id: endpoints?.owanalytics && venue?.boards.length > 0 ? venue.boards[0] : null,
   });
   const [form, setForm] = useState({});
   const formRef = useCallback(

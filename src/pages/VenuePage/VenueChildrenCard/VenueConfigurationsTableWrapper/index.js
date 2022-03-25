@@ -11,7 +11,10 @@ import { useQueryClient } from 'react-query';
 import Actions from './Actions';
 
 const propTypes = {
-  venue: PropTypes.shape(EntityShape).isRequired,
+  venue: PropTypes.shape(EntityShape),
+};
+const defaultProps = {
+  venue: null,
 };
 
 const VenueConfigurationsTableWrapper = ({ venue }) => {
@@ -48,4 +51,5 @@ const VenueConfigurationsTableWrapper = ({ venue }) => {
   );
 };
 VenueConfigurationsTableWrapper.propTypes = propTypes;
+VenueConfigurationsTableWrapper.defaultProps = defaultProps;
 export default VenueConfigurationsTableWrapper;

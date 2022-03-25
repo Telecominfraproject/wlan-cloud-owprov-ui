@@ -14,7 +14,11 @@ import ImportDeviceCsvModal from 'components/Tables/InventoryTable/ImportDeviceC
 import Actions from './Actions';
 
 const propTypes = {
-  venue: PropTypes.shape(EntityShape).isRequired,
+  venue: PropTypes.shape(EntityShape),
+};
+
+const defaultProps = {
+  venue: null,
 };
 
 const VenueDeviceTableWrapper = ({ venue }) => {
@@ -68,4 +72,5 @@ const VenueDeviceTableWrapper = ({ venue }) => {
 };
 
 VenueDeviceTableWrapper.propTypes = propTypes;
+VenueDeviceTableWrapper.defaultProps = defaultProps;
 export default VenueDeviceTableWrapper;

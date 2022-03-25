@@ -12,7 +12,7 @@ import {
   useBreakpoint,
   useDisclosure,
 } from '@chakra-ui/react';
-import { ArrowSquareOut } from 'phosphor-react';
+import { ArrowsOut } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import ModalHeader from 'components/ModalHeader';
 import CirclePack from './CirclePack';
@@ -35,10 +35,10 @@ const CirclePackExpandButton = ({ isDisabled, data }) => {
     if (breakpoint !== 'base' && breakpoint !== 'sm') {
       return (
         <Button
-          colorScheme="gray"
+          colorScheme="blue"
           type="button"
           onClick={onOpen}
-          rightIcon={<ArrowSquareOut size={20} />}
+          rightIcon={<ArrowsOut size={20} />}
           isDisabled={isDisabled}
         >
           {t('common.fullscreen')}
@@ -48,10 +48,10 @@ const CirclePackExpandButton = ({ isDisabled, data }) => {
     return (
       <Tooltip label={t('common.fullscreen')}>
         <IconButton
-          colorScheme="red"
+          colorScheme="blue"
           type="button"
           onClick={onOpen}
-          icon={<ArrowSquareOut size={20} />}
+          icon={<ArrowsOut size={20} />}
           isDisabled={isDisabled}
         />
       </Tooltip>

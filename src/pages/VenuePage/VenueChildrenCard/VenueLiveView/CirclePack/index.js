@@ -5,7 +5,7 @@ import { ResponsiveCirclePacking } from '@nivo/circle-packing';
 import { useGetVenue } from 'hooks/Network/Venues';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { Box, useColorMode, useToast } from '@chakra-ui/react';
+import { Box, Center, Heading, useColorMode, useToast } from '@chakra-ui/react';
 import { parseDbm } from 'utils/stringHelper';
 import { errorColor, successColor, warningColor } from 'utils/colors';
 import CircleComponent from './CircleComponent';
@@ -15,14 +15,16 @@ import CirclePackSlider from './Slider';
 const propTypes = {
   timepoints: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
 };
+
 const CirclePack = ({ timepoints }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { colorMode } = useColorMode();
   const { id } = useParams();
   const { data: venue } = useGetVenue({ t, toast, id });
-  const [pointIndex, setPointIndex] = useState(timepoints.length - 1);
+  const [pointIndex, setPointIndex] = useState(Math.max(timepoints.length - 1, 0));
   const [zoomedId, setZoomedId] = useState(null);
+
   const data = useMemo(() => {
     if (!timepoints || timepoints.length === 0) return null;
 
@@ -105,47 +107,51 @@ const CirclePack = ({ timepoints }) => {
     return root;
   }, [timepoints, pointIndex, colorMode]);
 
-  if (!data) return null;
-
   useEffect(() => {
     setPointIndex(timepoints.length - 1);
   }, [timepoints]);
 
   return (
     <>
-      <CirclePackSlider index={pointIndex} setIndex={setPointIndex} points={timepoints} />
+      {timepoints.length > 0 && <CirclePackSlider index={pointIndex} setIndex={setPointIndex} points={timepoints} />}
       <Box w="100%" h="600px">
-        <ResponsiveCirclePacking
-          margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-          padding="36"
-          id="name"
-          value="scale"
-          data={data}
-          enableLabels
-          labelsSkipRadius={32}
-          labelsFilter={(label) => label.node.height === 0}
-          labelTextColor={{
-            from: 'color',
-            modifiers: [['darker', 2]],
-          }}
-          labelComponent={CircleLabel}
-          onMouseEnter={null}
-          tooltip={null}
-          circleComponent={CircleComponent}
-          zoomedId={zoomedId}
-          motionConfig="slow"
-          theme={{
-            labels: {
-              text: {
+        {data === null ? (
+          <Center>
+            <Heading size="lg">{t('common.no_records_found')}</Heading>
+          </Center>
+        ) : (
+          <ResponsiveCirclePacking
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            padding="36"
+            id="name"
+            value="scale"
+            data={data}
+            enableLabels
+            labelsSkipRadius={32}
+            labelsFilter={(label) => label.node.height === 0}
+            labelTextColor={{
+              from: 'color',
+              modifiers: [['darker', 2]],
+            }}
+            labelComponent={CircleLabel}
+            onMouseEnter={null}
+            tooltip={null}
+            circleComponent={CircleComponent}
+            zoomedId={zoomedId}
+            motionConfig="slow"
+            theme={{
+              labels: {
+                text: {
+                  background: 'black',
+                },
                 background: 'black',
               },
-              background: 'black',
-            },
-          }}
-          onClick={(node) => {
-            setZoomedId(zoomedId === node.id ? null : node.id);
-          }}
-        />
+            }}
+            onClick={(node) => {
+              setZoomedId(zoomedId === node.id ? null : node.id);
+            }}
+          />
+        )}
       </Box>
     </>
   );

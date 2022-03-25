@@ -33,8 +33,8 @@ const VenueLiveView = ({ boardId }) => {
     <LoadingOverlay isLoading={isFetching}>
       <Box>
         <Flex mb={2}>
-          <ExpandButton data={timepoints} isDisabled={isFetching || !timepoints} />
           <Spacer />
+          <ExpandButton data={timepoints} isDisabled={isFetching || !timepoints} />
           <CirclePackTimePickers
             start={startTime}
             end={endTime}
