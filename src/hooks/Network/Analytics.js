@@ -52,7 +52,7 @@ export const useGetAnalyticsBoardTimepoints = ({ t, toast, id, startTime, endTim
       axiosAnalytics
         .get(
           `board/${id}/timepoints?fromDate=${Math.floor(startTime.getTime() / 1000)}${
-            endTime ? `${Math.floor(endTime.getTime() / 1000)}` : ''
+            endTime ? `endDate=${Math.floor(endTime.getTime() / 1000)}` : ''
           }`,
         )
         .then(({ data }) => data.points),
