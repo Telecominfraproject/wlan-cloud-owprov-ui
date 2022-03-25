@@ -40,6 +40,7 @@ const CirclePackExpandButton = ({ isDisabled, data }) => {
           onClick={onOpen}
           rightIcon={<ArrowsOut size={20} />}
           isDisabled={isDisabled}
+          mr={2}
         >
           {t('common.fullscreen')}
         </Button>
@@ -53,6 +54,7 @@ const CirclePackExpandButton = ({ isDisabled, data }) => {
           onClick={onOpen}
           icon={<ArrowsOut size={20} />}
           isDisabled={isDisabled}
+          mr={2}
         />
       </Tooltip>
     );
