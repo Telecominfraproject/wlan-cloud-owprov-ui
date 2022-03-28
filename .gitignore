@@ -7,7 +7,6 @@
 /coverage
 
 # production
-/build
 
 # misc
 .DS_Store
@@ -17,3 +16,5 @@
 .env.production.local
 
 npm-debug.log*
+/build
+.env
