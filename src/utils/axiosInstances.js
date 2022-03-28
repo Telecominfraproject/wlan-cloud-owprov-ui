@@ -1,7 +1,7 @@
 import * as axios from 'axios';
 import { AUTH_EXPIRED_TOKEN_CODE, AUTH_INVALID_TOKEN_CODE } from 'constants/apiErrors';
 
-export const secUrl = 'https://ucentral.dpaas.arilia.com:16001/api/v1';
+export const secUrl = `${process.env.REACT_APP_UCENTRALSEC_URL}/api/v1`;
 const sec = axios.create({ baseURL: secUrl });
 
 sec.defaults.timeout = 60000;
