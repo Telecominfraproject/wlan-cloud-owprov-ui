@@ -15,9 +15,10 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { t } from 'i18next';
 import { ArrowSquareOut, Tag } from 'phosphor-react';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
+import FormattedDate from 'components/FormattedDate';
+import { useTranslation } from 'react-i18next';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -28,6 +29,7 @@ const propTypes = {
 };
 
 const DeviceCircle = ({ node, style, handleClicks }) => {
+  const { t } = useTranslation();
   const { data: gwUi } = useGetGatewayUi();
 
   const handleOpenInGateway = useMemo(
@@ -72,6 +74,24 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
             <Heading size="sm">
               {node.data.details.deviceInfo.health}% {t('analytics.health')}
             </Heading>
+            <Heading size="sm">
+              {t('analytics.memory_used')}: {Math.floor(node.data.details.deviceInfo.memory)}%
+            </Heading>
+            <Heading size="sm">
+              {node.data.details.deviceInfo.associations_2g} 2G {t('analytics.associations')}
+            </Heading>
+            <Heading size="sm">
+              {node.data.details.deviceInfo.associations_5g} 5G {t('analytics.associations')}
+            </Heading>
+            <Heading size="sm">
+              {node.data.details.deviceInfo.associations_6g} 6G {t('analytics.associations')}
+            </Heading>
+            {node.data.details.deviceInfo.lastDisconnection !== 0 && (
+              <Heading size="sm">
+                {t('analytics.last_disconnection')}:{' '}
+                <FormattedDate date={node.data.details.deviceInfo.lastDisconnection} />
+              </Heading>
+            )}
           </PopoverBody>
         </PopoverContent>
       </Portal>

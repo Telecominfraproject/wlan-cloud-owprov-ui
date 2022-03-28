@@ -48,7 +48,7 @@ const AssociationCircle = ({ node, style, handleClicks }) => (
           <Text ml={2}>{node?.data?.name.split('/')[0]}</Text>
         </PopoverHeader>
         <PopoverBody>
-          <Heading size="sm">RSSI {node.data.details.rssi}</Heading>
+          <Heading size="sm">RSSI {node.data.details.rssi} db</Heading>
           <Heading size="sm">TX {bytesString(node.data.details.tx_bytes)}</Heading>
           <Heading size="sm">RX {bytesString(node.data.details.rx_bytes)}</Heading>
         </PopoverBody>

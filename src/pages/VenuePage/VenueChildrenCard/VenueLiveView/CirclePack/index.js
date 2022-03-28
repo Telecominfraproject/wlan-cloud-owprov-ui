@@ -43,7 +43,8 @@ const CirclePack = ({ timepoints, fullscreen }) => {
     };
 
     let totalHealth = 0;
-    for (const { device_info: deviceInfo, ssid_data: ssidData } of timepoints[pointIndex]) {
+
+    for (const { device_info: deviceInfo, ssid_data: ssidData, radio_data: radioData } of timepoints[pointIndex]) {
       totalHealth += deviceInfo.health;
 
       const finalDevice = {
@@ -60,6 +61,24 @@ const CirclePack = ({ timepoints, fullscreen }) => {
       else if (deviceInfo.health >= 70) finalDevice.details.color = warningColor(colorMode);
       else finalDevice.details.color = errorColor(colorMode);
 
+      const radioChannelIndex = {};
+
+      for (const [i, { band, transmit_pct: transmitPct, ...radioDetails }] of radioData.entries()) {
+        const finalRadio = {
+          name: `${band}/radio/${uuid()}`,
+          type: 'radio',
+          details: {
+            band,
+            transmitPct,
+            ...radioDetails,
+            color: transmitPct > 60 ? 'var(--chakra-colors-danger-400)' : 'var(--chakra-colors-success-600)',
+          },
+          children: [],
+        };
+        radioChannelIndex[band] = i;
+        finalDevice.children.push(finalRadio);
+      }
+
       for (const { ssid, associations, ...ssidDetails } of ssidData) {
         const finalSsid = {
           name: `${ssid}/ssid/${uuid()}`,
@@ -70,7 +89,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
             ...ssidDetails,
           },
           children: [],
-          scale: associations.length === 0 ? 1 : associations.length * 4,
+          scale: 1,
         };
 
         let totalRssi = 0;
@@ -83,7 +102,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
               rssi: parseDbm(rssi),
               ...associationDetails,
             },
-            scale: 1,
+            scale: Math.max(1, Math.floor((associationDetails.tx_bytes_bw + associationDetails.rx_bytes_bw) / 1000)),
           };
 
           if (rssi >= -45) finalAssociation.details.color = successColor(colorMode);
@@ -97,10 +116,8 @@ const CirclePack = ({ timepoints, fullscreen }) => {
         if (finalSsid.details.avgRssi >= -45) finalSsid.details.color = successColor(colorMode);
         else if (finalSsid.details.avgRssi >= -60) finalSsid.details.color = warningColor(colorMode);
         else finalSsid.details.color = errorColor(colorMode);
-
-        finalDevice.children.push(finalSsid);
+        finalDevice.children[radioChannelIndex[ssidDetails.band]].children.push(finalSsid);
       }
-
       root.children.push(finalDevice);
     }
 
@@ -132,7 +149,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
             value="scale"
             data={data}
             enableLabels
-            labelsSkipRadius={32}
+            labelsSkipRadius={42}
             labelsFilter={(label) => label.node.height === 0}
             labelTextColor={{
               from: 'color',

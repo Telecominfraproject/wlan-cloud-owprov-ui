@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import isEqual from 'react-fast-compare';
 import { ArrowSquareOut, Circle, Heart } from 'phosphor-react';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import AssociationsTable from './AssociationsTable';
 
@@ -46,6 +46,7 @@ const propTypes = {
 };
 
 const DeviceNode = ({ data, isConnectable }) => {
+  const { t } = useTranslation();
   const bgColor = useColorModeValue('blue.200', 'blue.200');
   const { data: gwUi } = useGetGatewayUi();
 

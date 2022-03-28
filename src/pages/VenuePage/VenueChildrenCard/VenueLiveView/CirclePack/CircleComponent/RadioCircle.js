@@ -13,7 +13,7 @@ import {
   Portal,
   Text,
 } from '@chakra-ui/react';
-import { Buildings } from 'phosphor-react';
+import { Radio } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 
 const propTypes = {
@@ -24,8 +24,9 @@ const propTypes = {
   style: PropTypes.instanceOf(Object).isRequired,
 };
 
-const VenueCircle = ({ node, style, handleClicks }) => {
+const RadioCircle = ({ node, style, handleClicks }) => {
   const { t } = useTranslation();
+
   return (
     <Popover isLazy trigger="hover" placement="top">
       <PopoverTrigger>
@@ -46,15 +47,20 @@ const VenueCircle = ({ node, style, handleClicks }) => {
           <PopoverArrow />
           <PopoverCloseButton alignContent="center" mt={1} />
           <PopoverHeader display="flex">
-            <Buildings weight="fill" size={24} />
-            <Text ml={2}>{node?.data?.name.split('/')[0]}</Text>
+            <Radio size={24} weight="fill" />
+            <Text ml={2}>
+              {t('analytics.band')} {node.data.details.band}
+            </Text>
           </PopoverHeader>
           <PopoverBody>
             <Heading size="sm">
-              {node.data.children.length} {t('devices.title')}
+              {t('analytics.channel')}: {node.data.details.channel}
             </Heading>
             <Heading size="sm">
-              {node.data.details.avgHealth}% {t('analytics.average_health')}
+              {t('analytics.airtime')}: {Math.floor(node.data.details.transmitPct)}%
+            </Heading>
+            <Heading size="sm">
+              {t('analytics.noise')}: {node.data.details.noise} db
             </Heading>
           </PopoverBody>
         </PopoverContent>
@@ -63,5 +69,5 @@ const VenueCircle = ({ node, style, handleClicks }) => {
   );
 };
 
-VenueCircle.propTypes = propTypes;
-export default React.memo(VenueCircle);
+RadioCircle.propTypes = propTypes;
+export default React.memo(RadioCircle);
