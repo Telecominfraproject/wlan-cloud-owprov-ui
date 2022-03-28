@@ -28,7 +28,8 @@ const propTypes = {
 };
 
 const DeviceCircle = ({ node, style, handleClicks }) => {
-  const { gwUi } = useGetGatewayUi();
+  const { data: gwUi } = useGetGatewayUi();
+
   const handleOpenInGateway = useMemo(
     () => () => window.open(`${gwUi}/#/devices/${node.data.details.deviceInfo.serialNumber}`, '_blank'),
     [gwUi],
