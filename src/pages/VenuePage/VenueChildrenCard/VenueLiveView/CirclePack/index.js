@@ -83,7 +83,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
               rssi: parseDbm(rssi),
               ...associationDetails,
             },
-            scale: 1,
+            scale: Math.max(1, Math.floor(associationDetails.tx_bytes_bw + associationDetails.rx_bytes_bw)),
           };
 
           if (rssi >= -45) finalAssociation.details.color = successColor(colorMode);
@@ -132,7 +132,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
             value="scale"
             data={data}
             enableLabels
-            labelsSkipRadius={32}
+            labelsSkipRadius={42}
             labelsFilter={(label) => label.node.height === 0}
             labelTextColor={{
               from: 'color',
