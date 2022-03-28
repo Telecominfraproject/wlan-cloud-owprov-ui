@@ -1,34 +1,15 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useToggle } from 'ucentral-libs';
-import ContactsTable from 'components/ContactsTable';
-import AddContactModal from 'components/AddContactModal';
+import React from 'react';
+import { Flex } from '@chakra-ui/react';
+import { useAuth } from 'contexts/AuthProvider';
+import Table from './Table';
 
 const ContactsPage = () => {
-  const { t } = useTranslation();
-  const [showAddModal, toggleShowAdd] = useToggle(false);
-  const [refreshId, setRefreshId] = useState(0);
-
-  const refreshTable = () => setRefreshId(refreshId + 1);
+  const { isUserLoaded } = useAuth();
 
   return (
-    <div>
-      <ContactsTable
-        title={t('contact.title')}
-        entityPage={false}
-        toggleAdd={toggleShowAdd}
-        refreshId={refreshId}
-        useUrl
-        refreshPageTables={refreshTable}
-      />
-      <AddContactModal
-        show={showAddModal}
-        toggle={toggleShowAdd}
-        refreshId={refreshId}
-        refreshTable={refreshTable}
-        entity={null}
-      />
-    </div>
+    <Flex flexDirection="column" pt="75px">
+      {isUserLoaded && <Table />}
+    </Flex>
   );
 };
 

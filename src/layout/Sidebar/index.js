@@ -1,152 +1,144 @@
-import React, { useState } from 'react';
-import {
-  CCreateElement,
-  CSidebar,
-  CSidebarBrand,
-  CSidebarNav,
-  CSidebarNavDivider,
-  CSidebarNavTitle,
-  CSidebarNavDropdown,
-  CSidebarNavItem,
-  CButton,
-} from '@coreui/react';
-import {
-  cilBarcode,
-  cilSpreadsheet,
-  cilWc,
-  cilMap,
-  cilSettings,
-  cilPeople,
-  cilAddressBook,
-} from '@coreui/icons';
-import CIcon from '@coreui/icons-react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useEntity } from 'ucentral-libs';
+import { useLocation } from 'react-router-dom';
+import {
+  Box,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  Flex,
+  Link,
+  useColorModeValue,
+  useColorMode,
+  Text,
+  Spacer,
+  useBreakpoint,
+} from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import AddEntityModal from 'components/AddEntityModal';
-import SidebarDropdown from '../SidebarDropdown';
-import SidebarChildless from '../SidebarChildless';
-import styles from './index.module.scss';
+import { useAuth } from 'contexts/AuthProvider';
+import createLinks from './CreateLinks';
+import darkLogo from '../../assets/Logo_Dark_Mode.svg';
+import lightLogo from '../../assets/Logo_Light_Mode.svg';
 
-const Sidebar = ({ showSidebar, setShowSidebar, logo, redirectTo }) => {
+const variantChange = '0.2s linear';
+
+const propTypes = {
+  routes: PropTypes.instanceOf(Array).isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
+};
+
+const Sidebar = ({ routes, isOpen, toggle }) => {
   const { t } = useTranslation();
-  const { entities, rootEntityMissing, resetEntity } = useEntity();
-  const [showAddEntity, setShowAddEntity] = useState(false);
-  const [creatingVenue, setCreatingVenue] = useState(false);
+  const { user } = useAuth();
+  const location = useLocation();
+  const mainPanel = React.useRef();
+  const { colorMode } = useColorMode();
+  const navbarShadow = useColorModeValue('0px 7px 23px rgba(0, 0, 0, 0.05)', 'none');
+  const breakpoint = useBreakpoint();
 
-  const toggleAddEntity = (isVenue) => {
-    if (isVenue !== undefined) setCreatingVenue(isVenue);
-    setShowAddEntity(!showAddEntity);
+  const activeRoute = (routeName, otherRoute) => {
+    if (otherRoute)
+      return location.pathname.split('/')[1] === routeName.split('/')[1] ||
+        location.pathname.split('/')[1] === otherRoute.split('/')[1]
+        ? 'active'
+        : '';
+
+    return location.pathname === routeName ? 'active' : '';
   };
 
-  return (
-    <CSidebar
-      show={showSidebar}
-      onShowChange={(val) => setShowSidebar(val)}
-      dropdownMode="noAction"
-    >
-      <CSidebarBrand className="d-md-down-none" to={redirectTo}>
-        <img
-          className={[styles.sidebarImgFull, 'c-sidebar-brand-full'].join(' ')}
-          src={logo}
-          alt="OpenWifi"
-        />
-        <img
-          className={[styles.sidebarImgMinimized, 'c-sidebar-brand-minimized'].join(' ')}
-          src={logo}
-          alt="OpenWifi"
-        />
-      </CSidebarBrand>
-      <CSidebarNav>
-        <CButton
-          hidden={!showSidebar || !rootEntityMissing}
-          block
-          className="text-center px-0 py-2 my-3"
-          color="light"
-          onClick={toggleAddEntity}
+  const brand = (
+    <Box pt="25px" mb="12px">
+      <Link
+        href={`${process.env.PUBLIC_URL}/#/`}
+        target="_blank"
+        display="flex"
+        lineHeight="100%"
+        mb="30px"
+        fontWeight="bold"
+        justifyContent="center"
+        alignItems="center"
+        fontSize="11px"
+      >
+        <img src={colorMode === 'light' ? lightLogo : darkLogo} alt="OpenWifi" width="180px" height="100px" />
+      </Link>
+    </Box>
+  );
+
+  if (breakpoint === 'base') {
+    return (
+      <Drawer isOpen={isOpen} onClose={toggle} placement="left">
+        <DrawerOverlay />
+        <DrawerContent
+          w="250px"
+          maxW="250px"
+          ms={{
+            base: '16px',
+          }}
+          my={{
+            base: '16px',
+          }}
+          borderRadius="16px"
         >
-          {t('entity.add_root')}
-        </CButton>
-        <div hidden={rootEntityMissing}>
-          <CCreateElement
-            items={entities}
-            components={{
-              SidebarChildless,
-              SidebarDropdown,
-              CButton,
-              CSidebarNavDivider,
-              CSidebarNavDropdown,
-              CSidebarNavItem,
-              CSidebarNavTitle,
-            }}
-          />
-        </div>
-        <CSidebarNavItem
-          className="font-weight-bold"
-          name="Inventory"
-          to="/inventory"
-          onClick={resetEntity}
-          icon={<CIcon content={cilSpreadsheet} size="xl" className="mr-3" />}
-        />
-        <CSidebarNavItem
-          className="font-weight-bold"
-          name="Contacts"
-          to="/contacts"
-          onClick={resetEntity}
-          icon={<CIcon content={cilWc} size="xl" className="mr-3" />}
-        />
-        <CSidebarNavItem
-          className="font-weight-bold"
-          name="Locations"
-          to="/location"
-          onClick={resetEntity}
-          icon={<CIcon content={cilMap} size="xl" className="mr-3" />}
-        />
-        <CSidebarNavItem
-          className="font-weight-bold"
-          name="Configurations"
-          to="/configuration"
-          onClick={resetEntity}
-          icon={<CIcon content={cilBarcode} size="xl" className="mr-3" />}
-        />
-        <CSidebarNavDropdown
-          className="font-weight-bold"
-          hidden
-          name="Managament Roles"
-          icon={<CIcon content={cilWc} size="xl" className="mr-3" />}
-        />
-        <CSidebarNavItem
-          className="font-weight-bold"
-          name="Subscribers"
-          to="/subscribers"
-          icon={<CIcon content={cilAddressBook} size="xl" className="mr-3" />}
-          onClick={resetEntity}
-        />
-        <CSidebarNavItem
-          className="font-weight-bold"
-          name={t('user.users')}
-          to="/users"
-          icon={<CIcon content={cilPeople} size="xl" className="mr-3" />}
-          onClick={resetEntity}
-        />
-        <CSidebarNavItem
-          className="font-weight-bold"
-          name={t('common.system')}
-          to="/system"
-          icon={<CIcon content={cilSettings} size="xl" className="mr-3" />}
-          onClick={resetEntity}
-        />
-      </CSidebarNav>
-      <AddEntityModal show={showAddEntity} toggle={toggleAddEntity} creatingVenue={creatingVenue} />
-    </CSidebar>
+          <DrawerCloseButton _focus={{ boxShadow: 'none' }} _hover={{ boxShadow: 'none' }} />
+          <DrawerBody maxW="250px" px="1rem">
+            <Box maxW="100%" h="90vh">
+              <Box>{brand}</Box>
+              <Flex direction="column" mb="40px" h="calc(100vh - 200px)" alignItems="center">
+                <Box overflowY="auto">{createLinks(routes, activeRoute, user?.userRole ?? '', toggle)}</Box>
+                <Spacer />
+                <Box>
+                  <Text color="gray.400">
+                    {t('footer.version')} {process.env.REACT_APP_VERSION}
+                  </Text>
+                </Box>
+              </Flex>
+            </Box>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Box ref={mainPanel}>
+      <Box hidden={!isOpen} position="fixed">
+        <Box
+          shadow={navbarShadow}
+          bg={useColorModeValue('white', 'gray.700')}
+          transition={variantChange}
+          w="200px"
+          maxW="200px"
+          ms={{
+            sm: '16px',
+          }}
+          my={{
+            sm: '16px',
+          }}
+          h="calc(100vh - 32px)"
+          ps="20px"
+          pe="20px"
+          m="16px 0px 16px 16px"
+          borderRadius="16px"
+        >
+          <Box>{brand}</Box>
+          <Flex direction="column" mb="40px" h="calc(100vh - 200px)" alignItems="center">
+            <Box overflowY="auto">{createLinks(routes, activeRoute, user?.userRole ?? '', toggle)}</Box>
+            <Spacer />
+            <Box>
+              <Text color="gray.400">
+                {t('footer.version')} {process.env.REACT_APP_VERSION}
+              </Text>
+            </Box>
+          </Flex>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
-Sidebar.propTypes = {
-  showSidebar: PropTypes.string.isRequired,
-  setShowSidebar: PropTypes.func.isRequired,
-  logo: PropTypes.string.isRequired,
-  redirectTo: PropTypes.string.isRequired,
-};
+Sidebar.propTypes = propTypes;
 
 export default Sidebar;

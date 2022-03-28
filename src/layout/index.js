@@ -1,57 +1,98 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Header, Footer, PageContainer, ToastProvider, useAuth } from 'ucentral-libs';
-import { CButton, CPopover } from '@coreui/react';
-import { cilGlobeAlt } from '@coreui/icons';
-import CIcon from '@coreui/icons-react';
-import routes from 'routes';
-import { useHistory } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Flex, Portal, Spinner, useBoolean, useBreakpoint } from '@chakra-ui/react';
+import { Route, Routes } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
+import routes from 'router/routes';
+import MainPanel from './MainPanel';
+import Navbar from './Navbar';
+import PanelContent from './Containers/PanelContent';
+import PanelContainer from './Containers/PanelContainer';
 import Sidebar from './Sidebar';
 
-const TheLayout = () => {
-  const { t, i18n } = useTranslation();
-  const { endpoints, currentToken, user, avatar, logout } = useAuth();
-  const history = useHistory();
-  const [showSidebar, setShowSidebar] = useState('responsive');
+const Layout = () => {
+  const breakpoint = useBreakpoint();
+  const [isSidebarOpen, { toggle: toggleSidebar }] = useBoolean(breakpoint !== 'base' && breakpoint !== 'sm');
+  document.documentElement.dir = 'ltr';
+
+  const getActiveRoute = (r) => {
+    const activeRoute = 'Default Brand Text';
+    for (let i = 0; i < r.length; i += 1) {
+      if (r[i].collapse) {
+        const collapseActiveRoute = getActiveRoute(r[i].views);
+        if (collapseActiveRoute !== activeRoute) {
+          return collapseActiveRoute;
+        }
+      } else if (r[i].category) {
+        const categoryActiveRoute = getActiveRoute(r[i].views);
+        if (categoryActiveRoute !== activeRoute) {
+          return categoryActiveRoute;
+        }
+      } else if (window.location.href.indexOf(r[i].layout + r[i].path) !== -1) {
+        return r[i].name;
+      }
+    }
+    return activeRoute;
+  };
+  // This changes navbar state(fixed or not)
+  const getActiveNavbar = (r) => {
+    const activeNavbar = false;
+    for (let i = 0; i < r.length; i += 1) {
+      if (r[i].category) {
+        const categoryActiveNavbar = getActiveNavbar(r[i].views);
+        if (categoryActiveNavbar !== activeNavbar) {
+          return categoryActiveNavbar;
+        }
+      } else if (window.location.href.indexOf(r[i].path) !== -1) {
+        if (r[i].secondaryNavbar) {
+          return r[i].secondaryNavbar;
+        }
+      }
+    }
+    return activeNavbar;
+  };
+  const getRoutes = (r) => r.map((route) => <Route path={route.path} element={<route.component />} key={uuid()} />);
+
   return (
-    <div className="c-app c-default-layout">
+    <>
       <Sidebar
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        logo="assets/OpenWiFi_LogoLockup_WhiteColour.svg"
-        redirectTo="/entity/0000-0000-0000"
+        routes={routes}
+        isOpen={isSidebarOpen}
+        toggle={toggleSidebar}
+        logoText="Provisioning"
+        sidebarVariant="transparent"
       />
-      <div className="c-wrapper">
-        <Header
-          showSidebar={showSidebar}
-          setShowSidebar={setShowSidebar}
-          routes={routes}
-          t={t}
-          i18n={i18n}
-          logout={logout}
-          logo="assets/OpenWiFi_LogoLockup_DarkGreyColour.svg"
-          authToken={currentToken}
-          endpoints={endpoints}
-          user={user}
-          avatar={avatar}
-          extraButton={
-            <CPopover content={t('entity.entire_tree')}>
-              <CButton color="info" onClick={() => history.push(`/maps`)} className="ml-2">
-                <CIcon content={cilGlobeAlt} />
-              </CButton>
-            </CPopover>
-          }
-          hideBreadcrumb
+      <Portal>
+        <Navbar
+          brandText={getActiveRoute(routes)}
+          secondary={getActiveNavbar(routes)}
+          fixed
+          toggleSidebar={toggleSidebar}
+          isSidebarOpen={isSidebarOpen}
         />
-        <div className="c-body">
-          <ToastProvider>
-            <PageContainer t={t} routes={routes} redirectTo="/entity/0000-0000-0000" />
-          </ToastProvider>
-        </div>
-        <Footer t={t} version={process.env.VERSION} />
-      </div>
-    </div>
+      </Portal>
+      <MainPanel
+        w={{
+          base: '100%',
+          sm: isSidebarOpen ? 'calc(100% - 220px)' : '100%',
+          md: isSidebarOpen ? 'calc(100% - 220px)' : '100%',
+        }}
+      >
+        <PanelContent>
+          <PanelContainer>
+            <Suspense
+              fallback={
+                <Flex flexDirection="column" pt="75px">
+                  <Spinner />
+                </Flex>
+              }
+            >
+              <Routes>{getRoutes(routes)}</Routes>
+            </Suspense>
+          </PanelContainer>
+        </PanelContent>
+      </MainPanel>
+    </>
   );
 };
 
-export default TheLayout;
+export default Layout;

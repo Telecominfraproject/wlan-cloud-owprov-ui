@@ -1,22 +1,20 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { SystemPage as Page, useToast, useAuth } from 'ucentral-libs';
-import axiosInstance from 'utils/axiosInstance';
+import { Flex, SimpleGrid } from '@chakra-ui/react';
+import { axiosAnalytics, axiosFms, axiosGw, axiosOwls, axiosProv, axiosSec, axiosSub } from 'utils/axiosInstances';
+import SystemTile from './SystemTile';
 
-const SystemPage = () => {
-  const { t } = useTranslation();
-  const { currentToken, endpoints } = useAuth();
-  const { addToast } = useToast();
-
-  return (
-    <Page
-      t={t}
-      currentToken={currentToken}
-      endpoints={endpoints}
-      addToast={addToast}
-      axiosInstance={axiosInstance}
-    />
-  );
-};
+const SystemPage = () => (
+  <Flex flexDirection="column" pt="75px">
+    <SimpleGrid minChildWidth="500px" spacing="20px">
+      <SystemTile axiosInstance={axiosSec} name="owsec" />
+      <SystemTile axiosInstance={axiosGw} name="owgw" />
+      <SystemTile axiosInstance={axiosProv} name="owprov" />
+      <SystemTile axiosInstance={axiosFms} name="owfms" />
+      <SystemTile axiosInstance={axiosSub} name="owsub" />
+      <SystemTile axiosInstance={axiosOwls} name="owls" />
+      <SystemTile axiosInstance={axiosAnalytics} name="owanalytics" />
+    </SimpleGrid>
+  </Flex>
+);
 
 export default SystemPage;

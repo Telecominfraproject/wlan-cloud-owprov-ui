@@ -1,39 +1,15 @@
-import React, { useState } from 'react';
-import InventoryTable from 'components/InventoryTable';
-import AddInventoryTagModal from 'components/AddInventoryTagModal';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
+import { Flex } from '@chakra-ui/react';
+import { useAuth } from 'contexts/AuthProvider';
+import Table from './Table';
 
 const InventoryPage = () => {
-  const { t } = useTranslation();
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [refreshId, setRefreshId] = useState(0);
-
-  const toggleShowAdd = () => {
-    setShowAddModal(!showAddModal);
-  };
-
-  const refreshTable = () => setRefreshId(refreshId + 1);
+  const { isUserLoaded } = useAuth();
 
   return (
-    <div>
-      <InventoryTable
-        title={t('inventory.title')}
-        entityPage={false}
-        toggleAdd={toggleShowAdd}
-        refreshId={refreshId}
-        useUrl
-        refreshPageTables={refreshTable}
-        onlyUnassigned
-        twoTables
-      />
-      <AddInventoryTagModal
-        show={showAddModal}
-        toggle={toggleShowAdd}
-        refreshId={refreshId}
-        refreshTable={refreshTable}
-        entity={null}
-      />
-    </div>
+    <Flex flexDirection="column" pt="75px">
+      {isUserLoaded && <Table />}
+    </Flex>
   );
 };
 

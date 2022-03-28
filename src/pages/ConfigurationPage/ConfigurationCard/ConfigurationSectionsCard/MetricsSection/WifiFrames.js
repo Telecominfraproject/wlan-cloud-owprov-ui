@@ -1,0 +1,48 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
+import { SimpleGrid } from '@chakra-ui/react';
+import MultiSelectField from 'components/FormFields/MultiSelectField';
+
+const propTypes = {
+  editing: PropTypes.bool.isRequired,
+};
+
+const WifiFrames = ({ editing }) => {
+  const { t } = useTranslation();
+
+  return (
+    <Card variant="widget" mb={4}>
+      <CardHeader>{t('configurations.wifi_frames')}</CardHeader>
+      <CardBody>
+        <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">
+          <MultiSelectField
+            name="configuration.wifi-frames.filters"
+            label="filters"
+            definitionKey="metrics.wifi-frames.filters"
+            options={[
+              { value: 'probe', label: 'probe' },
+              { value: 'auth', label: 'auth' },
+              { value: 'assoc', label: 'assoc' },
+              { value: 'disassoc', label: 'disassoc' },
+              { value: 'deauth', label: 'deauth' },
+              { value: 'local-deauth', label: 'local-deauth' },
+              { value: 'inactive-deauth', label: 'inactive-deauth' },
+              { value: 'key-mismatch', label: 'key-mismatch' },
+              { value: 'beacon-report', label: 'beacon-report' },
+              { value: 'radar-detected', label: 'radar-detected' },
+            ]}
+            isRequired
+            isDisabled={!editing}
+          />
+        </SimpleGrid>
+      </CardBody>
+    </Card>
+  );
+};
+
+WifiFrames.propTypes = propTypes;
+export default React.memo(WifiFrames);

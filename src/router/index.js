@@ -1,28 +1,15 @@
-import { useAuth, ToastProvider } from 'ucentral-libs';
-import { Route } from 'react-router-dom';
+import { useAuth } from 'contexts/AuthProvider';
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-const TheLayout = React.lazy(() => import('layout'));
+const Layout = React.lazy(() => import('layout'));
 const Login = React.lazy(() => import('pages/LoginPage'));
 
-const Routes = () => {
-  const { currentToken, endpoints } = useAuth();
-
+const Router = () => {
+  const { token } = useAuth();
   return (
-    <Route
-      path="/"
-      name="Inventory"
-      render={(props) =>
-        currentToken !== '' && Object.keys(endpoints).length !== 0 ? (
-          <TheLayout {...props} />
-        ) : (
-          <ToastProvider>
-            <Login {...props} />
-          </ToastProvider>
-        )
-      }
-    />
+    <Routes>{token !== '' ? <Route path="/*" element={<Layout />} /> : <Route path="/*" element={<Login />} />}</Routes>
   );
 };
 
-export default Routes;
+export default Router;
