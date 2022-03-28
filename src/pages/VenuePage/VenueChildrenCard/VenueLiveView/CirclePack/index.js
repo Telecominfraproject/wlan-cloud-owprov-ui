@@ -14,9 +14,14 @@ import CirclePackSlider from './Slider';
 
 const propTypes = {
   timepoints: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
+  fullscreen: PropTypes.bool,
 };
 
-const CirclePack = ({ timepoints }) => {
+const defaultProps = {
+  fullscreen: false,
+};
+
+const CirclePack = ({ timepoints, fullscreen }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { colorMode } = useColorMode();
@@ -100,8 +105,8 @@ const CirclePack = ({ timepoints }) => {
     }
 
     root.details.avgHealth = Math.floor(totalHealth / Math.max(timepoints[0].length, 1));
-    if (root.details.health >= 90) root.details.color = successColor(colorMode);
-    else if (root.details.health >= 70) root.details.color = warningColor(colorMode);
+    if (root.details.avgHealth >= 90) root.details.color = successColor(colorMode);
+    else if (root.details.avgHealth >= 70) root.details.color = warningColor(colorMode);
     else root.details.color = errorColor(colorMode);
 
     return root;
@@ -114,7 +119,7 @@ const CirclePack = ({ timepoints }) => {
   return (
     <>
       {timepoints.length > 0 && <CirclePackSlider index={pointIndex} setIndex={setPointIndex} points={timepoints} />}
-      <Box w="100%" h="600px">
+      <Box w="100%" h={fullscreen ? 'calc(100vh - 200px)' : '600px'}>
         {data === null ? (
           <Center>
             <Heading size="lg">{t('common.no_records_found')}</Heading>
@@ -158,4 +163,5 @@ const CirclePack = ({ timepoints }) => {
 };
 
 CirclePack.propTypes = propTypes;
+CirclePack.defaultProps = defaultProps;
 export default React.memo(CirclePack);

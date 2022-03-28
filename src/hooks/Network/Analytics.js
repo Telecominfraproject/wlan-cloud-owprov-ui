@@ -45,9 +45,9 @@ export const useGetAnalyticsBoardDevices = ({ t, toast, id }) =>
     },
   );
 
-export const useGetAnalyticsBoardTimepoints = ({ t, toast, id, startTime, endTime }) =>
+export const useGetAnalyticsBoardTimepoints = ({ t, toast, id, startTime, endTime, enabled = true }) =>
   useQuery(
-    ['get-board-timepoints', id, startTime, endTime],
+    ['get-board-timepoints', id],
     () =>
       axiosAnalytics
         .get(
@@ -57,7 +57,7 @@ export const useGetAnalyticsBoardTimepoints = ({ t, toast, id, startTime, endTim
         )
         .then(({ data }) => data.points),
     {
-      enabled: id !== null,
+      enabled: id !== null && enabled,
       onError: (e) => {
         if (!toast.isActive('board-fetching-error'))
           toast({

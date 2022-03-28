@@ -68,7 +68,7 @@ const CirclePackExpandButton = ({ isDisabled, data }) => {
         <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
           <ModalHeader title={t('analytics.live_view')} right={<CloseButton ml={2} onClick={onClose} />} />
           <ModalBody>
-            <CirclePack timepoints={data} />
+            <CirclePack timepoints={data} fullscreen />
           </ModalBody>
         </ModalContent>
       </Modal>
