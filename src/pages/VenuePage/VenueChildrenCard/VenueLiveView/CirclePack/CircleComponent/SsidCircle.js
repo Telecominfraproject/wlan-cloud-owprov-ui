@@ -52,11 +52,11 @@ const SsidCircle = ({ node, style, handleClicks }) => {
             </Text>
           </PopoverHeader>
           <PopoverBody>
-            <Heading size="sm">BSSID {node.data.details.bssid}</Heading>
+            <Heading size="sm">BSSID: {node.data.details.bssid}</Heading>
             <Heading size="sm">
-              {node.data.children.length} {t('analytics.associations')}
+              {t('analytics.associations')}: {node.data.children.length}
             </Heading>
-            <Heading size="sm">RSSI {node.data.details.avgRssi}</Heading>
+            <Heading size="sm">RSSI: {node.data.details.avgRssi} db</Heading>
           </PopoverBody>
         </PopoverContent>
       </Portal>

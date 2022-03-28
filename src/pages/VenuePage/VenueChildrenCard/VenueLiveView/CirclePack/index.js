@@ -63,15 +63,15 @@ const CirclePack = ({ timepoints, fullscreen }) => {
 
       const radioChannelIndex = {};
 
-      for (const [i, { band, active_pct: activePct, ...radioDetails }] of radioData.entries()) {
+      for (const [i, { band, transmit_pct: transmitPct, ...radioDetails }] of radioData.entries()) {
         const finalRadio = {
           name: `${band}/radio/${uuid()}`,
           type: 'radio',
           details: {
             band,
-            activePct,
+            transmitPct,
             ...radioDetails,
-            color: activePct > 60 ? 'var(--chakra-colors-danger-400)' : 'var(--chakra-colors-success-600)',
+            color: transmitPct > 60 ? 'var(--chakra-colors-danger-400)' : 'var(--chakra-colors-success-600)',
           },
           children: [],
         };

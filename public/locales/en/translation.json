@@ -27,6 +27,7 @@
 		"verify_phone_number": "Verify your phone number"
 	},
 	"analytics": {
+		"airtime": "Airtime",
 		"analyze_sub_venues": "Monitor Sub Venues",
 		"associations": "Associations",
 		"associations_explanation": "Total associations",
@@ -36,7 +37,9 @@
 		"average_memory_explanation": "Average percentage of used memory",
 		"average_uptime": "Average Uptime",
 		"average_uptime_explanation": "Average device uptime (DD:HH:MM:SS)",
+		"band": "Band",
 		"board": "Analytics Board",
+		"channel": "Channel",
 		"connected": "connected",
 		"connection_explanation": "{{connectedCount}} connected, {{disconnectedCount}} not connected",
 		"connection_percentage": "{{count}}% connected",
@@ -58,6 +61,7 @@
 		"live_view": "Live View",
 		"memory": "Memory",
 		"memory_used": "Memory Used",
+		"noise": "Noise",
 		"radio": "Radio",
 		"raw_analytics_data": "Raw Analytics Data",
 		"raw_data": "Raw Data",
