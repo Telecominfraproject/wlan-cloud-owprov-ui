@@ -4,6 +4,7 @@ import AssociationCircle from './AssociationCircle';
 import DeviceCircle from './DeviceCircle';
 import SsidCircle from './SsidCircle';
 import VenueCircle from './VenueCircle';
+import RadioCircle from './RadioCircle';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -23,6 +24,7 @@ const CircleComponent = ({ node, style, onClick }) => {
   if (node.data.type === 'association')
     return <AssociationCircle node={node} style={style} handleClicks={handleClicks} />;
   if (node.data.type === 'ssid') return <SsidCircle node={node} style={style} handleClicks={handleClicks} />;
+  if (node.data.type === 'radio') return <RadioCircle node={node} style={style} handleClicks={handleClicks} />;
   if (node.data.type === 'device') return <DeviceCircle node={node} style={style} handleClicks={handleClicks} />;
   if (node.data.type === 'venue') return <VenueCircle node={node} style={style} handleClicks={handleClicks} />;
   return null;

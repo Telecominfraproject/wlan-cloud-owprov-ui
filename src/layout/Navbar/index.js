@@ -20,10 +20,10 @@ import {
 } from '@chakra-ui/react';
 import routes from 'router/routes';
 import { useAuth } from 'contexts/AuthProvider';
-import { t } from 'i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { uppercaseFirstLetter } from 'utils/stringHelper';
 import { MapTrifold } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 
 const propTypes = {
   secondary: PropTypes.bool.isRequired,
@@ -32,6 +32,7 @@ const propTypes = {
 };
 
 const Navbar = ({ secondary, toggleSidebar, isSidebarOpen }) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);

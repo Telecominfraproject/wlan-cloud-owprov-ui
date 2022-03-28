@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react';
 import isEqual from 'react-fast-compare';
 import { WifiHigh } from 'phosphor-react';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const propTypes = {
   data: PropTypes.shape({
@@ -31,6 +31,7 @@ const propTypes = {
 };
 
 const EntityNode = ({ data, isConnectable }) => {
+  const { t } = useTranslation();
   const bgColor = useColorModeValue('teal.200', 'teal.400');
 
   if (data?.id === '0000-0000-0000') {

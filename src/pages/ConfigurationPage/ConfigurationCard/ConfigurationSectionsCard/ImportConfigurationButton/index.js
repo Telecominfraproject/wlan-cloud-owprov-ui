@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint, useDisclosure } from '@chakra-ui/react';
-import { t } from 'i18next';
 import { UploadSimple } from 'phosphor-react';
 import ImportConfigurationModal from './Modal';
 
@@ -11,6 +11,7 @@ const propTypes = {
 };
 
 const ImportConfigurationButton = ({ setConfig, isDisabled }) => {
+  const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const breakpoint = useBreakpoint();
 
