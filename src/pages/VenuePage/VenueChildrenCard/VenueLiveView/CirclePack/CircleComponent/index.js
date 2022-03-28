@@ -20,11 +20,11 @@ const CircleComponent = ({ node, style, onClick }) => {
     }),
     [onClick, node],
   );
-
-  if (node.type === 'association') return <AssociationCircle node={node} style={style} handleClicks={handleClicks} />;
-  if (node.type === 'ssid') return <SsidCircle node={node} style={style} handleClicks={handleClicks} />;
-  if (node.type === 'device') return <DeviceCircle node={node} style={style} handleClicks={handleClicks} />;
-  if (node.type === 'venue') return <VenueCircle node={node} style={style} handleClicks={handleClicks} />;
+  if (node.data.type === 'association')
+    return <AssociationCircle node={node} style={style} handleClicks={handleClicks} />;
+  if (node.data.type === 'ssid') return <SsidCircle node={node} style={style} handleClicks={handleClicks} />;
+  if (node.data.type === 'device') return <DeviceCircle node={node} style={style} handleClicks={handleClicks} />;
+  if (node.data.type === 'venue') return <VenueCircle node={node} style={style} handleClicks={handleClicks} />;
   return null;
 };
 
