@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { animated } from '@react-spring/web';
 import {
-  Heading,
   IconButton,
   Popover,
   PopoverArrow,
@@ -14,6 +13,11 @@ import {
   Portal,
   Text,
   Tooltip,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Tr,
 } from '@chakra-ui/react';
 import { ArrowSquareOut, Tag } from 'phosphor-react';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
@@ -70,28 +74,44 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
             </Tooltip>
           </PopoverHeader>
           <PopoverBody>
-            <Heading size="sm">{node.data.children.length} BSSIDs</Heading>
-            <Heading size="sm">
-              {node.data.details.deviceInfo.health}% {t('analytics.health')}
-            </Heading>
-            <Heading size="sm">
-              {t('analytics.memory_used')}: {Math.floor(node.data.details.deviceInfo.memory)}%
-            </Heading>
-            <Heading size="sm">
-              {node.data.details.deviceInfo.associations_2g} 2G {t('analytics.associations')}
-            </Heading>
-            <Heading size="sm">
-              {node.data.details.deviceInfo.associations_5g} 5G {t('analytics.associations')}
-            </Heading>
-            <Heading size="sm">
-              {node.data.details.deviceInfo.associations_6g} 6G {t('analytics.associations')}
-            </Heading>
-            {node.data.details.deviceInfo.lastDisconnection !== 0 && (
-              <Heading size="sm">
-                {t('analytics.last_disconnection')}:{' '}
-                <FormattedDate date={node.data.details.deviceInfo.lastDisconnection} />
-              </Heading>
-            )}
+            <TableContainer px={0} fontWeight="bold">
+              <Table variant="simple" size="sm">
+                <Tbody>
+                  <Tr>
+                    <Td w="100px">SSIDs</Td>
+                    <Td>{node.data.children.length}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">{t('analytics.health')}</Td>
+                    <Td>{node.data.details.deviceInfo.health}%</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">{t('analytics.memory_used')}</Td>
+                    <Td>{Math.floor(node.data.details.deviceInfo.memory)}%</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">2G {t('analytics.associations')}</Td>
+                    <Td>{node.data.details.deviceInfo.associations_2g}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">5G {t('analytics.associations')}</Td>
+                    <Td>{node.data.details.deviceInfo.associations_5g}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">6G {t('analytics.associations')}</Td>
+                    <Td>{node.data.details.deviceInfo.associations_6g}</Td>
+                  </Tr>
+                  {node.data.details.deviceInfo.lastDisconnection !== 0 && (
+                    <Tr>
+                      <Td w="100px">{t('analytics.last_disconnection')}</Td>
+                      <Td>
+                        <FormattedDate date={node.data.details.deviceInfo.lastDisconnection} />
+                      </Td>
+                    </Tr>
+                  )}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </PopoverBody>
         </PopoverContent>
       </Portal>

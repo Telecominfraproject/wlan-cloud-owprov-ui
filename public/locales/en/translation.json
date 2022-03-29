@@ -27,6 +27,7 @@
 		"verify_phone_number": "Verify your phone number"
 	},
 	"analytics": {
+		"active": "Active",
 		"airtime": "Airtime",
 		"analyze_sub_venues": "Monitor Sub Venues",
 		"associations": "Associations",
@@ -40,6 +41,7 @@
 		"band": "Band",
 		"bandwidth": "Bandwidth",
 		"board": "Analytics Board",
+		"busy": "Busy",
 		"channel": "Channel",
 		"connected": "connected",
 		"connection_explanation": "{{connectedCount}} connected, {{disconnectedCount}} not connected",
@@ -67,9 +69,11 @@
 		"radio": "Radio",
 		"raw_analytics_data": "Raw Analytics Data",
 		"raw_data": "Raw Data",
+		"receive": "Receive",
 		"retention": "Retention",
 		"search_serials": "Search Serials",
 		"stop_monitoring": "Stop Monitoring",
+		"temperature": "Temperature",
 		"title": "Analytics",
 		"total_data": "Total Data",
 		"total_devices_explanation": "All devices under this venue ({{connectedCount}} connected, {{disconnectedCount}} not connected)",

@@ -66,7 +66,7 @@ const SsidCircle = ({ node, style, handleClicks }) => {
             <Heading size="sm" pl={4}>
               {t('analytics.associations')}: {node.data.children.length}
             </Heading>
-            <TableContainer px={0}>
+            <TableContainer px={0} fontWeight="bold">
               <Table variant="simple" size="sm">
                 <Thead>
                   <Tr>

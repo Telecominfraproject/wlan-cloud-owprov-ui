@@ -60,7 +60,7 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
             </Text>
           </PopoverHeader>
           <PopoverBody px={0}>
-            <TableContainer px={0}>
+            <TableContainer px={0} fontWeight="bold">
               <Table variant="simple" size="sm">
                 <Thead>
                   <Tr>

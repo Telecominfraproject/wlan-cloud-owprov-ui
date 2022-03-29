@@ -57,7 +57,7 @@ const RadioCircle = ({ node, style, handleClicks }) => {
             </Text>
           </PopoverHeader>
           <PopoverBody>
-            <TableContainer px={0}>
+            <TableContainer px={0} fontWeight="bold">
               <Table variant="simple" size="sm">
                 <Tbody>
                   <Tr>
@@ -69,20 +69,24 @@ const RadioCircle = ({ node, style, handleClicks }) => {
                     <Td>{node.data.details.noise} db</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">Active</Td>
+                    <Td w="100px">{t('analytics.airtime')}</Td>
+                    <Td>{node.data.details.transmitPct.toFixed(2)}%</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">{t('analytics.active')}</Td>
                     <Td>{node.data.details.active_pct.toFixed(2)}%</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">Busy</Td>
+                    <Td w="100px">{t('analytics.busy')}</Td>
                     <Td>{node.data.details.busy_pct.toFixed(2)}%</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">Receive</Td>
+                    <Td w="100px">{t('analytics.receive')}</Td>
                     <Td>{node.data.details.receive_pct.toFixed(2)}%</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">{t('analytics.airtime')}</Td>
-                    <Td>{node.data.details.transmitPct.toFixed(2)}%</Td>
+                    <Td w="100px">{t('analytics.temperature')}</Td>
+                    <Td>{node.data.details.temperature}&#8451;</Td>
                   </Tr>
                 </Tbody>
               </Table>
