@@ -53,7 +53,16 @@ const renderList = (tree, depth, goTo) => {
     }
     return (
       <UnorderedList ml={depth}>
-        <ListItem key={uuid()}>{tree.name}</ListItem>
+        <ListItem>
+          <Button
+            colorScheme="blue"
+            variant="link"
+            onClick={() => goTo(tree.uuid, tree.type)}
+            leftIcon={tree.type === 'entity' ? <TreeStructure size={16} /> : <Buildings size={16} />}
+          >
+            {tree.name}
+          </Button>
+        </ListItem>
       </UnorderedList>
     );
   }
