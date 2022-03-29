@@ -17,6 +17,6 @@ export const arrayMoveIndexes = (arr, startIndex, endIndex) => {
 export const getScaledArray = (arr, minAllowed, maxAllowed) => {
   const min = Math.min(...arr);
   const max = Math.max(...arr);
-  if (max - min === 0) return this.map(() => (minAllowed + maxAllowed) / 2);
+  if (max - min === 0) return arr.map(() => (minAllowed + maxAllowed) / 2);
   return arr.map((num) => ((maxAllowed - minAllowed) * (num - min)) / (max - min) + minAllowed);
 };

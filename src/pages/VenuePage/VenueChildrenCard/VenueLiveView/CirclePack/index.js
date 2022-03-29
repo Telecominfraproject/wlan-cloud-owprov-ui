@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Box, Center, Heading, useColorMode, useToast } from '@chakra-ui/react';
 import { parseDbm } from 'utils/stringHelper';
-import { errorColor, successColor, warningColor } from 'utils/colors';
+import { errorColor, getBlendedColor, successColor, warningColor } from 'utils/colors';
 import { getScaledArray } from 'utils/arrayHelpers';
 import CircleComponent from './CircleComponent';
 import CircleLabel from './CircleLabel';
@@ -73,7 +73,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
             band,
             transmitPct,
             ...radioDetails,
-            color: transmitPct > 60 ? 'var(--chakra-colors-danger-400)' : 'var(--chakra-colors-success-600)',
+            color: getBlendedColor('#0ba057', '#FD3049', transmitPct / 100),
           },
           children: [],
         };
