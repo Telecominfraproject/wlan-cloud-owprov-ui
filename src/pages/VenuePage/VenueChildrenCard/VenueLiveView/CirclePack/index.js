@@ -7,7 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Box, Center, Heading, useColorMode, useToast } from '@chakra-ui/react';
 import { parseDbm } from 'utils/stringHelper';
-import { errorColor, successColor, warningColor } from 'utils/colors';
+import { errorColor, getBlendedColor, successColor, warningColor } from 'utils/colors';
+import { getScaledArray } from 'utils/arrayHelpers';
 import CircleComponent from './CircleComponent';
 import CircleLabel from './CircleLabel';
 import CirclePackSlider from './Slider';
@@ -43,6 +44,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
     };
 
     let totalHealth = 0;
+    const allBandwidth = [];
 
     for (const { device_info: deviceInfo, ssid_data: ssidData, radio_data: radioData } of timepoints[pointIndex]) {
       totalHealth += deviceInfo.health;
@@ -71,7 +73,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
             band,
             transmitPct,
             ...radioDetails,
-            color: transmitPct > 60 ? 'var(--chakra-colors-danger-400)' : 'var(--chakra-colors-success-600)',
+            color: getBlendedColor('#0ba057', '#FD3049', transmitPct / 100),
           },
           children: [],
         };
@@ -94,6 +96,9 @@ const CirclePack = ({ timepoints, fullscreen }) => {
 
         let totalRssi = 0;
         for (const { station, rssi, ...associationDetails } of associations) {
+          const bw = associationDetails.tx_bytes_bw + associationDetails.rx_bytes_bw;
+          allBandwidth.push(bw);
+
           const finalAssociation = {
             name: `${station}/assoc/${uuid()}`,
             type: 'association',
@@ -102,7 +107,8 @@ const CirclePack = ({ timepoints, fullscreen }) => {
               rssi: parseDbm(rssi),
               ...associationDetails,
             },
-            scale: Math.max(1, Math.floor((associationDetails.tx_bytes_bw + associationDetails.rx_bytes_bw) / 1000)),
+            totalBw: bw,
+            scale: 1,
           };
 
           if (rssi >= -45) finalAssociation.details.color = successColor(colorMode);
@@ -119,6 +125,25 @@ const CirclePack = ({ timepoints, fullscreen }) => {
         finalDevice.children[radioChannelIndex[ssidDetails.band]].children.push(finalSsid);
       }
       root.children.push(finalDevice);
+    }
+
+    if (allBandwidth.length > 0) {
+      const scaledArray = getScaledArray(allBandwidth, 1, 30);
+      const bandwidthObj = {};
+      for (const [i, bw] of allBandwidth.entries()) {
+        bandwidthObj[bw] = scaledArray[i];
+      }
+
+      for (const [deviceIndex, device] of root.children.entries()) {
+        for (const [radioIndex, radio] of device.children.entries()) {
+          for (const [ssidIndex, ssid] of radio.children.entries()) {
+            for (const [assocIndex, assoc] of ssid.children.entries()) {
+              root.children[deviceIndex].children[radioIndex].children[ssidIndex].children[assocIndex].scale =
+                bandwidthObj[assoc.totalBw];
+            }
+          }
+        }
+      }
     }
 
     root.details.avgHealth = Math.floor(totalHealth / Math.max(timepoints[0].length, 1));

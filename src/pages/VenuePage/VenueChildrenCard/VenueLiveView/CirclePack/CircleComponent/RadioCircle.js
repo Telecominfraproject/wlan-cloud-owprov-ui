@@ -48,8 +48,8 @@ const RadioCircle = ({ node, style, handleClicks }) => {
           <PopoverCloseButton alignContent="center" mt={1} />
           <PopoverHeader display="flex">
             <Radio size={24} weight="fill" />
-            <Text ml={2}>
-              {t('analytics.band')} {node.data.details.band}
+            <Text ml={2} mt="2px">
+              {node.data.details.band}G
             </Text>
           </PopoverHeader>
           <PopoverBody>
