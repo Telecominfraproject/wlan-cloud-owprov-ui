@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { animated } from '@react-spring/web';
 import {
-  Heading,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -12,6 +11,11 @@ import {
   PopoverTrigger,
   Portal,
   Text,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Tr,
 } from '@chakra-ui/react';
 import { Radio } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +32,7 @@ const RadioCircle = ({ node, style, handleClicks }) => {
   const { t } = useTranslation();
 
   return (
-    <Popover isLazy trigger="hover" placement="top">
+    <Popover trigger="hover" placement="top">
       <PopoverTrigger>
         <animated.circle
           key={node.id}
@@ -53,15 +57,40 @@ const RadioCircle = ({ node, style, handleClicks }) => {
             </Text>
           </PopoverHeader>
           <PopoverBody>
-            <Heading size="sm">
-              {t('analytics.channel')}: {node.data.details.channel}
-            </Heading>
-            <Heading size="sm">
-              {t('analytics.airtime')}: {Math.floor(node.data.details.transmitPct)}%
-            </Heading>
-            <Heading size="sm">
-              {t('analytics.noise')}: {node.data.details.noise} db
-            </Heading>
+            <TableContainer px={0} fontWeight="bold">
+              <Table variant="simple" size="sm">
+                <Tbody>
+                  <Tr>
+                    <Td w="100px">{t('analytics.channel')}</Td>
+                    <Td>{node.data.details.channel}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">{t('analytics.noise')}</Td>
+                    <Td>{node.data.details.noise} db</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">{t('analytics.airtime')}</Td>
+                    <Td>{node.data.details.transmitPct.toFixed(2)}%</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">{t('analytics.active')}</Td>
+                    <Td>{node.data.details.active_pct.toFixed(2)}%</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">{t('analytics.busy')}</Td>
+                    <Td>{node.data.details.busy_pct.toFixed(2)}%</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">{t('analytics.receive')}</Td>
+                    <Td>{node.data.details.receive_pct.toFixed(2)}%</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="100px">{t('analytics.temperature')}</Td>
+                    <Td>{node.data.details.temperature}&#8451;</Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </TableContainer>
           </PopoverBody>
         </PopoverContent>
       </Portal>

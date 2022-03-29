@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { animated } from '@react-spring/web';
 import {
-  Heading,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -11,7 +10,14 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
   Text,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react';
 import { WifiHigh } from 'phosphor-react';
 import { bytesString } from 'utils/stringHelper';
@@ -49,32 +55,49 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
           <PopoverCloseButton alignContent="center" mt={1} />
           <PopoverHeader display="flex">
             <WifiHigh weight="bold" size={24} />
-            <Text ml={2}>{node?.data?.name.split('/')[0]}</Text>
+            <Text ml={2}>
+              {node?.data?.name.split('/')[0]} ({node.data.details.rssi} db)
+            </Text>
           </PopoverHeader>
-          <PopoverBody>
-            <Heading size="sm">RSSI {node.data.details.rssi} db</Heading>
-            <Heading size="md" as="u">
-              TX
-            </Heading>
-            <Heading size="sm">
-              {bytesString(node.data.details.tx_bytes)}, {bytesString(node.data.details.tx_bytes_bw)}/s
-            </Heading>
-            <Heading size="sm">
-              {node.data.details.tx_packets_bw.toLocaleString('en-US')} {t('analytics.packets')}/s
-            </Heading>
-            <Heading size="sm">MCS {node.data.details.tx_rate.mcs}</Heading>
-            <Heading size="sm">NSS {node.data.details.tx_rate.nss}</Heading>
-            <Heading size="md" as="u">
-              RX
-            </Heading>
-            <Heading size="sm">
-              {bytesString(node.data.details.rx_bytes)}, {bytesString(node.data.details.rx_bytes_bw)}/s
-            </Heading>
-            <Heading size="sm">
-              {node.data.details.rx_packets_bw.toLocaleString('en-US')} {t('analytics.packets')}/s
-            </Heading>
-            <Heading size="sm">MCS {node.data.details.rx_rate.mcs}</Heading>
-            <Heading size="sm">NSS {node.data.details.rx_rate.nss}</Heading>
+          <PopoverBody px={0}>
+            <TableContainer px={0} fontWeight="bold">
+              <Table variant="simple" size="sm">
+                <Thead>
+                  <Tr>
+                    <Th />
+                    <Th>TX</Th>
+                    <Th>RX</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  <Tr>
+                    <Td>{t('analytics.total_data')}</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes)}</Td>
+                    <Td>{bytesString(node.data.details.rx_bytes)}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>{t('analytics.bandwidth')} /s</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes_bw)}</Td>
+                    <Td>{bytesString(node.data.details.rx_bytes_bw)}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>{t('analytics.packets')} /s</Td>
+                    <Td>{node.data.details.tx_packets_bw.toLocaleString('en-US')}</Td>
+                    <Td>{node.data.details.rx_packets_bw.toLocaleString('en-US')}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>MCS</Td>
+                    <Td>{node.data.details.tx_rate.mcs}</Td>
+                    <Td>{node.data.details.rx_rate.mcs}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>NSS</Td>
+                    <Td>{node.data.details.tx_rate.nss}</Td>
+                    <Td>{node.data.details.rx_rate.nss}</Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </TableContainer>
           </PopoverBody>
         </PopoverContent>
       </Portal>

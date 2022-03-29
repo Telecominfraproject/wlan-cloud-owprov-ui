@@ -78,7 +78,7 @@ const ObjectArrayFieldModal = ({ name, label, fields, schema, columns, editing, 
 
   useEffect(() => {
     if (!isOpen) {
-      setTempValue(getIn(values, name));
+      setTempValue(getIn(values, name) ?? []);
     }
   }, [isOpen]);
 
