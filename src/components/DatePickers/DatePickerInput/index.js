@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import { Button } from '@chakra-ui/react';
 
 const propTypes = {
-  value: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  value: PropTypes.string,
+  onClick: PropTypes.func,
+};
+
+const defaultProps = {
+  value: '',
+  onClick: () => {},
 };
 
 const DatePickerInput = forwardRef(({ value, onClick }, ref) => (
@@ -14,4 +19,5 @@ const DatePickerInput = forwardRef(({ value, onClick }, ref) => (
 ));
 
 DatePickerInput.propTypes = propTypes;
+DatePickerInput.defaultProps = defaultProps;
 export default DatePickerInput;

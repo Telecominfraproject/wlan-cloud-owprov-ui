@@ -12,9 +12,17 @@ import {
   PopoverTrigger,
   Portal,
   Text,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react';
 import { Broadcast } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
+import { bytesString } from 'utils/stringHelper';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -48,15 +56,54 @@ const SsidCircle = ({ node, style, handleClicks }) => {
           <PopoverHeader display="flex">
             <Broadcast size={24} weight="fill" />
             <Text ml={2}>
-              {node.data.details.band}G - {node?.data?.name.split('/')[0]}
+              {node.data.details.band}G - {node?.data?.name.split('/')[0]} ({node.data.details.avgRssi} db)
             </Text>
           </PopoverHeader>
-          <PopoverBody>
-            <Heading size="sm">BSSID: {node.data.details.bssid}</Heading>
-            <Heading size="sm">
+          <PopoverBody px={0}>
+            <Heading size="sm" pl={4}>
+              BSSID: {node.data.details.bssid}
+            </Heading>
+            <Heading size="sm" pl={4}>
               {t('analytics.associations')}: {node.data.children.length}
             </Heading>
-            <Heading size="sm">RSSI: {node.data.details.avgRssi} db</Heading>
+            <TableContainer px={0}>
+              <Table variant="simple" size="sm">
+                <Thead>
+                  <Tr>
+                    <Th />
+                    <Th>{t('common.avg')}</Th>
+                    <Th>{t('common.min')}</Th>
+                    <Th>{t('common.max')}</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  <Tr>
+                    <Td>TX {t('analytics.bandwidth')}</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes_bw.avg)}</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes_bw.min)}</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes_bw.max)}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>TX {t('analytics.packets')} /s</Td>
+                    <Td>{node.data.details.tx_packets_bw.avg}</Td>
+                    <Td>{node.data.details.tx_packets_bw.min}</Td>
+                    <Td>{node.data.details.tx_packets_bw.max}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>RX {t('analytics.bandwidth')}</Td>
+                    <Td>{bytesString(node.data.details.rx_bytes_bw.avg)}</Td>
+                    <Td>{bytesString(node.data.details.rx_bytes_bw.min)}</Td>
+                    <Td>{bytesString(node.data.details.rx_bytes_bw.max)}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>RX {t('analytics.packets')} /s</Td>
+                    <Td>{node.data.details.rx_packets_bw.avg}</Td>
+                    <Td>{node.data.details.rx_packets_bw.min}</Td>
+                    <Td>{node.data.details.rx_packets_bw.max}</Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </TableContainer>
           </PopoverBody>
         </PopoverContent>
       </Portal>
