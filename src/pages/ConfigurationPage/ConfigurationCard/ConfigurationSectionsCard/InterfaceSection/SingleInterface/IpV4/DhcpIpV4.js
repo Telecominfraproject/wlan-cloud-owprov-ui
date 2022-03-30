@@ -70,7 +70,6 @@ const DhcpIpV4 = ({ editing, index }) => {
             label="dhcp.relay-server"
             definitionKey="interface.ipv4.dhcp.relay-server"
             isDisabled={!editing}
-            isRequired
           />
           <DhcpLeaseIpV4 editing={editing} index={index} />
         </>

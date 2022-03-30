@@ -14,15 +14,16 @@ import {
   Text,
   Tooltip,
   Table,
-  TableContainer,
   Tbody,
   Td,
   Tr,
+  Box,
 } from '@chakra-ui/react';
 import { ArrowSquareOut, Tag } from 'phosphor-react';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import FormattedDate from 'components/FormattedDate';
 import { useTranslation } from 'react-i18next';
+import { useCircleGraph } from 'contexts/CircleGraphProvider';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -35,6 +36,7 @@ const propTypes = {
 const DeviceCircle = ({ node, style, handleClicks }) => {
   const { t } = useTranslation();
   const { data: gwUi } = useGetGatewayUi();
+  const { popoverRef } = useCircleGraph();
 
   const handleOpenInGateway = useMemo(
     () => () => window.open(`${gwUi}/#/devices/${node.data.details.deviceInfo.serialNumber}`, '_blank'),
@@ -56,7 +58,7 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
           onClick={handleClicks.onClick}
         />
       </PopoverTrigger>
-      <Portal>
+      <Portal containerRef={popoverRef}>
         <PopoverContent>
           <PopoverArrow />
           <PopoverCloseButton alignContent="center" mt={1} />
@@ -74,36 +76,36 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
             </Tooltip>
           </PopoverHeader>
           <PopoverBody>
-            <TableContainer px={0} fontWeight="bold">
+            <Box px={0} fontWeight="bold" w="100%">
               <Table variant="simple" size="sm">
                 <Tbody>
                   <Tr>
-                    <Td w="100px">SSIDs</Td>
+                    <Td w="150px">SSIDs</Td>
                     <Td>{node.data.children.length}</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">{t('analytics.health')}</Td>
+                    <Td w="150px">{t('analytics.health')}</Td>
                     <Td>{node.data.details.deviceInfo.health}%</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">{t('analytics.memory_used')}</Td>
+                    <Td w="150px">{t('analytics.memory_used')}</Td>
                     <Td>{Math.floor(node.data.details.deviceInfo.memory)}%</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">2G {t('analytics.associations')}</Td>
+                    <Td w="150px">2G {t('analytics.associations')}</Td>
                     <Td>{node.data.details.deviceInfo.associations_2g}</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">5G {t('analytics.associations')}</Td>
+                    <Td w="150px">5G {t('analytics.associations')}</Td>
                     <Td>{node.data.details.deviceInfo.associations_5g}</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">6G {t('analytics.associations')}</Td>
+                    <Td w="150px">6G {t('analytics.associations')}</Td>
                     <Td>{node.data.details.deviceInfo.associations_6g}</Td>
                   </Tr>
                   {node.data.details.deviceInfo.lastDisconnection !== 0 && (
                     <Tr>
-                      <Td w="100px">{t('analytics.last_disconnection')}</Td>
+                      <Td w="150px">{t('analytics.last_disconnection')}</Td>
                       <Td>
                         <FormattedDate date={node.data.details.deviceInfo.lastDisconnection} />
                       </Td>
@@ -111,7 +113,7 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
                   )}
                 </Tbody>
               </Table>
-            </TableContainer>
+            </Box>
           </PopoverBody>
         </PopoverContent>
       </Portal>

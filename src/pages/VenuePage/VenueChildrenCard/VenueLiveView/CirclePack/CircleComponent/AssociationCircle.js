@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { animated } from '@react-spring/web';
 import {
+  Box,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -11,7 +12,6 @@ import {
   PopoverTrigger,
   Portal,
   Table,
-  TableContainer,
   Tbody,
   Td,
   Text,
@@ -22,6 +22,7 @@ import {
 import { WifiHigh } from 'phosphor-react';
 import { bytesString } from 'utils/stringHelper';
 import { useTranslation } from 'react-i18next';
+import { useCircleGraph } from 'contexts/CircleGraphProvider';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -33,9 +34,10 @@ const propTypes = {
 
 const AssociationCircle = ({ node, style, handleClicks }) => {
   const { t } = useTranslation();
+  const { popoverRef } = useCircleGraph();
 
   return (
-    <Popover isLazy trigger="hover" placement="top">
+    <Popover isLazy trigger="hover" placement="auto">
       <PopoverTrigger>
         <animated.circle
           key={node.id}
@@ -49,7 +51,7 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
           onClick={handleClicks.onClick}
         />
       </PopoverTrigger>
-      <Portal>
+      <Portal containerRef={popoverRef}>
         <PopoverContent>
           <PopoverArrow />
           <PopoverCloseButton alignContent="center" mt={1} />
@@ -60,7 +62,7 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
             </Text>
           </PopoverHeader>
           <PopoverBody px={0}>
-            <TableContainer px={0} fontWeight="bold">
+            <Box px={0} fontWeight="bold">
               <Table variant="simple" size="sm">
                 <Thead>
                   <Tr>
@@ -97,7 +99,7 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
                   </Tr>
                 </Tbody>
               </Table>
-            </TableContainer>
+            </Box>
           </PopoverBody>
         </PopoverContent>
       </Portal>

@@ -13,16 +13,17 @@ import {
   Portal,
   Text,
   Table,
-  TableContainer,
   Tbody,
   Td,
   Th,
   Thead,
   Tr,
+  Box,
 } from '@chakra-ui/react';
 import { Broadcast } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { bytesString } from 'utils/stringHelper';
+import { useCircleGraph } from 'contexts/CircleGraphProvider';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -34,8 +35,10 @@ const propTypes = {
 
 const SsidCircle = ({ node, style, handleClicks }) => {
   const { t } = useTranslation();
+  const { popoverRef } = useCircleGraph();
+
   return (
-    <Popover isLazy trigger="hover" placement="top">
+    <Popover isLazy trigger="hover" placement="auto">
       <PopoverTrigger>
         <animated.circle
           key={node.id}
@@ -49,8 +52,8 @@ const SsidCircle = ({ node, style, handleClicks }) => {
           onClick={handleClicks.onClick}
         />
       </PopoverTrigger>
-      <Portal>
-        <PopoverContent>
+      <Portal containerRef={popoverRef}>
+        <PopoverContent w="400px">
           <PopoverArrow />
           <PopoverCloseButton alignContent="center" mt={1} />
           <PopoverHeader display="flex">
@@ -66,11 +69,11 @@ const SsidCircle = ({ node, style, handleClicks }) => {
             <Heading size="sm" pl={4}>
               {t('analytics.associations')}: {node.data.children.length}
             </Heading>
-            <TableContainer px={0} fontWeight="bold">
+            <Box px={0} fontWeight="bold">
               <Table variant="simple" size="sm">
                 <Thead>
                   <Tr>
-                    <Th />
+                    <Th w="150px" />
                     <Th>{t('common.avg')}</Th>
                     <Th>{t('common.min')}</Th>
                     <Th>{t('common.max')}</Th>
@@ -78,32 +81,32 @@ const SsidCircle = ({ node, style, handleClicks }) => {
                 </Thead>
                 <Tbody>
                   <Tr>
-                    <Td>TX {t('analytics.bandwidth')}</Td>
-                    <Td>{bytesString(node.data.details.tx_bytes_bw.avg)}/s</Td>
-                    <Td>{bytesString(node.data.details.tx_bytes_bw.min)}/s</Td>
-                    <Td>{bytesString(node.data.details.tx_bytes_bw.max)}/s</Td>
+                    <Td w="150px">TX {t('analytics.bandwidth')} /s</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes_bw.avg)}</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes_bw.min)}</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes_bw.max)}</Td>
                   </Tr>
                   <Tr>
-                    <Td>TX {t('analytics.packets')} /s</Td>
+                    <Td w="150px">TX {t('analytics.packets')} /s</Td>
                     <Td>{node.data.details.tx_packets_bw.avg}</Td>
                     <Td>{node.data.details.tx_packets_bw.min}</Td>
                     <Td>{node.data.details.tx_packets_bw.max}</Td>
                   </Tr>
                   <Tr>
-                    <Td>RX {t('analytics.bandwidth')}</Td>
+                    <Td w="150px">RX {t('analytics.bandwidth')} /s</Td>
                     <Td>{bytesString(node.data.details.rx_bytes_bw.avg)}</Td>
                     <Td>{bytesString(node.data.details.rx_bytes_bw.min)}</Td>
                     <Td>{bytesString(node.data.details.rx_bytes_bw.max)}</Td>
                   </Tr>
                   <Tr>
-                    <Td>RX {t('analytics.packets')} /s</Td>
+                    <Td w="150px">RX {t('analytics.packets')} /s</Td>
                     <Td>{node.data.details.rx_packets_bw.avg}</Td>
                     <Td>{node.data.details.rx_packets_bw.min}</Td>
                     <Td>{node.data.details.rx_packets_bw.max}</Td>
                   </Tr>
                 </Tbody>
               </Table>
-            </TableContainer>
+            </Box>
           </PopoverBody>
         </PopoverContent>
       </Portal>

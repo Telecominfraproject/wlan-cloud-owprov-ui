@@ -21,7 +21,7 @@ const AnalyticsBoardForm = ({ editing, objName }) => {
     setBoard({
       name: objName,
       interval: 60,
-      retention: 60,
+      retention: 3600 * 24 * 7,
       monitorSubVenues: true,
     });
   };
@@ -56,7 +56,8 @@ const AnalyticsBoardForm = ({ editing, objName }) => {
           label={t('analytics.retention')}
           isDisabled={!editing}
           isRequired
-          unit={t('common.seconds')}
+          unit={t('common.days')}
+          conversionFactor={3600 * 24}
         />
         <ToggleField name="__BOARD.monitorSubVenues" label={t('analytics.analyze_sub_venues')} isDisabled={!editing} />
       </SimpleGrid>

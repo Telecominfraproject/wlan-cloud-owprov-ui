@@ -8,23 +8,25 @@ import { useParams } from 'react-router-dom';
 import { Box, Center, Heading, useColorMode, useToast } from '@chakra-ui/react';
 import { parseDbm } from 'utils/stringHelper';
 import { errorColor, getBlendedColor, successColor, warningColor } from 'utils/colors';
+import { FullScreen } from 'react-full-screen';
 import { getScaledArray } from 'utils/arrayHelpers';
+import { useCircleGraph } from 'contexts/CircleGraphProvider';
 import CircleComponent from './CircleComponent';
 import CircleLabel from './CircleLabel';
 import CirclePackSlider from './Slider';
 
 const propTypes = {
   timepoints: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
-  fullscreen: PropTypes.bool,
+  handle: PropTypes.shape({
+    enter: PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
-const defaultProps = {
-  fullscreen: false,
-};
-
-const CirclePack = ({ timepoints, fullscreen }) => {
+const CirclePack = ({ timepoints, handle }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const { popoverRef } = useCircleGraph();
   const { colorMode } = useColorMode();
   const { id } = useParams();
   const { data: venue } = useGetVenue({ t, toast, id });
@@ -32,7 +34,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
   const [zoomedId, setZoomedId] = useState(null);
 
   const data = useMemo(() => {
-    if (!timepoints || timepoints.length === 0) return null;
+    if (!timepoints || timepoints.length === 0 || !timepoints[pointIndex]) return null;
 
     const root = {
       name: venue.name,
@@ -161,49 +163,50 @@ const CirclePack = ({ timepoints, fullscreen }) => {
   return (
     <>
       {timepoints.length > 0 && <CirclePackSlider index={pointIndex} setIndex={setPointIndex} points={timepoints} />}
-      <Box w="100%" h={fullscreen ? 'calc(100vh - 200px)' : '600px'}>
-        {data === null ? (
-          <Center>
-            <Heading size="lg">{t('common.no_records_found')}</Heading>
-          </Center>
-        ) : (
-          <ResponsiveCirclePacking
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-            padding="36"
-            id="name"
-            value="scale"
-            data={data}
-            enableLabels
-            labelsSkipRadius={42}
-            labelsFilter={(label) => label.node.height === 0}
-            labelTextColor={{
-              from: 'color',
-              modifiers: [['darker', 2]],
-            }}
-            labelComponent={CircleLabel}
-            onMouseEnter={null}
-            tooltip={null}
-            circleComponent={CircleComponent}
-            zoomedId={zoomedId}
-            motionConfig="slow"
-            theme={{
-              labels: {
-                text: {
+      <FullScreen handle={handle}>
+        <Box w="100%" h={handle?.active ? '100%' : '600px'} ref={popoverRef}>
+          {data === null ? (
+            <Center>
+              <Heading size="lg">{t('common.no_records_found')}</Heading>
+            </Center>
+          ) : (
+            <ResponsiveCirclePacking
+              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+              padding="36"
+              id="name"
+              value="scale"
+              data={data}
+              enableLabels
+              labelsSkipRadius={42}
+              labelsFilter={(label) => label.node.height === 0}
+              labelTextColor={{
+                from: 'color',
+                modifiers: [['darker', 2]],
+              }}
+              labelComponent={CircleLabel}
+              onMouseEnter={null}
+              tooltip={null}
+              circleComponent={CircleComponent}
+              zoomedId={zoomedId}
+              motionConfig="slow"
+              theme={{
+                labels: {
+                  text: {
+                    background: 'black',
+                  },
                   background: 'black',
                 },
-                background: 'black',
-              },
-            }}
-            onClick={(node) => {
-              setZoomedId(zoomedId === node.id ? null : node.id);
-            }}
-          />
-        )}
-      </Box>
+              }}
+              onClick={(node) => {
+                setZoomedId(zoomedId === node.id ? null : node.id);
+              }}
+            />
+          )}
+        </Box>
+      </FullScreen>
     </>
   );
 };
 
 CirclePack.propTypes = propTypes;
-CirclePack.defaultProps = defaultProps;
 export default React.memo(CirclePack);

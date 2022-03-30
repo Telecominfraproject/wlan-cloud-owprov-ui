@@ -28,6 +28,7 @@ const putPreferences = async (newPrefs) => axiosSec.put(`preferences`, newPrefs)
 export const AuthProvider = ({ token, children }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const ref = React.useRef();
   const [loadedEndpoints, setLoadedEndpoints] = useState(false);
   const [currentToken, setCurrentToken] = useState(token ?? '');
   const queryClient = useQueryClient();
@@ -183,11 +184,12 @@ export const AuthProvider = ({ token, children }) => {
       getPref,
       setPref,
       deletePref,
+      ref,
       endpoints,
       configurationDescriptions,
       isUserLoaded: preferences !== undefined && user !== undefined && loadedEndpoints,
     }),
-    [currentToken, user, avatar, preferences, loadedEndpoints, configurationDescriptions, endpoints],
+    [currentToken, user, avatar, preferences, loadedEndpoints, configurationDescriptions, endpoints, ref],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
