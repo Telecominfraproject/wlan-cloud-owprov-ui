@@ -11,6 +11,7 @@ import { errorColor, getBlendedColor, successColor, warningColor } from 'utils/c
 import { FullScreen } from 'react-full-screen';
 import { getScaledArray } from 'utils/arrayHelpers';
 import { useCircleGraph } from 'contexts/CircleGraphProvider';
+import { patternLinesDef } from '@nivo/core';
 import CircleComponent from './CircleComponent';
 import CircleLabel from './CircleLabel';
 import CirclePackSlider from './Slider';
@@ -153,9 +154,58 @@ const CirclePack = ({ timepoints, handle }) => {
     if (root.details.avgHealth >= 90) root.details.color = successColor(colorMode);
     else if (root.details.avgHealth >= 70) root.details.color = warningColor(colorMode);
     else root.details.color = errorColor(colorMode);
+    root.color = '#31e88a';
 
     return root;
   }, [timepoints, pointIndex, colorMode]);
+
+  const shapeDefs = useMemo(
+    () => [
+      patternLinesDef(
+        'assoc_success',
+        colorMode === 'light'
+          ? {
+              rotation: -45,
+              color: 'var(--chakra-colors-success-400)',
+              background: 'var(--chakra-colors-success-600)',
+            }
+          : {
+              rotation: -45,
+              color: 'var(--chakra-colors-success-400)',
+              background: 'var(--chakra-colors-success-600)',
+            },
+      ),
+      patternLinesDef(
+        'assoc_warning',
+        colorMode === 'light'
+          ? {
+              rotation: -45,
+              color: 'var(--chakra-colors-warning-100)',
+              background: 'var(--chakra-colors-warning-400)',
+            }
+          : {
+              rotation: -45,
+              color: 'var(--chakra-colors-warning-100)',
+              background: 'var(--chakra-colors-warning-400)',
+            },
+      ),
+      patternLinesDef(
+        'assoc_danger',
+        colorMode === 'light'
+          ? {
+              rotation: -45,
+              color: 'var(--chakra-colors-danger-200)',
+              background: 'var(--chakra-colors-danger-400)',
+            }
+          : {
+              rotation: -45,
+              color: 'var(--chakra-colors-danger-200)',
+              background: 'var(--chakra-colors-danger-400)',
+            },
+      ),
+    ],
+    [colorMode],
+  );
 
   useEffect(() => {
     setPointIndex(timepoints.length - 1);
@@ -176,6 +226,21 @@ const CirclePack = ({ timepoints, handle }) => {
               <ResponsiveCirclePacking
                 margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
                 padding="36"
+                defs={shapeDefs}
+                fill={[
+                  {
+                    match: (d) => d.data.type === 'association' && d.data.details.rssi >= -45,
+                    id: 'assoc_success',
+                  },
+                  {
+                    match: (d) => d.data.type === 'association' && d.data.details.rssi >= -60,
+                    id: 'assoc_warning',
+                  },
+                  {
+                    match: (d) => d.data.type === 'association' && d.data.details.rssi < -60,
+                    id: 'assoc_danger',
+                  },
+                ]}
                 id="name"
                 value="scale"
                 data={data}
@@ -184,7 +249,7 @@ const CirclePack = ({ timepoints, handle }) => {
                 labelsFilter={(label) => label.node.height === 0}
                 labelTextColor={{
                   from: 'color',
-                  modifiers: [['darker', 2]],
+                  modifiers: [['darker', 4]],
                 }}
                 labelComponent={CircleLabel}
                 onMouseEnter={null}

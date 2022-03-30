@@ -44,7 +44,7 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
           cx={style.x}
           cy={style.y}
           r={style.radius}
-          fill={node.data.details.color}
+          fill={node.fill}
           stroke="black"
           cursor="pointer"
           strokeWidth="1px"
