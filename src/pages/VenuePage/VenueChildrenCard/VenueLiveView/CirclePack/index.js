@@ -32,7 +32,7 @@ const CirclePack = ({ timepoints, fullscreen }) => {
   const [zoomedId, setZoomedId] = useState(null);
 
   const data = useMemo(() => {
-    if (!timepoints || timepoints.length === 0) return null;
+    if (!timepoints || timepoints.length === 0 || !timepoints[pointIndex]) return null;
 
     const root = {
       name: venue.name,

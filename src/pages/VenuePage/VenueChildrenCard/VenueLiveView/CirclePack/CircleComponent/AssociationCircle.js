@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { animated } from '@react-spring/web';
 import {
+  Box,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -11,7 +12,6 @@ import {
   PopoverTrigger,
   Portal,
   Table,
-  TableContainer,
   Tbody,
   Td,
   Text,
@@ -60,7 +60,7 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
             </Text>
           </PopoverHeader>
           <PopoverBody px={0}>
-            <TableContainer px={0} fontWeight="bold">
+            <Box px={0} fontWeight="bold">
               <Table variant="simple" size="sm">
                 <Thead>
                   <Tr>
@@ -97,7 +97,7 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
                   </Tr>
                 </Tbody>
               </Table>
-            </TableContainer>
+            </Box>
           </PopoverBody>
         </PopoverContent>
       </Portal>

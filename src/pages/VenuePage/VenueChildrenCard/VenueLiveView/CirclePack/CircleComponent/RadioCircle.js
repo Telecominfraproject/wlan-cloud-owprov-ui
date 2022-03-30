@@ -12,10 +12,10 @@ import {
   Portal,
   Text,
   Table,
-  TableContainer,
   Tbody,
   Td,
   Tr,
+  Box,
 } from '@chakra-ui/react';
 import { Radio } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +32,7 @@ const RadioCircle = ({ node, style, handleClicks }) => {
   const { t } = useTranslation();
 
   return (
-    <Popover trigger="hover" placement="top">
+    <Popover isLazy trigger="hover" placement="top">
       <PopoverTrigger>
         <animated.circle
           key={node.id}
@@ -57,7 +57,7 @@ const RadioCircle = ({ node, style, handleClicks }) => {
             </Text>
           </PopoverHeader>
           <PopoverBody>
-            <TableContainer px={0} fontWeight="bold">
+            <Box px={0} fontWeight="bold">
               <Table variant="simple" size="sm">
                 <Tbody>
                   <Tr>
@@ -90,7 +90,7 @@ const RadioCircle = ({ node, style, handleClicks }) => {
                   </Tr>
                 </Tbody>
               </Table>
-            </TableContainer>
+            </Box>
           </PopoverBody>
         </PopoverContent>
       </Portal>

@@ -22,6 +22,7 @@ const propTypes = {
   acceptEmptyValue: PropTypes.bool,
   w: PropTypes.number,
   definitionKey: PropTypes.string,
+  conversionFactor: PropTypes.number,
 };
 
 const defaultProps = {
@@ -33,6 +34,7 @@ const defaultProps = {
   w: undefined,
   acceptEmptyValue: false,
   definitionKey: null,
+  conversionFactor: null,
 };
 
 const NumberField = ({
@@ -46,11 +48,12 @@ const NumberField = ({
   w,
   acceptEmptyValue,
   definitionKey,
+  conversionFactor,
 }) => {
   const [{ value }, { touched, error }, { setValue, setTouched }] = useField(name);
 
   const onChange = useCallback((v) => {
-    setValue(parseToInt(v, acceptEmptyValue));
+    setValue(conversionFactor ? parseToInt(v, acceptEmptyValue) * conversionFactor : parseToInt(v, acceptEmptyValue));
     setTouched(true);
   }, []);
 
@@ -61,7 +64,7 @@ const NumberField = ({
   return (
     <Field
       label={label}
-      value={value}
+      value={conversionFactor ? Math.ceil(value / conversionFactor) : value}
       unit={unit}
       onChange={onChange}
       onBlur={onFieldBlur}
@@ -73,6 +76,7 @@ const NumberField = ({
       isDisabled={isDisabled}
       w={w}
       definitionKey={definitionKey}
+      conversionFactor={conversionFactor}
     />
   );
 };
