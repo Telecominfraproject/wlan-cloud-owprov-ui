@@ -14,6 +14,7 @@ import { useCircleGraph } from 'contexts/CircleGraphProvider';
 import CircleComponent from './CircleComponent';
 import CircleLabel from './CircleLabel';
 import CirclePackSlider from './Slider';
+import CirclePackInfoButton from './InfoButton';
 
 const propTypes = {
   timepoints: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
@@ -170,37 +171,40 @@ const CirclePack = ({ timepoints, handle }) => {
               <Heading size="lg">{t('common.no_records_found')}</Heading>
             </Center>
           ) : (
-            <ResponsiveCirclePacking
-              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-              padding="36"
-              id="name"
-              value="scale"
-              data={data}
-              enableLabels
-              labelsSkipRadius={42}
-              labelsFilter={(label) => label.node.height === 0}
-              labelTextColor={{
-                from: 'color',
-                modifiers: [['darker', 2]],
-              }}
-              labelComponent={CircleLabel}
-              onMouseEnter={null}
-              tooltip={null}
-              circleComponent={CircleComponent}
-              zoomedId={zoomedId}
-              motionConfig="slow"
-              theme={{
-                labels: {
-                  text: {
+            <>
+              <CirclePackInfoButton />
+              <ResponsiveCirclePacking
+                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                padding="36"
+                id="name"
+                value="scale"
+                data={data}
+                enableLabels
+                labelsSkipRadius={42}
+                labelsFilter={(label) => label.node.height === 0}
+                labelTextColor={{
+                  from: 'color',
+                  modifiers: [['darker', 2]],
+                }}
+                labelComponent={CircleLabel}
+                onMouseEnter={null}
+                tooltip={null}
+                circleComponent={CircleComponent}
+                zoomedId={zoomedId}
+                motionConfig="slow"
+                theme={{
+                  labels: {
+                    text: {
+                      background: 'black',
+                    },
                     background: 'black',
                   },
-                  background: 'black',
-                },
-              }}
-              onClick={(node) => {
-                setZoomedId(zoomedId === node.id ? null : node.id);
-              }}
-            />
+                }}
+                onClick={(node) => {
+                  setZoomedId(zoomedId === node.id ? null : node.id);
+                }}
+              />
+            </>
           )}
         </Box>
       </FullScreen>

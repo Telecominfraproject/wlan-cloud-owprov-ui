@@ -81,7 +81,7 @@ const SsidCircle = ({ node, style, handleClicks }) => {
                 </Thead>
                 <Tbody>
                   <Tr>
-                    <Td w="150px">TX {t('analytics.bandwidth')} /s</Td>
+                    <Td w="150px">TX {t('analytics.bandwidth')}</Td>
                     <Td>{bytesString(node.data.details.tx_bytes_bw.avg)}</Td>
                     <Td>{bytesString(node.data.details.tx_bytes_bw.min)}</Td>
                     <Td>{bytesString(node.data.details.tx_bytes_bw.max)}</Td>
@@ -93,7 +93,7 @@ const SsidCircle = ({ node, style, handleClicks }) => {
                     <Td>{node.data.details.tx_packets_bw.max}</Td>
                   </Tr>
                   <Tr>
-                    <Td w="150px">RX {t('analytics.bandwidth')} /s</Td>
+                    <Td w="150px">RX {t('analytics.bandwidth')}</Td>
                     <Td>{bytesString(node.data.details.rx_bytes_bw.avg)}</Td>
                     <Td>{bytesString(node.data.details.rx_bytes_bw.min)}</Td>
                     <Td>{bytesString(node.data.details.rx_bytes_bw.max)}</Td>
