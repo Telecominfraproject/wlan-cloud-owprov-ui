@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { Radio } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
+import { useCircleGraph } from 'contexts/CircleGraphProvider';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -30,9 +31,10 @@ const propTypes = {
 
 const RadioCircle = ({ node, style, handleClicks }) => {
   const { t } = useTranslation();
+  const { popoverRef } = useCircleGraph();
 
   return (
-    <Popover isLazy trigger="hover" placement="top">
+    <Popover isLazy trigger="hover" placement="auto">
       <PopoverTrigger>
         <animated.circle
           key={node.id}
@@ -46,7 +48,7 @@ const RadioCircle = ({ node, style, handleClicks }) => {
           onClick={handleClicks.onClick}
         />
       </PopoverTrigger>
-      <Portal>
+      <Portal containerRef={popoverRef}>
         <PopoverContent>
           <PopoverArrow />
           <PopoverCloseButton alignContent="center" mt={1} />

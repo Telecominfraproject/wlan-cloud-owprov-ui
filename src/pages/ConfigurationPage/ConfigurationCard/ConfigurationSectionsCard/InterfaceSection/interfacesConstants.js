@@ -180,7 +180,7 @@ export const INTERFACE_IPV4_DHCP_SCHEMA = (t, useDefault = false) => {
       'lease-first': number().required(t('form.required')).positive().integer().default(1),
       'lease-count': number().required(t('form.required')).positive().integer().default(1),
       'lease-time': string().required(t('form.required')).default('6h'),
-      'relay-server': string().required(t('form.required')).default(''),
+      'relay-server': string().default(''),
     })
     .default({
       'lease-first': 1,

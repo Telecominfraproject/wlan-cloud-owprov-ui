@@ -147,6 +147,7 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
               {
                 onSuccess: () => {
                   updateVenueWithInfo();
+                  queryClient.invalidateQueries(['get-board', venue.boards[0]]);
                 },
                 onError: (e) => {
                   toast({

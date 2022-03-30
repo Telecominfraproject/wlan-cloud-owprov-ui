@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { Box, Center, Flex, Spacer, Spinner, useToast } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
 import RefreshButton from 'components/Buttons/RefreshButton';
+import { CircleGraphProvider } from 'contexts/CircleGraphProvider';
 import { getHoursAgo } from 'utils/dateFormatting';
+import { useFullScreenHandle } from 'react-full-screen';
 import CirclePack from './CirclePack';
 import ExpandButton from './ExpandButton';
 import CirclePackTimePickers from './TimePickers';
@@ -17,6 +19,7 @@ const propTypes = {
 const VenueLiveView = ({ boardId }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const handle = useFullScreenHandle();
   const [startTime, setStartTime] = useState(getHoursAgo(1));
   const [endTime, setEndTime] = useState(new Date());
   const {
@@ -34,7 +37,7 @@ const VenueLiveView = ({ boardId }) => {
       <Box>
         <Flex mb={2}>
           <Spacer />
-          <ExpandButton data={timepoints} isDisabled={isFetching || !timepoints} />
+          <ExpandButton data={timepoints} isDisabled={isFetching || !timepoints} handle={handle} />
           <CirclePackTimePickers
             start={startTime}
             end={endTime}
@@ -44,7 +47,9 @@ const VenueLiveView = ({ boardId }) => {
           />
           <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
         </Flex>
-        {timepoints && <CirclePack timepoints={timepoints} />}
+        <CircleGraphProvider>
+          {timepoints && <CirclePack timepoints={timepoints} handle={handle} />}
+        </CircleGraphProvider>
       </Box>
     </LoadingOverlay>
   );

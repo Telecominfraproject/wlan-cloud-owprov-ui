@@ -23,6 +23,7 @@ import { ArrowSquareOut, Tag } from 'phosphor-react';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import FormattedDate from 'components/FormattedDate';
 import { useTranslation } from 'react-i18next';
+import { useCircleGraph } from 'contexts/CircleGraphProvider';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -35,6 +36,7 @@ const propTypes = {
 const DeviceCircle = ({ node, style, handleClicks }) => {
   const { t } = useTranslation();
   const { data: gwUi } = useGetGatewayUi();
+  const { popoverRef } = useCircleGraph();
 
   const handleOpenInGateway = useMemo(
     () => () => window.open(`${gwUi}/#/devices/${node.data.details.deviceInfo.serialNumber}`, '_blank'),
@@ -56,7 +58,7 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
           onClick={handleClicks.onClick}
         />
       </PopoverTrigger>
-      <Portal>
+      <Portal containerRef={popoverRef}>
         <PopoverContent>
           <PopoverArrow />
           <PopoverCloseButton alignContent="center" mt={1} />

@@ -23,6 +23,7 @@ import {
 import { Broadcast } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { bytesString } from 'utils/stringHelper';
+import { useCircleGraph } from 'contexts/CircleGraphProvider';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -34,8 +35,10 @@ const propTypes = {
 
 const SsidCircle = ({ node, style, handleClicks }) => {
   const { t } = useTranslation();
+  const { popoverRef } = useCircleGraph();
+
   return (
-    <Popover isLazy trigger="hover" placement="top">
+    <Popover isLazy trigger="hover" placement="auto">
       <PopoverTrigger>
         <animated.circle
           key={node.id}
@@ -49,7 +52,7 @@ const SsidCircle = ({ node, style, handleClicks }) => {
           onClick={handleClicks.onClick}
         />
       </PopoverTrigger>
-      <Portal>
+      <Portal containerRef={popoverRef}>
         <PopoverContent w="400px">
           <PopoverArrow />
           <PopoverCloseButton alignContent="center" mt={1} />
