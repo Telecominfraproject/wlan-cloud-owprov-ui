@@ -53,7 +53,8 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
           r={style.radius}
           fill={node.data.details.color}
           stroke="black"
-          strokeWidth="1px"
+          strokeWidth="3px"
+          cursor="pointer"
           opacity={style.opacity}
           onClick={handleClicks.onClick}
         />

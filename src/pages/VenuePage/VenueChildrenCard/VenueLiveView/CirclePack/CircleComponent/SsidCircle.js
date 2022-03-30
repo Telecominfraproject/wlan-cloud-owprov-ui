@@ -47,7 +47,9 @@ const SsidCircle = ({ node, style, handleClicks }) => {
           r={style.radius}
           fill={node.data.details.color}
           stroke="black"
-          strokeWidth="1px"
+          strokeWidth="2px"
+          cursor="pointer"
+          strokeDasharray="4"
           opacity={style.opacity}
           onClick={handleClicks.onClick}
         />

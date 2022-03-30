@@ -42,7 +42,8 @@ const RadioCircle = ({ node, style, handleClicks }) => {
           cy={style.y}
           r={style.radius}
           fill={node.data.details.color}
-          stroke="black"
+          stroke="blue"
+          cursor="pointer"
           strokeWidth="1px"
           opacity={style.opacity}
           onClick={handleClicks.onClick}
