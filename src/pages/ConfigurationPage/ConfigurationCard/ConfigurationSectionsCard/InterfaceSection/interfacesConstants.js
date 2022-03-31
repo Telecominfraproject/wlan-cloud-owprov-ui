@@ -7,6 +7,20 @@ export const CREATE_INTERFACE_SCHEMA = (t) =>
     role: string().required(t('form.required')).default('upstream'),
   });
 
+export const INTERFACE_SSID_RATE_LIMIT_SCHEMA = (t, useDefault = false) => {
+  const shape = object()
+    .shape({
+      'ingress-rate': number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(0),
+      'egress-rate': number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(0),
+    })
+    .default({
+      'ingress-rate': 0,
+      'egress-rate': 0,
+    });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
 export const INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     mac: string()
@@ -166,6 +180,7 @@ export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
     'disassoc-low-ack': bool().default(undefined),
     'vendor-elements': string(),
     encryption: INTERFACE_SSID_ENCRYPTION_SCHEMA(t, useDefault),
+    'rate-limit': INTERFACE_SSID_RATE_LIMIT_SCHEMA(t),
     rrm: INTERFACE_SSID_RRM_SCHEMA(t),
     roaming: INTERFACE_SSID_ROAMING_SCHEMA(t),
     radius: INTERFACE_SSID_RADIUS_SCHEMA(t),

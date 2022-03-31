@@ -15,6 +15,7 @@ import Rrm from './Rrm';
 import Roaming from './Roaming';
 import Encryption from './Encryption';
 import Radius from './Radius';
+import RateLimit from './RateLimit';
 
 const propTypes = {
   index: PropTypes.number.isRequired,
@@ -80,7 +81,10 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
             label="services"
             definitionKey="interface.ssid.services"
             isDisabled={!editing}
-            options={[{ value: 'wifi-steering', label: 'wifi-steering' }]}
+            options={[
+              { value: 'wifi-steering', label: 'wifi-steering' },
+              { value: 'dhcp-snooping', label: 'dhcp-snooping' },
+            ]}
           />
           <NumberField
             name={`${namePrefix}.maximum-clients`}
@@ -155,6 +159,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
         </SimpleGrid>
         <Encryption editing={editing} namePrefix={`${namePrefix}.encryption`} />
         <Radius editing={editing} namePrefix={`${namePrefix}.radius`} />
+        <RateLimit editing={editing} namePrefix={`${namePrefix}.rate-limit`} />
         <Rrm editing={editing} namePrefix={`${namePrefix}.rrm`} />
         <Roaming editing={editing} namePrefix={`${namePrefix}.roaming`} />
       </CardBody>

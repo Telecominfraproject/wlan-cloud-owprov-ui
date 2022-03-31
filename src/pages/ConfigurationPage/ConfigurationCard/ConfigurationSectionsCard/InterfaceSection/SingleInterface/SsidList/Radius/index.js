@@ -194,13 +194,13 @@ const Radius = ({ editing, namePrefix }) => {
           <SimpleGrid minChildWidth="300px" spacing="20px">
             <StringField
               name={`${namePrefix}.nas-identifier`}
-              label="radius.nas-identifier"
+              label="nas-identifier"
               isDisabled={!editing}
               emptyIsUndefined
             />
             <ToggleField
               name={`${namePrefix}.chargeable-user-id`}
-              label="radius.chargeable-user-id"
+              label="chargeable-user-id"
               isDisabled={!editing}
               falseIsUndefined
             />

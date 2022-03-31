@@ -139,6 +139,29 @@ const SingleRadio = ({ editing, index, remove }) => {
             isDisabled={!editing}
             falseIsUndefined
           />
+          <SelectField
+            name={`configuration[${index}].rates.beacon`}
+            label="beacon-rate"
+            definitionKey="radio.rates.beacon"
+            isDisabled={!editing}
+            isInt
+            emptyIsUndefined
+            options={[
+              { value: '', label: t('common.none') },
+              { value: 1000, label: '1000' },
+              { value: 2000, label: '2000' },
+              { value: 5500, label: '5500' },
+              { value: 6000, label: '6000' },
+              { value: 9000, label: '9000' },
+              { value: 11000, label: '11000' },
+              { value: 12000, label: '12000' },
+              { value: 18000, label: '18000' },
+              { value: 24000, label: '24000' },
+              { value: 36000, label: '36000' },
+              { value: 48000, label: '48000' },
+              { value: 54000, label: '54000' },
+            ]}
+          />
           <NumberField
             name={`configuration[${index}].beacon-interval`}
             label="beacon-interval"
@@ -171,29 +194,6 @@ const SingleRadio = ({ editing, index, remove }) => {
             isDisabled={!editing}
             placeholder={t('configurations.hostapd_warning')}
             emptyIsUndefined
-          />
-          <SelectField
-            name={`configuration[${index}].rates.beacon`}
-            label="beacon"
-            definitionKey="radio.rates.beacon"
-            isDisabled={!editing}
-            isInt
-            emptyIsUndefined
-            options={[
-              { value: '', label: t('common.none') },
-              { value: 1000, label: '1000' },
-              { value: 2000, label: '2000' },
-              { value: 5500, label: '5500' },
-              { value: 6000, label: '6000' },
-              { value: 9000, label: '9000' },
-              { value: 11000, label: '11000' },
-              { value: 12000, label: '12000' },
-              { value: 18000, label: '18000' },
-              { value: 24000, label: '24000' },
-              { value: 36000, label: '36000' },
-              { value: 48000, label: '48000' },
-              { value: 54000, label: '54000' },
-            ]}
           />
           <SelectField
             name={`configuration[${index}].rates.multicast`}
