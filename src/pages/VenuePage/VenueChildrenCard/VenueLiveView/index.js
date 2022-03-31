@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useGetAnalyticsBoardTimepoints } from 'hooks/Network/Analytics';
 import { useTranslation } from 'react-i18next';
-import { Box, Center, Flex, Spacer, Spinner, useToast } from '@chakra-ui/react';
+import { Box, Center, Flex, Spacer, Spinner, useColorModeValue, useToast } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import { CircleGraphProvider } from 'contexts/CircleGraphProvider';
@@ -20,6 +20,7 @@ const VenueLiveView = ({ boardId }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const handle = useFullScreenHandle();
+  const color = useColorModeValue('gray.50', 'gray.800');
   const [startTime, setStartTime] = useState(getHoursAgo(1));
   const [endTime, setEndTime] = useState(new Date());
   const {
@@ -34,23 +35,25 @@ const VenueLiveView = ({ boardId }) => {
     </Center>
   ) : (
     <LoadingOverlay isLoading={isFetching}>
-      <Box>
+      <Box bgColor={handle?.active ? color : null} h="100%" p={0}>
         <FullScreen handle={handle}>
-          <Flex mb={2} mt={handle?.active ? 4 : null} mr={handle?.active ? 4 : null}>
-            <Spacer />
-            <ExpandButton data={timepoints} isDisabled={isFetching || !timepoints} handle={handle} />
-            <CirclePackTimePickers
-              start={startTime}
-              end={endTime}
-              setStart={setStartTime}
-              setEnd={setEndTime}
-              isDisabled={isFetching || !timepoints}
-            />
-            <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
-          </Flex>
-          <CircleGraphProvider>
-            {timepoints && <CirclePack timepoints={timepoints} handle={handle} />}
-          </CircleGraphProvider>
+          <Box bgColor={handle?.active ? color : null} h="100%" p={0}>
+            <Flex mb={2} mt={handle?.active ? 4 : null} mr={handle?.active ? 4 : null}>
+              <Spacer />
+              <ExpandButton data={timepoints} isDisabled={isFetching || !timepoints} handle={handle} />
+              <CirclePackTimePickers
+                start={startTime}
+                end={endTime}
+                setStart={setStartTime}
+                setEnd={setEndTime}
+                isDisabled={isFetching || !timepoints}
+              />
+              <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
+            </Flex>
+            <CircleGraphProvider>
+              {timepoints && <CirclePack timepoints={timepoints} handle={handle} />}
+            </CircleGraphProvider>
+          </Box>
         </FullScreen>
       </Box>
     </LoadingOverlay>
