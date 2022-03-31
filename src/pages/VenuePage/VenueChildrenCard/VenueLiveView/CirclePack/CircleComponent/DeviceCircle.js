@@ -44,7 +44,7 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
   );
 
   return (
-    <Popover isLazy trigger="hover" placement="top">
+    <Popover isLazy trigger="hover" placement="auto">
       <PopoverTrigger>
         <animated.circle
           key={node.id}
@@ -60,7 +60,7 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
         />
       </PopoverTrigger>
       <Portal containerRef={popoverRef}>
-        <PopoverContent>
+        <PopoverContent w="360px">
           <PopoverArrow />
           <PopoverCloseButton alignContent="center" mt={1} />
           <PopoverHeader display="flex">
@@ -80,6 +80,14 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
             <Box px={0} fontWeight="bold" w="100%">
               <Table variant="simple" size="sm">
                 <Tbody>
+                  <Tr>
+                    <Td w="150px">{t('common.type')}</Td>
+                    <Td>{node.data.details.deviceInfo.deviceType}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td w="150px">{t('analytics.firmware')}</Td>
+                    <Td>{node.data.details.deviceInfo.lastFirmware?.split('/')[1] ?? t('common.unknown')}</Td>
+                  </Tr>
                   <Tr>
                     <Td w="150px">SSIDs</Td>
                     <Td>{node.data.children.length}</Td>
