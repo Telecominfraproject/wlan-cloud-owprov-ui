@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom';
 import { Box, Center, Heading, useColorMode, useToast } from '@chakra-ui/react';
 import { parseDbm } from 'utils/stringHelper';
 import { errorColor, getBlendedColor, successColor, warningColor } from 'utils/colors';
-import { FullScreen } from 'react-full-screen';
 import { getScaledArray } from 'utils/arrayHelpers';
 import { useCircleGraph } from 'contexts/CircleGraphProvider';
 import { patternLinesDef } from '@nivo/core';
@@ -212,68 +211,66 @@ const CirclePack = ({ timepoints, handle }) => {
   }, [timepoints]);
 
   return (
-    <>
+    <Box px={10} h="100%">
       {timepoints.length > 0 && <CirclePackSlider index={pointIndex} setIndex={setPointIndex} points={timepoints} />}
-      <FullScreen handle={handle}>
-        <Box w="100%" h={handle?.active ? '100%' : '600px'} ref={popoverRef}>
-          {data === null ? (
-            <Center>
-              <Heading size="lg">{t('common.no_records_found')}</Heading>
-            </Center>
-          ) : (
-            <>
-              <CirclePackInfoButton />
-              <ResponsiveCirclePacking
-                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-                padding="36"
-                defs={shapeDefs}
-                fill={[
-                  {
-                    match: (d) => d.data.type === 'association' && d.data.details.rssi >= -45,
-                    id: 'assoc_success',
-                  },
-                  {
-                    match: (d) => d.data.type === 'association' && d.data.details.rssi >= -60,
-                    id: 'assoc_warning',
-                  },
-                  {
-                    match: (d) => d.data.type === 'association' && d.data.details.rssi < -60,
-                    id: 'assoc_danger',
-                  },
-                ]}
-                id="name"
-                value="scale"
-                data={data}
-                enableLabels
-                labelsSkipRadius={42}
-                labelsFilter={(label) => label.node.height === 0}
-                labelTextColor={{
-                  from: 'color',
-                  modifiers: [['darker', 4]],
-                }}
-                labelComponent={CircleLabel}
-                onMouseEnter={null}
-                tooltip={null}
-                circleComponent={CircleComponent}
-                zoomedId={zoomedId}
-                motionConfig="slow"
-                theme={{
-                  labels: {
-                    text: {
-                      background: 'black',
-                    },
+      <Box w="100%" h={handle?.active ? 'calc(100vh - 200px)' : '600px'} ref={popoverRef}>
+        {data === null ? (
+          <Center>
+            <Heading size="lg">{t('common.no_records_found')}</Heading>
+          </Center>
+        ) : (
+          <>
+            <CirclePackInfoButton />
+            <ResponsiveCirclePacking
+              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+              padding="36"
+              defs={shapeDefs}
+              fill={[
+                {
+                  match: (d) => d.data.type === 'association' && d.data.details.rssi >= -45,
+                  id: 'assoc_success',
+                },
+                {
+                  match: (d) => d.data.type === 'association' && d.data.details.rssi >= -60,
+                  id: 'assoc_warning',
+                },
+                {
+                  match: (d) => d.data.type === 'association' && d.data.details.rssi < -60,
+                  id: 'assoc_danger',
+                },
+              ]}
+              id="name"
+              value="scale"
+              data={data}
+              enableLabels
+              labelsSkipRadius={42}
+              labelsFilter={(label) => label.node.height === 0}
+              labelTextColor={{
+                from: 'color',
+                modifiers: [['darker', 4]],
+              }}
+              labelComponent={CircleLabel}
+              onMouseEnter={null}
+              tooltip={null}
+              circleComponent={CircleComponent}
+              zoomedId={zoomedId}
+              motionConfig="slow"
+              theme={{
+                labels: {
+                  text: {
                     background: 'black',
                   },
-                }}
-                onClick={(node) => {
-                  setZoomedId(zoomedId === node.id ? null : node.id);
-                }}
-              />
-            </>
-          )}
-        </Box>
-      </FullScreen>
-    </>
+                  background: 'black',
+                },
+              }}
+              onClick={(node) => {
+                setZoomedId(zoomedId === node.id ? null : node.id);
+              }}
+            />
+          </>
+        )}
+      </Box>
+    </Box>
   );
 };
 

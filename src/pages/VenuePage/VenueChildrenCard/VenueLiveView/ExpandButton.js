@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
-import { ArrowsOut } from 'phosphor-react';
+import { ArrowsIn, ArrowsOut } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 
 const propTypes = {
@@ -22,21 +22,21 @@ const CirclePackExpandButton = ({ isDisabled, handle }) => {
         colorScheme="blue"
         type="button"
         onClick={handle.enter}
-        rightIcon={<ArrowsOut size={20} />}
+        rightIcon={handle.active ? <ArrowsIn size={20} /> : <ArrowsOut size={20} />}
         isDisabled={isDisabled}
         mr={2}
       >
-        {t('common.fullscreen')}
+        {handle.active ? t('common.exit_fullscreen') : t('common.fullscreen')}
       </Button>
     );
   }
   return (
-    <Tooltip label={t('common.fullscreen')}>
+    <Tooltip label={handle.active ? t('common.exit_fullscreen') : t('common.fullscreen')}>
       <IconButton
         colorScheme="blue"
         type="button"
         onClick={handle.enter}
-        icon={<ArrowsOut size={20} />}
+        icon={handle.active ? <ArrowsIn size={20} /> : <ArrowsOut size={20} />}
         isDisabled={isDisabled}
         mr={2}
       />

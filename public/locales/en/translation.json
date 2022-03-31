@@ -180,6 +180,7 @@
 		"error_claiming_obj": "Error while claiming {{obj}}",
 		"error_download": "Error while trying to download: {{e}}",
 		"errors": "Errors",
+		"exit_fullscreen": "Exit",
 		"fullscreen": "Fullscreen",
 		"general_error": "Error connecting to the server. Please consult your administrator.",
 		"general_info": "General Information",

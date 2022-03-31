@@ -7,7 +7,7 @@ import LoadingOverlay from 'components/LoadingOverlay';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import { CircleGraphProvider } from 'contexts/CircleGraphProvider';
 import { getHoursAgo } from 'utils/dateFormatting';
-import { useFullScreenHandle } from 'react-full-screen';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import CirclePack from './CirclePack';
 import ExpandButton from './ExpandButton';
 import CirclePackTimePickers from './TimePickers';
@@ -35,21 +35,23 @@ const VenueLiveView = ({ boardId }) => {
   ) : (
     <LoadingOverlay isLoading={isFetching}>
       <Box>
-        <Flex mb={2}>
-          <Spacer />
-          <ExpandButton data={timepoints} isDisabled={isFetching || !timepoints} handle={handle} />
-          <CirclePackTimePickers
-            start={startTime}
-            end={endTime}
-            setStart={setStartTime}
-            setEnd={setEndTime}
-            isDisabled={isFetching || !timepoints}
-          />
-          <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
-        </Flex>
-        <CircleGraphProvider>
-          {timepoints && <CirclePack timepoints={timepoints} handle={handle} />}
-        </CircleGraphProvider>
+        <FullScreen handle={handle}>
+          <Flex mb={2} mt={handle?.active ? 4 : null} mr={handle?.active ? 4 : null}>
+            <Spacer />
+            <ExpandButton data={timepoints} isDisabled={isFetching || !timepoints} handle={handle} />
+            <CirclePackTimePickers
+              start={startTime}
+              end={endTime}
+              setStart={setStartTime}
+              setEnd={setEndTime}
+              isDisabled={isFetching || !timepoints}
+            />
+            <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
+          </Flex>
+          <CircleGraphProvider>
+            {timepoints && <CirclePack timepoints={timepoints} handle={handle} />}
+          </CircleGraphProvider>
+        </FullScreen>
       </Box>
     </LoadingOverlay>
   );
