@@ -107,10 +107,9 @@ export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (t, useDefault = false) => {
       proto: string().required(t('form.required')).default('psk'),
       ieee80211w: string().required(t('form.required')).default('disabled'),
       key: string()
-        .when('proto', {
-          is: (v) => keyProtos.includes(v),
-          then: string().required(t('form.required')).min(8).max(63).default(''),
-          otherwise: string().nullable(),
+        .test('encryptionKeyTest', t('form.min_max_string', { min: 8, max: 63 }), (v, { from }) => {
+          if (!keyProtos.includes(from[0].value.proto) || from[1].value.radius !== undefined) return true;
+          return v.length >= 8 && v.length <= 63;
         })
         .default(''),
     })

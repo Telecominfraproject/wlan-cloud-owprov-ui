@@ -64,6 +64,10 @@ const RadioCircle = ({ node, style, handleClicks }) => {
               <Table variant="simple" size="sm">
                 <Tbody>
                   <Tr>
+                    <Td w="100px">{t('analytics.noise')}</Td>
+                    <Td>{node.data.details.noise} db</Td>
+                  </Tr>
+                  <Tr>
                     <Td w="100px">{t('analytics.channel')}</Td>
                     <Td>{node.data.details.channel}</Td>
                   </Tr>

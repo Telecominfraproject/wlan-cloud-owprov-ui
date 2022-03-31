@@ -157,8 +157,12 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
             emptyIsUndefined
           />
         </SimpleGrid>
-        <Encryption editing={editing} namePrefix={`${namePrefix}.encryption`} />
-        <Radius editing={editing} namePrefix={`${namePrefix}.radius`} />
+        <Encryption editing={editing} namePrefix={`${namePrefix}.encryption`} radiusPrefix={`${namePrefix}.radius`} />
+        <Radius
+          editing={editing}
+          namePrefix={`${namePrefix}.radius`}
+          encryptionKeyName={`${namePrefix}.encryption.key`}
+        />
         <RateLimit editing={editing} namePrefix={`${namePrefix}.rate-limit`} />
         <Rrm editing={editing} namePrefix={`${namePrefix}.rrm`} />
         <Roaming editing={editing} namePrefix={`${namePrefix}.roaming`} />

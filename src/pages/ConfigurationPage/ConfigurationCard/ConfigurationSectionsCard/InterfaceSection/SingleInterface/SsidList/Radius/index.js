@@ -14,16 +14,19 @@ import LockedRadius from './LockedRadius';
 const propTypes = {
   editing: PropTypes.bool.isRequired,
   namePrefix: PropTypes.string.isRequired,
+  encryptionKeyName: PropTypes.string.isRequired,
 };
 
-const Radius = ({ editing, namePrefix }) => {
+const Radius = ({ editing, namePrefix, encryptionKeyName }) => {
   const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext();
 
   const onRadiusEnabled = (e) => {
     if (e.target.checked) {
+      setFieldValue(`${encryptionKeyName}`, undefined);
       setFieldValue(`${namePrefix}`, INTERFACE_SSID_RADIUS_SCHEMA(t, true).cast());
     } else {
+      setFieldValue(`${encryptionKeyName}`, 'YOUR_SECRET');
       setFieldValue(`${namePrefix}`, undefined);
     }
   };

@@ -16,3 +16,7 @@ export const parseDbm = (value) => {
   if (value > -150 && value < 100) return value;
   return (4294967295 - value) * -1;
 };
+export const formatNumberToScientificBasedOnMax = (number, max = 100000000) => {
+  if (!number) return number;
+  return number < max ? number.toLocaleString('en-US') : number.toExponential(2);
+};
