@@ -85,7 +85,6 @@ const InventoryTable = ({ title }) => {
     [],
   );
 
-  // Columns array. This array contains your table headings and accessors which maps keys from data array
   const columns = React.useMemo(() => {
     const baseColumns = [
       {

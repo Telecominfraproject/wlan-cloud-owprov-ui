@@ -37,9 +37,10 @@ const VenueCircle = ({ node, style, handleClicks }) => {
           cx={style.x}
           cy={style.y}
           r={style.radius}
+          cursor="pointer"
           fill={node.data.details.color}
           stroke="black"
-          strokeWidth="1px"
+          strokeWidth="3px"
           opacity={style.opacity}
           onClick={handleClicks.onClick}
         />
