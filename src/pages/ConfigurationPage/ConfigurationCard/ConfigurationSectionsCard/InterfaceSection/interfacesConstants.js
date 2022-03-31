@@ -129,15 +129,13 @@ export const INTERFACE_SSID_ROAMING_SCHEMA = (t, useDefault = false) => {
       'message-exchange': string().required(t('form.required')).default('ds'),
       'generate-psk': bool().required(t('form.required')).default(false),
       'domain-identifier': string().required(t('form.required')).default(''),
-      'pmk-r0-key-holder': string().required(t('form.required')).default(''),
-      'pmk-r1-key-holder': string().required(t('form.required')).default(''),
+      'pmk-r0-key-holder': string().default(undefined),
+      'pmk-r1-key-holder': string().default(undefined),
     })
     .default({
       'message-exchange': 'ds',
       'generate-psk': false,
       'domain-identifier': '',
-      'pmk-r0-key-holder': '',
-      'pmk-r1-key-holder': '',
     });
 
   return useDefault ? shape : shape.nullable().default(undefined);
