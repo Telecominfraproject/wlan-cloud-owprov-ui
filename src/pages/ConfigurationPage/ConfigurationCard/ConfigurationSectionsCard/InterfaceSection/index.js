@@ -63,7 +63,7 @@ const InterfaceSection = ({ editing, setSection, sectionInformation, removeSub }
         <>
           <Flex>
             <Spacer />
-            <InterfaceExpertModal />
+            <InterfaceExpertModal editing={editing} />
             <DeleteButton ml={2} my={2} onClick={removeUnit} isDisabled={!editing} />
           </Flex>
           <VStack spacing={4}>

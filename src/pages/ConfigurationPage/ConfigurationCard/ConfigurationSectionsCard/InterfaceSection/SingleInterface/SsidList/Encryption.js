@@ -10,11 +10,12 @@ import { INTERFACE_SSID_ENCRYPTION_SCHEMA } from '../../interfacesConstants';
 const propTypes = {
   editing: PropTypes.bool.isRequired,
   namePrefix: PropTypes.string.isRequired,
+  radiusPrefix: PropTypes.string.isRequired,
 };
 
 const keyProtos = ['psk', 'psk2', 'psk-mixed', 'sae-mixed'];
 
-const Encryption = ({ editing, namePrefix }) => {
+const Encryption = ({ editing, namePrefix, radiusPrefix }) => {
   const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext();
 
@@ -29,8 +30,11 @@ const Encryption = ({ editing, namePrefix }) => {
   const isEnabled = useMemo(() => getIn(values, `${namePrefix}`) !== undefined, [getIn(values, `${namePrefix}`)]);
 
   const isKeyNeeded = useMemo(
-    () => getIn(values, `${namePrefix}`) !== undefined && keyProtos.includes(getIn(values, `${namePrefix}`).proto),
-    [getIn(values, `${namePrefix}`)],
+    () =>
+      getIn(values, `${namePrefix}`) !== undefined &&
+      keyProtos.includes(getIn(values, `${namePrefix}`).proto) &&
+      getIn(values, `${radiusPrefix}`) === undefined,
+    [getIn(values, `${namePrefix}`), getIn(values, `${radiusPrefix}`)],
   );
 
   return (
