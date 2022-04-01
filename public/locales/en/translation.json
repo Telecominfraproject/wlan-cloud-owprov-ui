@@ -570,9 +570,12 @@
 	},
 	"venues": {
 		"create_child": "Create Child Venue",
+		"error_update_devices": "Error starting device update: {{e}}",
 		"go_to_page": "Go to page",
 		"one": "Venue",
 		"subvenues": "Sub-Venues",
-		"title": "Venues"
+		"successfully_update_devices": "Updating {{num}} devices!",
+		"title": "Venues",
+		"update_all_devices": "Update All Devices"
 	}
 }
