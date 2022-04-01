@@ -51,6 +51,7 @@ const SingleRadio = ({ editing, index, remove }) => {
             label="bandwidth"
             definitionKey="radio.bandwidth"
             isDisabled={!editing}
+            isInt
             isRequired
             options={[
               { value: 5, label: '5' },
