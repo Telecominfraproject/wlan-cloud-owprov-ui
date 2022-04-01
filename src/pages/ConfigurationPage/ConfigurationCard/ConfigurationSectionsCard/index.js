@@ -53,17 +53,6 @@ const getActiveConfigurations = (configurations) =>
 const getConfigurationData = (configurations, section) => {
   const data = configurations.find((conf) => Object.keys(JSON.parse(conf.configuration))[0] === section);
 
-  if (section === 'metrics' || section === 'services') {
-    const activeSubs = Object.keys(JSON.parse(data.configuration)[section]);
-    return {
-      ...data,
-      configuration: {
-        ...JSON.parse(data.configuration)[section],
-        __selected_subcategories: activeSubs.filter((sub) => sub !== '__selected_subcategories'),
-      },
-    };
-  }
-
   if (section === 'interfaces') {
     return { ...data, configuration: JSON.parse(data.configuration).interfaces };
   }

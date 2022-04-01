@@ -56,7 +56,6 @@ export const METRICS_SCHEMA = (t, useDefault = false) =>
     description: string().default(''),
     weight: number().required(t('form.required')).moreThan(-1).integer().default(1),
     configuration: object().shape({
-      __selected_subcategories: array().of(string()).default([]),
       statistics: METRICS_STATISTICS_SCHEMA(t, useDefault),
       health: METRICS_HEALTH_SCHEMA(t, useDefault),
       'wifi-frames': METRICS_WIFI_FRAMES_SCHEMA(t, useDefault),

@@ -244,7 +244,6 @@ export const SERVICES_SCHEMA = (t, useDefault = false) =>
     description: string().default(''),
     weight: number().required(t('form.required')).moreThan(-1).integer().default(1),
     configuration: object().shape({
-      __selected_subcategories: array().of(string()).default([]),
       lldp: SERVICES_LLDP_SCHEMA(t, useDefault),
       ssh: SERVICES_SSH_SCHEMA(t, useDefault),
       ntp: SERVICES_NTP_SCHEMA(t, useDefault),
