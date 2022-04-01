@@ -29,7 +29,7 @@ const ConfigurationPushModal = ({ isOpen, onClose, pushResult }) => {
         <ModalBody>
           <Alert status={pushResult?.errorCode !== 0 ? 'error' : 'success'}>
             <AlertIcon />
-            {pushResult?.result?.errorCode !== 0
+            {pushResult?.errorCode !== 0
               ? t('configurations.push_configuration_explanation', {
                   code: pushResult?.errorCode ?? 0,
                 })
