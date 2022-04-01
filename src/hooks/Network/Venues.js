@@ -80,5 +80,7 @@ export const useUpdateVenue = ({ id }) =>
   useMutation(({ params, createObjects }) =>
     axiosProv.put(`venue/${id}${createObjects ? `?createObjects=${JSON.stringify(createObjects)}` : ''}`, params),
   );
+export const useUpdateVenueDevices = ({ id }) =>
+  useMutation(({ params }) => axiosProv.put(`venue/${id}?updateAllDevices=true`, params));
 
 export const useDeleteVenue = () => useMutation((id) => axiosProv.delete(`venue/${id}`));

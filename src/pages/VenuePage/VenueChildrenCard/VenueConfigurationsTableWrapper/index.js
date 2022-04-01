@@ -9,6 +9,7 @@ import ConfigurationViewAffectedModal from 'components/Tables/ConfigurationTable
 import CreateConfigurationModal from 'components/Tables/ConfigurationTable/CreateConfigurationModal';
 import { useQueryClient } from 'react-query';
 import Actions from './Actions';
+import UpdateAllDevicesButton from './UpdateAllDevicesButton';
 
 const propTypes = {
   venue: PropTypes.shape(EntityShape),
@@ -38,11 +39,13 @@ const VenueConfigurationsTableWrapper = ({ venue }) => {
     [],
   );
 
+  // PUT updateAllDevices=true
   const refresh = () => queryClient.invalidateQueries(['get-venue', venue.id]);
   return (
     <>
       <Box textAlign="right">
-        <CreateConfigurationModal entityId={`venue:${venue.id}`} refresh={refresh} />
+        <UpdateAllDevicesButton venueId={venue.id} />
+        <CreateConfigurationModal entityId={`venue:${venue.id}`} refresh={refresh} ml={2} />
       </Box>
       <ConfigurationsTable select={venue.configurations} actions={actions} />
       <ConfigurationInUseModal isOpen={isInUseOpen} onClose={closeInUse} config={config} />
