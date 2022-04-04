@@ -68,11 +68,12 @@ const VenueDashboard = ({ boardId }) => {
         if (device.associations_5g > 0) finalData.fiveGAssociations += device.associations_5g;
         if (device.associations_6g > 0) finalData.sixGAssociations += device.associations_6g;
 
-        if (device.connected) finalData.connectedDevices += 1;
-        else finalData.disconnectedDevices += 1;
+        if (device.connected) {
+          finalData.connectedDevices += 1;
+          totalHealth += device.health;
+        } else finalData.disconnectedDevices += 1;
 
         // For averages to be calculated after the loop
-        totalHealth += device.health;
         totalUptime += device.uptime;
         totalMemory += device.memory;
 
@@ -93,7 +94,7 @@ const VenueDashboard = ({ boardId }) => {
       (finalData.connectedDevices / Math.max(1, finalData.totalDevices)) * 100,
     );
     finalData.devices = finalDevices;
-    finalData.avgHealth = Math.floor(totalHealth / Math.max(1, finalData.connectedDevices));
+    finalData.avgHealth = Math.floor(totalHealth / Math.max(1, finalDevices.connectedDevices));
     finalData.avgUptime = Math.floor(totalUptime / Math.max(1, finalData.connectedDevices));
     finalData.avgMemoryUsed = Math.floor(totalMemory / Math.max(1, finalData.connectedDevices));
     finalData.devices = finalDevices;

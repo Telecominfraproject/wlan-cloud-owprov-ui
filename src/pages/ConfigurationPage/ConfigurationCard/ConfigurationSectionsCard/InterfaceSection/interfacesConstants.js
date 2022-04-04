@@ -192,13 +192,12 @@ export const INTERFACE_IPV4_DHCP_SCHEMA = (t, useDefault = false) => {
       'lease-first': number().required(t('form.required')).positive().integer().default(1),
       'lease-count': number().required(t('form.required')).positive().integer().default(1),
       'lease-time': string().required(t('form.required')).default('6h'),
-      'relay-server': string().default(''),
+      'relay-server': string().default(undefined),
     })
     .default({
       'lease-first': 1,
       'lease-count': 1,
       'lease-time': '6h',
-      'relay-server': '',
     });
 
   return useDefault ? shape : shape.nullable().default(undefined);
@@ -328,7 +327,7 @@ export const SINGLE_INTERFACE_SCHEMA = (
           .shape({ addressing: string().required(t('form.required')) })
           .default({ addressing: 'dynamic' })
       : INTERFACE_IPV4_SCHEMA(t, useDefault),
-    tunnel: INTERFACE_TUNNEL_SCHEMA(t, useDefault),
+    tunnel: INTERFACE_TUNNEL_SCHEMA(t, useDefault).default(undefined),
     ssids: array().of(INTERFACE_SSID_SCHEMA(t, useDefault)).default([]),
     'hostapd-bss-raw': array().of(string()).default(undefined),
   });

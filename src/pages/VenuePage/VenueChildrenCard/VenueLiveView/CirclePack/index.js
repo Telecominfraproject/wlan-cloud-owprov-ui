@@ -149,7 +149,7 @@ const CirclePack = ({ timepoints, handle }) => {
       }
     }
 
-    root.details.avgHealth = Math.floor(totalHealth / Math.max(timepoints[0].length, 1));
+    root.details.avgHealth = Math.floor(totalHealth / Math.max(timepoints[pointIndex].length, 1));
     if (root.details.avgHealth >= 90) root.details.color = successColor(colorMode);
     else if (root.details.avgHealth >= 70) root.details.color = warningColor(colorMode);
     else root.details.color = errorColor(colorMode);
