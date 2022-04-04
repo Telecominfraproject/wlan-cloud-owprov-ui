@@ -88,13 +88,12 @@ const VenueDashboard = ({ boardId }) => {
         else finalData.deviceTypeTotals.Unknown = 1;
       }
     }
-
     finalData.totalDevices = finalDevices.length + ignoredDevices.length;
     finalData.connectedPercentage = Math.floor(
       (finalData.connectedDevices / Math.max(1, finalData.totalDevices)) * 100,
     );
     finalData.devices = finalDevices;
-    finalData.avgHealth = Math.floor(totalHealth / Math.max(1, finalDevices.connectedDevices));
+    finalData.avgHealth = Math.floor(totalHealth / Math.max(1, finalData.connectedDevices));
     finalData.avgUptime = Math.floor(totalUptime / Math.max(1, finalData.connectedDevices));
     finalData.avgMemoryUsed = Math.floor(totalMemory / Math.max(1, finalData.connectedDevices));
     finalData.devices = finalDevices;
