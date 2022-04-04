@@ -72,10 +72,6 @@ const RadioCircle = ({ node, style, handleClicks }) => {
                     <Td>{node.data.details.channel}</Td>
                   </Tr>
                   <Tr>
-                    <Td w="100px">{t('analytics.noise')}</Td>
-                    <Td>{node.data.details.noise} db</Td>
-                  </Tr>
-                  <Tr>
                     <Td w="100px">{t('analytics.airtime')}</Td>
                     <Td>{node.data.details.transmitPct.toFixed(2)}%</Td>
                   </Tr>

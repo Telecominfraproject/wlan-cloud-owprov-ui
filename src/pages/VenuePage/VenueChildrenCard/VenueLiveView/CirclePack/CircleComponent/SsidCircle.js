@@ -90,9 +90,9 @@ const SsidCircle = ({ node, style, handleClicks }) => {
                   </Tr>
                   <Tr>
                     <Td w="150px">TX {t('analytics.packets')} /s</Td>
-                    <Td>{node.data.details.tx_packets_bw.avg}</Td>
-                    <Td>{node.data.details.tx_packets_bw.min}</Td>
-                    <Td>{node.data.details.tx_packets_bw.max}</Td>
+                    <Td>{node.data.details.tx_packets_bw.avg.toFixed(2)}</Td>
+                    <Td>{node.data.details.tx_packets_bw.min.toFixed(2)}</Td>
+                    <Td>{node.data.details.tx_packets_bw.max.toFixed(2)}</Td>
                   </Tr>
                   <Tr>
                     <Td w="150px">RX {t('analytics.bandwidth')}</Td>
@@ -102,9 +102,9 @@ const SsidCircle = ({ node, style, handleClicks }) => {
                   </Tr>
                   <Tr>
                     <Td w="150px">RX {t('analytics.packets')} /s</Td>
-                    <Td>{node.data.details.rx_packets_bw.avg}</Td>
-                    <Td>{node.data.details.rx_packets_bw.min}</Td>
-                    <Td>{node.data.details.rx_packets_bw.max}</Td>
+                    <Td>{node.data.details.rx_packets_bw.avg.toFixed(2)}</Td>
+                    <Td>{node.data.details.rx_packets_bw.min.toFixed(2)}</Td>
+                    <Td>{node.data.details.rx_packets_bw.max.toFixed(2)}</Td>
                   </Tr>
                 </Tbody>
               </Table>

@@ -18,12 +18,14 @@ import {
   Td,
   Tr,
   Box,
+  Flex,
 } from '@chakra-ui/react';
 import { ArrowSquareOut, Tag } from 'phosphor-react';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import FormattedDate from 'components/FormattedDate';
 import { useTranslation } from 'react-i18next';
 import { useCircleGraph } from 'contexts/CircleGraphProvider';
+import { bytesString } from 'utils/stringHelper';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,
@@ -60,7 +62,7 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
         />
       </PopoverTrigger>
       <Portal containerRef={popoverRef}>
-        <PopoverContent w="360px">
+        <PopoverContent w="580px">
           <PopoverArrow />
           <PopoverCloseButton alignContent="center" mt={1} />
           <PopoverHeader display="flex">
@@ -81,47 +83,49 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
               <Table variant="simple" size="sm">
                 <Tbody>
                   <Tr>
-                    <Td w="150px">{t('common.type')}</Td>
-                    <Td>{node.data.details.deviceInfo.deviceType}</Td>
+                    <Td w="130px">{t('common.type')}</Td>
+                    <Td>
+                      {node.data.details.deviceInfo.deviceType === ''
+                        ? t('common.unknown')
+                        : node.data.details.deviceInfo.deviceType}
+                    </Td>
+                    <Td w="150px">TX {t('analytics.delta')}</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes_delta)}</Td>
                   </Tr>
                   <Tr>
-                    <Td w="150px">{t('analytics.firmware')}</Td>
+                    <Td w="130px">{t('analytics.firmware')}</Td>
                     <Td>{node.data.details.deviceInfo.lastFirmware?.split('/')[1] ?? t('common.unknown')}</Td>
+                    <Td w="150px">RX {t('analytics.delta')}</Td>
+                    <Td>{bytesString(node.data.details.rx_bytes_delta)}</Td>
                   </Tr>
                   <Tr>
-                    <Td w="150px">SSIDs</Td>
+                    <Td w="130px">SSIDs</Td>
                     <Td>{node.data.children.length}</Td>
-                  </Tr>
-                  <Tr>
-                    <Td w="150px">{t('analytics.health')}</Td>
-                    <Td>{node.data.details.deviceInfo.health}%</Td>
-                  </Tr>
-                  <Tr>
-                    <Td w="150px">{t('analytics.memory_used')}</Td>
-                    <Td>{Math.floor(node.data.details.deviceInfo.memory)}%</Td>
-                  </Tr>
-                  <Tr>
                     <Td w="150px">2G {t('analytics.associations')}</Td>
                     <Td>{node.data.details.deviceInfo.associations_2g}</Td>
                   </Tr>
                   <Tr>
+                    <Td w="130px">{t('analytics.health')}</Td>
+                    <Td>{node.data.details.deviceInfo.health}%</Td>
                     <Td w="150px">5G {t('analytics.associations')}</Td>
                     <Td>{node.data.details.deviceInfo.associations_5g}</Td>
                   </Tr>
                   <Tr>
+                    <Td w="130px">{t('analytics.memory_used')}</Td>
+                    <Td>{Math.floor(node.data.details.deviceInfo.memory)}%</Td>
                     <Td w="150px">6G {t('analytics.associations')}</Td>
                     <Td>{node.data.details.deviceInfo.associations_6g}</Td>
                   </Tr>
-                  {node.data.details.deviceInfo.lastDisconnection !== 0 && (
-                    <Tr>
-                      <Td w="150px">{t('analytics.last_disconnection')}</Td>
-                      <Td>
-                        <FormattedDate date={node.data.details.deviceInfo.lastDisconnection} />
-                      </Td>
-                    </Tr>
-                  )}
                 </Tbody>
               </Table>
+              {node.data.details.deviceInfo.lastDisconnection !== 0 && (
+                <Flex ml={4}>
+                  <Text mr={1}>{t('analytics.last_disconnection')}</Text>
+                  <Text>
+                    <FormattedDate date={node.data.details.deviceInfo.lastDisconnection} />
+                  </Text>
+                </Flex>
+              )}
             </Box>
           </PopoverBody>
         </PopoverContent>

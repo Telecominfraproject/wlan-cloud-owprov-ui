@@ -33,7 +33,7 @@ const tryParseInter = (inter) => {
     const res = JSON.parse(inter.configuration);
     return (obj.interfaces = res);
   } catch {
-    return { ...obj, interfaces: {} };
+    return { ...obj };
   }
 };
 

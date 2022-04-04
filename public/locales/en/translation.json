@@ -49,6 +49,7 @@
 		"connection_percentage_explanation": "Percentage of all devices under this venue which are connected ({{connectedCount}} connected, {{disconnectedCount}} not connected)",
 		"create_board": "Start Monitoring",
 		"dashboard": "Dashboard",
+		"delta": "Delta",
 		"device_types": "Types",
 		"device_types_explanation": "Device types of all avaialable devices",
 		"disconnected": "disconnected",

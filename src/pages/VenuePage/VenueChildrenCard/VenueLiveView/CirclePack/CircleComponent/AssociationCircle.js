@@ -79,6 +79,11 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
                     <Td>{bytesString(node.data.details.rx_bytes)}</Td>
                   </Tr>
                   <Tr>
+                    <Td>{t('analytics.delta')}</Td>
+                    <Td>{bytesString(node.data.details.tx_bytes_delta)}</Td>
+                    <Td>{bytesString(node.data.details.rx_bytes_delta)}</Td>
+                  </Tr>
+                  <Tr>
                     <Td>{t('analytics.bandwidth')}</Td>
                     <Td>{bytesString(node.data.details.tx_bytes_bw)}</Td>
                     <Td>{bytesString(node.data.details.rx_bytes_bw)}</Td>
