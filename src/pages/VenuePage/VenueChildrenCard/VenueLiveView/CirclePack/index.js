@@ -44,12 +44,15 @@ const CirclePack = ({ timepoints, handle }) => {
       },
       type: 'venue',
       children: [],
+      scale: 1,
     };
 
     let totalHealth = 0;
     const allBandwidth = [];
 
-    for (const { device_info: deviceInfo, ssid_data: ssidData, radio_data: radioData } of timepoints[pointIndex]) {
+    for (const { device_info: deviceInfo, ssid_data: ssidData = [], radio_data: radioData = [] } of timepoints[
+      pointIndex
+    ]) {
       totalHealth += deviceInfo.health;
 
       const finalDevice = {
@@ -59,6 +62,7 @@ const CirclePack = ({ timepoints, handle }) => {
           deviceInfo,
           ssidData,
         },
+        scale: 1,
         children: [],
       };
 

@@ -18,6 +18,7 @@ import {
   Td,
   Tr,
   Box,
+  Flex,
 } from '@chakra-ui/react';
 import { ArrowSquareOut, Tag } from 'phosphor-react';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
@@ -83,7 +84,11 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
                 <Tbody>
                   <Tr>
                     <Td w="130px">{t('common.type')}</Td>
-                    <Td>{node.data.details.deviceInfo.deviceType}</Td>
+                    <Td>
+                      {node.data.details.deviceInfo.deviceType === ''
+                        ? t('common.unknown')
+                        : node.data.details.deviceInfo.deviceType}
+                    </Td>
                     <Td w="150px">TX {t('analytics.delta')}</Td>
                     <Td>{bytesString(node.data.details.tx_bytes_delta)}</Td>
                   </Tr>
@@ -111,16 +116,16 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
                     <Td w="150px">6G {t('analytics.associations')}</Td>
                     <Td>{node.data.details.deviceInfo.associations_6g}</Td>
                   </Tr>
-                  {node.data.details.deviceInfo.lastDisconnection !== 0 && (
-                    <Tr>
-                      <Td w="150px">{t('analytics.last_disconnection')}</Td>
-                      <Td>
-                        <FormattedDate date={node.data.details.deviceInfo.lastDisconnection} />
-                      </Td>
-                    </Tr>
-                  )}
                 </Tbody>
               </Table>
+              {node.data.details.deviceInfo.lastDisconnection !== 0 && (
+                <Flex ml={4}>
+                  <Text mr={1}>{t('analytics.last_disconnection')}</Text>
+                  <Text>
+                    <FormattedDate date={node.data.details.deviceInfo.lastDisconnection} />
+                  </Text>
+                </Flex>
+              )}
             </Box>
           </PopoverBody>
         </PopoverContent>
