@@ -16,15 +16,19 @@ export const SINGLE_RADIO_SCHEMA = (t, useDefault = false, band = '2G') => {
     'dtim-period': number().required(t('form.required')).moreThan(0).lessThan(256).integer().default(2),
     'maximum-clients': number().positive().integer().default(64),
     'hostadp-iface-raw': array().of(string()).default(undefined),
-    rates: object().shape({
-      beacon: number().positive().integer().default(undefined),
-      multicast: number().positive().integer().default(undefined),
-    }),
-    he: object().shape({
-      'multiple-bssid': bool().default(undefined),
-      ema: bool().default(undefined),
-      'bss-color': number().positive().integer().default(undefined),
-    }),
+    rates: object()
+      .shape({
+        beacon: number().positive().integer().default(undefined),
+        multicast: number().positive().integer().default(undefined),
+      })
+      .default(undefined),
+    he: object()
+      .shape({
+        'multiple-bssid': bool().default(undefined),
+        ema: bool().default(undefined),
+        'bss-color': number().positive().integer().default(undefined),
+      })
+      .default(undefined),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);

@@ -12,6 +12,8 @@ import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import SelectField from 'components/FormFields/SelectField';
 import NumberField from 'components/FormFields/NumberField';
 import ChannelPicker from './ChannelPicker';
+import He from './He';
+import Rates from './Rates';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -219,28 +221,8 @@ const SingleRadio = ({ editing, index, remove }) => {
               { value: 54000, label: '54000' },
             ]}
           />
-          <ToggleField
-            name={`configuration[${index}].he.multiple-bssid`}
-            label="multiple-bssid"
-            definitionKey="radio.he.multiple-bssid"
-            isDisabled={!editing}
-            falseIsUndefined
-          />
-          <ToggleField
-            name={`configuration[${index}].he.ema`}
-            label="ema"
-            definitionKey="radio.he.ema"
-            isDisabled={!editing}
-            falseIsUndefined
-          />
-          <NumberField
-            name={`configuration[${index}].he.bss-color`}
-            label="bss-color"
-            definitionKey="radio.he.bss-color"
-            isDisabled={!editing}
-            w={24}
-            acceptEmptyValue
-          />
+          <He editing={editing} index={index} />
+          <Rates index={index} />
         </SimpleGrid>
       </CardBody>
     </Card>

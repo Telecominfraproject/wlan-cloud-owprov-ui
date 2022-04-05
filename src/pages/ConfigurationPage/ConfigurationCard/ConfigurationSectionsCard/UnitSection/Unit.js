@@ -40,15 +40,16 @@ const Unit = ({ editing }) => {
             label="hostname"
             definitionKey="unit.hostname"
             isDisabled={!editing}
+            emptyIsUndefined
           />
           <SelectField
             name="configuration.timezone"
             label="timezone"
             definitionKey="unit.timezone"
+            emptyIsUndefined
             isDisabled={!editing}
-            isRequired
             options={[
-              { value: '', label: t('common.select_value') },
+              { value: '', label: t('common.none') },
               {
                 value: 'UTC-11:00',
                 label: 'Midway Islands Time (UTC-11:00)',
