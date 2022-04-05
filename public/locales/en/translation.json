@@ -374,6 +374,8 @@
 		"claim_device_explanation": "To claim devices you can use the table below. If a device was already claimed by another entity or venue we will also unassign them before assigning them to this entity",
 		"client_enrollment_profile": "Client Enrollment Profile",
 		"create_child_entity": "Create Child Entity",
+		"create_root": "Create Root Entity",
+		"create_root_explanation": "Please enter the information necessary to create the root entity of your provisioning service. This information can be modified after creation",
 		"current_state": "Current State",
 		"default_redirector": "Default Redirector",
 		"devices_to_claim": "New Devices to Claim",
