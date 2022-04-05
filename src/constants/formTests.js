@@ -24,7 +24,7 @@ export const testAlphanumWithDash = (str) => {
     return str.length === 0 ? true : alphanumWithDashRegExp.test(str);
   }
 
-  return false;
+  return true;
 };
 
 export const testFqdnHostname = (str) => {
