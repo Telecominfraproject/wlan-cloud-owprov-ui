@@ -23,6 +23,8 @@ const WifiFrames = ({ editing }) => {
             name="configuration.wifi-frames.filters"
             label="filters"
             definitionKey="metrics.wifi-frames.filters"
+            hasVirtualAll
+            canSelectAll
             options={[
               { value: 'probe', label: 'probe' },
               { value: 'auth', label: 'auth' },

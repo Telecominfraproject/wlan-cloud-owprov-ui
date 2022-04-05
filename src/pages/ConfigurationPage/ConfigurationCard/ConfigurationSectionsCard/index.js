@@ -35,6 +35,7 @@ import RadiosSection from './RadiosSection';
 import { INTERFACES_SCHEMA } from './InterfaceSection/interfacesConstants';
 import InterfacesSection from './InterfaceSection';
 import ImportConfigurationButton from './ImportConfigurationButton';
+import useConfigurationTabs from './useConfigurationTabs';
 
 const propTypes = {
   configId: PropTypes.string.isRequired,
@@ -63,6 +64,7 @@ const getConfigurationData = (configurations, section) => {
 const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const { tabIndex, onTabChange, tabsWithNewConfiguration, tabsRemovedConfiguration } = useConfigurationTabs();
   const [globals, setGlobals] = useState({
     data: GLOBALS_SCHEMA(t).cast(),
     isDirty: false,
@@ -160,6 +162,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
       const newSubs = activeConfigurations;
       newSubs.push(sub);
       setActiveConfigurations([...newSubs]);
+      tabsWithNewConfiguration(sub, newSubs);
     },
     [activeConfigurations, setActiveConfigurations],
   );
@@ -216,6 +219,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
         });
       const newSubs = activeConfigurations.filter((conf) => conf !== sub);
       setActiveConfigurations([...newSubs]);
+      tabsRemovedConfiguration();
     },
     [activeConfigurations, setActiveConfigurations],
   );
@@ -351,7 +355,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
         ) : (
           <LoadingOverlay isLoading={isFetching}>
             <Box display="unset" position="unset" w="100%">
-              <Tabs variant="enclosed" w="100%">
+              <Tabs variant="enclosed" w="100%" index={tabIndex} onChange={onTabChange}>
                 <TabList>
                   {activeConfigurations.includes('globals') && <Tab>{t('configurations.globals')}</Tab>}
                   {activeConfigurations.includes('unit') && <Tab>{t('configurations.unit')}</Tab>}

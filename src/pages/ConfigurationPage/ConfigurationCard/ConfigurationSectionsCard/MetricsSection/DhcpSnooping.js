@@ -23,6 +23,8 @@ const DhcpSnooping = ({ editing }) => {
             name="configuration.dhcp-snooping.filters"
             label="filters"
             definitionKey="metrics.dhcp-snooping.filters"
+            hasVirtualAll
+            canSelectAll
             options={[
               { value: 'ack', label: 'ack' },
               { value: 'discover', label: 'discover' },
