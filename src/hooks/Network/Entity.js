@@ -58,7 +58,7 @@ export const useGetEntity = ({ t, toast, id = null }) =>
     onError: (e) => {
       if (!toast.isActive('entity-fetching-error'))
         toast({
-          id: 'subscribers-fetching-error',
+          id: 'entity-fetching-error',
           title: t('common.error'),
           description: t('crud.error_fetching_obj', {
             obj: t('entities.one'),
@@ -72,7 +72,16 @@ export const useGetEntity = ({ t, toast, id = null }) =>
     },
   });
 
-export const useCreateEntity = () => useMutation((newEnt) => axiosProv.post('entity/0', newEnt));
+export const useGetRoot = ({ openModal }) =>
+  useQuery(['get-root'], () => axiosProv.get(`entity/0000-0000-0000`).then(() => true), {
+    enabled: false,
+    onError: (error) => {
+      if (error?.response?.status === 404) openModal();
+    },
+  });
+
+export const useCreateEntity = (isRoot = false) =>
+  useMutation((newEnt) => axiosProv.post(`entity/${isRoot ? '0000-0000-0000' : 0}`, newEnt));
 
 export const useUpdateEntity = ({ id }) => useMutation((newEnt) => axiosProv.put(`entity/${id}`, newEnt));
 
