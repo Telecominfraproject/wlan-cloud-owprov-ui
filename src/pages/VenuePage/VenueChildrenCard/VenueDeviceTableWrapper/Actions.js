@@ -19,12 +19,11 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { ArrowSquareOut, MagnifyingGlass, Minus, Trash } from 'phosphor-react';
-import { useMutation, useQueryClient } from 'react-query';
+import { ArrowSquareOut, MagnifyingGlass, Trash } from 'phosphor-react';
+import { useMutation } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
-import { useRemoveClaim } from 'hooks/Network/Inventory';
 
 const deleteApi = async (id) => axiosProv.delete(`/inventory/${id}`).then(() => true);
 
@@ -45,10 +44,8 @@ const propTypes = {
 const Actions = ({ cell: { original: tag }, refreshEntity, openEditModal }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: gwUi } = useGetGatewayUi();
-  const removeClaim = useRemoveClaim();
   const deleteConfig = useMutation(() => deleteApi(tag.serialNumber), {
     onSuccess: () => {
       onClose();
@@ -81,37 +78,6 @@ const Actions = ({ cell: { original: tag }, refreshEntity, openEditModal }) => {
     },
   });
 
-  const handleRemoveClaimClick = () =>
-    removeClaim.mutateAsync(tag.serialNumber, {
-      onSuccess: () => {
-        toast({
-          id: `tag-unclaim-success${uuid()}`,
-          title: t('common.success'),
-          description: t('inventory.success_remove_claim', {
-            obj: tag.serialNumber,
-          }),
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
-        queryClient.invalidateQueries(['get-venue', tag.venue]);
-        queryClient.invalidateQueries(['get-entity', tag.entity]);
-      },
-      onError: (e) => {
-        toast({
-          id: 'tag-unclaim-error',
-          title: t('common.error'),
-          description: t('inventory.error_remove_claim', {
-            e: e?.response?.data?.ErrorDescription,
-          }),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
-      },
-    });
   const handleDeleteClick = () => deleteConfig.mutateAsync();
   const handleOpenEdit = () => openEditModal(tag);
   const handleOpenInGateway = () => window.open(`${gwUi}/#/devices/${tag.serialNumber}`, '_blank');
@@ -145,16 +111,6 @@ const Actions = ({ cell: { original: tag }, refreshEntity, openEditModal }) => {
           </PopoverFooter>
         </PopoverContent>
       </Popover>
-      <Tooltip hasArrow label={t('common.remove_claim')} placement="top">
-        <IconButton
-          ml={2}
-          colorScheme="blue"
-          icon={<Minus size={20} />}
-          size="sm"
-          onClick={handleRemoveClaimClick}
-          isLoading={removeClaim.isLoading}
-        />
-      </Tooltip>
       <Tooltip hasArrow label={t('common.view_details')} placement="top">
         <IconButton ml={2} colorScheme="blue" icon={<MagnifyingGlass size={20} />} size="sm" onClick={handleOpenEdit} />
       </Tooltip>

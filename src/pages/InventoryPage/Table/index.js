@@ -212,6 +212,7 @@ const InventoryTable = ({ title }) => {
               count={count || 0}
               setPageInfo={setPageInfo}
               fullScreen
+              saveSettingsId="inventory.table"
             />
           </Box>
         </CardBody>
