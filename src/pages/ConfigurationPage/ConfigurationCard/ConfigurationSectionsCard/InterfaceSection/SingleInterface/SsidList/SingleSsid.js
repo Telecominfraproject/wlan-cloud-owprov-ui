@@ -54,7 +54,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
               { value: 'sta', label: 'sta' },
               { value: 'mesh', label: 'mesh' },
               { value: 'wds-ap', label: 'wds-ap' },
-              { value: '"wds-sta', label: '"wds-sta' },
+              { value: 'wds-sta', label: 'wds-sta' },
             ]}
             isRequired
           />
