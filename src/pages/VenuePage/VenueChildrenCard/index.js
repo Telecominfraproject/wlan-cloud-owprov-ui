@@ -13,6 +13,7 @@ import VenueChildrenTableWrapper from './VenueChildrenTableWrapper';
 import VenueContactTableWrapper from './VenueContactTableWrapper';
 import VenueDashboard from './VenueDashboard';
 import VenueLiveView from './VenueLiveView';
+import VenueResourcesTableWrapper from './VenueResourcesTableWrapper';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -46,6 +47,9 @@ const VenueChildrenCard = ({ id }) => {
           <TabPanel overflowX="auto">
             <VenueContactTableWrapper venue={venue} />
           </TabPanel>
+          <TabPanel overflowX="auto">
+            <VenueResourcesTableWrapper venue={venue} />
+          </TabPanel>
         </TabPanels>
       );
     }
@@ -62,6 +66,9 @@ const VenueChildrenCard = ({ id }) => {
         </TabPanel>
         <TabPanel overflowX="auto">
           <VenueContactTableWrapper venue={venue} />
+        </TabPanel>
+        <TabPanel overflowX="auto">
+          <VenueResourcesTableWrapper venue={venue} />
         </TabPanel>
       </TabPanels>
     );
@@ -82,6 +89,7 @@ const VenueChildrenCard = ({ id }) => {
             <Tab>{t('configurations.title')}</Tab>
             <Tab>{t('inventory.title')}</Tab>
             <Tab>{t('contacts.other')}</Tab>
+            <Tab>{t('resources.title')}</Tab>
           </TabList>
           {!venue && isFetching ? (
             <Center w="100%">

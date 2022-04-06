@@ -520,7 +520,7 @@
 		"title": "Organization"
 	},
 	"resources": {
-		"configuration_resource": "Configuration Resource",
+		"configuration_resource": "Resource",
 		"title": "Resources",
 		"variable": "Variable"
 	},

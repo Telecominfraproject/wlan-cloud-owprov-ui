@@ -12,6 +12,7 @@ import EntityLocationTableWrapper from './EntityLocationTableWrapper ';
 import EntityContactTableWrapper from './EntityContactTableWrapper ';
 import EntityChildrenTableWrapper from './EntityChildrenTableWrapper';
 import EntityConfigurationsTableWrapper from './EntityConfigurationsTableWrapper';
+import EntityResourcesTableWrapper from './EntityResourcesTableWrapper';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -33,6 +34,7 @@ const EntityChildrenCard = ({ id }) => {
             <Tab>{t('inventory.title')}</Tab>
             <Tab>{t('locations.other')}</Tab>
             <Tab>{t('contacts.other')}</Tab>
+            <Tab>{t('resources.title')}</Tab>
           </TabList>
           {!entity && isFetching ? (
             <Center w="100%">
@@ -58,6 +60,9 @@ const EntityChildrenCard = ({ id }) => {
                 </TabPanel>
                 <TabPanel overflowX="auto">
                   <EntityContactTableWrapper entity={entity} />
+                </TabPanel>
+                <TabPanel overflowX="auto">
+                  <EntityResourcesTableWrapper entity={entity} />
                 </TabPanel>
               </TabPanels>
             </LoadingOverlay>
