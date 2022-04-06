@@ -12,7 +12,7 @@ import { useCreateLocation } from 'hooks/Network/Locations';
 import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import COUNTRY_LIST from 'constants/countryList';
-import AddressSearchField from 'components/FormFields/AddressSearchField';
+import AddressSearchField from 'components/CustomFields/AddressSearchField';
 import { useQueryClient } from 'react-query';
 
 const propTypes = {

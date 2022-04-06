@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { SimpleGrid, Box } from '@chakra-ui/react';
 import StringField from 'components/FormFields/StringField';
 import COUNTRY_LIST from 'constants/countryList';
-import AddressSearchField from 'components/FormFields/AddressSearchField';
+import AddressSearchField from 'components/CustomFields/AddressSearchField';
 import { useTranslation } from 'react-i18next';
 import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, FormControl } from '@chakra-ui/react';
-import AddressSearchBar from 'components/AddressSearchBar';
+import AddressSearchBar from 'components/SearchBars/AddressSearchBar';
 import { useFormikContext } from 'formik';
 
 const propTypes = {

@@ -13,7 +13,7 @@ import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import { useUpdateLocation } from 'hooks/Network/Locations';
 import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import AddressSearchField from 'components/FormFields/AddressSearchField';
+import AddressSearchField from 'components/CustomFields/AddressSearchField';
 import COUNTRY_LIST from 'constants/countryList';
 
 const propTypes = {

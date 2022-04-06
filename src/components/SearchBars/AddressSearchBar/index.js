@@ -7,6 +7,7 @@ import { isJson } from 'utils/formatTests';
 import { axiosProv, axiosSec } from 'utils/axiosInstances';
 import debounce from 'utils/debounce';
 import { Heading } from '@chakra-ui/react';
+import { randomIntId } from 'utils/stringHelper';
 
 const propTypes = {
   onSelect: PropTypes.func.isRequired,
@@ -67,7 +68,7 @@ const AddressSearchBar = ({ onSelect, isDisabled, placeholder }) => {
     if (socket?.readyState === WebSocket.OPEN) {
       if (value.length > 3) {
         setWaitingSearch('');
-        socket.send(JSON.stringify({ command: 'address_completion', address: value }));
+        socket.send(JSON.stringify({ command: 'address_completion', address: value, id: randomIntId() }));
       } else {
         setResults([]);
       }
@@ -91,8 +92,8 @@ const AddressSearchBar = ({ onSelect, isDisabled, placeholder }) => {
       socket.onmessage = (event) => {
         if (isJson(event.data)) {
           const result = JSON.parse(event.data);
-          if (result?.results) {
-            setResults(result.results);
+          if (result?.response?.results) {
+            setResults(result?.response?.results);
           }
         }
       };
