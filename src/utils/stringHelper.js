@@ -20,3 +20,4 @@ export const formatNumberToScientificBasedOnMax = (number, max = 100000000) => {
   if (!number) return number;
   return number < max ? number.toLocaleString('en-US') : number.toExponential(2);
 };
+export const randomIntId = () => Math.floor(Math.random() * 2147483647);

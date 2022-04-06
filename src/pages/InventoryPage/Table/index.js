@@ -25,6 +25,7 @@ import ConfigurationPushModal from 'components/Tables/InventoryTable/Configurati
 import CreateConfigurationModal from 'components/Tables/InventoryTable/CreateTagModal';
 import EntityCell from 'components/TableCells/EntityCell';
 import RefreshButton from 'components/Buttons/RefreshButton';
+import DeviceSearchBar from 'components/SearchBars/DeviceSearch';
 import Actions from './Actions';
 
 const propTypes = {
@@ -84,6 +85,10 @@ const InventoryTable = ({ title }) => {
     ),
     [],
   );
+
+  const onSearchClick = useCallback((serialNumber) => {
+    openEditModal({ serialNumber });
+  }, []);
 
   const columns = React.useMemo(() => {
     const baseColumns = [
@@ -175,6 +180,9 @@ const InventoryTable = ({ title }) => {
         <CardHeader mb="10px">
           <Box>
             <Heading size="md">{title}</Heading>
+          </Box>
+          <Box w="300px">
+            <DeviceSearchBar onClick={onSearchClick} />
           </Box>
           <Flex w="100%" flexDirection="row" alignItems="center">
             <Box ms="auto" display="flex">

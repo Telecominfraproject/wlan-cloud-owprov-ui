@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import AddressSearchField from 'components/FormFields/AddressSearchField';
+import AddressSearchField from 'components/CustomFields/AddressSearchField';
 import COUNTRY_LIST from 'constants/countryList';
 
 const propTypes = {

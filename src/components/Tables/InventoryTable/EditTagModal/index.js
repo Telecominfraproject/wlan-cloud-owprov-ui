@@ -108,7 +108,7 @@ const EditTagModal = ({ isOpen, onClose, tag, refresh, pushConfig }) => {
       <ModalOverlay />
       <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
         <ModalHeader
-          title={t('crud.edit_obj', { obj: tag?.name })}
+          title={t('crud.edit_obj', { obj: tag?.name ?? tag?.serialNumber })}
           right={
             <>
               <SaveButton
