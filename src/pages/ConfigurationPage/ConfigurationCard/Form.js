@@ -22,7 +22,7 @@ import { EntitySchema } from 'constants/formSchemas';
 import { useGetConfigurationInUse } from 'hooks/Network/Configurations';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import ToggleField from 'components/FormFields/ToggleField';
-import ConfigurationInUseModal from 'components/Modals/ConfigurationInUseModal';
+import ConfigurationInUseModal from 'components/Modals/Configuration/ConfigurationInUseModal';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import MultiSelectField from 'components/FormFields/MultiSelectField';

@@ -28,13 +28,12 @@ import { Trash } from 'phosphor-react';
 
 const propTypes = {
   initialValue: PropTypes.arrayOf(PropTypes.string).isRequired,
-  name: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   buttonLabel: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   explanation: PropTypes.node.isRequired,
-  errors: PropTypes.instanceOf(Object).isRequired,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   placeholder: PropTypes.string,
   validation: PropTypes.func,
   isDisabled: PropTypes.bool,
@@ -42,6 +41,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  error: false,
   isRequired: false,
   isDisabled: false,
   placeholder: '',
@@ -49,7 +49,6 @@ const defaultProps = {
 };
 
 const ListInputModalField = ({
-  name,
   initialValue,
   setValue,
   label,
@@ -58,7 +57,7 @@ const ListInputModalField = ({
   explanation,
   placeholder,
   validation,
-  errors,
+  error,
   isDisabled,
   isRequired,
 }) => {
@@ -85,7 +84,7 @@ const ListInputModalField = ({
 
   return (
     <>
-      <FormControl isInvalid={errors[name]} isRequired={isRequired} isDisabled={isDisabled}>
+      <FormControl isInvalid={error} isRequired={isRequired} isDisabled={isDisabled}>
         <FormLabel ms="4px" fontSize="md" fontWeight="normal">
           {label}
         </FormLabel>
@@ -100,7 +99,7 @@ const ListInputModalField = ({
         >
           {buttonLabel}
         </Button>
-        <FormErrorMessage>{errors[name]}</FormErrorMessage>
+        <FormErrorMessage>{error}</FormErrorMessage>
       </FormControl>
       <Modal onClose={onClose} isOpen={isOpen} size="md" initialFocusRef={initialRef}>
         <ModalOverlay />

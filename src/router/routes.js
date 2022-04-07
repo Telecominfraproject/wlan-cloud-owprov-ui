@@ -1,12 +1,14 @@
 import React from 'react';
 import { Icon } from '@chakra-ui/react';
-import { Info, Tag, TreeStructure, UsersThree } from 'phosphor-react';
+import { Info, Storefront, Tag, TreeStructure, UsersThree } from 'phosphor-react';
 
 const AccountPage = React.lazy(() => import('pages/AccountPage'));
 const ConfigurationPage = React.lazy(() => import('pages/ConfigurationPage'));
 const EntityPage = React.lazy(() => import('pages/EntityPage'));
 const InventoryPage = React.lazy(() => import('pages/InventoryPage'));
 const MapPage = React.lazy(() => import('pages/MapPage'));
+const OperatorPage = React.lazy(() => import('pages/OperatorPage'));
+const OperatorsPage = React.lazy(() => import('pages/OperatorsPage'));
 const SubscriberPage = React.lazy(() => import('pages/SubscriberPage'));
 const SystemPage = React.lazy(() => import('pages/SystemPage'));
 const UsersPage = React.lazy(() => import('pages/UsersPage'));
@@ -30,6 +32,15 @@ export default [
     name: 'inventory.title',
     icon: (active) => <Icon as={Tag} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />,
     component: InventoryPage,
+  },
+  {
+    authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+    path: '/operators',
+    name: 'operator.other',
+    icon: (active) => (
+      <Icon as={Storefront} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
+    ),
+    component: OperatorsPage,
   },
   {
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
@@ -78,6 +89,16 @@ export default [
       <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     component: ConfigurationPage,
+  },
+  {
+    hidden: true,
+    authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+    path: '/operators/:id',
+    name: 'operator.one',
+    icon: (active) => (
+      <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
+    ),
+    component: OperatorPage,
   },
   {
     hidden: true,

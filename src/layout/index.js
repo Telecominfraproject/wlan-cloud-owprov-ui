@@ -3,7 +3,7 @@ import { Flex, Portal, Spinner, useBoolean, useBreakpoint } from '@chakra-ui/rea
 import { Route, Routes } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import routes from 'router/routes';
-import CreateRootModal from 'components/Modals/CreateRootModal';
+import CreateRootModal from 'components/Modals/Entity/CreateRootModal';
 import MainPanel from './MainPanel';
 import Navbar from './Navbar';
 import PanelContent from './Containers/PanelContent';

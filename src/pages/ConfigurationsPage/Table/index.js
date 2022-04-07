@@ -11,7 +11,7 @@ import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import { ArrowsClockwise } from 'phosphor-react';
 import ColumnPicker from 'components/ColumnPicker';
-import ConfigurationInUseModal from 'components/Modals/ConfigurationInUseModal';
+import ConfigurationInUseModal from 'components/Modals/Configuration/ConfigurationInUseModal';
 import ConfigurationViewAffectedModal from 'components/Tables/ConfigurationTable/ConfigurationViewAffectedModal';
 import CreateConfigurationModal from 'components/Tables/ConfigurationTable/CreateConfigurationModal';
 import Actions from './Actions';
