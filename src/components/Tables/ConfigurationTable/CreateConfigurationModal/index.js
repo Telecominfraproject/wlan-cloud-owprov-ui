@@ -44,7 +44,7 @@ const CreateConfigurationModal = ({ refresh, entityId }) => {
   const { data: deviceTypes } = useGetDeviceTypes({ t, toast });
   const [configuration, setConfiguration] = useState(null);
   const create = useMutation((newObj) =>
-    axiosProv.post('configurations/1', {
+    axiosProv.post('configuration/1', {
       ...newObj,
       configuration: configuration?.data.configuration ?? null,
     }),

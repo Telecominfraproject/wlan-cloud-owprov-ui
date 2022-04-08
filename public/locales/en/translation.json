@@ -164,6 +164,7 @@
 		"created": "Created",
 		"creator": "Creator",
 		"custom": "Custom",
+		"daily": "Daily",
 		"date": "Date",
 		"day": "Day",
 		"days": "Days",
@@ -188,6 +189,8 @@
 		"go_back": "Go Back",
 		"go_to_map": "Go to Map",
 		"hide": "Hide",
+		"hourly": "Hourly",
+		"lifetime": "Lifetime",
 		"logout": "Logout",
 		"main": "Main",
 		"make_higher_priority": "Make Higher Priority",
@@ -200,6 +203,7 @@
 		"min": "Min",
 		"model": "Model",
 		"modified": "Modified",
+		"monthly": "Monthly",
 		"my_account": "My Account",
 		"name": "Name",
 		"next": "Next",
@@ -214,6 +218,7 @@
 		"notes": "Notes",
 		"of": "of",
 		"password": "Password",
+		"quarterly": "Quarterly",
 		"redirector": "Redirector",
 		"refresh": "Refresh",
 		"remove": "Remove",
@@ -247,6 +252,7 @@
 		"view_in_gateway": "View In Gateway",
 		"view_json": "View JSON",
 		"warnings": "Warnings",
+		"yearly": "Yearly",
 		"yes": "Yes",
 		"your_new_note": "Your new note"
 	},
@@ -531,6 +537,14 @@
 		"configuration_resource": "Resource",
 		"title": "Resources",
 		"variable": "Variable"
+	},
+	"service": {
+		"billing_code": "Billing Code",
+		"billing_frequency": "Billing Frequency",
+		"class_one": "Service Class",
+		"class_other": "Service Classes",
+		"one": "Service Class",
+		"other": "Service Classes"
 	},
 	"subscribers": {
 		"claim_device_explanation": "To claim devices you can use the table below. If a device was already claimed by a user, you will need to go to to their details and unassign it before claiming it.",

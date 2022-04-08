@@ -330,3 +330,12 @@ export const CreateMapSchema = (t) =>
     description: Yup.string(),
     note: Yup.string(),
   });
+
+// Service Class Schemas
+export const ServiceClassSchema = (t) =>
+  Yup.object().shape({
+    name: Yup.string().required(t('form.required')),
+    description: Yup.string(),
+    billingCode: Yup.string().required(t('form.required')),
+    period: Yup.string(),
+  });

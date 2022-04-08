@@ -2,7 +2,7 @@ import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetResourcesCount = ({ t, toast }) =>
-  useQuery(['get-resources-count'], () => axiosProv.get(`variables?countOnly=true`).then(({ data }) => data.count), {
+  useQuery(['get-resources-count'], () => axiosProv.get(`variable?countOnly=true`).then(({ data }) => data.count), {
     staleTime: 30000,
     onError: (e) => {
       if (!toast.isActive('variables-fetching-error'))
@@ -22,7 +22,7 @@ export const useGetResourcesCount = ({ t, toast }) =>
   });
 
 export const useGetAllResources = ({ t, toast }) =>
-  useQuery(['get-all-resources'], () => axiosProv.get(`variables?limit=500`).then(({ data }) => data.variableBlocks), {
+  useQuery(['get-all-resources'], () => axiosProv.get(`variable?limit=500`).then(({ data }) => data.variableBlocks), {
     staleTime: 1000 * 1000,
     onError: (e) => {
       if (!toast.isActive('resource-fetching-error'))
@@ -47,7 +47,7 @@ export const useGetResources = ({ t, toast, pageInfo, select, count }) => {
       ['get-resources-with-select', select],
       () =>
         select.length > 0
-          ? axiosProv.get(`variables?withExtendedInfo=true&select=${select}`).then(({ data }) => data.variableBlocks)
+          ? axiosProv.get(`variable?withExtendedInfo=true&select=${select}`).then(({ data }) => data.variableBlocks)
           : [],
       {
         keepPreviousData: true,
@@ -75,7 +75,7 @@ export const useGetResources = ({ t, toast, pageInfo, select, count }) => {
     () =>
       axiosProv
         .get(
-          `variables?withExtendedInfo=true&limit=${pageInfo?.limit ?? 10}&offset=${
+          `variable?withExtendedInfo=true&limit=${pageInfo?.limit ?? 10}&offset=${
             (pageInfo?.limit ?? 10) * (pageInfo?.index ?? 1)
           }`,
         )
@@ -103,29 +103,25 @@ export const useGetResources = ({ t, toast, pageInfo, select, count }) => {
 };
 
 export const useGetResource = ({ t, toast, id, enabled }) =>
-  useQuery(
-    ['get-resource', id],
-    () => axiosProv.get(`variables/${id}?withExtendedInfo=true`).then(({ data }) => data),
-    {
-      enabled,
-      onError: (e) => {
-        if (!toast.isActive('resource-fetching-error'))
-          toast({
-            id: 'resource-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('resources.configuration_resource'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+  useQuery(['get-resource', id], () => axiosProv.get(`variable/${id}?withExtendedInfo=true`).then(({ data }) => data), {
+    enabled,
+    onError: (e) => {
+      if (!toast.isActive('resource-fetching-error'))
+        toast({
+          id: 'resource-fetching-error',
+          title: t('common.error'),
+          description: t('crud.error_fetching_obj', {
+            obj: t('resources.configuration_resource'),
+            e: e?.response?.data?.ErrorDescription,
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
     },
-  );
+  });
 
-export const useCreateResource = () => useMutation((newResource) => axiosProv.post('variables/0', newResource));
-export const useUpdateResource = (id) => useMutation((resource) => axiosProv.put(`variables/${id}`, resource));
-export const useDeleteResource = () => useMutation((id) => axiosProv.delete(`variables/${id}`, {}));
+export const useCreateResource = () => useMutation((newResource) => axiosProv.post('variable/0', newResource));
+export const useUpdateResource = (id) => useMutation((resource) => axiosProv.put(`variable/${id}`, resource));
+export const useDeleteResource = () => useMutation((id) => axiosProv.delete(`variable/${id}`, {}));

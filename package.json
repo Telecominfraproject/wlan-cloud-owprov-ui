@@ -23,6 +23,7 @@
     "babel-eslint": "^10.1.0",
     "buffer": "^6.0.3",
     "chakra-react-select": "^3.0.0",
+    "currency-codes": "^2.1.0",
     "dagre": "^0.8.5",
     "formik": "^2.2.9",
     "i18next": "^21.6.3",

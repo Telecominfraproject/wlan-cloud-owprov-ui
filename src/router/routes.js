@@ -34,6 +34,7 @@ export default [
     component: InventoryPage,
   },
   {
+    hidden: true,
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/operators',
     name: 'operator.other',

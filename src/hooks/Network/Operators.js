@@ -2,7 +2,7 @@ import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetOperatorCount = ({ t, toast, enabled }) =>
-  useQuery(['get-operator-count'], () => axiosProv.get(`operators?countOnly=true`).then(({ data }) => data.count), {
+  useQuery(['get-operator-count'], () => axiosProv.get(`operator?countOnly=true`).then(({ data }) => data.count), {
     enabled,
     onError: (e) => {
       if (!toast.isActive('operator-fetching-error'))
@@ -27,7 +27,7 @@ export const useGetOperators = ({ t, toast, pageInfo, select, enabled, count }) 
       ['get-operators-with-select', select],
       () =>
         select.length > 0
-          ? axiosProv.get(`operators?withExtendedInfo=true&select=${select}`).then(({ data }) => data.operators)
+          ? axiosProv.get(`operator?withExtendedInfo=true&select=${select}`).then(({ data }) => data.operators)
           : [],
       {
         enabled,
@@ -57,7 +57,7 @@ export const useGetOperators = ({ t, toast, pageInfo, select, enabled, count }) 
     () =>
       axiosProv
         .get(
-          `operators?withExtendedInfo=true&limit=${pageInfo?.limit ?? 10}&offset=${
+          `operator?withExtendedInfo=true&limit=${pageInfo?.limit ?? 10}&offset=${
             (pageInfo?.limit ?? 10) * (pageInfo?.index ?? 1)
           }`,
         )
@@ -86,7 +86,7 @@ export const useGetOperators = ({ t, toast, pageInfo, select, enabled, count }) 
 };
 
 export const useGetOperator = ({ t, toast, enabled, id }) =>
-  useQuery(['get-operator', id], () => axiosProv.get(`operators/${id}`).then(({ data }) => data), {
+  useQuery(['get-operator', id], () => axiosProv.get(`operator/${id}`).then(({ data }) => data), {
     enabled,
     onError: (e) => {
       if (!toast.isActive('opeator-fetching-error'))
@@ -105,9 +105,8 @@ export const useGetOperator = ({ t, toast, enabled, id }) =>
     },
   });
 
-export const useCreateOperator = () => useMutation((newOperator) => axiosProv.post(`operators/1`, newOperator));
+export const useCreateOperator = () => useMutation((newOperator) => axiosProv.post(`operator/1`, newOperator));
 
-export const useUpdateOperator = ({ id }) =>
-  useMutation((newOperator) => axiosProv.put(`operators/${id}`, newOperator));
+export const useUpdateOperator = ({ id }) => useMutation((newOperator) => axiosProv.put(`operator/${id}`, newOperator));
 
-export const useDeleteOperator = ({ id }) => useMutation(() => axiosProv.delete(`operators/${id}`));
+export const useDeleteOperator = ({ id }) => useMutation(() => axiosProv.delete(`operator/${id}`));

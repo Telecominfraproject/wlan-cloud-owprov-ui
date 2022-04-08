@@ -25,7 +25,7 @@ import { axiosProv } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 
-const deleteApi = async (configId) => axiosProv.delete(`/configurations/${configId}`).then(() => true);
+const deleteApi = async (configId) => axiosProv.delete(`/configuration/${configId}`).then(() => true);
 
 const propTypes = {
   cell: PropTypes.shape({
