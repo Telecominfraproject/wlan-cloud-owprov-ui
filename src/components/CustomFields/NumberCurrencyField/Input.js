@@ -11,15 +11,14 @@ import {
   NumberInputStepper,
   InputGroup,
   InputRightAddon,
-  Select,
 } from '@chakra-ui/react';
 import ConfigurationFieldExplanation from 'components/FormFields/ConfigurationFieldExplanation';
+import CurrencySelect from './CurrencySelect';
 
 const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   touched: PropTypes.bool,
   hideArrows: PropTypes.bool,
@@ -27,6 +26,7 @@ const propTypes = {
   isRequired: PropTypes.bool,
   w: PropTypes.number,
   definitionKey: PropTypes.string,
+  currencyName: PropTypes.string.isRequired,
 };
 
 const defaultProps = {
@@ -44,7 +44,6 @@ const NumberCurrencyInput = ({
   label,
   value,
   onChange,
-  onBlur,
   error,
   touched,
   isRequired,
@@ -52,6 +51,7 @@ const NumberCurrencyInput = ({
   isDisabled,
   w,
   definitionKey,
+  currencyName,
 }) => (
   <FormControl isInvalid={error && touched} isRequired={isRequired} isDisabled={isDisabled}>
     <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
@@ -61,13 +61,14 @@ const NumberCurrencyInput = ({
     <InputGroup>
       <NumberInput
         allowMouseWheel
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
+        defaultValue={value}
+        onBlur={onChange}
         borderRadius="15px"
         fontSize="sm"
         w={w}
         _disabled={{ opacity: 0.8, cursor: 'not-allowed' }}
+        precision={2}
+        step={0.2}
       >
         <NumberInputField />
         <NumberInputStepper hidden={hideArrows}>
@@ -75,11 +76,8 @@ const NumberCurrencyInput = ({
           <NumberDecrementStepper />
         </NumberInputStepper>
       </NumberInput>
-      <InputRightAddon>
-        <Select>
-          <option value="sdfgsdf">sdfgsdfg</option>
-          <option value="sdfgs">sss</option>
-        </Select>
+      <InputRightAddon p={0}>
+        <CurrencySelect name={currencyName} isDisabled={isDisabled} />
       </InputRightAddon>
     </InputGroup>
 

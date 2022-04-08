@@ -30,11 +30,13 @@ const CreateServiceClassForm = ({ isOpen, onClose, refresh, formRef, operatorId 
   });
   const create = useCreateServiceClass();
 
-  const createParameters = ({ name, description, note, billingCode, period }) => ({
+  const createParameters = ({ name, description, note, billingCode, period, cost, currency }) => ({
     name,
     billingCode,
     description,
     period,
+    cost,
+    currency,
     notes: note.length > 0 ? [{ note }] : undefined,
     operatorId,
   });
@@ -52,6 +54,8 @@ const CreateServiceClassForm = ({ isOpen, onClose, refresh, formRef, operatorId 
         description: '',
         billingCode: '',
         period: 'monthly',
+        cost: 0.0,
+        currency: 'USD',
         note: '',
       }}
       validationSchema={ServiceClassSchema(t)}
@@ -85,8 +89,8 @@ const CreateServiceClassForm = ({ isOpen, onClose, refresh, formRef, operatorId 
             w="140px"
             isRequired
           />
+          <NumberCurrencyField name="cost" label={t('service.cost')} currencyName="currency" />
           <StringField name="note" label={t('common.note')} />
-          <NumberCurrencyField name="sdfgsdfg" label={t('common.note')} />
         </SimpleGrid>
       </Form>
     </Formik>

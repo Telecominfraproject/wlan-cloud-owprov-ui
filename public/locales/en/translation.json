@@ -543,6 +543,7 @@
 		"billing_frequency": "Billing Frequency",
 		"class_one": "Service Class",
 		"class_other": "Service Classes",
+		"cost": "Cost",
 		"one": "Service Class",
 		"other": "Service Classes"
 	},

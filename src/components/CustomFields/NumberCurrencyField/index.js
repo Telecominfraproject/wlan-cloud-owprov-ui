@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { useField } from 'formik';
 import Field from './Input';
 
-const parseToInt = (val, acceptEmptyValue) => {
+const parseToInt = (e, acceptEmptyValue) => {
+  const val = e.target.value;
   if (acceptEmptyValue && val === '') return undefined;
-
-  const parsed = parseInt(val, 10);
+  const parsed = parseFloat(val, 100);
   if (Number.isNaN(parsed)) return 0;
   return parsed;
 };
@@ -21,6 +21,7 @@ const propTypes = {
   w: PropTypes.number,
   definitionKey: PropTypes.string,
   conversionFactor: PropTypes.number,
+  currencyName: PropTypes.string.isRequired,
 };
 
 const defaultProps = {
@@ -43,11 +44,12 @@ const NumberCurrencyField = ({
   acceptEmptyValue,
   definitionKey,
   conversionFactor,
+  currencyName,
 }) => {
   const [{ value }, { touched, error }, { setValue, setTouched }] = useField(name);
 
   const onChange = useCallback((v) => {
-    setValue(conversionFactor ? parseToInt(v, acceptEmptyValue) * conversionFactor : parseToInt(v, acceptEmptyValue));
+    setValue(parseToInt(v, acceptEmptyValue));
     setTouched(true);
   }, []);
 
@@ -58,7 +60,7 @@ const NumberCurrencyField = ({
   return (
     <Field
       label={label}
-      value={conversionFactor ? Math.ceil(value / conversionFactor) : value}
+      value={value}
       onChange={onChange}
       onBlur={onFieldBlur}
       error={error}
@@ -69,6 +71,7 @@ const NumberCurrencyField = ({
       w={w}
       definitionKey={definitionKey}
       conversionFactor={conversionFactor}
+      currencyName={currencyName}
     />
   );
 };

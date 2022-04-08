@@ -337,5 +337,7 @@ export const ServiceClassSchema = (t) =>
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
     billingCode: Yup.string().required(t('form.required')),
+    cost: Yup.number(),
+    currency: Yup.string(),
     period: Yup.string(),
   });

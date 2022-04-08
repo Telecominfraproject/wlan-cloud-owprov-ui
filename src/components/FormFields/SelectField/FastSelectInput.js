@@ -21,7 +21,7 @@ const propTypes = {
   isDisabled: PropTypes.bool,
   isRequired: PropTypes.bool,
   isHidden: PropTypes.bool,
-  w: PropTypes.number,
+  w: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   definitionKey: PropTypes.string,
 };
 

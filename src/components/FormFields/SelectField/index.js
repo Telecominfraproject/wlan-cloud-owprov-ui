@@ -18,7 +18,7 @@ const propTypes = {
   isHidden: PropTypes.bool,
   isInt: PropTypes.bool,
   emptyIsUndefined: PropTypes.bool,
-  w: PropTypes.number,
+  w: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   definitionKey: PropTypes.string,
 };
 

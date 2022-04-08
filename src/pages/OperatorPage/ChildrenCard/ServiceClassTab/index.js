@@ -13,7 +13,7 @@ const propTypes = {
 
 const ServiceClassTab = ({ operatorId }) => {
   const { refreshId, refresh } = useRefreshId();
-  const actions = useCallback((cell) => <Actions key={uuid()} cell={cell.row} />, []);
+  const actions = useCallback((cell) => <Actions key={uuid()} cell={cell.row} refreshTable={refresh} />, []);
 
   return (
     <>
