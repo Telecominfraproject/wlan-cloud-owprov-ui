@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useToast } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
-import { useGetOperatorContacts } from 'hooks/Network/OperatorContacts';
+import { useGetOperatorLocations } from 'hooks/Network/OperatorLocations';
 
 const propTypes = {
   actions: PropTypes.func.isRequired,
@@ -21,10 +21,10 @@ const defaultProps = {
   disabledIds: [],
 };
 
-const OperatorContactTable = ({ actions, operatorId, ignoredColumns, refreshId, disabledIds }) => {
+const OperatorLocationTable = ({ actions, operatorId, ignoredColumns, refreshId, disabledIds }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const { data: contacts, isFetching, refetch } = useGetOperatorContacts({ t, toast, operatorId });
+  const { data: locations, isFetching, refetch } = useGetOperatorLocations({ t, toast, operatorId });
 
   const actionCell = useCallback((cell) => actions(cell), [actions]);
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
@@ -88,15 +88,15 @@ const OperatorContactTable = ({ actions, operatorId, ignoredColumns, refreshId, 
   return (
     <DataTable
       columns={columns.filter((col) => !ignoredColumns.find((ignored) => ignored === col.id))}
-      data={contacts ?? []}
+      data={locations ?? []}
       isLoading={isFetching}
-      obj={t('contacts.other')}
+      obj={t('locations.other')}
       minHeight="200px"
     />
   );
 };
 
-OperatorContactTable.propTypes = propTypes;
-OperatorContactTable.defaultProps = defaultProps;
+OperatorLocationTable.propTypes = propTypes;
+OperatorLocationTable.defaultProps = defaultProps;
 
-export default OperatorContactTable;
+export default OperatorLocationTable;

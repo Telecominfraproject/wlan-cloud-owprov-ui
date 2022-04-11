@@ -8,6 +8,7 @@ import CardBody from 'components/Card/CardBody';
 import { useGetOperator } from 'hooks/Network/Operators';
 import ServiceClassTab from './ServiceClassTab';
 import ContactTab from './ContactTab';
+import LocationTab from './LocationTab';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -24,6 +25,7 @@ const OperatorChildrenCard = ({ id }) => {
         <Tabs isLazy variant="enclosed" w="100%">
           <TabList>
             <Tab>{t('service.other')}</Tab>
+            <Tab>{t('locations.other')}</Tab>
             <Tab>{t('contacts.other')}</Tab>
           </TabList>
           {!operator && isFetching ? (
@@ -35,6 +37,9 @@ const OperatorChildrenCard = ({ id }) => {
               <TabPanels>
                 <TabPanel overflowX="auto">
                   <ServiceClassTab operatorId={id} />
+                </TabPanel>
+                <TabPanel overflowX="auto">
+                  <LocationTab operatorId={id} refreshOperator={refetch} />
                 </TabPanel>
                 <TabPanel overflowX="auto">
                   <ContactTab operatorId={id} refreshOperator={refetch} />

@@ -343,7 +343,7 @@ export const ServiceClassSchema = (t) =>
   });
 
 // Operator Contact Schemas
-export const CreateOperatorContactSchema = (t) =>
+export const OperatorContactSchema = (t) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     type: Yup.string().required(t('form.required')),
@@ -360,3 +360,24 @@ export const CreateOperatorContactSchema = (t) =>
     accessPIN: Yup.string(),
     note: Yup.string(),
   });
+
+// Location Schemas
+export const OperatorLocationSchema = (t) =>
+  Yup.object()
+    .shape({
+      name: Yup.string().required(t('form.required')),
+      description: Yup.string(),
+      type: Yup.string().required(t('form.required')),
+      addressLineOne: Yup.string().required(t('form.required')),
+      addressLineTwo: Yup.string(),
+      city: Yup.string().required(t('form.required')),
+      state: Yup.string().required(t('form.required')),
+      postal: Yup.string().required(t('form.required')),
+      country: Yup.string().required(t('form.required')),
+      buildingName: Yup.string(),
+      phones: Yup.array().of(Yup.string()),
+      mobiles: Yup.array().of(Yup.string()),
+      geoCode: Yup.string(),
+      note: Yup.string(),
+    })
+    .nullable();

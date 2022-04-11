@@ -18,7 +18,7 @@ const ContactTab = ({ operatorId }) => {
   const { obj: contact, openModal, isOpen, onClose } = useObjectModal();
   const actions = useCallback(
     (cell) => <Actions key={uuid()} cell={cell.row} refreshTable={refresh} openEdit={openModal} />,
-    [openModal],
+    [openModal, refreshId],
   );
 
   return (

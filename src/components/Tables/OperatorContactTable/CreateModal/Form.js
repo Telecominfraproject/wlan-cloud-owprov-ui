@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import { CreateOperatorContactSchema } from 'constants/formSchemas';
+import { OperatorContactSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
@@ -56,7 +56,7 @@ const CreateOperatorContactForm = ({ isOpen, onClose, refresh, formRef, operator
         accessPIN: '',
         note: '',
       }}
-      validationSchema={CreateOperatorContactSchema(t)}
+      validationSchema={OperatorContactSchema(t)}
       onSubmit={(
         {
           name,

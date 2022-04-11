@@ -7,7 +7,7 @@ import { Formik, Form } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { ContactShape } from 'constants/propShapes';
-import { CreateOperatorContactSchema } from 'constants/formSchemas';
+import { OperatorContactSchema } from 'constants/formSchemas';
 import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import { useUpdateOperatorContact } from 'hooks/Network/OperatorContacts';
@@ -43,7 +43,7 @@ const EditOperatorContactForm = ({ editing, isOpen, onClose, refresh, contact, f
       enableReinitialize
       key={formKey}
       initialValues={contact}
-      validationSchema={CreateOperatorContactSchema(t)}
+      validationSchema={OperatorContactSchema(t)}
       onSubmit={(
         {
           name,
