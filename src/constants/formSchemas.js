@@ -341,3 +341,22 @@ export const ServiceClassSchema = (t) =>
     currency: Yup.string(),
     period: Yup.string(),
   });
+
+// Operator Contact Schemas
+export const CreateOperatorContactSchema = (t) =>
+  Yup.object().shape({
+    name: Yup.string().required(t('form.required')),
+    type: Yup.string().required(t('form.required')),
+    salutation: Yup.string(),
+    title: Yup.string(),
+    firstname: Yup.string().required(t('form.required')),
+    lastname: Yup.string(),
+    initials: Yup.string(),
+    primaryEmail: Yup.string().required(t('form.required')),
+    secondaryEmail: Yup.string(),
+    phones: Yup.array().of(Yup.string()),
+    mobiles: Yup.array().of(Yup.string()),
+    description: Yup.string(),
+    accessPIN: Yup.string(),
+    note: Yup.string(),
+  });
