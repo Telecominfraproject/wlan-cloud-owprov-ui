@@ -19,7 +19,7 @@ import * as Yup from 'yup';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Formik, Field, Form } from 'formik';
 import { useAuth } from 'contexts/AuthProvider';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import { RequirementsShape } from 'constants/propShapes';

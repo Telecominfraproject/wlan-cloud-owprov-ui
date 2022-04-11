@@ -19,7 +19,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
-import { useNavigate } from 'react-router-dom';
 import useMutationResult from 'hooks/useMutationResult';
 import { useDeleteServiceClass } from 'hooks/Network/ServiceClasses';
 
@@ -28,19 +27,22 @@ const propTypes = {
     original: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
+      defaultService: PropTypes.bool.isRequired,
     }).isRequired,
   }).isRequired,
   refreshTable: PropTypes.func.isRequired,
+  openEdit: PropTypes.func.isRequired,
 };
 
 const Actions = ({
   cell: {
-    original: { id, name },
+    original: { id, name, defaultService },
   },
+  cell: { original: serviceClass },
   refreshTable,
+  openEdit,
 }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSuccess, onError } = useMutationResult({
     objName: t('service.one'),
@@ -49,7 +51,9 @@ const Actions = ({
   });
   const deleteServiceClass = useDeleteServiceClass({ id });
 
-  const handleGoToPage = () => navigate(`/venue/${id}`);
+  const handleEditClick = () => {
+    openEdit(serviceClass);
+  };
 
   const handleDeleteClick = () =>
     deleteServiceClass.mutateAsync(
@@ -66,7 +70,7 @@ const Actions = ({
         <Tooltip hasArrow label={t('crud.delete')} placement="top" isDisabled={isOpen}>
           <Box>
             <PopoverTrigger>
-              <IconButton colorScheme="red" icon={<Trash size={20} />} size="sm" />
+              <IconButton colorScheme="red" icon={<Trash size={20} />} size="sm" isDisabled={defaultService} />
             </PopoverTrigger>
           </Box>
         </Tooltip>
@@ -89,14 +93,13 @@ const Actions = ({
           </PopoverFooter>
         </PopoverContent>
       </Popover>
-      <Tooltip hasArrow label={t('venues.go_to_page')} placement="top">
+      <Tooltip hasArrow label={t('common.view_details')} placement="top">
         <IconButton
           ml={2}
           colorScheme="blue"
           icon={<MagnifyingGlass size={20} />}
           size="sm"
-          onClick={handleGoToPage}
-          isDisabled
+          onClick={handleEditClick}
         />
       </Tooltip>
     </Flex>

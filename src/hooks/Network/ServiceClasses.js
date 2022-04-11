@@ -1,3 +1,5 @@
+import { useToast } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
@@ -25,8 +27,11 @@ export const useGetServiceClasses = ({ t, toast, enabled, operatorId }) =>
     },
   );
 
-export const useGetServiceClass = ({ t, toast, enabled, id }) =>
-  useQuery(['get-service-class', id], () => axiosProv.get(`serviceClass/${id}`).then(({ data }) => data), {
+export const useGetServiceClass = ({ enabled, id }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(['get-service-class', id], () => axiosProv.get(`serviceClass/${id}`).then(({ data }) => data), {
     enabled,
     onError: (e) => {
       if (!toast.isActive('service-class-fetching-error'))
@@ -44,10 +49,11 @@ export const useGetServiceClass = ({ t, toast, enabled, id }) =>
         });
     },
   });
+};
 
 export const useCreateServiceClass = () => useMutation((newOperator) => axiosProv.post(`serviceClass/1`, newOperator));
 
 export const useUpdateServiceClass = ({ id }) =>
-  useMutation((newOperator) => axiosProv.put(`serviceClass/${id}`, newOperator));
+  useMutation((newService) => axiosProv.put(`serviceClass/${id}`, newService));
 
 export const useDeleteServiceClass = ({ id }) => useMutation(() => axiosProv.delete(`serviceClass/${id}`));

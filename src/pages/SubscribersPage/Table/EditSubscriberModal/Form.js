@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Formik, Field, Form } from 'formik';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { DefaultRequirements, RequirementsShape, SubscriberShape } from 'constants/propShapes';
 import { UpdateSubscriberSchema } from 'constants/formSchemas';
@@ -215,7 +215,7 @@ const EditSubscriberForm = ({
           </Tabs>
           <Flex justifyContent="center" alignItems="center" maxW="100%" mt="25px" mb={6} px={4}>
             <Box w="100%">
-              <Link href={`${secUrl}${requirements?.data?.passwordPolicy}`} isExternal textColor={textColor} pb={2}>
+              <Link href={`${requirements?.data?.passwordPolicy}`} isExternal textColor={textColor} pb={2}>
                 {t('login.password_policy')}
                 <ExternalLinkIcon mx="2px" />
               </Link>

@@ -7,34 +7,30 @@ import { useAuth } from 'contexts/AuthProvider';
 import DataTable from 'components/DataTable';
 import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
+import { useField } from 'formik';
 
 const propTypes = {
-  notes: PropTypes.arrayOf(
-    PropTypes.shape({
-      note: PropTypes.string.isRequired,
-      created: PropTypes.number.isRequired,
-      createdBy: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  setNotes: PropTypes.func.isRequired,
+  name: PropTypes.string,
   isDisabled: PropTypes.bool,
 };
 
 const defaultProps = {
+  name: 'notes',
   isDisabled: false,
 };
 
-const NotesTable = ({ notes, setNotes, isDisabled }) => {
-  const { user } = useAuth();
+const NotesTable = ({ name, isDisabled }) => {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const [{ value: notes }, , { setValue: setNotes }] = useField(name);
   const [newNote, setNewNote] = useState('');
 
   const addNoteToForm = () => {
     const newNotes = [
       ...notes,
-      { note: newNote, isNew: true, createdBy: user.email, created: new Date().getTime() / 1000 },
+      { note: newNote, isNew: true, createdBy: user.email, created: Math.floor(new Date().getTime() / 1000) },
     ];
-    setNotes('notes', newNotes);
+    setNotes(newNotes);
     setNewNote('');
   };
 

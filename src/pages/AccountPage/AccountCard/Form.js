@@ -24,7 +24,7 @@ import {
   Avatar,
 } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import { useAuth } from 'contexts/AuthProvider';
 import { UpdateUserSchema } from 'constants/formSchemas';
 import PhoneInput from 'components/PhoneInput';

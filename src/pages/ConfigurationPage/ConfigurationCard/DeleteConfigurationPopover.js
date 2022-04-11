@@ -55,7 +55,8 @@ const DeleteConfigurationPopover = ({ configuration, isDisabled }) => {
           isClosable: true,
           position: 'top-right',
         });
-        navigate(`/configurations`);
+        if (configuration.entity !== '') navigate(`/entity/${configuration.entity}`);
+        else navigate(`/venue/${configuration.venue}`);
       },
       onError: (e) => {
         if (!toast.isActive('config-delete-error'))

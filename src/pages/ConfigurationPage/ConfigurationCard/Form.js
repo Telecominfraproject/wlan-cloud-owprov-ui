@@ -16,7 +16,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import { EntityShape } from 'constants/propShapes';
 import { EntitySchema } from 'constants/formSchemas';
 import { useGetConfigurationInUse } from 'hooks/Network/Configurations';

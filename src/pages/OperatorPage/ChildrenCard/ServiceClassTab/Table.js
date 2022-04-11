@@ -6,14 +6,14 @@ import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import useFreeTable from 'hooks/useFreeTable';
 import { useGetServiceClasses } from 'hooks/Network/ServiceClasses';
-import Actions from './Actions';
 
 const propTypes = {
   operatorId: PropTypes.string.isRequired,
   refreshId: PropTypes.number.isRequired,
+  actions: PropTypes.func.isRequired,
 };
 
-const ServiceClassTable = ({ operatorId, refreshId }) => {
+const ServiceClassTable = ({ operatorId, refreshId, actions }) => {
   const { t } = useTranslation();
   const {
     data: serviceClasses,
@@ -21,7 +21,7 @@ const ServiceClassTable = ({ operatorId, refreshId }) => {
     refetch,
   } = useFreeTable({ useGet: useGetServiceClasses, params: { operatorId } });
 
-  const memoizedActions = useCallback((cell) => <Actions cell={cell.row} refreshTable={refetch} key={uuid()} />, []);
+  const memoizedActions = useCallback((cell) => actions(cell), []);
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
 
   const columns = useMemo(() => {

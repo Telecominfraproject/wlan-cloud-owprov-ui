@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
 import { useAuth } from 'contexts/AuthProvider';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { EntityShape } from 'constants/propShapes';
 import { VenueSchema } from 'constants/formSchemas';

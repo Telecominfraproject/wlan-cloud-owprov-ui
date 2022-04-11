@@ -6,7 +6,7 @@ import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@
 import { Field, Formik } from 'formik';
 import { useUpdateResource } from 'hooks/Network/Resources';
 import StringField from 'components/FormFields/StringField';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
