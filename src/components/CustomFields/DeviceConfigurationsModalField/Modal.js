@@ -10,7 +10,6 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  useToast,
   Flex,
   Tooltip,
   IconButton,
@@ -41,11 +40,10 @@ const defaultProps = {
 
 const DeviceConfigurationsModal = ({ name, initialValue, setValue, errors, isDisabled, isRequired, label }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const [localValue, setLocalValue] = useState([]);
   const initialRef = React.useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data: configurations, isFetching } = useGetConfigurations({ t, toast });
+  const { data: configurations, isFetching } = useGetConfigurations();
 
   const save = () => {
     setValue(localValue);

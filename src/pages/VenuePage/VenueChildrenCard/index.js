@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'components/Card';
-import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
+import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetVenue } from 'hooks/Network/Venues';
@@ -21,9 +21,8 @@ const propTypes = {
 
 const VenueChildrenCard = ({ id }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const { endpoints } = useAuth();
-  const { data: venue, isFetching } = useGetVenue({ t, toast, id });
+  const { data: venue, isFetching } = useGetVenue({ id });
 
   const panels = useMemo(() => {
     if (endpoints.owanalytics && venue?.boards.length > 0) {

@@ -29,7 +29,7 @@ const ConfigurationCard = ({ id }) => {
   const queryClient = useQueryClient();
   const [editing, setEditing] = useBoolean();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const { data: configuration, refetch, isFetching } = useGetConfiguration({ t, toast, id });
+  const { data: configuration, refetch, isFetching } = useGetConfiguration({ id });
   const updateEntity = useUpdateConfiguration({ id });
   const [form, setForm] = useState({});
   const [sections, setSections] = useState(BASE_SECTIONS);

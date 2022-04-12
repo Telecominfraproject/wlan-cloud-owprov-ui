@@ -1,8 +1,14 @@
+import { useToast } from '@chakra-ui/react';
+import useDefaultPage from 'hooks/useDefaultPage';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
-export const useGetConfigurations = ({ t, toast }) =>
-  useQuery(
+export const useGetConfigurations = () => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-configurations'],
     () =>
       axiosProv.get('configuration?withExtendedInfo=true&offset=0, limit=500').then(({ data }) => data.configurations),
@@ -25,9 +31,13 @@ export const useGetConfigurations = ({ t, toast }) =>
       },
     },
   );
+};
 
-export const useGetSelectConfigurations = ({ t, toast, select }) =>
-  useQuery(
+export const useGetSelectConfigurations = ({ select }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-configurations', select],
     () =>
       select.length === 0
@@ -52,9 +62,13 @@ export const useGetSelectConfigurations = ({ t, toast, select }) =>
       },
     },
   );
+};
 
-export const useGetAvailableConfigurations = ({ t, toast, tagId }) =>
-  useQuery(
+export const useGetAvailableConfigurations = ({ tagId }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-available-configurations', tagId],
     () => axiosProv.get(`configuration?tagId=${tagId}`).then(({ data }) => data.configurations),
     {
@@ -75,9 +89,14 @@ export const useGetAvailableConfigurations = ({ t, toast, tagId }) =>
       },
     },
   );
+};
 
-export const useGetConfiguration = ({ t, toast, id = null, onSuccess = () => {} }) =>
-  useQuery(
+export const useGetConfiguration = ({ id = null, onSuccess = () => {} }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const goToDefaultPage = useDefaultPage();
+
+  return useQuery(
     ['get-configuration', id],
     () => axiosProv.get(`configuration/${id}?withExtendedInfo=true`).then(({ data }) => data),
     {
@@ -97,12 +116,17 @@ export const useGetConfiguration = ({ t, toast, id = null, onSuccess = () => {} 
             isClosable: true,
             position: 'top-right',
           });
+        goToDefaultPage();
       },
     },
   );
+};
 
-export const useGetConfigurationInUse = ({ t, toast, id, enabled }) =>
-  useQuery(
+export const useGetConfigurationInUse = ({ id, enabled }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-config-in-use', id],
     () => axiosProv.get(`/configuration/${id}?expandInUse=true`).then(({ data }) => data.entries),
     {
@@ -123,9 +147,13 @@ export const useGetConfigurationInUse = ({ t, toast, id, enabled }) =>
       },
     },
   );
+};
 
-export const useGetConfigurationAffected = ({ t, toast, id, enabled }) =>
-  useQuery(
+export const useGetConfigurationAffected = ({ id, enabled }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-config-affected', id],
     () => axiosProv.get(`/configuration/${id}?computedAffected=true`).then(({ data }) => data.affectedDevices),
     {
@@ -146,6 +174,7 @@ export const useGetConfigurationAffected = ({ t, toast, id, enabled }) =>
       },
     },
   );
+};
 
 export const useDeleteConfiguration = () => useMutation((id) => axiosProv.delete(`configuration/${id}`));
 

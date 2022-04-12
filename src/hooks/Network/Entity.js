@@ -1,3 +1,6 @@
+import { useToast } from '@chakra-ui/react';
+import useDefaultPage from 'hooks/useDefaultPage';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
@@ -52,25 +55,35 @@ export const useGetSelectEntities = ({ t, toast, select }) =>
     },
   );
 
-export const useGetEntity = ({ t, toast, id = null }) =>
-  useQuery(['get-entity', id], () => axiosProv.get(`entity/${id}?withExtendedInfo=true`).then(({ data }) => data), {
-    enabled: id !== null,
-    onError: (e) => {
-      if (!toast.isActive('entity-fetching-error'))
-        toast({
-          id: 'entity-fetching-error',
-          title: t('common.error'),
-          description: t('crud.error_fetching_obj', {
-            obj: t('entities.one'),
-            e: e?.response?.data?.ErrorDescription,
-          }),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
+export const useGetEntity = ({ id = null }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const goToDefaultPage = useDefaultPage();
+
+  return useQuery(
+    ['get-entity', id],
+    () => axiosProv.get(`entity/${id}?withExtendedInfo=true`).then(({ data }) => data),
+    {
+      enabled: id !== null,
+      onError: (e) => {
+        if (!toast.isActive('entity-fetching-error'))
+          toast({
+            id: 'entity-fetching-error',
+            title: t('common.error'),
+            description: t('crud.error_fetching_obj', {
+              obj: t('entities.one'),
+              e: e?.response?.data?.ErrorDescription,
+            }),
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+        goToDefaultPage();
+      },
     },
-  });
+  );
+};
 
 export const useGetRoot = ({ openModal }) =>
   useQuery(['get-root'], () => axiosProv.get(`entity/0000-0000-0000`).then(() => true), {

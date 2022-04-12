@@ -30,7 +30,7 @@ const LocationPickerCreator = ({ locationName, createLocationName, editing, isMo
   const [{ value: location }, , { setValue: setLocation }] = useField(locationName);
   const [{ value: newLocation }, , { setValue: setNewLocation }] = useField(createLocationName);
   const { data: locations } = useGetAllLocations({ t, toast, venueId });
-  const { data: entity } = useGetEntity({ t, toast, id: entityId });
+  const { data: entity } = useGetEntity({ id: entityId });
   const { data: locationsFromEntity } = useGetSelectLocations({
     t,
     toast,

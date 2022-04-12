@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import isEqual from 'react-fast-compare';
-import { Button, Center, Heading, Spacer, useToast } from '@chakra-ui/react';
+import { Button, Center, Heading, Spacer } from '@chakra-ui/react';
 import { useGetConfiguration } from 'hooks/Network/Configurations';
 import ConfigurationSectionsCard from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard';
 import { BASE_SECTIONS } from 'constants/configuration';
@@ -56,7 +56,6 @@ const SpecialConfigurationManager = ({
   isDeletePossible,
 }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const [sections, setSections] = useState(isEnabledByDefault ? BASE_SECTIONS : null);
   const [form, setForm] = useState(isEnabledByDefault ? {} : null);
   const formRef = useCallback(
@@ -74,7 +73,7 @@ const SpecialConfigurationManager = ({
     },
     [form],
   );
-  const { data: configuration } = useGetConfiguration({ t, toast, id: configId });
+  const { data: configuration } = useGetConfiguration({ id: configId });
 
   const handleCreateClick = useCallback(() => {
     setSections(BASE_SECTIONS);

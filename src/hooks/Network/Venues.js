@@ -1,3 +1,6 @@
+import { useToast } from '@chakra-ui/react';
+import useDefaultPage from 'hooks/useDefaultPage';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
@@ -52,24 +55,34 @@ export const useGetSelectVenues = ({ t, toast, select }) =>
     },
   );
 
-export const useGetVenue = ({ t, toast, id }) =>
-  useQuery(['get-venue', id], () => axiosProv.get(`venue/${id}?withExtendedInfo=true`).then(({ data }) => data), {
-    onError: (e) => {
-      if (!toast.isActive('venue-fetching-error'))
-        toast({
-          id: 'subscribers-fetching-error',
-          title: t('common.error'),
-          description: t('crud.error_fetching_obj', {
-            obj: t('venues.one'),
-            e: e?.response?.data?.ErrorDescription,
-          }),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
+export const useGetVenue = ({ id }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const goToDefaultPage = useDefaultPage();
+
+  return useQuery(
+    ['get-venue', id],
+    () => axiosProv.get(`venue/${id}?withExtendedInfo=true`).then(({ data }) => data),
+    {
+      onError: (e) => {
+        if (!toast.isActive('venue-fetching-error'))
+          toast({
+            id: 'venue-fetching-error',
+            title: t('common.error'),
+            description: t('crud.error_fetching_obj', {
+              obj: t('venues.one'),
+              e: e?.response?.data?.ErrorDescription,
+            }),
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+        goToDefaultPage();
+      },
     },
-  });
+  );
+};
 
 export const useCreateVenue = () =>
   useMutation(({ params, createObjects }) =>

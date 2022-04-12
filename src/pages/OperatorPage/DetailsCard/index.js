@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import useFormRef from 'hooks/useFormRef';
-import { Box, Center, Heading, Spacer, Spinner, useBoolean, useToast } from '@chakra-ui/react';
+import { Box, Center, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
 import { useGetOperator } from 'hooks/Network/Operators';
 import CardBody from 'components/Card/CardBody';
 import Card from 'components/Card';
@@ -19,10 +18,8 @@ const propTypes = {
 };
 
 const OperatorDetailsCard = ({ id }) => {
-  const { t } = useTranslation();
-  const toast = useToast();
   const [editing, setEditing] = useBoolean();
-  const { data: operator, refetch, isFetching } = useGetOperator({ t, toast, id });
+  const { data: operator, refetch, isFetching } = useGetOperator({ id });
   const { form, formRef } = useFormRef();
 
   return (

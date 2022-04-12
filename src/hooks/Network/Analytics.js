@@ -1,8 +1,13 @@
+import { useToast } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosAnalytics } from 'utils/axiosInstances';
 
-export const useGetAnalyticsBoard = ({ t, toast, id }) =>
-  useQuery(['get-board', id], () => axiosAnalytics.get(`board/${id}`).then(({ data }) => data), {
+export const useGetAnalyticsBoard = ({ id }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(['get-board', id], () => axiosAnalytics.get(`board/${id}`).then(({ data }) => data), {
     enabled: id !== null,
     onError: (e) => {
       if (!toast.isActive('board-fetching-error'))
@@ -20,9 +25,13 @@ export const useGetAnalyticsBoard = ({ t, toast, id }) =>
         });
     },
   });
+};
 
-export const useGetAnalyticsBoardDevices = ({ t, toast, id }) =>
-  useQuery(
+export const useGetAnalyticsBoardDevices = ({ id }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-board-devices', id],
     () => axiosAnalytics.get(`board/${id}/devices`).then(({ data }) => data.devices),
     {
@@ -44,9 +53,13 @@ export const useGetAnalyticsBoardDevices = ({ t, toast, id }) =>
       },
     },
   );
+};
 
-export const useGetAnalyticsBoardTimepoints = ({ t, toast, id, startTime, endTime, enabled = true }) =>
-  useQuery(
+export const useGetAnalyticsBoardTimepoints = ({ id, startTime, endTime, enabled = true }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-board-timepoints', id],
     () =>
       axiosAnalytics
@@ -75,6 +88,7 @@ export const useGetAnalyticsBoardTimepoints = ({ t, toast, id, startTime, endTim
       },
     },
   );
+};
 
 export const useCreateAnalyticsBoard = () => useMutation((newBoard) => axiosAnalytics.post('board/0', newBoard));
 

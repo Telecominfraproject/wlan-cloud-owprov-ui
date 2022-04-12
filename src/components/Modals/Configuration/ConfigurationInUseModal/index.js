@@ -5,7 +5,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalBody,
-  toast,
   Center,
   Spinner,
   UnorderedList,
@@ -35,8 +34,6 @@ const defaultProps = {
 const ConfigurationInUseModal = ({ isOpen, onClose, config }) => {
   const { t } = useTranslation();
   const { data: inUse, isLoading } = useGetConfigurationInUse({
-    t,
-    toast,
     id: config?.id,
     enabled: isOpen && config !== null && config.id !== '',
   });

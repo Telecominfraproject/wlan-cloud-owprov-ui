@@ -5,7 +5,7 @@ import { ResponsiveCirclePacking } from '@nivo/circle-packing';
 import { useGetVenue } from 'hooks/Network/Venues';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { Box, Center, Heading, useColorMode, useToast } from '@chakra-ui/react';
+import { Box, Center, Heading, useColorMode } from '@chakra-ui/react';
 import { parseDbm } from 'utils/stringHelper';
 import { errorColor, getBlendedColor, successColor, warningColor } from 'utils/colors';
 import { getScaledArray } from 'utils/arrayHelpers';
@@ -26,11 +26,10 @@ const propTypes = {
 
 const CirclePack = ({ timepoints, handle }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const { popoverRef } = useCircleGraph();
   const { colorMode } = useColorMode();
   const { id } = useParams();
-  const { data: venue } = useGetVenue({ t, toast, id });
+  const { data: venue } = useGetVenue({ id });
   const [pointIndex, setPointIndex] = useState(Math.max(timepoints.length - 1, 0));
   const [zoomedId, setZoomedId] = useState(null);
 

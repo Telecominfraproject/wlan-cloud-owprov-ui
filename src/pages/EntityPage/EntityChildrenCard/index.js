@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EntityDeviceTableWrapper from 'pages/EntityPage/EntityChildrenCard/EntityDeviceTableWrapper';
 import Card from 'components/Card';
-import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
+import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetEntity } from 'hooks/Network/Entity';
@@ -20,8 +20,7 @@ const propTypes = {
 
 const EntityChildrenCard = ({ id }) => {
   const { t } = useTranslation();
-  const toast = useToast();
-  const { data: entity, isFetching } = useGetEntity({ t, toast, id });
+  const { data: entity, isFetching } = useGetEntity({ id });
 
   return (
     <Card>

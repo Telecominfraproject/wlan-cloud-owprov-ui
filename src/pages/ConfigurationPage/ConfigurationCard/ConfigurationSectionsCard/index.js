@@ -1,18 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Center,
-  Heading,
-  Spacer,
-  Spinner,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Center, Heading, Spacer, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import CardBody from 'components/Card/CardBody';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
@@ -66,7 +54,6 @@ const getConfigurationData = (configurations, section) => {
 
 const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDelete }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const { tabIndex, onTabChange, tabsWithNewConfiguration, tabsRemovedConfiguration } = useConfigurationTabs();
   const [globals, setGlobals] = useState({
     data: GLOBALS_SCHEMA(t).cast(),
@@ -152,8 +139,6 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
     }, 200);
   };
   const { data: configuration, isFetching } = useGetConfiguration({
-    t,
-    toast,
     id: configId,
     onSuccess: (data) => {
       setConfigSectionsFromArray(data.configuration);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from 'components/Card';
-import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
+import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import LoadingOverlay from 'components/LoadingOverlay';
 import CardBody from 'components/Card/CardBody';
@@ -17,8 +17,7 @@ const propTypes = {
 
 const OperatorChildrenCard = ({ id }) => {
   const { t } = useTranslation();
-  const toast = useToast();
-  const { data: operator, isFetching, refetch } = useGetOperator({ t, toast, id });
+  const { data: operator, isFetching, refetch } = useGetOperator({ id });
 
   return (
     <Card>

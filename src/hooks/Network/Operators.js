@@ -1,25 +1,36 @@
+import { useToast } from '@chakra-ui/react';
+import useDefaultPage from 'hooks/useDefaultPage';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
-export const useGetOperatorCount = ({ t, toast, enabled }) =>
-  useQuery(['get-operator-count'], () => axiosProv.get(`operator?countOnly=true`).then(({ data }) => data.count), {
-    enabled,
-    onError: (e) => {
-      if (!toast.isActive('operator-fetching-error'))
-        toast({
-          id: 'operator-fetching-error',
-          title: t('common.error'),
-          description: t('crud.error_fetching_obj', {
-            obj: t('operator.other'),
-            e: e?.response?.data?.ErrorDescription,
-          }),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
+export const useGetOperatorCount = ({ enabled }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
+    ['get-operator-count'],
+    () => axiosProv.get(`operator?countOnly=true`).then(({ data }) => data.count),
+    {
+      enabled,
+      onError: (e) => {
+        if (!toast.isActive('operator-fetching-error'))
+          toast({
+            id: 'operator-fetching-error',
+            title: t('common.error'),
+            description: t('crud.error_fetching_obj', {
+              obj: t('operator.other'),
+              e: e?.response?.data?.ErrorDescription,
+            }),
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+      },
     },
-  });
+  );
+};
 
 export const useGetOperators = ({ t, toast, pageInfo, select, enabled, count }) => {
   if (select !== undefined && select !== null) {
@@ -85,8 +96,11 @@ export const useGetOperators = ({ t, toast, pageInfo, select, enabled, count }) 
   );
 };
 
-export const useGetOperator = ({ t, toast, enabled, id }) =>
-  useQuery(['get-operator', id], () => axiosProv.get(`operator/${id}`).then(({ data }) => data), {
+export const useGetOperator = ({ enabled, id }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const goToDefaultPage = useDefaultPage();
+  return useQuery(['get-operator', id], () => axiosProv.get(`operator/${id}`).then(({ data }) => data), {
     enabled,
     onError: (e) => {
       if (!toast.isActive('opeator-fetching-error'))
@@ -102,8 +116,10 @@ export const useGetOperator = ({ t, toast, enabled, id }) =>
           isClosable: true,
           position: 'top-right',
         });
+      goToDefaultPage();
     },
   });
+};
 
 export const useCreateOperator = () => useMutation((newOperator) => axiosProv.post(`operator/1`, newOperator));
 

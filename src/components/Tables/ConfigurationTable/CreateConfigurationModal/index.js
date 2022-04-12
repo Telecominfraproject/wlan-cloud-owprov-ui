@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, toast } from '@chakra-ui/react';
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
@@ -28,7 +28,7 @@ const CreateConfigurationModal = ({ refresh, entityId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const { form, formRef } = useFormRef();
-  const { data: deviceTypes } = useGetDeviceTypes({ t, toast });
+  const { data: deviceTypes } = useGetDeviceTypes();
   const [configuration, setConfiguration] = useState(null);
   const create = useMutation((newObj) =>
     axiosProv.post('configuration/1', {
