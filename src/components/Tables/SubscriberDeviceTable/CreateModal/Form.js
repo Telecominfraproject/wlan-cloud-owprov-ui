@@ -12,6 +12,8 @@ import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import useSelectList from 'hooks/useSelectList.js';
 import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
 
+const defaultConfiguration = [];
+
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -132,7 +134,12 @@ const CreateSubscriberDeviceForm = ({
           <SelectField name="contact" label={t('contacts.one')} options={contactOptions} />
           <SelectField name="location" label={t('locations.one')} options={locationOptions} />
         </SimpleGrid>
-        <SubscriberDeviceConfigurationManager editing onChange={onConfigurationChange} isDeletePossible />
+        <SubscriberDeviceConfigurationManager
+          editing
+          onChange={onConfigurationChange}
+          isDeletePossible
+          configuration={defaultConfiguration}
+        />
       </Form>
     </Formik>
   );

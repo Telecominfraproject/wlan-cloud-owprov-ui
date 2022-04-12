@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import isEqual from 'react-fast-compare';
 
 const useNestedConfigurationForm = ({ defaultConfiguration } = { defaultConfiguration: null }) => {
-  const [configuration, setConfiguration] = useState(defaultConfiguration ?? null);
+  const [configuration, setConfiguration] = useState(null);
 
   const onConfigurationChange = useCallback((newConfiguration) => setConfiguration(newConfiguration), []);
 
@@ -31,7 +31,15 @@ const useNestedConfigurationForm = ({ defaultConfiguration } = { defaultConfigur
   );
 
   useEffect(() => {
-    onConfigurationChange(defaultConfiguration);
+    if (defaultConfiguration) {
+      onConfigurationChange({
+        __form: {
+          isDirty: true,
+          isValid: true,
+        },
+        configuration: defaultConfiguration,
+      });
+    }
   }, [defaultConfiguration]);
 
   return toReturn;

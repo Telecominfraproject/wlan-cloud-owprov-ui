@@ -14,6 +14,8 @@ import useOperatorChildren from 'hooks/useOperatorChildren';
 import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
 import CreateSubscriberDeviceForm from './Form';
 
+const defaultConfiguration = [];
+
 const propTypes = {
   refresh: PropTypes.func.isRequired,
   operatorId: PropTypes.string.isRequired,
@@ -31,7 +33,7 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
   const {
     data: { configuration, isDirty: isConfigurationDirty, isValid: isConfigurationValid },
     onChange: onConfigurationChange,
-  } = useNestedConfigurationForm();
+  } = useNestedConfigurationForm({ defaultConfiguration });
 
   return (
     <>
