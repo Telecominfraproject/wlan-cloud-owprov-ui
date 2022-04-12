@@ -44,7 +44,7 @@ const ToggleEditButton = ({ toggleEdit, isEditing, isDirty, isDisabled, isLoadin
       <>
         <Button
           colorScheme="gray"
-          type="submit"
+          type="button"
           onClick={toggle}
           rightIcon={isEditing ? <X size={20} /> : <Pencil size={20} />}
           isLoading={isLoading}
@@ -62,7 +62,7 @@ const ToggleEditButton = ({ toggleEdit, isEditing, isDirty, isDisabled, isLoadin
       <Tooltip label={isEditing ? t('common.stop_editing') : t('common.edit')}>
         <IconButton
           colorScheme="gray"
-          type="submit"
+          type="button"
           onClick={toggle}
           icon={isEditing ? <X size={20} /> : <Pencil size={20} />}
           isLoading={isLoading}

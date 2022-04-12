@@ -10,7 +10,7 @@ import SelectField from 'components/FormFields/SelectField';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
-import SpecialConfigurationManager from '../EditTagModal/SpecialConfigurationManager';
+import SpecialConfigurationManager from '../../../CustomFields/SpecialConfigurationManager';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

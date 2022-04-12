@@ -11,6 +11,7 @@ import ModalHeader from 'components/ModalHeader';
 import useFormRef from 'hooks/useFormRef';
 import useFormModal from 'hooks/useFormModal';
 import useOperatorChildren from 'hooks/useOperatorChildren';
+import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
 import CreateSubscriberDeviceForm from './Form';
 
 const propTypes = {
@@ -25,6 +26,10 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
   const { isOpen, isConfirmOpen, onOpen, closeConfirm, closeModal, closeCancelAndForm } = useFormModal({
     isDirty: form?.dirty,
   });
+  const {
+    data: { configuration, isDirty: isConfigurationDirty, isValid: isConfigurationValid },
+    onChange: onConfigurationChange,
+  } = useNestedConfigurationForm();
 
   return (
     <>
@@ -40,7 +45,7 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
       </Button>
       <Modal onClose={closeModal} isOpen={isOpen} size="xl">
         <ModalOverlay />
-        <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
+        <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
           <ModalHeader
             title={t('crud.create_object', { obj: t('certificates.device') })}
             right={
@@ -48,7 +53,7 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
                 <SaveButton
                   onClick={form.submitForm}
                   isLoading={form.isSubmitting}
-                  isDisabled={!form.isValid || !form.dirty}
+                  isDisabled={!form.isValid || !isConfigurationValid || (!form.dirty && !isConfigurationDirty)}
                 />
                 <CloseButton ml={2} onClick={closeModal} />
               </>
@@ -66,6 +71,8 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
                 refresh={refresh}
                 formRef={formRef}
                 operatorId={operatorId}
+                configuration={configuration}
+                onConfigurationChange={onConfigurationChange}
               />
             ) : (
               <Center>

@@ -15,7 +15,7 @@ import { useGetVenues } from 'hooks/Network/Venues';
 import { useUpdateConfiguration } from 'hooks/Network/Configurations';
 import { useQueryClient } from 'react-query';
 import ComputedConfigurationDisplay from './ComputedConfigurationDisplay';
-import SpecialConfigurationManager from './SpecialConfigurationManager';
+import SpecialConfigurationManager from '../../../CustomFields/SpecialConfigurationManager';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

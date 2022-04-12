@@ -47,7 +47,7 @@ const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled 
       {breakpoint !== 'base' && breakpoint !== 'sm' ? (
         <Button
           colorScheme="gray"
-          type="submit"
+          type="button"
           onClick={onOpen}
           rightIcon={<ArrowsOut size={20} />}
           isDisabled={isDisabled}
@@ -59,7 +59,7 @@ const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled 
         <Tooltip label={t('common.view_json')}>
           <IconButton
             colorScheme="gray"
-            type="submit"
+            type="button"
             onClick={onOpen}
             icon={<ArrowsOut size={20} />}
             isDisabled={isDisabled}

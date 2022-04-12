@@ -28,7 +28,7 @@ const CreateButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...pro
     return (
       <Button
         colorScheme="blue"
-        type="submit"
+        type="button"
         onClick={onClick}
         rightIcon={<Plus size={20} />}
         isLoading={isLoading}
@@ -43,7 +43,7 @@ const CreateButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...pro
     <Tooltip label={label ?? t('common.create')}>
       <IconButton
         colorScheme="blue"
-        type="submit"
+        type="button"
         onClick={onClick}
         icon={<Plus size={20} />}
         isLoading={isLoading}

@@ -405,7 +405,7 @@ export const SubscriberDeviceSchema = (t) =>
       .default(''),
     rrm: Yup.string().required(t('form.required')).default('inherit'),
     deviceType: Yup.string().required(t('form.required')).default(''),
-    subscriberId: Yup.string().required(t('form.required')).default(''),
+    subscriberId: Yup.string().default(''),
     serviceClass: Yup.string().required(t('form.required')).default(''),
     billingCode: Yup.string().default(''),
     locale: Yup.string().default(''),

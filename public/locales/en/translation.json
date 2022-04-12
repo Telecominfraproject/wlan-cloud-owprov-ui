@@ -363,6 +363,7 @@
 		"invalid_serial_number": "Invalid Serial Number (needs to be 12 HEX chars)",
 		"new_devices": "new devices",
 		"not_connected": "Not Connected",
+		"one": "Device",
 		"reassign_already_owned": "Reassign devices which already exist and are owned by another entity/venue/subscriber?",
 		"sanity": "Sanity",
 		"start_import": "Start Device Importation",

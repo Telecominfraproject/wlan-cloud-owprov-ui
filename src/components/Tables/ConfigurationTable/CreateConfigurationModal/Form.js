@@ -11,7 +11,7 @@ import MultiSelectField from 'components/FormFields/MultiSelectField';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
-import SpecialConfigurationManager from 'components/Tables/InventoryTable/EditTagModal/SpecialConfigurationManager';
+import SpecialConfigurationManager from 'components/CustomFields/SpecialConfigurationManager';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

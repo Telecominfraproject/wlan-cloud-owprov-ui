@@ -37,15 +37,24 @@ const propTypes = {
   onChange: PropTypes.func.isRequired,
   isEnabledByDefault: PropTypes.bool,
   isOnlySections: PropTypes.bool,
+  isDeletePossible: PropTypes.bool,
 };
 
 const defaultProps = {
   configId: null,
   isEnabledByDefault: false,
   isOnlySections: false,
+  isDeletePossible: false,
 };
 
-const SpecialConfigurationManager = ({ editing, configId, onChange, isEnabledByDefault, isOnlySections }) => {
+const SpecialConfigurationManager = ({
+  editing,
+  configId,
+  onChange,
+  isEnabledByDefault,
+  isOnlySections,
+  isDeletePossible,
+}) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [sections, setSections] = useState(isEnabledByDefault ? BASE_SECTIONS : null);
@@ -98,7 +107,7 @@ const SpecialConfigurationManager = ({ editing, configId, onChange, isEnabledByD
   if (sections === null || form === null) {
     return (
       <Center>
-        <Button onClick={handleCreateClick} colorScheme="blue" isDisabled={!editing}>
+        <Button onClick={handleCreateClick} colorScheme="blue" isDisabled={!editing} my={4}>
           {t('configurations.start_special_creation')}
         </Button>
       </Center>
@@ -122,6 +131,7 @@ const SpecialConfigurationManager = ({ editing, configId, onChange, isEnabledByD
         editing={editing}
         configId={configId}
         setSections={setSections}
+        onDelete={isDeletePossible ? handleDeleteClick : null}
       />
     </>
   );

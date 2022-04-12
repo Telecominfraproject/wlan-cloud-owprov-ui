@@ -7,8 +7,9 @@ import { Formik, Form } from 'formik';
 import { SubscriberDeviceSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
-import { useCreateOperatorLocation } from 'hooks/Network/OperatorLocations';
 import useMutationResult from 'hooks/useMutationResult';
+import SpecialConfigurationManager from 'components/CustomFields/SpecialConfigurationManager';
+import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -20,6 +21,12 @@ const propTypes = {
   contacts: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
   locations: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
   serviceClasses: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
+  configuration: PropTypes.instanceOf(Object),
+  onConfigurationChange: PropTypes.func.isRequired,
+};
+
+const defaultProps = {
+  configuration: null,
 };
 
 const CreateSubscriberDeviceForm = ({
@@ -32,17 +39,19 @@ const CreateSubscriberDeviceForm = ({
   contacts,
   locations,
   serviceClasses,
+  configuration,
+  onConfigurationChange,
 }) => {
   const { t } = useTranslation();
   const [formKey, setFormKey] = useState(uuid());
   const { onSuccess, onError } = useMutationResult({
-    objName: t('locations.one'),
+    objName: t('devices.one'),
     operationType: 'create',
     refresh,
     onClose,
   });
 
-  const create = useCreateOperatorLocation();
+  const create = useCreateSubscriberDevice();
 
   const deviceTypeOptions = useMemo(
     () =>
@@ -101,41 +110,13 @@ const CreateSubscriberDeviceForm = ({
       key={formKey}
       initialValues={{ ...SubscriberDeviceSchema(t).cast(), deviceType: deviceTypes[0] }}
       validationSchema={SubscriberDeviceSchema(t)}
-      onSubmit={(
-        {
-          name,
-          description,
-          type,
-          addressLineOne,
-          addressLineTwo,
-          city,
-          state,
-          postal,
-          country,
-          buildingName,
-          mobiles,
-          phones,
-          geoCode,
-          note,
-        },
-        { setSubmitting, resetForm },
-      ) =>
+      onSubmit={(data, { setSubmitting, resetForm }) =>
         create.mutateAsync(
           {
-            name,
-            description,
-            type,
-            addressLines: [addressLineOne, addressLineTwo],
-            city,
-            state,
-            postal,
-            country,
-            buildingName,
-            mobiles,
-            phones,
-            geoCode,
+            ...data,
             operatorId,
-            notes: note.length > 0 ? [{ note }] : undefined,
+            configuration: configuration ? configuration.configuration : undefined,
+            notes: data.note.length > 0 ? [{ note: data.note }] : undefined,
           },
           {
             onSuccess: () => {
@@ -185,11 +166,13 @@ const CreateSubscriberDeviceForm = ({
           <SelectField name="contact" label={t('contacts.one')} options={contactOptions} />
           <SelectField name="location" label={t('locations.one')} options={locationOptions} />
         </SimpleGrid>
+        <SpecialConfigurationManager editing onChange={onConfigurationChange} isOnlySections isDeletePossible />
       </Form>
     </Formik>
   );
 };
 
 CreateSubscriberDeviceForm.propTypes = propTypes;
+CreateSubscriberDeviceForm.defaultProps = defaultProps;
 
 export default CreateSubscriberDeviceForm;

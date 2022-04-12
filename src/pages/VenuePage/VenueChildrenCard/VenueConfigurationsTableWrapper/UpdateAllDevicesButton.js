@@ -53,7 +53,7 @@ const UpdateAllDevicesButton = ({ venueId }) => {
     return (
       <Button
         colorScheme="blue"
-        type="submit"
+        type="button"
         onClick={handleClick}
         rightIcon={<ClockClockwise size={20} />}
         isLoading={updateDevices.isLoading}
@@ -67,7 +67,7 @@ const UpdateAllDevicesButton = ({ venueId }) => {
     <Tooltip label={t('venues.update_all_devices')}>
       <IconButton
         colorScheme="blue"
-        type="submit"
+        type="button"
         onClick={handleClick}
         icon={<ClockClockwise size={20} />}
         ml={2}

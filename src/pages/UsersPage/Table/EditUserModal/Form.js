@@ -211,7 +211,12 @@ const UpdateUserForm = ({
           </Tabs>
           <Flex justifyContent="center" alignItems="center" maxW="100%" mt="25px" mb={6} px={4}>
             <Box w="100%">
-              <Link href={`${secUrl}${requirements?.passwordPolicy}`} isExternal textColor={textColor} pb={2}>
+              <Link
+                href={`${secUrl.split('/api/v1')[0]}${requirements?.passwordPolicy}`}
+                isExternal
+                textColor={textColor}
+                pb={2}
+              >
                 {t('login.password_policy')}
                 <ExternalLinkIcon mx="2px" />
               </Link>

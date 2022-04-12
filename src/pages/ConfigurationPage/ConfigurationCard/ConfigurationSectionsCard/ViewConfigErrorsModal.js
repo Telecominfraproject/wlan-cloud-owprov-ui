@@ -44,7 +44,7 @@ const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => 
       {breakpoint !== 'base' && breakpoint !== 'sm' ? (
         <Button
           colorScheme={errorAmount === 0 ? 'green' : 'red'}
-          type="submit"
+          type="button"
           onClick={onOpen}
           rightIcon={errorAmount === 0 ? <CheckCircle size={20} /> : <WarningOctagon size={20} />}
           isDisabled={isDisabled || errorAmount === 0}
@@ -55,7 +55,7 @@ const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => 
         <Tooltip label={`${errorAmount} ${errorAmount === 1 ? t('common.error') : t('common.errors')}`}>
           <IconButton
             colorScheme={errorAmount === 0 ? 'green' : 'red'}
-            type="submit"
+            type="button"
             onClick={onOpen}
             icon={errorAmount === 0 ? <CheckCircle size={20} /> : <WarningOctagon size={20} />}
             isDisabled={isDisabled || errorAmount === 0}

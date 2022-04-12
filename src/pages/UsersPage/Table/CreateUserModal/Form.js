@@ -144,7 +144,11 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
           </SimpleGrid>
           <Flex justifyContent="center" alignItems="center" maxW="100%" mt="50px" mb={6}>
             <Box w="100%">
-              <Link href={`${secUrl}${requirements?.passwordPolicy}`} isExternal textColor={textColor}>
+              <Link
+                href={`${secUrl.split('/api/v1')[0]}${requirements?.passwordPolicy}`}
+                isExternal
+                textColor={textColor}
+              >
                 {t('login.password_policy')}
                 <ExternalLinkIcon mx="2px" />
               </Link>

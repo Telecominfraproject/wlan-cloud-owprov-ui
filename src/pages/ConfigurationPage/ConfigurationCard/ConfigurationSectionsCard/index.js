@@ -19,6 +19,7 @@ import CardHeader from 'components/Card/CardHeader';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetConfiguration } from 'hooks/Network/Configurations';
 import { useTranslation } from 'react-i18next';
+import DeleteButton from 'components/Buttons/DeleteButton';
 import GlobalsSection from './GlobalsSection';
 import { GLOBALS_SCHEMA } from './GlobalsSection/globalsConstants';
 import { UNIT_SCHEMA } from './UnitSection/unitConstants';
@@ -42,10 +43,12 @@ const propTypes = {
   editing: PropTypes.bool.isRequired,
   setSections: PropTypes.func.isRequired,
   label: PropTypes.string,
+  onDelete: PropTypes.func,
 };
 
 const defaultProps = {
   label: null,
+  onDelete: null,
 };
 
 const getActiveConfigurations = (configurations) =>
@@ -61,7 +64,7 @@ const getConfigurationData = (configurations, section) => {
   return { ...data, configuration: JSON.parse(data.configuration)[section] };
 };
 
-const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) => {
+const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDelete }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { tabIndex, onTabChange, tabsWithNewConfiguration, tabsRemovedConfiguration } = useConfigurationTabs();
@@ -345,6 +348,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
           />
           <ImportConfigurationButton isDisabled={!editing} setConfig={importConfig} />
           <AddSubsectionModal editing={editing} activeSubs={activeConfigurations} addSub={addSubsection} />
+          {onDelete && <DeleteButton isDisabled={!editing} onClick={onDelete} ml={2} />}
         </Box>
       </CardHeader>
       <CardBody>

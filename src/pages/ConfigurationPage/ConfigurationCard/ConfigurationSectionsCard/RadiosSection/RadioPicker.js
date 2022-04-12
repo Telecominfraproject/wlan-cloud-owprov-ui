@@ -30,7 +30,7 @@ const RadioPicker = ({ editing, radios, arrayHelpers: { push: pushRadio } }) => 
 
   return (
     <>
-      <Button colorScheme="blue" type="submit" onClick={onOpen} rightIcon={<Plus size={20} />} hidden={!editing} ml={2}>
+      <Button colorScheme="blue" type="button" onClick={onOpen} rightIcon={<Plus size={20} />} hidden={!editing} ml={2}>
         {t('configurations.add_radio')}
       </Button>
       <Modal onClose={onClose} isOpen={isOpen} size="sm" scrollBehavior="inside">

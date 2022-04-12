@@ -186,11 +186,16 @@ const LoginForm = ({ requirements, setActiveForm }) => {
       </Formik>
       <Flex justifyContent="center" alignItems="center" maxW="100%" mt="0px">
         <Box w="100%">
-          <Link href={`${secUrl}${requirements?.passwordPolicy}`} isExternal textColor={textColor} mr="24px">
+          <Link
+            href={`${secUrl.split('/api/v1')[0]}${requirements?.passwordPolicy}`}
+            isExternal
+            textColor={textColor}
+            mr="24px"
+          >
             {t('login.password_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>
-          <Link href={`${secUrl}${requirements?.accessPolicy}`} isExternal textColor={textColor}>
+          <Link href={`${secUrl.split('/api/v1')[0]}${requirements?.accessPolicy}`} isExternal textColor={textColor}>
             {t('login.access_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>
