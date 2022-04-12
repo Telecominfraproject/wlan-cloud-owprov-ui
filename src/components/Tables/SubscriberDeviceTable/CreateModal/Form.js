@@ -137,7 +137,6 @@ const CreateSubscriberDeviceForm = ({
         <SubscriberDeviceConfigurationManager
           editing
           onChange={onConfigurationChange}
-          isDeletePossible
           configuration={defaultConfiguration}
         />
       </Form>

@@ -143,7 +143,6 @@ const EditSubscriberDeviceForm = ({
                 editing
                 onChange={onConfigurationChange}
                 configuration={defaultConfiguration}
-                isDeletePossible
               />
             </Form>
           </TabPanel>

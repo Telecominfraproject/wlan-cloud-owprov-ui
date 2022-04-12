@@ -21,8 +21,12 @@ const ServiceClassTable = ({ operatorId, refreshId, actions }) => {
     refetch,
   } = useFreeTable({ useGet: useGetServiceClasses, params: { operatorId } });
 
-  const memoizedActions = useCallback((cell) => actions(cell), []);
-  const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
+  const actionsCell = useCallback((cell) => actions(cell), []);
+  const dateCell = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
+  const costCell = useCallback(
+    (cell) => `${cell.row.original.cost} ${cell.row.original.currency} / ${cell.row.original.period}`,
+    [],
+  );
 
   const columns = useMemo(() => {
     const baseColumns = [
@@ -36,6 +40,24 @@ const ServiceClassTable = ({ operatorId, refreshId, actions }) => {
         customMinWidth: '150px',
       },
       {
+        id: 'cost',
+        Header: t('service.cost'),
+        Footer: '',
+        accessor: 'cost',
+        Cell: ({ cell }) => costCell(cell, 'modified'),
+        customMinWidth: '150px',
+        customWidth: '150px',
+      },
+      {
+        id: 'modified',
+        Header: t('common.modified'),
+        Footer: '',
+        accessor: 'modified',
+        Cell: ({ cell }) => dateCell(cell, 'modified'),
+        customMinWidth: '150px',
+        customWidth: '150px',
+      },
+      {
         id: 'description',
         Header: t('common.description'),
         Footer: '',
@@ -43,21 +65,12 @@ const ServiceClassTable = ({ operatorId, refreshId, actions }) => {
         disableSortBy: true,
       },
       {
-        id: 'modified',
-        Header: t('common.modified'),
-        Footer: '',
-        accessor: 'modified',
-        Cell: ({ cell }) => memoizedDate(cell, 'modified'),
-        customMinWidth: '150px',
-        customWidth: '150px',
-      },
-      {
         id: 'actions',
         Header: t('common.actions'),
         Footer: '',
         accessor: 'Id',
         customWidth: '80px',
-        Cell: ({ cell }) => memoizedActions(cell),
+        Cell: ({ cell }) => actionsCell(cell),
         disableSortBy: true,
         alwaysShow: true,
       },
