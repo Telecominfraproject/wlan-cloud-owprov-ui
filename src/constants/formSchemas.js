@@ -1,5 +1,6 @@
 import phoneNumberTest from 'utils/phoneNumber';
 import * as Yup from 'yup';
+import { testUcMac } from './formTests';
 
 // User Schemas
 export const CreateUserSchema = Yup.object().shape({
@@ -381,3 +382,34 @@ export const OperatorLocationSchema = (t) =>
       note: Yup.string(),
     })
     .nullable();
+
+// Subscriber Device Schema
+export const SubscriberDeviceSchema = (t) =>
+  Yup.object().shape({
+    name: Yup.string().required(t('form.required')).default(''),
+    description: Yup.string().default(''),
+    note: Yup.string().default(''),
+    serialNumber: Yup.string()
+      .required(t('form.required'))
+      .test('test-serial-regex', t('inventory.invalid_serial_number'), (v) => {
+        if (v) {
+          if (v.length !== 12) return false;
+          if (!v.match('^[a-fA-F0-9]+$')) return false;
+        }
+        return true;
+      })
+      .default(''),
+    realMacAddress: Yup.string()
+      .required(t('form.required'))
+      .test('real-mac-test', t('form.invalid_mac_uc'), testUcMac)
+      .default(''),
+    rrm: Yup.string().required(t('form.required')).default('inherit'),
+    deviceType: Yup.string().required(t('form.required')).default(''),
+    subscriberId: Yup.string().required(t('form.required')).default(''),
+    serviceClass: Yup.string().required(t('form.required')).default(''),
+    billingCode: Yup.string().default(''),
+    locale: Yup.string().default(''),
+    location: Yup.string().default(''),
+    contact: Yup.string().default(''),
+    suspended: Yup.bool().default(false),
+  });

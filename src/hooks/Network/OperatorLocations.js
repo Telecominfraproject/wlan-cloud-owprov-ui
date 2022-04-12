@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
-export const useGetOperatorLocations = ({ t, toast, operatorId }) =>
-  useQuery(
+export const useGetOperatorLocations = ({ operatorId }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+  return useQuery(
     ['get-operator-locations', operatorId],
     () =>
       !operatorId
@@ -30,6 +32,7 @@ export const useGetOperatorLocations = ({ t, toast, operatorId }) =>
       },
     },
   );
+};
 
 export const useGetOperatorLocation = ({ enabled, id }) => {
   const { t } = useTranslation();

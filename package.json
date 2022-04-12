@@ -1,6 +1,6 @@
 {
   "name": "wlan-cloud-owprov-ui",
-  "version": "2.6.128",
+  "version": "2.6.129",
   "description": "",
   "main": "index.js",
   "scripts": {

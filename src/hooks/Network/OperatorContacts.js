@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
-export const useGetOperatorContacts = ({ t, toast, operatorId }) =>
-  useQuery(
+export const useGetOperatorContacts = ({ operatorId }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+  return useQuery(
     ['get-operator-contacts', operatorId],
     () =>
       !operatorId
@@ -30,6 +32,7 @@ export const useGetOperatorContacts = ({ t, toast, operatorId }) =>
       },
     },
   );
+};
 
 export const useGetOperatorContact = ({ enabled, id }) => {
   const { t } = useTranslation();

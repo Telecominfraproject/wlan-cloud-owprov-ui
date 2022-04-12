@@ -9,6 +9,7 @@ import { useGetOperator } from 'hooks/Network/Operators';
 import ServiceClassTab from './ServiceClassTab';
 import ContactTab from './ContactTab';
 import LocationTab from './LocationTab';
+import OperatorDevicesTab from './DevicesTab';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -24,6 +25,7 @@ const OperatorChildrenCard = ({ id }) => {
       <CardBody>
         <Tabs isLazy variant="enclosed" w="100%">
           <TabList>
+            <Tab>{t('devices.title')}</Tab>
             <Tab>{t('service.other')}</Tab>
             <Tab>{t('locations.other')}</Tab>
             <Tab>{t('contacts.other')}</Tab>
@@ -35,6 +37,9 @@ const OperatorChildrenCard = ({ id }) => {
           ) : (
             <LoadingOverlay isLoading={isFetching}>
               <TabPanels>
+                <TabPanel overflowX="auto">
+                  <OperatorDevicesTab operatorId={id} />
+                </TabPanel>
                 <TabPanel overflowX="auto">
                   <ServiceClassTab operatorId={id} />
                 </TabPanel>

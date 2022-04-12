@@ -55,7 +55,9 @@ const SelectField = ({
       setValue(isInt ? parseInt(e.target.value, 10) : e.target.value);
     }
     onChangeEffect(e);
-    setTouched(true);
+    setTimeout(() => {
+      setTouched(true);
+    }, 200);
   }, []);
 
   const onFieldBlur = useCallback(() => {
