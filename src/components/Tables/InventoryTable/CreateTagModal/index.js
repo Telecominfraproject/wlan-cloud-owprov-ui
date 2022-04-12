@@ -10,6 +10,7 @@ import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import CreateButton from 'components/Buttons/CreateButton';
+import useFormRef from 'hooks/useFormRef';
 import CreateTagForm from './Form';
 
 const propTypes = {
@@ -29,21 +30,7 @@ const CreateTagModal = ({ refresh, entityId, subId, deviceClass }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
   const { data: deviceTypes } = useGetDeviceTypes();
   const [configuration, setConfiguration] = useState(null);
 

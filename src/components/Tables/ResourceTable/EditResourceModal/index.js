@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -19,6 +19,7 @@ import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';
 import { SubscriberShape } from 'constants/propShapes';
 import { useGetResource } from 'hooks/Network/Resources';
+import useFormRef from 'hooks/useFormRef';
 import InterfaceSsidRadius from './InterfaceSsidRadius';
 
 const propTypes = {
@@ -37,21 +38,7 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }) => {
   const [editing, setEditing] = useBoolean();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const toast = useToast();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
   const { data: resourceData, isLoading } = useGetResource({
     t,
     toast,

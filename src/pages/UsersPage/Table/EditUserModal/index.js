@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -20,6 +20,7 @@ import SaveButton from 'components/Buttons/SaveButton';
 import EditButton from 'components/Buttons/EditButton';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';
+import useFormRef from 'hooks/useFormRef';
 import UpdateUserForm from './Form';
 
 const propTypes = {
@@ -46,21 +47,7 @@ const EditUserModal = ({ isOpen, onClose, userId, requirements, refreshUsers }) 
   const [editing, setEditing] = useBoolean();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const toast = useToast();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
   const canFetchUser = userId !== '' && isOpen;
   const { data: user, isLoading } = useGetUser({ t, toast, id: userId, enabled: canFetchUser });
   const createUser = useMutation((userInfo) => axiosSec.put(`user/${userId}`, userInfo));

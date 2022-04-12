@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, CloseButton } from '@chakra-ui/react';
@@ -7,6 +7,7 @@ import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
 import ModalHeader from 'components/ModalHeader';
 import { useCreateMap } from 'hooks/Network/Maps';
 import CreateButton from 'components/Buttons/CreateButton';
+import useFormRef from 'hooks/useFormRef';
 import CreateMapForm from './Form';
 
 const propTypes = {
@@ -19,21 +20,8 @@ const CreateMapButton = ({ mapRef, setMapId, isDisabled }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
+
   const create = useCreateMap();
 
   const closeModal = () => (form.dirty ? openConfirm() : onClose());

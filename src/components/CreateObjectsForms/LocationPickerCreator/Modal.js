@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, SimpleGrid, useDisclosure } from '@chakra-ui/react';
 import ModalHeader from 'components/ModalHeader';
@@ -12,6 +12,7 @@ import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import AddressSearchField from 'components/CustomFields/AddressSearchField';
 import COUNTRY_LIST from 'constants/countryList';
+import useFormRef from 'hooks/useFormRef';
 
 const propTypes = {
   reset: PropTypes.func.isRequired,
@@ -22,21 +23,7 @@ const LocationPickerCreatorModal = ({ setLocation, reset }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isAlertOpen, onOpen: onAlertOpen, onClose: onAlertClose } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
 
   const closeModal = () => {
     if (form?.dirty) onAlertOpen();

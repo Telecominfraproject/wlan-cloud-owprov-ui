@@ -10,6 +10,7 @@ import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
+import useFormRef from 'hooks/useFormRef';
 import CreateConfigurationForm from './Form';
 
 const propTypes = {
@@ -26,21 +27,7 @@ const CreateConfigurationModal = ({ refresh, entityId }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
   const { data: deviceTypes } = useGetDeviceTypes({ t, toast });
   const [configuration, setConfiguration] = useState(null);
   const create = useMutation((newObj) =>

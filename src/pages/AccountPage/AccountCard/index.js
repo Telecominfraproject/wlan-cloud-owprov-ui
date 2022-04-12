@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
@@ -10,6 +10,7 @@ import CardHeader from 'components/Card/CardHeader';
 import { Pencil, X } from 'phosphor-react';
 import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
+import useFormRef from 'hooks/useFormRef';
 import UpdateForm from './Form';
 
 const addAvatar = (userId, avatarFile) => {
@@ -24,21 +25,7 @@ const AccountCard = () => {
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const { isOpen: editing, onOpen: startEditing, onClose: stopEditing } = useDisclosure();
   const queryClient = useQueryClient();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
   const updateUser = useMutation((userInfo) => axiosSec.put(`user/${user.id}`, userInfo), {
     onSuccess: (data) => {
       const newUser = {

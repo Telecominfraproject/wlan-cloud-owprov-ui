@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import SaveButton from 'components/Buttons/SaveButton';
 import { useAuth } from 'contexts/AuthProvider';
 import { useGetRoot } from 'hooks/Network/Entity';
 import { useTranslation } from 'react-i18next';
 import ModalHeader from 'components/ModalHeader';
+import useFormRef from 'hooks/useFormRef';
 import CreateRootForm from './Form';
 
 const CreateRootModal = () => {
@@ -12,21 +13,7 @@ const CreateRootModal = () => {
   const { isUserLoaded } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const getRoot = useGetRoot({ openModal: onOpen });
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
 
   useEffect(() => {
     if (isUserLoaded) getRoot.refetch();

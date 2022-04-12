@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Box, Center, Heading, Spacer, Spinner, useBoolean, useToast } from '@chakra-ui/react';
@@ -10,6 +10,7 @@ import RefreshButton from 'components/Buttons/RefreshButton';
 import ToggleEditButton from 'components/Buttons/ToggleEditButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import LoadingOverlay from 'components/LoadingOverlay';
+import useFormRef from 'hooks/useFormRef';
 import EditEntityForm from './Form';
 import DeleteEntityPopover from './DeleteEntityPopover';
 import CreateEntityModal from '../CreateEntityModal';
@@ -23,21 +24,7 @@ const EntityCard = ({ id }) => {
   const toast = useToast();
   const [editing, setEditing] = useBoolean();
   const { data: entity, refetch, isFetching } = useGetEntity({ t, toast, id });
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
 
   return (
     <Card mb={4}>

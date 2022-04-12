@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   useDisclosure,
@@ -16,6 +16,7 @@ import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';
 import CreateButton from 'components/Buttons/CreateButton';
+import useFormRef from 'hooks/useFormRef';
 import InterfaceSsidRadius from './InterfaceSsidRadius';
 
 const propTypes = {
@@ -33,21 +34,7 @@ const CreateResourceModal = ({ refresh, entityId, isVenue }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedVariable, setSelectedVariable] = useState('interface.ssid.radius');
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
 
   const closeModal = () => (form.dirty ? openConfirm() : onClose());
 
