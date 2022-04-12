@@ -2,38 +2,64 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Heading } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
-import { LocationShape } from 'constants/propShapes';
-import { OperatorLocationSchema } from 'constants/formSchemas';
+import { SubscriberDeviceSchema } from 'constants/formSchemas';
 import SelectField from 'components/FormFields/SelectField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import { useUpdateOperatorLocation } from 'hooks/Network/OperatorLocations';
 import useMutationResult from 'hooks/useMutationResult';
-import COUNTRY_LIST from 'constants/countryList';
-import AddressSearchField from 'components/CustomFields/AddressSearchField';
+import useSelectList from 'hooks/useSelectList.js';
+import { useUpdateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
 
-const propTypes = {
-  editing: PropTypes.bool.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  refresh: PropTypes.func.isRequired,
-  location: PropTypes.shape(LocationShape).isRequired,
-  formRef: PropTypes.instanceOf(Object).isRequired,
-};
-
-const EditSubscriberDeviceForm = ({ editing, isOpen, onClose, refresh, location, formRef }) => {
+const EditSubscriberDeviceForm = ({
+  editing,
+  isOpen,
+  onClose,
+  refresh,
+  subscriberDevice,
+  externalData,
+  formRef,
+  configuration,
+  onConfigurationChange,
+  defaultConfiguration,
+}) => {
   const { t } = useTranslation();
   const { onSuccess, onError } = useMutationResult({
-    objName: t('locations.one'),
+    objName: t('devices.one'),
     operationType: 'update',
     refresh,
     onClose,
   });
   const [formKey, setFormKey] = useState(uuid());
-  const updateLocation = useUpdateOperatorLocation({ id: location.id });
+  const updateSubscriberDevice = useUpdateSubscriberDevice({ id: subscriberDevice.id });
+
+  const deviceTypeOptions = useSelectList({ values: externalData.deviceTypes, hasEmpty: true });
+  const contactOptions = useSelectList({
+    values: externalData.contacts,
+    hasEmpty: true,
+    valueKey: 'id',
+    labelKey: 'name',
+  });
+  const locationOptions = useSelectList({
+    values: externalData.locations,
+    hasEmpty: true,
+    valueKey: 'id',
+    labelKey: 'name',
+  });
+  const serviceClassesOptions = useSelectList({
+    values: externalData.serviceClasses,
+    hasEmpty: true,
+    valueKey: 'id',
+    labelKey: 'name',
+  });
+  const subscriberOptions = useSelectList({
+    values: externalData.subscribers,
+    hasEmpty: true,
+    valueKey: 'id',
+    labelKey: 'name',
+  });
 
   useEffect(() => {
     setFormKey(uuid());
@@ -44,46 +70,14 @@ const EditSubscriberDeviceForm = ({ editing, isOpen, onClose, refresh, location,
       innerRef={formRef}
       enableReinitialize
       key={formKey}
-      initialValues={{
-        ...location,
-        addressLineOne: location.addressLines[0],
-        addressLineTwo: location.addressLines.length >= 2 ? location.addressLines[1] : '',
-      }}
-      validationSchema={OperatorLocationSchema(t)}
-      onSubmit={(
-        {
-          name,
-          description,
-          type,
-          addressLineOne,
-          addressLineTwo,
-          city,
-          state,
-          postal,
-          country,
-          buildingName,
-          mobiles,
-          phones,
-          geoCode,
-          notes,
-        },
-        { setSubmitting, resetForm },
-      ) =>
-        updateLocation.mutateAsync(
+      initialValues={subscriberDevice}
+      validationSchema={SubscriberDeviceSchema(t)}
+      onSubmit={(data, { setSubmitting, resetForm }) =>
+        updateSubscriberDevice.mutateAsync(
           {
-            name,
-            description,
-            type,
-            addressLines: [addressLineOne, addressLineTwo],
-            city,
-            state,
-            postal,
-            country,
-            buildingName,
-            mobiles,
-            phones,
-            geoCode,
-            notes: notes.filter((note) => note.isNew),
+            ...data,
+            configuration: configuration ?? undefined,
+            notes: data.note.length > 0 ? [{ note: data.note }] : undefined,
           },
           {
             onSuccess: () => {
@@ -104,67 +98,56 @@ const EditSubscriberDeviceForm = ({ editing, isOpen, onClose, refresh, location,
         <TabPanels>
           <TabPanel>
             <Form>
-              <SimpleGrid minChildWidth="300px" spacing="20px" mb={8}>
-                <StringField name="name" label={t('common.name')} isRequired isDisabled={!editing} />
-                <StringField name="description" label={t('common.description')} isDisabled={!editing} />
-                <SelectField
-                  name="type"
-                  label={t('common.type')}
-                  options={[
-                    { label: 'SERVICE', value: 'SERVICE' },
-                    { label: 'EQUIPMENT', value: 'EQUIPMENT' },
-                    { label: 'AUTO', value: 'AUTO' },
-                    { label: 'MANUAL', value: 'MANUAL' },
-                    { label: 'SPECIAL', value: 'SPECIAL' },
-                    { label: 'UNKNOWN', value: 'UNKNOWN' },
-                    { label: 'CORPORATE', value: 'CORPORATE' },
-                  ]}
-                  isDisabled={!editing}
-                />
-                <CreatableSelectField
-                  name="phones"
-                  label={t('contacts.phones')}
-                  placeholder="+1(202)555-0103"
-                  isDisabled={!editing}
-                />
-                <CreatableSelectField
-                  name="mobiles"
-                  label={t('contacts.mobiles')}
-                  placeholder="+1(202)555-0103"
-                  isDisabled={!editing}
-                />
+              <Heading size="md" mb={2}>
+                {t('common.identification')}
+              </Heading>
+              <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
+                <StringField name="name" label={t('common.name')} isRequired />
+                <SelectField name="subscriberId" label={t('subscribers.one')} options={subscriberOptions} isRequired />
+                <StringField name="description" label={t('common.description')} />
+                <StringField name="note" label={t('common.note')} />
               </SimpleGrid>
-
-              <AddressSearchField
-                placeholder={t('common.address_search_autofill')}
-                maxWidth="600px"
-                mb={2}
-                isDisabled={!editing}
-              />
-              <SimpleGrid minChildWidth="300px" spacing="20px" mb={8}>
-                <StringField
-                  name="addressLineOne"
-                  label={t('locations.address_line_one')}
+              <Heading size="md" mb={2}>
+                {t('common.device_details')}
+              </Heading>
+              <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
+                <StringField name="serialNumber" label={t('inventory.serial_number')} isRequired />
+                <SelectField
+                  name="deviceType"
+                  label={t('inventory.device_type')}
+                  options={deviceTypeOptions}
                   isRequired
-                  isDisabled={!editing}
                 />
-                <StringField name="addressLineTwo" label={t('locations.address_line_two')} isDisabled={!editing} />
-                <StringField name="city" label={t('locations.city')} isRequired isDisabled={!editing} />
-                <StringField name="state" label={t('locations.state')} isRequired isDisabled={!editing} />
-                <StringField name="postal" label={t('locations.postal')} isRequired isDisabled={!editing} />
                 <SelectField
-                  name="country"
-                  label={t('locations.country')}
-                  options={COUNTRY_LIST}
-                  isDisabled={!editing}
+                  name="rrm"
+                  label="RRM"
+                  options={[
+                    { value: 'inherit', label: 'inherit' },
+                    { value: 'on', label: 'on' },
+                    { value: 'off', label: 'off' },
+                  ]}
+                  isRequired
+                  w={28}
                 />
-                <StringField name="buildingName" label={t('locations.building_name')} isDisabled={!editing} />
-                <StringField name="geoCode" label={t('locations.geocode')} isDisabled={!editing} />
               </SimpleGrid>
+              <Heading size="md" mb={2}>
+                {t('subscribers.billing_contact_info')}
+              </Heading>
+              <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
+                <SelectField name="serviceClass" label={t('service.one')} options={serviceClassesOptions} isRequired />
+                <StringField name="billingCode" label={t('service.billing_code')} />
+                <SelectField name="contact" label={t('contacts.one')} options={contactOptions} />
+                <SelectField name="location" label={t('locations.one')} options={locationOptions} />
+              </SimpleGrid>
+              <SubscriberDeviceConfigurationManager
+                editing
+                onChange={onConfigurationChange}
+                configuration={defaultConfiguration}
+                isDeletePossible
+              />
             </Form>
           </TabPanel>
           <TabPanel>
-            {' '}
             <NotesTable name="notes" isDisabled={!editing} />
           </TabPanel>
         </TabPanels>
@@ -173,6 +156,28 @@ const EditSubscriberDeviceForm = ({ editing, isOpen, onClose, refresh, location,
   );
 };
 
-EditSubscriberDeviceForm.propTypes = propTypes;
+EditSubscriberDeviceForm.propTypes = {
+  editing: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  refresh: PropTypes.func.isRequired,
+  subscriberDevice: PropTypes.instanceOf(Object).isRequired,
+  formRef: PropTypes.instanceOf(Object).isRequired,
+  externalData: PropTypes.shape({
+    deviceTypes: PropTypes.instanceOf(Object).isRequired,
+    contacts: PropTypes.instanceOf(Object).isRequired,
+    locations: PropTypes.instanceOf(Object).isRequired,
+    serviceClasses: PropTypes.instanceOf(Object).isRequired,
+    subscribers: PropTypes.instanceOf(Object).isRequired,
+  }).isRequired,
+  configuration: PropTypes.instanceOf(Object),
+  defaultConfiguration: PropTypes.instanceOf(Object),
+  onConfigurationChange: PropTypes.func.isRequired,
+};
+
+EditSubscriberDeviceForm.defaultProps = {
+  configuration: null,
+  defaultConfiguration: null,
+};
 
 export default EditSubscriberDeviceForm;

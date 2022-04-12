@@ -8,9 +8,9 @@ import { SubscriberDeviceSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import useMutationResult from 'hooks/useMutationResult';
-import SpecialConfigurationManager from 'components/CustomFields/SpecialConfigurationManager';
 import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import useSelectList from 'hooks/useSelectList.js';
+import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -81,7 +81,7 @@ const CreateSubscriberDeviceForm = ({
           {
             ...data,
             operatorId,
-            configuration: configuration ? configuration.configuration : undefined,
+            configuration: configuration ?? undefined,
             notes: data.note.length > 0 ? [{ note: data.note }] : undefined,
           },
           {
@@ -132,7 +132,7 @@ const CreateSubscriberDeviceForm = ({
           <SelectField name="contact" label={t('contacts.one')} options={contactOptions} />
           <SelectField name="location" label={t('locations.one')} options={locationOptions} />
         </SimpleGrid>
-        <SpecialConfigurationManager editing onChange={onConfigurationChange} isOnlySections isDeletePossible />
+        <SubscriberDeviceConfigurationManager editing onChange={onConfigurationChange} isDeletePossible />
       </Form>
     </Formik>
   );
