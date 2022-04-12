@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
@@ -10,6 +10,7 @@ import SelectField from 'components/FormFields/SelectField';
 import useMutationResult from 'hooks/useMutationResult';
 import SpecialConfigurationManager from 'components/CustomFields/SpecialConfigurationManager';
 import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import useSelectList from 'hooks/useSelectList.js';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -21,6 +22,7 @@ const propTypes = {
   contacts: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
   locations: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
   serviceClasses: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
+  subscribers: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
   configuration: PropTypes.instanceOf(Object),
   onConfigurationChange: PropTypes.func.isRequired,
 };
@@ -39,6 +41,7 @@ const CreateSubscriberDeviceForm = ({
   contacts,
   locations,
   serviceClasses,
+  subscribers,
   configuration,
   onConfigurationChange,
 }) => {
@@ -50,56 +53,19 @@ const CreateSubscriberDeviceForm = ({
     refresh,
     onClose,
   });
+  const deviceTypeOptions = useSelectList({ values: deviceTypes, hasEmpty: true });
+  const contactOptions = useSelectList({ values: contacts, hasEmpty: true, valueKey: 'id', labelKey: 'name' });
+  const locationOptions = useSelectList({ values: locations, hasEmpty: true, valueKey: 'id', labelKey: 'name' });
+  const serviceClassesOptions = useSelectList({
+    values: serviceClasses,
+    hasEmpty: true,
+    valueKey: 'id',
+    labelKey: 'name',
+  });
+  const subscriberOptions = useSelectList({ values: subscribers, hasEmpty: true, valueKey: 'id', labelKey: 'name' });
 
   const create = useCreateSubscriberDevice();
 
-  const deviceTypeOptions = useMemo(
-    () =>
-      deviceTypes.map((deviceType) => ({
-        value: deviceType,
-        label: deviceType,
-      })),
-    [deviceTypes],
-  );
-  const contactOptions = useMemo(
-    () => [
-      {
-        value: '',
-        label: t('common.none'),
-      },
-      ...contacts.map(({ id, name }) => ({
-        value: id,
-        label: name,
-      })),
-    ],
-    [contacts],
-  );
-  const locationOptions = useMemo(
-    () => [
-      {
-        value: '',
-        label: t('common.none'),
-      },
-      ...locations.map(({ id, name }) => ({
-        value: id,
-        label: name,
-      })),
-    ],
-    [locations],
-  );
-  const serviceClassesOptions = useMemo(
-    () => [
-      {
-        value: '',
-        label: t('common.none'),
-      },
-      ...serviceClasses.map(({ id, name }) => ({
-        value: id,
-        label: name,
-      })),
-    ],
-    [locations],
-  );
   useEffect(() => {
     setFormKey(uuid());
   }, [isOpen]);
@@ -135,6 +101,7 @@ const CreateSubscriberDeviceForm = ({
         </Heading>
         <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
           <StringField name="name" label={t('common.name')} isRequired />
+          <SelectField name="subscriberId" label={t('subscribers.one')} options={subscriberOptions} isRequired />
           <StringField name="description" label={t('common.description')} />
           <StringField name="note" label={t('common.note')} />
         </SimpleGrid>
@@ -143,7 +110,6 @@ const CreateSubscriberDeviceForm = ({
         </Heading>
         <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
           <StringField name="serialNumber" label={t('inventory.serial_number')} isRequired />
-          <StringField name="realMacAddress" label="MAC" isRequired />
           <SelectField name="deviceType" label={t('inventory.device_type')} options={deviceTypeOptions} isRequired />
           <SelectField
             name="rrm"

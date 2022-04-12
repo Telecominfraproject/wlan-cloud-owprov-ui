@@ -1,6 +1,5 @@
 import phoneNumberTest from 'utils/phoneNumber';
 import * as Yup from 'yup';
-import { testUcMac } from './formTests';
 
 // User Schemas
 export const CreateUserSchema = Yup.object().shape({
@@ -387,6 +386,7 @@ export const OperatorLocationSchema = (t) =>
 export const SubscriberDeviceSchema = (t) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')).default(''),
+    subscriberId: Yup.string().required(t('form.required')).default(''),
     description: Yup.string().default(''),
     note: Yup.string().default(''),
     serialNumber: Yup.string()
@@ -399,13 +399,8 @@ export const SubscriberDeviceSchema = (t) =>
         return true;
       })
       .default(''),
-    realMacAddress: Yup.string()
-      .required(t('form.required'))
-      .test('real-mac-test', t('form.invalid_mac_uc'), testUcMac)
-      .default(''),
     rrm: Yup.string().required(t('form.required')).default('inherit'),
     deviceType: Yup.string().required(t('form.required')).default(''),
-    subscriberId: Yup.string().default(''),
     serviceClass: Yup.string().required(t('form.required')).default(''),
     billingCode: Yup.string().default(''),
     locale: Yup.string().default(''),

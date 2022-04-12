@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { Box, Center, Heading, Spacer, Spinner, useBoolean, useToast } from '@chakra-ui/react';
+import { Box, Center, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
 import CardBody from 'components/Card/CardBody';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
@@ -19,10 +18,8 @@ const propTypes = {
 };
 
 const SubscriberCard = ({ id }) => {
-  const { t } = useTranslation();
-  const toast = useToast();
   const [editing, setEditing] = useBoolean();
-  const { data: subscriber, refetch, isFetching } = useGetSubscriber({ t, toast, id });
+  const { data: subscriber, refetch, isFetching } = useGetSubscriber({ id });
   const { form, formRef } = useFormRef();
 
   return (

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from 'components/Card';
-import { Box, Center, Spinner, useToast } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetSubscriber } from 'hooks/Network/Subscribers';
 import CardBody from 'components/Card/CardBody';
@@ -13,9 +12,7 @@ const propTypes = {
 };
 
 const SubscriberChildrenCard = ({ id }) => {
-  const { t } = useTranslation();
-  const toast = useToast();
-  const { data: subscriber, isFetching } = useGetSubscriber({ t, toast, id });
+  const { data: subscriber, isFetching } = useGetSubscriber({ id });
 
   return (
     <Card>

@@ -21,7 +21,9 @@ const propTypes = {
 const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { isLoaded, deviceTypes, contacts, locations, serviceClasses } = useOperatorChildren({ operatorId });
+  const { isLoaded, deviceTypes, contacts, locations, serviceClasses, subscribers } = useOperatorChildren({
+    operatorId,
+  });
   const { form, formRef } = useFormRef();
   const { isOpen, isConfirmOpen, onOpen, closeConfirm, closeModal, closeCancelAndForm } = useFormModal({
     isDirty: form?.dirty,
@@ -68,6 +70,7 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
                 contacts={contacts}
                 locations={locations}
                 serviceClasses={serviceClasses}
+                subscribers={subscribers}
                 refresh={refresh}
                 formRef={formRef}
                 operatorId={operatorId}
