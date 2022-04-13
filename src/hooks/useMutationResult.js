@@ -56,22 +56,25 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
     });
   };
 
-  const onSuccess = useCallback(({ setSubmitting, resetForm } = { setSubmitting: null, resetForm: null }) => {
-    if (refresh) refresh();
-    if (setSubmitting) setSubmitting(false);
-    if (resetForm) resetForm();
-    toast({
-      id: `${objName}-${operationType}-success`,
-      title: t('common.success'),
-      description: successDescription(),
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-      position: 'top-right',
-    });
-    if (onClose) onClose();
-    if (queryToInvalidate) queryClient.invalidateQueries(queryToInvalidate);
-  }, []);
+  const onSuccess = useCallback(
+    ({ setSubmitting, resetForm } = { setSubmitting: null, resetForm: null }) => {
+      if (refresh) refresh();
+      if (setSubmitting) setSubmitting(false);
+      if (resetForm) resetForm();
+      toast({
+        id: `${objName}-${operationType}-success`,
+        title: t('common.success'),
+        description: successDescription(),
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      if (onClose) onClose();
+      if (queryToInvalidate) queryClient.invalidateQueries(queryToInvalidate);
+    },
+    [queryToInvalidate],
+  );
 
   const onError = useCallback((e, { setSubmitting } = { setSubmitting: null }) => {
     toast({

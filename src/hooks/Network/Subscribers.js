@@ -154,4 +154,11 @@ export const useCreateSubscriber = () => useMutation((newSubscriber) => axiosSec
 export const useUpdateSubscriber = ({ id }) =>
   useMutation((newSubscriber) => axiosSec.put(`subuser/${id}`, newSubscriber));
 
+export const useSuspendSubscriber = ({ id }) =>
+  useMutation((isSuspended) =>
+    axiosSec.put(`subuser/${id}`, {
+      suspended: isSuspended,
+    }),
+  );
+
 export const useDeleteSubscriber = ({ id }) => useMutation(() => axiosSec.delete(`subuser/${id}`, {}));

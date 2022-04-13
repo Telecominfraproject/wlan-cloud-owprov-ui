@@ -144,6 +144,7 @@
 	"common": {
 		"actions": "Actions",
 		"address_search_autofill": "Search locations to auto-fill the fields below",
+		"alert": "Alert",
 		"all": "All",
 		"assign": "Assign",
 		"avg": "Avg",
@@ -253,6 +254,7 @@
 		"view_details": "View Details",
 		"view_in_gateway": "View In Gateway",
 		"view_json": "View JSON",
+		"warning": "Warning",
 		"warnings": "Warnings",
 		"yearly": "Yearly",
 		"yes": "Yes",
@@ -561,6 +563,8 @@
 		"error_removing_claim": "Error removing claim(s) on: {{serials}}",
 		"one": "Subscriber",
 		"other": "Subscribers",
+		"reactivate_explanation": "Are you sure you want to reactivate this subscriber?",
+		"reactivate_title": "Reactivate Subscriber",
 		"title": "Subscribers"
 	},
 	"system": {
@@ -599,6 +603,9 @@
 		"last_login": "Last Login",
 		"login_id": "Login Id",
 		"role": "Role",
+		"stop_suspension": "Re-activate",
+		"suspend": "Suspend",
+		"suspended": "Suspended",
 		"title": "Users"
 	},
 	"venues": {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Center, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
 import CardBody from 'components/Card/CardBody';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
@@ -12,6 +12,8 @@ import { useGetSubscriber } from 'hooks/Network/Subscribers';
 import useFormRef from 'hooks/useFormRef';
 import EditSubscriberForm from './Form';
 import DeleteVenuePopover from './DeleteVenuePopover';
+import SuspendedNotification from './SuspendedNotification';
+import Actions from './Actions';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -25,9 +27,12 @@ const SubscriberCard = ({ id }) => {
   return (
     <Card mb={4}>
       <CardHeader mb="10px" display="flex">
-        <Box pt={1}>
-          <Heading size="md">{subscriber?.name}</Heading>
-        </Box>
+        <Flex pt={1}>
+          <Heading size="md" pt={1} mb={0} pb={0}>
+            {subscriber?.name}
+          </Heading>
+          <SuspendedNotification id={id} refresh={refetch} isSuspended={subscriber?.suspended} isDisabled={editing} />
+        </Flex>
         <Spacer />
         <Box>
           <SaveButton
@@ -46,6 +51,7 @@ const SubscriberCard = ({ id }) => {
           />
           <DeleteVenuePopover isDisabled={editing || isFetching} subscriber={subscriber} />
           <RefreshButton onClick={refetch} isFetching={isFetching} isDisabled={editing} ml={2} />
+          <Actions subscriber={subscriber} refresh={refetch} />
         </Box>
       </CardHeader>
       <CardBody>
