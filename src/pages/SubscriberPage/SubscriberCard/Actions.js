@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useSuspendSubscriber } from 'hooks/Network/Subscribers';
 import useMutationResult from 'hooks/useMutationResult';
 
-const SubscriberActions = ({ subscriber, refresh }) => {
+const SubscriberActions = ({ subscriber, refresh, isDisabled }) => {
   const { t } = useTranslation();
   const suspend = useSuspendSubscriber({ id: subscriber?.id });
   const { onSuccess, onError } = useMutationResult({
@@ -27,7 +27,7 @@ const SubscriberActions = ({ subscriber, refresh }) => {
   };
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />} ml={2}>
+      <MenuButton as={Button} rightIcon={<ChevronDownIcon />} ml={2} isDisabled={isDisabled}>
         {t('common.actions')}
       </MenuButton>
       <MenuList>
@@ -41,8 +41,10 @@ const SubscriberActions = ({ subscriber, refresh }) => {
 SubscriberActions.propTypes = {
   subscriber: PropTypes.instanceOf(Object),
   refresh: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool,
 };
 SubscriberActions.defaultProps = {
   subscriber: null,
+  isDisabled: false,
 };
 export default React.memo(SubscriberActions);

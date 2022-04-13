@@ -51,7 +51,7 @@ const SubscriberCard = ({ id }) => {
           />
           <DeleteVenuePopover isDisabled={editing || isFetching} subscriber={subscriber} />
           <RefreshButton onClick={refetch} isFetching={isFetching} isDisabled={editing} ml={2} />
-          <Actions subscriber={subscriber} refresh={refetch} />
+          <Actions subscriber={subscriber} refresh={refetch} isDisabled={editing} />
         </Box>
       </CardHeader>
       <CardBody>

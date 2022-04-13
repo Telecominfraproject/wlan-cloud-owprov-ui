@@ -29,6 +29,7 @@ const SubscriberSuspendedNotification = ({ id, isSuspended, isDisabled, refresh 
     suspend.mutateAsync(false, {
       onSuccess: () => {
         onSuccess();
+        onClose();
       },
       onError: (e) => {
         onError(e);
