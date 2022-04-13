@@ -1,5 +1,6 @@
 import phoneNumberTest from 'utils/phoneNumber';
 import * as Yup from 'yup';
+import { testRegex } from './formTests';
 
 // User Schemas
 export const CreateUserSchema = Yup.object().shape({
@@ -238,23 +239,16 @@ export const UpdateTagSchema = (t) =>
   });
 
 // Subscriber Schema
-export const CreateSubscriberSchema = (t) =>
+export const SubscriberSchema = (t, passRegex) =>
   Yup.object().shape({
-    email: Yup.string().email(t('form.invalid_email')).required(t('form.required')),
-    name: Yup.string().required(t('form.required')),
-    owner: Yup.string().required(t('form.required')),
-    description: Yup.string(),
-    currentPassword: Yup.string().required(t('form.required')),
-    note: Yup.string(),
-  });
-export const UpdateSubscriberSchema = (t) =>
-  Yup.object().shape({
-    email: Yup.string().email(t('form.invalid_email')).required(t('form.required')),
-    name: Yup.string().required(t('form.required')),
-    owner: Yup.string().required(t('form.required')),
-    description: Yup.string(),
-    currentPassword: Yup.string(),
-    note: Yup.string(),
+    email: Yup.string().email(t('form.invalid_email')).required(t('form.required')).default(''),
+    name: Yup.string().required(t('form.required')).default(''),
+    description: Yup.string().default(''),
+    currentPassword: Yup.string()
+      .required(t('form.required'))
+      .test('test-password', t('form.invalid_password'), (v) => testRegex(v, passRegex))
+      .default(''),
+    note: Yup.string().default(''),
   });
 
 // Contact Schemas

@@ -10,6 +10,7 @@ import ServiceClassTab from './ServiceClassTab';
 import ContactTab from './ContactTab';
 import LocationTab from './LocationTab';
 import OperatorDevicesTab from './DevicesTab';
+import SubscriberTab from './SubscriberTab';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -25,6 +26,7 @@ const OperatorChildrenCard = ({ id }) => {
         <Tabs isLazy variant="enclosed" w="100%">
           <TabList>
             <Tab>{t('devices.title')}</Tab>
+            <Tab>{t('subscribers.other')}</Tab>
             <Tab>{t('service.other')}</Tab>
             <Tab>{t('locations.other')}</Tab>
             <Tab>{t('contacts.other')}</Tab>
@@ -38,6 +40,9 @@ const OperatorChildrenCard = ({ id }) => {
               <TabPanels>
                 <TabPanel overflowX="auto">
                   <OperatorDevicesTab operatorId={id} />
+                </TabPanel>
+                <TabPanel overflowX="auto">
+                  <SubscriberTab operatorId={id} refreshOperator={refetch} />
                 </TabPanel>
                 <TabPanel overflowX="auto">
                   <ServiceClassTab operatorId={id} />

@@ -41,7 +41,9 @@ const StringField = ({
   const onChange = useCallback((e) => {
     if (emptyIsUndefined && e.target.value === '') setValue(undefined);
     else setValue(e.target.value);
-    setTouched(true);
+    setTimeout(() => {
+      setTouched(true);
+    }, 200);
   }, []);
 
   const onFieldBlur = useCallback(() => {

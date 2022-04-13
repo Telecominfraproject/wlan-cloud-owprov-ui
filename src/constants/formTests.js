@@ -80,7 +80,6 @@ export const testUcMac = (mac) => {
   }
   return false;
 };
-//
 
 export const testJson = (string) => {
   try {
@@ -100,4 +99,11 @@ export const testInterfacesString = (str) => {
     result = false;
   }
   return result;
+};
+
+export const testRegex = (str, regex) => {
+  if (str && regex) {
+    return str.match(regex);
+  }
+  return false;
 };

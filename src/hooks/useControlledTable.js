@@ -6,6 +6,7 @@ const useControlledTable = ({ useCount, useGet }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [pageInfo, setPageInfo] = useState(null);
+
   const {
     data: count,
     isFetching: isFetchingCount,

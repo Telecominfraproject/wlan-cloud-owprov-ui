@@ -560,6 +560,7 @@
 		"error_claiming": "Error claiming: {{serials}}",
 		"error_removing_claim": "Error removing claim(s) on: {{serials}}",
 		"one": "Subscriber",
+		"other": "Subscribers",
 		"title": "Subscribers"
 	},
 	"system": {

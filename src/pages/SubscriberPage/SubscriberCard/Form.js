@@ -7,7 +7,7 @@ import { Formik, Field, Form } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { EntityShape } from 'constants/propShapes';
-import { UpdateSubscriberSchema } from 'constants/formSchemas';
+import { SubscriberSchema } from 'constants/formSchemas';
 import { useMutation, useQueryClient } from 'react-query';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import { useGetEntities } from 'hooks/Network/Entity';
@@ -38,7 +38,7 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
       enableReinitialize
       key={formKey}
       initialValues={{ ...subscriber }}
-      validationSchema={UpdateSubscriberSchema(t)}
+      validationSchema={SubscriberSchema(t)}
       onSubmit={({ name, description, currentPassword, notes, owner }, { setSubmitting, resetForm }) =>
         updateSubscriber.mutateAsync(
           {
