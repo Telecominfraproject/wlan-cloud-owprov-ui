@@ -67,9 +67,9 @@ const Sidebar = ({ routes, isOpen, toggle }) => {
     </Box>
   );
 
-  if (breakpoint === 'base') {
-    return (
-      <Drawer isOpen={isOpen} onClose={toggle} placement="left">
+  return (
+    <>
+      <Drawer isOpen={breakpoint === 'base' && isOpen} onClose={toggle} placement="left">
         <DrawerOverlay />
         <DrawerContent
           w="250px"
@@ -99,43 +99,40 @@ const Sidebar = ({ routes, isOpen, toggle }) => {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    );
-  }
-
-  return (
-    <Box ref={mainPanel}>
-      <Box hidden={!isOpen} position="fixed">
-        <Box
-          shadow={navbarShadow}
-          bg={useColorModeValue('white', 'gray.700')}
-          transition={variantChange}
-          w="200px"
-          maxW="200px"
-          ms={{
-            sm: '16px',
-          }}
-          my={{
-            sm: '16px',
-          }}
-          h="calc(100vh - 32px)"
-          ps="20px"
-          pe="20px"
-          m="16px 0px 16px 16px"
-          borderRadius="16px"
-        >
-          <Box>{brand}</Box>
-          <Flex direction="column" mb="40px" h="calc(100vh - 200px)" alignItems="center">
-            <Box overflowY="auto">{createLinks(routes, activeRoute, user?.userRole ?? '', toggle)}</Box>
-            <Spacer />
-            <Box>
-              <Text color="gray.400">
-                {t('footer.version')} {process.env.REACT_APP_VERSION}
-              </Text>
-            </Box>
-          </Flex>
+      <Box ref={mainPanel}>
+        <Box hidden={!isOpen} position="fixed">
+          <Box
+            shadow={navbarShadow}
+            bg={useColorModeValue('white', 'gray.700')}
+            transition={variantChange}
+            w="200px"
+            maxW="200px"
+            ms={{
+              sm: '16px',
+            }}
+            my={{
+              sm: '16px',
+            }}
+            h="calc(100vh - 32px)"
+            ps="20px"
+            pe="20px"
+            m="16px 0px 16px 16px"
+            borderRadius="16px"
+          >
+            <Box>{brand}</Box>
+            <Flex direction="column" mb="40px" h="calc(100vh - 200px)" alignItems="center">
+              <Box overflowY="auto">{createLinks(routes, activeRoute, user?.userRole ?? '', toggle)}</Box>
+              <Spacer />
+              <Box>
+                <Text color="gray.400">
+                  {t('footer.version')} {process.env.REACT_APP_VERSION}
+                </Text>
+              </Box>
+            </Flex>
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

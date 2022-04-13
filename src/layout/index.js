@@ -11,7 +11,7 @@ import PanelContainer from './Containers/PanelContainer';
 import Sidebar from './Sidebar';
 
 const Layout = () => {
-  const breakpoint = useBreakpoint();
+  const breakpoint = useBreakpoint('xl');
   const [isSidebarOpen, { toggle: toggleSidebar }] = useBoolean(breakpoint !== 'base' && breakpoint !== 'sm');
   document.documentElement.dir = 'ltr';
 
