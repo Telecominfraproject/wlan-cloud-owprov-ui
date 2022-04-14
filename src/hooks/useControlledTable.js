@@ -2,7 +2,7 @@ import { useToast } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const useControlledTable = ({ useCount, useGet }) => {
+const useControlledTable = ({ useCount, useGet, countParams = {}, getParams = {} }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [pageInfo, setPageInfo] = useState(null);
@@ -14,6 +14,7 @@ const useControlledTable = ({ useCount, useGet }) => {
   } = useCount({
     t,
     toast,
+    ...countParams,
   });
   const {
     data,
@@ -25,6 +26,7 @@ const useControlledTable = ({ useCount, useGet }) => {
     pageInfo,
     enabled: pageInfo !== null,
     count,
+    ...getParams,
   });
 
   const toReturn = useMemo(

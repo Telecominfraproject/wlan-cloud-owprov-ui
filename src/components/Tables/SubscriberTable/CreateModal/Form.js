@@ -26,7 +26,6 @@ const CreateSubscriberForm = ({ isOpen, onClose, refresh, formRef, operatorId })
   const { onSuccess, onError } = useMutationResult({
     objName: t('subscribers.one'),
     operationType: 'create',
-    refresh,
     onClose,
   });
 
@@ -46,12 +45,14 @@ const CreateSubscriberForm = ({ isOpen, onClose, refresh, formRef, operatorId })
         create.mutateAsync(
           {
             ...data,
-            operatorId,
+            userRole: 'subscriber',
+            owner: operatorId,
             notes: data.note.length > 0 ? [{ note: data.note }] : undefined,
           },
           {
             onSuccess: () => {
               onSuccess(setSubmitting, resetForm);
+              refresh();
             },
             onError: (e) => {
               onError(e, { resetForm });

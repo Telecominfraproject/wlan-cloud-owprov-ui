@@ -3,14 +3,21 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
-export const useGetSubscriberDevices = ({ t, toast, operatorId }) =>
-  useQuery(
-    ['get-subscriber-devices', operatorId],
+export const useGetSubscriberDevices = ({ operatorId, subscriberId }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
+    ['get-subscriber-devices', operatorId, subscriberId],
     () =>
-      !operatorId
+      !operatorId && !subscriberId
         ? []
         : axiosProv
-            .get(`subscriberDevice?withExtendedInfo=true&operatorId=${operatorId}`)
+            .get(
+              `subscriberDevice?withExtendedInfo=true${operatorId ? `&operatorId=${operatorId}` : ''}${
+                subscriberId ? `&subscriberId=${subscriberId}` : ''
+              }`,
+            )
             .then(({ data }) => data.subscriberDevices),
     {
       onError: (e) => {
@@ -30,6 +37,7 @@ export const useGetSubscriberDevices = ({ t, toast, operatorId }) =>
       },
     },
   );
+};
 
 export const useGetSubscriberDevice = ({ enabled, id }) => {
   const { t } = useTranslation();

@@ -62,7 +62,7 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
       if (setSubmitting) setSubmitting(false);
       if (resetForm) resetForm();
       toast({
-        id: `${objName}-${operationType}-success`,
+        id: `${objName}-${operationType}-success-${uuid()}`,
         title: t('common.success'),
         description: successDescription(),
         status: 'success',

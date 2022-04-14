@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
 
-export const useGetSubscriberCount = ({ enabled }) => {
+export const useGetSubscriberCount = ({ enabled, operatorId }) => {
   const { t } = useTranslation();
   const toast = useToast();
 
   return useQuery(
     ['get-subscriber-count'],
-    () => axiosSec.get(`subusers?countOnly=true`).then(({ data }) => data.count),
+    () =>
+      axiosSec.get(`subusers?countOnly=true${operatorId ? `&owner=${operatorId}` : ''}`).then(({ data }) => data.count),
     {
       enabled,
       onError: (e) => {
@@ -31,7 +32,7 @@ export const useGetSubscriberCount = ({ enabled }) => {
   );
 };
 
-export const useGetSubscribers = ({ pageInfo, select, enabled, count }) => {
+export const useGetSubscribers = ({ pageInfo, select, enabled, count, operatorId }) => {
   const { t } = useTranslation();
   const toast = useToast();
 
@@ -40,7 +41,9 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count }) => {
       ['get-subscribers-with-select', select],
       () =>
         select.length > 0
-          ? axiosSec.get(`subusers?withExtendedInfo=true&select=${select}`).then(({ data }) => data.users)
+          ? axiosSec
+              .get(`subusers?withExtendedInfo=true&select=${select}${operatorId ? `&owner=${operatorId}` : ''}`)
+              .then(({ data }) => data.users)
           : [],
       {
         enabled,
@@ -73,7 +76,7 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count }) => {
           .get(
             `subusers?withExtendedInfo=true&limit=${pageInfo?.limit ?? 10}&offset=${
               (pageInfo?.limit ?? 10) * (pageInfo?.index ?? 1)
-            }`,
+            }${operatorId ? `&owner=${operatorId}` : ''}`,
           )
           .then(({ data }) => data.users),
       {
@@ -99,26 +102,30 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count }) => {
     );
   }
 
-  return useQuery(['get-all-subscribers'], () => axiosSec.get(`subusers?limit=500`).then(({ data }) => data.users), {
-    keepPreviousData: true,
-    enabled,
-    staleTime: 30000,
-    onError: (e) => {
-      if (!toast.isActive('get-subscribers-fetching-error'))
-        toast({
-          id: 'get-subscribers-fetching-error',
-          title: t('common.error'),
-          description: t('crud.error_fetching_obj', {
-            obj: t('subscribers.other'),
-            e: e?.response?.data?.ErrorDescription,
-          }),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
+  return useQuery(
+    ['get-all-subscribers'],
+    () => axiosSec.get(`subusers?limit=500${operatorId ? `&owner=${operatorId}` : ''}`).then(({ data }) => data.users),
+    {
+      keepPreviousData: true,
+      enabled,
+      staleTime: 30000,
+      onError: (e) => {
+        if (!toast.isActive('get-subscribers-fetching-error'))
+          toast({
+            id: 'get-subscribers-fetching-error',
+            title: t('common.error'),
+            description: t('crud.error_fetching_obj', {
+              obj: t('subscribers.other'),
+              e: e?.response?.data?.ErrorDescription,
+            }),
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+      },
     },
-  });
+  );
 };
 
 export const useGetSubscriber = ({ id, enabled }) => {

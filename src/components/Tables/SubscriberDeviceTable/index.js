@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import DataTable from 'components/DataTable';
 import { useTranslation } from 'react-i18next';
-import { useToast } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import { useGetSubscriberDevices } from 'hooks/Network/SubscriberDevices';
@@ -23,8 +22,7 @@ const defaultProps = {
 
 const SubscriberDeviceTable = ({ actions, operatorId, ignoredColumns, refreshId, disabledIds }) => {
   const { t } = useTranslation();
-  const toast = useToast();
-  const { data: subscriberDevices, isFetching, refetch } = useGetSubscriberDevices({ t, toast, operatorId });
+  const { data: subscriberDevices, isFetching, refetch } = useGetSubscriberDevices({ operatorId });
 
   const actionCell = useCallback((cell) => actions(cell), [actions]);
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);

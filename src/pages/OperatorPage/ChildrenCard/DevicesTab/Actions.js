@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
 import useMutationResult from 'hooks/useMutationResult';
-import { useDeleteOperatorLocation } from 'hooks/Network/OperatorLocations';
+import { useDeleteSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 
 const propTypes = {
   cell: PropTypes.shape({
@@ -37,21 +37,21 @@ const Actions = ({
   cell: {
     original: { id, name },
   },
-  cell: { original: location },
+  cell: { original: subscriberDevice },
   refreshTable,
   openEdit,
 }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSuccess, onError } = useMutationResult({
-    objName: t('locations.one'),
+    objName: t('devices..one'),
     operationType: 'delete',
     refresh: refreshTable,
   });
-  const deleteLocation = useDeleteOperatorLocation({ id });
+  const deleteLocation = useDeleteSubscriberDevice({ id });
 
   const handleEditClick = () => {
-    openEdit(location);
+    openEdit(subscriberDevice);
   };
 
   const handleDeleteClick = () =>
@@ -79,7 +79,7 @@ const Actions = ({
           <PopoverHeader>
             {t('crud.delete')} {name}
           </PopoverHeader>
-          <PopoverBody>{t('crud.delete_confirm', { obj: t('locations.one') })}</PopoverBody>
+          <PopoverBody>{t('crud.delete_confirm', { obj: t('devices.one') })}</PopoverBody>
           <PopoverFooter>
             <Center>
               <Button colorScheme="gray" mr="1" onClick={onClose}>

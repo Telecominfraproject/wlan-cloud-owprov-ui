@@ -77,7 +77,7 @@ const EditSubscriberDeviceForm = ({
           {
             ...data,
             configuration: configuration ?? undefined,
-            notes: data.note.length > 0 ? [{ note: data.note }] : undefined,
+            notes: data.notes.filter((note) => note.isNew),
           },
           {
             onSuccess: () => {
@@ -102,21 +102,32 @@ const EditSubscriberDeviceForm = ({
                 {t('common.identification')}
               </Heading>
               <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
-                <StringField name="name" label={t('common.name')} isRequired />
-                <SelectField name="subscriberId" label={t('subscribers.one')} options={subscriberOptions} isRequired />
-                <StringField name="description" label={t('common.description')} />
-                <StringField name="note" label={t('common.note')} />
+                <StringField name="name" label={t('common.name')} isRequired isDisabled={!editing} />
+                <SelectField
+                  name="subscriberId"
+                  label={t('subscribers.one')}
+                  options={subscriberOptions}
+                  isRequired
+                  isDisabled={!editing}
+                />
+                <StringField name="description" label={t('common.description')} isDisabled={!editing} />
               </SimpleGrid>
               <Heading size="md" mb={2}>
                 {t('common.device_details')}
               </Heading>
               <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
-                <StringField name="serialNumber" label={t('inventory.serial_number')} isRequired />
+                <StringField
+                  name="serialNumber"
+                  label={t('inventory.serial_number')}
+                  isRequired
+                  isDisabled={!editing}
+                />
                 <SelectField
                   name="deviceType"
                   label={t('inventory.device_type')}
                   options={deviceTypeOptions}
                   isRequired
+                  isDisabled={!editing}
                 />
                 <SelectField
                   name="rrm"
@@ -128,19 +139,31 @@ const EditSubscriberDeviceForm = ({
                   ]}
                   isRequired
                   w={28}
+                  isDisabled={!editing}
                 />
               </SimpleGrid>
               <Heading size="md" mb={2}>
                 {t('subscribers.billing_contact_info')}
               </Heading>
               <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
-                <SelectField name="serviceClass" label={t('service.one')} options={serviceClassesOptions} isRequired />
-                <StringField name="billingCode" label={t('service.billing_code')} />
-                <SelectField name="contact" label={t('contacts.one')} options={contactOptions} />
-                <SelectField name="location" label={t('locations.one')} options={locationOptions} />
+                <SelectField
+                  name="serviceClass"
+                  label={t('service.one')}
+                  options={serviceClassesOptions}
+                  isRequired
+                  isDisabled={!editing}
+                />
+                <StringField name="billingCode" label={t('service.billing_code')} isDisabled={!editing} />
+                <SelectField name="contact" label={t('contacts.one')} options={contactOptions} isDisabled={!editing} />
+                <SelectField
+                  name="location"
+                  label={t('locations.one')}
+                  options={locationOptions}
+                  isDisabled={!editing}
+                />
               </SimpleGrid>
               <SubscriberDeviceConfigurationManager
-                editing
+                editing={editing}
                 onChange={onConfigurationChange}
                 configuration={defaultConfiguration}
               />

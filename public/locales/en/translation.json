@@ -194,6 +194,7 @@
 		"hourly": "Hourly",
 		"identification": "Identification",
 		"lifetime": "Lifetime",
+		"locale": "Locale",
 		"logout": "Logout",
 		"main": "Main",
 		"make_higher_priority": "Make Higher Priority",

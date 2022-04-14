@@ -4,7 +4,8 @@ import { v4 as uuid } from 'uuid';
 import { SubscriberShape } from 'constants/propShapes';
 import InventoryTable from 'components/Tables/InventoryTable';
 import { Flex, Heading, Spacer, useDisclosure, useToast } from '@chakra-ui/react';
-import { useGetInventoryTags, usePushConfig } from 'hooks/Network/Inventory';
+import { usePushConfig } from 'hooks/Network/Inventory';
+import { useGetSubscriberDevices } from 'hooks/Network/SubscriberDevices';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import EditTagModal from 'components/Tables/InventoryTable/EditTagModal';
@@ -25,11 +26,9 @@ const SubscriberDeviceTableWrapper = ({ subscriber }) => {
   const { isOpen: isEditOpen, onOpen: openEdit, onClose: closeEdit } = useDisclosure();
   const { isOpen: isPushOpen, onOpen: openPush, onClose: closePush } = useDisclosure();
   const pushConfiguration = usePushConfig({ t, toast, onSuccess: () => openPush() });
-  const { data: tagSerials } = useGetInventoryTags({
-    t,
-    toast,
+  const { data: tagSerials } = useGetSubscriberDevices({
     enabled: subscriber?.id !== '',
-    owner: subscriber?.id,
+    subscriberId: subscriber?.id,
   });
 
   const openEditModal = (newTag) => {

@@ -44,7 +44,7 @@ const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh,
   return (
     <Modal onClose={closeModal} isOpen={isOpen} size="xl" scrollBehavior="inside">
       <ModalOverlay />
-      <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
+      <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
         <ModalHeader
           title={t('crud.edit_obj', { obj: t('certificates.device') })}
           right={

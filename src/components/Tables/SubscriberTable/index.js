@@ -26,8 +26,13 @@ const SubscriberTable = ({ actions, operatorId, refreshId, disabledIds }) => {
     data: subscribers,
     isFetching,
     setPageInfo,
-    refetchCount,
-  } = useControlledTable({ useCount: useGetSubscriberCount, useGet: useGetSubscribers, operatorId });
+    refetchData,
+  } = useControlledTable({
+    useCount: useGetSubscriberCount,
+    useGet: useGetSubscribers,
+    countParams: { operatorId },
+    getParams: { operatorId },
+  });
 
   const actionCell = useCallback((cell) => actions(cell), [actions]);
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
@@ -45,10 +50,26 @@ const SubscriberTable = ({ actions, operatorId, refreshId, disabledIds }) => {
         customMinWidth: '150px',
       },
       {
+        id: 'email',
+        Header: t('common.email'),
+        Footer: '',
+        accessor: 'email',
+        customMaxWidth: '200px',
+        customWidth: 'calc(15vh)',
+        customMinWidth: '150px',
+      },
+      {
         id: 'country',
         Header: t('locations.country'),
         Footer: '',
         accessor: 'country',
+        customWidth: '100px',
+      },
+      {
+        id: 'locale',
+        Header: t('common.locale'),
+        Footer: '',
+        accessor: 'locale',
         customWidth: '100px',
       },
       {
@@ -83,7 +104,7 @@ const SubscriberTable = ({ actions, operatorId, refreshId, disabledIds }) => {
   }, [disabledIds, actionCell]);
 
   useEffect(() => {
-    if (refreshId > 0) refetchCount();
+    if (refreshId > 0) refetchData();
   }, [refreshId]);
 
   return (
@@ -95,7 +116,6 @@ const SubscriberTable = ({ actions, operatorId, refreshId, disabledIds }) => {
       obj={t('subscribers.other')}
       count={count || 0}
       setPageInfo={setPageInfo}
-      fullScreen
       saveSettingsId="operator.subscribers.table"
       minHeight="200px"
     />
