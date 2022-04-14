@@ -105,5 +105,5 @@ export const testRegex = (str, regex) => {
   if (str && regex) {
     return str.match(regex);
   }
-  return false;
+  return true;
 };

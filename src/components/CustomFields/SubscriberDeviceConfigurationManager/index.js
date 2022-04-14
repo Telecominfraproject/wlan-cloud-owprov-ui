@@ -71,8 +71,6 @@ const SubscriberDeviceConfigurationManager = ({
   useEffect(() => {
     if (configuration) {
       setSections(BASE_SECTIONS);
-    } else if (!isEnabledByDefault) {
-      setSections(null);
     }
   }, [configuration]);
 

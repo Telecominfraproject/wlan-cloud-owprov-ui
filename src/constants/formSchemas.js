@@ -239,15 +239,19 @@ export const UpdateTagSchema = (t) =>
   });
 
 // Subscriber Schema
-export const SubscriberSchema = (t, passRegex) =>
+export const SubscriberSchema = (t, { passRegex, needPassword = true }) =>
   Yup.object().shape({
     email: Yup.string().email(t('form.invalid_email')).required(t('form.required')).default(''),
     name: Yup.string().required(t('form.required')).default(''),
     description: Yup.string().default(''),
-    currentPassword: Yup.string()
-      .required(t('form.required'))
-      .test('test-password', t('form.invalid_password'), (v) => testRegex(v, passRegex))
-      .default(''),
+    currentPassword: needPassword
+      ? Yup.string()
+          .required(t('form.required'))
+          .test('test-password', t('form.invalid_password'), (v) => testRegex(v, passRegex))
+          .default('')
+      : Yup.string()
+          .test('test-password', t('form.invalid_password'), (v) => testRegex(v, passRegex))
+          .default(undefined),
     note: Yup.string().default(''),
   });
 

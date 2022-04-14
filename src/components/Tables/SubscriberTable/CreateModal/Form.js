@@ -39,8 +39,8 @@ const CreateSubscriberForm = ({ isOpen, onClose, refresh, formRef, operatorId })
     <Formik
       innerRef={formRef}
       key={formKey}
-      initialValues={SubscriberSchema(t).cast()}
-      validationSchema={SubscriberSchema(t, passwordPattern)}
+      initialValues={SubscriberSchema(t, { needPassword: true }).cast()}
+      validationSchema={SubscriberSchema(t, { passRegex: passwordPattern })}
       onSubmit={(data, { setSubmitting, resetForm }) =>
         create.mutateAsync(
           {

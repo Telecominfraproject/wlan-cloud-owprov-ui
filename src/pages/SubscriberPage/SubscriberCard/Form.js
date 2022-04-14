@@ -10,6 +10,7 @@ import { EntityShape } from 'constants/propShapes';
 import { SubscriberSchema } from 'constants/formSchemas';
 import { useUpdateSubscriber } from 'hooks/Network/Subscribers';
 import useMutationResult from 'hooks/useMutationResult';
+import useApiRequirements from 'hooks/useApiRequirements';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -28,6 +29,7 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
     onClose: stopEditing,
     queryToInvalidate: ['get-subscriber', subscriber?.id],
   });
+  const { passwordPattern } = useApiRequirements();
 
   useEffect(() => {
     setFormKey(uuid());
@@ -39,12 +41,12 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
       enableReinitialize
       key={formKey}
       initialValues={{ ...subscriber }}
-      validationSchema={SubscriberSchema(t)}
+      validationSchema={SubscriberSchema(t, { needPassword: false, passRegex: passwordPattern })}
       onSubmit={({ name, description, currentPassword, notes, owner }, { setSubmitting, resetForm }) =>
         updateSubscriber.mutateAsync(
           {
             name,
-            currentPassword: currentPassword.length > 0 ? currentPassword : undefined,
+            currentPassword: currentPassword ?? undefined,
             description,
             notes: notes.filter((note) => note.isNew),
             owner,
@@ -71,7 +73,13 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
               <SimpleGrid minChildWidth="300px" spacing="20px">
                 <StringField name="email" label={t('common.email')} isDisabled isRequired />
                 <StringField name="name" label={t('common.name')} isDisabled={!editing} isRequired />
-                <StringField name="currentPassword" label={t('user.password')} isDisabled={!editing} hideButton />
+                <StringField
+                  name="currentPassword"
+                  label={t('user.password')}
+                  isDisabled={!editing}
+                  hideButton
+                  emptyIsUndefined
+                />
                 <StringField name="description" label={t('common.description')} isDisabled={!editing} />
               </SimpleGrid>
             </Form>

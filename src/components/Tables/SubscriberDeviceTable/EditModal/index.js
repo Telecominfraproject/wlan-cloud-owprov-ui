@@ -77,7 +77,7 @@ const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh,
               formRef={formRef}
               operatorId={operatorId}
               configuration={configuration}
-              defaultConfiguration={subscriberDevice.configuration}
+              defaultConfiguration={subscriberDeviceData.configuration}
               onConfigurationChange={onConfigurationChange}
             />
           ) : (
