@@ -334,7 +334,7 @@ export const ServiceClassSchema = (t) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
-    billingCode: Yup.string(),
+    billingCode: Yup.string().required(t('form.required')),
     cost: Yup.number(),
     currency: Yup.string(),
     period: Yup.string(),
@@ -399,7 +399,7 @@ export const SubscriberDeviceSchema = (t) =>
       .default(''),
     rrm: Yup.string().required(t('form.required')).default('inherit'),
     deviceType: Yup.string().required(t('form.required')).default(''),
-    serviceClass: Yup.string().required(t('form.required')).default(''),
+    serviceClass: Yup.string().default(''),
     billingCode: Yup.string().default(''),
     locale: Yup.string().default(''),
     location: Yup.string().default(''),

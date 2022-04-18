@@ -19,8 +19,13 @@ const defaultConfiguration = [];
 const propTypes = {
   refresh: PropTypes.func.isRequired,
   operatorId: PropTypes.string.isRequired,
+  subscriberId: PropTypes.string,
 };
-const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
+const defaultProps = {
+  subscriberId: '',
+};
+
+const CreateSubscriberDeviceModal = ({ refresh, operatorId, subscriberId }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { isLoaded, deviceTypes, contacts, locations, serviceClasses, subscribers } = useOperatorChildren({
@@ -72,6 +77,7 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
                 contacts={contacts}
                 locations={locations}
                 serviceClasses={serviceClasses}
+                subscriberId={subscriberId}
                 subscribers={subscribers}
                 refresh={refresh}
                 formRef={formRef}
@@ -93,5 +99,6 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId }) => {
 };
 
 CreateSubscriberDeviceModal.propTypes = propTypes;
+CreateSubscriberDeviceModal.defaultProps = defaultProps;
 
 export default CreateSubscriberDeviceModal;

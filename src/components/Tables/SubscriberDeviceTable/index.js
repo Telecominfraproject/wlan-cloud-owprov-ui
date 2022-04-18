@@ -9,20 +9,31 @@ import { useGetSubscriberDevices } from 'hooks/Network/SubscriberDevices';
 const propTypes = {
   actions: PropTypes.func.isRequired,
   operatorId: PropTypes.string.isRequired,
+  subscriberId: PropTypes.string.isRequired,
   ignoredColumns: PropTypes.arrayOf(PropTypes.string),
   refreshId: PropTypes.number,
   disabledIds: PropTypes.arrayOf(PropTypes.string),
+  minHeight: PropTypes.string,
 };
 
 const defaultProps = {
   ignoredColumns: [],
   refreshId: 0,
   disabledIds: [],
+  minHeight: null,
 };
 
-const SubscriberDeviceTable = ({ actions, operatorId, ignoredColumns, refreshId, disabledIds }) => {
+const SubscriberDeviceTable = ({
+  actions,
+  operatorId,
+  subscriberId,
+  ignoredColumns,
+  refreshId,
+  disabledIds,
+  minHeight,
+}) => {
   const { t } = useTranslation();
-  const { data: subscriberDevices, isFetching, refetch } = useGetSubscriberDevices({ operatorId });
+  const { data: subscriberDevices, isFetching, refetch } = useGetSubscriberDevices({ operatorId, subscriberId });
 
   const actionCell = useCallback((cell) => actions(cell), [actions]);
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
@@ -89,7 +100,7 @@ const SubscriberDeviceTable = ({ actions, operatorId, ignoredColumns, refreshId,
       data={subscriberDevices ?? []}
       isLoading={isFetching}
       obj={t('devices.title')}
-      minHeight="200px"
+      minHeight={minHeight ?? '200px'}
     />
   );
 };

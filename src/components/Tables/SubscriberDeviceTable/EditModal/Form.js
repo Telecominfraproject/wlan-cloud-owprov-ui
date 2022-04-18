@@ -150,7 +150,6 @@ const EditSubscriberDeviceForm = ({
                   name="serviceClass"
                   label={t('service.one')}
                   options={serviceClassesOptions}
-                  isRequired
                   isDisabled={!editing}
                 />
                 <StringField name="billingCode" label={t('service.billing_code')} isDisabled={!editing} />

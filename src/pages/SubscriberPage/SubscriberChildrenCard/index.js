@@ -5,7 +5,7 @@ import { Box, Center, Spinner } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetSubscriber } from 'hooks/Network/Subscribers';
 import CardBody from 'components/Card/CardBody';
-import SubscriberDeviceTableWrapper from './SubscriberDeviceTableWrapper';
+import DevicesTab from './DevicesTab';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -24,7 +24,7 @@ const SubscriberChildrenCard = ({ id }) => {
         ) : (
           <LoadingOverlay isLoading={isFetching}>
             <Box display="unset" w="100%">
-              <SubscriberDeviceTableWrapper subscriber={subscriber} />
+              <DevicesTab subscriberId={id} operatorId={subscriber?.owner} />
             </Box>
           </LoadingOverlay>
         )}

@@ -27,10 +27,12 @@ const propTypes = {
   subscribers: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
   configuration: PropTypes.instanceOf(Object),
   onConfigurationChange: PropTypes.func.isRequired,
+  subscriberId: PropTypes.string,
 };
 
 const defaultProps = {
   configuration: null,
+  subscriberId: null,
 };
 
 const CreateSubscriberDeviceForm = ({
@@ -39,6 +41,7 @@ const CreateSubscriberDeviceForm = ({
   refresh,
   formRef,
   operatorId,
+  subscriberId,
   deviceTypes,
   contacts,
   locations,
@@ -76,7 +79,7 @@ const CreateSubscriberDeviceForm = ({
     <Formik
       innerRef={formRef}
       key={formKey}
-      initialValues={{ ...SubscriberDeviceSchema(t).cast(), deviceType: deviceTypes[0] }}
+      initialValues={{ ...SubscriberDeviceSchema(t).cast(), deviceType: deviceTypes[0], subscriberId }}
       validationSchema={SubscriberDeviceSchema(t)}
       onSubmit={(data, { setSubmitting, resetForm }) =>
         create.mutateAsync(
@@ -103,7 +106,9 @@ const CreateSubscriberDeviceForm = ({
         </Heading>
         <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
           <StringField name="name" label={t('common.name')} isRequired />
-          <SelectField name="subscriberId" label={t('subscribers.one')} options={subscriberOptions} isRequired />
+          {!subscriberId && (
+            <SelectField name="subscriberId" label={t('subscribers.one')} options={subscriberOptions} isRequired />
+          )}
           <StringField name="description" label={t('common.description')} />
           <StringField name="note" label={t('common.note')} />
         </SimpleGrid>
@@ -129,7 +134,7 @@ const CreateSubscriberDeviceForm = ({
           {t('subscribers.billing_contact_info')}
         </Heading>
         <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
-          <SelectField name="serviceClass" label={t('service.one')} options={serviceClassesOptions} isRequired />
+          <SelectField name="serviceClass" label={t('service.one')} options={serviceClassesOptions} />
           <StringField name="billingCode" label={t('service.billing_code')} />
           <SelectField name="contact" label={t('contacts.one')} options={contactOptions} />
           <SelectField name="location" label={t('locations.one')} options={locationOptions} />
