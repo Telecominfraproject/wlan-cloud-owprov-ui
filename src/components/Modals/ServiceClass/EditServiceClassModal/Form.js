@@ -32,14 +32,13 @@ const EditServiceClassForm = ({ serviceClass, editing, isOpen, onClose, refresh,
   });
   const update = useUpdateServiceClass({ id: serviceClass?.id });
 
-  const createParameters = ({ name, description, billingCode, period, cost, currency, operatorId, notes }) => ({
+  const createParameters = ({ name, description, billingCode, period, cost, currency, notes }) => ({
     name,
     billingCode,
     description,
     period,
     cost,
     currency,
-    operatorId,
     notes: notes.filter((note) => note.isNew),
   });
 
@@ -75,7 +74,7 @@ const EditServiceClassForm = ({ serviceClass, editing, isOpen, onClose, refresh,
               <SimpleGrid minChildWidth="300px" spacing="20px" mb={6}>
                 <StringField name="name" label={t('common.name')} isRequired isDisabled={!editing} />
                 <StringField name="description" label={t('common.description')} isDisabled={!editing} />
-                <StringField name="billingCode" label={t('service.billing_code')} isRequired isDisabled={!editing} />
+                <StringField name="billingCode" label={t('service.billing_code')} isDisabled={!editing} />
                 <SelectField
                   name="period"
                   label={t('service.billing_frequency')}

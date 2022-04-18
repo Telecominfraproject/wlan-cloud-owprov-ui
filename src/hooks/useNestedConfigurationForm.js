@@ -5,6 +5,7 @@ const useNestedConfigurationForm = ({ defaultConfiguration } = { defaultConfigur
   const [configuration, setConfiguration] = useState(null);
 
   const onConfigurationChange = useCallback((newConfiguration) => setConfiguration(newConfiguration), []);
+  const reset = () => setConfiguration(null);
 
   const data = useMemo(() => {
     if (!configuration)
@@ -25,22 +26,27 @@ const useNestedConfigurationForm = ({ defaultConfiguration } = { defaultConfigur
     () => ({
       data,
       onChange: onConfigurationChange,
+      reset,
     }),
     [data],
     isEqual,
   );
 
-  useEffect(() => {
-    if (defaultConfiguration) {
-      onConfigurationChange({
-        __form: {
-          isDirty: true,
-          isValid: true,
-        },
-        configuration: defaultConfiguration,
-      });
-    }
-  }, [defaultConfiguration]);
+  useEffect(
+    () => {
+      if (defaultConfiguration) {
+        onConfigurationChange({
+          __form: {
+            isDirty: false,
+            isValid: true,
+          },
+          configuration: defaultConfiguration,
+        });
+      }
+    },
+    [defaultConfiguration],
+    isEqual,
+  );
 
   return toReturn;
 };

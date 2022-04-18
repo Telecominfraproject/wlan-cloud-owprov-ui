@@ -25,14 +25,25 @@ const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh,
   const { isLoaded, deviceTypes, contacts, locations, serviceClasses, subscribers } = useOperatorChildren({
     operatorId,
   });
-  const { data: subscriberDeviceData, isLoading } = useGetSubscriberDevice({
+  const {
+    data: subscriberDeviceData,
+    isLoading,
+    refetch,
+  } = useGetSubscriberDevice({
     id: subscriberDevice?.id,
     enabled: subscriberDevice?.id !== '' && isOpen,
   });
   const {
     data: { configuration, isDirty: isConfigurationDirty, isValid: isConfigurationValid },
     onChange: onConfigurationChange,
+    reset,
   } = useNestedConfigurationForm({ defaultConfiguration: subscriberDeviceData?.configuration ?? null });
+
+  const refreshAfterUpdate = () => {
+    reset();
+    refresh();
+    refetch();
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -52,7 +63,9 @@ const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh,
               <SaveButton
                 onClick={form.submitForm}
                 isLoading={form.isSubmitting}
-                isDisabled={!form.isValid || !isConfigurationValid || (!form.dirty && !isConfigurationDirty)}
+                isDisabled={
+                  !editing || !form.isValid || !isConfigurationValid || (!form.dirty && !isConfigurationDirty)
+                }
               />
               <EditButton ml={2} isDisabled={editing} onClick={setEditing.toggle} isCompact />
               <CloseButton ml={2} onClick={closeModal} />
@@ -60,7 +73,7 @@ const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh,
           }
         />
         <ModalBody>
-          {isLoaded && !isLoading && subscriberDeviceData !== undefined ? (
+          {isOpen && isLoaded && !isLoading && subscriberDeviceData !== undefined ? (
             <EditSubscriberDeviceForm
               editing={editing}
               subscriberDevice={subscriberDeviceData}
@@ -73,7 +86,7 @@ const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh,
               }}
               isOpen={isOpen}
               onClose={closeCancelAndForm}
-              refresh={refresh}
+              refresh={refreshAfterUpdate}
               formRef={formRef}
               operatorId={operatorId}
               configuration={configuration}

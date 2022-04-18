@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Center, Heading, Spacer, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import isEqual from 'react-fast-compare';
 import CardBody from 'components/Card/CardBody';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
@@ -28,6 +29,7 @@ import useConfigurationTabs from './useConfigurationTabs';
 
 const propTypes = {
   configId: PropTypes.string.isRequired,
+  defaultConfig: PropTypes.arrayOf(PropTypes.instanceOf(Object)),
   editing: PropTypes.bool.isRequired,
   setSections: PropTypes.func.isRequired,
   label: PropTypes.string,
@@ -35,6 +37,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  defaultConfig: null,
   label: null,
   onDelete: null,
 };
@@ -52,7 +55,7 @@ const getConfigurationData = (configurations, section) => {
   return { ...data, configuration: JSON.parse(data.configuration)[section] };
 };
 
-const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDelete }) => {
+const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDelete, defaultConfig }) => {
   const { t } = useTranslation();
   const { tabIndex, onTabChange, tabsWithNewConfiguration, tabsRemovedConfiguration } = useConfigurationTabs();
   const [globals, setGlobals] = useState({
@@ -299,6 +302,10 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
     });
   }, [globals, unit, metrics, services, radios, interfaces, activeConfigurations, configuration]);
 
+  useEffect(() => {
+    if (defaultConfig !== null) setConfigSectionsFromArray(defaultConfig);
+  }, [defaultConfig]);
+
   return (
     <Card px={label ? 0 : undefined}>
       <CardHeader mb="10px" display="flex">
@@ -427,4 +434,4 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
 ConfigurationSectionsCard.propTypes = propTypes;
 ConfigurationSectionsCard.defaultProps = defaultProps;
 
-export default React.memo(ConfigurationSectionsCard);
+export default React.memo(ConfigurationSectionsCard, isEqual);

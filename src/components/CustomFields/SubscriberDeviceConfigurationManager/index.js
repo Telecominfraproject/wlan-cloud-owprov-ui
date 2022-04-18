@@ -27,7 +27,6 @@ const convertConfigManagerData = (sections) => {
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
-  configId: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   isEnabledByDefault: PropTypes.bool,
   isDeletePossible: PropTypes.bool,
@@ -35,7 +34,6 @@ const propTypes = {
 };
 
 const defaultProps = {
-  configId: null,
   isEnabledByDefault: false,
   isDeletePossible: false,
   configuration: null,
@@ -43,7 +41,6 @@ const defaultProps = {
 
 const SubscriberDeviceConfigurationManager = ({
   editing,
-  configId,
   onChange,
   isEnabledByDefault,
   isDeletePossible,
@@ -88,7 +85,7 @@ const SubscriberDeviceConfigurationManager = ({
     <ConfigurationSectionsCard
       label={t('configurations.configuration_sections')}
       editing={editing}
-      configId={configId}
+      defaultConfig={configuration}
       setSections={setSections}
       onDelete={isDeletePossible ? handleDeleteClick : null}
     />

@@ -74,7 +74,7 @@ const CreateServiceClassForm = ({ isOpen, onClose, refresh, formRef, operatorId 
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={6}>
           <StringField name="name" label={t('common.name')} isRequired />
           <StringField name="description" label={t('common.description')} />
-          <StringField name="billingCode" label={t('service.billing_code')} isRequired />
+          <StringField name="billingCode" label={t('service.billing_code')} />
           <SelectField
             name="period"
             label={t('service.billing_frequency')}
