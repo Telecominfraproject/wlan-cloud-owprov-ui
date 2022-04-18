@@ -10,7 +10,9 @@ export const useGetSubscriberCount = ({ enabled, operatorId }) => {
   return useQuery(
     ['get-subscriber-count'],
     () =>
-      axiosSec.get(`subusers?countOnly=true${operatorId ? `&owner=${operatorId}` : ''}`).then(({ data }) => data.count),
+      axiosSec
+        .get(`subusers?countOnly=true${operatorId ? `&operatorId=${operatorId}` : ''}`)
+        .then(({ data }) => data.count),
     {
       enabled,
       onError: (e) => {
@@ -42,7 +44,7 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count, operatorId
       () =>
         select.length > 0
           ? axiosSec
-              .get(`subusers?withExtendedInfo=true&select=${select}${operatorId ? `&owner=${operatorId}` : ''}`)
+              .get(`subusers?withExtendedInfo=true&select=${select}${operatorId ? `&operatorId=${operatorId}` : ''}`)
               .then(({ data }) => data.users)
           : [],
       {
@@ -76,7 +78,7 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count, operatorId
           .get(
             `subusers?withExtendedInfo=true&limit=${pageInfo?.limit ?? 10}&offset=${
               (pageInfo?.limit ?? 10) * (pageInfo?.index ?? 1)
-            }${operatorId ? `&owner=${operatorId}` : ''}`,
+            }${operatorId ? `&operatorId=${operatorId}` : ''}`,
           )
           .then(({ data }) => data.users),
       {
@@ -104,7 +106,8 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count, operatorId
 
   return useQuery(
     ['get-all-subscribers'],
-    () => axiosSec.get(`subusers?limit=500${operatorId ? `&owner=${operatorId}` : ''}`).then(({ data }) => data.users),
+    () =>
+      axiosSec.get(`subusers?limit=500${operatorId ? `&operatorId=${operatorId}` : ''}`).then(({ data }) => data.users),
     {
       keepPreviousData: true,
       enabled,
