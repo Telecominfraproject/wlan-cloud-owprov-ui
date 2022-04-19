@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
-import { EntityShape } from 'constants/propShapes';
 import { SubscriberSchema } from 'constants/formSchemas';
 import { useUpdateSubscriber } from 'hooks/Network/Subscribers';
 import useMutationResult from 'hooks/useMutationResult';
 import useApiRequirements from 'hooks/useApiRequirements';
+import { Subscriber } from 'models/Subscriber';
 
-const propTypes = {
-  editing: PropTypes.bool.isRequired,
-  subscriber: PropTypes.shape(EntityShape).isRequired,
-  formRef: PropTypes.instanceOf(Object).isRequired,
-  stopEditing: PropTypes.func.isRequired,
-};
+interface Props {
+  editing: boolean;
+  subscriber: Subscriber;
+  formRef: (node: any) => void;
+  stopEditing: () => void;
+}
 
-const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
+const EditSubscriberForm: React.FC<Props> = ({ editing, subscriber, formRef, stopEditing }) => {
   const { t } = useTranslation();
   const [formKey, setFormKey] = useState(uuid());
   const updateSubscriber = useUpdateSubscriber({ id: subscriber?.id });
@@ -46,14 +45,14 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
         updateSubscriber.mutateAsync(
           {
             name,
-            currentPassword: currentPassword ?? undefined,
+            currentPassword: currentPassword && currentPassword.length > 0 ? currentPassword : undefined,
             description,
             notes: notes.filter((note) => note.isNew),
             owner,
           },
           {
             onSuccess: () => {
-              onSuccess(setSubmitting, resetForm);
+              onSuccess({ setSubmitting, resetForm });
             },
             onError: (e) => {
               onError(e, { resetForm });
@@ -92,7 +91,5 @@ const EditSubscriberForm = ({ editing, subscriber, formRef, stopEditing }) => {
     </Formik>
   );
 };
-
-EditSubscriberForm.propTypes = propTypes;
 
 export default EditSubscriberForm;

@@ -1,28 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { FloppyDisk } from 'phosphor-react';
 
-const propTypes = {
-  onClick: PropTypes.func,
-  isDisabled: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  isCompact: PropTypes.bool,
-  isDirty: PropTypes.bool,
-  dirtyCheck: PropTypes.bool,
-};
+interface Props {
+  onClick: () => void;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  isCompact?: boolean;
+  isDirty?: boolean;
+  dirtyCheck?: boolean;
+  ml?: string | number;
+}
 
 const defaultProps = {
-  onClick: () => {},
   isDisabled: false,
   isLoading: false,
   isCompact: true,
   isDirty: false,
   dirtyCheck: false,
+  ml: undefined,
 };
 
-const SaveButton = ({ onClick, isDisabled, isLoading, isCompact, isDirty, dirtyCheck, ...props }) => {
+const SaveButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, isDirty, dirtyCheck, ...props }) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 
@@ -44,6 +44,7 @@ const SaveButton = ({ onClick, isDisabled, isLoading, isCompact, isDirty, dirtyC
   return (
     <Tooltip label={t('common.save')}>
       <IconButton
+        aria-label="save"
         colorScheme="blue"
         type="submit"
         onClick={onClick}
@@ -56,7 +57,6 @@ const SaveButton = ({ onClick, isDisabled, isLoading, isCompact, isDirty, dirtyC
   );
 };
 
-SaveButton.propTypes = propTypes;
 SaveButton.defaultProps = defaultProps;
 
 export default SaveButton;

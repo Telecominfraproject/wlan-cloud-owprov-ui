@@ -1,17 +1,16 @@
 import { useToast } from '@chakra-ui/react';
 import { useCallback, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-const propTypes = {
-  objName: PropTypes.string.isRequired,
-  operationType: PropTypes.oneOf(['update', 'delete', 'create']).isRequired,
-  refresh: PropTypes.func,
-  onClose: PropTypes.func,
-  queryToInvalidate: PropTypes.arrayOf(PropTypes.string),
-};
+interface Props {
+  objName: string;
+  operationType: 'update' | 'delete' | 'create';
+  refresh?: () => void;
+  onClose?: () => void;
+  queryToInvalidate?: string[];
+}
 
 const defaultProps = {
   refresh: () => {},
@@ -19,7 +18,7 @@ const defaultProps = {
   queryToInvalidate: null,
 };
 
-const useMutationResult = ({ objName, operationType, refresh, onClose, queryToInvalidate }) => {
+const useMutationResult = ({ objName, operationType, refresh, onClose, queryToInvalidate }: Props) => {
   const { t } = useTranslation();
   const toast = useToast();
   const queryClient = useQueryClient();
@@ -38,7 +37,7 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
       obj: objName,
     });
   };
-  const errorDescription = (e) => {
+  const errorDescription = (e: any) => {
     if (operationType === 'update')
       return t('crud.error_update_obj', {
         obj: objName,
@@ -100,6 +99,5 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
   return toReturn;
 };
 
-useMutationResult.propTypes = propTypes;
 useMutationResult.defaultProps = defaultProps;
 export default useMutationResult;

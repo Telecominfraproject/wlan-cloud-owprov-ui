@@ -1,9 +1,10 @@
 import { useToast } from '@chakra-ui/react';
+import { EditingSubscriber, Subscriber } from 'models/Subscriber';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
 
-export const useGetSubscriberCount = ({ enabled, operatorId }) => {
+export const useGetSubscriberCount = ({ enabled, operatorId }: { enabled: boolean; operatorId: string }) => {
   const { t } = useTranslation();
   const toast = useToast();
 
@@ -12,10 +13,10 @@ export const useGetSubscriberCount = ({ enabled, operatorId }) => {
     () =>
       axiosSec
         .get(`subusers?countOnly=true${operatorId ? `&operatorId=${operatorId}` : ''}`)
-        .then(({ data }) => data.count),
+        .then(({ data }: { data: { count: number } }) => data.count),
     {
       enabled,
-      onError: (e) => {
+      onError: (e: any) => {
         if (!toast.isActive('subscriber-fetching-error'))
           toast({
             id: 'subscriber-fetching-error',
@@ -34,7 +35,19 @@ export const useGetSubscriberCount = ({ enabled, operatorId }) => {
   );
 };
 
-export const useGetSubscribers = ({ pageInfo, select, enabled, count, operatorId }) => {
+export const useGetSubscribers = ({
+  pageInfo,
+  select,
+  enabled,
+  count,
+  operatorId,
+}: {
+  pageInfo: any;
+  select: any;
+  enabled: boolean;
+  count: number;
+  operatorId: string;
+}) => {
   const { t } = useTranslation();
   const toast = useToast();
 
@@ -45,13 +58,13 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count, operatorId
         select.length > 0
           ? axiosSec
               .get(`subusers?withExtendedInfo=true&select=${select}${operatorId ? `&operatorId=${operatorId}` : ''}`)
-              .then(({ data }) => data.users)
+              .then(({ data }: { data: { users: Subscriber[] } }) => data.users)
           : [],
       {
         enabled,
         staleTime: 30000,
         keepPreviousData: true,
-        onError: (e) => {
+        onError: (e: any) => {
           if (!toast.isActive('get-subscriber-fetching-error'))
             toast({
               id: 'get-subscriber-fetching-error',
@@ -80,12 +93,12 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count, operatorId
               (pageInfo?.limit ?? 10) * (pageInfo?.index ?? 1)
             }${operatorId ? `&operatorId=${operatorId}` : ''}`,
           )
-          .then(({ data }) => data.users),
+          .then(({ data }: { data: { users: Subscriber[] } }) => data.users),
       {
         keepPreviousData: true,
         enabled,
         staleTime: 30000,
-        onError: (e) => {
+        onError: (e: any) => {
           if (!toast.isActive('get-subscribers-fetching-error'))
             toast({
               id: 'get-subscribers-fetching-error',
@@ -107,12 +120,14 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count, operatorId
   return useQuery(
     ['get-all-subscribers'],
     () =>
-      axiosSec.get(`subusers?limit=500${operatorId ? `&operatorId=${operatorId}` : ''}`).then(({ data }) => data.users),
+      axiosSec
+        .get(`subusers?limit=500${operatorId ? `&operatorId=${operatorId}` : ''}`)
+        .then(({ data }: { data: { users: Subscriber[] } }) => data.users),
     {
       keepPreviousData: true,
       enabled,
       staleTime: 30000,
-      onError: (e) => {
+      onError: (e: any) => {
         if (!toast.isActive('get-subscribers-fetching-error'))
           toast({
             id: 'get-subscribers-fetching-error',
@@ -131,16 +146,16 @@ export const useGetSubscribers = ({ pageInfo, select, enabled, count, operatorId
   );
 };
 
-export const useGetSubscriber = ({ id, enabled }) => {
-  const { t } = useToast();
+export const useGetSubscriber = ({ id, enabled }: { id: string; enabled?: boolean }) => {
+  const { t } = useTranslation();
   const toast = useToast();
 
   return useQuery(
     ['get-subscriber', id],
-    () => axiosSec.get(`subuser/${id}?withExtendedInfo=true`).then(({ data }) => data),
+    () => axiosSec.get(`subuser/${id}?withExtendedInfo=true`).then(({ data }: { data: Subscriber }) => data),
     {
       enabled,
-      onError: (e) => {
+      onError: (e: any) => {
         if (!toast.isActive('subscriber-fetching-error'))
           toast({
             id: 'subscriber-fetching-error',
@@ -159,16 +174,17 @@ export const useGetSubscriber = ({ id, enabled }) => {
   );
 };
 
-export const useCreateSubscriber = () => useMutation((newSubscriber) => axiosSec.post('subuser/0', newSubscriber));
+export const useCreateSubscriber = () =>
+  useMutation((newSubscriber: EditingSubscriber) => axiosSec.post('subuser/0', newSubscriber));
 
-export const useUpdateSubscriber = ({ id }) =>
-  useMutation((newSubscriber) => axiosSec.put(`subuser/${id}`, newSubscriber));
+export const useUpdateSubscriber = ({ id }: { id: string }) =>
+  useMutation((newSubscriber: EditingSubscriber) => axiosSec.put(`subuser/${id}`, newSubscriber));
 
-export const useSuspendSubscriber = ({ id }) =>
-  useMutation((isSuspended) =>
+export const useSuspendSubscriber = ({ id }: { id: string }) =>
+  useMutation((isSuspended: boolean) =>
     axiosSec.put(`subuser/${id}`, {
       suspended: isSuspended,
     }),
   );
 
-export const useDeleteSubscriber = ({ id }) => useMutation(() => axiosSec.delete(`subuser/${id}`, {}));
+export const useDeleteSubscriber = ({ id }: { id: string }) => useMutation(() => axiosSec.delete(`subuser/${id}`, {}));

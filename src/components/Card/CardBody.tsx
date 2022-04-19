@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, useStyleConfig } from '@chakra-ui/react';
+import { ThemeProps } from 'models/Theme';
 
-const propTypes = {
-  variant: PropTypes.string,
-  children: PropTypes.node.isRequired,
-};
+interface Props extends ThemeProps {
+  variant?: string;
+}
 
 const defaultProps = {
-  variant: null,
+  variant: undefined,
 };
 
-const CardBody = ({ variant, children, ...props }) => {
+const CardBody: React.FC<Props> = ({ variant, children, ...props }) => {
+  // @ts-ignore
   const styles = useStyleConfig('CardBody', { variant });
   // Pass the computed styles into the `__css` prop
   return (
@@ -21,7 +21,6 @@ const CardBody = ({ variant, children, ...props }) => {
   );
 };
 
-CardBody.propTypes = propTypes;
 CardBody.defaultProps = defaultProps;
 
 export default CardBody;

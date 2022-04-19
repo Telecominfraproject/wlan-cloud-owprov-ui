@@ -1,27 +1,37 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint, useDisclosure } from '@chakra-ui/react';
 import { Pencil, X } from 'phosphor-react';
 import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
 
-const propTypes = {
-  toggleEdit: PropTypes.func.isRequired,
-  isDisabled: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  isCompact: PropTypes.bool,
-  isDirty: PropTypes.bool,
-  isEditing: PropTypes.bool.isRequired,
-};
+interface Props {
+  toggleEdit: () => void;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  isCompact?: boolean;
+  isEditing: boolean;
+  isDirty?: boolean;
+  ml?: string | number;
+}
 
 const defaultProps = {
   isDisabled: false,
   isLoading: false,
   isCompact: false,
   isDirty: false,
+  ml: undefined,
 };
 
-const ToggleEditButton = ({ toggleEdit, isEditing, isDirty, isDisabled, isLoading, isCompact, ...props }) => {
+const ToggleEditButton: React.FC<Props> = ({
+  toggleEdit,
+  isEditing,
+  isDirty,
+  isDisabled,
+  isLoading,
+  isCompact,
+  ml,
+  ...props
+}) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
@@ -49,6 +59,7 @@ const ToggleEditButton = ({ toggleEdit, isEditing, isDirty, isDisabled, isLoadin
           rightIcon={isEditing ? <X size={20} /> : <Pencil size={20} />}
           isLoading={isLoading}
           isDisabled={isDisabled}
+          ml={ml}
           {...props}
         >
           {isEditing ? t('common.stop_editing') : t('common.edit')}
@@ -61,12 +72,14 @@ const ToggleEditButton = ({ toggleEdit, isEditing, isDirty, isDisabled, isLoadin
     <>
       <Tooltip label={isEditing ? t('common.stop_editing') : t('common.edit')}>
         <IconButton
+          aria-label="toggle-edit"
           colorScheme="gray"
           type="button"
           onClick={toggle}
           icon={isEditing ? <X size={20} /> : <Pencil size={20} />}
           isLoading={isLoading}
           isDisabled={isDisabled}
+          ml={ml}
           {...props}
         />
       </Tooltip>
@@ -75,7 +88,6 @@ const ToggleEditButton = ({ toggleEdit, isEditing, isDirty, isDisabled, isLoadin
   );
 };
 
-ToggleEditButton.propTypes = propTypes;
 ToggleEditButton.defaultProps = defaultProps;
 
 export default ToggleEditButton;

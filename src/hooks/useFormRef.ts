@@ -1,9 +1,15 @@
+import { FormType } from 'models/Form';
 import { useCallback, useMemo, useState } from 'react';
 
 const useFormRef = () => {
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState<FormType>({
+    submitForm: () => {},
+    isSubmitting: false,
+    isValid: true,
+    dirty: false,
+  });
   const formRef = useCallback(
-    (node) => {
+    (node: any) => {
       if (
         node !== null &&
         (form.submitForm !== node.submitForm ||

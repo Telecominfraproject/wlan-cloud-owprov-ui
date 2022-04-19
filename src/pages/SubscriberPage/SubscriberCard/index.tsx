@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Center, Flex, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
 import CardBody from 'components/Card/CardBody';
 import Card from 'components/Card';
@@ -11,15 +10,15 @@ import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetSubscriber } from 'hooks/Network/Subscribers';
 import useFormRef from 'hooks/useFormRef';
 import EditSubscriberForm from './Form';
-import DeleteVenuePopover from './DeleteVenuePopover';
+import DeleteVenuePopover from './DeletePopover';
 import SuspendedNotification from './SuspendedNotification';
 import Actions from './Actions';
 
-const propTypes = {
-  id: PropTypes.string.isRequired,
-};
+interface Props {
+  id: string;
+}
 
-const SubscriberCard = ({ id }) => {
+const SubscriberCard: React.FC<Props> = ({ id }) => {
   const [editing, setEditing] = useBoolean();
   const { data: subscriber, refetch, isFetching } = useGetSubscriber({ id });
   const { form, formRef } = useFormRef();
@@ -46,7 +45,7 @@ const SubscriberCard = ({ id }) => {
             toggleEdit={setEditing.toggle}
             isEditing={editing}
             isDisabled={isFetching}
-            isDirty={formRef.dirty}
+            isDirty={form.dirty}
             ml={2}
           />
           <DeleteVenuePopover isDisabled={editing || isFetching} subscriber={subscriber} />
@@ -73,7 +72,5 @@ const SubscriberCard = ({ id }) => {
     </Card>
   );
 };
-
-SubscriberCard.propTypes = propTypes;
 
 export default React.memo(SubscriberCard);

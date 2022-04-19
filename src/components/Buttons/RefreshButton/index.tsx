@@ -1,23 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { ArrowsClockwise } from 'phosphor-react';
 
-const propTypes = {
-  onClick: PropTypes.func.isRequired,
-  isDisabled: PropTypes.bool,
-  isFetching: PropTypes.bool,
-  isCompact: PropTypes.bool,
-};
+interface Props {
+  onClick: () => void;
+  isDisabled?: boolean;
+  isFetching?: boolean;
+  isCompact?: boolean;
+  ml?: string | number;
+}
 
 const defaultProps = {
   isDisabled: false,
   isFetching: false,
   isCompact: false,
+  ml: undefined,
 };
 
-const RefreshButton = ({ onClick, isDisabled, isFetching, isCompact, ...props }) => {
+const RefreshButton: React.FC<Props> = ({ onClick, isDisabled, isFetching, isCompact, ml, ...props }) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 
@@ -30,6 +31,7 @@ const RefreshButton = ({ onClick, isDisabled, isFetching, isCompact, ...props })
         rightIcon={<ArrowsClockwise size={20} />}
         isDisabled={isDisabled}
         isLoading={isFetching}
+        ml={ml}
         {...props}
       >
         {t('common.refresh')}
@@ -40,18 +42,19 @@ const RefreshButton = ({ onClick, isDisabled, isFetching, isCompact, ...props })
   return (
     <Tooltip label={t('common.refresh')}>
       <IconButton
+        aria-label="refresh"
         colorScheme="gray"
         onClick={onClick}
         icon={<ArrowsClockwise size={20} />}
         isDisabled={isDisabled}
         isLoading={isFetching}
+        ml={ml}
         {...props}
       />
     </Tooltip>
   );
 };
 
-RefreshButton.propTypes = propTypes;
 RefreshButton.defaultProps = defaultProps;
 
 export default RefreshButton;
