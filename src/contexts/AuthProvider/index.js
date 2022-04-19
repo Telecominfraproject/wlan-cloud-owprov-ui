@@ -66,7 +66,6 @@ export const AuthProvider = ({ token, children }) => {
         switch (endpoint.type) {
           case 'owprov':
             axiosProv.defaults.baseURL = `${endpoint.uri}/api/v1`;
-
             break;
           case 'owfms':
             axiosFms.defaults.baseURL = `${endpoint.uri}/api/v1`;

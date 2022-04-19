@@ -13,8 +13,8 @@ const SubscriberPage = () => {
     <Flex flexDirection="column" pt="75px">
       {isUserLoaded && id !== '' && (
         <>
-          <SubscriberCard id={id} />
-          <SubscriberChildrenCard id={id} />
+          <SubscriberCard id={id ?? ''} />
+          <SubscriberChildrenCard id={id ?? ''} />
         </>
       )}
     </Flex>

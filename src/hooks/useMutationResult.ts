@@ -6,7 +6,7 @@ import { useQueryClient } from 'react-query';
 
 interface Props {
   objName: string;
-  operationType: 'update' | 'delete' | 'create';
+  operationType: 'update' | 'delete' | 'create' | 'blink' | 'reboot';
   refresh?: () => void;
   onClose?: () => void;
   queryToInvalidate?: string[];
@@ -32,7 +32,14 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
       return t('crud.success_delete_obj', {
         obj: objName,
       });
-
+    if (operationType === 'blink')
+      return t('commands.blink_success', {
+        obj: objName,
+      });
+    if (operationType === 'reboot')
+      return t('commands.reboot_success', {
+        obj: objName,
+      });
     return t('crud.success_create_obj', {
       obj: objName,
     });
@@ -49,6 +56,16 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
         e: e?.response?.data?.ErrorDescription,
       });
 
+    if (operationType === 'blink')
+      return t('commands.blink_error', {
+        obj: objName,
+        e: e?.response?.data?.ErrorDescription,
+      });
+    if (operationType === 'reboot')
+      return t('commands.reboot_error', {
+        obj: objName,
+        e: e?.response?.data?.ErrorDescription,
+      });
     return t('crud.error_create_obj', {
       obj: objName,
       e: e?.response?.data?.ErrorDescription,

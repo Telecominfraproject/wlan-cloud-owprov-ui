@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import { Flex, Heading, Spacer } from '@chakra-ui/react';
 import useRefreshId from 'hooks/useRefreshId';
@@ -10,12 +9,12 @@ import CreateSubscriberDeviceModal from 'components/Tables/SubscriberDeviceTable
 import EditSubscriberDeviceModal from 'components/Tables/SubscriberDeviceTable/EditModal';
 import Actions from './Actions';
 
-const propTypes = {
-  operatorId: PropTypes.string.isRequired,
-  subscriberId: PropTypes.string.isRequired,
-};
+interface Props {
+  operatorId: string;
+  subscriberId: string;
+}
 
-const OperatorDevicesTab = ({ operatorId, subscriberId }) => {
+const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
   const { t } = useTranslation();
   const { refreshId, refresh } = useRefreshId();
   const { obj: subscriberDevice, openModal, isOpen, onClose } = useObjectModal();
@@ -48,5 +47,4 @@ const OperatorDevicesTab = ({ operatorId, subscriberId }) => {
     </>
   );
 };
-OperatorDevicesTab.propTypes = propTypes;
 export default OperatorDevicesTab;

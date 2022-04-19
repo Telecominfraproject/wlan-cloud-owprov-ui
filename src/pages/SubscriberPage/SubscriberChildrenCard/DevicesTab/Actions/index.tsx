@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
   Flex,
@@ -21,19 +20,17 @@ import {
 import { MagnifyingGlass, Trash } from 'phosphor-react';
 import useMutationResult from 'hooks/useMutationResult';
 import { useDeleteSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import { DeviceCell } from 'models/Table';
+import { Device } from 'models/Device';
+import ActionsDropdown from './ActionsDropdown';
 
-const propTypes = {
-  cell: PropTypes.shape({
-    original: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  refreshTable: PropTypes.func.isRequired,
-  openEdit: PropTypes.func.isRequired,
-};
+interface Props {
+  cell: DeviceCell;
+  refreshTable: () => void;
+  openEdit: (sub: Device) => void;
+}
 
-const Actions = ({
+const Actions: React.FC<Props> = ({
   cell: {
     original: { id, name },
   },
@@ -44,24 +41,21 @@ const Actions = ({
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSuccess, onError } = useMutationResult({
-    objName: t('devices..one'),
+    objName: t('devices.one'),
     operationType: 'delete',
     refresh: refreshTable,
   });
-  const deleteLocation = useDeleteSubscriberDevice({ id });
+  const deleteDevice = useDeleteSubscriberDevice({ id });
 
   const handleEditClick = () => {
     openEdit(subscriberDevice);
   };
 
   const handleDeleteClick = () =>
-    deleteLocation.mutateAsync(
-      {},
-      {
-        onSuccess: () => onSuccess(),
-        onError: (e) => onError(e),
-      },
-    );
+    deleteDevice.mutateAsync(undefined, {
+      onSuccess: () => onSuccess(),
+      onError: (e) => onError(e),
+    });
 
   return (
     <Flex>
@@ -69,7 +63,7 @@ const Actions = ({
         <Tooltip hasArrow label={t('crud.delete')} placement="top" isDisabled={isOpen}>
           <Box>
             <PopoverTrigger>
-              <IconButton colorScheme="red" icon={<Trash size={20} />} size="sm" />
+              <IconButton aria-label="delete-device" colorScheme="red" icon={<Trash size={20} />} size="sm" />
             </PopoverTrigger>
           </Box>
         </Tooltip>
@@ -85,15 +79,17 @@ const Actions = ({
               <Button colorScheme="gray" mr="1" onClick={onClose}>
                 {t('common.cancel')}
               </Button>
-              <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteLocation.isLoading}>
+              <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteDevice.isLoading}>
                 {t('common.yes')}
               </Button>
             </Center>
           </PopoverFooter>
         </PopoverContent>
       </Popover>
+      <ActionsDropdown device={subscriberDevice} refresh={refreshTable} />
       <Tooltip hasArrow label={t('common.view_details')} placement="top">
         <IconButton
+          aria-label="view-device-details"
           ml={2}
           colorScheme="blue"
           icon={<MagnifyingGlass size={20} />}
@@ -104,7 +100,5 @@ const Actions = ({
     </Flex>
   );
 };
-
-Actions.propTypes = propTypes;
 
 export default Actions;

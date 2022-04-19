@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
@@ -7,11 +6,11 @@ import { useGetSubscriber } from 'hooks/Network/Subscribers';
 import CardBody from 'components/Card/CardBody';
 import DevicesTab from './DevicesTab';
 
-const propTypes = {
-  id: PropTypes.string.isRequired,
-};
+interface Props {
+  id: string;
+}
 
-const SubscriberChildrenCard = ({ id }) => {
+const SubscriberChildrenCard: React.FC<Props> = ({ id }) => {
   const { data: subscriber, isFetching } = useGetSubscriber({ id });
 
   return (
@@ -33,5 +32,4 @@ const SubscriberChildrenCard = ({ id }) => {
   );
 };
 
-SubscriberChildrenCard.propTypes = propTypes;
 export default SubscriberChildrenCard;

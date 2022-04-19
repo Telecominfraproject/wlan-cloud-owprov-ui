@@ -141,6 +141,15 @@
 		"successful_revoke": "Successfully Revoked Certificate!",
 		"title": "Certificates"
 	},
+	"commands": {
+		"blink": "Blink",
+		"blink_error": "Error while sending blink command: {{e}}",
+		"blink_success": "Blink command successfully sent!",
+		"other": "Commands",
+		"reboot": "Reboot",
+		"reboot_error": "Error while sending reboot command: {{e}}",
+		"reboot_success": "Successfully sent reboot command!"
+	},
 	"common": {
 		"actions": "Actions",
 		"address_search_autofill": "Search locations to auto-fill the fields below",
