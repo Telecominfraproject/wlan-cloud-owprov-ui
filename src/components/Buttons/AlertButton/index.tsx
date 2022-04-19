@@ -1,26 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { Warning } from 'phosphor-react';
+import { ThemeProps } from 'models/Theme';
 
-const propTypes = {
-  onClick: PropTypes.func,
-  isDisabled: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  isCompact: PropTypes.bool,
-  label: PropTypes.string,
-};
+interface Props extends ThemeProps {
+  onClick: () => void;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  isCompact?: boolean;
+  label?: string;
+}
 
 const defaultProps = {
-  onClick: () => {},
   isDisabled: false,
   isLoading: false,
   isCompact: false,
-  label: null,
+  label: undefined,
 };
 
-const AlertButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }) => {
+const AlertButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 
@@ -42,6 +41,7 @@ const AlertButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...prop
   return (
     <Tooltip label={label ?? t('common.alert')}>
       <IconButton
+        aria-label="alert-button"
         colorScheme="red"
         type="button"
         onClick={onClick}
@@ -54,7 +54,6 @@ const AlertButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...prop
   );
 };
 
-AlertButton.propTypes = propTypes;
 AlertButton.defaultProps = defaultProps;
 
 export default AlertButton;

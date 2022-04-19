@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AlertButton from 'components/Buttons/AlertButton';
 import {
   AlertDialog,
@@ -15,7 +14,19 @@ import { useTranslation } from 'react-i18next';
 import { useSuspendSubscriber } from 'hooks/Network/Subscribers';
 import useMutationResult from 'hooks/useMutationResult';
 
-const SubscriberSuspendedNotification = ({ id, isSuspended, isDisabled, refresh }) => {
+interface Props {
+  id: string;
+  isSuspended?: boolean;
+  isDisabled?: boolean;
+  refresh: () => void;
+}
+
+const defaultProps = {
+  isSuspended: false,
+  isDisabled: false,
+};
+
+const SubscriberSuspendedNotification: React.FC<Props> = ({ id, isSuspended, isDisabled, refresh }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const suspend = useSuspendSubscriber({ id });
@@ -41,7 +52,7 @@ const SubscriberSuspendedNotification = ({ id, isSuspended, isDisabled, refresh 
   return (
     <>
       <AlertButton label={t('users.suspended')} ml={2} isDisabled={isDisabled} onClick={onOpen} />
-      <AlertDialog isOpen={isOpen} isCentered>
+      <AlertDialog isOpen={isOpen} onClose={onClose} isCentered leastDestructiveRef={undefined}>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader>{t('subscribers.reactivate_title')}?</AlertDialogHeader>
@@ -61,15 +72,5 @@ const SubscriberSuspendedNotification = ({ id, isSuspended, isDisabled, refresh 
   );
 };
 
-SubscriberSuspendedNotification.propTypes = {
-  id: PropTypes.string.isRequired,
-  isSuspended: PropTypes.bool,
-  isDisabled: PropTypes.bool,
-  refresh: PropTypes.func.isRequired,
-};
-SubscriberSuspendedNotification.defaultProps = {
-  isSuspended: false,
-  isDisabled: false,
-};
-
+SubscriberSuspendedNotification.defaultProps = defaultProps;
 export default React.memo(SubscriberSuspendedNotification);

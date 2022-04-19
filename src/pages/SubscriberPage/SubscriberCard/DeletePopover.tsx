@@ -65,8 +65,8 @@ const DeletePopover: React.FC<Props> = ({ subscriber, isDisabled }) => {
       <PopoverContent>
         <PopoverArrow />
         <PopoverCloseButton />
-        <PopoverHeader>{t('crud.delete_obj', { obj: t('venues.one') })}</PopoverHeader>
-        <PopoverBody>{t('crud.delete_confirm', { obj: t('venues.one') })}</PopoverBody>
+        <PopoverHeader>{t('crud.delete_obj', { obj: t('subscribers.one') })}</PopoverHeader>
+        <PopoverBody>{t('crud.delete_confirm', { obj: t('subscribers.one') })}</PopoverBody>
         <PopoverFooter>
           <Center>
             <Button colorScheme="gray" mr="1" onClick={onClose}>
