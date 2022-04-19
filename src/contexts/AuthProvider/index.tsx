@@ -1,38 +1,55 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import React, { useState, useMemo, useEffect, Dispatch, SetStateAction, useRef } from 'react';
+import { useQuery } from 'react-query';
 import { axiosAnalytics, axiosFms, axiosGw, axiosOwls, axiosProv, axiosSec, axiosSub } from 'utils/axiosInstances';
 import { useToast } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useGetEndpoints } from 'hooks/Network/Endpoints';
 import axios from 'axios';
+import { Endpoint } from 'models/Endpoint';
+import {
+  useDeleteAccountToken,
+  useGetAvatar,
+  useGetPreferences,
+  useGetProfile,
+  useUpdatePreferences,
+} from 'hooks/Network/Account';
+import { Preference } from 'models/Preference';
+import { User } from 'models/User';
 
-const AuthContext = React.createContext();
-
-const deleteToken = async (currentToken) =>
-  axiosSec
-    .delete(`/oauth2/${currentToken}`)
-    .then(() => true)
-    .catch(() => false);
-
-const getAvatar = async (id, cache) => axiosSec.get(`avatar/${id}?cache=${cache}`, { responseType: 'arraybuffer' });
-
-const getConfigDescriptions = async (baseUrl) =>
+const getConfigDescriptions = async (baseUrl: string) =>
   axios.get(`${baseUrl.split('/api')[0]}/wwwassets/ucentral.schema.pretty.json`).then(({ data }) => data.$defs);
-const getUser = async () => axiosSec.get('oauth2?me=true').then(({ data }) => data);
 
-const getPreferences = async () => axiosSec.get('preferences').then(({ data }) => data);
+interface Props {
+  token?: string;
+  children: React.ReactNode;
+}
 
-const putPreferences = async (newPrefs) => axiosSec.put(`preferences`, newPrefs);
+interface AuthProviderReturn {
+  avatar: string;
+  refetchUser: () => void;
+  refetchAvatar: () => void;
+  user: User;
+  token?: string;
+  setToken: Dispatch<SetStateAction<string | undefined>>;
+  logout: () => void;
+  getPref: (preference: string) => string;
+  setPref: ({ preference, value }: { preference: string; value: string }) => void;
+  deletePref: (preference: string) => void;
+  ref: React.MutableRefObject<undefined>;
+  endpoints: { [key: string]: string } | null;
+  configurationDescriptions: any;
+  isUserLoaded: boolean;
+}
 
-export const AuthProvider = ({ token, children }) => {
+const AuthContext = React.createContext({} as AuthProviderReturn);
+
+export const AuthProvider = ({ token, children }: Props) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const ref = React.useRef();
+  const ref = useRef();
   const [loadedEndpoints, setLoadedEndpoints] = useState(false);
-  const [currentToken, setCurrentToken] = useState(token ?? '');
-  const queryClient = useQueryClient();
-  const [endpoints, setEndpoints] = useState(null);
+  const [currentToken, setCurrentToken] = useState(token);
+  const [endpoints, setEndpoints] = useState<{ [key: string]: string } | null>(null);
   const { data: configurationDescriptions } = useQuery(
     ['get-configuration-descriptions'],
     () => getConfigDescriptions(axiosProv.defaults.baseURL),
@@ -41,26 +58,12 @@ export const AuthProvider = ({ token, children }) => {
       enabled: loadedEndpoints,
     },
   );
-  const { data: user, refetch: refetchUser } = useQuery(['get-user-profile'], getUser, {
-    enabled: false,
-    onError: (e) => {
-      if (!toast.isActive('user-fetching-error'))
-        toast({
-          id: 'user-fetching-error',
-          title: t('common.error'),
-          description: t('user.error_fetching', { e: e?.response?.data?.ErrorDescription }),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
-    },
-  });
+  const { data: user, refetch: refetchUser } = useGetProfile();
   const { refetch: refetchEndpoints } = useGetEndpoints({
     t,
     toast,
-    onSuccess: (newEndpoints) => {
-      const foundEndpoints = {};
+    onSuccess: (newEndpoints: Endpoint[]) => {
+      const foundEndpoints: { [key: string]: string } = {};
       for (const endpoint of newEndpoints) {
         foundEndpoints[endpoint.type] = endpoint.uri;
         switch (endpoint.type) {
@@ -92,65 +95,43 @@ export const AuthProvider = ({ token, children }) => {
   });
   const userId = user?.id;
   const userAvatar = user?.avatar ?? '';
-  const { data: preferences, refetch: refetchAvatar } = useQuery(
-    ['get-preferences', userId],
-    () => getPreferences(userId),
-    {
-      enabled: !!userId,
-    },
-  );
-  const { data: avatar } = useQuery(['get-user-avatar', userId, userAvatar], () => getAvatar(userId, userAvatar), {
-    enabled: userAvatar !== '' && userAvatar !== '0',
+  const { data: preferences, refetch: refetchAvatar } = useGetPreferences({ enabled: !!userId });
+  const { data: avatar } = useGetAvatar({
+    id: userId,
+    enabled: !!userId && userAvatar !== '0',
+    cache: userAvatar,
   });
-  const updatePreferences = useMutation((newPrefs) => putPreferences(newPrefs), {
-    onSuccess: (data) => {
-      queryClient.setQueryData(['get-preferences', userId], data.data);
-    },
-  });
+  const updatePreferences = useUpdatePreferences({ id: userId });
 
-  const logout = useMutation(() => deleteToken(currentToken), {
-    onSettled: () => {
-      localStorage.removeItem('access_token');
-      sessionStorage.clear();
-      setCurrentToken('');
-      window.location.replace('/');
-    },
-  });
+  const logout = useDeleteAccountToken({ setCurrentToken });
+  const logoutUser = () => logout.mutateAsync(currentToken ?? '');
 
-  const logoutUser = () => logout.mutate();
-
-  const getPref = (preference) => {
+  const getPref = (preference: string) => {
     for (const pref of preferences.data) {
       if (pref.tag === preference) return pref.value;
     }
     return null;
   };
 
-  const setPref = ({ preference, value }) => {
+  const setPref = ({ preference, value }: { preference: string; value: string }) => {
     let updated = false;
-    const newPreferences = [...preferences.data];
-
-    for (const [i, pref] of preferences.data.entries()) {
+    const newPreferences: Preference[] = preferences.map((pref: Preference) => {
       if (pref.tag === preference) {
-        newPreferences[i].value = value;
         updated = true;
-        break;
+        return { tag: pref.tag, value };
       }
-    }
+      return pref;
+    });
 
     if (!updated) newPreferences.push({ tag: preference, value });
 
-    updatePreferences.mutateAsync({
-      data: newPreferences,
-    });
+    updatePreferences.mutateAsync(newPreferences);
   };
 
-  const deletePref = (preference) => {
-    const newPreferences = preferences.data.filter((pref) => pref.tag !== preference);
+  const deletePref = (preference: string) => {
+    const newPreferences: Preference[] = preferences.data.filter((pref: Preference) => pref.tag !== preference);
 
-    updatePreferences.mutateAsync({
-      data: newPreferences,
-    });
+    updatePreferences.mutateAsync(newPreferences);
   };
 
   useEffect(() => {
@@ -167,7 +148,7 @@ export const AuthProvider = ({ token, children }) => {
     }
   }, [currentToken]);
 
-  const value = useMemo(
+  const value: AuthProviderReturn = useMemo(
     () => ({
       avatar: avatar?.data
         ? `data:;base64,${btoa(
@@ -180,10 +161,10 @@ export const AuthProvider = ({ token, children }) => {
       token: currentToken,
       setToken: setCurrentToken,
       logout: logoutUser,
+      ref,
       getPref,
       setPref,
       deletePref,
-      ref,
       endpoints,
       configurationDescriptions,
       isUserLoaded: preferences !== undefined && user !== undefined && loadedEndpoints,
@@ -193,14 +174,8 @@ export const AuthProvider = ({ token, children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-AuthProvider.propTypes = {
-  token: PropTypes.string,
-  children: PropTypes.node.isRequired,
-};
-
 AuthProvider.defaultProps = {
   token: '',
 };
 
-export const useAuth = () => React.useContext(AuthContext);
+export const useAuth: () => AuthProviderReturn = () => React.useContext(AuthContext);

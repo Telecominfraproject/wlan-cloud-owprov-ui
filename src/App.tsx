@@ -23,7 +23,7 @@ const App = () => {
       <HashRouter>
         <ChakraProvider portalZIndex={40} theme={theme}>
           <Suspense fallback={<Spinner />}>
-            <AuthProvider token={storageToken}>
+            <AuthProvider token={storageToken !== null ? storageToken : undefined}>
               <Router />
             </AuthProvider>
           </Suspense>
