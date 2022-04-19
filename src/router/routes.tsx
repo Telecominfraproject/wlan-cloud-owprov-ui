@@ -20,7 +20,7 @@ export default [
     path: '/entity/:id',
     name: 'entities.title',
     navName: 'entities.one',
-    icon: (active) => (
+    icon: (active: boolean) => (
       <Icon as={TreeStructure} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     isEntity: true,
@@ -30,14 +30,16 @@ export default [
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/',
     name: 'inventory.title',
-    icon: (active) => <Icon as={Tag} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />,
+    icon: (active: boolean) => (
+      <Icon as={Tag} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
+    ),
     component: InventoryPage,
   },
   {
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/operators',
     name: 'operator.other',
-    icon: (active) => (
+    icon: (active: boolean) => (
       <Icon as={Storefront} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     component: OperatorsPage,
@@ -46,7 +48,7 @@ export default [
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/users',
     name: 'users.title',
-    icon: (active) => (
+    icon: (active: boolean) => (
       <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     component: UsersPage,
@@ -55,7 +57,9 @@ export default [
     authorized: ['root', 'partner', 'admin'],
     path: '/system',
     name: 'system.title',
-    icon: (active) => <Icon as={Info} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />,
+    icon: (active: boolean) => (
+      <Icon as={Info} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
+    ),
     component: SystemPage,
   },
   {
@@ -64,7 +68,7 @@ export default [
     path: '/venue/:id',
     name: 'venues.title',
     navName: 'venues.one',
-    icon: (active) => (
+    icon: (active: boolean) => (
       <Icon as={TreeStructure} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     isEntity: true,
@@ -75,7 +79,7 @@ export default [
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/account',
     name: 'account.title',
-    icon: (active) => (
+    icon: (active: boolean) => (
       <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     component: AccountPage,
@@ -85,7 +89,7 @@ export default [
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/configuration/:id',
     name: 'configurations.one',
-    icon: (active) => (
+    icon: (active: boolean) => (
       <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     component: ConfigurationPage,
@@ -95,7 +99,7 @@ export default [
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/operators/:id',
     name: 'operator.one',
-    icon: (active) => (
+    icon: (active: boolean) => (
       <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     component: OperatorPage,
@@ -105,7 +109,7 @@ export default [
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/subscriber/:id',
     name: 'subscribers.one',
-    icon: (active) => (
+    icon: (active: boolean) => (
       <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     component: SubscriberPage,
@@ -115,7 +119,7 @@ export default [
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/map',
     name: 'common.map',
-    icon: (active) => (
+    icon: (active: boolean) => (
       <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     component: MapPage,

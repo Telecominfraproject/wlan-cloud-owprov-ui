@@ -5,8 +5,9 @@ import { Route, Routes } from 'react-router-dom';
 const Layout = React.lazy(() => import('layout'));
 const Login = React.lazy(() => import('pages/LoginPage'));
 
-const Router = () => {
+const Router: React.FC = () => {
   const { token } = useAuth();
+
   return (
     <Routes>{token !== '' ? <Route path="/*" element={<Layout />} /> : <Route path="/*" element={<Login />} />}</Routes>
   );

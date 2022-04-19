@@ -21,7 +21,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <HashRouter>
-        <ChakraProvider portalZIndex={40} theme={theme} resetCss={false}>
+        <ChakraProvider portalZIndex={40} theme={theme}>
           <Suspense fallback={<Spinner />}>
             <AuthProvider token={storageToken}>
               <Router />
