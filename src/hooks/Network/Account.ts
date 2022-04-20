@@ -193,9 +193,9 @@ export const useSuspendSubscriber = ({ id }: { id: string }) =>
 export const useUpdatePreferences = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
 
-  return useMutation((newPreferences: Preference[]) => axiosSec.put(`preferences`, newPreferences), {
-    onSuccess: ({ data }: { data: Preference[] }) => {
-      queryClient.setQueryData(['get-preferences', id], data);
+  return useMutation((newPreferences: Preference[]) => axiosSec.put(`preferences`, { data: newPreferences }), {
+    onSuccess: ({ data: { data: preferences } }: { data: { data: Preference[] } }) => {
+      queryClient.setQueryData(['get-preferences', id], preferences);
     },
   });
 };
@@ -203,7 +203,10 @@ export const useUpdatePreferences = ({ id }: { id: string }) => {
 export const useGetPreferences = ({ enabled }: { enabled?: boolean }) =>
   useQuery(
     ['get-user-preferences'],
-    () => axiosSec.get('preferences').then(({ data }: { data: Preference[] }) => data),
+    () =>
+      axiosSec
+        .get('preferences')
+        .then(({ data: { data: preferences } }: { data: { data: Preference[] } }) => preferences),
     {
       enabled,
     },

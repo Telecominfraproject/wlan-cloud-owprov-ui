@@ -107,7 +107,7 @@ export const AuthProvider = ({ token, children }: Props) => {
   const logoutUser = () => logout.mutateAsync(currentToken ?? '');
 
   const getPref = (preference: string) => {
-    for (const pref of preferences.data) {
+    for (const pref of preferences) {
       if (pref.tag === preference) return pref.value;
     }
     return null;
@@ -129,7 +129,7 @@ export const AuthProvider = ({ token, children }: Props) => {
   };
 
   const deletePref = (preference: string) => {
-    const newPreferences: Preference[] = preferences.data.filter((pref: Preference) => pref.tag !== preference);
+    const newPreferences: Preference[] = preferences.filter((pref: Preference) => pref.tag !== preference);
 
     updatePreferences.mutateAsync(newPreferences);
   };
