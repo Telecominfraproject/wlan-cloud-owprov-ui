@@ -51,7 +51,7 @@ const CreateSubscriberForm = ({ isOpen, onClose, refresh, formRef, operatorId })
           },
           {
             onSuccess: () => {
-              onSuccess(setSubmitting, resetForm);
+              onSuccess({ setSubmitting, resetForm });
               refresh();
             },
             onError: (e) => {

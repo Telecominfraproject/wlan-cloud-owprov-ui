@@ -59,7 +59,7 @@ const CreateOperatorForm = ({ isOpen, onClose, refresh, formRef }) => {
       onSubmit={(formData, { setSubmitting, resetForm }) =>
         create.mutateAsync(createParameters(formData), {
           onSuccess: () => {
-            onSuccess(setSubmitting, resetForm);
+            onSuccess({ setSubmitting, resetForm });
           },
           onError: (e) => {
             onError(e, { resetForm });

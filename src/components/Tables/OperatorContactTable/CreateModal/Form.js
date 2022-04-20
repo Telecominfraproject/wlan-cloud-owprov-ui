@@ -96,7 +96,7 @@ const CreateOperatorContactForm = ({ isOpen, onClose, refresh, formRef, operator
           },
           {
             onSuccess: () => {
-              onSuccess(setSubmitting, resetForm);
+              onSuccess({ setSubmitting, resetForm });
             },
             onError: (e) => {
               onError(e, { resetForm });

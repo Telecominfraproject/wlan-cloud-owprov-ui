@@ -96,7 +96,7 @@ const CreateOperatorLocationForm = ({ isOpen, onClose, refresh, formRef, operato
           },
           {
             onSuccess: () => {
-              onSuccess(setSubmitting, resetForm);
+              onSuccess({ setSubmitting, resetForm });
             },
             onError: (e) => {
               onError(e, { resetForm });

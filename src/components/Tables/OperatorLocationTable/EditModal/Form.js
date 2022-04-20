@@ -87,7 +87,7 @@ const EditOperatorLocationForm = ({ editing, isOpen, onClose, refresh, location,
           },
           {
             onSuccess: () => {
-              onSuccess(setSubmitting, resetForm);
+              onSuccess({ setSubmitting, resetForm });
             },
             onError: (e) => {
               onError(e, { resetForm });

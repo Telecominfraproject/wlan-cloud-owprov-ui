@@ -82,7 +82,7 @@ const EditOperatorContactForm = ({ editing, isOpen, onClose, refresh, contact, f
           },
           {
             onSuccess: () => {
-              onSuccess(setSubmitting, resetForm);
+              onSuccess({ setSubmitting, resetForm });
             },
             onError: (e) => {
               onError(e, { resetForm });

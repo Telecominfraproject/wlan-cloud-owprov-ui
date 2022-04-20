@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, ModalOverlay, ModalContent, ModalBody, Spinner, Center, useBoolean } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
@@ -12,9 +11,22 @@ import useFormModal from 'hooks/useFormModal';
 import { useGetSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import useOperatorChildren from 'hooks/useOperatorChildren';
 import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
+import { Device } from 'models/Device';
 import EditSubscriberDeviceForm from './Form';
 
-const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh, operatorId }) => {
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+  subscriberDevice?: Device;
+  refresh: () => void;
+  operatorId: string;
+}
+
+const defaultProps = {
+  subscriberDevice: undefined,
+};
+
+const EditSubscriberDeviceModal: React.FC<Props> = ({ isOpen, onClose, subscriberDevice, refresh, operatorId }) => {
   const { t } = useTranslation();
   const { form, formRef } = useFormRef();
   const [editing, setEditing] = useBoolean();
@@ -30,7 +42,7 @@ const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh,
     isLoading,
     refetch,
   } = useGetSubscriberDevice({
-    id: subscriberDevice?.id,
+    id: subscriberDevice?.id ?? '',
     enabled: subscriberDevice?.id !== '' && isOpen,
   });
   const {
@@ -84,12 +96,14 @@ const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh,
                 serviceClasses,
                 subscribers,
               }}
-              isOpen={isOpen}
-              onClose={closeCancelAndForm}
+              modalProps={{
+                isOpen,
+                onOpen: () => {},
+                onClose: closeCancelAndForm,
+              }}
               refresh={refreshAfterUpdate}
               formRef={formRef}
-              operatorId={operatorId}
-              configuration={configuration}
+              configuration={configuration || undefined}
               defaultConfiguration={subscriberDeviceData.configuration}
               onConfigurationChange={onConfigurationChange}
             />
@@ -105,15 +119,6 @@ const EditSubscriberDeviceModal = ({ isOpen, onClose, subscriberDevice, refresh,
   );
 };
 
-EditSubscriberDeviceModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  subscriberDevice: PropTypes.instanceOf(Object),
-  refresh: PropTypes.func.isRequired,
-  operatorId: PropTypes.string.isRequired,
-};
-EditSubscriberDeviceModal.defaultProps = {
-  subscriberDevice: null,
-};
+EditSubscriberDeviceModal.defaultProps = defaultProps;
 
 export default EditSubscriberDeviceModal;

@@ -55,7 +55,7 @@ const EditServiceClassForm = ({ serviceClass, editing, isOpen, onClose, refresh,
       onSubmit={(formData, { setSubmitting, resetForm }) =>
         update.mutateAsync(createParameters(formData), {
           onSuccess: () => {
-            onSuccess(setSubmitting, resetForm);
+            onSuccess({ setSubmitting, resetForm });
           },
           onError: (e) => {
             onError(e, { resetForm });

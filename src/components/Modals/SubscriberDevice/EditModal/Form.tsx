@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Heading } from '@chakra-ui/react';
@@ -12,11 +11,39 @@ import useMutationResult from 'hooks/useMutationResult';
 import useSelectList from 'hooks/useSelectList';
 import { useUpdateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
+import { ModalProps } from 'models/Modal';
+import { Device } from 'models/Device';
+import { Contact } from 'models/Contact';
+import { Location } from 'models/Location';
+import { ServiceClass } from 'models/ServiceClass';
+import { Subscriber } from 'models/Subscriber';
+import { Configuration } from 'models/Configuration';
 
-const EditSubscriberDeviceForm = ({
+interface Props {
+  editing: boolean;
+  modalProps: ModalProps;
+  refresh: () => void;
+  subscriberDevice: Device;
+  formRef: (node: any) => void;
+  externalData: {
+    deviceTypes: string[];
+    contacts: Contact[];
+    locations: Location[];
+    serviceClasses: ServiceClass[];
+    subscribers: Subscriber[];
+  };
+  configuration?: Object[];
+  defaultConfiguration?: Object[];
+  onConfigurationChange: (conf: Configuration) => void;
+}
+const defaultProps = {
+  configuration: undefined,
+  defaultConfiguration: undefined,
+};
+
+const EditSubscriberDeviceForm: React.FC<Props> = ({
   editing,
-  isOpen,
-  onClose,
+  modalProps: { isOpen, onClose },
   refresh,
   subscriberDevice,
   externalData,
@@ -77,11 +104,12 @@ const EditSubscriberDeviceForm = ({
           {
             ...data,
             configuration: configuration ?? undefined,
+            // @ts-ignore
             notes: data.notes.filter((note) => note.isNew),
           },
           {
             onSuccess: () => {
-              onSuccess(setSubmitting, resetForm);
+              onSuccess({ setSubmitting, resetForm });
             },
             onError: (e) => {
               onError(e, { resetForm });
@@ -177,28 +205,6 @@ const EditSubscriberDeviceForm = ({
   );
 };
 
-EditSubscriberDeviceForm.propTypes = {
-  editing: PropTypes.bool.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  refresh: PropTypes.func.isRequired,
-  subscriberDevice: PropTypes.instanceOf(Object).isRequired,
-  formRef: PropTypes.instanceOf(Object).isRequired,
-  externalData: PropTypes.shape({
-    deviceTypes: PropTypes.instanceOf(Object).isRequired,
-    contacts: PropTypes.instanceOf(Object).isRequired,
-    locations: PropTypes.instanceOf(Object).isRequired,
-    serviceClasses: PropTypes.instanceOf(Object).isRequired,
-    subscribers: PropTypes.instanceOf(Object).isRequired,
-  }).isRequired,
-  configuration: PropTypes.instanceOf(Object),
-  defaultConfiguration: PropTypes.instanceOf(Object),
-  onConfigurationChange: PropTypes.func.isRequired,
-};
-
-EditSubscriberDeviceForm.defaultProps = {
-  configuration: null,
-  defaultConfiguration: null,
-};
+EditSubscriberDeviceForm.defaultProps = defaultProps;
 
 export default EditSubscriberDeviceForm;

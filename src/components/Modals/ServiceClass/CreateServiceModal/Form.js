@@ -62,7 +62,7 @@ const CreateServiceClassForm = ({ isOpen, onClose, refresh, formRef, operatorId 
       onSubmit={(formData, { setSubmitting, resetForm }) =>
         create.mutateAsync(createParameters(formData), {
           onSuccess: () => {
-            onSuccess(setSubmitting, resetForm);
+            onSuccess({ setSubmitting, resetForm });
           },
           onError: (e) => {
             onError(e, { resetForm });

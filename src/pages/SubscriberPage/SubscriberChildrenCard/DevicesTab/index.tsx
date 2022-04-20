@@ -40,7 +40,7 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
       <EditSubscriberDeviceModal
         isOpen={isOpen}
         onClose={onClose}
-        subscriberDevice={subscriberDevice}
+        subscriberDevice={subscriberDevice || undefined}
         refresh={refresh}
         operatorId={operatorId}
       />
