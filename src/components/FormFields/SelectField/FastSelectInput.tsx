@@ -26,6 +26,7 @@ const FastSelectInput: React.FC<Props> = ({
   isRequired,
   isDisabled,
   isHidden,
+  isLabelHidden,
   w,
   definitionKey,
 }) => (
@@ -35,7 +36,7 @@ const FastSelectInput: React.FC<Props> = ({
     isDisabled={isDisabled}
     hidden={isHidden}
   >
-    <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
+    <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }} hidden={isLabelHidden}>
       {label} <ConfigurationFieldExplanation definitionKey={definitionKey} />
     </FormLabel>
     <Select

@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react';
-import { Device, EditDevice } from 'models/Device';
+import { Device } from 'models/Device';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
@@ -69,10 +69,10 @@ export const useGetSubscriberDevice = ({ enabled, id }: { enabled?: boolean; id:
 };
 
 export const useCreateSubscriberDevice = () =>
-  useMutation((newSubscriberDevice: EditDevice) => axiosProv.post('subscriberDevice/0', newSubscriberDevice));
+  useMutation((newSubscriberDevice: Object) => axiosProv.post('subscriberDevice/0', newSubscriberDevice));
 
 export const useUpdateSubscriberDevice = ({ id }: { id: string }) =>
-  useMutation((newSubscriberDevice: EditDevice) => axiosProv.put(`subscriberDevice/${id}`, newSubscriberDevice));
+  useMutation((newSubscriberDevice: Object) => axiosProv.put(`subscriberDevice/${id}`, newSubscriberDevice));
 
 export const useDeleteSubscriberDevice = ({ id }: { id: string }) =>
   useMutation(() => axiosProv.delete(`subscriberDevice/${id}`, {}));

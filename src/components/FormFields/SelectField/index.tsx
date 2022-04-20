@@ -16,6 +16,7 @@ const SelectField: React.FC<Props> = ({
   isRequired,
   onChangeEffect,
   isHidden,
+  isLabelHidden,
   emptyIsUndefined,
   isInt,
   w,
@@ -51,6 +52,7 @@ const SelectField: React.FC<Props> = ({
       isDisabled={isDisabled}
       isRequired={isRequired}
       isHidden={isHidden}
+      isLabelHidden={isLabelHidden}
       w={w}
       definitionKey={definitionKey}
     />

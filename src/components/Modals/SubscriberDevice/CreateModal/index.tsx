@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Modal, ModalOverlay, ModalContent, ModalBody, Center, Spinner } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
 import { useAuth } from 'contexts/AuthProvider';
-import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';
 import useFormRef from 'hooks/useFormRef';
@@ -12,7 +11,13 @@ import useFormModal from 'hooks/useFormModal';
 import useOperatorChildren from 'hooks/useOperatorChildren';
 import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
 import { Configuration } from 'models/Configuration';
-import CreateSubscriberDeviceForm from './Form';
+import useMutationResult from 'hooks/useMutationResult';
+import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import StepButton from 'components/Buttons/StepButton';
+import CreateSubscriberDeviceStep0 from './MultiStepForm/Step0';
+import CreateSubscriberDeviceStep1 from './MultiStepForm/Step1';
+import CreateSubscriberDeviceStep2 from './MultiStepForm/Step2';
+import CreateSubscriberDeviceStep3 from './MultiStepForm/Step3';
 
 const defaultConfiguration: Configuration[] = [];
 
@@ -36,9 +41,76 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
     isDirty: form?.dirty,
   });
   const {
-    data: { configuration, isDirty: isConfigurationDirty, isValid: isConfigurationValid },
+    data: { configuration, isValid: isConfigurationValid },
     onChange: onConfigurationChange,
   } = useNestedConfigurationForm({ defaultConfiguration });
+  const { onSuccess, onError } = useMutationResult({
+    objName: t('devices.one'),
+    operationType: 'create',
+    refresh,
+    onClose: closeCancelAndForm,
+  });
+  const create = useCreateSubscriberDevice();
+  const [step, setStep] = useState<number>(0);
+  const [data, setData] = useState<Object>({ operatorId });
+
+  const finishStep = (newData: Object) => {
+    const finalData = { ...data, ...newData };
+    setData(finalData);
+    setStep(step + 1);
+  };
+
+  const submit = () => {
+    create.mutateAsync(
+      {
+        ...data,
+        configuration: configuration ?? undefined,
+      },
+      {
+        onSuccess: () => {
+          onSuccess({});
+        },
+        onError: (e) => {
+          onError(e, {});
+        },
+      },
+    );
+  };
+
+  const resetStep = () => {
+    setData({ operatorId });
+    setStep(0);
+  };
+  useEffect(() => {
+    if (!isOpen) resetStep();
+  }, [isOpen]);
+
+  const formStep = useMemo(() => {
+    if (step === 0)
+      return (
+        <CreateSubscriberDeviceStep0
+          formRef={formRef}
+          finishStep={finishStep}
+          serviceClasses={serviceClasses}
+          subscribers={subscribers}
+          subscriberId={subscriberId}
+        />
+      );
+    if (step === 1)
+      return (
+        <CreateSubscriberDeviceStep1
+          formRef={formRef}
+          finishStep={finishStep}
+          deviceTypes={deviceTypes}
+          onConfigurationChange={onConfigurationChange}
+        />
+      );
+    if (step === 2)
+      return <CreateSubscriberDeviceStep2 formRef={formRef} finishStep={finishStep} locations={locations} />;
+    if (step === 3)
+      return <CreateSubscriberDeviceStep3 formRef={formRef} finishStep={finishStep} contacts={contacts} />;
+    return null;
+  }, [data, step, subscribers, serviceClasses, deviceTypes, locations, contacts]);
 
   return (
     <>
@@ -59,10 +131,13 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
             title={t('crud.create_object', { obj: t('certificates.device') })}
             right={
               <>
-                <SaveButton
-                  onClick={form.submitForm}
-                  isLoading={form.isSubmitting}
-                  isDisabled={!form.isValid || !isConfigurationValid || (!form.dirty && !isConfigurationDirty)}
+                <StepButton
+                  onNext={form.submitForm}
+                  onSave={submit}
+                  currentStep={step}
+                  lastStep={3}
+                  isLoading={form.isSubmitting || create.isLoading}
+                  isDisabled={!form.isValid || !isConfigurationValid}
                 />
                 <CloseButton ml={2} onClick={closeModal} />
               </>
@@ -70,24 +145,7 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
           />
           <ModalBody>
             {isLoaded ? (
-              <CreateSubscriberDeviceForm
-                modalProps={{
-                  isOpen,
-                  onOpen,
-                  onClose: closeCancelAndForm,
-                }}
-                deviceTypes={deviceTypes}
-                contacts={contacts}
-                locations={locations}
-                serviceClasses={serviceClasses}
-                subscriberId={subscriberId}
-                subscribers={subscribers}
-                refresh={refresh}
-                formRef={formRef}
-                operatorId={operatorId}
-                configuration={configuration ?? undefined}
-                onConfigurationChange={onConfigurationChange}
-              />
+              formStep
             ) : (
               <Center>
                 <Spinner />

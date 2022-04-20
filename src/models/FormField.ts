@@ -9,6 +9,7 @@ export interface FormInputProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isHidden?: boolean;
+  isLabelHidden?: boolean;
   w?: string | number;
   definitionKey?: string;
 }
@@ -19,6 +20,7 @@ export const defaultFormInput = {
   isDisabled: false,
   isRequired: false,
   isHidden: false,
+  isLabelHidden: false,
   w: undefined,
   definitionKey: undefined,
 };
@@ -29,6 +31,7 @@ export interface FormFieldProps {
   onChangeEffect?: (e: ChangeEventHandler<HTMLSelectElement>) => void;
   isDisabled?: boolean;
   isRequired?: boolean;
+  isLabelHidden?: boolean;
   isHidden?: boolean;
   isInt?: boolean;
   emptyIsUndefined?: boolean;
@@ -41,6 +44,7 @@ export const defaultFormField = {
   isDisabled: false,
   isRequired: false,
   isHidden: false,
+  isLabelHidden: false,
   isInt: false,
   emptyIsUndefined: false,
   w: undefined,
