@@ -1,12 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { Flex, Heading, Spacer } from '@chakra-ui/react';
+import { Flex, Heading, Spacer, useDisclosure } from '@chakra-ui/react';
 import useRefreshId from 'hooks/useRefreshId';
 import useObjectModal from 'hooks/useObjectModal';
 import SubscriberDeviceTable from 'components/Tables/SubscriberDeviceTable';
 import CreateSubscriberDeviceModal from 'components/Modals/SubscriberDevice/CreateModal';
 import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditModal';
+import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
 import Actions from './Actions';
 
 interface Props {
@@ -17,9 +18,17 @@ interface Props {
 const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
   const { t } = useTranslation();
   const { refreshId, refresh } = useRefreshId();
+  const [serialNumber, setSerialNumber] = useState<string>('');
+  const modalProps = useDisclosure();
   const { obj: subscriberDevice, openModal, isOpen, onClose } = useObjectModal();
+  const onOpenScan = (serial: string) => {
+    setSerialNumber(serial);
+    modalProps.onOpen();
+  };
   const actions = useCallback(
-    (cell) => <Actions key={uuid()} cell={cell.row} refreshTable={refresh} openEdit={openModal} />,
+    (cell) => (
+      <Actions key={uuid()} cell={cell.row} refreshTable={refresh} openEdit={openModal} onOpenScan={onOpenScan} />
+    ),
     [openModal, refreshId],
   );
 
@@ -44,6 +53,7 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
         refresh={refresh}
         operatorId={operatorId}
       />
+      <WifiScanModal modalProps={modalProps} serialNumber={serialNumber} />
     </>
   );
 };

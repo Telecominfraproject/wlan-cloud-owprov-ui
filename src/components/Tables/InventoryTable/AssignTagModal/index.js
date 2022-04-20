@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { Lock } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';

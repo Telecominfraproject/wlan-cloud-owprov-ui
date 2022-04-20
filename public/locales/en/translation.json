@@ -142,13 +142,20 @@
 		"title": "Certificates"
 	},
 	"commands": {
+		"abort_command_explanation": "Are you sure you want to stop waiting for this command's result?",
+		"abort_command_title": "Abort Command",
+		"active_scan": "Active Scan",
 		"blink": "Blink",
 		"blink_error": "Error while sending blink command: {{e}}",
 		"blink_success": "Blink command successfully sent!",
 		"other": "Commands",
+		"override_dfs": "Override DFS",
 		"reboot": "Reboot",
 		"reboot_error": "Error while sending reboot command: {{e}}",
-		"reboot_success": "Successfully sent reboot command!"
+		"reboot_success": "Successfully sent reboot command!",
+		"scan": "Scan",
+		"wifiscan": "WiFi Scan",
+		"wifiscan_error": "Error while trying to scan device: {{e}}"
 	},
 	"common": {
 		"actions": "Actions",

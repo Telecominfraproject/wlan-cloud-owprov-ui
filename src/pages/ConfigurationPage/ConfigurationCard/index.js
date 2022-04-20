@@ -13,7 +13,7 @@ import SaveButton from 'components/Buttons/SaveButton';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetConfiguration, useUpdateConfiguration } from 'hooks/Network/Configurations';
 import isEqual from 'react-fast-compare';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import EditConfigurationForm from './Form';
 import DeleteConfigurationPopover from './DeleteConfigurationPopover';
 import ConfigurationSectionsCard from './ConfigurationSectionsCard';

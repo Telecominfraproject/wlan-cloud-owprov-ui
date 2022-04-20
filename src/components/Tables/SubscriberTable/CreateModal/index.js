@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import { useAuth } from 'contexts/AuthProvider';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';

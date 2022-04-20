@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import SaveButton from 'components/Buttons/SaveButton';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/ModalHeader';
 import GoogleAuthenticatorIntro from './GoogleAuthenticatorIntro';
 import GoogleAuthenticatorQrDisplay from './GoogleAuthenticatorQrDisplay';

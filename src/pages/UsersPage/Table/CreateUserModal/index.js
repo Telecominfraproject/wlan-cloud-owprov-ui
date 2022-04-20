@@ -5,7 +5,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import { useAuth } from 'contexts/AuthProvider';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';

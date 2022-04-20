@@ -16,7 +16,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import EditButton from 'components/Buttons/EditButton';
 import CloseButton from 'components/Buttons/CloseButton';

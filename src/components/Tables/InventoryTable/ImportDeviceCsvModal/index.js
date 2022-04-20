@@ -13,7 +13,7 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/ModalHeader';
 import { UploadSimple } from 'phosphor-react';

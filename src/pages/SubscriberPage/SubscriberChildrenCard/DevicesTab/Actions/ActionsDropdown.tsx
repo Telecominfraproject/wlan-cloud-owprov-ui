@@ -10,9 +10,10 @@ interface Props {
   device: Device;
   refresh: () => void;
   isDisabled?: boolean;
+  onOpenScan: (serialNumber: string) => void;
 }
 
-const SubscriberActions: React.FC<Props> = ({ device, refresh, isDisabled }) => {
+const SubscriberActions: React.FC<Props> = ({ device, refresh, isDisabled, onOpenScan }) => {
   const { t } = useTranslation();
   const { mutateAsync: reboot } = useRebootDevice({ serialNumber: device.serialNumber });
   const { mutateAsync: blink } = useBlinkDevice({ serialNumber: device.serialNumber });
@@ -45,6 +46,7 @@ const SubscriberActions: React.FC<Props> = ({ device, refresh, isDisabled }) => 
         onBlinkError(e);
       },
     });
+  const handleOpenScan = () => onOpenScan(device.serialNumber);
 
   return (
     <Menu>
@@ -61,6 +63,7 @@ const SubscriberActions: React.FC<Props> = ({ device, refresh, isDisabled }) => 
       <MenuList>
         <MenuItem onClick={handleRebootClick}>{t('commands.reboot')}</MenuItem>
         <MenuItem onClick={handleBlinkClick}>{t('commands.blink')}</MenuItem>
+        <MenuItem onClick={handleOpenScan}>{t('commands.wifiscan')}</MenuItem>
       </MenuList>
     </Menu>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint, useDisclosure } from '@chakra-ui/react';
 import { Pencil, X } from 'phosphor-react';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 
 interface Props {
   toggleEdit: () => void;

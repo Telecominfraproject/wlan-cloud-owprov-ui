@@ -20,3 +20,9 @@ export interface EditDevice {
   configuration?: Configuration[];
   notes?: Note[];
 }
+
+export interface WifiScanCommand {
+  dfs: boolean;
+  activeScan: boolean;
+  bandwidth: '' | '20' | '40' | '80';
+}

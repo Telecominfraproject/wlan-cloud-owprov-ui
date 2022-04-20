@@ -8,7 +8,7 @@ import { useAuth } from 'contexts/AuthProvider';
 import { useMutation, useQueryClient } from 'react-query';
 import CardHeader from 'components/Card/CardHeader';
 import { Pencil, X } from 'phosphor-react';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import useFormRef from 'hooks/useFormRef';
 import UpdateForm from './Form';
