@@ -1,39 +1,14 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { useField } from 'formik';
+import { defaultFormField, FormFieldProps } from 'models/FormField';
 import Field from './FastSelectInput';
 
-const propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    }),
-  ).isRequired,
-  onChangeEffect: PropTypes.func,
-  isDisabled: PropTypes.bool,
-  isRequired: PropTypes.bool,
-  isHidden: PropTypes.bool,
-  isInt: PropTypes.bool,
-  emptyIsUndefined: PropTypes.bool,
-  w: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  definitionKey: PropTypes.string,
-};
+interface Props extends FormFieldProps {
+  options: { label: string; value: string | number }[];
+}
+const defaultProps = defaultFormField;
 
-const defaultProps = {
-  onChangeEffect: () => {},
-  isRequired: false,
-  isDisabled: false,
-  isHidden: false,
-  emptyIsUndefined: false,
-  isInt: false,
-  w: undefined,
-  definitionKey: null,
-};
-
-const SelectField = ({
+const SelectField: React.FC<Props> = ({
   options,
   name,
   isDisabled,
@@ -54,7 +29,7 @@ const SelectField = ({
     } else {
       setValue(isInt ? parseInt(e.target.value, 10) : e.target.value);
     }
-    onChangeEffect(e);
+    if (onChangeEffect !== undefined) onChangeEffect(e);
     setTimeout(() => {
       setTouched(true);
     }, 200);
@@ -82,7 +57,6 @@ const SelectField = ({
   );
 };
 
-SelectField.propTypes = propTypes;
 SelectField.defaultProps = defaultProps;
 
 export default React.memo(SelectField);

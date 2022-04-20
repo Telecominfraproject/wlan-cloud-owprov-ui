@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { Heading, SimpleGrid } from '@chakra-ui/react';
@@ -9,35 +8,39 @@ import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import useMutationResult from 'hooks/useMutationResult';
 import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
-import useSelectList from 'hooks/useSelectList.js';
+import useSelectList from 'hooks/useSelectList';
 import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
+import { ModalProps } from 'models/Modal';
+import { Contact } from 'models/Contact';
+import { Location } from 'models/Location';
+import { ServiceClass } from 'models/ServiceClass';
+import { Subscriber } from 'models/Subscriber';
+import { Configuration } from 'models/Configuration';
 
-const defaultConfiguration = [];
+const defaultConfiguration: Object[] = [];
 
-const propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  refresh: PropTypes.func.isRequired,
-  formRef: PropTypes.instanceOf(Object).isRequired,
-  operatorId: PropTypes.string.isRequired,
-  deviceTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  contacts: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
-  locations: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
-  serviceClasses: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
-  subscribers: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
-  configuration: PropTypes.instanceOf(Object),
-  onConfigurationChange: PropTypes.func.isRequired,
-  subscriberId: PropTypes.string,
-};
+interface Props {
+  modalProps: ModalProps;
+  refresh: () => void;
+  formRef: (node: any) => void;
+  operatorId: string;
+  subscriberId?: string;
+  deviceTypes: string[];
+  contacts: Contact[];
+  locations: Location[];
+  serviceClasses: ServiceClass[];
+  subscribers: Subscriber[];
+  configuration?: Configuration[] | undefined;
+  onConfigurationChange: (conf: Configuration) => void;
+}
 
 const defaultProps = {
-  configuration: null,
-  subscriberId: null,
+  configuration: undefined,
+  subscriberId: undefined,
 };
 
-const CreateSubscriberDeviceForm = ({
-  isOpen,
-  onClose,
+const CreateSubscriberDeviceForm: React.FC<Props> = ({
+  modalProps: { onClose, isOpen },
   refresh,
   formRef,
   operatorId,
@@ -79,7 +82,7 @@ const CreateSubscriberDeviceForm = ({
     <Formik
       innerRef={formRef}
       key={formKey}
-      initialValues={{ ...SubscriberDeviceSchema(t).cast(), deviceType: deviceTypes[0], subscriberId }}
+      initialValues={{ ...SubscriberDeviceSchema(t).cast(undefined), deviceType: deviceTypes[0], subscriberId }}
       validationSchema={SubscriberDeviceSchema(t)}
       onSubmit={(data, { setSubmitting, resetForm }) =>
         create.mutateAsync(
@@ -91,7 +94,7 @@ const CreateSubscriberDeviceForm = ({
           },
           {
             onSuccess: () => {
-              onSuccess(setSubmitting, resetForm);
+              onSuccess({ setSubmitting, resetForm });
             },
             onError: (e) => {
               onError(e, { resetForm });
@@ -149,7 +152,6 @@ const CreateSubscriberDeviceForm = ({
   );
 };
 
-CreateSubscriberDeviceForm.propTypes = propTypes;
 CreateSubscriberDeviceForm.defaultProps = defaultProps;
 
 export default CreateSubscriberDeviceForm;

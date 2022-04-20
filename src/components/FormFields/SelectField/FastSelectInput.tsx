@@ -1,42 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
 import isEqual from 'react-fast-compare';
+import { defaultFormInput, FormInputProps } from 'models/FormField';
 import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
 
-const propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    }),
-  ).isRequired,
-  onBlur: PropTypes.func.isRequired,
-  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  touched: PropTypes.bool,
-  isDisabled: PropTypes.bool,
-  isRequired: PropTypes.bool,
-  isHidden: PropTypes.bool,
-  w: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  definitionKey: PropTypes.string,
-};
+interface Props extends FormInputProps {
+  value?: string;
+  options: { label: string; value: string | number }[];
+}
 
 const defaultProps = {
   value: '',
-  error: false,
-  touched: false,
-  isRequired: false,
-  isDisabled: false,
-  isHidden: false,
-  w: undefined,
-  definitionKey: null,
+  ...defaultFormInput,
 };
 
-const FastSelectInput = ({
+const FastSelectInput: React.FC<Props> = ({
   options,
   label,
   value,
@@ -50,7 +29,12 @@ const FastSelectInput = ({
   w,
   definitionKey,
 }) => (
-  <FormControl isInvalid={error && touched} isRequired={isRequired} isDisabled={isDisabled} hidden={isHidden}>
+  <FormControl
+    isInvalid={(error !== undefined || error) && touched}
+    isRequired={isRequired}
+    isDisabled={isDisabled}
+    hidden={isHidden}
+  >
     <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
       {label} <ConfigurationFieldExplanation definitionKey={definitionKey} />
     </FormLabel>
@@ -73,7 +57,6 @@ const FastSelectInput = ({
   </FormControl>
 );
 
-FastSelectInput.propTypes = propTypes;
 FastSelectInput.defaultProps = defaultProps;
 
 export default React.memo(FastSelectInput, isEqual);

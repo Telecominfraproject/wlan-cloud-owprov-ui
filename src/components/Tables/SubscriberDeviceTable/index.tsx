@@ -1,29 +1,29 @@
 import React, { useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import DataTable from 'components/DataTable';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import { useGetSubscriberDevices } from 'hooks/Network/SubscriberDevices';
+import { DeviceCell } from 'models/Table';
 
-const propTypes = {
-  actions: PropTypes.func.isRequired,
-  operatorId: PropTypes.string.isRequired,
-  subscriberId: PropTypes.string.isRequired,
-  ignoredColumns: PropTypes.arrayOf(PropTypes.string),
-  refreshId: PropTypes.number,
-  disabledIds: PropTypes.arrayOf(PropTypes.string),
-  minHeight: PropTypes.string,
-};
+interface Props {
+  actions: (cell: DeviceCell) => React.ReactElement;
+  operatorId: string;
+  subscriberId: string;
+  ignoredColumns?: string[];
+  refreshId?: number;
+  disabledIds?: string[];
+  minHeight?: string;
+}
 
 const defaultProps = {
   ignoredColumns: [],
   refreshId: 0,
   disabledIds: [],
-  minHeight: null,
+  minHeight: undefined,
 };
 
-const SubscriberDeviceTable = ({
+const SubscriberDeviceTable: React.FC<Props> = ({
   actions,
   operatorId,
   subscriberId,
@@ -55,7 +55,7 @@ const SubscriberDeviceTable = ({
         Header: t('common.created'),
         Footer: '',
         accessor: 'created',
-        Cell: ({ cell }) => memoizedDate(cell, 'created'),
+        Cell: ({ cell }: { cell: DeviceCell }) => memoizedDate(cell, 'created'),
         customMinWidth: '150px',
         customWidth: '150px',
       },
@@ -64,7 +64,7 @@ const SubscriberDeviceTable = ({
         Header: t('common.modified'),
         Footer: '',
         accessor: 'modified',
-        Cell: ({ cell }) => memoizedDate(cell, 'modified'),
+        Cell: ({ cell }: { cell: DeviceCell }) => memoizedDate(cell, 'modified'),
         customMinWidth: '150px',
         customWidth: '150px',
       },
@@ -81,7 +81,7 @@ const SubscriberDeviceTable = ({
         Footer: '',
         accessor: 'Id',
         customWidth: '80px',
-        Cell: ({ cell }) => actionCell(cell),
+        Cell: ({ cell }: { cell: DeviceCell }) => actionCell(cell),
         disableSortBy: true,
         alwaysShow: true,
       },
@@ -91,12 +91,14 @@ const SubscriberDeviceTable = ({
   }, [disabledIds, actionCell]);
 
   useEffect(() => {
-    if (refreshId > 0) refetch();
+    if (refreshId !== undefined && refreshId > 0) refetch();
   }, [refreshId]);
 
   return (
     <DataTable
-      columns={columns.filter((col) => !ignoredColumns.find((ignored) => ignored === col.id))}
+      columns={
+        ignoredColumns ? columns.filter((col) => !ignoredColumns.find((ignored) => ignored === col.id)) : columns
+      }
       data={subscriberDevices ?? []}
       isLoading={isFetching}
       obj={t('devices.title')}
@@ -105,7 +107,5 @@ const SubscriberDeviceTable = ({
   );
 };
 
-SubscriberDeviceTable.propTypes = propTypes;
 SubscriberDeviceTable.defaultProps = defaultProps;
-
 export default SubscriberDeviceTable;

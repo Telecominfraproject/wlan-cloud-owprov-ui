@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button, Modal, ModalOverlay, ModalContent, ModalBody, Center, Spinner } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
@@ -12,20 +11,21 @@ import useFormRef from 'hooks/useFormRef';
 import useFormModal from 'hooks/useFormModal';
 import useOperatorChildren from 'hooks/useOperatorChildren';
 import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
+import { Configuration } from 'models/Configuration';
 import CreateSubscriberDeviceForm from './Form';
 
-const defaultConfiguration = [];
+const defaultConfiguration: Configuration[] = [];
 
-const propTypes = {
-  refresh: PropTypes.func.isRequired,
-  operatorId: PropTypes.string.isRequired,
-  subscriberId: PropTypes.string,
-};
+interface Props {
+  refresh: () => void;
+  operatorId: string;
+  subscriberId?: string;
+}
 const defaultProps = {
   subscriberId: '',
 };
 
-const CreateSubscriberDeviceModal = ({ refresh, operatorId, subscriberId }) => {
+const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, subscriberId }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { isLoaded, deviceTypes, contacts, locations, serviceClasses, subscribers } = useOperatorChildren({
@@ -71,8 +71,11 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId, subscriberId }) => {
           <ModalBody>
             {isLoaded ? (
               <CreateSubscriberDeviceForm
-                isOpen={isOpen}
-                onClose={closeCancelAndForm}
+                modalProps={{
+                  isOpen,
+                  onOpen,
+                  onClose: closeCancelAndForm,
+                }}
                 deviceTypes={deviceTypes}
                 contacts={contacts}
                 locations={locations}
@@ -82,7 +85,7 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId, subscriberId }) => {
                 refresh={refresh}
                 formRef={formRef}
                 operatorId={operatorId}
-                configuration={configuration}
+                configuration={configuration ?? undefined}
                 onConfigurationChange={onConfigurationChange}
               />
             ) : (
@@ -98,7 +101,6 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId, subscriberId }) => {
   );
 };
 
-CreateSubscriberDeviceModal.propTypes = propTypes;
 CreateSubscriberDeviceModal.defaultProps = defaultProps;
 
 export default CreateSubscriberDeviceModal;

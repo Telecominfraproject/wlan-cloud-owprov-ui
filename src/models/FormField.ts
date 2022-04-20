@@ -1,0 +1,48 @@
+import { ChangeEventHandler } from 'react';
+
+export interface FormInputProps {
+  label: string;
+  onChange: ChangeEventHandler<HTMLSelectElement>;
+  onBlur: () => void;
+  error?: string | boolean;
+  touched?: boolean;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+  isHidden?: boolean;
+  w?: string | number;
+  definitionKey?: string;
+}
+
+export const defaultFormInput = {
+  error: undefined,
+  touched: false,
+  isDisabled: false,
+  isRequired: false,
+  isHidden: false,
+  w: undefined,
+  definitionKey: undefined,
+};
+
+export interface FormFieldProps {
+  name: string;
+  label: string;
+  onChangeEffect?: (e: ChangeEventHandler<HTMLSelectElement>) => void;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+  isHidden?: boolean;
+  isInt?: boolean;
+  emptyIsUndefined?: boolean;
+  w?: string | number;
+  definitionKey?: string;
+}
+
+export const defaultFormField = {
+  onChangeEffect: undefined,
+  isDisabled: false,
+  isRequired: false,
+  isHidden: false,
+  isInt: false,
+  emptyIsUndefined: false,
+  w: undefined,
+  definitionKey: undefined,
+};

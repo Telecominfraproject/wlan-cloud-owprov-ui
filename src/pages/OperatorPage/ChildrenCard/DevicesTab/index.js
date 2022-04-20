@@ -5,8 +5,8 @@ import { Box } from '@chakra-ui/react';
 import useRefreshId from 'hooks/useRefreshId';
 import useObjectModal from 'hooks/useObjectModal';
 import SubscriberDeviceTable from 'components/Tables/SubscriberDeviceTable';
-import CreateSubscriberDeviceModal from 'components/Tables/SubscriberDeviceTable/CreateModal';
-import EditSubscriberDeviceModal from 'components/Tables/SubscriberDeviceTable/EditModal';
+import CreateSubscriberDeviceModal from 'components/Modals/SubscriberDevice/CreateModal';
+import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditModal';
 import Actions from './Actions';
 
 const propTypes = {

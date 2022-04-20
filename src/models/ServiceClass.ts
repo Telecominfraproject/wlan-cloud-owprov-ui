@@ -1,11 +1,8 @@
 import { Note } from './Note';
 
-export interface User {
+export interface ServiceClass {
   name: string;
   description: string;
-  currentPassword?: string;
   id: string;
-  userRole: string;
-  suspended: boolean;
   notes: Note[];
 }

@@ -9,7 +9,7 @@ import StringField from 'components/FormFields/StringField';
 import { SubscriberDeviceSchema } from 'constants/formSchemas';
 import SelectField from 'components/FormFields/SelectField';
 import useMutationResult from 'hooks/useMutationResult';
-import useSelectList from 'hooks/useSelectList.js';
+import useSelectList from 'hooks/useSelectList';
 import { useUpdateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
 

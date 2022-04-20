@@ -1,11 +1,12 @@
+import { Configuration, ConfigurationNestedProps } from 'models/Configuration';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import isEqual from 'react-fast-compare';
 
-const useNestedConfigurationForm = ({ defaultConfiguration } = { defaultConfiguration: null }) => {
-  const [configuration, setConfiguration] = useState(null);
+const useNestedConfigurationForm = ({ defaultConfiguration }: { defaultConfiguration: Configuration[] }) => {
+  const [configuration, setConfiguration] = useState<ConfigurationNestedProps | undefined>(undefined);
 
   const onConfigurationChange = useCallback((newConfiguration) => setConfiguration(newConfiguration), []);
-  const reset = () => setConfiguration(null);
+  const reset = () => setConfiguration(undefined);
 
   const data = useMemo(() => {
     if (!configuration)
@@ -29,6 +30,7 @@ const useNestedConfigurationForm = ({ defaultConfiguration } = { defaultConfigur
       reset,
     }),
     [data],
+    // @ts-ignore
     isEqual,
   );
 
@@ -45,6 +47,7 @@ const useNestedConfigurationForm = ({ defaultConfiguration } = { defaultConfigur
       }
     },
     [defaultConfiguration],
+    // @ts-ignore
     isEqual,
   );
 
