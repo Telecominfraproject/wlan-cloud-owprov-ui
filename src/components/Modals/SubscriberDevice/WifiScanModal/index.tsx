@@ -13,6 +13,7 @@ import { WifiScanCommand } from 'models/Device';
 import useFormRef from 'hooks/useFormRef';
 import ResponsiveButton from 'components/Buttons/ResponsiveButton';
 import WifiScanForm from './Form';
+import WifiScanResultDisplay from './ResultDisplay';
 
 interface Props {
   modalProps: ModalProps;
@@ -56,12 +57,10 @@ const WifiScanModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, seria
         </Center>
       );
     if (scanResult) {
-      // @ts-ignore
-      const results: Object = scanResult?.data.results;
-      return <pre>{JSON.stringify(results, null, 4)}</pre>;
+      return <WifiScanResultDisplay results={scanResult} />;
     }
     return <WifiScanForm modalProps={{ isOpen, onOpen: () => {}, onClose }} submit={submit} formRef={formRef} />;
-  }, [scanResult, formRef]);
+  }, [scanResult, isLoading, formRef]);
 
   useEffect(() => {
     if (isOpen) reset();
@@ -69,7 +68,7 @@ const WifiScanModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, seria
   return (
     <Modal onClose={closeModal} isOpen={isOpen} size="xl" scrollBehavior="inside">
       <ModalOverlay />
-      <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
+      <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
         <ModalHeader
           title={t('commands.wifiscan')}
           right={

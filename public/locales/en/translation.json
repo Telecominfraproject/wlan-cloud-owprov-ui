@@ -148,14 +148,18 @@
 		"blink": "Blink",
 		"blink_error": "Error while sending blink command: {{e}}",
 		"blink_success": "Blink command successfully sent!",
+		"channel": "Channel",
+		"execution_time": "Execution Time",
 		"other": "Commands",
 		"override_dfs": "Override DFS",
 		"reboot": "Reboot",
 		"reboot_error": "Error while sending reboot command: {{e}}",
 		"reboot_success": "Successfully sent reboot command!",
 		"scan": "Scan",
+		"signal": "Signal",
 		"wifiscan": "WiFi Scan",
-		"wifiscan_error": "Error while trying to scan device: {{e}}"
+		"wifiscan_error": "Error while trying to scan device: {{e}}",
+		"wifiscan_error_1": "Your 5G radio is on a radar channel, you must enable “Override DFS” to allow scanning of all 5G channels"
 	},
 	"common": {
 		"actions": "Actions",

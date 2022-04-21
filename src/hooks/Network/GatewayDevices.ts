@@ -1,4 +1,4 @@
-import { WifiScanCommand } from 'models/Device';
+import { WifiScanCommand, WifiScanResult } from 'models/Device';
 import { useMutation } from 'react-query';
 import { axiosGw } from 'utils/axiosInstances';
 
@@ -11,12 +11,15 @@ export const useBlinkDevice = ({ serialNumber }: { serialNumber: string }) =>
   );
 
 export const useWifiScanDevice = ({ serialNumber }: { serialNumber: string }) =>
-  useMutation(({ dfs, bandwidth, activeScan }: WifiScanCommand) =>
-    axiosGw.post(`device/24f5a207a130/wifiscan`, {
-      test: serialNumber,
-      serialNumber: '24f5a207a130',
-      override_dfs: dfs,
-      bandwidth: bandwidth !== '' ? bandwidth : undefined,
-      activeScan,
-    }),
+  useMutation(
+    ({ dfs, bandwidth, activeScan }: WifiScanCommand): Promise<WifiScanResult | undefined> =>
+      axiosGw
+        .post<WifiScanResult | undefined>(`device/24f5a207a130/wifiscan`, {
+          test: serialNumber,
+          serialNumber: '24f5a207a130',
+          override_dfs: dfs,
+          bandwidth: bandwidth !== '' ? bandwidth : undefined,
+          activeScan,
+        })
+        .then(({ data }: { data: WifiScanResult }) => data),
   );

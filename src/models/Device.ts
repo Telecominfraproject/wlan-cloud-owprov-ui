@@ -26,3 +26,45 @@ export interface WifiScanCommand {
   activeScan: boolean;
   bandwidth: '' | '20' | '40' | '80';
 }
+
+interface BssidResult {
+  bssid: string;
+  capability: number;
+  channel: number;
+  frequency: number;
+  ht_oper: string;
+  ies: any[];
+  last_seen: number;
+  signal: number;
+  ssid?: string;
+  meshid?: string;
+  tsf: number;
+  vht_oper: string;
+}
+
+export interface WifiScanResult {
+  UUID: string;
+  attachFile: number;
+  completed: number;
+  errorCode: number;
+  errorText: string;
+  executed: number;
+  executionTime: number;
+  results: {
+    serial: string;
+    status: {
+      error: number;
+      resultCode: number;
+      scan: BssidResult[];
+    };
+  };
+}
+
+interface DeviceScanResult {
+  ssid: string;
+  signal: number;
+}
+export interface ScanChannel {
+  channel: number;
+  devices: DeviceScanResult[];
+}
