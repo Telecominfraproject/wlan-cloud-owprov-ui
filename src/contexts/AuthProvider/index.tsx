@@ -28,11 +28,11 @@ interface AuthProviderReturn {
   avatar: string;
   refetchUser: () => void;
   refetchAvatar: () => void;
-  user: User;
+  user?: User;
   token?: string;
   setToken: Dispatch<SetStateAction<string | undefined>>;
   logout: () => void;
-  getPref: (preference: string) => string;
+  getPref: (preference: string) => string | null;
   setPref: ({ preference, value }: { preference: string; value: string }) => void;
   deletePref: (preference: string) => void;
   ref: React.MutableRefObject<undefined>;
@@ -52,7 +52,7 @@ export const AuthProvider = ({ token, children }: Props) => {
   const [endpoints, setEndpoints] = useState<{ [key: string]: string } | null>(null);
   const { data: configurationDescriptions } = useQuery(
     ['get-configuration-descriptions'],
-    () => getConfigDescriptions(axiosProv.defaults.baseURL),
+    () => getConfigDescriptions(axiosProv.defaults.baseURL ?? ''),
     {
       staleTime: Infinity,
       enabled: loadedEndpoints,
@@ -93,7 +93,7 @@ export const AuthProvider = ({ token, children }: Props) => {
       setLoadedEndpoints(true);
     },
   });
-  const userId = user?.id;
+  const userId = user?.id ?? '';
   const userAvatar = user?.avatar ?? '';
   const { data: preferences, refetch: refetchAvatar } = useGetPreferences({ enabled: !!userId });
   const { data: avatar } = useGetAvatar({
@@ -107,7 +107,7 @@ export const AuthProvider = ({ token, children }: Props) => {
   const logoutUser = () => logout.mutateAsync(currentToken ?? '');
 
   const getPref = (preference: string) => {
-    for (const pref of preferences) {
+    for (const pref of preferences ?? []) {
       if (pref.tag === preference) return pref.value;
     }
     return null;
@@ -115,23 +115,27 @@ export const AuthProvider = ({ token, children }: Props) => {
 
   const setPref = ({ preference, value }: { preference: string; value: string }) => {
     let updated = false;
-    const newPreferences: Preference[] = preferences.map((pref: Preference) => {
-      if (pref.tag === preference) {
-        updated = true;
-        return { tag: pref.tag, value };
-      }
-      return pref;
-    });
+    if (preferences) {
+      const newPreferences: Preference[] = preferences.map((pref: Preference) => {
+        if (pref.tag === preference) {
+          updated = true;
+          return { tag: pref.tag, value };
+        }
+        return pref;
+      });
 
-    if (!updated) newPreferences.push({ tag: preference, value });
+      if (!updated) newPreferences.push({ tag: preference, value });
 
-    updatePreferences.mutateAsync(newPreferences);
+      updatePreferences.mutateAsync(newPreferences);
+    }
   };
 
   const deletePref = (preference: string) => {
-    const newPreferences: Preference[] = preferences.filter((pref: Preference) => pref.tag !== preference);
+    if (preferences) {
+      const newPreferences: Preference[] = preferences.filter((pref: Preference) => pref.tag !== preference);
 
-    updatePreferences.mutateAsync(newPreferences);
+      updatePreferences.mutateAsync(newPreferences);
+    }
   };
 
   useEffect(() => {

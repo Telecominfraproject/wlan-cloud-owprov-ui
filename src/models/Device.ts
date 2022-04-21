@@ -7,7 +7,7 @@ export interface Device {
   operatorId: string;
   id: string;
   serialNumber: string;
-  configuration?: Configuration;
+  configuration?: Configuration[];
   notes?: Note[];
 }
 
@@ -62,7 +62,7 @@ export interface WifiScanResult {
 
 interface DeviceScanResult {
   ssid: string;
-  signal: number;
+  signal: number | string;
 }
 export interface ScanChannel {
   channel: number;

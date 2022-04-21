@@ -1,4 +1,4 @@
-const UNITS = {
+const UNITS: { year: number; month: number; day: number; hour: number; minute: number; second: number } = {
   year: 24 * 60 * 60 * 1000 * 365,
   month: (24 * 60 * 60 * 1000 * 365) / 12,
   day: 24 * 60 * 60 * 1000,
@@ -9,16 +9,16 @@ const UNITS = {
 
 const RTF = new Intl.RelativeTimeFormat('en', { localeMatcher: 'best fit', style: 'long' });
 
-const twoDigitNumber = (number) => {
+const twoDigitNumber = (number: number) => {
   if (number >= 10) {
     return number;
   }
   return `0${number}`;
 };
 
-const unixToDateString = (unixNumber) => unixNumber * 1000;
+const unixToDateString = (unixNumber: number) => unixNumber * 1000;
 
-export const compactDate = (dateString) => {
+export const compactDate = (dateString: number) => {
   if (!dateString || dateString === null) return '-';
   const convertedTimestamp = unixToDateString(dateString);
   const date = new Date(convertedTimestamp);
@@ -26,14 +26,18 @@ export const compactDate = (dateString) => {
   ${twoDigitNumber(date.getHours())}:${twoDigitNumber(date.getMinutes())}:${twoDigitNumber(date.getSeconds())}`;
 };
 
-export const formatDaysAgo = (d1, d2 = new Date()) => {
+export const formatDaysAgo = (d1: number, d2: number = new Date().getTime()) => {
   try {
     const convertedTimestamp = unixToDateString(d1);
-    const date = new Date(convertedTimestamp);
+    const date = new Date(convertedTimestamp).getTime();
     const elapsed = date - d2;
 
-    for (const [key] of Object.entries(UNITS))
-      if (Math.abs(elapsed) > UNITS[key] || key === 'second') return RTF.format(Math.round(elapsed / UNITS[key]), key);
+    for (const key of Object.keys(UNITS))
+      if (Math.abs(elapsed) > UNITS[key as 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'] || key === 'second')
+        return RTF.format(
+          Math.round(elapsed / UNITS[key as 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second']),
+          key as any,
+        );
 
     return compactDate(date);
   } catch {
@@ -41,7 +45,7 @@ export const formatDaysAgo = (d1, d2 = new Date()) => {
   }
 };
 
-export const compactSecondsToDetailed = (seconds, t) => {
+export const compactSecondsToDetailed = (seconds: number, t: (str: string) => string) => {
   if (!seconds || seconds === 0) return `0 ${t('common.seconds')}`;
   let secondsLeft = seconds;
   const days = Math.floor(secondsLeft / (3600 * 24));
@@ -62,7 +66,7 @@ export const compactSecondsToDetailed = (seconds, t) => {
   return finalString;
 };
 
-export const minimalSecondsToDetailed = (seconds, t) => {
+export const minimalSecondsToDetailed = (seconds: number, t: (str: string) => string) => {
   if (!seconds || seconds === 0) return `0 ${t('common.seconds')}`;
   let secondsLeft = seconds;
   const days = Math.floor(secondsLeft / (3600 * 24));
@@ -88,7 +92,7 @@ export const getHoursAgo = (hoursAgo = 1, date = new Date()) => {
   return newDate;
 };
 
-export const dateForFilename = (dateString) => {
+export const dateForFilename = (dateString: number) => {
   const convertedTimestamp = unixToDateString(dateString);
   const date = new Date(convertedTimestamp);
   return `${date.getFullYear()}_${twoDigitNumber(date.getMonth() + 1)}_${twoDigitNumber(

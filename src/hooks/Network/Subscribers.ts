@@ -42,11 +42,11 @@ export const useGetSubscribers = ({
   count,
   operatorId,
 }: {
-  pageInfo: any;
-  select: any;
-  enabled: boolean;
-  count: number;
-  operatorId: string;
+  pageInfo?: any;
+  select?: any;
+  enabled?: boolean;
+  count?: number;
+  operatorId?: string;
 }) => {
   const { t } = useTranslation();
   const toast = useToast();

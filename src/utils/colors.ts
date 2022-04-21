@@ -5,9 +5,9 @@ export const warningColor = (colorMode = 'light') =>
 export const errorColor = (colorMode = 'light') =>
   colorMode === 'light' ? 'var(--chakra-colors-danger-400)' : 'var(--chakra-colors-danger-400)';
 
-const mix = (start, end, percent) => start + percent * (end - start);
+const mix = (start: number, end: number, percent: number) => start + percent * (end - start);
 
-const generateHex = (red, green, blue) => {
+const generateHex = (red: number, green: number, blue: number) => {
   let r = red.toString(16);
   let g = green.toString(16);
   let b = blue.toString(16);
@@ -25,7 +25,11 @@ const generateHex = (red, green, blue) => {
   return `#${r}${g}${b}`;
 };
 
-export const getBlendedColor = (color1, color2, percent) => {
+export const getBlendedColor = (
+  color1: [string, string, string, string, string, string, string],
+  color2: [string, string, string, string, string, string, string],
+  percent: number,
+) => {
   const red1 = parseInt(color1[1] + color1[2], 16);
   const green1 = parseInt(color1[3] + color1[4], 16);
   const blue1 = parseInt(color1[5] + color1[6], 16);

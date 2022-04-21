@@ -16,7 +16,7 @@ const SubscriberChildrenCard: React.FC<Props> = ({ id }) => {
   return (
     <Card>
       <CardBody>
-        {!subscriber && isFetching ? (
+        {!subscriber ? (
           <Center w="100%">
             <Spinner size="xl" />
           </Center>

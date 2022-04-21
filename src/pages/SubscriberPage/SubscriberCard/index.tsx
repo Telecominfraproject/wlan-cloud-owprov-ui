@@ -54,7 +54,7 @@ const SubscriberCard: React.FC<Props> = ({ id }) => {
         </Box>
       </CardHeader>
       <CardBody>
-        {!subscriber && isFetching ? (
+        {!subscriber ? (
           <Center w="100%">
             <Spinner size="xl" />
           </Center>

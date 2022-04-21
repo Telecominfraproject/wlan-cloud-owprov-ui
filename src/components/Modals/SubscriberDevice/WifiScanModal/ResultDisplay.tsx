@@ -27,7 +27,7 @@ const WifiScanResultDisplay: React.FC<Props> = ({ results, setCsvData }) => {
         for (const deviceResult of results.results.status.scan) {
           if (deviceResult.channel === scan.channel) {
             let ssid: string = '';
-            const signal: number = parseDbm(deviceResult.signal);
+            const signal: number | string = parseDbm(deviceResult.signal);
             if (deviceResult.ssid && deviceResult.ssid.length > 0) ssid = deviceResult.ssid;
             else ssid = deviceResult.meshid && deviceResult.meshid.length > 0 ? deviceResult.meshid : 'N/A';
             channel.devices.push({ ssid, signal });

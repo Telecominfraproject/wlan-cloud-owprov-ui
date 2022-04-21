@@ -49,7 +49,7 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({ isOpen, onClose, subscribe
     data: { configuration, isDirty: isConfigurationDirty, isValid: isConfigurationValid },
     onChange: onConfigurationChange,
     reset,
-  } = useNestedConfigurationForm({ defaultConfiguration: subscriberDeviceData?.configuration ?? null });
+  } = useNestedConfigurationForm({ defaultConfiguration: subscriberDeviceData?.configuration ?? undefined });
 
   const refreshAfterUpdate = () => {
     reset();
@@ -94,7 +94,7 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({ isOpen, onClose, subscribe
                 contacts,
                 locations,
                 serviceClasses,
-                subscribers,
+                subscribers: subscribers ?? [],
               }}
               modalProps={{
                 isOpen,

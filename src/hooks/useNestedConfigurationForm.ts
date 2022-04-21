@@ -2,7 +2,11 @@ import { Configuration, ConfigurationNestedProps } from 'models/Configuration';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import isEqual from 'react-fast-compare';
 
-const useNestedConfigurationForm = ({ defaultConfiguration }: { defaultConfiguration: Configuration[] }) => {
+const useNestedConfigurationForm = ({
+  defaultConfiguration,
+}: {
+  defaultConfiguration: Configuration[] | undefined;
+}) => {
   const [configuration, setConfiguration] = useState<ConfigurationNestedProps | undefined>(undefined);
 
   const onConfigurationChange = useCallback((newConfiguration) => setConfiguration(newConfiguration), []);

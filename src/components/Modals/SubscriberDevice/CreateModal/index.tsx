@@ -92,7 +92,7 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
           formRef={formRef}
           finishStep={finishStep}
           serviceClasses={serviceClasses}
-          subscribers={subscribers}
+          subscribers={subscribers ?? []}
           subscriberId={subscriberId}
         />
       );

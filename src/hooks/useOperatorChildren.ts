@@ -5,8 +5,8 @@ import { useGetOperatorLocations } from './Network/OperatorLocations';
 import { useGetServiceClasses } from './Network/ServiceClasses';
 import { useGetSubscribers } from './Network/Subscribers';
 
-const useOperatorChildren = ({ operatorId }) => {
-  const { data: deviceTypes, isFetchingDeviceTypes } = useGetDeviceTypes();
+const useOperatorChildren = ({ operatorId }: { operatorId: string }) => {
+  const { data: deviceTypes, isFetching: isFetchingDeviceTypes } = useGetDeviceTypes();
   const { data: contacts, isFetching: isFetchingContacts } = useGetOperatorContacts({ operatorId });
   const { data: locations, isFetching: isFetchingLocations } = useGetOperatorLocations({ operatorId });
   const { data: serviceClasses, isFetching: isFetchingServices } = useGetServiceClasses({ operatorId });
