@@ -1,17 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
 import { Box, useStyleConfig } from '@chakra-ui/react';
 
-const propTypes = {
-  children: PropTypes.node.isRequired,
-};
+interface Props {
+  children: ReactNode;
+}
 
-const PanelContainer = ({ children }) => {
+const PanelContainer: React.FC<Props> = ({ children }) => {
   const styles = useStyleConfig('PanelContainer');
   // Pass the computed styles into the `__css` prop
   return <Box __css={styles}>{children}</Box>;
 };
-
-PanelContainer.propTypes = propTypes;
 
 export default PanelContainer;

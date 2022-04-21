@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { ChevronDownIcon, HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -25,13 +24,13 @@ import { uppercaseFirstLetter } from 'utils/stringHelper';
 import { MapTrifold } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 
-const propTypes = {
-  secondary: PropTypes.bool.isRequired,
-  isSidebarOpen: PropTypes.bool.isRequired,
-  toggleSidebar: PropTypes.func.isRequired,
-};
+interface Props {
+  secondary: boolean;
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+}
 
-const Navbar = ({ secondary, toggleSidebar, isSidebarOpen }) => {
+const Navbar: React.FC<Props> = ({ secondary, toggleSidebar, isSidebarOpen }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,7 +48,7 @@ const Navbar = ({ secondary, toggleSidebar, isSidebarOpen }) => {
   };
 
   // Style variables
-  let navbarPosition = 'absolute';
+  let navbarPosition: string = 'absolute';
   let navbarFilter = 'none';
   let navbarBackdrop = 'blur(21px)';
   let navbarShadow = 'none';
@@ -95,7 +94,7 @@ const Navbar = ({ secondary, toggleSidebar, isSidebarOpen }) => {
 
   return (
     <Flex
-      position={navbarPosition}
+      position={navbarPosition as any}
       boxShadow={navbarShadow}
       bg={navbarBg}
       borderColor={navbarBorder}
@@ -133,7 +132,12 @@ const Navbar = ({ secondary, toggleSidebar, isSidebarOpen }) => {
         <Box ms="auto" w={{ base: 'unset' }}>
           <Flex alignItems="center" flexDirection="row">
             <Tooltip hasArrow label={t('common.go_to_map')}>
-              <IconButton variant="ghost" icon={<MapTrifold size={20} />} onClick={goToMap} />
+              <IconButton
+                aria-label={t('common.go_to_map')}
+                variant="ghost"
+                icon={<MapTrifold size={20} />}
+                onClick={goToMap}
+              />
             </Tooltip>
             {colorMode === 'light' ? (
               <MoonIcon cursor="pointer" onClick={toggleColorMode} w="20px" h="20px" mx={2} />
@@ -173,7 +177,5 @@ const Navbar = ({ secondary, toggleSidebar, isSidebarOpen }) => {
     </Flex>
   );
 };
-
-Navbar.propTypes = propTypes;
 
 export default Navbar;

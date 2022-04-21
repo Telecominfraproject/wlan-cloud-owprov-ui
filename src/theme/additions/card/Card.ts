@@ -10,13 +10,13 @@ const Card = {
     backgroundClip: 'border-box',
   },
   variants: {
-    panel: (props) => ({
+    panel: (props: any) => ({
       bg: props.colorMode === 'dark' ? 'gray.700' : 'white',
       width: '100%',
       boxShadow: '0px 7px 23px rgba(0, 0, 0, 0.05)',
       borderRadius: '15px',
     }),
-    widget: (props) => ({
+    widget: (props: any) => ({
       bg: props.colorMode === 'dark' ? 'gray.800' : 'gray.100',
       width: '100%',
       boxShadow: '0px 7px 23px rgba(0, 0, 0, 0.1)',

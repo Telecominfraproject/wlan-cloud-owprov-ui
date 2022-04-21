@@ -1,6 +1,12 @@
 import { Configuration } from './Configuration';
 import { Note } from './Note';
 
+export interface GatewayDevice {
+  serialNumber: string;
+  compatible: string;
+  notes?: Note[];
+}
+
 export interface Device {
   name: string;
   description: string;
