@@ -14,9 +14,8 @@ export const useWifiScanDevice = ({ serialNumber }: { serialNumber: string }) =>
   useMutation(
     ({ dfs, bandwidth, activeScan }: WifiScanCommand): Promise<WifiScanResult | undefined> =>
       axiosGw
-        .post<WifiScanResult | undefined>(`device/24f5a207a130/wifiscan`, {
-          test: serialNumber,
-          serialNumber: '24f5a207a130',
+        .post<WifiScanResult | undefined>(`device/${serialNumber}/wifiscan`, {
+          serialNumber,
           override_dfs: dfs,
           bandwidth: bandwidth !== '' ? bandwidth : undefined,
           activeScan,

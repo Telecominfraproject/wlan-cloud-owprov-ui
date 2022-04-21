@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Alert, Heading, SimpleGrid } from '@chakra-ui/react';
 import { ScanChannel, WifiScanResult } from 'models/Device';
 import { useTranslation } from 'react-i18next';
@@ -8,12 +8,15 @@ import ResultCard from './ResultCard';
 
 interface Props {
   results: WifiScanResult;
+  setCsvData: (data: ScanChannel[]) => void;
 }
-const WifiScanResultDisplay: React.FC<Props> = ({ results }) => {
+
+const WifiScanResultDisplay: React.FC<Props> = ({ results, setCsvData }) => {
   const { t } = useTranslation();
 
-  const scanChannelList = useMemo(() => {
+  const scanResults = useMemo(() => {
     const createdChannels: { [key: string]: ScanChannel } = {};
+    const listCsv: any[] = [];
 
     for (const scan of results.results.status.scan) {
       if (!createdChannels[scan.channel]) {
@@ -28,13 +31,18 @@ const WifiScanResultDisplay: React.FC<Props> = ({ results }) => {
             if (deviceResult.ssid && deviceResult.ssid.length > 0) ssid = deviceResult.ssid;
             else ssid = deviceResult.meshid && deviceResult.meshid.length > 0 ? deviceResult.meshid : 'N/A';
             channel.devices.push({ ssid, signal });
+            listCsv.push({ ...deviceResult, ssid, signal });
           }
         }
         createdChannels[scan.channel] = channel;
       }
     }
-    return createdChannels;
+    return { scanList: Object.keys(createdChannels).map((k) => createdChannels[k] as ScanChannel), listCsv };
   }, [results]);
+
+  useEffect(() => {
+    setCsvData(scanResults.listCsv);
+  }, [scanResults]);
 
   return (
     <>
@@ -47,8 +55,8 @@ const WifiScanResultDisplay: React.FC<Props> = ({ results }) => {
         {t('commands.execution_time')}: {Math.floor(results.executionTime / 1000)}s
       </Heading>
       <SimpleGrid minChildWidth="300px" spacing="20px">
-        {Object.keys(scanChannelList).map((k) => (
-          <ResultCard key={uuid()} channelInfo={scanChannelList[k] as ScanChannel} />
+        {scanResults.scanList.map((channel) => (
+          <ResultCard key={uuid()} channelInfo={channel} />
         ))}
       </SimpleGrid>
     </>

@@ -40,6 +40,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-app-polyfill": "^3.0.0",
+    "react-csv": "^2.2.2",
     "react-datepicker": "^4.7.0",
     "react-fast-compare": "^3.2.0",
     "react-flow-renderer": "^9.7.4",
@@ -58,6 +59,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/react-csv": "^1.1.2",
     "@types/uuid": "^8.3.4",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
