@@ -8,6 +8,7 @@ import SubscriberDeviceTable from 'components/Tables/SubscriberDeviceTable';
 import CreateSubscriberDeviceModal from 'components/Modals/SubscriberDevice/CreateModal';
 import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditModal';
 import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
+import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
 import Actions from './Actions';
 
 interface Props {
@@ -19,15 +20,27 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
   const { t } = useTranslation();
   const { refreshId, refresh } = useRefreshId();
   const [serialNumber, setSerialNumber] = useState<string>('');
-  const modalProps = useDisclosure();
+  const scanModalProps = useDisclosure();
+  const resetModalProps = useDisclosure();
   const { obj: subscriberDevice, openModal, isOpen, onClose } = useObjectModal();
   const onOpenScan = (serial: string) => {
     setSerialNumber(serial);
-    modalProps.onOpen();
+    scanModalProps.onOpen();
+  };
+  const onOpenFactoryReset = (serial: string) => {
+    setSerialNumber(serial);
+    resetModalProps.onOpen();
   };
   const actions = useCallback(
     (cell) => (
-      <Actions key={uuid()} cell={cell.row} refreshTable={refresh} openEdit={openModal} onOpenScan={onOpenScan} />
+      <Actions
+        key={uuid()}
+        cell={cell.row}
+        refreshTable={refresh}
+        openEdit={openModal}
+        onOpenScan={onOpenScan}
+        onOpenFactoryReset={onOpenFactoryReset}
+      />
     ),
     [openModal, refreshId],
   );
@@ -53,7 +66,8 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
         refresh={refresh}
         operatorId={operatorId}
       />
-      <WifiScanModal modalProps={modalProps} serialNumber={serialNumber} />
+      <WifiScanModal modalProps={scanModalProps} serialNumber={serialNumber} />
+      <FactoryResetModal modalProps={resetModalProps} serialNumber={serialNumber} />
     </>
   );
 };

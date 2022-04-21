@@ -29,6 +29,7 @@ interface Props {
   refreshTable: () => void;
   openEdit: (sub: Device) => void;
   onOpenScan: (serialNumber: string) => void;
+  onOpenFactoryReset: (serialNumber: string) => void;
 }
 
 const Actions: React.FC<Props> = ({
@@ -39,6 +40,7 @@ const Actions: React.FC<Props> = ({
   refreshTable,
   openEdit,
   onOpenScan,
+  onOpenFactoryReset,
 }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -88,7 +90,12 @@ const Actions: React.FC<Props> = ({
           </PopoverFooter>
         </PopoverContent>
       </Popover>
-      <ActionsDropdown device={subscriberDevice} refresh={refreshTable} onOpenScan={onOpenScan} />
+      <ActionsDropdown
+        device={subscriberDevice}
+        refresh={refreshTable}
+        onOpenScan={onOpenScan}
+        onOpenFactoryReset={onOpenFactoryReset}
+      />
       <Tooltip hasArrow label={t('common.view_details')} placement="top">
         <IconButton
           aria-label="view-device-details"

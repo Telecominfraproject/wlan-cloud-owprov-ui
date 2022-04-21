@@ -9,6 +9,8 @@ export const useBlinkDevice = ({ serialNumber }: { serialNumber: string }) =>
   useMutation(() =>
     axiosGw.post(`device/${serialNumber}/leds`, { serialNumber, when: 0, pattern: 'blink', duration: 30 }),
   );
+export const useFactoryReset = ({ serialNumber, keepRedirector }: { serialNumber: string; keepRedirector: boolean }) =>
+  useMutation(() => axiosGw.post(`device/${serialNumber}/factory`, { serialNumber, keepRedirector }));
 
 export const useWifiScanDevice = ({ serialNumber }: { serialNumber: string }) =>
   useMutation(
