@@ -1,5 +1,4 @@
 import React from 'react';
-import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { ModalProps } from 'models/Modal';
 import {
@@ -7,7 +6,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalBody,
-  useToast,
   useBoolean,
   Center,
   Spinner,
@@ -22,6 +20,7 @@ import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand
 import useCommandModal from 'hooks/useCommandModal';
 import { useGetDevice } from 'hooks/Network/GatewayDevices';
 import { useGetAvailableFirmware, useUpdateDeviceFirmware } from 'hooks/Network/Firmware';
+import FirmwareList from './FirmwareList';
 
 interface Props {
   modalProps: ModalProps;
@@ -30,14 +29,14 @@ interface Props {
 
 const FirmwareUpgradeModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, serialNumber }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const [isRedirector, { toggle }] = useBoolean(false);
-  const { data: device, isFetching: isFetchingDevice } = useGetDevice({ serialNumber });
+  const { data: device, isFetching: isFetchingDevice } = useGetDevice({ serialNumber, onClose });
   const { data: firmware, isFetching: isFetchingFirmware } = useGetAvailableFirmware({
     deviceType: device?.compatible ?? '',
   });
   const { mutateAsync: upgrade, isLoading: isUpgrading } = useUpdateDeviceFirmware({
     serialNumber,
+    onClose,
   });
   const { isConfirmOpen, closeConfirm, closeModal, closeCancelAndForm } = useCommandModal({
     isLoading: isUpgrading,
@@ -45,36 +44,7 @@ const FirmwareUpgradeModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }
   });
 
   const submit = (uri: string) => {
-    upgrade(
-      { keepRedirector: isRedirector, uri },
-      {
-        onSuccess: () => {
-          toast({
-            id: `device-upgrade-success-${uuid()}`,
-            title: t('common.success'),
-            description: t('commands.upgrade_success'),
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-          onClose();
-        },
-        onError: (e: any) => {
-          toast({
-            id: uuid(),
-            title: t('common.error'),
-            description: t('commands.upgrade_error', {
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-        },
-      },
-    );
+    upgrade({ keepRedirector: isRedirector, uri });
   };
 
   console.log(submit);
@@ -82,8 +52,11 @@ const FirmwareUpgradeModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }
   return (
     <Modal onClose={closeModal} isOpen={isOpen} size="xl" scrollBehavior="inside">
       <ModalOverlay />
-      <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
-        <ModalHeader title={t('commands.factory_reset')} right={<CloseButton ml={2} onClick={closeModal} />} />
+      <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
+        <ModalHeader
+          title={`${t('commands.firmware_upgrade')} #${serialNumber}`}
+          right={<CloseButton ml={2} onClick={closeModal} />}
+        />
         <ModalBody>
           {isUpgrading || isFetchingDevice || isFetchingFirmware ? (
             <Center>
@@ -91,8 +64,8 @@ const FirmwareUpgradeModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }
             </Center>
           ) : (
             <>
-              <Heading size="sm">
-                {t('devices.current_firmware')}: {device?.compatible}
+              <Heading size="sm" mb={4}>
+                {t('devices.current_firmware')}: {device?.firmware}
               </Heading>
               <FormControl>
                 <FormLabel ms="4px" fontSize="md" fontWeight="normal">
@@ -100,7 +73,9 @@ const FirmwareUpgradeModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }
                 </FormLabel>
                 <Switch isChecked={isRedirector} onChange={toggle} borderRadius="15px" size="lg" />
               </FormControl>
-              <pre>{JSON.stringify(firmware, null, 4)}</pre>
+              {firmware?.firmwares && (
+                <FirmwareList firmware={firmware.firmwares} upgrade={submit} isLoading={isUpgrading} />
+              )}
             </>
           )}
         </ModalBody>

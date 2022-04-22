@@ -9,6 +9,7 @@ import CreateSubscriberDeviceModal from 'components/Modals/SubscriberDevice/Crea
 import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditModal';
 import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
+import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
 import Actions from './Actions';
 
 interface Props {
@@ -22,6 +23,7 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
   const [serialNumber, setSerialNumber] = useState<string>('');
   const scanModalProps = useDisclosure();
   const resetModalProps = useDisclosure();
+  const upgradeModalProps = useDisclosure();
   const { obj: subscriberDevice, openModal, isOpen, onClose } = useObjectModal();
   const onOpenScan = (serial: string) => {
     setSerialNumber(serial);
@@ -30,6 +32,10 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
   const onOpenFactoryReset = (serial: string) => {
     setSerialNumber(serial);
     resetModalProps.onOpen();
+  };
+  const onOpenUpgradeModal = (serial: string) => {
+    setSerialNumber(serial);
+    upgradeModalProps.onOpen();
   };
   const actions = useCallback(
     (cell) => (
@@ -40,6 +46,7 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
         openEdit={openModal}
         onOpenScan={onOpenScan}
         onOpenFactoryReset={onOpenFactoryReset}
+        onOpenUpgradeModal={onOpenUpgradeModal}
       />
     ),
     [openModal, refreshId],
@@ -67,6 +74,7 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
         operatorId={operatorId}
       />
       <WifiScanModal modalProps={scanModalProps} serialNumber={serialNumber} />
+      <FirmwareUpgradeModal modalProps={upgradeModalProps} serialNumber={serialNumber} />
       <FactoryResetModal modalProps={resetModalProps} serialNumber={serialNumber} />
     </>
   );

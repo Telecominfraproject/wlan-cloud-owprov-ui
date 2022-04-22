@@ -4,6 +4,7 @@ import { Note } from './Note';
 export interface GatewayDevice {
   serialNumber: string;
   compatible: string;
+  firmware: string;
   notes?: Note[];
 }
 

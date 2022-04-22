@@ -6,7 +6,7 @@ import { useMutation, useQuery } from 'react-query';
 import { axiosGw } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
 
-export const useGetDevice = ({ serialNumber }: { serialNumber: string }) => {
+export const useGetDevice = ({ serialNumber, onClose }: { serialNumber: string; onClose?: () => void }) => {
   const { t } = useTranslation();
   const toast = useToast();
 
@@ -20,15 +20,19 @@ export const useGetDevice = ({ serialNumber }: { serialNumber: string }) => {
           toast({
             id: 'gateway-device-error',
             title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              e: e?.response?.data?.ErrorDescription,
-              obj: t('devices.one'),
-            }),
+            description:
+              e?.response?.status === 404
+                ? t('devices.not_found_gateway')
+                : t('crud.error_fetching_obj', {
+                    e: e?.response?.data?.ErrorDescription,
+                    obj: t('devices.one'),
+                  }),
             status: 'error',
             duration: 5000,
             isClosable: true,
             position: 'top-right',
           });
+        if (onClose) onClose();
       },
     },
   );

@@ -30,6 +30,7 @@ interface Props {
   openEdit: (sub: Device) => void;
   onOpenScan: (serialNumber: string) => void;
   onOpenFactoryReset: (serialNumber: string) => void;
+  onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
 const Actions: React.FC<Props> = ({
@@ -41,6 +42,7 @@ const Actions: React.FC<Props> = ({
   openEdit,
   onOpenScan,
   onOpenFactoryReset,
+  onOpenUpgradeModal,
 }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -95,6 +97,7 @@ const Actions: React.FC<Props> = ({
         refresh={refreshTable}
         onOpenScan={onOpenScan}
         onOpenFactoryReset={onOpenFactoryReset}
+        onOpenUpgradeModal={onOpenUpgradeModal}
       />
       <Tooltip hasArrow label={t('common.view_details')} placement="top">
         <IconButton

@@ -12,9 +12,17 @@ interface Props {
   isDisabled?: boolean;
   onOpenScan: (serialNumber: string) => void;
   onOpenFactoryReset: (serialNumber: string) => void;
+  onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
-const SubscriberActions: React.FC<Props> = ({ device, refresh, isDisabled, onOpenScan, onOpenFactoryReset }) => {
+const SubscriberActions: React.FC<Props> = ({
+  device,
+  refresh,
+  isDisabled,
+  onOpenScan,
+  onOpenFactoryReset,
+  onOpenUpgradeModal,
+}) => {
   const { t } = useTranslation();
   const { mutateAsync: reboot } = useRebootDevice({ serialNumber: device.serialNumber });
   const { mutateAsync: blink } = useBlinkDevice({ serialNumber: device.serialNumber });
@@ -49,6 +57,7 @@ const SubscriberActions: React.FC<Props> = ({ device, refresh, isDisabled, onOpe
     });
   const handleOpenScan = () => onOpenScan(device.serialNumber);
   const handleOpenFactoryReset = () => onOpenFactoryReset(device.serialNumber);
+  const handleOpenUpgrade = () => onOpenUpgradeModal(device.serialNumber);
 
   return (
     <Menu>
@@ -66,6 +75,7 @@ const SubscriberActions: React.FC<Props> = ({ device, refresh, isDisabled, onOpe
         <MenuItem onClick={handleRebootClick}>{t('commands.reboot')}</MenuItem>
         <MenuItem onClick={handleBlinkClick}>{t('commands.blink')}</MenuItem>
         <MenuItem onClick={handleOpenScan}>{t('commands.wifiscan')}</MenuItem>
+        <MenuItem onClick={handleOpenUpgrade}>{t('commands.firmware_upgrade')}</MenuItem>
         <MenuItem onClick={handleOpenFactoryReset}>{t('commands.factory_reset')}</MenuItem>
       </MenuList>
     </Menu>

@@ -12,7 +12,7 @@ const useFormRef = () => {
   const formRef = useCallback(
     (node: FormikProps<Record<string, unknown>> | undefined) => {
       if (
-        node !== undefined &&
+        node &&
         (form.submitForm !== node.submitForm ||
           form.isSubmitting !== node.isSubmitting ||
           form.isValid !== node.isValid ||
