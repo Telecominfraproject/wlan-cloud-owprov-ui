@@ -1,4 +1,5 @@
 import { useToast } from '@chakra-ui/react';
+import { AxiosError } from 'axios';
 import { Preference } from 'models/Preference';
 import { User } from 'models/User';
 import { Dispatch, SetStateAction } from 'react';
@@ -34,7 +35,7 @@ export const useGetProfile = () => {
 
   return useQuery(['get-user-profile'], () => axiosSec.get('oauth2?me=true').then(({ data }: { data: User }) => data), {
     enabled: false,
-    onError: (e: any) => {
+    onError: (e: AxiosError) => {
       if (!toast.isActive('user-fetching-error'))
         toast({
           id: 'user-fetching-error',

@@ -341,9 +341,8 @@ export const ServiceClassSchema = (t) =>
   });
 
 // Operator Contact Schemas
-export const OperatorContactSchema = (t) =>
+export const SubscriberDeviceContactSchema = (t) =>
   Yup.object().shape({
-    name: Yup.string().required(t('form.required')),
     type: Yup.string().required(t('form.required')),
     salutation: Yup.string(),
     title: Yup.string(),
@@ -354,17 +353,13 @@ export const OperatorContactSchema = (t) =>
     secondaryEmail: Yup.string(),
     phones: Yup.array().of(Yup.string()),
     mobiles: Yup.array().of(Yup.string()),
-    description: Yup.string(),
     accessPIN: Yup.string(),
-    note: Yup.string(),
   });
 
 // Location Schemas
-export const OperatorLocationSchema = (t) =>
+export const SubscriberDeviceLocationSchema = (t) =>
   Yup.object()
     .shape({
-      name: Yup.string().required(t('form.required')),
-      description: Yup.string(),
       type: Yup.string().required(t('form.required')),
       addressLineOne: Yup.string().required(t('form.required')),
       addressLineTwo: Yup.string(),
@@ -376,7 +371,6 @@ export const OperatorLocationSchema = (t) =>
       phones: Yup.array().of(Yup.string()),
       mobiles: Yup.array().of(Yup.string()),
       geoCode: Yup.string(),
-      note: Yup.string(),
     })
     .nullable();
 
@@ -402,7 +396,7 @@ export const SubscriberDeviceSchema = (t) =>
     serviceClass: Yup.string().default(''),
     billingCode: Yup.string().default(''),
     locale: Yup.string().default(''),
-    location: Yup.string().default(''),
-    contact: Yup.string().default(''),
+    location: SubscriberDeviceLocationSchema(t),
+    contact: SubscriberDeviceContactSchema(t),
     suspended: Yup.bool().default(false),
   });

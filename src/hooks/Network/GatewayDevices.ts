@@ -45,8 +45,46 @@ export const useBlinkDevice = ({ serialNumber }: { serialNumber: string }) =>
   useMutation(() =>
     axiosGw.post(`device/${serialNumber}/leds`, { serialNumber, when: 0, pattern: 'blink', duration: 30 }),
   );
-export const useFactoryReset = ({ serialNumber, keepRedirector }: { serialNumber: string; keepRedirector: boolean }) =>
-  useMutation(() => axiosGw.post(`device/${serialNumber}/factory`, { serialNumber, keepRedirector }));
+export const useFactoryReset = ({
+  serialNumber,
+  keepRedirector,
+  onClose,
+}: {
+  serialNumber: string;
+  keepRedirector: boolean;
+  onClose: () => void;
+}) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useMutation(() => axiosGw.post(`device/${serialNumber}/factory`, { serialNumber, keepRedirector }), {
+    onSuccess: () => {
+      toast({
+        id: `factory-reset-success-${uuid()}`,
+        title: t('common.success'),
+        description: t('commands.factory_reset_success'),
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      onClose();
+    },
+    onError: (e: AxiosError) => {
+      toast({
+        id: uuid(),
+        title: t('common.error'),
+        description: t('commands.factory_reset_error', {
+          e: e?.response?.data?.ErrorDescription,
+        }),
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+  });
+};
 
 export const useWifiScanDevice = ({ serialNumber }: { serialNumber: string }) => {
   const toast = useToast();

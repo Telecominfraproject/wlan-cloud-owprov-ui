@@ -14,6 +14,10 @@ export interface Device {
   operatorId: string;
   id: string;
   serialNumber: string;
+  location: {
+    addressLineOne: string;
+    addressLineTwo: string;
+  };
   configuration?: Configuration[];
   notes?: Note[];
 }
@@ -23,6 +27,9 @@ export interface EditDevice {
   description: string;
   operatorId?: string;
   id?: string;
+  location?: {
+    addressLines: string[];
+  };
   serialNumber?: string;
   configuration?: Configuration[];
   notes?: Note[];

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
-  values: string[] | { [key: string]: string }[] | any[];
+  values: string[] | { [key: string]: string }[] | unknown[];
   hasEmpty?: boolean;
   valueKey?: string;
   labelKey?: string;
@@ -19,12 +19,14 @@ const useSelectList = ({ values, hasEmpty = false, valueKey, labelKey }: Props) 
             value: '',
             label: t('common.none'),
           },
+          // @ts-ignore
           ...values.map((data: string | { [key: string]: string }) => ({
             value: typeof data === 'string' ? data : data[valueKey ?? ''] ?? '',
             label: typeof data === 'string' ? data : data[labelKey ?? ''] ?? '',
           })),
         ]
-      : values.map((data: string | { [key: string]: string }) => ({
+      : // @ts-ignore
+        values.map((data: string | { [key: string]: string }) => ({
           value: typeof data === 'string' ? data : data[valueKey ?? ''] ?? '',
           label: typeof data === 'string' ? data : data[labelKey ?? ''] ?? '',
         }));

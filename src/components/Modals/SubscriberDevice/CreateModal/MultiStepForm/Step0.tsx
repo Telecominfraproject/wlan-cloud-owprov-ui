@@ -62,13 +62,13 @@ const CreateSubscriberDeviceStep0: React.FC<Props> = ({
         </Heading>
         <SimpleGrid minChildWidth="300px" spacing="10px" mb={4}>
           <StringField name="name" label={t('common.name')} isRequired />
+          <SelectField name="serviceClass" label={t('service.one')} options={serviceClassesOptions} />
+          <StringField name="billingCode" label={t('service.billing_code')} />
           <StringField name="description" label={t('common.description')} />
           <StringField name="note" label={t('common.note')} />
           {!subscriberId && (
             <SelectField name="subscriberId" label={t('subscribers.one')} options={subscriberOptions} isRequired />
           )}
-          <SelectField name="serviceClass" label={t('service.one')} options={serviceClassesOptions} />
-          <StringField name="billingCode" label={t('service.billing_code')} />
         </SimpleGrid>
       </Form>
     </Formik>

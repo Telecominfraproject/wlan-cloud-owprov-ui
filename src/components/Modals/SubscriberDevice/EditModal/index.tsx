@@ -35,7 +35,7 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({ isOpen, onClose, subscribe
     isDirty: form?.dirty,
     onModalClose: onClose,
   });
-  const { isLoaded, deviceTypes, contacts, locations, serviceClasses, subscribers } = useOperatorChildren({
+  const { isLoaded, deviceTypes, serviceClasses, subscribers } = useOperatorChildren({
     operatorId,
   });
   const {
@@ -92,8 +92,6 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({ isOpen, onClose, subscribe
               subscriberDevice={subscriberDeviceData}
               externalData={{
                 deviceTypes,
-                contacts,
-                locations,
                 serviceClasses,
                 subscribers: subscribers ?? [],
               }}

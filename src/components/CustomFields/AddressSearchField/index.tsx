@@ -1,26 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Box, FormControl } from '@chakra-ui/react';
+import { Box, FormControl, LayoutProps, SpaceProps } from '@chakra-ui/react';
 import AddressSearchBar from 'components/SearchBars/AddressSearchBar';
 import { useFormikContext } from 'formik';
-
-const propTypes = {
-  namePrefix: PropTypes.string,
-  placeholder: PropTypes.string.isRequired,
-  isDisabled: PropTypes.bool,
-  isHidden: PropTypes.bool,
-};
+import { AddressObject } from 'models/Location';
 
 const defaultProps = {
-  namePrefix: null,
+  namePrefix: '',
   isDisabled: false,
   isHidden: false,
 };
 
-const AddressSearchField = ({ namePrefix, isDisabled, placeholder, isHidden, ...props }) => {
+interface Props extends LayoutProps, SpaceProps {
+  namePrefix?: string;
+  placeholder: string;
+  isDisabled?: boolean;
+  isHidden?: boolean;
+}
+
+const AddressSearchField: React.FC<Props> = ({ namePrefix, isDisabled, placeholder, isHidden, ...props }) => {
   const { setFieldValue, validateForm } = useFormikContext();
 
-  const onSelect = (v) => {
+  const onSelect = (v: AddressObject) => {
     const city =
       v.locality.long_name ?? v.administrative_area_level_3.long_name ?? v.administrative_area_level_2.long_name;
 
@@ -47,7 +47,6 @@ const AddressSearchField = ({ namePrefix, isDisabled, placeholder, isHidden, ...
   );
 };
 
-AddressSearchField.propTypes = propTypes;
 AddressSearchField.defaultProps = defaultProps;
 
 export default AddressSearchField;

@@ -37,7 +37,7 @@ interface AuthProviderReturn {
   deletePref: (preference: string) => void;
   ref: React.MutableRefObject<undefined>;
   endpoints: { [key: string]: string } | null;
-  configurationDescriptions: any;
+  configurationDescriptions: Record<string, unknown>;
   isUserLoaded: boolean;
 }
 

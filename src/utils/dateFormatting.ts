@@ -36,7 +36,7 @@ export const formatDaysAgo = (d1: number, d2: number = new Date().getTime()) => 
       if (Math.abs(elapsed) > UNITS[key as 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'] || key === 'second')
         return RTF.format(
           Math.round(elapsed / UNITS[key as 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second']),
-          key as any,
+          key as Intl.RelativeTimeFormatUnit,
         );
 
     return compactDate(date);

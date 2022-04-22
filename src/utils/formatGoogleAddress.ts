@@ -1,31 +1,7 @@
 /* eslint-disable no-labels */
 /* eslint-disable no-restricted-syntax */
 
-interface AddressValue {
-  long_name?: string;
-  short_name?: string;
-  types?: string[];
-}
-interface AddressObject {
-  street_number: AddressValue;
-  route: AddressValue;
-  administrative_area_level_3: AddressValue;
-  administrative_area_level_2: AddressValue;
-  administrative_area_level_1: AddressValue;
-  locality: AddressValue;
-  postal_code: AddressValue;
-  country: AddressValue;
-}
-
-interface GoogleResult {
-  value: {
-    address_components: AddressValue[];
-    geometry: {
-      location: string;
-    };
-  };
-  label: string;
-}
+import { AddressObject, GoogleResult } from 'models/Location';
 
 export default (google: GoogleResult) => {
   if (!google) return null;

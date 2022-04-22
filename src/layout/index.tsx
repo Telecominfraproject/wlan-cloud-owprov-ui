@@ -16,31 +16,15 @@ const Layout = () => {
   const [isSidebarOpen, { toggle: toggleSidebar }] = useBoolean(breakpoint !== 'base' && breakpoint !== 'sm');
   document.documentElement.dir = 'ltr';
 
-  // This changes navbar state(fixed or not)
-  const getActiveNavbar = (r: any) => {
-    const activeNavbar = false;
-    for (let i = 0; i < r.length; i += 1) {
-      if (r[i].category) {
-        const categoryActiveNavbar: any = getActiveNavbar(r[i].views);
-        if (categoryActiveNavbar !== activeNavbar) {
-          return categoryActiveNavbar;
-        }
-      } else if (window.location.href.indexOf(r[i].path) !== -1) {
-        if (r[i].secondaryNavbar) {
-          return r[i].secondaryNavbar;
-        }
-      }
-    }
-    return activeNavbar;
-  };
   const getRoutes = (r: RouteProps[]) =>
+    // @ts-ignore
     r.map((route: RouteProps) => <Route path={route.path} element={<route.component />} key={uuid()} />);
 
   return (
     <>
       <Sidebar routes={routes} isOpen={isSidebarOpen} toggle={toggleSidebar} />
       <Portal>
-        <Navbar secondary={getActiveNavbar(routes)} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+        <Navbar secondary={false} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
       </Portal>
       <MainPanel
         w={{

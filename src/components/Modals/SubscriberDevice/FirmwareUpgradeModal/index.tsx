@@ -47,8 +47,6 @@ const FirmwareUpgradeModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }
     upgrade({ keepRedirector: isRedirector, uri });
   };
 
-  console.log(submit);
-
   return (
     <Modal onClose={closeModal} isOpen={isOpen} size="xl" scrollBehavior="inside">
       <ModalOverlay />

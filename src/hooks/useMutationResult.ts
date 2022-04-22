@@ -3,6 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { AxiosError } from 'axios';
 
 interface Props {
   objName: string;
@@ -44,7 +45,7 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
       obj: objName,
     });
   };
-  const errorDescription = (e: any) => {
+  const errorDescription = (e: AxiosError) => {
     if (operationType === 'update')
       return t('crud.error_update_obj', {
         obj: objName,

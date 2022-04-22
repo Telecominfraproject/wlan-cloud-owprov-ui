@@ -13,11 +13,11 @@ import { useUpdateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
 import { ModalProps } from 'models/Modal';
 import { Device } from 'models/Device';
-import { Contact } from 'models/Contact';
-import { Location } from 'models/Location';
 import { ServiceClass } from 'models/ServiceClass';
 import { Subscriber } from 'models/Subscriber';
 import { Configuration } from 'models/Configuration';
+import SubscriberDeviceLocationForm from './Location';
+import SubscriberDeviceContactForm from './Contact';
 
 interface Props {
   editing: boolean;
@@ -27,8 +27,6 @@ interface Props {
   formRef: Ref<FormikProps<Device>> | undefined;
   externalData: {
     deviceTypes: string[];
-    contacts: Contact[];
-    locations: Location[];
     serviceClasses: ServiceClass[];
     subscribers: Subscriber[];
   };
@@ -63,18 +61,6 @@ const EditSubscriberDeviceForm: React.FC<Props> = ({
   const updateSubscriberDevice = useUpdateSubscriberDevice({ id: subscriberDevice.id });
 
   const deviceTypeOptions = useSelectList({ values: externalData.deviceTypes, hasEmpty: true });
-  const contactOptions = useSelectList({
-    values: externalData.contacts,
-    hasEmpty: true,
-    valueKey: 'id',
-    labelKey: 'name',
-  });
-  const locationOptions = useSelectList({
-    values: externalData.locations,
-    hasEmpty: true,
-    valueKey: 'id',
-    labelKey: 'name',
-  });
   const serviceClassesOptions = useSelectList({
     values: externalData.serviceClasses,
     hasEmpty: true,
@@ -104,6 +90,10 @@ const EditSubscriberDeviceForm: React.FC<Props> = ({
           {
             ...data,
             configuration: configuration ?? undefined,
+            location: {
+              ...data.location,
+              addressLines: [data.location.addressLineOne, data.location.addressLineTwo],
+            },
             // @ts-ignore
             notes: data.notes.filter((note) => note.isNew),
           },
@@ -121,6 +111,8 @@ const EditSubscriberDeviceForm: React.FC<Props> = ({
       <Tabs variant="enclosed">
         <TabList>
           <Tab>{t('common.main')}</Tab>
+          <Tab>{t('locations.one')}</Tab>
+          <Tab>{t('contacts.one')}</Tab>
           <Tab>{t('common.notes')}</Tab>
         </TabList>
         <TabPanels>
@@ -181,13 +173,6 @@ const EditSubscriberDeviceForm: React.FC<Props> = ({
                   isDisabled={!editing}
                 />
                 <StringField name="billingCode" label={t('service.billing_code')} isDisabled={!editing} />
-                <SelectField name="contact" label={t('contacts.one')} options={contactOptions} isDisabled={!editing} />
-                <SelectField
-                  name="location"
-                  label={t('locations.one')}
-                  options={locationOptions}
-                  isDisabled={!editing}
-                />
               </SimpleGrid>
               <SubscriberDeviceConfigurationManager
                 editing={editing}
@@ -195,6 +180,12 @@ const EditSubscriberDeviceForm: React.FC<Props> = ({
                 configuration={defaultConfiguration}
               />
             </Form>
+          </TabPanel>
+          <TabPanel>
+            <SubscriberDeviceLocationForm editing={editing} />
+          </TabPanel>
+          <TabPanel>
+            <SubscriberDeviceContactForm editing={editing} />
           </TabPanel>
           <TabPanel>
             <NotesTable name="notes" isDisabled={!editing} />

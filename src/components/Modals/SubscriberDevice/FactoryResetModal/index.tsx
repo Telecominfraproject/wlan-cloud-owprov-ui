@@ -1,5 +1,4 @@
 import React from 'react';
-import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { ModalProps } from 'models/Modal';
 import {
@@ -7,7 +6,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalBody,
-  useToast,
   useBoolean,
   Center,
   Spinner,
@@ -30,42 +28,19 @@ interface Props {
 
 const FactoryResetModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, serialNumber }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const [isRedirector, { toggle }] = useBoolean(false);
-  const { mutateAsync: factoryReset, isLoading } = useFactoryReset({ serialNumber, keepRedirector: isRedirector });
+  const { mutateAsync: factoryReset, isLoading } = useFactoryReset({
+    serialNumber,
+    keepRedirector: isRedirector,
+    onClose,
+  });
   const { isConfirmOpen, closeConfirm, closeModal, closeCancelAndForm } = useCommandModal({
     isLoading,
     onModalClose: onClose,
   });
 
   const submit = () => {
-    factoryReset(undefined, {
-      onSuccess: () => {
-        toast({
-          id: `factory-reset-success-${uuid()}`,
-          title: t('common.success'),
-          description: t('commands.factory_reset_success'),
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
-        onClose();
-      },
-      onError: (e: any) => {
-        toast({
-          id: uuid(),
-          title: t('common.error'),
-          description: t('commands.factory_reset_error', {
-            e: e?.response?.data?.ErrorDescription,
-          }),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
-      },
-    });
+    factoryReset();
   };
 
   return (

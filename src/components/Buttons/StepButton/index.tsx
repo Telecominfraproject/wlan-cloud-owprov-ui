@@ -5,7 +5,7 @@ import { ArrowRight, FloppyDisk } from 'phosphor-react';
 
 interface Props {
   onNext: () => void;
-  onSave: () => void;
+  onSave?: () => void;
   currentStep: number;
   lastStep: number;
   isDisabled?: boolean;
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const defaultProps = {
+  onSave: undefined,
   isDisabled: false,
   isLoading: false,
   isCompact: false,
@@ -36,7 +37,7 @@ const StepButton: React.FC<Props> = ({
   const breakpoint = useBreakpoint();
 
   const onClick = useCallback(
-    () => (currentStep === lastStep ? onSave() : onNext()),
+    () => (currentStep === lastStep && onSave ? onSave() : onNext()),
     [currentStep, lastStep, onNext, onSave],
   );
   const icon = useMemo(

@@ -34,7 +34,7 @@ const defaultProps = {
 const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, subscriberId }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { isLoaded, deviceTypes, contacts, locations, serviceClasses, subscribers } = useOperatorChildren({
+  const { isLoaded, deviceTypes, serviceClasses, subscribers } = useOperatorChildren({
     operatorId,
   });
   const { form, formRef } = useFormRef();
@@ -55,15 +55,10 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
   const [step, setStep] = useState<number>(0);
   const [data, setData] = useState<Record<string, unknown>>({ operatorId });
 
-  const finishStep = (newData: Record<string, unknown>) => {
-    const finalData = { ...data, ...newData };
-    setData(finalData);
-    setStep(step + 1);
-  };
-  const submit = () => {
+  const submit = (finalData: Record<string, unknown>) => {
     create.mutateAsync(
       {
-        ...data,
+        ...finalData,
         configuration: configuration ?? [],
       } as EditDevice,
       {
@@ -75,6 +70,15 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
         },
       },
     );
+  };
+
+  const finishStep = (newData: Record<string, unknown>) => {
+    const finalData = { ...data, ...newData };
+    setData(finalData);
+    if (step === 3) {
+      submit(finalData);
+    }
+    setStep(step + 1);
   };
 
   const resetStep = () => {
@@ -105,12 +109,10 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
           onConfigurationChange={onConfigurationChange}
         />
       );
-    if (step === 2)
-      return <CreateSubscriberDeviceStep2 formRef={formRef} finishStep={finishStep} locations={locations} />;
-    if (step === 3)
-      return <CreateSubscriberDeviceStep3 formRef={formRef} finishStep={finishStep} contacts={contacts} />;
+    if (step === 2) return <CreateSubscriberDeviceStep2 formRef={formRef} finishStep={finishStep} />;
+    if (step === 3) return <CreateSubscriberDeviceStep3 formRef={formRef} finishStep={finishStep} />;
     return null;
-  }, [data, step, subscribers, serviceClasses, deviceTypes, locations, contacts]);
+  }, [data, step, subscribers, serviceClasses, deviceTypes]);
 
   return (
     <>
@@ -133,7 +135,6 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
               <>
                 <StepButton
                   onNext={form.submitForm}
-                  onSave={submit}
                   currentStep={step}
                   lastStep={3}
                   isLoading={form.isSubmitting || create.isLoading}

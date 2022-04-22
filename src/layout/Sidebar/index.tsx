@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { LegacyRef, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   Box,
@@ -34,7 +34,7 @@ const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const location = useLocation();
-  const mainPanel = useRef<any>();
+  const mainPanel = useRef<unknown>();
   const { colorMode } = useColorMode();
   const navbarShadow = useColorModeValue('0px 7px 23px rgba(0, 0, 0, 0.05)', 'none');
   const breakpoint = useBreakpoint();
@@ -99,7 +99,7 @@ const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-      <Box ref={mainPanel}>
+      <Box ref={mainPanel as LegacyRef<HTMLDivElement> | undefined}>
         <Box hidden={!isOpen} position="fixed">
           <Box
             shadow={navbarShadow}

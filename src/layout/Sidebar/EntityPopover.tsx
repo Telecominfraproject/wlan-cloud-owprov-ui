@@ -23,6 +23,7 @@ import {
 import useGetEntityTree from 'hooks/Network/EntityTree';
 import { useNavigate } from 'react-router-dom';
 import { TreeStructure, Buildings, X } from 'phosphor-react';
+import { FocusableElement } from '@chakra-ui/utils';
 
 interface Tree {
   uuid: string;
@@ -117,7 +118,7 @@ const EntityPopover: React.FC<Props> = ({ isOpen, onClose, children, toggleSideb
   const toast = useToast();
   const [closeOnBlur, setCloseOnBlur] = useState(false);
   const { data: tree, isFetching } = useGetEntityTree({ t, toast });
-  const initRef = React.useRef<any>();
+  const initRef = React.useRef<HTMLButtonElement>();
 
   const goTo = useCallback(
     (id, type) => {
@@ -146,7 +147,7 @@ const EntityPopover: React.FC<Props> = ({ isOpen, onClose, children, toggleSideb
       onClose={onClose}
       placement="right"
       closeOnBlur={closeOnBlur}
-      initialFocusRef={initRef}
+      initialFocusRef={initRef as React.RefObject<FocusableElement>}
     >
       <PopoverAnchor>{children}</PopoverAnchor>
       {breakpoint === 'base' ? (
@@ -156,7 +157,7 @@ const EntityPopover: React.FC<Props> = ({ isOpen, onClose, children, toggleSideb
             <Spacer />
             <IconButton
               aria-label="Close"
-              ref={initRef}
+              ref={initRef as React.RefObject<HTMLButtonElement>}
               colorScheme="gray"
               onClick={onClose}
               icon={<X size={20} />}
@@ -182,7 +183,7 @@ const EntityPopover: React.FC<Props> = ({ isOpen, onClose, children, toggleSideb
               <Spacer />
               <IconButton
                 aria-label="Close"
-                ref={initRef}
+                ref={initRef as React.RefObject<HTMLButtonElement>}
                 colorScheme="gray"
                 onClick={onClose}
                 icon={<X size={20} />}

@@ -43,7 +43,7 @@ export default {
     },
   },
   styles: {
-    global: (props: any) => ({
+    global: (props: { colorMode: string }) => ({
       body: {
         bg: mode('gray.50', 'gray.800')(props),
         fontFamily: 'Inter, sans-serif',

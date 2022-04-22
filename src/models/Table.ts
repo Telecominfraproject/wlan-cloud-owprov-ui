@@ -7,3 +7,7 @@ export interface SubscriberCell {
 export interface DeviceCell {
   original: Device;
 }
+export interface PageInfo {
+  limit: number;
+  index: number;
+}

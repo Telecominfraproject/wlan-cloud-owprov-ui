@@ -1,4 +1,4 @@
-export const arrayMoveIndex = (arr: any[], startIndex: number, endIndex: number) => {
+export const arrayMoveIndex = (arr: unknown[], startIndex: number, endIndex: number) => {
   const newArr = arr;
 
   newArr.splice(endIndex, 0, newArr.splice(startIndex, 1)[0]);
@@ -6,7 +6,7 @@ export const arrayMoveIndex = (arr: any[], startIndex: number, endIndex: number)
   return newArr;
 };
 
-export const arrayMoveIndexes = (arr: any[], startIndex: number, endIndex: number) => {
+export const arrayMoveIndexes = (arr: unknown[], startIndex: number, endIndex: number) => {
   const newArr = arr;
 
   newArr.splice(endIndex, 0, newArr.splice(startIndex, 1)[0]);
@@ -14,7 +14,7 @@ export const arrayMoveIndexes = (arr: any[], startIndex: number, endIndex: numbe
   return newArr;
 };
 
-export const getScaledArray = (arr: any[], minAllowed: number, maxAllowed: number) => {
+export const getScaledArray = (arr: number[], minAllowed: number, maxAllowed: number) => {
   const min = Math.min(...arr);
   const max = Math.max(...arr);
   if (max - min === 0) return arr.map(() => (minAllowed + maxAllowed) / 2);

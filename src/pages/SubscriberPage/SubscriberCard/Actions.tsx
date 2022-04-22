@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
-import { useSuspendSubscriber } from 'hooks/Network/Subscribers';
+import { useSendEmailResetSubscriber, useSuspendSubscriber } from 'hooks/Network/Subscribers';
 import useMutationResult from 'hooks/useMutationResult';
 import { Subscriber } from 'models/Subscriber';
 
@@ -15,6 +15,7 @@ interface Props {
 const SubscriberActions: React.FC<Props> = ({ subscriber, refresh, isDisabled }) => {
   const { t } = useTranslation();
   const { mutateAsync: suspend } = useSuspendSubscriber({ id: subscriber?.id ?? '' });
+  const { mutateAsync: resetPassword } = useSendEmailResetSubscriber({ id: subscriber?.id ?? '' });
   const { onSuccess, onError } = useMutationResult({
     objName: t('subscribers.one'),
     operationType: 'update',
@@ -30,6 +31,7 @@ const SubscriberActions: React.FC<Props> = ({ subscriber, refresh, isDisabled })
         onError(e);
       },
     });
+  const handleResetPasswordClick = () => resetPassword(undefined);
 
   return (
     <Menu>
@@ -40,6 +42,7 @@ const SubscriberActions: React.FC<Props> = ({ subscriber, refresh, isDisabled })
         <MenuItem onClick={handleSuspendClick}>
           {subscriber?.suspended ? t('users.stop_suspension') : t('users.suspend')}
         </MenuItem>
+        <MenuItem onClick={handleResetPasswordClick}>{t('users.reset_password')}</MenuItem>
       </MenuList>
     </Menu>
   );

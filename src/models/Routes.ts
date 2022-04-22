@@ -7,7 +7,7 @@ export interface Route {
   navName?: string;
   icon: (active: boolean) => ReactNode;
   isEntity?: boolean;
-  component: any;
+  component: unknown;
   hidden?: boolean;
   isCustom?: boolean;
 }

@@ -7,8 +7,6 @@ import LoadingOverlay from 'components/LoadingOverlay';
 import CardBody from 'components/Card/CardBody';
 import { useGetOperator } from 'hooks/Network/Operators';
 import ServiceClassTab from './ServiceClassTab';
-import ContactTab from './ContactTab';
-import LocationTab from './LocationTab';
 import OperatorDevicesTab from './DevicesTab';
 import SubscriberTab from './SubscriberTab';
 
@@ -28,8 +26,6 @@ const OperatorChildrenCard = ({ id }) => {
             <Tab>{t('devices.title')}</Tab>
             <Tab>{t('subscribers.other')}</Tab>
             <Tab>{t('service.other')}</Tab>
-            <Tab>{t('locations.other')}</Tab>
-            <Tab>{t('contacts.other')}</Tab>
           </TabList>
           {!operator && isFetching ? (
             <Center w="100%">
@@ -46,12 +42,6 @@ const OperatorChildrenCard = ({ id }) => {
                 </TabPanel>
                 <TabPanel overflowX="auto">
                   <ServiceClassTab operatorId={id} />
-                </TabPanel>
-                <TabPanel overflowX="auto">
-                  <LocationTab operatorId={id} refreshOperator={refetch} />
-                </TabPanel>
-                <TabPanel overflowX="auto">
-                  <ContactTab operatorId={id} refreshOperator={refetch} />
                 </TabPanel>
               </TabPanels>
             </LoadingOverlay>
