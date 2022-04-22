@@ -1,15 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { ModalProps } from 'models/Modal';
-import { Modal, ModalOverlay, ModalContent, ModalBody, Center, useToast, Spinner } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalBody, Center, Spinner } from '@chakra-ui/react';
 import ModalHeader from 'components/ModalHeader';
 import CloseButton from 'components/Buttons/CloseButton';
 import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand';
 import useCommandModal from 'hooks/useCommandModal';
 import { useWifiScanDevice } from 'hooks/Network/GatewayDevices';
 import { ArrowLeft, Download, Gauge } from 'phosphor-react';
-import { ScanChannel, WifiScanCommand } from 'models/Device';
+import { DeviceScanResult, WifiScanCommand } from 'models/Device';
 import useFormRef from 'hooks/useFormRef';
 import ResponsiveButton from 'components/Buttons/ResponsiveButton';
 import { CSVLink } from 'react-csv';
@@ -25,9 +24,8 @@ interface Props {
 
 const WifiScanModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, serialNumber }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const { form, formRef } = useFormRef();
-  const [csvData, setCsvData] = useState<ScanChannel[] | undefined>(undefined);
+  const [csvData, setCsvData] = useState<DeviceScanResult[] | undefined>(undefined);
   const { data: scanResult, mutateAsync: scan, isLoading, reset } = useWifiScanDevice({ serialNumber });
   const { isConfirmOpen, closeConfirm, closeModal, closeCancelAndForm } = useCommandModal({
     isLoading,
@@ -35,22 +33,7 @@ const WifiScanModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, seria
   });
 
   const submit = (data: WifiScanCommand) => {
-    scan(data, {
-      onSuccess: () => {},
-      onError: (e: any) => {
-        toast({
-          id: uuid(),
-          title: t('common.error'),
-          description: t('commands.wifiscan_error', {
-            e: e?.response?.data?.ErrorDescription,
-          }),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
-      },
-    });
+    scan(data);
   };
 
   const body = useMemo(() => {

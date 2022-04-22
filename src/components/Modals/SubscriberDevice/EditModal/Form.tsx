@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { Ref, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Heading } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { SubscriberDeviceSchema } from 'constants/formSchemas';
@@ -24,7 +24,7 @@ interface Props {
   modalProps: ModalProps;
   refresh: () => void;
   subscriberDevice: Device;
-  formRef: (node: any) => void;
+  formRef: Ref<FormikProps<Device>> | undefined;
   externalData: {
     deviceTypes: string[];
     contacts: Contact[];
@@ -32,8 +32,8 @@ interface Props {
     serviceClasses: ServiceClass[];
     subscribers: Subscriber[];
   };
-  configuration?: Object[];
-  defaultConfiguration?: Object[];
+  configuration?: Configuration[];
+  defaultConfiguration?: Configuration[];
   onConfigurationChange: (conf: Configuration) => void;
 }
 const defaultProps = {

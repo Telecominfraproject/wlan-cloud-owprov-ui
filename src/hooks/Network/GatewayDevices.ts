@@ -4,6 +4,7 @@ import { GatewayDevice, WifiScanCommand, WifiScanResult } from 'models/Device';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosGw } from 'utils/axiosInstances';
+import { v4 as uuid } from 'uuid';
 
 export const useGetDevice = ({ serialNumber }: { serialNumber: string }) => {
   const { t } = useTranslation();
@@ -43,8 +44,11 @@ export const useBlinkDevice = ({ serialNumber }: { serialNumber: string }) =>
 export const useFactoryReset = ({ serialNumber, keepRedirector }: { serialNumber: string; keepRedirector: boolean }) =>
   useMutation(() => axiosGw.post(`device/${serialNumber}/factory`, { serialNumber, keepRedirector }));
 
-export const useWifiScanDevice = ({ serialNumber }: { serialNumber: string }) =>
-  useMutation(
+export const useWifiScanDevice = ({ serialNumber }: { serialNumber: string }) => {
+  const toast = useToast();
+  const { t } = useTranslation();
+
+  return useMutation(
     ({ dfs, bandwidth, activeScan }: WifiScanCommand): Promise<WifiScanResult | undefined> =>
       axiosGw
         .post<WifiScanResult>(`device/${serialNumber}/wifiscan`, {
@@ -54,4 +58,21 @@ export const useWifiScanDevice = ({ serialNumber }: { serialNumber: string }) =>
           activeScan,
         })
         .then(({ data }: { data: WifiScanResult }) => data),
+    {
+      onSuccess: () => {},
+      onError: (e: AxiosError) => {
+        toast({
+          id: uuid(),
+          title: t('common.error'),
+          description: t('commands.wifiscan_error', {
+            e: e?.response?.data?.ErrorDescription,
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      },
+    },
   );
+};

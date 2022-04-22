@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from '@chakra-ui/react';
 import { Info, Storefront, Tag, TreeStructure, UsersThree } from 'phosphor-react';
+import { Route } from 'models/Routes';
 
 const AccountPage = React.lazy(() => import('pages/AccountPage'));
 const ConfigurationPage = React.lazy(() => import('pages/ConfigurationPage'));
@@ -14,7 +15,7 @@ const SystemPage = React.lazy(() => import('pages/SystemPage'));
 const UsersPage = React.lazy(() => import('pages/UsersPage'));
 const VenuePage = React.lazy(() => import('pages/VenuePage'));
 
-export default [
+const routes: Route[] = [
   {
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/entity/:id',
@@ -125,3 +126,5 @@ export default [
     component: MapPage,
   },
 ];
+
+export default routes;

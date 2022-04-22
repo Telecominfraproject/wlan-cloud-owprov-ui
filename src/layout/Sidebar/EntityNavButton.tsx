@@ -1,36 +1,34 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
-import { Button, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import { Button, Flex, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import IconBox from 'components/IconBox';
-
-const propTypes = {
-  activeRoute: PropTypes.func.isRequired,
-  route: PropTypes.shape({
-    path: PropTypes.string.isRequired,
-    hidden: PropTypes.bool,
-    authorized: PropTypes.arrayOf(PropTypes.string).isRequired,
-    name: PropTypes.string.isRequired,
-    icon: PropTypes.instanceOf(Object).isRequired,
-    isCustom: PropTypes.bool,
-  }).isRequired,
-  role: PropTypes.string.isRequired,
-};
+import { ArrowCircleRight } from 'phosphor-react';
+import { Route } from 'models/Routes';
+import EntityPopover from './EntityPopover';
 
 const variantChange = '0.2s linear';
 
-const NavLinkButton = ({ activeRoute, route, role }) => {
+interface Props {
+  activeRoute: (path: string, otherRoute: string | undefined) => string;
+  route: Route;
+  role: string;
+  toggleSidebar: () => void;
+}
+
+const EntityNavButton: React.FC<Props> = ({ activeRoute, route, role, toggleSidebar }) => {
   const { t } = useTranslation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const activeArrowColor = useColorModeValue('var(--chakra-colors-gray-700)', 'white');
+  const inactiveArrowColor = useColorModeValue('var(--chakra-colors-gray-600)', 'var(--chakra-colors-gray-200)');
   const activeTextColor = useColorModeValue('gray.700', 'white');
   const inactiveTextColor = useColorModeValue('gray.600', 'gray.200');
   const inactiveIconColor = useColorModeValue('gray.100', 'gray.600');
 
   return (
-    <NavLink to={route.path} key={uuid()}>
-      {activeRoute(route.path, route.isCustom) === 'active' ? (
+    <EntityPopover isOpen={isOpen} onClose={onClose} toggleSidebar={toggleSidebar}>
+      {activeRoute(route.path, '/venue/:id') === 'active' ? (
         <Button
+          onClick={onOpen}
           hidden={route.hidden || !route.authorized.includes(role)}
           boxSize="initial"
           justifyContent="flex-start"
@@ -52,6 +50,7 @@ const NavLinkButton = ({ activeRoute, route, role }) => {
           _focus={{
             boxShadow: '0px 7px 11px rgba(0, 0, 0, 0.04)',
           }}
+          rightIcon={<ArrowCircleRight size={24} color={activeArrowColor} />}
         >
           <Flex>
             <IconBox bg="blue.300" color="white" h="42px" w="42px" me="12px" transition={variantChange}>
@@ -64,6 +63,7 @@ const NavLinkButton = ({ activeRoute, route, role }) => {
         </Button>
       ) : (
         <Button
+          onClick={onOpen}
           hidden={route.hidden || !route.authorized.includes(role)}
           boxSize="initial"
           justifyContent="flex-start"
@@ -83,6 +83,7 @@ const NavLinkButton = ({ activeRoute, route, role }) => {
           _focus={{
             boxShadow: 'none',
           }}
+          rightIcon={<ArrowCircleRight size={20} color={inactiveArrowColor} />}
         >
           <Flex>
             <IconBox bg={inactiveIconColor} color="blue.300" h="34px" w="34px" me="12px" transition={variantChange}>
@@ -94,9 +95,8 @@ const NavLinkButton = ({ activeRoute, route, role }) => {
           </Flex>
         </Button>
       )}
-    </NavLink>
+    </EntityPopover>
   );
 };
 
-NavLinkButton.propTypes = propTypes;
-export default React.memo(NavLinkButton);
+export default React.memo(EntityNavButton);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Ref, useEffect } from 'react';
 import { Modal, ModalOverlay, ModalContent, ModalBody, Spinner, Center, useBoolean } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
@@ -11,6 +11,7 @@ import useFormModal from 'hooks/useFormModal';
 import { useGetSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import useOperatorChildren from 'hooks/useOperatorChildren';
 import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
+import { FormikProps } from 'formik';
 import { Device } from 'models/Device';
 import EditSubscriberDeviceForm from './Form';
 
@@ -102,7 +103,7 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({ isOpen, onClose, subscribe
                 onClose: closeCancelAndForm,
               }}
               refresh={refreshAfterUpdate}
-              formRef={formRef}
+              formRef={formRef as Ref<FormikProps<Device>> | undefined}
               configuration={configuration || undefined}
               defaultConfiguration={subscriberDeviceData.configuration}
               onConfigurationChange={onConfigurationChange}

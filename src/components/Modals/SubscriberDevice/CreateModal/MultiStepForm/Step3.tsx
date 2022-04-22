@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import { Heading } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import SelectField from 'components/FormFields/SelectField';
@@ -7,8 +7,8 @@ import useSelectList from 'hooks/useSelectList';
 import { Contact } from 'models/Contact';
 
 interface Props {
-  formRef: (node: any) => void;
-  finishStep: (v: Object) => void;
+  formRef: React.Ref<FormikProps<Record<string, unknown>>> | undefined;
+  finishStep: (v: Record<string, unknown>) => void;
   contacts: Contact[];
 }
 

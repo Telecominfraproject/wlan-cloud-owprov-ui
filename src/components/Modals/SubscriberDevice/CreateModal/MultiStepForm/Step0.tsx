@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import { Heading, SimpleGrid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import StringField from 'components/FormFields/StringField';
@@ -20,8 +20,8 @@ const Schema = (t: (str: string) => string) =>
   });
 
 interface Props {
-  formRef: (node: any) => void;
-  finishStep: (v: Object) => void;
+  formRef: React.Ref<FormikProps<Record<string, unknown>>> | undefined;
+  finishStep: (v: Record<string, unknown>) => void;
   serviceClasses: ServiceClass[];
   subscribers: Subscriber[];
   subscriberId?: string;
@@ -53,6 +53,7 @@ const CreateSubscriberDeviceStep0: React.FC<Props> = ({
       innerRef={formRef}
       initialValues={{ ...Schema(t).cast(undefined), subscriberId }}
       validationSchema={Schema(t)}
+      // @ts-ignore
       onSubmit={(data) => finishStep({ ...data, notes: data.note.length > 0 ? [{ note: data.note }] : undefined })}
     >
       <Form>

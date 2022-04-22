@@ -1,5 +1,5 @@
-export default (toRun: () => void, timeout: number = 1000) => {
-  let timer: any;
+export default (toRun: () => void, timeout = 1000) => {
+  let timer: NodeJS.Timeout;
   // @ts-ignore
   return (...args) => {
     clearTimeout(timer);

@@ -3,8 +3,11 @@ import { ReactNode } from 'react';
 export interface Route {
   authorized: string[];
   path: string;
-  navName: string;
+  name: string;
+  navName?: string;
   icon: (active: boolean) => ReactNode;
-  isEntity: boolean;
+  isEntity?: boolean;
   component: any;
+  hidden?: boolean;
+  isCustom?: boolean;
 }

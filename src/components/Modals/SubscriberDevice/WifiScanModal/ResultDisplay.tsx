@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { Alert, Heading, SimpleGrid } from '@chakra-ui/react';
-import { ScanChannel, WifiScanResult } from 'models/Device';
+import { ScanChannel, WifiScanResult, DeviceScanResult } from 'models/Device';
 import { useTranslation } from 'react-i18next';
 import { parseDbm } from 'utils/stringHelper';
 import { v4 as uuid } from 'uuid';
@@ -8,7 +8,7 @@ import ResultCard from './ResultCard';
 
 interface Props {
   results: WifiScanResult;
-  setCsvData: (data: ScanChannel[]) => void;
+  setCsvData: (data: DeviceScanResult[]) => void;
 }
 
 const WifiScanResultDisplay: React.FC<Props> = ({ results, setCsvData }) => {
@@ -16,7 +16,7 @@ const WifiScanResultDisplay: React.FC<Props> = ({ results, setCsvData }) => {
 
   const scanResults = useMemo(() => {
     const createdChannels: { [key: string]: ScanChannel } = {};
-    const listCsv: any[] = [];
+    const listCsv: DeviceScanResult[] = [];
 
     for (const scan of results.results.status.scan) {
       if (!createdChannels[scan.channel]) {
@@ -26,7 +26,7 @@ const WifiScanResultDisplay: React.FC<Props> = ({ results, setCsvData }) => {
         };
         for (const deviceResult of results.results.status.scan) {
           if (deviceResult.channel === scan.channel) {
-            let ssid: string = '';
+            let ssid = '';
             const signal: number | string = parseDbm(deviceResult.signal);
             if (deviceResult.ssid && deviceResult.ssid.length > 0) ssid = deviceResult.ssid;
             else ssid = deviceResult.meshid && deviceResult.meshid.length > 0 ? deviceResult.meshid : 'N/A';

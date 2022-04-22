@@ -48,7 +48,7 @@ const Navbar: React.FC<Props> = ({ secondary, toggleSidebar, isSidebarOpen }) =>
   };
 
   // Style variables
-  let navbarPosition: string = 'absolute';
+  let navbarPosition: 'absolute' | 'fixed' = 'absolute';
   let navbarFilter = 'none';
   let navbarBackdrop = 'blur(21px)';
   let navbarShadow = 'none';
@@ -94,7 +94,7 @@ const Navbar: React.FC<Props> = ({ secondary, toggleSidebar, isSidebarOpen }) =>
 
   return (
     <Flex
-      position={navbarPosition as any}
+      position={navbarPosition}
       boxShadow={navbarShadow}
       bg={navbarBg}
       borderColor={navbarBorder}

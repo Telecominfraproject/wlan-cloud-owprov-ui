@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { SimpleGrid } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import SelectField from 'components/FormFields/SelectField';
 import { ModalProps } from 'models/Modal';
 import { WifiScanCommand } from 'models/Device';
@@ -16,7 +16,7 @@ const defaultValues: WifiScanCommand = {
 interface Props {
   modalProps: ModalProps;
   submit: (data: WifiScanCommand) => void;
-  formRef: (node: any) => void;
+  formRef: React.Ref<FormikProps<Record<string, unknown>>> | undefined;
 }
 
 const WifiScanForm: React.FC<Props> = ({ modalProps: { isOpen }, submit, formRef }) => {
@@ -29,7 +29,7 @@ const WifiScanForm: React.FC<Props> = ({ modalProps: { isOpen }, submit, formRef
 
   return (
     <Formik
-      innerRef={formRef}
+      innerRef={formRef as React.Ref<FormikProps<WifiScanCommand>> | undefined}
       enableReinitialize
       key={formKey}
       initialValues={defaultValues}

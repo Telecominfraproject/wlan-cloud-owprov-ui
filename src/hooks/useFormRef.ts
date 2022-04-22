@@ -1,5 +1,6 @@
+import { FormikProps } from 'formik';
 import { FormType } from 'models/Form';
-import { useCallback, useMemo, useState } from 'react';
+import { Ref, useCallback, useMemo, useState } from 'react';
 
 const useFormRef = () => {
   const [form, setForm] = useState<FormType>({
@@ -9,9 +10,9 @@ const useFormRef = () => {
     dirty: false,
   });
   const formRef = useCallback(
-    (node: any) => {
+    (node: FormikProps<Record<string, unknown>> | undefined) => {
       if (
-        node !== null &&
+        node !== undefined &&
         (form.submitForm !== node.submitForm ||
           form.isSubmitting !== node.isSubmitting ||
           form.isValid !== node.isValid ||
@@ -21,7 +22,7 @@ const useFormRef = () => {
       }
     },
     [form],
-  );
+  ) as Ref<FormikProps<Record<string, unknown>>> | undefined;
 
   const toReturn = useMemo(() => ({ form, formRef }), [form]);
 

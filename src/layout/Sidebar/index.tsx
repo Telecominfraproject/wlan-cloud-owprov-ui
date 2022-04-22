@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   Box,
@@ -18,28 +17,29 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'contexts/AuthProvider';
+import { Route } from 'models/Routes';
+import darkLogo from 'assets/Logo_Dark_Mode.svg';
+import lightLogo from 'assets/Logo_Light_Mode.svg';
 import createLinks from './CreateLinks';
-import darkLogo from '../../assets/Logo_Dark_Mode.svg';
-import lightLogo from '../../assets/Logo_Light_Mode.svg';
 
 const variantChange = '0.2s linear';
 
-const propTypes = {
-  routes: PropTypes.instanceOf(Array).isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
-};
+interface Props {
+  routes: Route[];
+  isOpen: boolean;
+  toggle: () => void;
+}
 
-const Sidebar = ({ routes, isOpen, toggle }) => {
+const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const location = useLocation();
-  const mainPanel = React.useRef();
+  const mainPanel = useRef<any>();
   const { colorMode } = useColorMode();
   const navbarShadow = useColorModeValue('0px 7px 23px rgba(0, 0, 0, 0.05)', 'none');
   const breakpoint = useBreakpoint();
 
-  const activeRoute = (routeName, otherRoute) => {
+  const activeRoute = (routeName: string, otherRoute: string | undefined) => {
     if (otherRoute)
       return location.pathname.split('/')[1] === routeName.split('/')[1] ||
         location.pathname.split('/')[1] === otherRoute.split('/')[1]
@@ -135,7 +135,5 @@ const Sidebar = ({ routes, isOpen, toggle }) => {
     </>
   );
 };
-
-Sidebar.propTypes = propTypes;
 
 export default Sidebar;

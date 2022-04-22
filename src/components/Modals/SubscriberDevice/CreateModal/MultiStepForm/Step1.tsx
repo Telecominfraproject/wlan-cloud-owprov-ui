@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import { Heading, SimpleGrid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import StringField from 'components/FormFields/StringField';
@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
 import { Configuration } from 'models/Configuration';
 
-const defaultConfiguration: Object[] = [];
+const defaultConfiguration: Record<string, unknown>[] = [];
 
 const Schema = (t: (str: string) => string) =>
   Yup.object().shape({
@@ -28,8 +28,8 @@ const Schema = (t: (str: string) => string) =>
   });
 
 interface Props {
-  formRef: (node: any) => void;
-  finishStep: (v: Object) => void;
+  formRef: React.Ref<FormikProps<Record<string, unknown>>> | undefined;
+  finishStep: (v: Record<string, unknown>) => void;
   deviceTypes: string[];
   onConfigurationChange: (conf: Configuration) => void;
 }

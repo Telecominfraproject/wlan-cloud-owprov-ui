@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
-import { Device } from 'models/Device';
+import { AxiosError } from 'axios';
+import { Device, EditDevice } from 'models/Device';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
@@ -21,7 +22,7 @@ export const useGetSubscriberDevices = ({ operatorId, subscriberId }: { operator
             )
             .then(({ data }: { data: { subscriberDevices: Device[] } }) => data.subscriberDevices),
     {
-      onError: (e: any) => {
+      onError: (e: AxiosError) => {
         if (!toast.isActive('subscriberDevices-fetching-error'))
           toast({
             id: 'subscriberDevices-fetching-error',
@@ -49,7 +50,7 @@ export const useGetSubscriberDevice = ({ enabled, id }: { enabled?: boolean; id:
     () => axiosProv.get(`subscriberDevice/${id}`).then(({ data }: { data: Device }) => data),
     {
       enabled,
-      onError: (e: any) => {
+      onError: (e: AxiosError) => {
         if (!toast.isActive('subscriberDevice-fetching-error'))
           toast({
             id: 'subscriberDevice-fetching-error',
@@ -69,10 +70,10 @@ export const useGetSubscriberDevice = ({ enabled, id }: { enabled?: boolean; id:
 };
 
 export const useCreateSubscriberDevice = () =>
-  useMutation((newSubscriberDevice: Object) => axiosProv.post('subscriberDevice/0', newSubscriberDevice));
+  useMutation((newSubscriberDevice: EditDevice) => axiosProv.post('subscriberDevice/0', newSubscriberDevice));
 
 export const useUpdateSubscriberDevice = ({ id }: { id: string }) =>
-  useMutation((newSubscriberDevice: Object) => axiosProv.put(`subscriberDevice/${id}`, newSubscriberDevice));
+  useMutation((newSubscriberDevice: EditDevice) => axiosProv.put(`subscriberDevice/${id}`, newSubscriberDevice));
 
 export const useDeleteSubscriberDevice = ({ id }: { id: string }) =>
   useMutation(() => axiosProv.delete(`subscriberDevice/${id}`, {}));

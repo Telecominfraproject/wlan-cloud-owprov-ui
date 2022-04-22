@@ -11,6 +11,7 @@ import useFormModal from 'hooks/useFormModal';
 import useOperatorChildren from 'hooks/useOperatorChildren';
 import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
 import { Configuration } from 'models/Configuration';
+import { EditDevice } from 'models/Device';
 import useMutationResult from 'hooks/useMutationResult';
 import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import StepButton from 'components/Buttons/StepButton';
@@ -52,20 +53,19 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
   });
   const create = useCreateSubscriberDevice();
   const [step, setStep] = useState<number>(0);
-  const [data, setData] = useState<Object>({ operatorId });
+  const [data, setData] = useState<Record<string, unknown>>({ operatorId });
 
-  const finishStep = (newData: Object) => {
+  const finishStep = (newData: Record<string, unknown>) => {
     const finalData = { ...data, ...newData };
     setData(finalData);
     setStep(step + 1);
   };
-
   const submit = () => {
     create.mutateAsync(
       {
         ...data,
-        configuration: configuration ?? undefined,
-      },
+        configuration: configuration ?? [],
+      } as EditDevice,
       {
         onSuccess: () => {
           onSuccess({});

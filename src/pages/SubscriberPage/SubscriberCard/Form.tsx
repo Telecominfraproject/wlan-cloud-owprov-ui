@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { SubscriberSchema } from 'constants/formSchemas';
@@ -14,7 +14,7 @@ import { Subscriber } from 'models/Subscriber';
 interface Props {
   editing: boolean;
   subscriber: Subscriber;
-  formRef: (node: any) => void;
+  formRef: React.Ref<FormikProps<Record<string, unknown>>> | undefined;
   stopEditing: () => void;
 }
 
@@ -36,7 +36,7 @@ const EditSubscriberForm: React.FC<Props> = ({ editing, subscriber, formRef, sto
 
   return (
     <Formik
-      innerRef={formRef}
+      innerRef={formRef as React.Ref<FormikProps<Subscriber>>}
       enableReinitialize
       key={formKey}
       initialValues={{ ...subscriber }}

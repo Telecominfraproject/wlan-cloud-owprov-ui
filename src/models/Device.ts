@@ -39,7 +39,7 @@ interface BssidResult {
   channel: number;
   frequency: number;
   ht_oper: string;
-  ies: any[];
+  ies: string[];
   last_seen: number;
   signal: number;
   ssid?: string;
@@ -66,7 +66,7 @@ export interface WifiScanResult {
   };
 }
 
-interface DeviceScanResult {
+export interface DeviceScanResult {
   ssid: string;
   signal: number | string;
 }
