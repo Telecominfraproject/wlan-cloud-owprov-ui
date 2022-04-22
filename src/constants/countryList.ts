@@ -1,4 +1,4 @@
-export default [
+const COUNTRY_LIST: { value: string; label: string }[] = [
   { value: 'US', label: 'United States' },
   { value: 'CA', label: 'Canada' },
   { value: 'AF', label: 'Afghanistan' },
@@ -248,3 +248,5 @@ export default [
   { value: 'ZM', label: 'Zambia' },
   { value: 'ZW', label: 'Zimbabwe' },
 ];
+
+export default COUNTRY_LIST;

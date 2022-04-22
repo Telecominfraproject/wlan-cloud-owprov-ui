@@ -21,7 +21,7 @@ export const CreateUserNonRootSchema = Yup.object().shape({
   userRole: Yup.string(),
 });
 
-export const UpdateUserSchema = (t) =>
+export const UpdateUserSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     currentPassword: Yup.string().notRequired().min(8, t('form.invalid_password')),
@@ -40,7 +40,7 @@ export const UpdateUserSchema = (t) =>
     }),
   });
 
-export const RootSchemaForRootUser = (t) =>
+export const RootSchemaForRootUser = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
@@ -52,7 +52,7 @@ export const RootSchemaForRootUser = (t) =>
     note: Yup.string(),
   });
 
-export const RootSchemaForNonRootUser = (t) =>
+export const RootSchemaForNonRootUser = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
@@ -60,7 +60,7 @@ export const RootSchemaForNonRootUser = (t) =>
   });
 
 // Certificate Schemas
-export const CreateCertificateSchema = (t) =>
+export const CreateCertificateSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     type: Yup.string().required(t('form.required')),
     commonName: Yup.string()
@@ -87,7 +87,8 @@ export const CreateCertificateSchema = (t) =>
             if (v) {
               const stringSplit = v.split('.');
               if (stringSplit.length < 2) return false;
-              if (stringSplit[0][0] === '*' && stringSplit[1][0] === '*') return false;
+              if (stringSplit[0] && stringSplit[0][0] === '*' && stringSplit[1] && stringSplit[1][0] === '*')
+                return false;
 
               for (const part of stringSplit) {
                 if (part.length === 0) return false;
@@ -96,6 +97,7 @@ export const CreateCertificateSchema = (t) =>
 
               const splitPort = v.split(':');
 
+              // @ts-ignore
               if ((splitPort.length === 2 && splitPort[1] < 1) || splitPort[1] > 65535) return false;
             }
             return true;
@@ -117,7 +119,7 @@ export const CreateCertificateSchema = (t) =>
           if (v) {
             const stringSplit = v.split('.');
             if (stringSplit.length < 2) return false;
-            if (stringSplit[0][0] === '*') return false;
+            if (stringSplit[0] && stringSplit[0][0] && stringSplit[0][0] === '*') return false;
 
             for (const part of stringSplit) {
               if (part.length === 0) return false;
@@ -126,6 +128,7 @@ export const CreateCertificateSchema = (t) =>
 
             const splitPort = v.split(':');
 
+            // @ts-ignore
             if ((splitPort.length === 2 && splitPort[1] < 1) || splitPort[1] > 65535) return false;
           }
           return true;
@@ -133,7 +136,7 @@ export const CreateCertificateSchema = (t) =>
     }),
   });
 
-export const UpdateCertificateSchema = (t) =>
+export const UpdateCertificateSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     manufacturer: Yup.string().when('type', {
       is: 'device',
@@ -151,7 +154,7 @@ export const UpdateCertificateSchema = (t) =>
           if (v) {
             const stringSplit = v.split('.');
             if (stringSplit.length < 2) return false;
-            if (stringSplit[0][0] === '*') return false;
+            if (stringSplit[0] && stringSplit[0][0] === '*') return false;
 
             for (const part of stringSplit) {
               if (part.length === 0) return false;
@@ -160,6 +163,7 @@ export const UpdateCertificateSchema = (t) =>
 
             const splitPort = v.split(':');
 
+            // @ts-ignore
             if ((splitPort.length === 2 && splitPort[1] < 1) || splitPort[1] > 65535) return false;
           }
           return true;
@@ -168,7 +172,7 @@ export const UpdateCertificateSchema = (t) =>
   });
 
 // Batch Schemas
-export const BatchSchema = (t) =>
+export const BatchSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
@@ -180,13 +184,13 @@ export const BatchSchema = (t) =>
   });
 
 // Email Notification Schema
-export const EmailNotificationSchema = (t) =>
+export const EmailNotificationSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     email: Yup.string().email(t('form.invalid_email')),
   });
 
 // Sms Notification Schema
-export const SmsNotificationSchema = (t) =>
+export const SmsNotificationSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     phone: Yup.string().test('test-phone-number', t('form.invalid_phone_number'), (v) => {
       if (v) {
@@ -197,7 +201,7 @@ export const SmsNotificationSchema = (t) =>
   });
 
 // Configuration  Schemas
-export const CreateConfigurationSchema = (t) =>
+export const CreateConfigurationSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     rrm: Yup.string().required(t('form.required')),
@@ -209,7 +213,7 @@ export const CreateConfigurationSchema = (t) =>
   });
 
 // Inventory Tag  Schemas
-export const CreateTagSchema = (t) =>
+export const CreateTagSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     serialNumber: Yup.string()
       .required(t('form.required'))
@@ -228,7 +232,7 @@ export const CreateTagSchema = (t) =>
     note: Yup.string(),
   });
 
-export const UpdateTagSchema = (t) =>
+export const UpdateTagSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     rrm: Yup.string().required(t('form.required')),
@@ -239,7 +243,10 @@ export const UpdateTagSchema = (t) =>
   });
 
 // Subscriber Schema
-export const SubscriberSchema = (t, { passRegex, needPassword = true }) =>
+export const SubscriberSchema = (
+  t: (str: string) => string,
+  { passRegex, needPassword = true }: { passRegex: string; needPassword: boolean },
+) =>
   Yup.object().shape({
     email: Yup.string().email(t('form.invalid_email')).required(t('form.required')).default(''),
     name: Yup.string().required(t('form.required')).default(''),
@@ -256,7 +263,7 @@ export const SubscriberSchema = (t, { passRegex, needPassword = true }) =>
   });
 
 // Contact Schemas
-export const CreateContactSchema = (t) =>
+export const CreateContactSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     type: Yup.string().required(t('form.required')),
@@ -276,8 +283,29 @@ export const CreateContactSchema = (t) =>
   });
 
 // Location Schemas
-export const CreateLocationSchema = (t, needEntity = true) =>
-  Yup.object()
+export const CreateLocationSchema = (t: (str: string) => string, needEntity = true) => {
+  if (needEntity)
+    return Yup.object()
+      .shape({
+        name: Yup.string().required(t('form.required')),
+        description: Yup.string(),
+        type: Yup.string().required(t('form.required')),
+        addressLineOne: Yup.string().required(t('form.required')),
+        addressLineTwo: Yup.string(),
+        city: Yup.string().required(t('form.required')),
+        state: Yup.string().required(t('form.required')),
+        postal: Yup.string().required(t('form.required')),
+        country: Yup.string().required(t('form.required')),
+        buildingName: Yup.string(),
+        phones: Yup.array().of(Yup.string()),
+        mobiles: Yup.array().of(Yup.string()),
+        geoCode: Yup.string(),
+        note: Yup.string(),
+        entity: Yup.string().required(t('form.required')),
+      })
+      .nullable();
+
+  return Yup.object()
     .shape({
       name: Yup.string().required(t('form.required')),
       description: Yup.string(),
@@ -293,12 +321,12 @@ export const CreateLocationSchema = (t, needEntity = true) =>
       mobiles: Yup.array().of(Yup.string()),
       geoCode: Yup.string(),
       note: Yup.string(),
-      entity: needEntity ? Yup.string().required(t('form.required')) : undefined,
     })
     .nullable();
+};
 
 // Entity Schemas
-export const EntitySchema = (t) =>
+export const EntitySchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
@@ -309,7 +337,7 @@ export const EntitySchema = (t) =>
   });
 
 // Entity Schemas
-export const VenueSchema = (t) =>
+export const VenueSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
@@ -321,7 +349,7 @@ export const VenueSchema = (t) =>
   });
 
 // Configuration  Schemas
-export const CreateMapSchema = (t) =>
+export const CreateMapSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     visibility: Yup.string().required(t('form.required')),
@@ -330,7 +358,7 @@ export const CreateMapSchema = (t) =>
   });
 
 // Service Class Schemas
-export const ServiceClassSchema = (t) =>
+export const ServiceClassSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
@@ -341,7 +369,7 @@ export const ServiceClassSchema = (t) =>
   });
 
 // Operator Contact Schemas
-export const SubscriberDeviceContactSchema = (t) =>
+export const SubscriberDeviceContactSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     type: Yup.string().required(t('form.required')),
     salutation: Yup.string(),
@@ -357,7 +385,7 @@ export const SubscriberDeviceContactSchema = (t) =>
   });
 
 // Location Schemas
-export const SubscriberDeviceLocationSchema = (t) =>
+export const SubscriberDeviceLocationSchema = (t: (str: string) => string) =>
   Yup.object()
     .shape({
       type: Yup.string().required(t('form.required')),
@@ -375,7 +403,7 @@ export const SubscriberDeviceLocationSchema = (t) =>
     .nullable();
 
 // Subscriber Device Schema
-export const SubscriberDeviceSchema = (t) =>
+export const SubscriberDeviceSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')).default(''),
     subscriberId: Yup.string().required(t('form.required')).default(''),
