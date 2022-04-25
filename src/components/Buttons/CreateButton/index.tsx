@@ -1,26 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
+import { Button, IconButton, Tooltip, useBreakpoint, LayoutProps, SpaceProps } from '@chakra-ui/react';
 import { Plus } from 'phosphor-react';
 
-const propTypes = {
-  onClick: PropTypes.func,
-  isDisabled: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  isCompact: PropTypes.bool,
-  label: PropTypes.string,
-};
+interface Props extends LayoutProps, SpaceProps {
+  onClick?: () => void;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  isCompact?: boolean;
+  label?: string;
+}
 
 const defaultProps = {
   onClick: () => {},
   isDisabled: false,
   isLoading: false,
   isCompact: false,
-  label: null,
+  label: undefined,
 };
 
-const CreateButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }) => {
+const CreateButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 
@@ -42,6 +41,7 @@ const CreateButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...pro
   return (
     <Tooltip label={label ?? t('common.create')}>
       <IconButton
+        aria-label="Create"
         colorScheme="blue"
         type="button"
         onClick={onClick}
@@ -54,7 +54,6 @@ const CreateButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...pro
   );
 };
 
-CreateButton.propTypes = propTypes;
 CreateButton.defaultProps = defaultProps;
 
 export default CreateButton;

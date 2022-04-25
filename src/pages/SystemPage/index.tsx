@@ -3,7 +3,7 @@ import { Flex, SimpleGrid } from '@chakra-ui/react';
 import { axiosAnalytics, axiosFms, axiosGw, axiosOwls, axiosProv, axiosSec, axiosSub } from 'utils/axiosInstances';
 import SystemTile from './SystemTile';
 
-const SystemPage = () => (
+const SystemPage: React.FC = () => (
   <Flex flexDirection="column" pt="75px">
     <SimpleGrid minChildWidth="500px" spacing="20px">
       <SystemTile axiosInstance={axiosSec} name="owsec" />

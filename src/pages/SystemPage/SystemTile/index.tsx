@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { AxiosInstance } from 'axios';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -15,7 +15,6 @@ import {
   Spacer,
   Tooltip,
   useDisclosure,
-  useToast,
   VStack,
 } from '@chakra-ui/react';
 import Card from 'components/Card';
@@ -23,70 +22,39 @@ import CardBody from 'components/Card/CardBody';
 import { ArrowsClockwise } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { axiosSec } from 'utils/axiosInstances';
-import { errorToast, successToast } from 'utils/toastHelper';
-import { useGetSubsystems, useGetSystemInfo } from 'hooks/Network/System';
-import { useMutation } from 'react-query';
+import { useGetSubsystems, useGetSystemInfo, useReloadSubsystems } from 'hooks/Network/System';
 import FormattedDate from 'components/FormattedDate';
 import { compactSecondsToDetailed } from 'utils/dateFormatting';
 import MultiSelect from 'components/MultiSelect';
 import SystemCertificatesTable from './SystemCertificatesTable';
 
-const propTypes = {
-  axiosInstance: PropTypes.instanceOf(Object).isRequired,
-  name: PropTypes.string.isRequired,
-};
+interface Props {
+  axiosInstance: AxiosInstance;
+  name: string;
+}
 
-const SystemTile = ({ axiosInstance, name }) => {
+const SystemTile: React.FC<Props> = ({ axiosInstance, name }) => {
   if (name !== 'owsec' && axiosSec.defaults.baseURL === axiosInstance.defaults.baseURL) {
     return null;
   }
   const { t } = useTranslation();
-  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [subs, setSubs] = useState([]);
+  const [subs, setSubs] = useState<{ value: string; label: string }[]>([]);
   const {
     data: system,
     refetch: refreshSystem,
     isFetching: isFetchingSystem,
-  } = useGetSystemInfo({ t, toast, axiosInstance, name });
+  } = useGetSystemInfo({ axiosInstance, name });
   const {
     data: subsystems,
     refetch: refreshSubsystems,
     isFetching: isFetchingSubsystems,
-  } = useGetSubsystems({ t, toast, axiosInstance, name });
-
-  const reloadSubsystems = useMutation((subsToReload) =>
-    axiosSec.post('/system', {
-      command: 'reload',
-      subsystems: subsToReload.map((sub) => sub.value),
-    }),
-  );
+  } = useGetSubsystems({ enabled: true, axiosInstance, name });
+  const resetSubs = () => setSubs([]);
+  const { mutateAsync: reloadSubsystems, isLoading: isReloading } = useReloadSubsystems({ axiosInstance, resetSubs });
 
   const handleReloadClick = () => {
-    reloadSubsystems.mutateAsync(subs, {
-      onSuccess: () => {
-        toast(
-          successToast({
-            t,
-            id: 'system-fetching-error',
-            description: t('system.success_reload'),
-          }),
-        );
-        setSubs([]);
-      },
-      onError: (e) => {
-        toast(
-          errorToast({
-            t,
-            id: 'system-fetching-error',
-            description: t('crud.error_fetching_obj', {
-              e: e?.response?.data?.ErrorDescription,
-              obj: t('system.title'),
-            }),
-          }),
-        );
-      },
-    });
+    reloadSubsystems(subs.map((sub) => sub.value));
   };
 
   const refresh = () => {
@@ -144,7 +112,7 @@ const SystemTile = ({ axiosInstance, name }) => {
               </Flex>
               <Flex>
                 <Box w="150px">{t('certificates.title')}:</Box>
-                {system?.certificates.length > 0 ? (
+                {system?.certificates && system.certificates?.length > 0 ? (
                   <Button variant="link" onClick={onOpen} p={0} m={0} maxH={7}>
                     {t('common.details')} {system.certificates.length}
                   </Button>
@@ -158,19 +126,20 @@ const SystemTile = ({ axiosInstance, name }) => {
               <Box w="400px">
                 <MultiSelect
                   options={
-                    subsystems?.list?.length > 0 ? subsystems.list.map((sys) => ({ value: sys, label: sys })) : []
+                    subsystems && subsystems?.length > 0 ? subsystems.map((sys) => ({ value: sys, label: sys })) : []
                   }
                   onChange={setSubs}
                   value={subs}
                 />
               </Box>
-              <Tooltip position="top" hasArrow label={t('system.reload_chosen_subsystems')}>
+              <Tooltip hasArrow label={t('system.reload_chosen_subsystems')}>
                 <IconButton
+                  aria-label="Reload subsystems"
                   ml={2}
                   onClick={handleReloadClick}
                   icon={<ArrowsClockwise size={20} />}
                   colorScheme="gray"
-                  isLoading={reloadSubsystems.isLoading}
+                  isLoading={isReloading}
                   isDisabled={subs.length === 0}
                 />
               </Tooltip>
@@ -178,7 +147,7 @@ const SystemTile = ({ axiosInstance, name }) => {
           </VStack>
         </CardBody>
       </Card>
-      <AlertDialog isOpen={isOpen} onClose={onClose}>
+      <AlertDialog leastDestructiveRef={undefined} isOpen={isOpen} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader>{t('certificates.title')}</AlertDialogHeader>
@@ -192,5 +161,4 @@ const SystemTile = ({ axiosInstance, name }) => {
   );
 };
 
-SystemTile.propTypes = propTypes;
 export default SystemTile;

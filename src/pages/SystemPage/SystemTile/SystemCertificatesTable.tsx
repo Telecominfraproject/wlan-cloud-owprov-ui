@@ -1,23 +1,17 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { compactDate } from 'utils/dateFormatting';
 import DataTable from 'components/DataTable';
 
-const propTypes = {
-  certificates: PropTypes.arrayOf(
-    PropTypes.shape({
-      expiresOn: PropTypes.number.isRequired,
-      filename: PropTypes.string.isRequired,
-    }),
-  ),
-};
+interface Props {
+  certificates?: { expiresOn: number; filename: string }[];
+}
 
 const defaultProps = {
   certificates: [],
 };
 
-const SystemCertificatesTable = ({ certificates }) => {
+const SystemCertificatesTable: React.FC<Props> = ({ certificates }) => {
   const { t } = useTranslation();
 
   const memoizedExpiry = useCallback((cell) => compactDate(cell.row.values.expiresOn), []);
@@ -29,7 +23,7 @@ const SystemCertificatesTable = ({ certificates }) => {
         Header: t('certificates.expires_on'),
         Footer: '',
         accessor: 'expiresOn',
-        Cell: ({ cell }) => memoizedExpiry(cell),
+        Cell: ({ cell }: { cell: unknown }) => memoizedExpiry(cell),
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
         hasPopover: true,
@@ -47,7 +41,7 @@ const SystemCertificatesTable = ({ certificates }) => {
   return (
     <DataTable
       columns={columns}
-      data={certificates}
+      data={certificates ?? []}
       obj={t('certificates.title')}
       hideControls
       sortBy={[
@@ -60,6 +54,5 @@ const SystemCertificatesTable = ({ certificates }) => {
   );
 };
 
-SystemCertificatesTable.propTypes = propTypes;
 SystemCertificatesTable.defaultProps = defaultProps;
 export default SystemCertificatesTable;
