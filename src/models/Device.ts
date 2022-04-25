@@ -15,8 +15,9 @@ export interface Device {
   id: string;
   serialNumber: string;
   location: {
-    addressLineOne: string;
-    addressLineTwo: string;
+    addressLines?: string[];
+    addressLineOne?: string;
+    addressLineTwo?: string;
   };
   configuration?: Configuration[];
   notes?: Note[];

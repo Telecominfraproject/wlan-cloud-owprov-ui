@@ -40,7 +40,9 @@ const CreateSubscriberDeviceStep2: React.FC<Props> = ({ formRef, finishStep }) =
         validateOnMount
         validationSchema={SubscriberDeviceLocationSchema(t)}
         onSubmit={(data) => {
-          finishStep({ location: { ...data, addressLines: [data.addressLineOne, data.addressLineTwo] } });
+          const addressLines = [data.addressLineOne];
+          if (data.addressLineTwo !== '') addressLines.push(data.addressLineTwo);
+          finishStep({ location: { ...data, addressLines } });
         }}
       >
         <Form>

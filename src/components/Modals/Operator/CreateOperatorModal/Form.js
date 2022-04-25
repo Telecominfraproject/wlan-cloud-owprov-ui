@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import { EntitySchema } from 'constants/formSchemas';
+import { CreateOperatorSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import { useCreateOperator } from 'hooks/Network/Operators';
@@ -30,10 +30,11 @@ const CreateOperatorForm = ({ isOpen, onClose, refresh, formRef }) => {
   });
   const create = useCreateOperator();
 
-  const createParameters = ({ name, description, note, sourceIP, rrm, firmwareRCOnly }) => ({
+  const createParameters = ({ name, description, note, sourceIP, rrm, firmwareRCOnly, registrationId }) => ({
     name,
     rrm,
     sourceIP,
+    registrationId,
     description,
     firmwareRCOnly,
     notes: note.length > 0 ? [{ note }] : undefined,
@@ -51,11 +52,12 @@ const CreateOperatorForm = ({ isOpen, onClose, refresh, formRef }) => {
         name: '',
         description: '',
         rrm: 'inherit',
+        registrationId: '',
         firmwareRCOnly: false,
         sourceIP: [],
         note: '',
       }}
-      validationSchema={EntitySchema(t)}
+      validationSchema={CreateOperatorSchema(t)}
       onSubmit={(formData, { setSubmitting, resetForm }) =>
         create.mutateAsync(createParameters(formData), {
           onSuccess: () => {
@@ -71,6 +73,7 @@ const CreateOperatorForm = ({ isOpen, onClose, refresh, formRef }) => {
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={6}>
           <StringField name="name" label={t('common.name')} isRequired />
           <StringField name="description" label={t('common.description')} />
+          <StringField name="registrationId" label={t('operator.registration_id')} isRequired />
           <SelectField
             name="rrm"
             label="RRM"

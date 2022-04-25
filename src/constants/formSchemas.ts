@@ -428,3 +428,19 @@ export const SubscriberDeviceSchema = (t: (str: string) => string) =>
     contact: SubscriberDeviceContactSchema(t),
     suspended: Yup.bool().default(false),
   });
+
+export const CreateOperatorSchema = (t: (str: string) => string) =>
+  Yup.object().shape({
+    name: Yup.string().required(t('form.required')),
+    description: Yup.string(),
+    rrm: Yup.string().required(t('form.required')),
+    registrationId: Yup.string().required(t('form.required')),
+    sourceIP: Yup.array().of(Yup.string()),
+  });
+export const EditOperatorSchema = (t: (str: string) => string) =>
+  Yup.object().shape({
+    name: Yup.string().required(t('form.required')),
+    description: Yup.string(),
+    rrm: Yup.string().required(t('form.required')),
+    sourceIP: Yup.array().of(Yup.string()),
+  });

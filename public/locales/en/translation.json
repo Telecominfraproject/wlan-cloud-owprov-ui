@@ -567,7 +567,8 @@
 		"one": "Operator",
 		"operator_one": "Operator",
 		"operator_other": "Operators",
-		"other": "Operators"
+		"other": "Operators",
+		"registration_id": "Registration ID"
 	},
 	"organization": {
 		"my_organization": "My Organization",

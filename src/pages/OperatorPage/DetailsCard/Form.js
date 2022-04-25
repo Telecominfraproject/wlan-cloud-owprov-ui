@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box, Heading } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { EntityShape } from 'constants/propShapes';
-import { EntitySchema } from 'constants/formSchemas';
+import { EditOperatorSchema } from 'constants/formSchemas';
 import SelectField from 'components/FormFields/SelectField';
 import FormattedDate from 'components/FormattedDate';
 import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
@@ -43,8 +43,11 @@ const EditOperatorForm = ({ editing, operator, formRef, stopEditing }) => {
       enableReinitialize
       key={formKey}
       initialValues={operator}
-      validationSchema={EntitySchema(t)}
-      onSubmit={({ name, description, rrm, sourceIP, firmwareRCOnly, notes }, { setSubmitting, resetForm }) =>
+      validationSchema={EditOperatorSchema(t)}
+      onSubmit={(
+        { name, description, rrm, sourceIP, firmwareRCOnly, registrationId, notes },
+        { setSubmitting, resetForm },
+      ) =>
         updateOperator.mutateAsync(
           {
             name,
@@ -52,6 +55,7 @@ const EditOperatorForm = ({ editing, operator, formRef, stopEditing }) => {
             rrm,
             sourceIP,
             firmwareRCOnly,
+            registrationId,
             notes: notes.filter((note) => note.isNew),
           },
           {
@@ -90,6 +94,15 @@ const EditOperatorForm = ({ editing, operator, formRef, stopEditing }) => {
                   />
                   <ToggleField name="firmwareRCOnly" label={t('configurations.rc_only')} isDisabled={!editing} />
                   <IpDetectionModalField name="sourceIP" setFieldValue={setFieldValue} isDisabled={!editing} />
+                  <StringField
+                    name="registrationId"
+                    label={t('operator.registration_id')}
+                    element={
+                      <Heading size="md" pl={1} pt={2}>
+                        {operator.registrationId}
+                      </Heading>
+                    }
+                  />
                   <StringField
                     name="created"
                     label={t('common.created')}

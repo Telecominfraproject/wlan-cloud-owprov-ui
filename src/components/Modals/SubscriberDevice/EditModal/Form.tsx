@@ -83,16 +83,26 @@ const EditSubscriberDeviceForm: React.FC<Props> = ({
       innerRef={formRef}
       enableReinitialize
       key={formKey}
-      initialValues={subscriberDevice}
+      initialValues={{
+        ...subscriberDevice,
+        location: {
+          ...subscriberDevice.location,
+          addressLineOne: subscriberDevice.location.addressLines ? subscriberDevice.location.addressLines[0] : '',
+          addressLineTwo: subscriberDevice.location.addressLines ? subscriberDevice.location.addressLines[1] : '',
+        },
+      }}
       validationSchema={SubscriberDeviceSchema(t)}
-      onSubmit={(data, { setSubmitting, resetForm }) =>
+      onSubmit={(data, { setSubmitting, resetForm }) => {
+        const addressLines = [data.location.addressLineOne ?? ''];
+        if (data.location.addressLineTwo) addressLines.push(data.location.addressLineTwo);
+
         updateSubscriberDevice.mutateAsync(
           {
             ...data,
             configuration: configuration ?? undefined,
             location: {
               ...data.location,
-              addressLines: [data.location.addressLineOne, data.location.addressLineTwo],
+              addressLines,
             },
             // @ts-ignore
             notes: data.notes.filter((note) => note.isNew),
@@ -105,8 +115,8 @@ const EditSubscriberDeviceForm: React.FC<Props> = ({
               onError(e, { resetForm });
             },
           },
-        )
-      }
+        );
+      }}
     >
       <Tabs variant="enclosed">
         <TabList>
