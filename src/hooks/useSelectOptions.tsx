@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
-const useSelectOptions = ({ values, selected }) => {
+const useSelectOptions = ({ values, selected }: { values: { value: string; label: string }[]; selected: string }) => {
   const toReturn = useMemo(
     () =>
       values.map((v) =>
