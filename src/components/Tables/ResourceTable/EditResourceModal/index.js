@@ -16,7 +16,7 @@ import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import EditButton from 'components/Buttons/EditButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { SubscriberShape } from 'constants/propShapes';
 import { useGetResource } from 'hooks/Network/Resources';
 import useFormRef from 'hooks/useFormRef';

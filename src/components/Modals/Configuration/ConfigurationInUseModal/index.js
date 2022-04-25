@@ -14,7 +14,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { useGetConfigurationInUse } from 'hooks/Network/Configurations';
 import EntityCell from 'components/TableCells/EntityCell';
 import VenueCell from 'components/TableCells/VenueCell';

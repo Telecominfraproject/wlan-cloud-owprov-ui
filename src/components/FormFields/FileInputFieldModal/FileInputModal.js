@@ -18,7 +18,7 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import FileInputButton from 'components/Buttons/FileInputButton';
 import { useTranslation } from 'react-i18next';
 import { UploadSimple } from 'phosphor-react';

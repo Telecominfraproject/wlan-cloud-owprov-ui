@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ModalProps } from 'models/Modal';
 import { Modal, ModalOverlay, ModalContent, ModalBody, Center, Spinner } from '@chakra-ui/react';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import CloseButton from 'components/Buttons/CloseButton';
 import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand';
 import useCommandModal from 'hooks/useCommandModal';

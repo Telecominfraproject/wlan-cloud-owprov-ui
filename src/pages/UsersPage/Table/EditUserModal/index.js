@@ -19,7 +19,7 @@ import { useGetUser } from 'hooks/Network/Users';
 import SaveButton from 'components/Buttons/SaveButton';
 import EditButton from 'components/Buttons/EditButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import useFormRef from 'hooks/useFormRef';
 import UpdateUserForm from './Form';
 

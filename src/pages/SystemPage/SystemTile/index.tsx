@@ -25,7 +25,7 @@ import { axiosSec } from 'utils/axiosInstances';
 import { useGetSubsystems, useGetSystemInfo, useReloadSubsystems } from 'hooks/Network/System';
 import FormattedDate from 'components/FormattedDate';
 import { compactSecondsToDetailed } from 'utils/dateFormatting';
-import MultiSelect from 'components/MultiSelect';
+import { MultiValue, Select } from 'chakra-react-select';
 import SystemCertificatesTable from './SystemCertificatesTable';
 
 interface Props {
@@ -124,12 +124,33 @@ const SystemTile: React.FC<Props> = ({ axiosInstance, name }) => {
             <Flex w="100%">
               <Box w="150px">{t('system.subsystems')}:</Box>
               <Box w="400px">
-                <MultiSelect
+                <Select
+                  chakraStyles={{
+                    control: (provided) => ({
+                      ...provided,
+                      borderRadius: '15px',
+                    }),
+                    dropdownIndicator: (provided) => ({
+                      ...provided,
+                      backgroundColor: 'unset',
+                      border: 'unset',
+                    }),
+                  }}
+                  isMulti
+                  closeMenuOnSelect={false}
                   options={
                     subsystems && subsystems?.length > 0 ? subsystems.map((sys) => ({ value: sys, label: sys })) : []
                   }
-                  onChange={setSubs}
+                  onChange={
+                    setSubs as (
+                      newValue: MultiValue<{
+                        value: string;
+                        label: string;
+                      }>,
+                    ) => void
+                  }
                   value={subs}
+                  placeholder={t('system.systems_to_reload')}
                 />
               </Box>
               <Tooltip hasArrow label={t('system.reload_chosen_subsystems')}>

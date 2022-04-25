@@ -14,7 +14,7 @@ import {
   Switch,
   Heading,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import CloseButton from 'components/Buttons/CloseButton';
 import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand';
 import useCommandModal from 'hooks/useCommandModal';

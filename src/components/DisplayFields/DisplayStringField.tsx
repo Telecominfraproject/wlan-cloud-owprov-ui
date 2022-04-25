@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, useBoolean } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
-const propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  isRequired: PropTypes.bool,
-  hideButton: PropTypes.bool,
-};
+interface Props {
+  label: string;
+  value?: string;
+  isRequired?: boolean;
+  hideButton?: boolean;
+}
 
 const defaultProps = {
   value: '',
@@ -16,7 +15,7 @@ const defaultProps = {
   hideButton: false,
 };
 
-const DisplayStringField = ({ label, value, isRequired, hideButton }) => {
+const DisplayStringField: React.FC<Props> = ({ label, value, isRequired, hideButton }) => {
   const { t } = useTranslation();
   const [show, setShow] = useBoolean();
 
@@ -46,6 +45,5 @@ const DisplayStringField = ({ label, value, isRequired, hideButton }) => {
   );
 };
 
-DisplayStringField.propTypes = propTypes;
 DisplayStringField.defaultProps = defaultProps;
 export default DisplayStringField;

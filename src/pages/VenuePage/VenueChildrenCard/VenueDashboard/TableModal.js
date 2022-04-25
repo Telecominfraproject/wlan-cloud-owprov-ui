@@ -13,7 +13,7 @@ import {
   ModalOverlay,
   Spacer,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { useTranslation } from 'react-i18next';
 import { ArrowsOut } from 'phosphor-react';
 import ColumnPicker from 'components/ColumnPicker';

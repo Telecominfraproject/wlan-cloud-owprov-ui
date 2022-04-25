@@ -7,7 +7,7 @@ import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import { useAuth } from 'contexts/AuthProvider';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import useFormRef from 'hooks/useFormRef';
 import CreateContactForm from './Form';
 

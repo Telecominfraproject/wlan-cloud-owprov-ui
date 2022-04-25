@@ -4,7 +4,7 @@ import SaveButton from 'components/Buttons/SaveButton';
 import { useAuth } from 'contexts/AuthProvider';
 import { useGetRoot } from 'hooks/Network/Entity';
 import { useTranslation } from 'react-i18next';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import useFormRef from 'hooks/useFormRef';
 import CreateRootForm from './Form';
 

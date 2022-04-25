@@ -20,7 +20,7 @@ import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import EditButton from 'components/Buttons/EditButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { TagShape } from 'constants/propShapes';
 import { useGetComputedConfiguration, useGetTag } from 'hooks/Network/Inventory';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';

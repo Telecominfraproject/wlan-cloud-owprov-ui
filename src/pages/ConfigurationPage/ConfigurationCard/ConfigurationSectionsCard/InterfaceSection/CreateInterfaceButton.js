@@ -4,7 +4,7 @@ import isEqual from 'react-fast-compare';
 import { Button, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Box } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from 'phosphor-react';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import CloseButton from 'components/Buttons/CloseButton';
 import { Formik } from 'formik';
 import StringField from 'components/FormFields/StringField';

@@ -1,29 +1,23 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { Button, Checkbox, IconButton, Menu, MenuButton, MenuItem, MenuList, useBreakpoint } from '@chakra-ui/react';
 import { useAuth } from 'contexts/AuthProvider';
 import { FunnelSimple } from 'phosphor-react';
 
-const propTypes = {
-  preference: PropTypes.string.isRequired,
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      Header: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  hiddenColumns: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  setHiddenColumns: PropTypes.func.isRequired,
-};
+interface Props {
+  preference: string;
+  columns: { id: string; Header: string; alwaysShow: boolean }[];
+  hiddenColumns: string[];
+  setHiddenColumns: (str: string[]) => void;
+}
 
-const ColumnPicker = ({ preference, columns, hiddenColumns, setHiddenColumns }) => {
+const ColumnPicker: React.FC<Props> = ({ preference, columns, hiddenColumns, setHiddenColumns }) => {
   const { t } = useTranslation();
   const { getPref, setPref } = useAuth();
   const breakpoint = useBreakpoint();
 
-  const handleColumnClick = (id) => {
+  const handleColumnClick = (id: string) => {
     let newHidden = [];
     if (hiddenColumns.find((hidden) => hidden === id)) newHidden = [...hiddenColumns.filter((hidden) => hidden !== id)];
     else newHidden = [...hiddenColumns, id];
@@ -76,7 +70,5 @@ const ColumnPicker = ({ preference, columns, hiddenColumns, setHiddenColumns }) 
     </Menu>
   );
 };
-
-ColumnPicker.propTypes = propTypes;
 
 export default ColumnPicker;

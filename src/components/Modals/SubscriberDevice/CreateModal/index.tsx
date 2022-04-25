@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import { useAuth } from 'contexts/AuthProvider';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import useFormRef from 'hooks/useFormRef';
 import useFormModal from 'hooks/useFormModal';
 import useOperatorChildren from 'hooks/useOperatorChildren';

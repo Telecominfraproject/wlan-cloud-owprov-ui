@@ -15,7 +15,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { UploadSimple } from 'phosphor-react';
 import ImportDeviceFile from './ImportDeviceFile';
 import ImportDeviceTests from './ImportDeviceTests';

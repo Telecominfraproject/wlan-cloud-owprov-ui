@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure, Flex } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import SubscriberSearch from 'components/SearchBars/SubscriberSearch';
 import { MagnifyingGlass } from 'phosphor-react';
 import { Subscriber } from 'models/Subscriber';

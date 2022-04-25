@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import GoogleAuthenticatorIntro from './GoogleAuthenticatorIntro';
 import GoogleAuthenticatorQrDisplay from './GoogleAuthenticatorQrDisplay';
 import GoogleAuthenticatorTests from './GoogleAuthenticatorTests';

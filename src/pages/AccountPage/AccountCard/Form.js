@@ -6,9 +6,6 @@ import parsePhoneNumber from 'libphonenumber-js';
 import {
   Box,
   Button,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
   useToast,
   Tabs,
   TabList,
@@ -16,26 +13,24 @@ import {
   TabPanel,
   Tab,
   SimpleGrid,
-  Select,
   useDisclosure,
   Center,
   Grid,
   GridItem,
   Avatar,
 } from '@chakra-ui/react';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import { useAuth } from 'contexts/AuthProvider';
 import { UpdateUserSchema } from 'constants/formSchemas';
-import PhoneInput from 'components/PhoneInput';
 import VerifyNumberModal from 'components/VerifyNumberModal';
 import StringField from 'components/FormFields/StringField';
 import FileInputButton from 'components/Buttons/FileInputButton';
+import SelectField from 'components/FormFields/SelectField';
 import MfaSelectField from './MfaSelectField';
 
 const propTypes = {
   updateUser: PropTypes.instanceOf(Object).isRequired,
-  stopEditing: PropTypes.func.isRequired,
   finishUpdate: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
   formRef: PropTypes.instanceOf(Object).isRequired,
@@ -156,7 +151,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
           });
         }}
       >
-        {({ errors, touched, setFieldValue, values }) => (
+        {({ errors, setFieldValue, values }) => (
           <Box w="100%">
             <Tabs variant="enclosed">
               <TabList>
@@ -187,101 +182,39 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                       <Box>
                         <Form>
                           <SimpleGrid minChildWidth="250px" spacing="20px">
-                            <Field name="email">
-                              {({ field }) => (
-                                <StringField
-                                  name="email"
-                                  label={t('common.email')}
-                                  field={field}
-                                  errors={errors}
-                                  touched={touched}
-                                  isDisabled
-                                />
-                              )}
-                            </Field>
-                            <Field name="userRole">
-                              {({ field }) => (
-                                <FormControl isInvalid={errors.userRole && touched.userRole} isRequired isDisabled>
-                                  <FormLabel ms="4px" fontSize="md" fontWeight="normal">
-                                    {t('user.role')}
-                                  </FormLabel>
-                                  <Select {...field} borderRadius="15px" fontSize="sm">
-                                    <option key={uuid()} value="root">
-                                      Root
-                                    </option>
-                                    <option key={uuid()} value="partner">
-                                      Partner
-                                    </option>
-                                    <option key={uuid()} value="admin">
-                                      Admin
-                                    </option>
-                                    <option key={uuid()} value="csr">
-                                      CSR
-                                    </option>
-                                  </Select>
-                                  <FormErrorMessage>{errors.userRole}</FormErrorMessage>
-                                </FormControl>
-                              )}
-                            </Field>
-                            <Field name="name">
-                              {({ field }) => (
-                                <StringField
-                                  name="name"
-                                  label={t('common.name')}
-                                  field={field}
-                                  errors={errors}
-                                  touched={touched}
-                                  isDisabled={!editing}
-                                />
-                              )}
-                            </Field>
-                            <Field name="currentPassword">
-                              {({ field }) => (
-                                <StringField
-                                  name="currentPassword"
-                                  label={t('user.password')}
-                                  field={field}
-                                  errors={errors}
-                                  touched={touched}
-                                  isDisabled={!editing}
-                                  hideButton
-                                />
-                              )}
-                            </Field>
-                            <Field name="description">
-                              {({ field }) => (
-                                <StringField
-                                  name="description"
-                                  label={t('common.description')}
-                                  field={field}
-                                  errors={errors}
-                                  touched={touched}
-                                  isDisabled={!editing}
-                                />
-                              )}
-                            </Field>
+                            <StringField name="email" label={t('common.email')} isDisabled />
+                            <SelectField
+                              name="userRole"
+                              options={[
+                                { value: 'root', label: 'Root' },
+                                { value: 'partner', label: 'Partner' },
+                                { value: 'admin', label: 'Admin' },
+                                { value: 'csr', label: 'CSR' },
+                              ]}
+                              isRequired
+                              isDisabled={!editing}
+                            />
+                            <StringField name="name" label={t('common.name')} isDisabled={!editing} />
+                            <StringField
+                              name="currentPassword"
+                              label={t('user.password')}
+                              isDisabled={!editing}
+                              hideButton
+                            />
+                            <StringField name="description" label={t('common.description')} isDisabled={!editing} />
                             <MfaSelectField
                               name="mfa"
                               label={t('account.mfa')}
                               errors={errors}
-                              touched={touched}
                               isDisabled={!editing}
                               setFieldValue={setFieldValue}
                             />
-                            <Field name="phoneNumber">
-                              {({ field }) => (
-                                <FormControl
-                                  isInvalid={errors.phoneNumber && touched.phoneNumber}
-                                  isDisabled={!editing}
-                                >
-                                  <FormLabel ms="4px" fontSize="md" fontWeight="normal">
-                                    {t('account.phone_number')}
-                                  </FormLabel>
-                                  <PhoneInput editing={editing} field={field} />
-                                  <FormErrorMessage>{errors.phoneNumber}</FormErrorMessage>
-                                </FormControl>
-                              )}
-                            </Field>
+                            <StringField
+                              name="phoneNumber"
+                              label={t('user.password')}
+                              isDisabled={!editing}
+                              hideButton
+                            />
                           </SimpleGrid>
                         </Form>
                       </Box>
@@ -289,9 +222,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                   </Grid>
                 </TabPanel>
                 <TabPanel>
-                  <Field name="notes">
-                    {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
-                  </Field>
+                  <NotesTable name="notes" setNotes={setFieldValue} isDisabled={!editing} />
                 </TabPanel>
               </TabPanels>
             </Tabs>

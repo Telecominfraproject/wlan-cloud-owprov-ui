@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import CreateButton from 'components/Buttons/CreateButton';
 import useFormRef from 'hooks/useFormRef';
 import InterfaceSsidRadius from './InterfaceSsidRadius';

@@ -8,7 +8,7 @@ import { axiosProv } from 'utils/axiosInstances';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import useFormRef from 'hooks/useFormRef';
 import CreateConfigurationForm from './Form';

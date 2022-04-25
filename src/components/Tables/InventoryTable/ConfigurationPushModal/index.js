@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, ModalOverlay, ModalContent, ModalBody, Alert, AlertIcon, Heading, Box } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

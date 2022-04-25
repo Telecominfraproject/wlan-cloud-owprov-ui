@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { useQueryClient } from 'react-query';
 import ContactTable from 'components/Tables/ContactTable';
 import { useClaimContacts, useGetAllContacts } from 'hooks/Network/Contacts';
