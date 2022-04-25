@@ -45,6 +45,7 @@ const SubscriberDeviceLocationForm: React.FC<Props> = ({ editing }) => {
         />
       </SimpleGrid>
       <AddressSearchField
+        namePrefix="location"
         placeholder={t('common.address_search_autofill')}
         maxWidth="600px"
         mb={2}

@@ -10,6 +10,7 @@ import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditMo
 import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
 import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
+import { Device } from 'models/Device';
 import Actions from './Actions';
 
 interface Props {
@@ -21,6 +22,7 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
   const { t } = useTranslation();
   const { refreshId, refresh } = useRefreshId();
   const [serialNumber, setSerialNumber] = useState<string>('');
+  const [devices, setDevices] = useState<Device[]>([]);
   const scanModalProps = useDisclosure();
   const resetModalProps = useDisclosure();
   const upgradeModalProps = useDisclosure();
@@ -57,7 +59,12 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
       <Flex mb={2}>
         <Heading size="md">{t('devices.title')}</Heading>
         <Spacer />
-        <CreateSubscriberDeviceModal refresh={refresh} operatorId={operatorId} subscriberId={subscriberId} />
+        <CreateSubscriberDeviceModal
+          refresh={refresh}
+          operatorId={operatorId}
+          subscriberId={subscriberId}
+          devices={devices}
+        />
       </Flex>
       <SubscriberDeviceTable
         operatorId={operatorId}
@@ -65,6 +72,7 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
         actions={actions}
         refreshId={refreshId}
         minHeight="380px"
+        setDevices={setDevices}
       />
       <EditSubscriberDeviceModal
         isOpen={isOpen}

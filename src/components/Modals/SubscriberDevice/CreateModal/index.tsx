@@ -11,7 +11,7 @@ import useFormModal from 'hooks/useFormModal';
 import useOperatorChildren from 'hooks/useOperatorChildren';
 import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
 import { Configuration } from 'models/Configuration';
-import { EditDevice } from 'models/Device';
+import { Device, EditDevice } from 'models/Device';
 import useMutationResult from 'hooks/useMutationResult';
 import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import StepButton from 'components/Buttons/StepButton';
@@ -26,12 +26,13 @@ interface Props {
   refresh: () => void;
   operatorId: string;
   subscriberId?: string;
+  devices: Device[];
 }
 const defaultProps = {
   subscriberId: '',
 };
 
-const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, subscriberId }) => {
+const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, subscriberId, devices }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { isLoaded, deviceTypes, serviceClasses, subscribers } = useOperatorChildren({
@@ -85,6 +86,16 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
     setData({ operatorId });
     setStep(0);
   };
+
+  const contactSuggestions = useMemo(
+    () => devices.map(({ serialNumber, contact }) => ({ serialNumber, contact })),
+    [devices],
+  );
+  const locationSuggestions = useMemo(
+    () => devices.map(({ serialNumber, location }) => ({ serialNumber, location })),
+    [devices],
+  );
+
   useEffect(() => {
     if (!isOpen) resetStep();
   }, [isOpen]);
@@ -109,8 +120,22 @@ const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, sub
           onConfigurationChange={onConfigurationChange}
         />
       );
-    if (step === 2) return <CreateSubscriberDeviceStep2 formRef={formRef} finishStep={finishStep} />;
-    if (step === 3) return <CreateSubscriberDeviceStep3 formRef={formRef} finishStep={finishStep} />;
+    if (step === 2)
+      return (
+        <CreateSubscriberDeviceStep2
+          formRef={formRef}
+          finishStep={finishStep}
+          locationSuggestions={locationSuggestions}
+        />
+      );
+    if (step === 3)
+      return (
+        <CreateSubscriberDeviceStep3
+          formRef={formRef}
+          finishStep={finishStep}
+          contactSuggestions={contactSuggestions}
+        />
+      );
     return null;
   }, [data, step, subscribers, serviceClasses, deviceTypes]);
 

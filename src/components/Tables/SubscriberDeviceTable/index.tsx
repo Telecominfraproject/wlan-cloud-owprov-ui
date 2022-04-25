@@ -5,11 +5,13 @@ import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import { useGetSubscriberDevices } from 'hooks/Network/SubscriberDevices';
 import { DeviceCell } from 'models/Table';
+import { Device } from 'models/Device';
 
 interface Props {
   actions: (cell: DeviceCell) => React.ReactElement;
   operatorId: string;
   subscriberId: string;
+  setDevices?: React.Dispatch<React.SetStateAction<Device[]>>;
   ignoredColumns?: string[];
   refreshId?: number;
   disabledIds?: string[];
@@ -17,6 +19,7 @@ interface Props {
 }
 
 const defaultProps = {
+  setDevices: undefined,
   ignoredColumns: [],
   refreshId: 0,
   disabledIds: [],
@@ -27,6 +30,7 @@ const SubscriberDeviceTable: React.FC<Props> = ({
   actions,
   operatorId,
   subscriberId,
+  setDevices,
   ignoredColumns,
   refreshId,
   disabledIds,
@@ -97,6 +101,10 @@ const SubscriberDeviceTable: React.FC<Props> = ({
 
     return baseColumns;
   }, [disabledIds, actionCell]);
+
+  useEffect(() => {
+    if (setDevices) setDevices(subscriberDevices ?? []);
+  }, [subscriberDevices]);
 
   useEffect(() => {
     if (refreshId !== undefined && refreshId > 0) refetch();

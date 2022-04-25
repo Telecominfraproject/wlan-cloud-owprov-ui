@@ -8,17 +8,24 @@ export interface GatewayDevice {
   notes?: Note[];
 }
 
+export interface DeviceLocation {
+  addressLines?: string[];
+  addressLineOne?: string;
+  addressLineTwo?: string;
+}
+
+export interface DeviceContact {
+  primaryEmail: string;
+}
+
 export interface Device {
   name: string;
   description: string;
   operatorId: string;
   id: string;
   serialNumber: string;
-  location: {
-    addressLines?: string[];
-    addressLineOne?: string;
-    addressLineTwo?: string;
-  };
+  location: DeviceLocation;
+  contact: DeviceContact;
   configuration?: Configuration[];
   notes?: Note[];
 }
