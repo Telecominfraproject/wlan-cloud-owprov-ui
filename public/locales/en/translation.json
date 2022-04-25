@@ -597,6 +597,7 @@
 		"devices_to_claim_other": "{{count}} Devices to Claim",
 		"error_claiming": "Error claiming: {{serials}}",
 		"error_removing_claim": "Error removing claim(s) on: {{serials}}",
+		"no_subscribers_found": "No Subscribers Found",
 		"one": "Subscriber",
 		"other": "Subscribers",
 		"reactivate_explanation": "Are you sure you want to reactivate this subscriber?",

@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import { Box } from '@chakra-ui/react';
+import { Flex, Spacer } from '@chakra-ui/react';
 import useRefreshId from 'hooks/useRefreshId';
 import SubscriberTable from 'components/Tables/SubscriberTable';
 import CreateSubscriberModal from 'components/Tables/SubscriberTable/CreateModal';
+import SubscriberSearchModal from 'components/Modals/Subscriber/SearchModal';
 import Actions from './Actions';
 
 const propTypes = {
@@ -17,9 +18,11 @@ const SubscriberTab = ({ operatorId }) => {
 
   return (
     <>
-      <Box textAlign="right" mb={2}>
+      <Flex mb={2}>
+        <Spacer />
+        <SubscriberSearchModal operatorId={operatorId} />
         <CreateSubscriberModal refresh={refresh} operatorId={operatorId} />
-      </Box>
+      </Flex>
       <SubscriberTable operatorId={operatorId} actions={actions} refreshId={refreshId} />
     </>
   );

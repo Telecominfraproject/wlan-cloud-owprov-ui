@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import useRefreshId from 'hooks/useRefreshId';
 import useObjectModal from 'hooks/useObjectModal';
+import { Box } from '@chakra-ui/react';
 import SubscriberDeviceTable from 'components/Tables/SubscriberDeviceTable';
 import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditModal';
+import SubscriberDeviceSearch from 'components/SearchBars/SubscriberDeviceSearch';
 import Actions from './Actions';
 
 const propTypes = {
@@ -21,6 +23,9 @@ const OperatorDevicesTab = ({ operatorId }) => {
 
   return (
     <>
+      <Box w="250px">
+        <SubscriberDeviceSearch operatorId={operatorId} onClick={openModal} />
+      </Box>
       <SubscriberDeviceTable operatorId={operatorId} actions={actions} refreshId={refreshId} minHeight="270px" />
       <EditSubscriberDeviceModal
         isOpen={isOpen}

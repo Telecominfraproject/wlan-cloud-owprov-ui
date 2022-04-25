@@ -42,6 +42,15 @@ const SubscriberDeviceTable: React.FC<Props> = ({
   const columns = React.useMemo(() => {
     const baseColumns = [
       {
+        id: 'serialNumber',
+        Header: t('inventory.serial_number'),
+        Footer: '',
+        accessor: 'serialNumber',
+        customMaxWidth: '200px',
+        customWidth: 'calc(15vh)',
+        customMinWidth: '150px',
+      },
+      {
         id: 'name',
         Header: t('common.name'),
         Footer: '',
@@ -51,13 +60,12 @@ const SubscriberDeviceTable: React.FC<Props> = ({
         customMinWidth: '150px',
       },
       {
-        id: 'created',
-        Header: t('common.created'),
+        id: 'contact-email',
+        Header: t('contacts.one'),
         Footer: '',
-        accessor: 'created',
-        Cell: ({ cell }: { cell: DeviceCell }) => memoizedDate(cell, 'created'),
-        customMinWidth: '150px',
-        customWidth: '150px',
+        accessor: 'contact.primaryEmail',
+        customMinWidth: '250px',
+        customWidth: '250px',
       },
       {
         id: 'modified',

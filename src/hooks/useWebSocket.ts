@@ -1,29 +1,31 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import debounce from 'utils/debounce';
 import { isJson } from 'utils/formatTests';
 import { randomIntId } from 'utils/stringHelper';
 import { axiosProv, axiosSec } from 'utils/axiosInstances';
 
-const commandsResultType = {
+const commandsResultType: Record<
+  'serial_number_search' | 'address_completion' | 'subuser_search' | 'subdevice_search',
+  'array' | 'object' | 'users' | 'serialNumbers'
+> = {
   serial_number_search: 'array',
   address_completion: 'object',
+  subuser_search: 'users',
+  subdevice_search: 'serialNumbers',
 };
 
-const propTypes = {
-  command: PropTypes.oneOf(['serial_number_search', 'address_completion']),
-  paramKey: PropTypes.string.isRequired,
-  minLength: PropTypes.number,
-};
+interface Props {
+  command: 'serial_number_search' | 'address_completion' | 'subuser_search' | 'subdevice_search';
+  paramKey: string;
+  resultKey?: string;
+  minLength?: number;
+  operatorId?: string;
+}
 
-const defaultProps = {
-  minLength: 4,
-};
-
-const useWebSocket = ({ command, paramKey, minLength }) => {
+const useWebSocket = ({ command, paramKey, resultKey, minLength = 4, ...props }: Props) => {
   const [tempValue, setTempValue] = useState('');
-  const [socket, setSocket] = useState(null);
-  const [results, setResults] = useState([]);
+  const [socket, setSocket] = useState<WebSocket | undefined>(undefined);
+  const [results, setResults] = useState<unknown[]>([]);
   const [waitingSearch, setWaitingSearch] = useState('');
 
   const onChange = useCallback(
@@ -50,12 +52,11 @@ const useWebSocket = ({ command, paramKey, minLength }) => {
     [tempValue, debounceChange, setTempValue, setWaitingSearch],
   );
 
-  const search = (value) => {
+  const search = (value: string) => {
     if (socket?.readyState === WebSocket.OPEN) {
       if (value.length >= minLength) {
         setWaitingSearch('');
-        const params = { command, id: randomIntId() };
-        params[paramKey] = value;
+        const params = { command, id: randomIntId(), [paramKey]: value, ...props };
         socket.send(JSON.stringify(params));
       } else {
         setResults([]);
@@ -66,7 +67,7 @@ const useWebSocket = ({ command, paramKey, minLength }) => {
   };
 
   const closeSocket = () => {
-    if (socket !== null) {
+    if (socket) {
       socket.close();
     }
   };
@@ -77,9 +78,15 @@ const useWebSocket = ({ command, paramKey, minLength }) => {
   };
 
   useEffect(() => {
-    if (socket !== null) {
+    if (socket) {
       socket.onopen = () => {
-        socket.send(`token:${axiosSec.defaults.headers.common.Authorization.split(' ')[1]}`);
+        socket.send(
+          `token:${
+            axiosSec?.defaults?.headers?.common?.Authorization
+              ? axiosSec.defaults.headers.common.Authorization.split(' ')[1]
+              : ''
+          }`,
+        );
       };
 
       socket.onmessage = (event) => {
@@ -88,6 +95,8 @@ const useWebSocket = ({ command, paramKey, minLength }) => {
           if (commandsResultType[command] === 'array' && result?.response) setResults(result.response);
           if (commandsResultType[command] === 'object' && result?.response?.results)
             setResults(result.response.results);
+          if (commandsResultType[command] === 'users') setResults(result.response.users);
+          if (commandsResultType[command] === 'serialNumbers') setResults(result.response.serialNumbers);
         }
       };
     }
@@ -96,8 +105,10 @@ const useWebSocket = ({ command, paramKey, minLength }) => {
   }, [socket]);
 
   useEffect(() => {
-    if (socket === null) {
-      setSocket(new WebSocket(`${axiosProv.defaults.baseURL.replace('https', 'wss')}/ws`));
+    if (!socket) {
+      setSocket(
+        new WebSocket(`${axiosProv?.defaults?.baseURL ? axiosProv.defaults.baseURL.replace('https', 'wss') : ''}/ws`),
+      );
     }
   }, []);
 
@@ -107,7 +118,7 @@ const useWebSocket = ({ command, paramKey, minLength }) => {
     }
   }, [socket, waitingSearch]);
 
-  const isConnected = useMemo(() => socket !== null, [socket]);
+  const isConnected = useMemo(() => socket !== undefined, [socket]);
 
   const toReturn = useMemo(
     () => ({ inputValue: tempValue, results, onInputChange, isConnected, resetSearch }),
@@ -117,6 +128,4 @@ const useWebSocket = ({ command, paramKey, minLength }) => {
   return toReturn;
 };
 
-useWebSocket.propTypes = propTypes;
-useWebSocket.defaultProps = defaultProps;
 export default useWebSocket;
