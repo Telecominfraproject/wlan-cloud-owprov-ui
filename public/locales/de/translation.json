@@ -646,6 +646,7 @@
 		"last_login": "Letzte Anmeldung",
 		"login_id": "Anmelde-ID",
 		"one": "Nutzer",
+		"re_validate_email": "E-Mail erneut validieren",
 		"reactivate_user": "Benutzer reaktivieren",
 		"reset_password": "Passwort zurücksetzen",
 		"reset_password_error": "Fehler beim Versuch, das Benutzerkennwort zurückzusetzen: {{e}}",

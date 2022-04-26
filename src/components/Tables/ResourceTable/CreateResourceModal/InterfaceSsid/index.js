@@ -6,8 +6,8 @@ import { SimpleGrid, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useCreateResource } from 'hooks/Network/Resources';
 import StringField from 'components/FormFields/StringField';
-import InterfaceSsidRadiusForm from './Form';
-import { RADIUS_SCHEMA } from './schemas';
+import InterfaceSsidForm from './Form';
+import { INTERFACE_SSID_SCHEMA } from './schemas';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -21,7 +21,7 @@ const propTypes = {
   }).isRequired,
 };
 
-const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
+const InterfaceSsid = ({ isOpen, onClose, refresh, formRef, parent }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [formKey, setFormKey] = useState(uuid());
@@ -36,8 +36,13 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
     <Formik
       innerRef={formRef}
       key={formKey}
-      initialValues={RADIUS_SCHEMA(t, true).cast()}
-      validationSchema={RADIUS_SCHEMA(t)}
+      initialValues={{
+        ...INTERFACE_SSID_SCHEMA(t, true).cast(),
+        __unused_name: 'Name',
+        __unused_description: 'Description',
+        __unused_note: '',
+      }}
+      validationSchema={INTERFACE_SSID_SCHEMA(t)}
       onSubmit={async (formData, { setSubmitting, resetForm }) =>
         create.mutateAsync(
           {
@@ -45,19 +50,19 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
               {
                 type: 'json',
                 weight: 0,
-                prefix: 'interface.ssid.radius',
+                prefix: 'interface.ssid',
                 value: {
                   ...formData,
-                  name: undefined,
-                  description: undefined,
-                  note: undefined,
+                  __unused_name: undefined,
+                  __unused_description: undefined,
+                  __unused_note: undefined,
                 },
               },
             ],
             ...parent,
-            name: formData.name,
-            description: formData.description,
-            notes: formData.note !== '' ? [{ note: formData.note }] : undefined,
+            name: formData.__unused_name,
+            description: formData.__unused_description,
+            notes: formData.__unused_note !== '' ? [{ note: formData.__unused_note }] : undefined,
           },
           {
             onSuccess: async () => {
@@ -99,16 +104,16 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
     >
       <>
         <SimpleGrid minChildWidth="300px" spacing="20px" mt={4}>
-          <StringField name="name" label={t('common.name')} isRequired />
-          <StringField name="description" label={t('common.description')} />
-          <StringField name="note" label={t('common.note')} />
+          <StringField name="__unused_name" label={t('common.name')} isRequired />
+          <StringField name="__unused_description" label={t('common.description')} />
+          <StringField name="__unused_note" label={t('common.note')} />
         </SimpleGrid>
-        <InterfaceSsidRadiusForm />
+        <InterfaceSsidForm />
       </>
     </Formik>
   );
 };
 
-InterfaceSsidRadius.propTypes = propTypes;
+InterfaceSsid.propTypes = propTypes;
 
-export default InterfaceSsidRadius;
+export default InterfaceSsid;

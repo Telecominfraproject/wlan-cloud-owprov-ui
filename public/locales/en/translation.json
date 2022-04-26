@@ -646,6 +646,7 @@
 		"last_login": "Last Login",
 		"login_id": "Login Id",
 		"one": "User",
+		"re_validate_email": "Re-validate Email",
 		"reactivate_user": "Reactivate User",
 		"reset_password": "Reset Password",
 		"reset_password_error": "Error trying to reset user password: {{e}}",

@@ -43,8 +43,8 @@ const UserActions: React.FC<Props> = ({ id, isSuspended, isWaitingForCheck, refr
         <MenuItem onClick={handleSuspendClick}>
           {isSuspended ? t('users.reactivate_user') : t('users.suspend')}
         </MenuItem>
-        <MenuItem hidden={!isWaitingForCheck} onClick={handleValidationClick}>
-          {t('users.send_validation')}
+        <MenuItem onClick={handleValidationClick}>
+          {isWaitingForCheck ? t('users.send_validation') : t('users.re_validate_email')}
         </MenuItem>
       </MenuList>
     </Menu>

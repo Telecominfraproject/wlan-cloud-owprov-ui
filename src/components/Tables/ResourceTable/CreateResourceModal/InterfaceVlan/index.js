@@ -6,8 +6,8 @@ import { SimpleGrid, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useCreateResource } from 'hooks/Network/Resources';
 import StringField from 'components/FormFields/StringField';
-import InterfaceSsidRadiusForm from './Form';
-import { RADIUS_SCHEMA } from './schemas';
+import InterfaceVlanForm from './Form';
+import schemas from './schemas';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -21,7 +21,7 @@ const propTypes = {
   }).isRequired,
 };
 
-const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
+const InterfaceVlan = ({ isOpen, onClose, refresh, formRef, parent }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [formKey, setFormKey] = useState(uuid());
@@ -36,8 +36,8 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
     <Formik
       innerRef={formRef}
       key={formKey}
-      initialValues={RADIUS_SCHEMA(t, true).cast()}
-      validationSchema={RADIUS_SCHEMA(t)}
+      initialValues={schemas(t, true).cast()}
+      validationSchema={schemas(t)}
       onSubmit={async (formData, { setSubmitting, resetForm }) =>
         create.mutateAsync(
           {
@@ -45,7 +45,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
               {
                 type: 'json',
                 weight: 0,
-                prefix: 'interface.ssid.radius',
+                prefix: 'interface.vlan',
                 value: {
                   ...formData,
                   name: undefined,
@@ -62,7 +62,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
           {
             onSuccess: async () => {
               toast({
-                id: 'user-creation-success',
+                id: 'resource-creation-success',
                 title: t('common.success'),
                 description: t('crud.success_create_obj', {
                   obj: t('resources.configuration_resource'),
@@ -103,12 +103,12 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
           <StringField name="description" label={t('common.description')} />
           <StringField name="note" label={t('common.note')} />
         </SimpleGrid>
-        <InterfaceSsidRadiusForm />
+        <InterfaceVlanForm />
       </>
     </Formik>
   );
 };
 
-InterfaceSsidRadius.propTypes = propTypes;
+InterfaceVlan.propTypes = propTypes;
 
-export default InterfaceSsidRadius;
+export default InterfaceVlan;

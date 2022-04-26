@@ -21,6 +21,8 @@ import { SubscriberShape } from 'constants/propShapes';
 import { useGetResource } from 'hooks/Network/Resources';
 import useFormRef from 'hooks/useFormRef';
 import InterfaceSsidRadius from './InterfaceSsidRadius';
+import InterfaceVlan from './InterfaceVlan';
+import InterfaceSsid from './InterfaceSsid';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -39,7 +41,11 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }) => {
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const toast = useToast();
   const { form, formRef } = useFormRef();
-  const { data: resourceData, isLoading } = useGetResource({
+  const {
+    data: resourceData,
+    isLoading,
+    refetch,
+  } = useGetResource({
     t,
     toast,
     id: resource?.id,
@@ -57,6 +63,58 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }) => {
     if (resourceData) {
       return resourceData.variables[0]?.prefix ?? null;
     }
+
+    return null;
+  };
+
+  const refreshAll = () => {
+    refetch();
+    refresh();
+  };
+
+  const getForm = () => {
+    if (isLoading || !resourceData)
+      return (
+        <Center>
+          <Spinner />
+        </Center>
+      );
+
+    if (getType() === 'interface.ssid.radius')
+      return (
+        <InterfaceSsidRadius
+          editing={editing}
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+        />
+      );
+
+    if (getType() === 'interface.vlan')
+      return (
+        <InterfaceVlan
+          editing={editing}
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+        />
+      );
+
+    if (getType() === 'interface.ssid')
+      return (
+        <InterfaceSsid
+          editing={editing}
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+        />
+      );
 
     return null;
   };
@@ -83,22 +141,7 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }) => {
             </>
           }
         />
-        <ModalBody>
-          {!isLoading && resourceData && getType() === 'interface.ssid.radius' ? (
-            <InterfaceSsidRadius
-              editing={editing}
-              resource={resourceData}
-              isOpen={isOpen}
-              onClose={onClose}
-              refresh={refresh}
-              formRef={formRef}
-            />
-          ) : (
-            <Center>
-              <Spinner />
-            </Center>
-          )}
-        </ModalBody>
+        <ModalBody>{getForm()}</ModalBody>
       </ModalContent>
       <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
     </Modal>

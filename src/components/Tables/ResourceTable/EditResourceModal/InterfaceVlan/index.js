@@ -10,8 +10,8 @@ import NotesTable from 'components/CustomFields/NotesTable';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
-import InterfaceSsidRadiusForm from './Form';
-import { EDIT_SCHEMA } from './schemas';
+import InterfaceVlanForm from './Form';
+import EDIT_SCHEMA from './schemas';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -22,7 +22,7 @@ const propTypes = {
   editing: PropTypes.bool.isRequired,
 };
 
-const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, editing }) => {
+const InterfaceVlan = ({ isOpen, onClose, refresh, formRef, resource, editing }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { data: entities } = useGetEntities({ t, toast });
@@ -54,7 +54,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
               {
                 type: 'json',
                 weight: 0,
-                prefix: 'interface.ssid.radius',
+                prefix: 'interface.vlan',
                 value: {
                   ...formData,
                   name: undefined,
@@ -149,7 +149,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
                   setFieldValue={setFieldValue}
                 />
               </SimpleGrid>
-              <InterfaceSsidRadiusForm editing={editing} />
+              <InterfaceVlanForm editing={editing} />
             </TabPanel>
             <TabPanel>
               <Field name="notes">
@@ -163,6 +163,6 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
   );
 };
 
-InterfaceSsidRadius.propTypes = propTypes;
+InterfaceVlan.propTypes = propTypes;
 
-export default InterfaceSsidRadius;
+export default InterfaceVlan;

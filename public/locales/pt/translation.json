@@ -646,6 +646,7 @@
 		"last_login": "Último login",
 		"login_id": "Identificação de usuário",
 		"one": "Do utilizador",
+		"re_validate_email": "Revalidar e-mail",
 		"reactivate_user": "Reativar usuário",
 		"reset_password": "Redefinir senha",
 		"reset_password_error": "Erro ao tentar redefinir a senha do usuário: {{e}}",

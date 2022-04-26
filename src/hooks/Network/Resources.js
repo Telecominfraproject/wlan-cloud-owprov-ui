@@ -3,7 +3,6 @@ import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetResourcesCount = ({ t, toast }) =>
   useQuery(['get-resources-count'], () => axiosProv.get(`variable?countOnly=true`).then(({ data }) => data.count), {
-    staleTime: 30000,
     onError: (e) => {
       if (!toast.isActive('variables-fetching-error'))
         toast({
@@ -23,7 +22,6 @@ export const useGetResourcesCount = ({ t, toast }) =>
 
 export const useGetAllResources = ({ t, toast }) =>
   useQuery(['get-all-resources'], () => axiosProv.get(`variable?limit=500`).then(({ data }) => data.variableBlocks), {
-    staleTime: 1000 * 1000,
     onError: (e) => {
       if (!toast.isActive('resource-fetching-error'))
         toast({

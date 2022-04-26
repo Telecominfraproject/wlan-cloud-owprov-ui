@@ -646,6 +646,7 @@
 		"last_login": "Dernière connexion",
 		"login_id": "Identifiant de connexion",
 		"one": "Utilisateur",
+		"re_validate_email": "Re-valider l'e-mail",
 		"reactivate_user": "Réactiver l'utilisateur",
 		"reset_password": "Réinitialiser le mot de passe",
 		"reset_password_error": "Erreur lors de la tentative de réinitialisation du mot de passe utilisateur : {{e}}",
