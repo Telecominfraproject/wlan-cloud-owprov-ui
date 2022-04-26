@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
   Flex,
@@ -23,18 +22,18 @@ import useMutationResult from 'hooks/useMutationResult';
 import { useDeleteOperator } from 'hooks/Network/Operators';
 import { useNavigate } from 'react-router-dom';
 
-const propTypes = {
-  cell: PropTypes.shape({
-    original: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      defaultOperator: PropTypes.bool.isRequired,
-    }).isRequired,
-  }).isRequired,
-  refreshTable: PropTypes.func.isRequired,
-};
+interface Props {
+  cell: {
+    original: {
+      id: string;
+      name: string;
+      defaultOperator: boolean;
+    };
+  };
+  refreshTable: () => void;
+}
 
-const Actions = ({
+const Actions: React.FC<Props> = ({
   cell: {
     original: { id, name, defaultOperator: isDefault },
   },
@@ -51,13 +50,10 @@ const Actions = ({
   const navigate = useNavigate();
 
   const handleDeleteClick = () =>
-    deleteOperator.mutateAsync(
-      {},
-      {
-        onSuccess: () => onSuccess(),
-        onError: (e) => onError(e),
-      },
-    );
+    deleteOperator.mutateAsync(undefined, {
+      onSuccess: () => onSuccess(),
+      onError: (e) => onError(e),
+    });
   const handleGoToClick = () => navigate(`/operators/${id}`);
 
   return (
@@ -66,7 +62,13 @@ const Actions = ({
         <Tooltip hasArrow label={t('crud.delete')} placement="top" isDisabled={isOpen}>
           <Box>
             <PopoverTrigger>
-              <IconButton colorScheme="red" icon={<Trash size={20} />} size="sm" isDisabled={isDefault} />
+              <IconButton
+                aria-label="Open Delete Operator"
+                colorScheme="red"
+                icon={<Trash size={20} />}
+                size="sm"
+                isDisabled={isDefault}
+              />
             </PopoverTrigger>
           </Box>
         </Tooltip>
@@ -91,6 +93,7 @@ const Actions = ({
       </Popover>
       <Tooltip hasArrow label={t('table.go_to_page')} placement="top">
         <IconButton
+          aria-label="Go to Operator Page"
           ml={2}
           colorScheme="blue"
           icon={<MagnifyingGlass size={20} />}
@@ -101,7 +104,5 @@ const Actions = ({
     </Flex>
   );
 };
-
-Actions.propTypes = propTypes;
 
 export default Actions;

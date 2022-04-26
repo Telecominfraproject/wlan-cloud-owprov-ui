@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Button, Checkbox, IconButton, Menu, MenuButton, MenuItem, MenuList, useBreakpoint } from '@chakra-ui/react';
 import { useAuth } from 'contexts/AuthProvider';
 import { FunnelSimple } from 'phosphor-react';
+import { Column } from 'models/Table';
 
 interface Props {
   preference: string;
-  columns: { id: string; Header: string; alwaysShow: boolean }[];
+  columns: Column[];
   hiddenColumns: string[];
   setHiddenColumns: (str: string[]) => void;
 }

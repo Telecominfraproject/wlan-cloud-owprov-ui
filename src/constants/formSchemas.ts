@@ -3,23 +3,25 @@ import * as Yup from 'yup';
 import { testRegex } from './formTests';
 
 // User Schemas
-export const CreateUserSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  name: Yup.string().required('Required'),
-  description: Yup.string(),
-  currentPassword: Yup.string().required('Required'),
-  note: Yup.string(),
-  userRole: Yup.string(),
-});
+export const CreateUserSchema = (t: (str: string) => string) =>
+  Yup.object().shape({
+    email: Yup.string().email(t('form.invalid_email')).required('Required'),
+    name: Yup.string().required('Required'),
+    description: Yup.string(),
+    currentPassword: Yup.string().required('Required'),
+    note: Yup.string(),
+    userRole: Yup.string(),
+  });
 
-export const CreateUserNonRootSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  name: Yup.string().required('Required'),
-  description: Yup.string(),
-  currentPassword: Yup.string().required('Required'),
-  note: Yup.string(),
-  userRole: Yup.string(),
-});
+export const CreateUserNonRootSchema = (t: (str: string) => string) =>
+  Yup.object().shape({
+    email: Yup.string().email(t('form.invalid_email')).required('Required'),
+    name: Yup.string().required('Required'),
+    description: Yup.string(),
+    currentPassword: Yup.string().required('Required'),
+    note: Yup.string(),
+    userRole: Yup.string(),
+  });
 
 export const UpdateUserSchema = (t: (str: string) => string) =>
   Yup.object().shape({
@@ -272,8 +274,8 @@ export const CreateContactSchema = (t: (str: string) => string) =>
     firstname: Yup.string().required(t('form.required')),
     lastname: Yup.string(),
     initials: Yup.string(),
-    primaryEmail: Yup.string().required(t('form.required')),
-    secondaryEmail: Yup.string(),
+    primaryEmail: Yup.string().email(t('form.invalid_email')).required(t('form.required')),
+    secondaryEmail: Yup.string().email(t('form.invalid_email')),
     phones: Yup.array().of(Yup.string()),
     mobiles: Yup.array().of(Yup.string()),
     description: Yup.string(),
@@ -377,8 +379,8 @@ export const SubscriberDeviceContactSchema = (t: (str: string) => string) =>
     firstname: Yup.string().required(t('form.required')),
     lastname: Yup.string(),
     initials: Yup.string(),
-    primaryEmail: Yup.string().required(t('form.required')),
-    secondaryEmail: Yup.string(),
+    primaryEmail: Yup.string().email(t('form.invalid_email')).required(t('form.required')),
+    secondaryEmail: Yup.string().email(t('form.invalid_email')),
     phones: Yup.array().of(Yup.string()),
     mobiles: Yup.array().of(Yup.string()),
     accessPIN: Yup.string(),

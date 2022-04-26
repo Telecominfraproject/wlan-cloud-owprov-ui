@@ -25,13 +25,14 @@ import SelectField from 'components/FormFields/SelectField';
 import { RequirementsShape } from 'constants/propShapes';
 import { secUrl } from 'utils/axiosInstances';
 
-const CreateUserSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  name: Yup.string().required('Required'),
-  description: Yup.string(),
-  currentPassword: Yup.string().notRequired().min(8, 'Minimum Length of 8'),
-  userRole: Yup.string(),
-});
+const CreateUserSchema = (t) =>
+  Yup.object().shape({
+    email: Yup.string().email(t('form.invalid_email')).required('Required'),
+    name: Yup.string().required('Required'),
+    description: Yup.string(),
+    currentPassword: Yup.string().notRequired().min(8, 'Minimum Length of 8'),
+    userRole: Yup.string(),
+  });
 const propTypes = {
   editing: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
@@ -93,7 +94,7 @@ const UpdateUserForm = ({
       enableReinitialize
       key={formKey}
       initialValues={userToUpdate}
-      validationSchema={CreateUserSchema}
+      validationSchema={CreateUserSchema(t)}
       onSubmit={({ name, description, currentPassword, userRole, notes }, { setSubmitting, resetForm }) =>
         updateUser.mutateAsync(
           {

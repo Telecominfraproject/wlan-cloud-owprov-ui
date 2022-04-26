@@ -72,7 +72,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
         note: '',
         userRole: user.userRole === 'admin' ? 'csr' : user.userRole,
       }}
-      validationSchema={user?.userRole === 'root' ? CreateUserSchema : CreateUserNonRootSchema}
+      validationSchema={user?.userRole === 'root' ? CreateUserSchema(t) : CreateUserNonRootSchema(t)}
       onSubmit={(formData, { setSubmitting, resetForm }) =>
         createUser.mutateAsync(createParameters(formData), {
           onSuccess: () => {

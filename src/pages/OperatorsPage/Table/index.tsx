@@ -12,9 +12,10 @@ import ColumnPicker from 'components/ColumnPicker';
 import CreateOperatorModal from 'components/Modals/Operator/CreateOperatorModal';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import useControlledTable from 'hooks/useControlledTable';
+import { Column } from 'models/Table';
 import Actions from './Actions';
 
-const OperatorsTable = () => {
+const OperatorsTable: React.FC = () => {
   const { t } = useTranslation();
   const {
     count,
@@ -23,7 +24,7 @@ const OperatorsTable = () => {
     setPageInfo,
     refetchCount,
   } = useControlledTable({ useCount: useGetOperatorCount, useGet: useGetOperators });
-  const [hiddenColumns, setHiddenColumns] = useState([]);
+  const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
 
   const memoizedActions = useCallback(
     (cell) => <Actions cell={cell.row} refreshTable={refetchCount} key={uuid()} />,
@@ -31,8 +32,8 @@ const OperatorsTable = () => {
   );
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
 
-  const columns = useMemo(() => {
-    const baseColumns = [
+  const columns: Column[] = useMemo(
+    (): Column[] => [
       {
         id: 'name',
         Header: t('common.name'),
@@ -68,10 +69,9 @@ const OperatorsTable = () => {
         disableSortBy: true,
         alwaysShow: true,
       },
-    ];
-
-    return baseColumns;
-  }, []);
+    ],
+    [],
+  );
 
   return (
     <Card>
@@ -87,14 +87,21 @@ const OperatorsTable = () => {
               preference="provisioning.operatorTable.hiddenColumns"
             />
             <CreateOperatorModal refresh={refetchCount} />
-            <RefreshButton onClick={refetchCount} isLoading={isFetching} ml={2} />
+            <RefreshButton onClick={refetchCount} isFetching={isFetching} ml={2} />
           </Box>
         </Flex>
       </CardHeader>
       <CardBody>
         <Box overflowX="auto" w="100%">
           <DataTable
-            columns={columns}
+            columns={
+              columns as {
+                id: string;
+                Header: string;
+                Footer: string;
+                accessor: string;
+              }[]
+            }
             data={operators ?? []}
             isLoading={isFetching}
             isManual
