@@ -126,7 +126,7 @@ const UserTable = ({ title }) => {
 
   const showUsers = () => {
     if (usersWithAvatars.length > 0) return usersWithAvatars;
-    return users?.users ?? [];
+    return users ?? [];
   };
 
   return (

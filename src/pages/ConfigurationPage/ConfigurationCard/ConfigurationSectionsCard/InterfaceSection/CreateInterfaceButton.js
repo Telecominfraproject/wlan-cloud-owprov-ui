@@ -1,15 +1,16 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import { Button, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Box } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from 'phosphor-react';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import CloseButton from 'components/Buttons/CloseButton';
 import { Formik } from 'formik';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import SaveButton from 'components/Buttons/SaveButton';
+import useFormRef from 'hooks/useFormRef';
 import { CREATE_INTERFACE_SCHEMA, SINGLE_INTERFACE_SCHEMA } from './interfacesConstants';
 
 const propTypes = {
@@ -22,21 +23,7 @@ const propTypes = {
 const CreateInterfaceButton = ({ editing, arrayHelpers: { push: pushInterface } }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
 
   const addInterface = ({ role, name }) => {
     pushInterface(SINGLE_INTERFACE_SCHEMA(t, true, role, name, true).cast());
@@ -45,7 +32,7 @@ const CreateInterfaceButton = ({ editing, arrayHelpers: { push: pushInterface } 
 
   return (
     <>
-      <Button colorScheme="blue" type="submit" onClick={onOpen} rightIcon={<Plus size={20} />} hidden={!editing} ml={2}>
+      <Button colorScheme="blue" type="button" onClick={onOpen} rightIcon={<Plus size={20} />} hidden={!editing} ml={2}>
         {t('configurations.add_interface')}
       </Button>
       <Modal onClose={onClose} isOpen={isOpen} size="sm" scrollBehavior="inside">

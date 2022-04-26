@@ -23,6 +23,7 @@ import { MagnifyingGlass, Trash } from 'phosphor-react';
 import { useMutation } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
+import ActionsDropdown from './ActionsDropdown';
 
 const deleteUserApi = async (userId) => axiosSec.delete(`/user/${userId}`).then(() => true);
 
@@ -31,6 +32,8 @@ const propTypes = {
     original: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
+      suspended: PropTypes.bool.isRequired,
+      waitingForEmailCheck: PropTypes.bool.isRequired,
     }).isRequired,
   }).isRequired,
   refreshTable: PropTypes.func.isRequired,
@@ -103,6 +106,12 @@ const UserActions = ({ cell: { original: user }, refreshTable, openEdit }) => {
           </PopoverFooter>
         </PopoverContent>
       </Popover>
+      <ActionsDropdown
+        id={user.id}
+        isSuspended={user.suspended}
+        isWaitingForCheck={user.waitingForEmailCheck}
+        refresh={refreshTable}
+      />
       <Tooltip hasArrow label={t('common.view_details')} placement="top">
         <IconButton
           ml={2}

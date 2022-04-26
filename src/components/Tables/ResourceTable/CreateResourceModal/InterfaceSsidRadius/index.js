@@ -65,7 +65,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
                 id: 'user-creation-success',
                 title: t('common.success'),
                 description: t('crud.success_create_obj', {
-                  obj: t('user.title'),
+                  obj: t('resources.configuration_resource'),
                 }),
                 status: 'success',
                 duration: 5000,
@@ -83,7 +83,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, parent }) => {
                 id: uuid(),
                 title: t('common.error'),
                 description: t('crud.error_create_obj', {
-                  obj: t('user.title'),
+                  obj: t('resources.configuration_resource'),
                   e: e?.response?.data?.ErrorDescription,
                 }),
                 status: 'error',

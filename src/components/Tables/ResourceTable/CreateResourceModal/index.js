@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   useDisclosure,
@@ -11,12 +11,15 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import CreateButton from 'components/Buttons/CreateButton';
+import useFormRef from 'hooks/useFormRef';
 import InterfaceSsidRadius from './InterfaceSsidRadius';
+import InterfaceVlan from './InterfaceVlan';
+import InterfaceSsid from './InterfaceSsid';
 
 const propTypes = {
   refresh: PropTypes.func.isRequired,
@@ -33,21 +36,7 @@ const CreateResourceModal = ({ refresh, entityId, isVenue }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedVariable, setSelectedVariable] = useState('interface.ssid.radius');
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
 
   const closeModal = () => (form.dirty ? openConfirm() : onClose());
 
@@ -84,10 +73,30 @@ const CreateResourceModal = ({ refresh, entityId, isVenue }) => {
               </FormLabel>
               <Select value={selectedVariable} onChange={onVariableChange} borderRadius="15px" fontSize="sm" w="200px">
                 <option value="interface.ssid.radius">interface.ssid.radius</option>
+                <option value="interface.vlan">interface.vlan</option>
+                <option value="interface.ssid">interface.ssid</option>
               </Select>
             </FormControl>
             {selectedVariable === 'interface.ssid.radius' && (
               <InterfaceSsidRadius
+                isOpen={isOpen}
+                onClose={onClose}
+                refresh={refresh}
+                formRef={formRef}
+                parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
+              />
+            )}
+            {selectedVariable === 'interface.vlan' && (
+              <InterfaceVlan
+                isOpen={isOpen}
+                onClose={onClose}
+                refresh={refresh}
+                formRef={formRef}
+                parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
+              />
+            )}
+            {selectedVariable === 'interface.ssid' && (
+              <InterfaceSsid
                 isOpen={isOpen}
                 onClose={onClose}
                 refresh={refresh}

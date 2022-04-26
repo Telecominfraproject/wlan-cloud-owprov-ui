@@ -13,7 +13,7 @@ import SaveButton from 'components/Buttons/SaveButton';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetConfiguration, useUpdateConfiguration } from 'hooks/Network/Configurations';
 import isEqual from 'react-fast-compare';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import EditConfigurationForm from './Form';
 import DeleteConfigurationPopover from './DeleteConfigurationPopover';
 import ConfigurationSectionsCard from './ConfigurationSectionsCard';
@@ -29,7 +29,7 @@ const ConfigurationCard = ({ id }) => {
   const queryClient = useQueryClient();
   const [editing, setEditing] = useBoolean();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const { data: configuration, refetch, isFetching } = useGetConfiguration({ t, toast, id });
+  const { data: configuration, refetch, isFetching } = useGetConfiguration({ id });
   const updateEntity = useUpdateConfiguration({ id });
   const [form, setForm] = useState({});
   const [sections, setSections] = useState(BASE_SECTIONS);

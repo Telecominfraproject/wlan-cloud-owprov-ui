@@ -10,13 +10,12 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  useToast,
   Flex,
   Tooltip,
   IconButton,
   Box,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
 import SaveButton from 'components/Buttons/SaveButton';
@@ -41,11 +40,10 @@ const defaultProps = {
 
 const DeviceConfigurationsModal = ({ name, initialValue, setValue, errors, isDisabled, isRequired, label }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const [localValue, setLocalValue] = useState([]);
   const initialRef = React.useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data: configurations, isFetching } = useGetConfigurations({ t, toast });
+  const { data: configurations, isFetching } = useGetConfigurations();
 
   const save = () => {
     setValue(localValue);

@@ -1,24 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Center,
-  Heading,
-  Spacer,
-  Spinner,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Center, Heading, Spacer, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import isEqual from 'react-fast-compare';
 import CardBody from 'components/Card/CardBody';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetConfiguration } from 'hooks/Network/Configurations';
 import { useTranslation } from 'react-i18next';
+import DeleteButton from 'components/Buttons/DeleteButton';
 import GlobalsSection from './GlobalsSection';
 import { GLOBALS_SCHEMA } from './GlobalsSection/globalsConstants';
 import { UNIT_SCHEMA } from './UnitSection/unitConstants';
@@ -39,13 +29,17 @@ import useConfigurationTabs from './useConfigurationTabs';
 
 const propTypes = {
   configId: PropTypes.string.isRequired,
+  defaultConfig: PropTypes.arrayOf(PropTypes.instanceOf(Object)),
   editing: PropTypes.bool.isRequired,
   setSections: PropTypes.func.isRequired,
   label: PropTypes.string,
+  onDelete: PropTypes.func,
 };
 
 const defaultProps = {
+  defaultConfig: null,
   label: null,
+  onDelete: null,
 };
 
 const getActiveConfigurations = (configurations) =>
@@ -61,9 +55,8 @@ const getConfigurationData = (configurations, section) => {
   return { ...data, configuration: JSON.parse(data.configuration)[section] };
 };
 
-const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) => {
+const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDelete, defaultConfig }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const { tabIndex, onTabChange, tabsWithNewConfiguration, tabsRemovedConfiguration } = useConfigurationTabs();
   const [globals, setGlobals] = useState({
     data: GLOBALS_SCHEMA(t).cast(),
@@ -149,8 +142,6 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
     }, 200);
   };
   const { data: configuration, isFetching } = useGetConfiguration({
-    t,
-    toast,
     id: configId,
     onSuccess: (data) => {
       setConfigSectionsFromArray(data.configuration);
@@ -311,6 +302,10 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
     });
   }, [globals, unit, metrics, services, radios, interfaces, activeConfigurations, configuration]);
 
+  useEffect(() => {
+    if (defaultConfig !== null) setConfigSectionsFromArray(defaultConfig);
+  }, [defaultConfig]);
+
   return (
     <Card px={label ? 0 : undefined}>
       <CardHeader mb="10px" display="flex">
@@ -345,6 +340,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
           />
           <ImportConfigurationButton isDisabled={!editing} setConfig={importConfig} />
           <AddSubsectionModal editing={editing} activeSubs={activeConfigurations} addSub={addSubsection} />
+          {onDelete && <DeleteButton isDisabled={!editing} onClick={onDelete} ml={2} />}
         </Box>
       </CardHeader>
       <CardBody>
@@ -438,4 +434,4 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label }) =>
 ConfigurationSectionsCard.propTypes = propTypes;
 ConfigurationSectionsCard.defaultProps = defaultProps;
 
-export default React.memo(ConfigurationSectionsCard);
+export default React.memo(ConfigurationSectionsCard, isEqual);

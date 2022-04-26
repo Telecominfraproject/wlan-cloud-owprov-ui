@@ -1,15 +1,16 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import { useAuth } from 'contexts/AuthProvider';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
+import useFormRef from 'hooks/useFormRef';
 import CreateUserForm from './Form';
 
 const propTypes = {
@@ -32,22 +33,8 @@ const CreateUserModal = ({ requirements, refreshUsers }) => {
   const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
-  const createUser = useMutation((newUser) => axiosSec.post('user/0', newUser));
+  const { form, formRef } = useFormRef();
+  const createUser = useMutation((newUser) => axiosSec.post('user/0?email_verification=true', newUser));
 
   const closeModal = () => (form.dirty ? openConfirm() : onClose());
 

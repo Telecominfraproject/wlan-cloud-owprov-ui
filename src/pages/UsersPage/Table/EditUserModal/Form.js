@@ -2,42 +2,21 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import {
-  Box,
-  Flex,
-  useColorModeValue,
-  Link,
-  useToast,
-  Tabs,
-  TabList,
-  TabPanels,
-  TabPanel,
-  Tab,
-  SimpleGrid,
-} from '@chakra-ui/react';
-import * as Yup from 'yup';
+import { Box, Flex, Link, useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Formik, Field, Form } from 'formik';
 import { useAuth } from 'contexts/AuthProvider';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
-import { RequirementsShape } from 'constants/propShapes';
-import { secUrl } from 'utils/axiosInstances';
+import useApiRequirements from 'hooks/useApiRequirements';
+import { UpdateUserSchema } from 'constants/formSchemas';
 
-const CreateUserSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  name: Yup.string().required('Required'),
-  description: Yup.string(),
-  currentPassword: Yup.string().notRequired().min(8, 'Minimum Length of 8'),
-  userRole: Yup.string(),
-});
 const propTypes = {
   editing: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   updateUser: PropTypes.instanceOf(Object).isRequired,
-  requirements: PropTypes.shape(RequirementsShape),
   refreshUsers: PropTypes.func.isRequired,
   userToUpdate: PropTypes.shape({
     email: PropTypes.string.isRequired,
@@ -49,28 +28,12 @@ const propTypes = {
   formRef: PropTypes.instanceOf(Object).isRequired,
 };
 
-const defaultProps = {
-  requirements: {
-    accessPolicy: '',
-    passwordPolicy: '',
-  },
-};
-
-const UpdateUserForm = ({
-  editing,
-  isOpen,
-  onClose,
-  updateUser,
-  requirements,
-  refreshUsers,
-  userToUpdate,
-  formRef,
-}) => {
+const UpdateUserForm = ({ editing, isOpen, onClose, updateUser, refreshUsers, userToUpdate, formRef }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { user } = useAuth();
   const [formKey, setFormKey] = useState(uuid());
-  const textColor = useColorModeValue('gray.400', 'white');
+  const { passwordPolicyLink, passwordPattern } = useApiRequirements();
 
   const formIsDisabled = () => {
     if (!editing) return true;
@@ -93,7 +56,7 @@ const UpdateUserForm = ({
       enableReinitialize
       key={formKey}
       initialValues={userToUpdate}
-      validationSchema={CreateUserSchema}
+      validationSchema={UpdateUserSchema(t, { passRegex: passwordPattern })}
       onSubmit={({ name, description, currentPassword, userRole, notes }, { setSubmitting, resetForm }) =>
         updateUser.mutateAsync(
           {
@@ -209,9 +172,9 @@ const UpdateUserForm = ({
               </TabPanel>
             </TabPanels>
           </Tabs>
-          <Flex justifyContent="center" alignItems="center" maxW="100%" mt="25px" mb={6} px={4}>
+          <Flex justifyContent="center" alignItems="center" maxW="100%" mt={4} mb={6}>
             <Box w="100%">
-              <Link href={`${secUrl}${requirements?.passwordPolicy}`} isExternal textColor={textColor} pb={2}>
+              <Link href={passwordPolicyLink} isExternal>
                 {t('login.password_policy')}
                 <ExternalLinkIcon mx="2px" />
               </Link>
@@ -224,6 +187,5 @@ const UpdateUserForm = ({
 };
 
 UpdateUserForm.propTypes = propTypes;
-UpdateUserForm.defaultProps = defaultProps;
 
 export default UpdateUserForm;

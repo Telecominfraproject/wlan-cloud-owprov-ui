@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Textarea } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { TagShape } from 'constants/propShapes';
 import { UpdateTagSchema } from 'constants/formSchemas';
@@ -15,7 +15,7 @@ import { useGetVenues } from 'hooks/Network/Venues';
 import { useUpdateConfiguration } from 'hooks/Network/Configurations';
 import { useQueryClient } from 'react-query';
 import ComputedConfigurationDisplay from './ComputedConfigurationDisplay';
-import SpecialConfigurationManager from './SpecialConfigurationManager';
+import SpecialConfigurationManager from '../../../CustomFields/SpecialConfigurationManager';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

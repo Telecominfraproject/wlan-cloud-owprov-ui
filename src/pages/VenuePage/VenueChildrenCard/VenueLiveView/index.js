@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useGetAnalyticsBoardTimepoints } from 'hooks/Network/Analytics';
-import { useTranslation } from 'react-i18next';
-import { Box, Center, Flex, Spacer, Spinner, useColorModeValue, useToast } from '@chakra-ui/react';
+import { Box, Center, Flex, Spacer, Spinner, useColorModeValue } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import { CircleGraphProvider } from 'contexts/CircleGraphProvider';
@@ -17,17 +16,11 @@ const propTypes = {
 };
 
 const VenueLiveView = ({ boardId }) => {
-  const { t } = useTranslation();
-  const toast = useToast();
   const handle = useFullScreenHandle();
   const color = useColorModeValue('gray.50', 'gray.800');
   const [startTime, setStartTime] = useState(getHoursAgo(1));
   const [endTime, setEndTime] = useState(new Date());
-  const {
-    data: timepoints,
-    isFetching,
-    refetch,
-  } = useGetAnalyticsBoardTimepoints({ t, toast, id: boardId, startTime, endTime });
+  const { data: timepoints, isFetching, refetch } = useGetAnalyticsBoardTimepoints({ id: boardId, startTime, endTime });
 
   return !timepoints ? (
     <Center mt={6}>

@@ -1,47 +1,36 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import { useAuth } from 'contexts/AuthProvider';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
+import useFormRef from 'hooks/useFormRef';
 import CreateContactForm from './Form';
 
 const propTypes = {
   refresh: PropTypes.func.isRequired,
   entityId: PropTypes.string,
   isVenue: PropTypes.bool,
+  onCreate: PropTypes.func,
 };
 
 const defaultProps = {
   isVenue: false,
   entityId: null,
+  onCreate: () => {},
 };
 
-const CreateContactModal = ({ refresh, entityId, isVenue }) => {
+const CreateContactModal = ({ refresh, entityId, isVenue, onCreate }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
 
   const closeModal = () => (form.dirty ? openConfirm() : onClose());
 
@@ -91,6 +80,7 @@ const CreateContactModal = ({ refresh, entityId, isVenue }) => {
               refresh={refresh}
               formRef={formRef}
               parent={parent()}
+              onCreate={onCreate}
             />
           </ModalBody>
         </ModalContent>

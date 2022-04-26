@@ -1,11 +1,17 @@
+import { useToast } from '@chakra-ui/react';
+import useDefaultPage from 'hooks/useDefaultPage';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
-export const useGetConfigurations = ({ t, toast }) =>
-  useQuery(
+export const useGetConfigurations = () => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-configurations'],
     () =>
-      axiosProv.get('configurations?withExtendedInfo=true&offset=0, limit=500').then(({ data }) => data.configurations),
+      axiosProv.get('configuration?withExtendedInfo=true&offset=0, limit=500').then(({ data }) => data.configurations),
     {
       staleTime: 200 * 1000,
       onError: (e) => {
@@ -25,16 +31,18 @@ export const useGetConfigurations = ({ t, toast }) =>
       },
     },
   );
+};
 
-export const useGetSelectConfigurations = ({ t, toast, select }) =>
-  useQuery(
+export const useGetSelectConfigurations = ({ select }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-configurations', select],
     () =>
       select.length === 0
         ? []
-        : axiosProv
-            .get(`configurations?withExtendedInfo=true&select=${select}`)
-            .then(({ data }) => data.configurations),
+        : axiosProv.get(`configuration?withExtendedInfo=true&select=${select}`).then(({ data }) => data.configurations),
     {
       staleTime: 100 * 1000,
       onError: (e) => {
@@ -54,11 +62,15 @@ export const useGetSelectConfigurations = ({ t, toast, select }) =>
       },
     },
   );
+};
 
-export const useGetAvailableConfigurations = ({ t, toast, tagId }) =>
-  useQuery(
+export const useGetAvailableConfigurations = ({ tagId }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-available-configurations', tagId],
-    () => axiosProv.get(`configurations?tagId=${tagId}`).then(({ data }) => data.configurations),
+    () => axiosProv.get(`configuration?tagId=${tagId}`).then(({ data }) => data.configurations),
     {
       onError: (e) => {
         if (!toast.isActive('configurations-fetching-error'))
@@ -77,11 +89,16 @@ export const useGetAvailableConfigurations = ({ t, toast, tagId }) =>
       },
     },
   );
+};
 
-export const useGetConfiguration = ({ t, toast, id = null, onSuccess = () => {} }) =>
-  useQuery(
+export const useGetConfiguration = ({ id = null, onSuccess = () => {} }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const goToDefaultPage = useDefaultPage();
+
+  return useQuery(
     ['get-configuration', id],
-    () => axiosProv.get(`configurations/${id}?withExtendedInfo=true`).then(({ data }) => data),
+    () => axiosProv.get(`configuration/${id}?withExtendedInfo=true`).then(({ data }) => data),
     {
       enabled: id !== null && id !== '',
       onSuccess,
@@ -99,14 +116,19 @@ export const useGetConfiguration = ({ t, toast, id = null, onSuccess = () => {} 
             isClosable: true,
             position: 'top-right',
           });
+        goToDefaultPage();
       },
     },
   );
+};
 
-export const useGetConfigurationInUse = ({ t, toast, id, enabled }) =>
-  useQuery(
+export const useGetConfigurationInUse = ({ id, enabled }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-config-in-use', id],
-    () => axiosProv.get(`/configurations/${id}?expandInUse=true`).then(({ data }) => data.entries),
+    () => axiosProv.get(`/configuration/${id}?expandInUse=true`).then(({ data }) => data.entries),
     {
       enabled,
       onError: (e) => {
@@ -125,11 +147,15 @@ export const useGetConfigurationInUse = ({ t, toast, id, enabled }) =>
       },
     },
   );
+};
 
-export const useGetConfigurationAffected = ({ t, toast, id, enabled }) =>
-  useQuery(
+export const useGetConfigurationAffected = ({ id, enabled }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-config-affected', id],
-    () => axiosProv.get(`/configurations/${id}?computedAffected=true`).then(({ data }) => data.affectedDevices),
+    () => axiosProv.get(`/configuration/${id}?computedAffected=true`).then(({ data }) => data.affectedDevices),
     {
       enabled,
       onError: (e) => {
@@ -148,8 +174,9 @@ export const useGetConfigurationAffected = ({ t, toast, id, enabled }) =>
       },
     },
   );
+};
 
-export const useDeleteConfiguration = () => useMutation((id) => axiosProv.delete(`configurations/${id}`));
+export const useDeleteConfiguration = () => useMutation((id) => axiosProv.delete(`configuration/${id}`));
 
 export const useUpdateConfiguration = ({ id }) =>
-  useMutation((newConf) => axiosProv.put(`configurations/${id}`, newConf));
+  useMutation((newConf) => axiosProv.put(`configuration/${id}`, newConf));

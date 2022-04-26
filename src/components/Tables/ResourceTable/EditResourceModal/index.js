@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -12,14 +12,17 @@ import {
   useBoolean,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import EditButton from 'components/Buttons/EditButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { SubscriberShape } from 'constants/propShapes';
 import { useGetResource } from 'hooks/Network/Resources';
+import useFormRef from 'hooks/useFormRef';
 import InterfaceSsidRadius from './InterfaceSsidRadius';
+import InterfaceVlan from './InterfaceVlan';
+import InterfaceSsid from './InterfaceSsid';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -37,22 +40,12 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }) => {
   const [editing, setEditing] = useBoolean();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const toast = useToast();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
-  const { data: resourceData, isLoading } = useGetResource({
+  const { form, formRef } = useFormRef();
+  const {
+    data: resourceData,
+    isLoading,
+    refetch,
+  } = useGetResource({
     t,
     toast,
     id: resource?.id,
@@ -70,6 +63,58 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }) => {
     if (resourceData) {
       return resourceData.variables[0]?.prefix ?? null;
     }
+
+    return null;
+  };
+
+  const refreshAll = () => {
+    refetch();
+    refresh();
+  };
+
+  const getForm = () => {
+    if (isLoading || !resourceData)
+      return (
+        <Center>
+          <Spinner />
+        </Center>
+      );
+
+    if (getType() === 'interface.ssid.radius')
+      return (
+        <InterfaceSsidRadius
+          editing={editing}
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+        />
+      );
+
+    if (getType() === 'interface.vlan')
+      return (
+        <InterfaceVlan
+          editing={editing}
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+        />
+      );
+
+    if (getType() === 'interface.ssid')
+      return (
+        <InterfaceSsid
+          editing={editing}
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+        />
+      );
 
     return null;
   };
@@ -96,22 +141,7 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }) => {
             </>
           }
         />
-        <ModalBody>
-          {!isLoading && resourceData && getType() === 'interface.ssid.radius' ? (
-            <InterfaceSsidRadius
-              editing={editing}
-              resource={resourceData}
-              isOpen={isOpen}
-              onClose={onClose}
-              refresh={refresh}
-              formRef={formRef}
-            />
-          ) : (
-            <Center>
-              <Spinner />
-            </Center>
-          )}
-        </ModalBody>
+        <ModalBody>{getForm()}</ModalBody>
       </ModalContent>
       <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
     </Modal>

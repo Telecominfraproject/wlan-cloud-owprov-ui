@@ -5,7 +5,7 @@ import { EntityShape } from 'constants/propShapes';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import { useQueryClient } from 'react-query';
 import ConfigurationsTable from 'components/Tables/ConfigurationTable';
-import ConfigurationInUseModal from 'components/Modals/ConfigurationInUseModal';
+import ConfigurationInUseModal from 'components/Modals/Configuration/ConfigurationInUseModal';
 import ConfigurationViewAffectedModal from 'components/Tables/ConfigurationTable/ConfigurationViewAffectedModal';
 import CreateConfigurationModal from 'components/Tables/ConfigurationTable/CreateConfigurationModal';
 import Actions from './Actions';

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useField } from 'formik';
-import { FormControl, FormErrorMessage, FormLabel, useToast } from '@chakra-ui/react';
+import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
 import { useGetAvailableConfigurations } from 'hooks/Network/Configurations';
 
@@ -14,9 +14,8 @@ const propTypes = {
 
 const ConfigurationPicker = ({ tagId, name, isDisabled }) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const [{ value }, { touched, error }, { setValue, setTouched }] = useField(name);
-  const { data: configurations } = useGetAvailableConfigurations({ t, toast, tagId });
+  const { data: configurations } = useGetAvailableConfigurations({ tagId });
 
   const onChange = (opt) => {
     setValue(opt.value);

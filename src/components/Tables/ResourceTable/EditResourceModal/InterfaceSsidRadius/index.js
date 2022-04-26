@@ -6,7 +6,7 @@ import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@
 import { Field, Formik } from 'formik';
 import { useUpdateResource } from 'hooks/Network/Resources';
 import StringField from 'components/FormFields/StringField';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
@@ -77,7 +77,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
               toast({
                 id: 'resource-update-success',
                 title: t('common.success'),
-                description: t('crud.success_create_obj', {
+                description: t('crud.success_update_obj', {
                   obj: t('resources.configuration_resource'),
                 }),
                 status: 'success',
@@ -95,7 +95,7 @@ const InterfaceSsidRadius = ({ isOpen, onClose, refresh, formRef, resource, edit
               toast({
                 id: uuid(),
                 title: t('common.error'),
-                description: t('crud.error_create_obj', {
+                description: t('crud.error_update_obj', {
                   obj: t('resources.configuration_resource'),
                   e: e?.response?.data?.ErrorDescription,
                 }),

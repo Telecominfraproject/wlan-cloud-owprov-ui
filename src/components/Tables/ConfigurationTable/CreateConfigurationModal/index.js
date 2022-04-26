@@ -1,15 +1,16 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, toast } from '@chakra-ui/react';
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
-import ConfirmCloseAlert from 'components/ConfirmCloseAlert';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import SaveButton from 'components/Buttons/SaveButton';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
+import useFormRef from 'hooks/useFormRef';
 import CreateConfigurationForm from './Form';
 
 const propTypes = {
@@ -26,25 +27,11 @@ const CreateConfigurationModal = ({ refresh, entityId }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
-  const { data: deviceTypes } = useGetDeviceTypes({ t, toast });
+  const { form, formRef } = useFormRef();
+  const { data: deviceTypes } = useGetDeviceTypes();
   const [configuration, setConfiguration] = useState(null);
   const create = useMutation((newObj) =>
-    axiosProv.post('configurations/1', {
+    axiosProv.post('configuration/1', {
       ...newObj,
       configuration: configuration?.data.configuration ?? null,
     }),

@@ -54,7 +54,9 @@ const NumberField = ({
 
   const onChange = useCallback((v) => {
     setValue(conversionFactor ? parseToInt(v, acceptEmptyValue) * conversionFactor : parseToInt(v, acceptEmptyValue));
-    setTouched(true);
+    setTimeout(() => {
+      setTouched(true);
+    }, 200);
   }, []);
 
   const onFieldBlur = useCallback(() => {

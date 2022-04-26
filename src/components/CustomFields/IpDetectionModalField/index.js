@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ListInputModalField from 'components/FormFields/ListInputModalField';
-import { Field } from 'formik';
+import { useField } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
 import IP_REGEX from 'constants/IP_REGEX';
 
 const propTypes = {
   name: PropTypes.string.isRequired,
-  setFieldValue: PropTypes.func.isRequired,
-  errors: PropTypes.instanceOf(Object).isRequired,
   isDisabled: PropTypes.bool,
   isRequired: PropTypes.bool,
 };
@@ -48,39 +46,35 @@ const testIps = (newIp) => {
   return IP_REGEX.test(ip);
 };
 
-const IpDetectionModalField = ({ name, setFieldValue, errors, isDisabled, isRequired }) => {
+const IpDetectionModalField = ({ name, isDisabled, isRequired }) => {
   const { t } = useTranslation();
-  const setValue = (value) => setFieldValue(name, value);
+  const [{ value }, { error }, { setValue }] = useField(name);
 
   return (
-    <Field name={name}>
-      {({ field }) => (
-        <ListInputModalField
-          initialValue={field.value}
-          name={name}
-          setValue={setValue}
-          label={t('entities.ip_detection')}
-          buttonLabel={field.value.length === 0 ? t('entities.add_ips') : field.value.join(',')}
-          title={t('entities.ip_detection')}
-          explanation={
-            <Box>
-              <b>{t('entities.add_ips_explanation')}</b>
-              <UnorderedList>
-                <ListItem>{t('entities.ip_single_address')}</ListItem>
-                <ListItem>{t('entities.ip_list')}</ListItem>
-                <ListItem>{t('entities.ip_range')}</ListItem>
-                <ListItem>{t('entities.ip_cidr')}</ListItem>
-              </UnorderedList>
-            </Box>
-          }
-          errors={errors}
-          placeholder={t('entities.enter_ips')}
-          isDisabled={isDisabled}
-          isRequired={isRequired}
-          validation={testIps}
-        />
-      )}
-    </Field>
+    <ListInputModalField
+      initialValue={value}
+      name={name}
+      setValue={setValue}
+      label={t('entities.ip_detection')}
+      buttonLabel={value.length === 0 ? t('entities.add_ips') : value.join(',')}
+      title={t('entities.ip_detection')}
+      explanation={
+        <Box>
+          <b>{t('entities.add_ips_explanation')}</b>
+          <UnorderedList>
+            <ListItem>{t('entities.ip_single_address')}</ListItem>
+            <ListItem>{t('entities.ip_list')}</ListItem>
+            <ListItem>{t('entities.ip_range')}</ListItem>
+            <ListItem>{t('entities.ip_cidr')}</ListItem>
+          </UnorderedList>
+        </Box>
+      }
+      error={error}
+      placeholder={t('entities.enter_ips')}
+      isDisabled={isDisabled}
+      isRequired={isRequired}
+      validation={testIps}
+    />
   );
 };
 

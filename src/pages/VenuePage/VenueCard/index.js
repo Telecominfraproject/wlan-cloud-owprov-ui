@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { Box, Center, Heading, Spacer, Spinner, useBoolean, useToast } from '@chakra-ui/react';
+import { Box, Center, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
 import { useGetVenue } from 'hooks/Network/Venues';
 import CardBody from 'components/Card/CardBody';
 import Card from 'components/Card';
@@ -12,6 +11,7 @@ import SaveButton from 'components/Buttons/SaveButton';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetAnalyticsBoard } from 'hooks/Network/Analytics';
 import { useAuth } from 'contexts/AuthProvider';
+import useFormRef from 'hooks/useFormRef';
 import EditVenueForm from './Form';
 import DeleteVenuePopover from './DeleteVenuePopover';
 import CreateVenueModal from '../../../components/Tables/VenueTable/CreateVenueModal';
@@ -21,31 +21,13 @@ const propTypes = {
 };
 
 const VenueCard = ({ id }) => {
-  const { t } = useTranslation();
-  const toast = useToast();
   const { endpoints } = useAuth();
   const [editing, setEditing] = useBoolean();
-  const { data: venue, refetch, isFetching } = useGetVenue({ t, toast, id });
+  const { data: venue, refetch, isFetching } = useGetVenue({ id });
   const { data: board, isFetching: isFetchingBoard } = useGetAnalyticsBoard({
-    t,
-    toast,
     id: endpoints?.owanalytics && venue?.boards.length > 0 ? venue.boards[0] : null,
   });
-  const [form, setForm] = useState({});
-  const formRef = useCallback(
-    (node) => {
-      if (
-        node !== null &&
-        (form.submitForm !== node.submitForm ||
-          form.isSubmitting !== node.isSubmitting ||
-          form.isValid !== node.isValid ||
-          form.dirty !== node.dirty)
-      ) {
-        setForm(node);
-      }
-    },
-    [form],
-  );
+  const { form, formRef } = useFormRef();
 
   return (
     <Card mb={4}>

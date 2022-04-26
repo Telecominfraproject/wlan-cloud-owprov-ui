@@ -16,13 +16,13 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
-import NotesTable from 'components/NotesTable';
+import NotesTable from 'components/CustomFields/NotesTable';
 import { EntityShape } from 'constants/propShapes';
 import { EntitySchema } from 'constants/formSchemas';
 import { useGetConfigurationInUse } from 'hooks/Network/Configurations';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import ToggleField from 'components/FormFields/ToggleField';
-import ConfigurationInUseModal from 'components/Modals/ConfigurationInUseModal';
+import ConfigurationInUseModal from 'components/Modals/Configuration/ConfigurationInUseModal';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
@@ -43,10 +43,8 @@ const EditConfigurationForm = ({ editing, configuration, formRef }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: entities } = useGetEntities({ t, toast });
   const { data: venues } = useGetVenues({ t, toast });
-  const { data: deviceTypesList } = useGetDeviceTypes({ t, toast });
+  const { data: deviceTypesList } = useGetDeviceTypes();
   const { data: inUse } = useGetConfigurationInUse({
-    t,
-    toast,
     id: configuration?.id,
     enabled: true,
   });

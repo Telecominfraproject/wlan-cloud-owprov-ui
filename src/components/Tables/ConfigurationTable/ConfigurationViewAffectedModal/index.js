@@ -5,7 +5,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalBody,
-  toast,
   Center,
   Spinner,
   UnorderedList,
@@ -15,7 +14,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/ModalHeader';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { useGetConfigurationAffected } from 'hooks/Network/Configurations';
 
 const propTypes = {
@@ -33,8 +32,6 @@ const defaultProps = {
 const ConfigurationViewAffectedModal = ({ isOpen, onClose, config }) => {
   const { t } = useTranslation();
   const { data: affected, isLoading } = useGetConfigurationAffected({
-    t,
-    toast,
     id: config?.id,
     enabled: isOpen && config && config.id !== '',
   });

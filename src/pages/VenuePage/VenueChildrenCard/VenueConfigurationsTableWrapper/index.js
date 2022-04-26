@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { EntityShape } from 'constants/propShapes';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import ConfigurationsTable from 'components/Tables/ConfigurationTable';
-import ConfigurationInUseModal from 'components/Modals/ConfigurationInUseModal';
+import ConfigurationInUseModal from 'components/Modals/Configuration/ConfigurationInUseModal';
 import ConfigurationViewAffectedModal from 'components/Tables/ConfigurationTable/ConfigurationViewAffectedModal';
 import CreateConfigurationModal from 'components/Tables/ConfigurationTable/CreateConfigurationModal';
 import { useQueryClient } from 'react-query';
