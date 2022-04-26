@@ -663,6 +663,9 @@
 		"successfully_removed_contact": "Contato removido com sucesso!",
 		"successfully_update_devices": "Atualizando {{num}} dispositivos!",
 		"title": "Locais",
-		"update_all_devices": "Atualizar todos os dispositivos"
+		"update_all_devices": "Atualizar todos os dispositivos",
+		"use_existing": "Usar existente",
+		"use_existing_contacts": "Usar contatos existentes",
+		"use_this_contact": "Use este contato"
 	}
 }

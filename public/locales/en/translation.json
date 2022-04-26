@@ -663,6 +663,9 @@
 		"successfully_removed_contact": "Successfully removed contact!",
 		"successfully_update_devices": "Updating {{num}} devices!",
 		"title": "Venues",
-		"update_all_devices": "Update All Devices"
+		"update_all_devices": "Update All Devices",
+		"use_existing": "Use Existing",
+		"use_existing_contacts": "Use Existing Contacts",
+		"use_this_contact": "Use this contact"
 	}
 }

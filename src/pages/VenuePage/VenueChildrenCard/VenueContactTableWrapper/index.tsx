@@ -9,6 +9,7 @@ import { Venue } from 'models/Venue';
 import { Contact } from 'models/Contact';
 import { useAddVenueContact } from 'hooks/Network/Venues';
 import Actions from './Actions';
+import UseExistingContactModal from './UseExistingModal';
 
 interface Props {
   venue?: Venue;
@@ -49,13 +50,18 @@ const VenueContactTableWrapper: React.FC<Props> = ({ venue }) => {
         venueId={venue?.id ?? ''}
       />
     ),
-    [refreshId, venue],
+    [refreshId, venue, addContact],
   );
 
   return (
     <>
       <Box textAlign="right" mb={2}>
-        <CreateContactModal refresh={refreshEntity} entityId={venue?.entity ?? ''} onCreate={onContactCreate} />
+        {venue && (
+          <>
+            <UseExistingContactModal onAssignContact={onContactCreate} venue={venue} />
+            <CreateContactModal refresh={refreshEntity} entityId={venue?.entity ?? ''} onCreate={onContactCreate} />
+          </>
+        )}
       </Box>
       <ContactTable
         select={venue?.contacts ?? []}

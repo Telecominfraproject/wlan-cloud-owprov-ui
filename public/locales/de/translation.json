@@ -663,6 +663,9 @@
 		"successfully_removed_contact": "Kontakt erfolgreich entfernt!",
 		"successfully_update_devices": " {{num}} Geräte werden aktualisiert!",
 		"title": "Veranstaltungsorte",
-		"update_all_devices": "Alle Geräte aktualisieren"
+		"update_all_devices": "Alle Geräte aktualisieren",
+		"use_existing": "Benutze existierendes",
+		"use_existing_contacts": "Verwenden Sie vorhandene Kontakte",
+		"use_this_contact": "Verwenden Sie diesen Kontakt"
 	}
 }
