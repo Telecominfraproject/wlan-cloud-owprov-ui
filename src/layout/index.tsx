@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid';
 import routes from 'router/routes';
 import CreateRootModal from 'components/Modals/Entity/CreateRootModal';
 import { Route as RouteProps } from 'models/Routes';
+import NotFoundPage from 'pages/NotFound';
 import MainPanel from './MainPanel';
 import Navbar from './Navbar';
 import PanelContent from './Containers/PanelContent';
@@ -43,7 +44,9 @@ const Layout = () => {
                 </Flex>
               }
             >
-              <Routes>{getRoutes(routes as RouteProps[])}</Routes>
+              <Routes>
+                {[...getRoutes(routes as RouteProps[]), <Route path="*" element={<NotFoundPage />} key={uuid()} />]}
+              </Routes>
             </Suspense>
           </PanelContainer>
         </PanelContent>

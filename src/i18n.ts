@@ -9,7 +9,7 @@ i18next
   .use(LanguageDetector)
   .init({
     load: 'languageOnly',
-    supportedLngs: ['en'],
+    supportedLngs: ['de', 'en', 'es', 'fr', 'pt'],
     fallbackLng: 'en',
     nonExplicitSupportedLngs: true,
     interpolation: {

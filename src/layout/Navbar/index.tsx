@@ -23,6 +23,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { uppercaseFirstLetter } from 'utils/stringHelper';
 import { MapTrifold } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from 'components/LanguageSwitcher';
 
 interface Props {
   secondary: boolean;
@@ -135,15 +136,19 @@ const Navbar: React.FC<Props> = ({ secondary, toggleSidebar, isSidebarOpen }) =>
               <IconButton
                 aria-label={t('common.go_to_map')}
                 variant="ghost"
-                icon={<MapTrifold size={20} />}
+                icon={<MapTrifold size={24} />}
                 onClick={goToMap}
               />
             </Tooltip>
-            {colorMode === 'light' ? (
-              <MoonIcon cursor="pointer" onClick={toggleColorMode} w="20px" h="20px" mx={2} />
-            ) : (
-              <SunIcon cursor="pointer" onClick={toggleColorMode} w="20px" h="20px" mx={2} />
-            )}
+            <Tooltip hasArrow label={t('common.theme')}>
+              <IconButton
+                aria-label={t('common.theme')}
+                variant="ghost"
+                icon={colorMode === 'light' ? <MoonIcon h="20px" w="20px" /> : <SunIcon h="20px" w="20px" />}
+                onClick={toggleColorMode}
+              />
+            </Tooltip>
+            <LanguageSwitcher />
             <HStack spacing={{ base: '0', md: '6' }} ml={6} mr={4}>
               <Flex alignItems="center">
                 <Menu>
