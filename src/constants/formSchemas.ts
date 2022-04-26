@@ -3,30 +3,38 @@ import * as Yup from 'yup';
 import { testRegex } from './formTests';
 
 // User Schemas
-export const CreateUserSchema = (t: (str: string) => string) =>
+export const CreateUserSchema = (t: (str: string) => string, { passRegex }: { passRegex: string }) =>
   Yup.object().shape({
     email: Yup.string().email(t('form.invalid_email')).required('Required'),
     name: Yup.string().required('Required'),
     description: Yup.string(),
-    currentPassword: Yup.string().required('Required'),
+    currentPassword: Yup.string()
+      .required(t('form.required'))
+      .test('test-password', t('form.invalid_password'), (v) => testRegex(v, passRegex))
+      .default(''),
     note: Yup.string(),
     userRole: Yup.string(),
   });
 
-export const CreateUserNonRootSchema = (t: (str: string) => string) =>
+export const CreateUserNonRootSchema = (t: (str: string) => string, { passRegex }: { passRegex: string }) =>
   Yup.object().shape({
     email: Yup.string().email(t('form.invalid_email')).required('Required'),
     name: Yup.string().required('Required'),
     description: Yup.string(),
-    currentPassword: Yup.string().required('Required'),
+    currentPassword: Yup.string()
+      .required(t('form.required'))
+      .test('test-password', t('form.invalid_password'), (v) => testRegex(v, passRegex))
+      .default(''),
     note: Yup.string(),
     userRole: Yup.string(),
   });
 
-export const UpdateUserSchema = (t: (str: string) => string) =>
+export const UpdateUserSchema = (t: (str: string) => string, { passRegex }: { passRegex: string }) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
-    currentPassword: Yup.string().notRequired().min(8, t('form.invalid_password')),
+    currentPassword: Yup.string()
+      .notRequired()
+      .test('test-password', t('form.invalid_password'), (v) => testRegex(v, passRegex)),
     description: Yup.string(),
     mfa: Yup.string(),
     phoneNumber: Yup.string().when('mfa', {

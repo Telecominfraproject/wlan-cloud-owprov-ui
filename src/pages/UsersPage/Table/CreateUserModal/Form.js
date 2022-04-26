@@ -2,38 +2,29 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { Box, Flex, useColorModeValue, Link, useToast, SimpleGrid } from '@chakra-ui/react';
+import { Box, Flex, Link, useToast, SimpleGrid } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Formik, Form } from 'formik';
 import { useAuth } from 'contexts/AuthProvider';
 import { CreateUserNonRootSchema, CreateUserSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
-import { RequirementsShape } from 'constants/propShapes';
-import { secUrl } from 'utils/axiosInstances';
+import useApiRequirements from 'hooks/useApiRequirements';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   createUser: PropTypes.instanceOf(Object).isRequired,
-  requirements: PropTypes.shape(RequirementsShape),
   refreshUsers: PropTypes.func.isRequired,
   formRef: PropTypes.instanceOf(Object).isRequired,
 };
 
-const defaultProps = {
-  requirements: {
-    accessPolicy: '',
-    passwordPolicy: '',
-  },
-};
-
-const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUsers, formRef }) => {
+const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { user } = useAuth();
   const [formKey, setFormKey] = useState(uuid());
-  const textColor = useColorModeValue('gray.400', 'white');
+  const { passwordPolicyLink, passwordPattern } = useApiRequirements();
 
   const createParameters = ({ name, description, email, currentPassword, note, userRole }) => {
     if (userRole === 'root') {
@@ -72,7 +63,11 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
         note: '',
         userRole: user.userRole === 'admin' ? 'csr' : user.userRole,
       }}
-      validationSchema={user?.userRole === 'root' ? CreateUserSchema(t) : CreateUserNonRootSchema(t)}
+      validationSchema={
+        user?.userRole === 'root'
+          ? CreateUserSchema(t, { passRegex: passwordPattern })
+          : CreateUserNonRootSchema(t, { passRegex: passwordPattern })
+      }
       onSubmit={(formData, { setSubmitting, resetForm }) =>
         createUser.mutateAsync(createParameters(formData), {
           onSuccess: () => {
@@ -142,13 +137,9 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
             <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>
-          <Flex justifyContent="center" alignItems="center" maxW="100%" mt="50px" mb={6}>
+          <Flex justifyContent="center" alignItems="center" maxW="100%" mt={4} mb={6}>
             <Box w="100%">
-              <Link
-                href={`${secUrl.split('/api/v1')[0]}${requirements?.passwordPolicy}`}
-                isExternal
-                textColor={textColor}
-              >
+              <Link href={passwordPolicyLink} isExternal>
                 {t('login.password_policy')}
                 <ExternalLinkIcon mx="2px" />
               </Link>
@@ -161,6 +152,5 @@ const CreateUserForm = ({ isOpen, onClose, createUser, requirements, refreshUser
 };
 
 CreateUserForm.propTypes = propTypes;
-CreateUserForm.defaultProps = defaultProps;
 
 export default CreateUserForm;

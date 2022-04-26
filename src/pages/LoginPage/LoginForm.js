@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { axiosSec, secUrl } from 'utils/axiosInstances';
@@ -46,6 +46,11 @@ const LoginForm = ({ requirements, setActiveForm }) => {
   const textColor = useColorModeValue('gray.400', 'white');
   const login = useMutation((loginInfo) => axiosSec.post('oauth2', loginInfo));
   const forgotPassword = () => setActiveForm({ form: 'forgot-password' });
+
+  const displayError = useMemo(() => {
+    if (login.error?.response?.data?.ErrorCode === 4) return t('login.waiting_for_email_verification');
+    return t('login.invalid_credentials');
+  }, [t, login]);
 
   return (
     <>
@@ -158,7 +163,7 @@ const LoginForm = ({ requirements, setActiveForm }) => {
             </Flex>
             {login.error ? (
               <Alert mt="16px" status="error">
-                {t('login.invalid_credentials')}
+                {displayError}
               </Alert>
             ) : null}
             <Button
