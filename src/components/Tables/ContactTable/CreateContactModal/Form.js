@@ -6,13 +6,10 @@ import { useToast, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { CreateContactSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
-import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
-import { useGetEntities } from 'hooks/Network/Entity';
 import { useCreateContact } from 'hooks/Network/Contacts';
 import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import { useQueryClient } from 'react-query';
-import { useGetVenues } from 'hooks/Network/Venues';
 import MultiPhoneNumberField from 'components/CustomFields/MultiPhoneNumberField';
 
 const propTypes = {
@@ -21,14 +18,13 @@ const propTypes = {
   refresh: PropTypes.func.isRequired,
   formRef: PropTypes.instanceOf(Object).isRequired,
   parent: PropTypes.string.isRequired,
+  onCreate: PropTypes.func.isRequired,
 };
 
-const CreateContactForm = ({ isOpen, onClose, refresh, formRef, parent }) => {
+const CreateContactForm = ({ isOpen, onClose, refresh, formRef, parent, onCreate }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [formKey, setFormKey] = useState(uuid());
-  const { data: entities } = useGetEntities({ t, toast });
-  const { data: venues } = useGetVenues({ t, toast });
   const queryClient = useQueryClient();
 
   const create = useCreateContact();
@@ -99,7 +95,7 @@ const CreateContactForm = ({ isOpen, onClose, refresh, formRef, parent }) => {
             notes: note.length > 0 ? [{ note }] : undefined,
           },
           {
-            onSuccess: async () => {
+            onSuccess: async ({ data }) => {
               toast({
                 id: 'contact-creation-success',
                 title: t('common.success'),
@@ -111,7 +107,7 @@ const CreateContactForm = ({ isOpen, onClose, refresh, formRef, parent }) => {
                 isClosable: true,
                 position: 'top-right',
               });
-
+              onCreate(data.id);
               setSubmitting(false);
               resetForm();
               refresh();
@@ -156,35 +152,6 @@ const CreateContactForm = ({ isOpen, onClose, refresh, formRef, parent }) => {
                 { label: 'TECHNICIAN', value: 'TECHNICIAN' },
                 { label: 'CORPORATE', value: 'CORPORATE' },
               ]}
-            />
-            <SelectWithSearchField
-              name="entity"
-              label={t('entities.one')}
-              errors={errors}
-              touched={touched}
-              options={[
-                { label: t('common.none'), value: '' },
-                {
-                  label: t('entities.title'),
-                  options:
-                    entities?.map((ent) => ({
-                      value: `ent:${ent.id}`,
-                      label: `${ent.name}${ent.description ? `: ${ent.description}` : ''}`,
-                    })) ?? [],
-                },
-                {
-                  label: t('venues.title'),
-                  options:
-                    venues?.map((ven) => ({
-                      value: `ven:${ven.id}`,
-                      label: `${ven.name}${ven.description ? `: ${ven.description}` : ''}`,
-                    })) ?? [],
-                },
-              ]}
-              setFieldValue={setFieldValue}
-              optionsHaveCategories
-              isRequired
-              isHidden={parent !== ''}
             />
             <SelectField
               name="salutation"

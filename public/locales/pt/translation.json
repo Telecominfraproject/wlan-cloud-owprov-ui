@@ -653,11 +653,14 @@
 		"title": "Comercial"
 	},
 	"venues": {
+		"confirm_remove_contact": "Deseja remover este contato deste local?",
 		"create_child": "Criar local filho",
+		"error_remove_contact": "Erro ao tentar remover o contato: {{e}}",
 		"error_update_devices": "Erro ao iniciar a atualização do dispositivo: {{e}}",
 		"go_to_page": "Vá para página",
 		"one": "Local",
 		"subvenues": "Sub-locais",
+		"successfully_removed_contact": "Contato removido com sucesso!",
 		"successfully_update_devices": "Atualizando {{num}} dispositivos!",
 		"title": "Locais",
 		"update_all_devices": "Atualizar todos os dispositivos"

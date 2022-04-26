@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { compactDate } from 'utils/dateFormatting';
 import DataTable from 'components/DataTable';
+import { Column } from 'models/Table';
 
 interface Props {
   certificates?: { expiresOn: number; filename: string }[];
@@ -17,7 +18,7 @@ const SystemCertificatesTable: React.FC<Props> = ({ certificates }) => {
   const memoizedExpiry = useCallback((cell) => compactDate(cell.row.values.expiresOn), []);
 
   const columns = React.useMemo(
-    () => [
+    (): Column[] => [
       {
         id: 'expiresOn',
         Header: t('certificates.expires_on'),

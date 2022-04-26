@@ -15,14 +15,16 @@ const propTypes = {
   refresh: PropTypes.func.isRequired,
   entityId: PropTypes.string,
   isVenue: PropTypes.bool,
+  onCreate: PropTypes.func,
 };
 
 const defaultProps = {
   isVenue: false,
   entityId: null,
+  onCreate: () => {},
 };
 
-const CreateContactModal = ({ refresh, entityId, isVenue }) => {
+const CreateContactModal = ({ refresh, entityId, isVenue, onCreate }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -78,6 +80,7 @@ const CreateContactModal = ({ refresh, entityId, isVenue }) => {
               refresh={refresh}
               formRef={formRef}
               parent={parent()}
+              onCreate={onCreate}
             />
           </ModalBody>
         </ModalContent>

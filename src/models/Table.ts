@@ -19,8 +19,9 @@ export interface Column {
   Footer?: string;
   accessor?: string;
   disableSortBy?: boolean;
+  hasPopover?: boolean;
   customMaxWidth?: string;
   customMinWidth?: string;
   customWidth?: string;
-  Cell?: ({ cell }: { cell: unknown }) => React.ReactElement;
+  Cell?: ({ cell }: { cell: unknown }) => React.ReactElement | string | JSX.Element;
 }

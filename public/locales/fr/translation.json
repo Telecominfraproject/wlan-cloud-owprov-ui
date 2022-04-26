@@ -653,11 +653,14 @@
 		"title": "utilisateurs"
 	},
 	"venues": {
+		"confirm_remove_contact": "Voulez-vous supprimer ce contact de ce lieu ?",
 		"create_child": "Créer un lieu enfant",
+		"error_remove_contact": "Erreur lors de la tentative de suppression du contact : {{e}}",
 		"error_update_devices": "Erreur lors du démarrage de la mise à jour de l'appareil : {{e}}",
 		"go_to_page": "Aller à la page",
 		"one": "lieu",
 		"subvenues": "Sous-lieux",
+		"successfully_removed_contact": "Contact supprimé avec succès !",
 		"successfully_update_devices": "Mise à jour de {{num}}  appareils !",
 		"title": "Les lieux",
 		"update_all_devices": "Mettre à jour tous les appareils"

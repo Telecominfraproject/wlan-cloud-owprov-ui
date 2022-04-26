@@ -3,5 +3,6 @@ export interface Venue {
   name: string;
   parent: string;
   venues: string[];
+  contacts: string[];
   entity: string;
 }

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import {
   Table,
@@ -26,53 +25,43 @@ import {
   useBreakpoint,
 } from '@chakra-ui/react';
 import { ArrowRightIcon, ArrowLeftIcon, ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
-import { useTable, usePagination, useSortBy } from 'react-table';
+// @ts-ignore
+import { useTable, usePagination, useSortBy, Row } from 'react-table';
 import { useTranslation } from 'react-i18next';
 import LoadingOverlay from 'components/LoadingOverlay';
+import { Column } from 'models/Table';
 import SortIcon from './SortIcon';
 
-const propTypes = {
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      Header: PropTypes.string.isRequired,
-      Footer: PropTypes.string.isRequired,
-      accessor: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  data: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
-  count: PropTypes.number,
-  setPageInfo: PropTypes.func,
-  isLoading: PropTypes.bool,
-  obj: PropTypes.string.isRequired,
-  sortBy: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      desc: PropTypes.bool.isRequired,
-    }),
-  ),
-  hiddenColumns: PropTypes.arrayOf(PropTypes.string),
-  hideControls: PropTypes.bool,
-  minHeight: PropTypes.string,
-  fullScreen: PropTypes.bool,
-  isManual: PropTypes.bool,
-  saveSettingsId: PropTypes.string,
-};
+interface Props {
+  columns: Column[];
+  data: object[];
+  count?: number;
+  setPageInfo?: ({ index, limit }: { index: number; limit: number }) => void;
+  isLoading?: boolean;
+  obj: string;
+  sortBy?: { id: string; desc: boolean }[];
+  hiddenColumns?: string[];
+  hideControls?: boolean;
+  minHeight?: string;
+  fullScreen?: boolean;
+  isManual?: boolean;
+  saveSettingsId?: string;
+}
 
 const defaultProps = {
-  count: null,
-  setPageInfo: null,
+  count: undefined,
+  setPageInfo: undefined,
   isLoading: false,
-  minHeight: null,
+  minHeight: undefined,
   fullScreen: false,
   sortBy: [],
   hiddenColumns: [],
   hideControls: false,
   isManual: false,
-  saveSettingsId: null,
+  saveSettingsId: undefined,
 };
 
-const DataTable = ({
+const DataTable: React.FC<Props> = ({
   columns,
   data,
   isLoading,
@@ -91,13 +80,12 @@ const DataTable = ({
   const breakpoint = useBreakpoint();
   const textColor = useColorModeValue('gray.700', 'white');
   const getPageSize = () => {
-    const saved = localStorage.getItem(saveSettingsId);
+    const saved = saveSettingsId ? localStorage.getItem(saveSettingsId) : undefined;
     if (saved) return Number.parseInt(saved, 10);
     return 10;
   };
   const [queryPageSize, setQueryPageSize] = useState(getPageSize());
 
-  // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
     getTableBodyProps,
@@ -120,7 +108,7 @@ const DataTable = ({
       data,
       initialState: { sortBy, pagination: !hideControls, pageSize: queryPageSize },
       manualPagination: isManual,
-      pageCount: isManual ? Math.ceil(count / queryPageSize) : null,
+      pageCount: isManual && count !== undefined ? Math.ceil(count / queryPageSize) : undefined,
     },
     useSortBy,
     usePagination,
@@ -136,12 +124,20 @@ const DataTable = ({
   }, [pageSize]);
 
   useEffect(() => {
-    setHiddenColumns(hiddenColumns);
+    if (hiddenColumns) setHiddenColumns(hiddenColumns);
   }, [hiddenColumns]);
 
   // If this is a manual DataTable, with a page index that is higher than 0 and higher than the max possible page, we send to index 0
   useEffect(() => {
-    if (isManual && data && isManual && pageIndex > 0 && Math.ceil(count / queryPageSize) - 1 < pageIndex) {
+    if (
+      isManual &&
+      setPageInfo &&
+      data &&
+      isManual &&
+      pageIndex > 0 &&
+      count !== undefined &&
+      Math.ceil(count / queryPageSize) - 1 < pageIndex
+    ) {
       gotoPage(0);
       setPageInfo({ index: 0, limit: queryPageSize });
     }
@@ -163,59 +159,79 @@ const DataTable = ({
   return (
     <>
       <Box minHeight={computedMinHeight()} position="relative">
-        <LoadingOverlay isLoading={isManual && isLoading}>
+        <LoadingOverlay isLoading={isManual !== undefined && isManual && isLoading !== undefined && isLoading}>
           <Table {...getTableProps()} size="small" textColor={textColor} w="100%">
             <Thead fontSize="14px">
-              {headerGroups.map((group) => (
-                <Tr {...group.getHeaderGroupProps()} key={uuid()}>
-                  {group.headers.map((column) => (
-                    <Th
-                      key={uuid()}
-                      color="gray.400"
-                      {...column.getHeaderProps()}
-                      minWidth={column.customMinWidth ?? null}
-                      maxWidth={column.customMaxWidth ?? null}
-                      width={column.customWidth ?? null}
-                    >
-                      <div
-                        {...column.getSortByToggleProps()}
-                        style={{ alignContent: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}
-                      >
-                        {column.render('Header')}
-                        <SortIcon
-                          isSorted={column.isSorted}
-                          isSortedDesc={column.isSortedDesc}
-                          canSort={column.canSort}
-                        />
-                      </div>
-                    </Th>
-                  ))}
-                </Tr>
-              ))}
+              {
+                // @ts-ignore
+                headerGroups.map((group) => (
+                  <Tr {...group.getHeaderGroupProps()} key={uuid()}>
+                    {
+                      // @ts-ignore
+                      group.headers.map((column) => (
+                        <Th
+                          color="gray.400"
+                          {...column.getHeaderProps()}
+                          // @ts-ignore
+                          minWidth={column.customMinWidth ?? null}
+                          // @ts-ignore
+                          maxWidth={column.customMaxWidth ?? null}
+                          // @ts-ignore
+                          width={column.customWidth ?? null}
+                        >
+                          <div
+                            // @ts-ignore
+                            {...column.getSortByToggleProps()}
+                            style={{ alignContent: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}
+                          >
+                            {column.render('Header')}
+                            <SortIcon
+                              // @ts-ignore
+                              isSorted={column.isSorted}
+                              // @ts-ignore
+                              isSortedDesc={column.isSortedDesc}
+                              // @ts-ignore
+                              canSort={column.canSort}
+                            />
+                          </div>
+                        </Th>
+                      ))
+                    }
+                  </Tr>
+                ))
+              }
             </Thead>
             {data.length > 0 && (
               <Tbody {...getTableBodyProps()}>
-                {page.map((row) => {
+                {page.map((row: Row) => {
                   prepareRow(row);
                   return (
                     <Tr {...row.getRowProps()} key={uuid()}>
-                      {row.cells.map((cell) => (
-                        <Td
-                          key={uuid()}
-                          px={1}
-                          minWidth={cell.column.customMinWidth ?? null}
-                          maxWidth={cell.column.customMaxWidth ?? null}
-                          width={cell.column.customWidth ?? null}
-                          textOverflow="ellipsis"
-                          overflow="hidden"
-                          whiteSpace="nowrap"
-                          fontSize="14px"
-                          textAlign={cell.column.isCentered ? 'center' : null}
-                          fontFamily={cell.column.isMonospace ? 'monospace' : null}
-                        >
-                          {cell.render('Cell')}
-                        </Td>
-                      ))}
+                      {
+                        // @ts-ignore
+                        row.cells.map((cell) => (
+                          <Td
+                            key={uuid()}
+                            px={1}
+                            // @ts-ignore
+                            minWidth={cell.column.customMinWidth ?? undefined}
+                            // @ts-ignore
+                            maxWidth={cell.column.customMaxWidth ?? undefined}
+                            // @ts-ignore
+                            width={cell.column.customWidth ?? undefined}
+                            textOverflow="ellipsis"
+                            overflow="hidden"
+                            whiteSpace="nowrap"
+                            fontSize="14px"
+                            // @ts-ignore
+                            textAlign={cell.column.isCentered ? 'center' : undefined}
+                            // @ts-ignore
+                            fontFamily={cell.column.isMonospace ? 'monospace' : undefined}
+                          >
+                            {cell.render('Cell')}
+                          </Td>
+                        ))
+                      }
                     </Tr>
                   );
                 })}
@@ -234,6 +250,7 @@ const DataTable = ({
           <Flex>
             <Tooltip label={t('table.first_page')}>
               <IconButton
+                aria-label="Go to first page"
                 onClick={() => gotoPage(0)}
                 isDisabled={!canPreviousPage}
                 icon={<ArrowLeftIcon h={3} w={3} />}
@@ -241,14 +258,19 @@ const DataTable = ({
               />
             </Tooltip>
             <Tooltip label={t('table.previous_page')}>
-              <IconButton onClick={previousPage} isDisabled={!canPreviousPage} icon={<ChevronLeftIcon h={6} w={6} />} />
+              <IconButton
+                aria-label="Previous page"
+                onClick={previousPage}
+                isDisabled={!canPreviousPage}
+                icon={<ChevronLeftIcon h={6} w={6} />}
+              />
             </Tooltip>
           </Flex>
 
           <Flex alignItems="center">
             {breakpoint !== 'base' && (
               <>
-                <Text flexShrink="0" mr={8}>
+                <Text flexShrink={0} mr={8}>
                   {t('table.page')}{' '}
                   <Text fontWeight="bold" as="span">
                     {pageIndex + 1}
@@ -258,15 +280,15 @@ const DataTable = ({
                     {pageOptions.length}
                   </Text>
                 </Text>
-                <Text flexShrink="0">{t('table.go_to_page')}</Text>{' '}
+                <Text flexShrink={0}>{t('table.go_to_page')}</Text>{' '}
                 <NumberInput
                   ml={2}
                   mr={8}
                   w={28}
                   min={1}
                   max={pageOptions.length}
-                  onChange={(value) => {
-                    const newPage = value ? value - 1 : 0;
+                  onChange={(_, numberValue) => {
+                    const newPage = numberValue ? numberValue - 1 : 0;
                     gotoPage(newPage);
                   }}
                   defaultValue={pageIndex + 1}
@@ -296,10 +318,16 @@ const DataTable = ({
 
           <Flex>
             <Tooltip label={t('table.next_page')}>
-              <IconButton onClick={nextPage} isDisabled={!canNextPage} icon={<ChevronRightIcon h={6} w={6} />} />
+              <IconButton
+                aria-label="Go to next page"
+                onClick={nextPage}
+                isDisabled={!canNextPage}
+                icon={<ChevronRightIcon h={6} w={6} />}
+              />
             </Tooltip>
             <Tooltip label={t('table.last_page')}>
               <IconButton
+                aria-label="Go to last page"
                 onClick={() => gotoPage(pageCount - 1)}
                 isDisabled={!canNextPage}
                 icon={<ArrowRightIcon h={3} w={3} />}
@@ -313,7 +341,6 @@ const DataTable = ({
   );
 };
 
-DataTable.propTypes = propTypes;
 DataTable.defaultProps = defaultProps;
 
 export default DataTable;

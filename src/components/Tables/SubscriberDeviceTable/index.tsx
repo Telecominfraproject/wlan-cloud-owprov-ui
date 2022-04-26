@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import { useGetSubscriberDevices } from 'hooks/Network/SubscriberDevices';
-import { DeviceCell } from 'models/Table';
+import { Column, DeviceCell } from 'models/Table';
 import { Device } from 'models/Device';
 
 interface Props {
@@ -43,8 +43,8 @@ const SubscriberDeviceTable: React.FC<Props> = ({
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
 
   // Columns array. This array contains your table headings and accessors which maps keys from data array
-  const columns = React.useMemo(() => {
-    const baseColumns = [
+  const columns = React.useMemo(
+    (): Column[] => [
       {
         id: 'serialNumber',
         Header: t('inventory.serial_number'),
@@ -76,7 +76,7 @@ const SubscriberDeviceTable: React.FC<Props> = ({
         Header: t('common.modified'),
         Footer: '',
         accessor: 'modified',
-        Cell: ({ cell }: { cell: DeviceCell }) => memoizedDate(cell, 'modified'),
+        Cell: ({ cell }) => memoizedDate(cell, 'modified'),
         customMinWidth: '150px',
         customWidth: '150px',
       },
@@ -93,14 +93,13 @@ const SubscriberDeviceTable: React.FC<Props> = ({
         Footer: '',
         accessor: 'Id',
         customWidth: '80px',
-        Cell: ({ cell }: { cell: DeviceCell }) => actionCell(cell),
+        Cell: ({ cell }) => actionCell(cell),
         disableSortBy: true,
         alwaysShow: true,
       },
-    ];
-
-    return baseColumns;
-  }, [disabledIds, actionCell]);
+    ],
+    [disabledIds, actionCell],
+  );
 
   useEffect(() => {
     if (setDevices) setDevices(subscriberDevices ?? []);

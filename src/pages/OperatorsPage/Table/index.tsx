@@ -108,6 +108,7 @@ const OperatorsTable: React.FC = () => {
             hiddenColumns={hiddenColumns}
             obj={t('operator.other')}
             count={count || 0}
+            // @ts-ignore
             setPageInfo={setPageInfo}
             fullScreen
             saveSettingsId="operators.table"

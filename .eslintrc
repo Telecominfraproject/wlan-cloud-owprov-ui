@@ -45,6 +45,7 @@
     "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-wrap-multilines": "off",
+    "react/require-default-props": "off",
     "react/jsx-curly-newline": "off",
     "no-underscore-dangle": "off",
     "react/function-component-definition": "off"

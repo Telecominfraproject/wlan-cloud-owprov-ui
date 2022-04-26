@@ -653,11 +653,14 @@
 		"title": "Usuarios"
 	},
 	"venues": {
+		"confirm_remove_contact": "¿Quieres eliminar este contacto de este lugar?",
 		"create_child": "Crear lugar secundario",
+		"error_remove_contact": "Error al intentar eliminar el contacto: {{e}}",
 		"error_update_devices": "Error al iniciar la actualización del dispositivo: {{e}}",
 		"go_to_page": "Ir a la página",
 		"one": "Lugar de encuentro",
 		"subvenues": "Subsedes",
+		"successfully_removed_contact": "¡Contacto eliminado con éxito!",
 		"successfully_update_devices": "¡Actualizando {{num}} dispositivos!",
 		"title": "Sedes",
 		"update_all_devices": "Actualizar todos los dispositivos"

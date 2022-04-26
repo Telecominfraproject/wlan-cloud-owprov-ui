@@ -653,11 +653,14 @@
 		"title": "Users"
 	},
 	"venues": {
+		"confirm_remove_contact": "Do you want to remove this contact from this venue?",
 		"create_child": "Create Child Venue",
+		"error_remove_contact": "Error while trying to remove contact: {{e}}",
 		"error_update_devices": "Error starting device update: {{e}}",
 		"go_to_page": "Go to page",
 		"one": "Venue",
 		"subvenues": "Sub-Venues",
+		"successfully_removed_contact": "Successfully removed contact!",
 		"successfully_update_devices": "Updating {{num}} devices!",
 		"title": "Venues",
 		"update_all_devices": "Update All Devices"
