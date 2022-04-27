@@ -112,14 +112,18 @@ export const testRegex = (str?: string, regex?: string) => {
 
 export const testPhoneNumberArray = (arr?: string[]) => {
   if (arr && arr.length > 0) {
-    for (const phone of arr) {
-      let testPhone = phone;
-      if (phone.charAt(0) !== '+') testPhone = `+${testPhone}`;
-      if (!isValidNumber(testPhone) || !isValidPhoneNumber(testPhone)) return false;
-      const phoneNumber = parsePhoneNumber(testPhone);
-      if (phoneNumber && !phoneNumber.isValid()) {
-        return false;
+    try {
+      for (const phone of arr) {
+        let testPhone = phone;
+        if (phone.charAt(0) !== '+') testPhone = `+${testPhone}`;
+        if (!isValidNumber(testPhone) || !isValidPhoneNumber(testPhone)) return false;
+        const phoneNumber = parsePhoneNumber(testPhone);
+        if (phoneNumber && !phoneNumber.isValid()) {
+          return false;
+        }
       }
+    } catch {
+      return false;
     }
   }
 
