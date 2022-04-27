@@ -42,9 +42,17 @@ const Vlan = ({ editing, index }) => {
   return (
     <>
       <Heading size="md" display="flex">
-        <Text>Vlan</Text>
-        <Switch onChange={onToggle} isChecked={isActive()} borderRadius="15px" size="lg" mx={2} isDisabled={!editing} />
-        {isActive && (
+        <Text pt={1}>Vlan</Text>
+        <Switch
+          pt={1}
+          onChange={onToggle}
+          isChecked={isActive()}
+          borderRadius="15px"
+          size="lg"
+          mx={2}
+          isDisabled={!editing}
+        />
+        {isActive() && (
           <ConfigurationResourcePicker
             name={`configuration[${index}].vlan`}
             prefix="interface.vlan"
