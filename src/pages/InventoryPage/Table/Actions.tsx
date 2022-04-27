@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
   Box,
@@ -17,67 +16,36 @@ import {
   PopoverTrigger,
   Tooltip,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react';
 import { ArrowSquareOut, MagnifyingGlass, Trash } from 'phosphor-react';
-import { useMutation } from 'react-query';
-import { axiosProv } from 'utils/axiosInstances';
-import { v4 as uuid } from 'uuid';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
+import { Device } from 'models/Device';
+import { useDeleteTag } from 'hooks/Network/Inventory';
+import DeviceActionDropdown from 'components/TableCells/DeviceActionDropdown';
 
-const deleteApi = async (id) => axiosProv.delete(`/inventory/${id}`).then(() => true);
+interface Props {
+  cell: { original: Device };
+  refreshTable: () => void;
+  openEditModal: (dev: Device) => void;
+  onOpenScan: (serialNumber: string) => void;
+  onOpenFactoryReset: (serialNumber: string) => void;
+  onOpenUpgradeModal: (serialNumber: string) => void;
+}
 
-const propTypes = {
-  cell: PropTypes.shape({
-    original: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      entity: PropTypes.string.isRequired,
-      serialNumber: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  refreshEntity: PropTypes.func.isRequired,
-  openEditModal: PropTypes.func.isRequired,
-};
-
-const Actions = ({ cell: { original: tag }, refreshEntity, openEditModal }) => {
+const Actions: React.FC<Props> = ({
+  cell: { original: tag },
+  refreshTable,
+  openEditModal,
+  onOpenScan,
+  onOpenFactoryReset,
+  onOpenUpgradeModal,
+}) => {
   const { t } = useTranslation();
-  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: gwUi } = useGetGatewayUi();
-  const deleteConfig = useMutation(() => deleteApi(tag.serialNumber), {
-    onSuccess: () => {
-      onClose();
-      refreshEntity();
-      toast({
-        id: `tag-delete-success${uuid()}`,
-        title: t('common.success'),
-        description: t('crud.success_delete_obj', {
-          obj: tag.name,
-        }),
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'top-right',
-      });
-    },
-    onError: (e) => {
-      toast({
-        id: 'tag-delete-error',
-        title: t('common.error'),
-        description: t('crud.error_delete_obj', {
-          obj: tag.name,
-          e: e?.response?.data?.ErrorDescription,
-        }),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top-right',
-      });
-    },
-  });
+  const { mutateAsync: deleteConfig, isLoading: isDeleting } = useDeleteTag({ name: tag.name, refreshTable, onClose });
 
-  const handleDeleteClick = () => deleteConfig.mutateAsync();
+  const handleDeleteClick = () => deleteConfig(tag.serialNumber);
   const handleOpenEdit = () => openEditModal(tag);
   const handleOpenInGateway = () => window.open(`${gwUi}/#/devices/${tag.serialNumber}`, '_blank');
 
@@ -87,7 +55,7 @@ const Actions = ({ cell: { original: tag }, refreshEntity, openEditModal }) => {
         <Tooltip hasArrow label={t('crud.delete')} placement="top" isDisabled={isOpen}>
           <Box>
             <PopoverTrigger>
-              <IconButton colorScheme="red" icon={<Trash size={20} />} size="sm" />
+              <IconButton aria-label="Open Device Delete" colorScheme="red" icon={<Trash size={20} />} size="sm" />
             </PopoverTrigger>
           </Box>
         </Tooltip>
@@ -103,18 +71,33 @@ const Actions = ({ cell: { original: tag }, refreshEntity, openEditModal }) => {
               <Button colorScheme="gray" mr="1" onClick={onClose}>
                 {t('common.cancel')}
               </Button>
-              <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={deleteConfig.isLoading}>
-                Yes
+              <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={isDeleting}>
+                {t('common.yes')}
               </Button>
             </Center>
           </PopoverFooter>
         </PopoverContent>
       </Popover>
+      <DeviceActionDropdown
+        device={tag}
+        refresh={refreshTable}
+        onOpenScan={onOpenScan}
+        onOpenFactoryReset={onOpenFactoryReset}
+        onOpenUpgradeModal={onOpenUpgradeModal}
+      />
       <Tooltip hasArrow label={t('common.view_details')} placement="top">
-        <IconButton ml={2} colorScheme="blue" icon={<MagnifyingGlass size={20} />} size="sm" onClick={handleOpenEdit} />
+        <IconButton
+          aria-label="Edit Device"
+          ml={2}
+          colorScheme="blue"
+          icon={<MagnifyingGlass size={20} />}
+          size="sm"
+          onClick={handleOpenEdit}
+        />
       </Tooltip>
       <Tooltip hasArrow label={t('common.view_in_gateway')} placement="top">
         <IconButton
+          aria-label="Go to device gateway page"
           ml={2}
           colorScheme="blue"
           icon={<ArrowSquareOut size={20} />}
@@ -125,7 +108,5 @@ const Actions = ({ cell: { original: tag }, refreshEntity, openEditModal }) => {
     </Flex>
   );
 };
-
-Actions.propTypes = propTypes;
 
 export default Actions;

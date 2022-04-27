@@ -15,7 +15,7 @@ interface Props {
   onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
-const SubscriberActions: React.FC<Props> = ({
+const DeviceActionDropdown: React.FC<Props> = ({
   device,
   refresh,
   isDisabled,
@@ -82,8 +82,8 @@ const SubscriberActions: React.FC<Props> = ({
   );
 };
 
-SubscriberActions.defaultProps = {
+DeviceActionDropdown.defaultProps = {
   isDisabled: false,
 };
 
-export default React.memo(SubscriberActions);
+export default React.memo(DeviceActionDropdown);

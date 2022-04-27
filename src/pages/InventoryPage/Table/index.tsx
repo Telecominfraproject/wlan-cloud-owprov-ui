@@ -1,21 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import DataTable from 'components/DataTable';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import { useTranslation } from 'react-i18next';
-import {
-  Box,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Switch,
-  useBoolean,
-  useDisclosure,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Flex, FormControl, FormLabel, Switch, useBoolean, useDisclosure } from '@chakra-ui/react';
 import { useGetInventoryCount, useGetInventoryTags, usePushConfig } from 'hooks/Network/Inventory';
 import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
@@ -26,33 +15,33 @@ import CreateConfigurationModal from 'components/Tables/InventoryTable/CreateTag
 import EntityCell from 'components/TableCells/EntityCell';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import DeviceSearchBar from 'components/SearchBars/DeviceSearch';
+import { Device } from 'models/Device';
+import { PageInfo } from 'models/Table';
+import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
+import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
+import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
+import VenueCell from 'components/TableCells/VenueCell';
 import Actions from './Actions';
 
-const propTypes = {
-  title: PropTypes.string,
-};
-
-const defaultProps = {
-  title: null,
-};
-
-const InventoryTable = ({ title }) => {
+const InventoryTable: React.FC = () => {
   const { t } = useTranslation();
-  const toast = useToast();
-  const [pageInfo, setPageInfo] = useState(null);
+  const [pageInfo, setPageInfo] = useState<PageInfo | undefined>(undefined);
   const [onlyUnassigned, setOnlyUnassigned] = useBoolean(false);
-  const [tag, setTag] = useState(null);
+  const [serialNumber, setSerialNumber] = useState<string>('');
+  const [tag, setTag] = useState<Device | { serialNumber: string } | undefined>(undefined);
   const { isOpen: isEditOpen, onOpen: openEdit, onClose: closeEdit } = useDisclosure();
   const { isOpen: isPushOpen, onOpen: openPush, onClose: closePush } = useDisclosure();
-  const pushConfiguration = usePushConfig({ t, toast, onSuccess: () => openPush() });
-  const [hiddenColumns, setHiddenColumns] = useState([]);
+  const scanModalProps = useDisclosure();
+  const resetModalProps = useDisclosure();
+  const upgradeModalProps = useDisclosure();
+  const pushConfiguration = usePushConfig({ onSuccess: () => openPush() });
+  const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
   const {
     data: count,
     isFetching: isFetchingCount,
     refetch: refetchCount,
   } = useGetInventoryCount({
-    t,
-    toast,
+    enabled: true,
     onlyUnassigned,
   });
   const {
@@ -60,21 +49,41 @@ const InventoryTable = ({ title }) => {
     isFetching: isFetchingTags,
     refetch: refetchTags,
   } = useGetInventoryTags({
-    t,
-    toast,
     pageInfo,
     enabled: pageInfo !== null,
     count,
     onlyUnassigned,
   });
+  const onOpenScan = (serial: string) => {
+    setSerialNumber(serial);
+    scanModalProps.onOpen();
+  };
+  const onOpenFactoryReset = (serial: string) => {
+    setSerialNumber(serial);
+    resetModalProps.onOpen();
+  };
+  const onOpenUpgradeModal = (serial: string) => {
+    setSerialNumber(serial);
+    upgradeModalProps.onOpen();
+  };
 
-  const openEditModal = (newTag) => {
+  const openEditModal = (newTag: Device | { serialNumber: string }) => {
     setTag(newTag);
     openEdit();
   };
 
   const memoizedActions = useCallback(
-    (cell) => <Actions cell={cell.row} refreshTable={refetchCount} key={uuid()} openEditModal={openEditModal} />,
+    (cell) => (
+      <Actions
+        cell={cell.row}
+        refreshTable={refetchCount}
+        key={uuid()}
+        openEditModal={openEditModal}
+        onOpenScan={onOpenScan}
+        onOpenFactoryReset={onOpenFactoryReset}
+        onOpenUpgradeModal={onOpenUpgradeModal}
+      />
+    ),
     [],
   );
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
@@ -85,9 +94,15 @@ const InventoryTable = ({ title }) => {
     ),
     [],
   );
+  const venueCell = useCallback(
+    (cell) => (
+      <VenueCell venueName={cell.row.original.extendedInfo?.venue?.name ?? ''} venueId={cell.row.original.venue} />
+    ),
+    [],
+  );
 
-  const onSearchClick = useCallback((serialNumber) => {
-    openEditModal({ serialNumber });
+  const onSearchClick = useCallback((serial: string) => {
+    openEditModal({ serialNumber: serial });
   }, []);
 
   const columns = React.useMemo(() => {
@@ -116,7 +131,7 @@ const InventoryTable = ({ title }) => {
         Header: t('entities.one'),
         Footer: '',
         accessor: 'extendedInfo.entity.name',
-        Cell: ({ cell }) => entityCell(cell),
+        Cell: ({ cell }: { cell: unknown }) => entityCell(cell),
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
@@ -126,6 +141,7 @@ const InventoryTable = ({ title }) => {
         Header: t('venues.one'),
         Footer: '',
         accessor: 'extendedInfo.venue.name',
+        Cell: ({ cell }: { cell: unknown }) => venueCell(cell),
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
@@ -151,7 +167,7 @@ const InventoryTable = ({ title }) => {
         Header: t('common.created'),
         Footer: '',
         accessor: 'created',
-        Cell: ({ cell }) => memoizedDate(cell, 'created'),
+        Cell: ({ cell }: { cell: unknown }) => memoizedDate(cell, 'created'),
         customMinWidth: '150px',
         customWidth: '150px',
       },
@@ -161,7 +177,7 @@ const InventoryTable = ({ title }) => {
         Footer: '',
         accessor: 'Id',
         customWidth: '80px',
-        Cell: ({ cell }) => memoizedActions(cell),
+        Cell: ({ cell }: { cell: unknown }) => memoizedActions(cell),
         disableSortBy: true,
         alwaysShow: true,
       },
@@ -178,9 +194,6 @@ const InventoryTable = ({ title }) => {
     <>
       <Card>
         <CardHeader mb="10px">
-          <Box>
-            <Heading size="md">{title}</Heading>
-          </Box>
           <Box w="300px">
             <DeviceSearchBar onClick={onSearchClick} />
           </Box>
@@ -204,7 +217,7 @@ const InventoryTable = ({ title }) => {
                 preference="provisioning.inventoryTable.hiddenColumns"
               />
               <CreateConfigurationModal refresh={refetchCount} />
-              <RefreshButton onClick={refetchCount} isLoading={isFetchingCount || isFetchingTags} ml={2} />
+              <RefreshButton onClick={refetchCount} isFetching={isFetchingCount || isFetchingTags} ml={2} />
             </Box>
           </Flex>
         </CardHeader>
@@ -233,11 +246,11 @@ const InventoryTable = ({ title }) => {
         pushConfig={pushConfiguration}
       />
       <ConfigurationPushModal isOpen={isPushOpen} onClose={closePush} pushResult={pushConfiguration.data} />
+      <WifiScanModal modalProps={scanModalProps} serialNumber={serialNumber} />
+      <FirmwareUpgradeModal modalProps={upgradeModalProps} serialNumber={serialNumber} />
+      <FactoryResetModal modalProps={resetModalProps} serialNumber={serialNumber} />
     </>
   );
 };
-
-InventoryTable.propTypes = propTypes;
-InventoryTable.defaultProps = defaultProps;
 
 export default InventoryTable;

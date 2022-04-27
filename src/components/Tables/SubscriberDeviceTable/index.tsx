@@ -10,7 +10,7 @@ import { Device } from 'models/Device';
 interface Props {
   actions: (cell: DeviceCell) => React.ReactElement;
   operatorId: string;
-  subscriberId: string;
+  subscriberId?: string;
   setDevices?: React.Dispatch<React.SetStateAction<Device[]>>;
   ignoredColumns?: string[];
   refreshId?: number;
@@ -29,7 +29,7 @@ const defaultProps = {
 const SubscriberDeviceTable: React.FC<Props> = ({
   actions,
   operatorId,
-  subscriberId,
+  subscriberId = '',
   setDevices,
   ignoredColumns,
   refreshId,

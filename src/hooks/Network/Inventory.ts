@@ -1,8 +1,24 @@
+import { useToast } from '@chakra-ui/react';
+import { AxiosError } from 'axios';
+import { PageInfo } from 'models/Table';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
+import { v4 as uuid } from 'uuid';
 
-export const useGetInventoryCount = ({ t, toast, enabled, onlyUnassigned = false, isSubscribersOnly }) =>
-  useQuery(
+export const useGetInventoryCount = ({
+  enabled,
+  onlyUnassigned = false,
+  isSubscribersOnly = false,
+}: {
+  enabled: boolean;
+  onlyUnassigned?: boolean;
+  isSubscribersOnly?: boolean;
+}) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-inventory-count', onlyUnassigned],
     () =>
       axiosProv
@@ -14,7 +30,7 @@ export const useGetInventoryCount = ({ t, toast, enabled, onlyUnassigned = false
         .then(({ data }) => data.count),
     {
       enabled,
-      onError: (e) => {
+      onError: (e: AxiosError) => {
         if (!toast.isActive('inventory-fetching-error'))
           toast({
             id: 'inventory-fetching-error',
@@ -31,18 +47,28 @@ export const useGetInventoryCount = ({ t, toast, enabled, onlyUnassigned = false
       },
     },
   );
+};
 
 export const useGetInventoryTags = ({
-  t,
-  toast,
   pageInfo,
   owner,
   tagSelect,
   enabled,
   count,
   onlyUnassigned = false,
-  isSubscribersOnly,
+  isSubscribersOnly = false,
+}: {
+  pageInfo?: PageInfo;
+  owner?: string;
+  tagSelect?: string[];
+  enabled: boolean;
+  count?: number;
+  onlyUnassigned?: boolean;
+  isSubscribersOnly?: boolean;
 }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
   if (tagSelect !== undefined && tagSelect !== null) {
     return useQuery(
       ['get-inventory-with-select', tagSelect],
@@ -60,7 +86,7 @@ export const useGetInventoryTags = ({
         enabled,
         staleTime: 30000,
         keepPreviousData: true,
-        onError: (e) => {
+        onError: (e: AxiosError) => {
           if (!toast.isActive('get-inventory-tags-fetching-error'))
             toast({
               id: 'get-inventory-tags-fetching-error',
@@ -84,7 +110,7 @@ export const useGetInventoryTags = ({
       () => axiosProv.get(`inventory?serialOnly=true&subscriber=${owner}`).then(({ data }) => data.serialNumbers),
       {
         enabled,
-        onError: (e) => {
+        onError: (e: AxiosError) => {
           if (!toast.isActive('get-inventory-tags-fetching-error'))
             toast({
               id: 'get-inventory-tags-fetching-error',
@@ -117,7 +143,7 @@ export const useGetInventoryTags = ({
       keepPreviousData: true,
       enabled,
       staleTime: 30000,
-      onError: (e) => {
+      onError: (e: AxiosError) => {
         if (!toast.isActive('get-inventory-tags-fetching-error'))
           toast({
             id: 'get-inventory-tags-fetching-error',
@@ -136,13 +162,16 @@ export const useGetInventoryTags = ({
   );
 };
 
-export const useGetTag = ({ t, toast, enabled, serialNumber }) =>
-  useQuery(
+export const useGetTag = ({ enabled, serialNumber }: { enabled: boolean; serialNumber: string }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-inventory-tag', serialNumber],
     () => axiosProv.get(`inventory/${serialNumber}`).then(({ data }) => data),
     {
       enabled,
-      onError: (e) => {
+      onError: (e: AxiosError) => {
         if (!toast.isActive('tag-fetching-error'))
           toast({
             id: 'tag-fetching-error',
@@ -159,14 +188,18 @@ export const useGetTag = ({ t, toast, enabled, serialNumber }) =>
       },
     },
   );
+};
 
-export const useGetComputedConfiguration = ({ t, toast, enabled, serialNumber }) =>
-  useQuery(
+export const useGetComputedConfiguration = ({ enabled, serialNumber }: { enabled: boolean; serialNumber: string }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
     ['get-tag-computed-configuration', serialNumber],
     () => axiosProv.get(`inventory/${serialNumber}?config=true&explain=true`).then(({ data }) => data),
     {
       enabled,
-      onError: (e) => {
+      onError: (e: AxiosError) => {
         if (!toast.isActive('tag-computed-configuration-fetching-error'))
           toast({
             id: 'tag-fetching-error',
@@ -183,14 +216,22 @@ export const useGetComputedConfiguration = ({ t, toast, enabled, serialNumber })
       },
     },
   );
+};
 
-export const usePushConfig = ({ t, toast, onSuccess }) =>
-  useMutation(
+export const usePushConfig = ({
+  onSuccess,
+}: {
+  onSuccess: (data?: unknown, variables?: void, context?: unknown) => void;
+}) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useMutation(
     ['apply-tag-configuration'],
     (serialNumber) => axiosProv.get(`inventory/${serialNumber}?applyConfiguration=true`).then(({ data }) => data),
     {
       onSuccess,
-      onError: (e) => {
+      onError: (e: AxiosError) => {
         if (!toast.isActive('apply-tag-configuration'))
           toast({
             id: 'apply-tag-configuration-error',
@@ -206,40 +247,49 @@ export const usePushConfig = ({ t, toast, onSuccess }) =>
       },
     },
   );
-
-const claimDevices = async (serialNumbers, entity, isVenue) => {
-  const unassignPromises = serialNumbers.map(async (serialNumber) =>
-    axiosProv
-      .put(`inventory/${serialNumber}?unassign=true`, {})
-      .then(() => ({
-        serialNumber,
-      }))
-      .catch(() => ({ serialNumber, error: true })),
-  );
-
-  const addPromises = serialNumbers.map(async (serialNumber) =>
-    axiosProv
-      .put(`inventory/${serialNumber}`, {
-        entity: !isVenue ? entity : undefined,
-        venue: isVenue ? entity : undefined,
-      })
-      .then(() => ({
-        serialNumber,
-      }))
-      .catch(() => ({ serialNumber, error: true })),
-  );
-
-  const unassignResults = await Promise.all(unassignPromises);
-  const unassignErrors = await unassignResults.filter((res) => res.error).map((res) => res.serialNumber);
-
-  const claimResults = await Promise.all(addPromises);
-  const claimErrors = claimResults.filter((res) => res.error).map((res) => res.serialNumber);
-
-  return { claimErrors, unassignErrors };
 };
 
-export const useClaimInventory = ({ entity, isVenue }) =>
-  useMutation((serialNumbers) => claimDevices(serialNumbers, entity, isVenue));
+export const useDeleteTag = ({
+  name,
+  onClose,
+  refreshTable,
+}: {
+  name: string;
+  onClose?: () => void;
+  refreshTable?: () => void;
+}) => {
+  const { t } = useTranslation();
+  const toast = useToast();
 
-export const useRemoveClaim = () =>
-  useMutation((serialNumber) => axiosProv.put(`inventory/${serialNumber}?unassign=true`, {}));
+  return useMutation((id: string) => axiosProv.delete(`/inventory/${id}`), {
+    onSuccess: () => {
+      if (onClose) onClose();
+      if (refreshTable) refreshTable();
+      toast({
+        id: `tag-delete-success${uuid()}`,
+        title: t('common.success'),
+        description: t('crud.success_delete_obj', {
+          obj: name,
+        }),
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+    onError: (e: AxiosError) => {
+      toast({
+        id: 'tag-delete-error',
+        title: t('common.error'),
+        description: t('crud.error_delete_obj', {
+          obj: name,
+          e: e?.response?.data?.ErrorDescription,
+        }),
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+  });
+};

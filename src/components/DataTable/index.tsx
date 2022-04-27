@@ -29,14 +29,14 @@ import { ArrowRightIcon, ArrowLeftIcon, ChevronRightIcon, ChevronLeftIcon } from
 import { useTable, usePagination, useSortBy, Row } from 'react-table';
 import { useTranslation } from 'react-i18next';
 import LoadingOverlay from 'components/LoadingOverlay';
-import { Column } from 'models/Table';
+import { Column, PageInfo } from 'models/Table';
 import SortIcon from './SortIcon';
 
 interface Props {
   columns: Column[];
   data: object[];
   count?: number;
-  setPageInfo?: ({ index, limit }: { index: number; limit: number }) => void;
+  setPageInfo?: React.Dispatch<React.SetStateAction<PageInfo | undefined>>;
   isLoading?: boolean;
   obj: string;
   sortBy?: { id: string; desc: boolean }[];
