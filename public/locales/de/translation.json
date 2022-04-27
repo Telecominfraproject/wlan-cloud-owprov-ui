@@ -642,6 +642,7 @@
 		"title": "Nutzer"
 	},
 	"users": {
+		"email_validation": "E-MAIL-VALIDIERUNG",
 		"error_fetching": "Fehler beim Abrufen der Nutzer: {{e}}",
 		"error_sending_validation": "Fehler beim Senden der E-Mail-Validierung: {{e}}",
 		"last_login": "Letzte Anmeldung",

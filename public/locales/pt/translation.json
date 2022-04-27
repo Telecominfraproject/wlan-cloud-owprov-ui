@@ -642,6 +642,7 @@
 		"title": "Do utilizador"
 	},
 	"users": {
+		"email_validation": "Validação de E-mail",
 		"error_fetching": "Erro ao buscar usuários: {{e}}",
 		"error_sending_validation": "Erro ao enviar validação de e-mail: {{e}}",
 		"last_login": "Último login",

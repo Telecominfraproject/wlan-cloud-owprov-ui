@@ -10,6 +10,7 @@ import { CreateUserNonRootSchema, CreateUserSchema } from 'constants/formSchemas
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import useApiRequirements from 'hooks/useApiRequirements';
+import ToggleField from 'components/FormFields/ToggleField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -26,7 +27,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
   const [formKey, setFormKey] = useState(uuid());
   const { passwordPolicyLink, passwordPattern } = useApiRequirements();
 
-  const createParameters = ({ name, description, email, currentPassword, note, userRole }) => {
+  const createParameters = ({ name, description, email, currentPassword, note, userRole, emailValidation }) => {
     if (userRole === 'root') {
       return {
         name,
@@ -35,6 +36,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
         userRole,
         description: description.length > 0 ? description : undefined,
         notes: note.length > 0 ? [{ note }] : undefined,
+        emailValidation,
       };
     }
     return {
@@ -44,6 +46,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
       userRole,
       description: description.length > 0 ? description : undefined,
       notes: note.length > 0 ? [{ note }] : undefined,
+      emailValidation,
     };
   };
 
@@ -62,6 +65,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
         currentPassword: '',
         note: '',
         userRole: user.userRole === 'admin' ? 'csr' : user.userRole,
+        emailValidation: true,
       }}
       validationSchema={
         user?.userRole === 'root'
@@ -134,6 +138,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
               isRequired
               hideButton
             />
+            <ToggleField name="emailValidation" label={t('users.email_validation')} errors={errors} touched={touched} />
             <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>
