@@ -471,6 +471,7 @@
 		"invalid_mac_uc": "Ungültiger UC-MAC-Wert, zum Beispiel: 00:00:5e:00:53:af",
 		"invalid_password": "Ungültiges Passwort, bitte sehen Sie sich die Passwortrichtlinie an",
 		"invalid_phone_number": "Ungültige Telefonnummer",
+		"invalid_phone_numbers": "Mindestens eine der Telefonnummern ist ungültig. Bitte geben Sie sie ohne Symbole und Leerzeichen oder in diesem Format an: +1(123)123-1234",
 		"key_file_explanation": "Bitte verwenden Sie eine .pem-Datei, die mit „-----BEGIN PRIVATE KEY-----“ beginnt und mit „-----END PRIVATE KEY-----“ endet.",
 		"min_max_string": "Der Wert muss eine Länge zwischen {{min}} (einschließlich) und {{max}} (einschließlich) haben.",
 		"new_email_to_notify": "Neue E-Mail zur Benachrichtigung",

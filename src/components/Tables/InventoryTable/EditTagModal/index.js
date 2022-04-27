@@ -21,7 +21,6 @@ import SaveButton from 'components/Buttons/SaveButton';
 import EditButton from 'components/Buttons/EditButton';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
-import { TagShape } from 'constants/propShapes';
 import { useGetComputedConfiguration, useGetTag } from 'hooks/Network/Inventory';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import { PaperPlaneTilt } from 'phosphor-react';
@@ -30,7 +29,10 @@ import EditTagForm from './Form';
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  tag: PropTypes.shape(TagShape),
+  tag: PropTypes.shape({
+    serialNumber: PropTypes.string.isRequired,
+    name: PropTypes.stirng,
+  }),
   refresh: PropTypes.func.isRequired,
   pushConfig: PropTypes.instanceOf(Object).isRequired,
 };

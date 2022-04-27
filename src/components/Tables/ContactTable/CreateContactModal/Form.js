@@ -10,7 +10,6 @@ import { useCreateContact } from 'hooks/Network/Contacts';
 import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import { useQueryClient } from 'react-query';
-import MultiPhoneNumberField from 'components/CustomFields/MultiPhoneNumberField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -190,7 +189,7 @@ const CreateContactForm = ({ isOpen, onClose, refresh, formRef, parent, onCreate
               errors={errors}
               touched={touched}
             />
-            <MultiPhoneNumberField
+            <CreatableSelectField
               name="phones"
               label={t('contacts.phones')}
               errors={errors}

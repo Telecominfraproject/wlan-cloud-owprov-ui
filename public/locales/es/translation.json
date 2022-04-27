@@ -471,6 +471,7 @@
 		"invalid_mac_uc": "Valor de UC-MAC no válido, por ejemplo: 00:00:5e:00:53:af",
 		"invalid_password": "Contraseña no válida, consulte la política de contraseñas",
 		"invalid_phone_number": "Numero de telefono invalido",
+		"invalid_phone_numbers": "Uno o más de los números de teléfono no son válidos. Proporciónelos sin símbolos ni espacios, o en este formato: +1(123)123-1234",
 		"key_file_explanation": "Utilice un archivo .pem que comience con \"-----BEGIN PRIVATE KEY-----\" y termine con \"-----END PRIVATE KEY-----\"",
 		"min_max_string": "El valor debe tener una longitud entre {{min}} (inclusive) y {{max}} (inclusive)",
 		"new_email_to_notify": "Nuevo correo electrónico para notificar",

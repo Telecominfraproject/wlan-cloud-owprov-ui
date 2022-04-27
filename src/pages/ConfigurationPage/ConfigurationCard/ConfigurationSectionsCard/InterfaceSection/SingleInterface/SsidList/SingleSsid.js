@@ -41,7 +41,9 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
   return (
     <Card mb={4}>
       <CardHeader flex="auto">
-        <Heading size="md">#{index}</Heading>
+        <Heading size="md" mr={2} pt={2}>
+          #{index}
+        </Heading>
         <ConfigurationResourcePicker
           name={namePrefix}
           prefix="interface.ssid"

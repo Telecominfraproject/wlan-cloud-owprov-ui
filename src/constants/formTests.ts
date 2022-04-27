@@ -1,4 +1,6 @@
 /* eslint-disable max-len */
+import { isValidNumber, isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
+
 export const testIpv4 = (ip?: string) => {
   const ipv4RegExp = /^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$/gi;
   if (ip) {
@@ -105,5 +107,25 @@ export const testRegex = (str?: string, regex?: string) => {
   if (str && regex) {
     return str.match(regex) !== null;
   }
+  return true;
+};
+
+export const testPhoneNumberArray = (arr?: string[]) => {
+  if (arr && arr.length > 0) {
+    try {
+      for (const phone of arr) {
+        let testPhone = phone;
+        if (phone.charAt(0) !== '+') testPhone = `+${testPhone}`;
+        if (!isValidNumber(testPhone) || !isValidPhoneNumber(testPhone)) return false;
+        const phoneNumber = parsePhoneNumber(testPhone);
+        if (phoneNumber && !phoneNumber.isValid()) {
+          return false;
+        }
+      }
+    } catch {
+      return false;
+    }
+  }
+
   return true;
 };
