@@ -1,6 +1,6 @@
 import phoneNumberTest from 'utils/phoneNumber';
 import * as Yup from 'yup';
-import { testRegex } from './formTests';
+import { testPhoneNumberArray, testRegex } from './formTests';
 
 // User Schemas
 export const CreateUserSchema = (t: (str: string) => string, { passRegex }: { passRegex: string }) =>
@@ -284,8 +284,12 @@ export const CreateContactSchema = (t: (str: string) => string) =>
     initials: Yup.string(),
     primaryEmail: Yup.string().email(t('form.invalid_email')).required(t('form.required')),
     secondaryEmail: Yup.string().email(t('form.invalid_email')),
-    phones: Yup.array().of(Yup.string()),
-    mobiles: Yup.array().of(Yup.string()),
+    phones: Yup.array()
+      .of(Yup.string())
+      .test('test-phones', t('form.invalid_phone_numbers'), (v) => testPhoneNumberArray(v as string[])),
+    mobiles: Yup.array()
+      .of(Yup.string())
+      .test('test-mobiles', t('form.invalid_phone_numbers'), (v) => testPhoneNumberArray(v as string[])),
     description: Yup.string(),
     accessPIN: Yup.string(),
     entity: Yup.string().required(t('form.required')),
@@ -389,8 +393,12 @@ export const SubscriberDeviceContactSchema = (t: (str: string) => string) =>
     initials: Yup.string(),
     primaryEmail: Yup.string().email(t('form.invalid_email')).required(t('form.required')),
     secondaryEmail: Yup.string().email(t('form.invalid_email')),
-    phones: Yup.array().of(Yup.string()),
-    mobiles: Yup.array().of(Yup.string()),
+    phones: Yup.array()
+      .of(Yup.string())
+      .test('test-phones', t('form.invalid_phone_numbers'), (v) => testPhoneNumberArray(v as string[])),
+    mobiles: Yup.array()
+      .of(Yup.string())
+      .test('test-mobiles', t('form.invalid_phone_numbers'), (v) => testPhoneNumberArray(v as string[])),
     accessPIN: Yup.string(),
   });
 
