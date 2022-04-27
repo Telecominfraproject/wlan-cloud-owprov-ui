@@ -28,7 +28,7 @@ const EditOperatorForm = ({ editing, operator, formRef, stopEditing }) => {
   const updateOperator = useUpdateOperator({ id: operator.id });
   const { onSuccess, onError } = useMutationResult({
     objName: t('operator.one'),
-    operationType: 'create',
+    operationType: 'update',
     onClose: stopEditing,
     queryToInvalidate: ['get-operator', operator.id],
   });
