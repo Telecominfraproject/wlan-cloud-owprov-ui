@@ -16,12 +16,6 @@ const SubscriberSearchModal: React.FC<Props> = ({ operatorId }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [results, setResults] = useState<Subscriber[]>([]);
-  /* const navigate = useNavigate();
-
-  const handleSubscriberClick = (id: string) => {
-    onClose();
-    navigate(`/subscriber/${id}`);
-  }; */
 
   return (
     <>

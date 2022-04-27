@@ -655,11 +655,13 @@
 		"reset_password_success": "Successfully sent reset password email to user email address",
 		"role": "Role",
 		"send_validation": "Send Email Validation",
+		"send_validation_explanation": "Do you want to resend the email verification link?",
 		"stop_suspension": "Re-activate",
 		"success_sending_validation": "Validation email sent!",
 		"suspend": "Suspend",
 		"suspended": "Suspended",
-		"title": "Users"
+		"title": "Users",
+		"waitiing_for_email_verification": "Email Not Verified"
 	},
 	"venues": {
 		"confirm_remove_contact": "Do you want to remove this contact from this venue?",

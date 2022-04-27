@@ -13,6 +13,7 @@ import EditSubscriberForm from './Form';
 import DeleteVenuePopover from './DeletePopover';
 import SuspendedNotification from './SuspendedNotification';
 import Actions from './Actions';
+import WaitingForVerification from './WaitingForVerification';
 
 interface Props {
   id: string;
@@ -31,6 +32,12 @@ const SubscriberCard: React.FC<Props> = ({ id }) => {
             {subscriber?.name}
           </Heading>
           <SuspendedNotification id={id} refresh={refetch} isSuspended={subscriber?.suspended} isDisabled={editing} />
+          <WaitingForVerification
+            id={id}
+            refresh={refetch}
+            isWaitingForEmailVerification={subscriber?.waitingForEmailCheck}
+            isDisabled={editing}
+          />
         </Flex>
         <Spacer />
         <Box>
