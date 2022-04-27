@@ -34,7 +34,9 @@ const CreateUserModal = ({ requirements, refreshUsers }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const { form, formRef } = useFormRef();
-  const createUser = useMutation((newUser) => axiosSec.post('user/0?email_verification=true', newUser));
+  const createUser = useMutation((newUser) =>
+    axiosSec.post(`user/0${newUser.emailValidation ? '?email_verification=true' : ''}`, newUser),
+  );
 
   const closeModal = () => (form.dirty ? openConfirm() : onClose());
 
