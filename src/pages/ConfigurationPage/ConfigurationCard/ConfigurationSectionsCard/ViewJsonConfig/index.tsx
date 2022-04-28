@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import {
   Button,
@@ -16,30 +15,28 @@ import { useTranslation } from 'react-i18next';
 import { ArrowsOut } from 'phosphor-react';
 import ModalHeader from 'components/Modals/ModalHeader';
 import CloseButton from 'components/Buttons/CloseButton';
+import { InterfaceProps } from 'models/ConfigurationSections/Interfaces';
+import useInterfacesJsonDisplay from './useInterfacesJsonDisplay';
 
-const propTypes = {
-  configurations: PropTypes.instanceOf(Object).isRequired,
-  activeConfigurations: PropTypes.arrayOf(PropTypes.string).isRequired,
-  isDisabled: PropTypes.bool,
-};
+interface Props {
+  configurations: {
+    globals?: string;
+    unit?: string;
+    metrics?: string;
+    services?: string;
+    radios?: string;
+    interfaces?: {
+      configuration: InterfaceProps[];
+    };
+  };
+  activeConfigurations: string[];
+  isDisabled?: boolean;
+}
 
-const defaultProps = {
-  isDisabled: false,
-};
-
-const tryParseInter = (inter) => {
-  const obj = inter;
-  try {
-    const res = JSON.parse(inter.configuration);
-    return (obj.interfaces = res);
-  } catch {
-    return { ...obj };
-  }
-};
-
-const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled }) => {
+const ViewJsonConfigModal: React.FC<Props> = ({ configurations, activeConfigurations, isDisabled }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const interfaces = useInterfacesJsonDisplay({ interfaces: configurations.interfaces?.configuration, isOpen });
   const breakpoint = useBreakpoint();
 
   return (
@@ -58,6 +55,7 @@ const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled 
       ) : (
         <Tooltip label={t('common.view_json')}>
           <IconButton
+            aria-label="Show JSON Configuration"
             colorScheme="gray"
             type="button"
             onClick={onOpen}
@@ -83,9 +81,7 @@ const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled 
                   metrics: activeConfigurations.includes('metrics') ? configurations.metrics : undefined,
                   services: activeConfigurations.includes('services') ? configurations.services : undefined,
                   radios: activeConfigurations.includes('radios') ? configurations.radios : undefined,
-                  interfaces: activeConfigurations.includes('interfaces')
-                    ? tryParseInter(configurations.interfaces)
-                    : undefined,
+                  interfaces,
                 },
                 null,
                 2,
@@ -97,8 +93,5 @@ const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled 
     </>
   );
 };
-
-ViewJsonConfigModal.propTypes = propTypes;
-ViewJsonConfigModal.defaultProps = defaultProps;
 
 export default React.memo(ViewJsonConfigModal, isEqual);

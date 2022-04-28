@@ -14,7 +14,7 @@ import { GLOBALS_SCHEMA } from './GlobalsSection/globalsConstants';
 import { UNIT_SCHEMA } from './UnitSection/unitConstants';
 import UnitSection from './UnitSection';
 import AddSubsectionModal from './AddSubsectionModal';
-import ViewJsonConfigModal from './ViewJsonConfigModal';
+import ViewJsonConfigModal from './ViewJsonConfig';
 import ViewConfigErrorsModal from './ViewConfigErrorsModal';
 import { METRICS_SCHEMA } from './MetricsSection/metricsConstants';
 import MetricsSection from './MetricsSection';

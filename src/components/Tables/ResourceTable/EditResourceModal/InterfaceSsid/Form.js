@@ -108,7 +108,13 @@ const InterfaceSsidForm = ({ editing }) => {
           falseIsUndefined
           isDisabled={!editing}
         />
-        <ToggleField name="proxy-arp" label="proxy-arp" definitionKey="interface.ssid.proxy-arp" falseIsUndefined />
+        <ToggleField
+          name="proxy-arp"
+          label="proxy-arp"
+          definitionKey="interface.ssid.proxy-arp"
+          falseIsUndefined
+          isDisabled={!editing}
+        />
         <ToggleField
           name="disassoc-low-ack"
           label="disassoc-low-ack"
