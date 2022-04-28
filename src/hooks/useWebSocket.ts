@@ -8,7 +8,7 @@ const commandsResultType: Record<
   'serial_number_search' | 'address_completion' | 'subuser_search' | 'subdevice_search',
   'array' | 'object' | 'users' | 'serialNumbers'
 > = {
-  serial_number_search: 'array',
+  serial_number_search: 'serialNumbers',
   address_completion: 'object',
   subuser_search: 'users',
   subdevice_search: 'serialNumbers',
