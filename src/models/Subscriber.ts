@@ -4,6 +4,7 @@ export interface Subscriber {
   name: string;
   description: string;
   currentPassword?: string;
+  waitingForEmailCheck?: boolean;
   id: string;
   suspended: boolean;
   owner: string;
@@ -14,6 +15,7 @@ export interface EditingSubscriber {
   name?: string;
   description?: string;
   currentPassword?: string;
+  emailValidation?: boolean;
   id?: string;
   suspended?: boolean;
   owner?: string;

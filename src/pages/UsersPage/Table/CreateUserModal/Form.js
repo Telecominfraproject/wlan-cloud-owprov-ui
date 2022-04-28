@@ -27,7 +27,16 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
   const [formKey, setFormKey] = useState(uuid());
   const { passwordPolicyLink, passwordPattern } = useApiRequirements();
 
-  const createParameters = ({ name, description, email, currentPassword, note, userRole, emailValidation }) => {
+  const createParameters = ({
+    name,
+    description,
+    email,
+    currentPassword,
+    note,
+    userRole,
+    emailValidation,
+    changePassword,
+  }) => {
     if (userRole === 'root') {
       return {
         name,
@@ -37,6 +46,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
         description: description.length > 0 ? description : undefined,
         notes: note.length > 0 ? [{ note }] : undefined,
         emailValidation,
+        changePassword,
       };
     }
     return {
@@ -47,6 +57,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
       description: description.length > 0 ? description : undefined,
       notes: note.length > 0 ? [{ note }] : undefined,
       emailValidation,
+      changePassword,
     };
   };
 
@@ -65,6 +76,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
         currentPassword: '',
         note: '',
         userRole: user.userRole === 'admin' ? 'csr' : user.userRole,
+        changePassword: true,
         emailValidation: true,
       }}
       validationSchema={
@@ -138,6 +150,7 @@ const CreateUserForm = ({ isOpen, onClose, createUser, refreshUsers, formRef }) 
               isRequired
               hideButton
             />
+            <ToggleField name="changePassword" label={t('users.change_password')} errors={errors} touched={touched} />
             <ToggleField name="emailValidation" label={t('users.email_validation')} errors={errors} touched={touched} />
             <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />

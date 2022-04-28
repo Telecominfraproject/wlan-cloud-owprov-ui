@@ -10,6 +10,7 @@ import useMutationResult from 'hooks/useMutationResult';
 import { useCreateSubscriber } from 'hooks/Network/Subscribers';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import useApiRequirements from 'hooks/useApiRequirements';
+import ToggleField from 'components/FormFields/ToggleField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -39,7 +40,7 @@ const CreateSubscriberForm = ({ isOpen, onClose, refresh, formRef, operatorId })
     <Formik
       innerRef={formRef}
       key={formKey}
-      initialValues={SubscriberSchema(t, { needPassword: true }).cast()}
+      initialValues={{ ...SubscriberSchema(t, { needPassword: true }).cast(), emailValidation: true }}
       validationSchema={SubscriberSchema(t, { passRegex: passwordPattern })}
       onSubmit={(data, { setSubmitting, resetForm }) =>
         create.mutateAsync(
@@ -65,6 +66,7 @@ const CreateSubscriberForm = ({ isOpen, onClose, refresh, formRef, operatorId })
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={8}>
           <StringField name="email" label={t('common.email')} isRequired />
           <StringField name="name" label={t('common.name')} isRequired />
+          <ToggleField name="emailValidation" label={t('users.email_validation')} />
           <StringField name="currentPassword" label={t('user.password')} isRequired hideButton />
           <StringField name="description" label={t('common.description')} />
           <StringField name="note" label={t('common.note')} />

@@ -642,6 +642,7 @@
 		"title": "Nutzer"
 	},
 	"users": {
+		"change_password": "Kennwort ändern",
 		"email_validation": "E-MAIL-VALIDIERUNG",
 		"error_fetching": "Fehler beim Abrufen der Nutzer: {{e}}",
 		"error_sending_validation": "Fehler beim Senden der E-Mail-Validierung: {{e}}",
@@ -655,11 +656,13 @@
 		"reset_password_success": "Die E-Mail zum Zurücksetzen des Passworts wurde erfolgreich an die E-Mail-Adresse des Benutzers gesendet",
 		"role": "Rolle",
 		"send_validation": "E-Mail-Validierung senden",
+		"send_validation_explanation": "Möchten Sie den E-Mail-Bestätigungslink erneut senden?",
 		"stop_suspension": "Reaktivieren",
 		"success_sending_validation": "Bestätigungs-E-Mail gesendet!",
 		"suspend": "Aussetzen",
 		"suspended": "Suspendiert",
-		"title": "Benutzer"
+		"title": "Benutzer",
+		"waitiing_for_email_verification": "E-Mail nicht verifiziert"
 	},
 	"venues": {
 		"confirm_remove_contact": "Möchten Sie diesen Kontakt von diesem Veranstaltungsort entfernen?",

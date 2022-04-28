@@ -178,7 +178,9 @@ export const useGetSubscriber = ({ id, enabled }: { id: string; enabled?: boolea
 };
 
 export const useCreateSubscriber = () =>
-  useMutation((newSubscriber: EditingSubscriber) => axiosSec.post('subuser/0', newSubscriber));
+  useMutation((newSubscriber: EditingSubscriber) =>
+    axiosSec.post(`subuser/0${newSubscriber.emailValidation ? '?email_verification=true' : ''}`, newSubscriber),
+  );
 
 export const useUpdateSubscriber = ({ id }: { id: string }) =>
   useMutation((newSubscriber: EditingSubscriber) => axiosSec.put(`subuser/${id}`, newSubscriber));
@@ -223,3 +225,36 @@ export const useSendEmailResetSubscriber = ({ id }: { id: string }) => {
 };
 
 export const useDeleteSubscriber = ({ id }: { id: string }) => useMutation(() => axiosSec.delete(`subuser/${id}`, {}));
+
+export const useSendSubscriberEmailValidation = ({ id, refresh }: { id: string; refresh: () => void }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useMutation(() => axiosSec.put(`subuser/${id}?email_verification=true`, {}), {
+    onSuccess: () => {
+      toast({
+        id: `user-validation-email-success`,
+        title: t('common.success'),
+        description: t('users.success_sending_validation'),
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      refresh();
+    },
+    onError: (e: AxiosError) => {
+      toast({
+        id: `user-validation-email-error`,
+        title: t('common.error'),
+        description: t('users.error_sending_validation', {
+          e: e?.response?.data?.ErrorDescription,
+        }),
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+  });
+};

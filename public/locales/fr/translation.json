@@ -642,6 +642,7 @@
 		"title": "Utilisateur"
 	},
 	"users": {
+		"change_password": "Forcer le changement de mot de passe",
 		"email_validation": "Validation des e-mails",
 		"error_fetching": "Erreur lors de la récupération des utilisateurs : {{e}}",
 		"error_sending_validation": "Erreur lors de l'envoi de l'e-mail de validation : {{e}}",
@@ -655,11 +656,13 @@
 		"reset_password_success": "L'e-mail de réinitialisation du mot de passe a bien été envoyé à l'adresse e-mail de l'utilisateur",
 		"role": "Rôle",
 		"send_validation": "Envoyer un e-mail de validation",
+		"send_validation_explanation": "Voulez-vous renvoyer le lien de vérification par e-mail ?",
 		"stop_suspension": "Réactiver",
 		"success_sending_validation": "E-mail de validation envoyé !",
 		"suspend": "Suspendre",
 		"suspended": "Suspendu",
-		"title": "utilisateurs"
+		"title": "utilisateurs",
+		"waitiing_for_email_verification": "Email non vérifié"
 	},
 	"venues": {
 		"confirm_remove_contact": "Voulez-vous supprimer ce contact de ce lieu ?",

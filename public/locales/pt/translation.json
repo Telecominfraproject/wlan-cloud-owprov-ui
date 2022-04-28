@@ -642,6 +642,7 @@
 		"title": "Do utilizador"
 	},
 	"users": {
+		"change_password": "Forçar mudança de senha",
 		"email_validation": "Validação de E-mail",
 		"error_fetching": "Erro ao buscar usuários: {{e}}",
 		"error_sending_validation": "Erro ao enviar validação de e-mail: {{e}}",
@@ -655,11 +656,13 @@
 		"reset_password_success": "E-mail de redefinição de senha enviado com sucesso para o endereço de e-mail do usuário",
 		"role": "Função",
 		"send_validation": "Enviar validação de e-mail",
+		"send_validation_explanation": "Deseja reenviar o link de verificação de e-mail?",
 		"stop_suspension": "Reativar",
 		"success_sending_validation": "Email de validação enviado!",
 		"suspend": "Suspender",
 		"suspended": "Suspenso",
-		"title": "Comercial"
+		"title": "Comercial",
+		"waitiing_for_email_verification": "Email não verificado"
 	},
 	"venues": {
 		"confirm_remove_contact": "Deseja remover este contato deste local?",

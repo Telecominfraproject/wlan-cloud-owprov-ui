@@ -642,6 +642,7 @@
 		"title": "Usuario"
 	},
 	"users": {
+		"change_password": "Forzar cambio de contraseña",
 		"email_validation": "VALIDACIÓN DE CORREO ELECTRÓNICO",
 		"error_fetching": "Error al obtener usuarios: {{e}}",
 		"error_sending_validation": "Error al enviar la validación de correo electrónico: {{e}}",
@@ -655,11 +656,13 @@
 		"reset_password_success": "Correo electrónico de restablecimiento de contraseña enviado con éxito a la dirección de correo electrónico del usuario",
 		"role": "papel",
 		"send_validation": "Enviar validación de correo electrónico",
+		"send_validation_explanation": "¿Desea reenviar el enlace de verificación de correo electrónico?",
 		"stop_suspension": "reactivar",
 		"success_sending_validation": "¡Correo electrónico de validación enviado!",
 		"suspend": "Suspender",
 		"suspended": "Suspendido",
-		"title": "Usuarios"
+		"title": "Usuarios",
+		"waitiing_for_email_verification": "Correo electrónico no verificado"
 	},
 	"venues": {
 		"confirm_remove_contact": "¿Quieres eliminar este contacto de este lugar?",
