@@ -14,7 +14,7 @@ const propTypes = {
   variableBlockId: PropTypes.string.isRequired,
 };
 
-const LockedRadius = ({ variableBlockId }) => {
+const LockedSsid = ({ variableBlockId }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { data: resource } = useGetResource({
@@ -91,50 +91,34 @@ const LockedRadius = ({ variableBlockId }) => {
             { value: 'onboarding-ap', label: 'onboarding-ap' },
             { value: 'onboarding-sta', label: 'onboarding-sta' },
           ]}
-          emptyIsUndefined
         />
         <DisplayToggleField
           value={data['isolate-clients']}
           label="isolate-clients"
           definitionKey="interface.ssid.isolate-clients"
           isRequired
-          falseIsUndefined
         />
-        <DisplayToggleField
-          value={data['power-save']}
-          label="power-save"
-          definitionKey="interface.ssid.power-save"
-          falseIsUndefined
-        />
+        <DisplayToggleField value={data['power-save']} label="power-save" definitionKey="interface.ssid.power-save" />
         <DisplayToggleField
           value={data['broadcast-time']}
           label="broadcast-time"
           definitionKey="interface.ssid.broadcast-time"
-          falseIsUndefined
         />
         <DisplayToggleField
           value={data['unicast-conversion']}
           label="unicast-conversion"
           definitionKey="interface.ssid.unicast-conversion"
-          falseIsUndefined
         />
-        <DisplayToggleField
-          value={data['proxy-arp']}
-          label="proxy-arp"
-          definitionKey="interface.ssid.proxy-arp"
-          falseIsUndefined
-        />
+        <DisplayToggleField value={data['proxy-arp']} label="proxy-arp" definitionKey="interface.ssid.proxy-arp" />
         <DisplayToggleField
           value={data['disassoc-low-ack']}
           label="disassoc-low-ack"
           definitionKey="interface.ssid.disassoc-low-ack"
-          falseIsUndefined
         />
         <DisplayStringField
           value={data['vendor-elements']}
           label="vendor-elements"
           definitionKey="interface.ssid.vendor-elements"
-          emptyIsUndefined
         />
       </SimpleGrid>
       <LockedEncryption data={data} />
@@ -142,5 +126,5 @@ const LockedRadius = ({ variableBlockId }) => {
   );
 };
 
-LockedRadius.propTypes = propTypes;
-export default React.memo(LockedRadius);
+LockedSsid.propTypes = propTypes;
+export default React.memo(LockedSsid);
