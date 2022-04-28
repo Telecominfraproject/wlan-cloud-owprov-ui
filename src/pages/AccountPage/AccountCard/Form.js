@@ -189,6 +189,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                             <StringField name="email" label={t('common.email')} isDisabled />
                             <SelectField
                               name="userRole"
+                              label={t('users.role')}
                               options={[
                                 { value: 'root', label: 'Root' },
                                 { value: 'partner', label: 'Partner' },

@@ -69,13 +69,7 @@ const AccountCard = () => {
                 isCompact={false}
                 hidden={!editing}
               />
-              <Button
-                hidden={!user?.userRole || user.userRole === 'admin' || user.userRole === 'csr'}
-                colorScheme="gray"
-                onClick={toggleEditing}
-                rightIcon={editing ? <X /> : <Pencil />}
-                ml={2}
-              >
+              <Button colorScheme="gray" onClick={toggleEditing} rightIcon={editing ? <X /> : <Pencil />} ml={2}>
                 {editing ? t('common.stop_editing') : t('common.edit')}
               </Button>
             </Box>
