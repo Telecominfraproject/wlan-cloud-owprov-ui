@@ -6,6 +6,7 @@ import { FormControl, FormLabel, SimpleGrid, Switch, useToast } from '@chakra-ui
 import DisplayStringField from 'components/DisplayFields/DisplayStringField';
 import DisplayNumberField from 'components/DisplayFields/DisplayNumberField';
 import { Formik } from 'formik';
+import DisplayToggleField from 'components/DisplayFields/DisplayToggleField';
 import Local from '../Local';
 
 const propTypes = {
@@ -37,6 +38,7 @@ const LockedRadius = ({ variableBlockId }) => {
         <DisplayStringField label="authentication.host" value={data.authentication.host} isRequired />
         <DisplayNumberField label="authentication.port" value={data.authentication.port} isRequired />
         <DisplayStringField label="authentication.secret" value={data.authentication.secret} isRequired hideButton />
+        <DisplayToggleField value={data.authentication['mac-filter']} label="authentication.mac-filter" />
       </SimpleGrid>
       <FormControl isDisabled>
         <FormLabel ms="4px" fontSize="md" fontWeight="normal">

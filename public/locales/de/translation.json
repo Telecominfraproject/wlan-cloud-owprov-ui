@@ -523,6 +523,7 @@
 	},
 	"login": {
 		"access_policy": "Zugangsrichtlinien",
+		"change_password_error": "Abgelehntes Passwort, möglicherweise ein altes Passwort",
 		"change_password_explanation": "Geben Sie Ihr neues Passwort ein und bestätigen Sie es",
 		"change_your_password": "Ändere das Passwort",
 		"confirm_new_password": "Bestätige neues Passwort",

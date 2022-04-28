@@ -523,6 +523,7 @@
 	},
 	"login": {
 		"access_policy": "Política de acceso",
+		"change_password_error": "Contraseña rechazada, esta puede ser una contraseña antigua",
 		"change_password_explanation": "Ingrese y confirme su nueva contraseña",
 		"change_your_password": "Cambia la contraseña",
 		"confirm_new_password": "confirmar nueva contraseña",

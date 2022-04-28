@@ -1,51 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { axiosSec, secUrl } from 'utils/axiosInstances';
 import {
   Alert,
   Box,
   Flex,
   Button,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
   Text,
   useColorModeValue,
   Spacer,
-  FormErrorMessage,
   Link,
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons';
-import { Formik, Field, Form } from 'formik';
-import { useMutation } from 'react-query';
+import { Formik, Form } from 'formik';
+import StringField from 'components/FormFields/StringField';
+import { useForgotPassword } from 'hooks/Network/Login';
+import useApiRequirements from 'hooks/useApiRequirements';
 
 const ForgotPasswordSchema = Yup.object().shape({
   userId: Yup.string().email('Invalid email').required('Required'),
 });
 
-const propTypes = {
-  requirements: PropTypes.shape({
-    accessPolicy: PropTypes.string.isRequired,
-  }),
-  setActiveForm: PropTypes.func.isRequired,
-};
-
-const defaultProps = {
-  requirements: null,
-};
-
-const ForgotPasswordForm = ({ requirements, setActiveForm }) => {
+interface Props {
+  setActiveForm: ({ form, data }: { form: string; data?: unknown }) => void;
+}
+const ForgotPasswordForm: React.FC<Props> = ({ setActiveForm }) => {
   const { t } = useTranslation();
+  const { accessPolicyLink } = useApiRequirements();
   const titleColor = useColorModeValue('blue.300', 'white');
   const textColor = useColorModeValue('gray.400', 'white');
-  const forgotPassword = useMutation((loginInfo) => axiosSec.post('oauth2?forgotPassword=true', loginInfo), {
-    onError: (e) => e,
-  });
+  const forgotPassword = useForgotPassword();
 
   return (
     <>
@@ -56,6 +43,7 @@ const ForgotPasswordForm = ({ requirements, setActiveForm }) => {
         <Spacer />
         <Tooltip hasArrow label={t('common.go_back')} placement="top">
           <IconButton
+            aria-label="Go back to login"
             size="lg"
             color="white"
             bg="blue.300"
@@ -75,8 +63,7 @@ const ForgotPasswordForm = ({ requirements, setActiveForm }) => {
       </Text>
       <Formik
         initialValues={{
-          newPassword: '',
-          confirmNewPassword: '',
+          userId: '',
         }}
         validationSchema={ForgotPasswordSchema}
         onSubmit={({ userId }, { setSubmitting }) => {
@@ -93,26 +80,9 @@ const ForgotPasswordForm = ({ requirements, setActiveForm }) => {
           );
         }}
       >
-        {({ isSubmitting, errors, touched, isValid, dirty }) => (
+        {({ isSubmitting, isValid, dirty }) => (
           <Form>
-            <Field name="userId">
-              {({ field }) => (
-                <FormControl isInvalid={errors.userId && touched.userId}>
-                  <FormLabel ms="4px" fontSize="md" fontWeight="normal">
-                    {t('common.email')}
-                  </FormLabel>
-                  <Input
-                    {...field}
-                    borderRadius="15px"
-                    fontSize="sm"
-                    type="text"
-                    placeholder={t('login.your_email')}
-                    size="lg"
-                  />
-                  <FormErrorMessage>{errors.userId}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
+            <StringField name="userId" label={t('common.email')} />
             {forgotPassword.isSuccess ? (
               <Alert mt="16px" status="success">
                 {t('login.forgot_password_successful')}
@@ -148,7 +118,7 @@ const ForgotPasswordForm = ({ requirements, setActiveForm }) => {
       </Formik>
       <Flex justifyContent="center" alignItems="center" maxW="100%" mt="0px">
         <Box w="100%">
-          <Link href={`${secUrl}${requirements?.accessPolicy}`} isExternal textColor={textColor}>
+          <Link href={accessPolicyLink} isExternal textColor={textColor}>
             {t('login.access_policy')}
             <ExternalLinkIcon mx="2px" />
           </Link>
@@ -157,8 +127,5 @@ const ForgotPasswordForm = ({ requirements, setActiveForm }) => {
     </>
   );
 };
-
-ForgotPasswordForm.propTypes = propTypes;
-ForgotPasswordForm.defaultProps = defaultProps;
 
 export default ForgotPasswordForm;

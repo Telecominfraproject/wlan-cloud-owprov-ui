@@ -68,6 +68,7 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
           host: string().required(t('form.required')).default('192.168.178.192'),
           port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1812),
           secret: string().required(t('form.required')).min(8).max(63).default('YOUR_SECRET'),
+          'mac-filter': bool().default(undefined),
         })
         .nullable()
         .default(undefined),

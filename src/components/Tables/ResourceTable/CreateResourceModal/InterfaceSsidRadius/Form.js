@@ -62,6 +62,7 @@ const InterfaceSsidRadiusForm = () => {
         <StringField name="authentication.host" label="authentication.host" isRequired />
         <NumberField name="authentication.port" label="authentication.port" isRequired hideArrows w={24} />
         <StringField name="authentication.secret" label="authentication.secret" isRequired hideButton />
+        <ToggleField name="authentication.mac-filter" label="authentication.mac-filter" falseIsUndefined />
       </SimpleGrid>
       <FormControl>
         <FormLabel ms="4px" fontSize="md" fontWeight="normal">
