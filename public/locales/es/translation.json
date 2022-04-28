@@ -642,6 +642,7 @@
 		"title": "Usuario"
 	},
 	"users": {
+		"change_password": "Forzar cambio de contraseña",
 		"email_validation": "VALIDACIÓN DE CORREO ELECTRÓNICO",
 		"error_fetching": "Error al obtener usuarios: {{e}}",
 		"error_sending_validation": "Error al enviar la validación de correo electrónico: {{e}}",

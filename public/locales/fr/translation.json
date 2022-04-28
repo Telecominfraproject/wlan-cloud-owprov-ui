@@ -642,6 +642,7 @@
 		"title": "Utilisateur"
 	},
 	"users": {
+		"change_password": "Forcer le changement de mot de passe",
 		"email_validation": "Validation des e-mails",
 		"error_fetching": "Erreur lors de la récupération des utilisateurs : {{e}}",
 		"error_sending_validation": "Erreur lors de l'envoi de l'e-mail de validation : {{e}}",

@@ -18,6 +18,7 @@ import {
   Grid,
   GridItem,
   Avatar,
+  Link,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
@@ -27,6 +28,8 @@ import VerifyNumberModal from 'components/VerifyNumberModal';
 import StringField from 'components/FormFields/StringField';
 import FileInputButton from 'components/Buttons/FileInputButton';
 import SelectField from 'components/FormFields/SelectField';
+import useApiRequirements from 'hooks/useApiRequirements';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import MfaSelectField from './MfaSelectField';
 
 const propTypes = {
@@ -48,6 +51,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
   const toast = useToast();
   const { user } = useAuth();
   const [formKey, setFormKey] = useState(uuid());
+  const { passwordPolicyLink, passwordPattern } = useApiRequirements();
 
   const toggleVerifyNumber = (params) => {
     setVerifNumber(params.userTypeProprietaryInfo.mobiles[0].number);
@@ -84,7 +88,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
               ? user.userTypeProprietaryInfo.mobiles[0].number.replace('+', '')
               : '',
         }}
-        validationSchema={UpdateUserSchema(t)}
+        validationSchema={UpdateUserSchema(t, { passRegex: passwordPattern })}
         onSubmit={({ description, name, currentPassword, phoneNumber, mfa, notes }, { setSubmitting }) => {
           const onSuccess = () => {
             finishUpdate();
@@ -226,6 +230,12 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                 </TabPanel>
               </TabPanels>
             </Tabs>
+            <Box w="100%" mt={4} textAlign="right">
+              <Link href={passwordPolicyLink} isExternal>
+                {t('login.password_policy')}
+                <ExternalLinkIcon mx="2px" />
+              </Link>
+            </Box>
           </Box>
         )}
       </Formik>

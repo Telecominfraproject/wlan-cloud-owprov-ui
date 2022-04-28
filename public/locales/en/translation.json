@@ -642,6 +642,7 @@
 		"title": "User"
 	},
 	"users": {
+		"change_password": "Force Password Change",
 		"email_validation": "Email Validation",
 		"error_fetching": "Error fetching users: {{e}}",
 		"error_sending_validation": "Error while sending email validation: {{e}}",

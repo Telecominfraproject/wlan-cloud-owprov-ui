@@ -4,13 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { Box, Flex, Link, useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import { useAuth } from 'contexts/AuthProvider';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
 import useApiRequirements from 'hooks/useApiRequirements';
 import { UpdateUserSchema } from 'constants/formSchemas';
+import ToggleField from 'components/FormFields/ToggleField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -57,12 +58,16 @@ const UpdateUserForm = ({ editing, isOpen, onClose, updateUser, refreshUsers, us
       key={formKey}
       initialValues={userToUpdate}
       validationSchema={UpdateUserSchema(t, { passRegex: passwordPattern })}
-      onSubmit={({ name, description, currentPassword, userRole, notes }, { setSubmitting, resetForm }) =>
+      onSubmit={(
+        { name, description, currentPassword, userRole, notes, changePassword },
+        { setSubmitting, resetForm },
+      ) =>
         updateUser.mutateAsync(
           {
             name,
             currentPassword: currentPassword.length > 0 ? currentPassword : undefined,
             userRole,
+            changePassword,
             description,
             notes: notes.filter((note) => note.isNew),
           },
@@ -103,85 +108,59 @@ const UpdateUserForm = ({ editing, isOpen, onClose, updateUser, refreshUsers, us
         )
       }
     >
-      {({ errors, touched, setFieldValue }) => (
-        <>
-          <Tabs variant="enclosed">
-            <TabList>
-              <Tab>{t('common.main')}</Tab>
-              <Tab>{t('common.notes')}</Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <Form>
-                  <SimpleGrid minChildWidth="300px" spacing="20px">
-                    <StringField
-                      name="email"
-                      label={t('common.email')}
-                      errors={errors}
-                      touched={touched}
-                      isDisabled
-                      isRequired
-                    />
-                    <SelectField
-                      name="userRole"
-                      label={t('user.role')}
-                      errors={errors}
-                      touched={touched}
-                      options={[
-                        { value: 'accounting', label: 'Accounting' },
-                        { value: 'admin', label: 'Admin' },
-                        { value: 'csr', label: 'CSR' },
-                        { value: 'installer', label: 'Installer' },
-                        { value: 'noc', label: 'NOC' },
-                        { value: 'root', label: 'Root' },
-                        { value: 'system', label: 'System' },
-                      ]}
-                      isRequired
-                      isDisabled
-                    />
-                    <StringField
-                      name="name"
-                      label={t('common.name')}
-                      errors={errors}
-                      touched={touched}
-                      isDisabled
-                      isRequired
-                    />
-                    <StringField
-                      name="currentPassword"
-                      label={t('user.password')}
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={formIsDisabled()}
-                      hideButton
-                    />
-                    <StringField
-                      name="description"
-                      label={t('common.description')}
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={formIsDisabled()}
-                    />
-                  </SimpleGrid>
-                </Form>
-              </TabPanel>
-              <TabPanel>
-                <Field name="notes">
-                  {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
-                </Field>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-          <Flex justifyContent="center" alignItems="center" maxW="100%" mt={4} mb={6}>
-            <Box w="100%">
-              <Link href={passwordPolicyLink} isExternal>
-                {t('login.password_policy')}
-                <ExternalLinkIcon mx="2px" />
-              </Link>
-            </Box>
-          </Flex>
-        </>
-      )}
+      <>
+        <Tabs variant="enclosed">
+          <TabList>
+            <Tab>{t('common.main')}</Tab>
+            <Tab>{t('common.notes')}</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Form>
+                <SimpleGrid minChildWidth="300px" spacing="20px">
+                  <StringField name="email" label={t('common.email')} isDisabled isRequired />
+                  <SelectField
+                    name="userRole"
+                    label={t('user.role')}
+                    options={[
+                      { value: 'accounting', label: 'Accounting' },
+                      { value: 'admin', label: 'Admin' },
+                      { value: 'csr', label: 'CSR' },
+                      { value: 'installer', label: 'Installer' },
+                      { value: 'noc', label: 'NOC' },
+                      { value: 'root', label: 'Root' },
+                      { value: 'system', label: 'System' },
+                    ]}
+                    isRequired
+                    isDisabled
+                  />
+                  <StringField name="name" label={t('common.name')} isDisabled={formIsDisabled()} isRequired />
+                  <ToggleField name="changePassword" label={t('users.change_password')} isDisabled={formIsDisabled()} />
+                  <StringField
+                    name="currentPassword"
+                    label={t('user.password')}
+                    isDisabled={formIsDisabled()}
+                    hideButton
+                  />
+                  <StringField name="description" label={t('common.description')} isDisabled={formIsDisabled()} />
+                </SimpleGrid>
+              </Form>
+            </TabPanel>
+            <TabPanel>
+              {' '}
+              <NotesTable name="notes" isDisabled={!editing} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+        <Flex justifyContent="center" alignItems="right" maxW="100%" mt={4} mb={6}>
+          <Box w="100%">
+            <Link href={passwordPolicyLink} isExternal>
+              {t('login.password_policy')}
+              <ExternalLinkIcon mx="2px" />
+            </Link>
+          </Box>
+        </Flex>
+      </>
     </Formik>
   );
 };
