@@ -186,7 +186,7 @@ const ChangePasswordForm = ({ requirements, activeForm, setActiveForm }) => {
             ) : null}
             <Button
               fontSize="15px"
-              type="button"
+              type="submit"
               bg="blue.300"
               w="100%"
               h="45"
