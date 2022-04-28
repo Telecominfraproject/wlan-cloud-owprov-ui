@@ -119,6 +119,12 @@ const Radius = ({ editing, namePrefix, encryptionKeyName }) => {
               isRequired
               hideButton
             />
+            <ToggleField
+              name={`${namePrefix}.authentication.mac-filter`}
+              label="authentication.mac-filter"
+              isDisabled={!editing}
+              falseIsUndefined
+            />
           </SimpleGrid>
           <FormControl isDisabled={!editing}>
             <FormLabel ms="4px" fontSize="md" fontWeight="normal">

@@ -523,6 +523,7 @@
 	},
 	"login": {
 		"access_policy": "Access Policy",
+		"change_password_error": "Rejected password, this maybe an old password",
 		"change_password_explanation": "Enter and confirm your new password",
 		"change_your_password": "Change Password",
 		"confirm_new_password": "Confirm new password",

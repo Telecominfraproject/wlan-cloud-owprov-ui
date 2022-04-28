@@ -7,6 +7,9 @@ const useApiRequirements = () => {
 
   const toReturn = useMemo(
     () => ({
+      accessPolicyLink: `${secUrl.split('/api/v1')[0]}${
+        requirements?.accessPolicy ?? '/wwwassets/password_policy.html'
+      }`,
       passwordPattern: requirements?.passwordPattern ?? null,
       passwordPolicyLink: `${secUrl.split('/api/v1')[0]}${
         requirements?.passwordPolicy ?? '/wwwassets/password_policy.html'

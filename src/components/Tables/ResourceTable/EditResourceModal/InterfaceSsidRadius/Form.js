@@ -79,6 +79,12 @@ const InterfaceSsidRadiusForm = ({ editing }) => {
           hideButton
           isDisabled={!editing}
         />
+        <ToggleField
+          name="authentication.mac-filter"
+          label="authentication.mac-filter"
+          falseIsUndefined
+          isDisabled={!editing}
+        />
       </SimpleGrid>
       <FormControl>
         <FormLabel ms="4px" fontSize="md" fontWeight="normal">

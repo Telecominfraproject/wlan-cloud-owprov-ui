@@ -523,6 +523,7 @@
 	},
 	"login": {
 		"access_policy": "Politique d'accès",
+		"change_password_error": "Mot de passe rejeté, il s'agit peut-être d'un ancien mot de passe",
 		"change_password_explanation": "Saisissez et confirmez votre nouveau mot de passe",
 		"change_your_password": "Changer le mot de passe",
 		"confirm_new_password": "Confirmer le nouveau mot de passe",
