@@ -13,7 +13,7 @@ images:
 
 services:
   owprovui:
-    type: NodePort
+    type: ClusterIP
     ports:
       http:
         servicePort: 80
