@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import DataTable from 'components/DataTable';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
@@ -16,11 +15,12 @@ import EntityCell from 'components/TableCells/EntityCell';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import DeviceSearchBar from 'components/SearchBars/DeviceSearch';
 import { Device } from 'models/Device';
-import { PageInfo } from 'models/Table';
+import { PageInfo, SortInfo } from 'models/Table';
 import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
 import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
 import VenueCell from 'components/TableCells/VenueCell';
+import SortableDataTable from 'components/SortableDataTable';
 import Actions from './Actions';
 
 const InventoryTable: React.FC = () => {
@@ -31,6 +31,7 @@ const InventoryTable: React.FC = () => {
   const [tag, setTag] = useState<Device | { serialNumber: string } | undefined>(undefined);
   const { isOpen: isEditOpen, onOpen: openEdit, onClose: closeEdit } = useDisclosure();
   const { isOpen: isPushOpen, onOpen: openPush, onClose: closePush } = useDisclosure();
+  const [sortInfo, setSortInfo] = useState<SortInfo>([{ id: 'serialNumber', sort: 'asc' }]);
   const scanModalProps = useDisclosure();
   const resetModalProps = useDisclosure();
   const upgradeModalProps = useDisclosure();
@@ -50,6 +51,7 @@ const InventoryTable: React.FC = () => {
     refetch: refetchTags,
   } = useGetInventoryTags({
     pageInfo,
+    sortInfo,
     enabled: pageInfo !== null,
     count,
     onlyUnassigned,
@@ -116,6 +118,7 @@ const InventoryTable: React.FC = () => {
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
         alwaysShow: true,
+        isMonospace: true,
       },
       {
         id: 'name',
@@ -125,6 +128,7 @@ const InventoryTable: React.FC = () => {
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        isMonospace: true,
       },
       {
         id: 'entity',
@@ -135,6 +139,7 @@ const InventoryTable: React.FC = () => {
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        disableSortBy: true,
       },
       {
         id: 'venue',
@@ -145,6 +150,7 @@ const InventoryTable: React.FC = () => {
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        disableSortBy: true,
       },
       {
         id: 'subscriber',
@@ -154,6 +160,7 @@ const InventoryTable: React.FC = () => {
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        disableSortBy: true,
       },
       {
         id: 'description',
@@ -163,11 +170,11 @@ const InventoryTable: React.FC = () => {
         disableSortBy: true,
       },
       {
-        id: 'created',
-        Header: t('common.created'),
+        id: 'modified',
+        Header: t('common.modified'),
         Footer: '',
-        accessor: 'created',
-        Cell: ({ cell }: { cell: unknown }) => memoizedDate(cell, 'created'),
+        accessor: 'modified',
+        Cell: ({ cell }: { cell: unknown }) => memoizedDate(cell, 'modified'),
         customMinWidth: '150px',
         customWidth: '150px',
       },
@@ -223,11 +230,13 @@ const InventoryTable: React.FC = () => {
         </CardHeader>
         <CardBody>
           <Box overflowX="auto" w="100%">
-            <DataTable
+            <SortableDataTable
               columns={onlyUnassigned ? columns.filter((col) => col.id !== 'entity' && col.id !== 'venue') : columns}
               data={tags ?? []}
               isLoading={isFetchingCount || isFetchingTags}
               isManual
+              sortInfo={sortInfo}
+              setSortInfo={setSortInfo}
               hiddenColumns={hiddenColumns}
               obj={t('inventory.tags')}
               count={count || 0}

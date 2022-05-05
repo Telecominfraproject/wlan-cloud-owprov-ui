@@ -155,7 +155,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
           });
         }}
       >
-        {({ errors, setFieldValue, values }) => (
+        {({ errors, setFieldValue, values, touched }) => (
           <Box w="100%">
             <Tabs variant="enclosed">
               <TabList>
@@ -211,15 +211,11 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                               name="mfa"
                               label={t('account.mfa')}
                               errors={errors}
+                              touched={touched}
                               isDisabled={!editing}
                               setFieldValue={setFieldValue}
                             />
-                            <StringField
-                              name="phoneNumber"
-                              label={t('user.password')}
-                              isDisabled={!editing}
-                              hideButton
-                            />
+                            <StringField name="phoneNumber" label={t('account.phone_number')} isDisabled={!editing} />
                           </SimpleGrid>
                         </Form>
                       </Box>

@@ -121,6 +121,7 @@ const InventoryTable = ({
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        isMonospace: true,
       },
       {
         id: 'name',
@@ -130,6 +131,7 @@ const InventoryTable = ({
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        isMonospace: true,
       },
       {
         id: 'configuration',

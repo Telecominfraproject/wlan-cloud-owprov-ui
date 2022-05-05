@@ -1,4 +1,5 @@
 import { useToast } from '@chakra-ui/react';
+import { v4 as uuid } from 'uuid';
 import { AxiosError } from 'axios';
 import useDefaultPage from 'hooks/useDefaultPage';
 import { useTranslation } from 'react-i18next';
@@ -104,6 +105,39 @@ export const useUpdateVenue = ({ id }: { id: string }) =>
   );
 export const useUpdateVenueDevices = ({ id }: { id: string }) =>
   useMutation(({ params }: { params: unknown }) => axiosProv.put(`venue/${id}?updateAllDevices=true`, params));
+
+export const useRebootVenueDevices = ({ id }: { id: string }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useMutation(() => axiosProv.put(`venue/${id}?rebootAllDevices=true`, {}), {
+    onSuccess: ({ data }) => {
+      toast({
+        id: 'venue-reboot-devices-success',
+        title: t('common.success'),
+        description: t('venues.successfully_reboot_devices', { num: data.serialNumbers.length }),
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+    onError: (e: AxiosError) => {
+      toast({
+        id: uuid(),
+        title: t('common.error'),
+        description: t('crud.error_create_obj', {
+          obj: t('venues.error_update_devices'),
+          e: e?.response?.data?.ErrorDescription,
+        }),
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+  });
+};
 
 export const useDeleteVenue = () => useMutation((id) => axiosProv.delete(`venue/${id}`));
 

@@ -53,6 +53,7 @@ const SubscriberDeviceTable: React.FC<Props> = ({
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        isMonospace: true,
       },
       {
         id: 'name',
@@ -62,6 +63,7 @@ const SubscriberDeviceTable: React.FC<Props> = ({
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        isMonospace: true,
       },
       {
         id: 'contact-email',

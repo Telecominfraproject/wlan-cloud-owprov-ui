@@ -2,7 +2,7 @@ import React from 'react';
 import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Wrench } from 'phosphor-react';
-import { useSendUserEmailValidation, useSuspendUser } from 'hooks/Network/Users';
+import { useSendUserEmailValidation, useSuspendUser, useResetMfa } from 'hooks/Network/Users';
 import useMutationResult from 'hooks/useMutationResult';
 
 interface Props {
@@ -16,14 +16,23 @@ const UserActions: React.FC<Props> = ({ id, isSuspended, isWaitingForCheck, refr
   const { t } = useTranslation();
   const { mutateAsync: sendValidation } = useSendUserEmailValidation({ id, refresh });
   const { mutateAsync: suspend } = useSuspendUser({ id });
+  const { mutateAsync: resetMfa } = useResetMfa({ id });
   const { onSuccess, onError } = useMutationResult({
     objName: t('users.one'),
     operationType: 'update',
-    refresh,
   });
 
   const handleSuspendClick = () =>
     suspend(!isSuspended, {
+      onSuccess: () => {
+        onSuccess();
+      },
+      onError: (e) => {
+        onError(e);
+      },
+    });
+  const handleResetMfaClick = () =>
+    resetMfa(undefined, {
       onSuccess: () => {
         onSuccess();
       },
@@ -46,6 +55,7 @@ const UserActions: React.FC<Props> = ({ id, isSuspended, isWaitingForCheck, refr
         <MenuItem onClick={handleValidationClick}>
           {isWaitingForCheck ? t('users.send_validation') : t('users.re_validate_email')}
         </MenuItem>
+        <MenuItem onClick={handleResetMfaClick}>{t('users.reset_mfa')}</MenuItem>
       </MenuList>
     </Menu>
   );

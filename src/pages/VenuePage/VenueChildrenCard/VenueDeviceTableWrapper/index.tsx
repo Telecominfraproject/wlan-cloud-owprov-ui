@@ -15,6 +15,7 @@ import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
 import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
 import Actions from './Actions';
+import RebootAllDevicesButton from './RebootAllDevicesButton';
 
 interface Props {
   venue?: Venue;
@@ -74,6 +75,7 @@ const VenueDeviceTableWrapper: React.FC<Props> = ({ venue = undefined }) => {
       <Flex>
         <Heading size="md">{t('devices.title')}</Heading>
         <Spacer />
+        <RebootAllDevicesButton venueId={venue?.id ?? ''} />
         <ImportDeviceCsvModal refresh={refreshEntity} parent={{ venue: venue?.id ?? '' }} deviceClass="venue" />
         <CreateTagModal refresh={refreshEntity} entityId={`venue:${venue?.id ?? ''}`} deviceClass="venue" />
       </Flex>

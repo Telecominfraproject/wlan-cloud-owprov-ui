@@ -1,6 +1,6 @@
 {
   "name": "wlan-cloud-owprov-ui",
-  "version": "2.6.189",
+  "version": "2.6.205",
   "description": "",
   "main": "index.tsx",
   "scripts": {
@@ -35,6 +35,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-app-polyfill": "^3.0.0",
+    "react-country-flag": "^3.0.2",
     "react-csv": "^2.2.2",
     "react-datepicker": "^4.7.0",
     "react-fast-compare": "^3.2.0",

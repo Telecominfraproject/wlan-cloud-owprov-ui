@@ -1,8 +1,6 @@
 import React, { useState, useMemo, useEffect, Dispatch, SetStateAction, useRef } from 'react';
 import { useQuery } from 'react-query';
 import { axiosAnalytics, axiosFms, axiosGw, axiosOwls, axiosProv, axiosSec, axiosSub } from 'utils/axiosInstances';
-import { useToast } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 import { useGetEndpoints } from 'hooks/Network/Endpoints';
 import axios from 'axios';
 import { Endpoint } from 'models/Endpoint';
@@ -44,8 +42,6 @@ interface AuthProviderReturn {
 const AuthContext = React.createContext({} as AuthProviderReturn);
 
 export const AuthProvider = ({ token, children }: Props) => {
-  const { t } = useTranslation();
-  const toast = useToast();
   const ref = useRef();
   const [loadedEndpoints, setLoadedEndpoints] = useState(false);
   const [currentToken, setCurrentToken] = useState(token);
@@ -60,8 +56,6 @@ export const AuthProvider = ({ token, children }: Props) => {
   );
   const { data: user, refetch: refetchUser } = useGetProfile();
   const { refetch: refetchEndpoints } = useGetEndpoints({
-    t,
-    toast,
     onSuccess: (newEndpoints: Endpoint[]) => {
       const foundEndpoints: { [key: string]: string } = {};
       for (const endpoint of newEndpoints) {
@@ -95,10 +89,10 @@ export const AuthProvider = ({ token, children }: Props) => {
   });
   const userId = user?.id ?? '';
   const userAvatar = user?.avatar ?? '';
-  const { data: preferences, refetch: refetchAvatar } = useGetPreferences({ enabled: !!userId });
-  const { data: avatar } = useGetAvatar({
+  const { data: preferences } = useGetPreferences({ enabled: !!userId });
+  const { data: avatar, refetch: refetchAvatar } = useGetAvatar({
     id: userId,
-    enabled: !!userId && userAvatar !== '0',
+    enabled: !!userId && userAvatar !== '0' && userAvatar !== '',
     cache: userAvatar,
   });
   const updatePreferences = useUpdatePreferences({ id: userId });

@@ -23,7 +23,8 @@ import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
 import { useGetComputedConfiguration, useGetTag } from 'hooks/Network/Inventory';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
-import { PaperPlaneTilt } from 'phosphor-react';
+import { ArrowSquareOut, PaperPlaneTilt } from 'phosphor-react';
+import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import EditTagForm from './Form';
 
 const propTypes = {
@@ -48,6 +49,7 @@ const EditTagModal = ({ isOpen, onClose, tag, refresh, pushConfig }) => {
   const toast = useToast();
   const [form, setForm] = useState({});
   const [configuration, setConfiguration] = useState(null);
+  const { data: gwUi } = useGetGatewayUi();
   const formRef = useCallback(
     (node) => {
       if (
@@ -97,6 +99,7 @@ const EditTagModal = ({ isOpen, onClose, tag, refresh, pushConfig }) => {
   };
 
   const handlePushConfig = () => pushConfig.mutateAsync(tag.serialNumber);
+  const handleOpenInGateway = () => window.open(`${gwUi}/#/devices/${tag.serialNumber}`, '_blank');
 
   useEffect(() => {
     if (isOpen) {
@@ -118,6 +121,15 @@ const EditTagModal = ({ isOpen, onClose, tag, refresh, pushConfig }) => {
                 isLoading={form.isSubmitting}
                 isDisabled={!editing || !form.isValid || (configuration !== null && !configuration.__form.isValid)}
               />
+              <Tooltip hasArrow label={t('common.view_in_gateway')} placement="top">
+                <IconButton
+                  aria-label="Go to device gateway page"
+                  ml={2}
+                  colorScheme="blue"
+                  icon={<ArrowSquareOut size={20} />}
+                  onClick={handleOpenInGateway}
+                />
+              </Tooltip>
               <Tooltip hasArrow label={t('configurations.push_configuration')} placement="top">
                 <IconButton
                   ml={2}

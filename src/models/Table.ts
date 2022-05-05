@@ -12,6 +12,8 @@ export interface PageInfo {
   limit: number;
   index: number;
 }
+export type SortInfo = { id: string; sort: 'asc' | 'dsc' }[];
+
 export interface Column {
   id: string;
   Header: string;
@@ -23,5 +25,6 @@ export interface Column {
   customMaxWidth?: string;
   customMinWidth?: string;
   customWidth?: string;
+  isMonospace?: boolean;
   Cell?: ({ cell }: { cell: unknown }) => React.ReactElement | string | JSX.Element;
 }

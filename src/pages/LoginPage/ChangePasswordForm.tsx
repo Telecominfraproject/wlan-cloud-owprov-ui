@@ -21,6 +21,7 @@ import { testRegex } from 'constants/formTests';
 import useApiRequirements from 'hooks/useApiRequirements';
 import StringField from 'components/FormFields/StringField';
 import { useChangePassword } from 'hooks/Network/Login';
+import { LoginFormProps } from 'models/Login';
 
 const LoginSchema = (t: (str: string) => string, { passRegex }: { passRegex: string }) =>
   Yup.object().shape({
@@ -31,8 +32,8 @@ const LoginSchema = (t: (str: string) => string, { passRegex }: { passRegex: str
   });
 
 interface Props {
-  activeForm: { form: string; data: { userId: string; password: string } };
-  setActiveForm: ({ form, data }: { form: string; data?: unknown }) => void;
+  activeForm: LoginFormProps;
+  setActiveForm: React.Dispatch<React.SetStateAction<LoginFormProps>>;
 }
 
 const ChangePasswordForm: React.FC<Props> = ({ activeForm, setActiveForm }) => {
@@ -79,8 +80,8 @@ const ChangePasswordForm: React.FC<Props> = ({ activeForm, setActiveForm }) => {
         onSubmit={(values, { setSubmitting }) => {
           login.mutateAsync(
             {
-              userId: activeForm.data.userId,
-              password: activeForm.data.password,
+              userId: activeForm?.data?.userId ?? '',
+              password: activeForm?.data?.password ?? '',
               newPassword: values.newPassword,
             },
             {

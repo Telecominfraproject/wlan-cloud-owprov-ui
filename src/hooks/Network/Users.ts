@@ -120,3 +120,4 @@ export const useSuspendUser = ({ id }: { id: string }) =>
       suspended: isSuspended,
     }),
   );
+export const useResetMfa = ({ id }: { id: string }) => useMutation(() => axiosSec.put(`user/${id}?resetMFA=true`, {}));
