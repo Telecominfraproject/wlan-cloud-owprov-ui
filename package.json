@@ -1,6 +1,6 @@
 {
   "name": "wlan-cloud-owprov-ui",
-  "version": "2.6.205",
+  "version": "2.6.208",
   "description": "",
   "main": "index.tsx",
   "scripts": {

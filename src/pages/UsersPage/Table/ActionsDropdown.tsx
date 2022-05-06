@@ -1,8 +1,9 @@
 import React from 'react';
-import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip } from '@chakra-ui/react';
+import { v4 as uuid } from 'uuid';
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip, useToast } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Wrench } from 'phosphor-react';
-import { useSendUserEmailValidation, useSuspendUser, useResetMfa } from 'hooks/Network/Users';
+import { useSendUserEmailValidation, useSuspendUser, useResetMfa, useResetPassword } from 'hooks/Network/Users';
 import useMutationResult from 'hooks/useMutationResult';
 
 interface Props {
@@ -14,9 +15,11 @@ interface Props {
 
 const UserActions: React.FC<Props> = ({ id, isSuspended, isWaitingForCheck, refresh }) => {
   const { t } = useTranslation();
+  const toast = useToast();
   const { mutateAsync: sendValidation } = useSendUserEmailValidation({ id, refresh });
   const { mutateAsync: suspend } = useSuspendUser({ id });
   const { mutateAsync: resetMfa } = useResetMfa({ id });
+  const { mutateAsync: resetPassword } = useResetPassword({ id });
   const { onSuccess, onError } = useMutationResult({
     objName: t('users.one'),
     operationType: 'update',
@@ -34,7 +37,33 @@ const UserActions: React.FC<Props> = ({ id, isSuspended, isWaitingForCheck, refr
   const handleResetMfaClick = () =>
     resetMfa(undefined, {
       onSuccess: () => {
-        onSuccess();
+        toast({
+          id: `reset-mfa-success-${uuid()}`,
+          title: t('common.success'),
+          description: t('users.reset_mfa_success'),
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      },
+      onError: (e) => {
+        onError(e);
+      },
+    });
+
+  const handleResetPasswordClick = () =>
+    resetPassword(undefined, {
+      onSuccess: () => {
+        toast({
+          id: `reset-password-success-${uuid()}`,
+          title: t('common.success'),
+          description: t('users.reset_password_success'),
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
       },
       onError: (e) => {
         onError(e);
@@ -56,6 +85,7 @@ const UserActions: React.FC<Props> = ({ id, isSuspended, isWaitingForCheck, refr
           {isWaitingForCheck ? t('users.send_validation') : t('users.re_validate_email')}
         </MenuItem>
         <MenuItem onClick={handleResetMfaClick}>{t('users.reset_mfa')}</MenuItem>
+        <MenuItem onClick={handleResetPasswordClick}>{t('users.reset_password')}</MenuItem>
       </MenuList>
     </Menu>
   );

@@ -312,7 +312,7 @@ export const SINGLE_INTERFACE_SCHEMA = (
     ethernet: array()
       .of(
         object().shape({
-          'select-ports': array().of(string()).default([]),
+          'select-ports': array().of(string()).min(1, t('form.required')).default([]),
         }),
       )
       .required(t('form.required'))
