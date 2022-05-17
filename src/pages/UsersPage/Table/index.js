@@ -122,7 +122,7 @@ const UserTable = ({ title }) => {
       });
 
     return baseColumns;
-  }, [user]);
+  }, [t, user]);
 
   const showUsers = () => {
     if (usersWithAvatars.length > 0) return usersWithAvatars;

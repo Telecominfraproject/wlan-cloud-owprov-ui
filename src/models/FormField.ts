@@ -28,6 +28,7 @@ export const defaultFormInput = {
 export interface FormFieldProps {
   name: string;
   label: string;
+  onChange?: (e: ChangeEventHandler<HTMLSelectElement>) => void;
   onChangeEffect?: (e: ChangeEventHandler<HTMLSelectElement>) => void;
   isDisabled?: boolean;
   isRequired?: boolean;

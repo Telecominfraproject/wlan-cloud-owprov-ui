@@ -9,7 +9,7 @@ import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { EntityShape } from 'constants/propShapes';
 import { VenueSchema } from 'constants/formSchemas';
-import SelectField from 'components/FormFields/SelectField';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 import FormattedDate from 'components/FormattedDate';
 import { useQueryClient } from 'react-query';
 import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
@@ -61,7 +61,6 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
       key={formKey}
       initialValues={{
         ...venue,
-        rrm: venue.rrm !== '' ? venue.rrm : 'inherit',
         __BOARD: !board
           ? undefined
           : {
@@ -73,7 +72,7 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
       }}
       validationSchema={VenueSchema(t)}
       onSubmit={(
-        { name, description, rrm, sourceIP, notes, location, __createLocation, __BOARD },
+        { name, description, deviceRules, sourceIP, notes, location, __createLocation, __BOARD },
         { setSubmitting, resetForm },
       ) => {
         const updateVenueWithInfo = (boards) =>
@@ -82,7 +81,7 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
               params: {
                 name,
                 description,
-                rrm,
+                deviceRules,
                 sourceIP,
                 location: location === 'CREATE_NEW' ? undefined : location,
                 boards,
@@ -250,19 +249,7 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
                     touched={touched}
                     isDisabled={!editing}
                   />
-                  <SelectField
-                    name="rrm"
-                    label="RRM"
-                    errors={errors}
-                    touched={touched}
-                    options={[
-                      { label: 'inherit', value: 'inherit' },
-                      { label: 'on', value: 'on' },
-                      { label: 'off', value: 'off' },
-                    ]}
-                    isDisabled={!editing}
-                    w={28}
-                  />
+                  <DeviceRulesField isDisabled={!editing} />
                   <IpDetectionModalField
                     name="sourceIP"
                     setFieldValue={setFieldValue}
@@ -275,17 +262,6 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
                     editing={editing}
                     venueId={venue.id}
                     isModal
-                  />
-                  <StringField
-                    name="created"
-                    label={t('common.created')}
-                    errors={errors}
-                    touched={touched}
-                    element={
-                      <Box pl={1} pt={2}>
-                        <FormattedDate date={venue.created} />
-                      </Box>
-                    }
                   />
                   <StringField
                     name="modified"

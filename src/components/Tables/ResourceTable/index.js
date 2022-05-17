@@ -81,7 +81,7 @@ const ResourcesTable = ({ select, actions, refreshId }) => {
     ];
 
     return baseColumns;
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (refreshId > 0) refetch();

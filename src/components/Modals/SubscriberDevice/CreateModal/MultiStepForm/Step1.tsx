@@ -8,6 +8,8 @@ import useSelectList from 'hooks/useSelectList';
 import * as Yup from 'yup';
 import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
 import { Configuration } from 'models/Configuration';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import { DeviceRulesSchema } from 'constants/formSchemas';
 
 const defaultConfiguration: Record<string, unknown>[] = [];
 
@@ -23,7 +25,11 @@ const Schema = (t: (str: string) => string) =>
         return true;
       })
       .default(''),
-    rrm: Yup.string().required(t('form.required')).default('inherit'),
+    deviceRules: DeviceRulesSchema(t).required('form.required').default({
+      rrm: 'inherit',
+      rcOnly: 'inherit',
+      firmwareUpgrade: 'inherit',
+    }),
     deviceType: Yup.string().required(t('form.required')).default(''),
   });
 
@@ -53,17 +59,7 @@ const CreateSubscriberDeviceStep1: React.FC<Props> = ({ formRef, finishStep, dev
         <SimpleGrid minChildWidth="200px" spacing="10px" mb={4}>
           <StringField name="serialNumber" label={t('inventory.serial_number')} isRequired />
           <SelectField name="deviceType" label={t('inventory.device_type')} options={deviceTypeOptions} isRequired />
-          <SelectField
-            name="rrm"
-            label="RRM"
-            options={[
-              { value: 'inherit', label: 'inherit' },
-              { value: 'on', label: 'on' },
-              { value: 'off', label: 'off' },
-            ]}
-            isRequired
-            w={28}
-          />
+          <DeviceRulesField />
         </SimpleGrid>
         <SubscriberDeviceConfigurationManager
           editing

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext, getIn } from 'formik';
@@ -27,15 +27,34 @@ const Encryption = ({ editing, namePrefix, radiusPrefix }) => {
     }
   };
 
+  const onProtoChange = useCallback(
+    (e) => {
+      const value = getIn(values, `${namePrefix}`);
+      if (e.target.value === 'none') {
+        setFieldValue(`${namePrefix}`, { proto: 'none' });
+      } else if (value && value.proto === 'none') {
+        setFieldValue(`${namePrefix}`, { proto: e.target.value, ieee80211w: 'disabled', key: 'YOUR_SECRET' });
+      } else {
+        setFieldValue(`${namePrefix}.proto`, e.target.value);
+      }
+    },
+    [getIn(values, `${namePrefix}`)],
+  );
+
   const isEnabled = useMemo(() => getIn(values, `${namePrefix}`) !== undefined, [getIn(values, `${namePrefix}`)]);
 
-  const isKeyNeeded = useMemo(
-    () =>
-      getIn(values, `${namePrefix}`) !== undefined &&
-      keyProtos.includes(getIn(values, `${namePrefix}`).proto) &&
-      getIn(values, `${radiusPrefix}`) === undefined,
-    [getIn(values, `${namePrefix}`), getIn(values, `${radiusPrefix}`)],
-  );
+  const canChangeIeee = useMemo(() => {
+    const configValue = getIn(values, `${namePrefix}`);
+
+    return configValue && configValue.proto && configValue.proto !== 'none';
+  }, [getIn(values, `${namePrefix}`)]);
+
+  const isKeyNeeded = useMemo(() => {
+    const value = getIn(values, `${namePrefix}`);
+    const radiusValue = getIn(values, `${radiusPrefix}`);
+
+    return value !== undefined && keyProtos.includes(value.proto) && radiusValue === undefined;
+  }, [getIn(values, `${namePrefix}`), getIn(values, `${radiusPrefix}`)]);
 
   return (
     <>
@@ -57,6 +76,7 @@ const Encryption = ({ editing, namePrefix, radiusPrefix }) => {
             label="protocol"
             definitionKey="interface.ssid.encryption.proto"
             options={[
+              { value: 'none', label: t('common.none') },
               { value: 'psk', label: 'WPA-PSK' },
               { value: 'psk2', label: 'WPA2-PSK' },
               { value: 'psk-mixed', label: 'WPA-PSK/WPA2-PSK Personal Mixed' },
@@ -67,19 +87,22 @@ const Encryption = ({ editing, namePrefix, radiusPrefix }) => {
             ]}
             isDisabled={!editing}
             isRequired
+            onChange={onProtoChange}
           />
-          <SelectField
-            name={`${namePrefix}.ieee80211w`}
-            label="ieee80211w"
-            definitionKey="interface.ssid.encryption.ieee80211w"
-            options={[
-              { value: 'disabled', label: 'disabled' },
-              { value: 'optional', label: 'optional' },
-              { value: 'required', label: 'required' },
-            ]}
-            isDisabled={!editing}
-            isRequired
-          />
+          {canChangeIeee && (
+            <SelectField
+              name={`${namePrefix}.ieee80211w`}
+              label="ieee80211w"
+              definitionKey="interface.ssid.encryption.ieee80211w"
+              options={[
+                { value: 'disabled', label: 'disabled' },
+                { value: 'optional', label: 'optional' },
+                { value: 'required', label: 'required' },
+              ]}
+              isDisabled={!editing}
+              isRequired
+            />
+          )}
           {isKeyNeeded && (
             <StringField
               name={`${namePrefix}.key`}

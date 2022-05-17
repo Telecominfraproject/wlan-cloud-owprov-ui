@@ -183,7 +183,7 @@ const InventoryTable = ({
 
   useEffect(() => {
     refetchTags();
-  }, [refreshId]);
+  }, [t, refreshId]);
 
   if (isManual && tagSelect?.length === 0) {
     return (

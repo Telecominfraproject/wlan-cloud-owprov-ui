@@ -93,7 +93,7 @@ const LocationTable = ({ actions, select, refreshId, ignoredColumns, disabledIds
     ];
 
     return baseColumns;
-  }, [disabledIds]);
+  }, [t, disabledIds]);
 
   useEffect(() => {
     if (refreshId > 0) refetch();

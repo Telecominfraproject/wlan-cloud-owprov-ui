@@ -122,6 +122,7 @@ export const mapToFlowElements = ({ tree, flatTree, tags, devices, autoAlign = f
   // If we are using the Auto Map, we stop here and use dagre for layout
   if (!savedMap) return setupDag(elements, 200, 60);
   const parsedMap = JSON.parse(savedMap.data);
+  const rootNode = parsedMap.rootNode ?? '0000-0000-0000';
 
   const includedElements = flatTreeFromRootNode(tree, parsedMap.rootNode);
 
@@ -149,7 +150,14 @@ export const mapToFlowElements = ({ tree, flatTree, tags, devices, autoAlign = f
       const found = includedElements.find((incl) => incl === id);
       if (found) {
         const foundSaved = parsedMap.elements.find((saved) => saved.id === el.id);
-        finalElements.push({ ...el, position: foundSaved ? foundSaved.position : { x: 0, y: 0 } });
+        finalElements.push({
+          ...el,
+          data: {
+            ...el.data,
+            isRoot: el.id === rootNode,
+          },
+          position: foundSaved ? foundSaved.position : { x: 0, y: 0 },
+        });
       }
     } else if (type === 'device') {
       const found = includedElements.find((incl) => incl === el.data.tag.entity || incl === el.data.tag.venue);

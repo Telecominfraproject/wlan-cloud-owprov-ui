@@ -191,7 +191,7 @@ const InventoryTable: React.FC = () => {
     ];
 
     return baseColumns;
-  }, [onlyUnassigned]);
+  }, [t, onlyUnassigned]);
 
   const onUnassignedToggle = () => {
     setOnlyUnassigned.toggle();

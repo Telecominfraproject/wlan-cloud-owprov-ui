@@ -109,6 +109,7 @@ const LoginForm: React.FC<Props> = ({ setActiveForm }) => {
               <Field name="rememberMe">
                 {({ field }: { field: FormFieldProps }) => (
                   <FormControl display="flex" alignItems="center">
+                    {/* @ts-ignore */}
                     <Switch {...field} colorScheme="blue" me="10px" />
                     <FormLabel htmlFor="remember-login" mb="0" ms="1" fontWeight="normal">
                       {t('login.remember_me')}

@@ -2,6 +2,13 @@ import phoneNumberTest from 'utils/phoneNumber';
 import * as Yup from 'yup';
 import { testPhoneNumberArray, testRegex } from './formTests';
 
+export const DeviceRulesSchema = (t: (str: string) => string) =>
+  Yup.object().shape({
+    rrm: Yup.string().required(t('form.required')),
+    rcOnly: Yup.string().required(t('form.required')),
+    firmwareUpgrade: Yup.string().required(t('form.required')),
+  });
+
 // User Schemas
 export const CreateUserSchema = (t: (str: string) => string, { passRegex }: { passRegex: string }) =>
   Yup.object().shape({
@@ -214,7 +221,7 @@ export const SmsNotificationSchema = (t: (str: string) => string) =>
 export const CreateConfigurationSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
-    rrm: Yup.string().required(t('form.required')),
+    deviceRules: DeviceRulesSchema(t).required('form.required'),
     deviceTypes: Yup.array().of(Yup.string()).required(t('form.required')).min(1, t('form.required')),
     description: Yup.string(),
     entity: Yup.string().required(t('form.required')),
@@ -235,7 +242,7 @@ export const CreateTagSchema = (t: (str: string) => string) =>
         return true;
       }),
     name: Yup.string().required(t('form.required')),
-    rrm: Yup.string().required(t('form.required')),
+    deviceRules: DeviceRulesSchema(t).required('form.required'),
     deviceType: Yup.string().required(t('form.required')),
     description: Yup.string(),
     entity: Yup.string(),
@@ -245,7 +252,7 @@ export const CreateTagSchema = (t: (str: string) => string) =>
 export const UpdateTagSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
-    rrm: Yup.string().required(t('form.required')),
+    deviceRules: DeviceRulesSchema(t).required('form.required'),
     deviceType: Yup.string().required(t('form.required')),
     description: Yup.string(),
     entity: Yup.string(),
@@ -344,7 +351,7 @@ export const EntitySchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
-    rrm: Yup.string().required(t('form.required')),
+    deviceRules: DeviceRulesSchema(t).required(t('common.required')),
     deviceConfiguration: Yup.array().of(Yup.string()),
     sourceIP: Yup.array().of(Yup.string()),
     __createLocation: CreateLocationSchema(t, false).nullable().default(undefined),
@@ -355,7 +362,7 @@ export const VenueSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
-    rrm: Yup.string().required(t('form.required')),
+    deviceRules: DeviceRulesSchema(t).required(t('common.required')),
     deviceConfiguration: Yup.array().of(Yup.string()),
     contact: Yup.string(),
     location: Yup.string(),
@@ -437,7 +444,11 @@ export const SubscriberDeviceSchema = (t: (str: string) => string) =>
         return true;
       })
       .default(''),
-    rrm: Yup.string().required(t('form.required')).default('inherit'),
+    deviceRules: DeviceRulesSchema(t).required('form.required').default({
+      rrm: 'inherit',
+      rcOnly: 'inherit',
+      firmwareUpgrade: 'inherit',
+    }),
     deviceType: Yup.string().required(t('form.required')).default(''),
     serviceClass: Yup.string().default(''),
     billingCode: Yup.string().default(''),
@@ -451,7 +462,7 @@ export const CreateOperatorSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
-    rrm: Yup.string().required(t('form.required')),
+    deviceRules: DeviceRulesSchema(t).required('form.required'),
     registrationId: Yup.string().required(t('form.required')),
     sourceIP: Yup.array().of(Yup.string()),
   });
@@ -459,6 +470,6 @@ export const EditOperatorSchema = (t: (str: string) => string) =>
   Yup.object().shape({
     name: Yup.string().required(t('form.required')),
     description: Yup.string(),
-    rrm: Yup.string().required(t('form.required')),
+    deviceRules: DeviceRulesSchema(t).required('form.required'),
     sourceIP: Yup.array().of(Yup.string()),
   });

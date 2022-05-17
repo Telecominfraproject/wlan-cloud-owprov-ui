@@ -9,7 +9,7 @@ import StringField from 'components/FormFields/StringField';
 import { useCreateEntity } from 'hooks/Network/Entity';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
-import SelectField from 'components/FormFields/SelectField';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -26,9 +26,9 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
   const [formKey, setFormKey] = useState(uuid());
   const create = useCreateEntity();
 
-  const createParameters = ({ name, description, note, rrm }) => ({
+  const createParameters = ({ name, description, note, deviceRules }) => ({
     name,
-    rrm,
+    deviceRules,
     description,
     notes: note.length > 0 ? [{ note }] : undefined,
     parent: parentId,
@@ -45,7 +45,11 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
       initialValues={{
         name: '',
         description: '',
-        rrm: 'inherit',
+        deviceRules: {
+          rrm: 'inherit',
+          rcOnly: 'inherit',
+          firmwareUpgrade: 'inherit',
+        },
         note: '',
       }}
       validationSchema={EntitySchema(t)}
@@ -91,19 +95,7 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
         <Form>
           <SimpleGrid minChildWidth="300px" spacing="20px" mb={6}>
             <StringField name="name" label={t('common.name')} errors={errors} touched={touched} isRequired />
-            <SelectField
-              name="rrm"
-              label="RRM"
-              errors={errors}
-              touched={touched}
-              options={[
-                { value: 'inherit', label: 'inherit' },
-                { value: 'on', label: 'on' },
-                { value: 'off', label: 'off' },
-              ]}
-              isRequired
-              w={28}
-            />
+            <DeviceRulesField />
             <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>

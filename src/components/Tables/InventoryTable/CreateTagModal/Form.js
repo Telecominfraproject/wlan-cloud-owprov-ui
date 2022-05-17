@@ -10,6 +10,7 @@ import SelectField from 'components/FormFields/SelectField';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 import SpecialConfigurationManager from '../../../CustomFields/SpecialConfigurationManager';
 
 const propTypes = {
@@ -56,10 +57,10 @@ const CreateTagForm = ({
     return `ven:${splitEntity[1]}`;
   };
 
-  const createParameters = ({ serialNumber, name, description, note, deviceType, devClass, rrm, entity }) => ({
+  const createParameters = ({ serialNumber, name, description, note, deviceType, devClass, deviceRules, entity }) => ({
     serialNumber,
     name,
-    rrm,
+    deviceRules,
     deviceType,
     devClass: deviceClass !== '' ? deviceClass : devClass,
     description: description.length > 0 ? description : undefined,
@@ -82,7 +83,11 @@ const CreateTagForm = ({
         name: '',
         description: '',
         deviceType: deviceTypesList[0],
-        rrm: 'inherit',
+        deviceRules: {
+          rrm: 'inherit',
+          rcOnly: 'inherit',
+          firmwareUpgrade: 'inherit',
+        },
         devClass: deviceClass !== '' ? deviceClass : 'any',
         note: '',
         entity: getEntityId(),
@@ -172,17 +177,7 @@ const CreateTagForm = ({
             ]}
             isHidden={entityId !== '' || subId !== '' || deviceClass === 'subscriber'}
           />
-          <SelectField
-            name="rrm"
-            label="RRM"
-            options={[
-              { value: 'inherit', label: 'inherit' },
-              { value: 'on', label: 'on' },
-              { value: 'off', label: 'off' },
-            ]}
-            isRequired
-            w={28}
-          />
+          <DeviceRulesField />
           <SelectField
             name="devClass"
             label={t('inventory.dev_class')}

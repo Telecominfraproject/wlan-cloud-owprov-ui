@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext, getIn } from 'formik';
 import SelectField from 'components/FormFields/SelectField';
@@ -22,7 +22,27 @@ const EncryptionResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
     }
   };
 
+  const onProtoChange = useCallback(
+    (e) => {
+      const value = getIn(values, `${namePrefix}`);
+      if (e.target.value === 'none') {
+        setFieldValue(`${namePrefix}`, { proto: 'none' });
+      } else if (value && value.proto === 'none') {
+        setFieldValue(`${namePrefix}`, { proto: e.target.value, ieee80211w: 'disabled', key: 'YOUR_SECRET' });
+      } else {
+        setFieldValue(`${namePrefix}.proto`, e.target.value);
+      }
+    },
+    [getIn(values, `${namePrefix}`)],
+  );
+
   const isEnabled = useMemo(() => getIn(values, `${namePrefix}`) !== undefined, [getIn(values, `${namePrefix}`)]);
+
+  const canChangeIeee = useMemo(() => {
+    const configValue = getIn(values, `${namePrefix}`);
+
+    return configValue && configValue.proto && configValue.proto !== 'none';
+  }, [getIn(values, `${namePrefix}`)]);
 
   const isKeyNeeded = useMemo(
     () => getIn(values, `${namePrefix}`) !== undefined && keyProtos.includes(getIn(values, `${namePrefix}`).proto),
@@ -49,6 +69,7 @@ const EncryptionResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
             label="protocol"
             definitionKey="interface.ssid.encryption.proto"
             options={[
+              { value: 'none', label: t('common.none') },
               { value: 'psk', label: 'WPA-PSK' },
               { value: 'psk2', label: 'WPA2-PSK' },
               { value: 'psk-mixed', label: 'WPA-PSK/WPA2-PSK Personal Mixed' },
@@ -57,21 +78,24 @@ const EncryptionResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
               { value: 'wpa3', label: 'WPA3-Enterprise EAP-TLS' },
               { value: 'wpa3-192', label: 'WPA3-192-Enterprise EAP-TLS' },
             ]}
+            onChange={onProtoChange}
             isRequired
             isDisabled={isDisabled}
           />
-          <SelectField
-            name={`${namePrefix}.ieee80211w`}
-            label="ieee80211w"
-            definitionKey="interface.ssid.encryption.ieee80211w"
-            options={[
-              { value: 'disabled', label: 'disabled' },
-              { value: 'optional', label: 'optional' },
-              { value: 'required', label: 'required' },
-            ]}
-            isRequired
-            isDisabled={isDisabled}
-          />
+          {canChangeIeee && (
+            <SelectField
+              name={`${namePrefix}.ieee80211w`}
+              label="ieee80211w"
+              definitionKey="interface.ssid.encryption.ieee80211w"
+              options={[
+                { value: 'disabled', label: 'disabled' },
+                { value: 'optional', label: 'optional' },
+                { value: 'required', label: 'required' },
+              ]}
+              isRequired
+              isDisabled={isDisabled}
+            />
+          )}
           {isKeyNeeded && (
             <StringField
               name={`${namePrefix}.key`}

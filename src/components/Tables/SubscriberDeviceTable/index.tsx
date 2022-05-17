@@ -100,7 +100,7 @@ const SubscriberDeviceTable: React.FC<Props> = ({
         alwaysShow: true,
       },
     ],
-    [disabledIds, actionCell],
+    [t, disabledIds, actionCell],
   );
 
   useEffect(() => {

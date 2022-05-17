@@ -78,7 +78,7 @@ const ConfigurationsTable = ({ select, actions }) => {
     ];
 
     return baseColumns;
-  }, []);
+  }, [t]);
 
   return (
     <DataTable

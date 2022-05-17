@@ -101,7 +101,7 @@ const SubscriberTable = ({ actions, operatorId, refreshId, disabledIds }) => {
     ];
 
     return baseColumns;
-  }, [disabledIds, actionCell]);
+  }, [t, disabledIds, actionCell]);
 
   useEffect(() => {
     if (refreshId > 0) refetchData();

@@ -74,7 +74,7 @@ const OperatorsTable: React.FC = () => {
         alwaysShow: true,
       },
     ],
-    [],
+    [t],
   );
 
   return (
