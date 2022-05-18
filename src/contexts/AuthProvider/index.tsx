@@ -95,7 +95,7 @@ export const AuthProvider = ({ token, children }: Props) => {
     enabled: !!userId && userAvatar !== '0' && userAvatar !== '',
     cache: userAvatar,
   });
-  const updatePreferences = useUpdatePreferences({ id: userId });
+  const updatePreferences = useUpdatePreferences();
 
   const logout = useDeleteAccountToken({ setCurrentToken });
   const logoutUser = () => logout.mutateAsync(currentToken ?? '');

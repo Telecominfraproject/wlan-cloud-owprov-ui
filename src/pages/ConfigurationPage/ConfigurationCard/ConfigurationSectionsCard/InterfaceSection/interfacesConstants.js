@@ -1,4 +1,4 @@
-import { testLength, testUcMac } from 'constants/formTests';
+import { testLeaseTime, testLength, testUcMac } from 'constants/formTests';
 import { object, number, string, array, bool } from 'yup';
 
 export const CREATE_INTERFACE_SCHEMA = (t) =>
@@ -192,7 +192,10 @@ export const INTERFACE_IPV4_DHCP_SCHEMA = (t, useDefault = false) => {
     .shape({
       'lease-first': number().required(t('form.required')).positive().integer().default(1),
       'lease-count': number().required(t('form.required')).positive().integer().default(1),
-      'lease-time': string().required(t('form.required')).default('6h'),
+      'lease-time': string()
+        .required(t('form.required'))
+        .test('ipv4_dhcp.lease-time', t('form.invalid_lease_time'), testLeaseTime)
+        .default('6h'),
       'relay-server': string().default(undefined),
     })
     .default({
@@ -208,7 +211,10 @@ export const INTERFACE_IPV4_DHCP_LEASE_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
       macaddr: string().required(t('form.required')).default(''),
-      'lease-time': string().required(t('form.required')).default('6h'),
+      'lease-time': string()
+        .required(t('form.required'))
+        .test('ipv4_dhcp-lease.lease-time', t('form.invalid_lease_time'), testLeaseTime)
+        .default('6h'),
       'static-lease-offset': number().required(t('form.required')).positive().integer().default(1),
       'publish-hostname': bool().required(t('form.required')).default(true),
     })

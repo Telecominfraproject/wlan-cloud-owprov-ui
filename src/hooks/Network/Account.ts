@@ -7,12 +7,12 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
 
-export const useUpdatePreferences = ({ id }: { id: string }) => {
+export const useUpdatePreferences = () => {
   const queryClient = useQueryClient();
 
   return useMutation((newPreferences: Preference[]) => axiosSec.put(`preferences`, { data: newPreferences }), {
     onSuccess: ({ data: { data: preferences } }: { data: { data: Preference[] } }) => {
-      queryClient.setQueryData(['get-preferences', id], preferences);
+      queryClient.setQueryData(['get-user-preferences'], preferences);
     },
   });
 };

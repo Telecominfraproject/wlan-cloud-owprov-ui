@@ -129,3 +129,32 @@ export const testPhoneNumberArray = (arr?: string[]) => {
 
   return true;
 };
+
+const acceptedLeaseUnits = ['m', 'h', 'd'];
+export const testLeaseTime = (str: string) => {
+  let result = true;
+  try {
+    // @ts-ignore
+    const arr: string[] = str.match(/\D+|\d+/g);
+    if (arr && arr.length > 0 && arr.length <= 6 && arr.length % 2 === 0) {
+      for (let i = 0; i < arr.length; i += 1) {
+        if (i % 2 === 0) {
+          const digit = arr[i] ?? '';
+          if (digit.length === 0 || digit === '0') {
+            result = false;
+            break;
+          }
+        } else {
+          const unit = arr[i] ?? '';
+          if (!acceptedLeaseUnits.includes(unit)) {
+            result = false;
+            break;
+          }
+        }
+      }
+    } else result = false;
+  } catch (e) {
+    result = false;
+  }
+  return result;
+};

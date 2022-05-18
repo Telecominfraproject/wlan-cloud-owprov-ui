@@ -98,7 +98,6 @@ const ImportConfigurationModal = ({ isOpen, onClose, setValue }) => {
 
   const onChange = (e) => {
     if (e.target.files?.length > 0) parseFile(e.target.files[0]);
-    setRefreshId(uuid());
   };
 
   useEffect(() => {
