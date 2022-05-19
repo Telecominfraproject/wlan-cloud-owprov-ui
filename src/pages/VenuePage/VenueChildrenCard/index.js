@@ -14,6 +14,7 @@ import VenueContactTableWrapper from './VenueContactTableWrapper';
 import VenueDashboard from './VenueDashboard';
 import VenueLiveView from './VenueLiveView';
 import VenueResourcesTableWrapper from './VenueResourcesTableWrapper';
+import VenueClientLifecycle from './VenueClientLifecycle';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -33,6 +34,9 @@ const VenueChildrenCard = ({ id }) => {
           </TabPanel>
           <TabPanel overflowX="auto">
             <VenueLiveView boardId={venue.boards[0]} />
+          </TabPanel>
+          <TabPanel overflowX="auto">
+            <VenueClientLifecycle venueId={venue?.id} />
           </TabPanel>
           <TabPanel overflowX="auto">
             <VenueChildrenTableWrapper venue={venue} />
@@ -82,6 +86,7 @@ const VenueChildrenCard = ({ id }) => {
               <>
                 <Tab>{t('analytics.dashboard')}</Tab>
                 <Tab>{t('analytics.live_view')}</Tab>
+                <Tab>{t('analytics.client_lifecycle')}</Tab>
               </>
             )}
             <Tab>{t('venues.subvenues')}</Tab>

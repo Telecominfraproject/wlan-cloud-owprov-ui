@@ -43,12 +43,17 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { endpoints } = useAuth();
+  const [tabIndex, setTabIndex] = useState(0);
   const [formKey, setFormKey] = useState(uuid());
   const queryClient = useQueryClient();
   const updateVenue = useUpdateVenue({ id: venue.id });
   const createAnalytics = useCreateAnalyticsBoard();
   const updateAnalytics = useUpdateAnalyticsBoard();
   const deleteAnalytics = useDeleteAnalyticsBoard();
+
+  const handleTabsChange = (index) => {
+    setTabIndex(index);
+  };
 
   useEffect(() => {
     setFormKey(uuid());
@@ -224,7 +229,7 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
       }}
     >
       {({ errors, touched, setFieldValue }) => (
-        <Tabs variant="enclosed" w="100%">
+        <Tabs index={tabIndex} onChange={handleTabsChange} variant="enclosed" w="100%">
           <TabList>
             <Tab>{t('common.main')}</Tab>
             <Tab>{t('common.notes')}</Tab>

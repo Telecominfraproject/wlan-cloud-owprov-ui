@@ -9,10 +9,7 @@ interface Props {
 const NotificationContent: React.FC<Props> = ({ notification }) => {
   if (!notification) return null;
 
-  if (
-    notification.content.type === 'entity_configuration_update' ||
-    notification.content.type === 'venue_configuration_update'
-  ) {
+  if (notification.type === 'entity_configuration_update' || notification.type === 'venue_configuration_update') {
     return <ConfigurationPushesNotificationContent notification={notification} />;
   }
   return null;

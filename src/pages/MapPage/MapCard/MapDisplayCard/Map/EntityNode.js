@@ -72,7 +72,7 @@ const EntityNode = ({ data, isConnectable }) => {
             p="4px"
             borderRadius={4}
             pointerEvents="all"
-            id="testotest"
+            textColor={data?.isRoot ? 'white' : undefined}
           >
             <Center>
               <Heading size="md" id={uuid()}>

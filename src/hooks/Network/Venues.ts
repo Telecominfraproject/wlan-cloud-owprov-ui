@@ -103,8 +103,38 @@ export const useUpdateVenue = ({ id }: { id: string }) =>
   useMutation(({ params, createObjects }: { params: unknown; createObjects: unknown }) =>
     axiosProv.put(`venue/${id}${createObjects ? `?createObjects=${JSON.stringify(createObjects)}` : ''}`, params),
   );
-export const useUpdateVenueDevices = ({ id }: { id: string }) =>
-  useMutation(({ params }: { params: unknown }) => axiosProv.put(`venue/${id}?updateAllDevices=true`, params));
+export const useUpdateVenueDevices = ({ id }: { id: string }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useMutation(() => axiosProv.put(`venue/${id}?updateAllDevices=true`, {}), {
+    onSuccess: ({ data }) => {
+      toast({
+        id: 'venue-update-devices-success',
+        title: t('common.success'),
+        description: t('venues.successfully_update_devices', { num: data.serialNumbers.length }),
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+    onError: (e: AxiosError) => {
+      toast({
+        id: uuid(),
+        title: t('common.error'),
+        description: t('crud.error_create_obj', {
+          obj: t('venues.error_update_devices'),
+          e: e?.response?.data?.ErrorDescription,
+        }),
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+  });
+};
 
 export const useRebootVenueDevices = ({ id }: { id: string }) => {
   const { t } = useTranslation();

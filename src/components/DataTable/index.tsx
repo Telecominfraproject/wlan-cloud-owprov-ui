@@ -182,7 +182,12 @@ const DataTable: React.FC<Props> = ({
                           <div
                             // @ts-ignore
                             {...column.getSortByToggleProps()}
-                            style={{ alignContent: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}
+                            style={{
+                              alignContent: 'center',
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              paddingTop: column.canSort ? '' : '4px',
+                            }}
                           >
                             {column.render('Header')}
                             <SortIcon
@@ -287,7 +292,7 @@ const DataTable: React.FC<Props> = ({
                   w={28}
                   min={1}
                   max={pageOptions.length}
-                  onChange={(_, numberValue) => {
+                  onChange={(_: unknown, numberValue: number) => {
                     const newPage = numberValue ? numberValue - 1 : 0;
                     gotoPage(newPage);
                   }}
@@ -304,7 +309,7 @@ const DataTable: React.FC<Props> = ({
             <Select
               w={32}
               value={pageSize}
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                 setPageSize(Number(e.target.value));
               }}
             >

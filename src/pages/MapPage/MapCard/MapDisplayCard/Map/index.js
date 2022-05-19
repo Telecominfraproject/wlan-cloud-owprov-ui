@@ -97,7 +97,7 @@ const Map = forwardRef(({ data, selectedMap, isEditing }, ref) => {
           }}
           nodeBorderRadius={5}
         />
-        <Controls />
+        <Controls showInteractive={false} />
       </ReactFlow>
     </Center>
   );

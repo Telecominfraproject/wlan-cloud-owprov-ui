@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useToast } from '@chakra-ui/react';
 import SaveButton from 'components/Buttons/SaveButton';
 import { useUpdateMap } from 'hooks/Network/Maps';
+import { useQueryClient } from 'react-query';
 
 const propTypes = {
   mapId: PropTypes.string.isRequired,
@@ -16,6 +17,7 @@ const SaveMapButton = ({ mapId, mapRef, isDisabled, stopEditing }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const updateMap = useUpdateMap({ t, toast, mapId });
+  const queryClient = useQueryClient();
 
   const handleClick = () => {
     const data = mapRef?.current ? JSON.stringify(mapRef.current.getDataToSave()) : '';
@@ -23,6 +25,7 @@ const SaveMapButton = ({ mapId, mapRef, isDisabled, stopEditing }) => {
       { data },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries(['get-maps']);
           toast({
             id: 'map-update-success',
             title: t('common.success'),

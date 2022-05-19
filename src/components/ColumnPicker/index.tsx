@@ -35,7 +35,7 @@ const ColumnPicker: React.FC<Props> = ({ preference, columns, hiddenColumns, set
     return (
       <Menu closeOnSelect={false}>
         <MenuButton as={IconButton} icon={<FunnelSimple />} />
-        <MenuList>
+        <MenuList maxH="200px" overflowY="auto">
           {columns.map((column) => (
             <MenuItem key={uuid()} isDisabled={column.alwaysShow} onClick={() => handleColumnClick(column.id)}>
               <Checkbox
@@ -56,7 +56,7 @@ const ColumnPicker: React.FC<Props> = ({ preference, columns, hiddenColumns, set
       <MenuButton as={Button} rightIcon={<FunnelSimple />} minWidth="120px">
         {t('common.columns')}
       </MenuButton>
-      <MenuList>
+      <MenuList maxH="200px" overflowY="auto">
         {columns.map((column) => (
           <MenuItem key={uuid()} isDisabled={column.alwaysShow} onClick={() => handleColumnClick(column.id)}>
             <Checkbox

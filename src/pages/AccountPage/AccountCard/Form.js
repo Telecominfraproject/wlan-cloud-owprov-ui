@@ -191,10 +191,13 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                               name="userRole"
                               label={t('users.role')}
                               options={[
-                                { value: 'root', label: 'Root' },
-                                { value: 'partner', label: 'Partner' },
+                                { value: 'accounting', label: 'Accounting' },
                                 { value: 'admin', label: 'Admin' },
                                 { value: 'csr', label: 'CSR' },
+                                { value: 'installer', label: 'Installer' },
+                                { value: 'noc', label: 'NOC' },
+                                { value: 'root', label: 'Root' },
+                                { value: 'system', label: 'System' },
                               ]}
                               isRequired
                               isDisabled={!editing}
