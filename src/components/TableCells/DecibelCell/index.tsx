@@ -8,7 +8,7 @@ const DecibelCell: React.FC<{ db?: number }> = ({ db }) => {
     return parseDbm(db);
   }, [db]);
 
-  return <div>{data} db</div>;
+  return <div>{data}</div>;
 };
 
 export default React.memo(DecibelCell);

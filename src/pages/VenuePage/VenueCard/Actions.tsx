@@ -29,6 +29,7 @@ const VenueActions: React.FC<Props> = ({ venueId, isDisabled }) => {
       <MenuList>
         <MenuItem onClick={handleRebootClick}>{t('venues.reboot_all_devices')}</MenuItem>
         <MenuItem onClick={handleUpdateClick}>{t('venues.update_all_devices')}</MenuItem>
+        <MenuItem onClick={handleUpdateClick}>{t('venues.upgrade_all_devices')}</MenuItem>
       </MenuList>
     </Menu>
   );

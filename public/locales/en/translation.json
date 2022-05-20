@@ -698,7 +698,10 @@
 		"successfully_removed_contact": "Successfully removed contact!",
 		"successfully_update_devices": "Updating {{num}} devices!",
 		"title": "Venues",
-		"update_all_devices": "Update All Devices",
+		"update_all_devices": "Update All Device Configurations",
+		"upgrade_all_devices": "Upgrade All Devices to Latest Firmware",
+		"upgrade_all_devices_error": "Error upgrading devices: {{e}}",
+		"upgrade_all_devices_success": "Successfully started upgrading devices!",
 		"use_existing": "Use Existing",
 		"use_existing_contacts": "Use Existing Contacts",
 		"use_this_contact": "Use this contact"

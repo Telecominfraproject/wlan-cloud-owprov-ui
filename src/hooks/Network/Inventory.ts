@@ -6,6 +6,15 @@ import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
 
+export const useGetInventoryTableSpecs = () =>
+  useQuery(
+    ['get-inventory-table-spec'],
+    () => axiosProv.get(`inventory?orderSpec=true`).then(({ data }) => data.list),
+    {
+      staleTime: Infinity,
+    },
+  );
+
 export const useGetInventoryCount = ({
   enabled,
   onlyUnassigned = false,

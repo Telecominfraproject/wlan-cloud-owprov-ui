@@ -21,14 +21,12 @@ const IpV4 = ({ editing, index, isEnabled }) => {
         label="subnet"
         definitionKey="interface.ipv4.subnet"
         isDisabled={!editing}
-        isRequired
       />
       <StringField
         name={`configuration[${index}].ipv4.gateway`}
         label="gateway"
         definitionKey="interface.ipv4.gateway"
         isDisabled={!editing}
-        isRequired
       />
       <ToggleField
         name={`configuration[${index}].ipv4.send-hostname`}
@@ -42,7 +40,6 @@ const IpV4 = ({ editing, index, isEnabled }) => {
         label="use-dns"
         definitionKey="interface.ipv4.use-dns"
         isDisabled={!editing}
-        isRequired
       />
       <DhcpIpV4 index={index} editing={editing} />
     </>

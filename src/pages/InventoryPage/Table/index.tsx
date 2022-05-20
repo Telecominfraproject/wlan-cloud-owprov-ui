@@ -4,7 +4,12 @@ import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import { useTranslation } from 'react-i18next';
 import { Box, Flex, FormControl, FormLabel, Switch, useBoolean, useDisclosure } from '@chakra-ui/react';
-import { useGetInventoryCount, useGetInventoryTags, usePushConfig } from 'hooks/Network/Inventory';
+import {
+  useGetInventoryCount,
+  useGetInventoryTableSpecs,
+  useGetInventoryTags,
+  usePushConfig,
+} from 'hooks/Network/Inventory';
 import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import ColumnPicker from 'components/ColumnPicker';
@@ -32,6 +37,7 @@ const InventoryTable: React.FC = () => {
   const { isOpen: isEditOpen, onOpen: openEdit, onClose: closeEdit } = useDisclosure();
   const { isOpen: isPushOpen, onOpen: openPush, onClose: closePush } = useDisclosure();
   const [sortInfo, setSortInfo] = useState<SortInfo>([{ id: 'serialNumber', sort: 'asc' }]);
+  const { data: tableSpecs } = useGetInventoryTableSpecs();
   const scanModalProps = useDisclosure();
   const resetModalProps = useDisclosure();
   const upgradeModalProps = useDisclosure();
@@ -190,8 +196,14 @@ const InventoryTable: React.FC = () => {
       },
     ];
 
-    return baseColumns;
-  }, [t, onlyUnassigned]);
+    return baseColumns.map((col) => {
+      const lower = col.id.toLocaleLowerCase();
+      return {
+        ...col,
+        disableSortBy: tableSpecs ? !tableSpecs.find((spec: string) => spec === lower) : true,
+      };
+    });
+  }, [t, tableSpecs]);
 
   const onUnassignedToggle = () => {
     setOnlyUnassigned.toggle();

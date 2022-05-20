@@ -246,12 +246,12 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
     subnet: string().when('addressing', {
       is: 'dynamic',
       then: string().nullable(),
-      otherwise: string().required(t('form.required')).default(''),
+      otherwise: string().default(''),
     }),
     gateway: string().when('addressing', {
       is: 'dynamic',
       then: string().nullable(),
-      otherwise: string().required(t('form.required')).default(''),
+      otherwise: string().default(''),
     }),
     'send-hostname': bool().when('addressing', {
       is: 'dynamic',
@@ -261,7 +261,7 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
     'use-dns': array().when('addressing', {
       is: 'dynamic',
       then: array().nullable(),
-      otherwise: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
+      otherwise: array().of(string()).default([]),
     }),
     dhcp: INTERFACE_IPV4_DHCP_SCHEMA(t, useDefault),
     'dhcp-lease': INTERFACE_IPV4_DHCP_LEASE_SCHEMA(t, useDefault),

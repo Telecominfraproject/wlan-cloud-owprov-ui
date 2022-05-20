@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { minimalSecondsToDetailed } from 'utils/dateFormatting';
+import { secondsDuration } from 'utils/dateFormatting';
 
 const DurationCell: React.FC<{ seconds?: number }> = ({ seconds }) => {
   const { t } = useTranslation();
@@ -8,7 +8,7 @@ const DurationCell: React.FC<{ seconds?: number }> = ({ seconds }) => {
   const data = useMemo(() => {
     if (seconds === undefined) return '-';
 
-    return minimalSecondsToDetailed(seconds, t);
+    return secondsDuration(seconds, t);
   }, [seconds]);
 
   return <div>{data}</div>;

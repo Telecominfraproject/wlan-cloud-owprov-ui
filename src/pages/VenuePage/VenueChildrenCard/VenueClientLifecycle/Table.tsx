@@ -1,10 +1,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Heading, Spacer } from '@chakra-ui/react';
+import { Box, Spacer } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
 import FormattedDate from 'components/FormattedDate';
 import ColumnPicker from 'components/ColumnPicker';
-import { useGetClientLifecycle, useGetClientLifecycleCount } from 'hooks/Network/Analytics';
+import {
+  useGetClientLifecycle,
+  useGetClientLifecycleCount,
+  useGetClientLifecycleTableSpecs,
+} from 'hooks/Network/Analytics';
 import useControlledTable from 'hooks/useControlledTable';
 import { Column, SortInfo } from 'models/Table';
 import { UseQueryResult } from 'react-query';
@@ -37,6 +41,7 @@ const ClientLifecyleTable: React.FC<{
     getParams: { venueId, mac, sortInfo, fromDate, endDate },
   });
   const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
+  const { data: tableSpecs } = useGetClientLifecycleTableSpecs();
 
   const booleanCell = useCallback((cell, key) => <BooleanCell isTrue={cell.row.values[key]} key={uuid()} />, []);
   const dateCell = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
@@ -50,8 +55,8 @@ const ClientLifecyleTable: React.FC<{
   const dbCell = useCallback((cell, key) => <DecibelCell db={cell.row.values[key]} key={uuid()} />, []);
   const numberCell = useCallback((cell, key) => <NumberCell value={cell.row.values[key]} key={uuid()} />, []);
 
-  const columns: Column[] = useMemo(
-    (): Column[] => [
+  const columns: Column[] = useMemo((): Column[] => {
+    const cols: Column[] = [
       {
         id: 'timestamp',
         Header: t('common.timestamp'),
@@ -78,7 +83,7 @@ const ClientLifecyleTable: React.FC<{
       },
       {
         id: 'rssi',
-        Header: 'RSSI',
+        Header: `RSSI (db)`,
         Footer: '',
         accessor: 'rssi',
         Cell: ({ cell }) => dbCell(cell, 'rssi'),
@@ -86,7 +91,7 @@ const ClientLifecyleTable: React.FC<{
       },
       {
         id: 'noise',
-        Header: t('analytics.noise'),
+        Header: `${t('analytics.noise')} (db)`,
         Footer: '',
         accessor: 'noise',
         Cell: ({ cell }) => dbCell(cell, 'noise'),
@@ -133,7 +138,7 @@ const ClientLifecyleTable: React.FC<{
       },
       {
         id: 'ack_signal',
-        Header: t('analytics.ack_signal'),
+        Header: `${t('analytics.ack_signal')} (db)`,
         Footer: '',
         accessor: 'ack_signal',
         Cell: ({ cell }) => dbCell(cell, 'ack_signal'),
@@ -141,7 +146,7 @@ const ClientLifecyleTable: React.FC<{
       },
       {
         id: 'ack_signal_avg',
-        Header: `${t('analytics.ack_signal')} ${t('common.avg')}`,
+        Header: `${t('analytics.ack_signal')} ${t('common.avg')} (db)`,
         Footer: '',
         accessor: 'ack_signal_avg',
         Cell: ({ cell }) => dbCell(cell, 'ack_signal_avg'),
@@ -321,17 +326,17 @@ const ClientLifecyleTable: React.FC<{
         accessor: 'mode',
         isMonospace: true,
       },
-    ],
-    [t],
-  );
+    ];
+    return cols.map((col) => ({
+      ...col,
+      disableSortBy: tableSpecs ? !tableSpecs.find((spec: string) => spec === col.id) : true,
+    }));
+  }, [t, tableSpecs]);
 
   return (
     <>
       <Box my="10px" display="flex">
         <Box w="300px">{searchBar}</Box>
-        <Heading ml={1} pt={2} size="md">
-          {mac}
-        </Heading>
         <Spacer />
         <ColumnPicker
           columns={columns}

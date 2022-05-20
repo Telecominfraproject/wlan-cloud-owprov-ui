@@ -83,6 +83,16 @@ export const useGetAnalyticsClients = ({ venueId }: { venueId: string }) => {
     },
   );
 };
+
+export const useGetClientLifecycleTableSpecs = () =>
+  useQuery(
+    ['get-lifecycles-table-spec'],
+    () => axiosAnalytics.get(`wifiClientHistory/0?orderSpec=true`).then(({ data }) => data.list),
+    {
+      staleTime: Infinity,
+    },
+  );
+
 export const useGetClientLifecycleCount = ({
   venueId,
   mac,

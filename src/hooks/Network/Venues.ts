@@ -169,6 +169,38 @@ export const useRebootVenueDevices = ({ id }: { id: string }) => {
   });
 };
 
+export const useUpgradeVenueDevices = ({ id }: { id: string }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useMutation(() => axiosProv.put(`venue/${id}?upgradeAllDevices=true`, {}), {
+    onSuccess: () => {
+      toast({
+        id: 'venue-upgrade-devices-success',
+        title: t('common.success'),
+        description: t('venues.upgrade_all_devices_success'),
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+    onError: (e: AxiosError) => {
+      toast({
+        id: uuid(),
+        title: t('common.error'),
+        description: t('crud.upgrade_all_devices_error', {
+          e: e?.response?.data?.ErrorDescription,
+        }),
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+  });
+};
+
 export const useDeleteVenue = () => useMutation((id) => axiosProv.delete(`venue/${id}`));
 
 export const useAddVenueContact = ({ id, originalContacts = [] }: { id: string; originalContacts?: string[] }) =>

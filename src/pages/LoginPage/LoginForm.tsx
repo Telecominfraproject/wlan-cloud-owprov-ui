@@ -101,7 +101,7 @@ const LoginForm: React.FC<Props> = ({ setActiveForm }) => {
           );
         }}
       >
-        {({ isSubmitting, isValid, dirty }) => (
+        {({ isSubmitting, isValid }) => (
           <Form>
             <StringField name="email" label={t('common.email')} />
             <StringField name="password" label={t('common.password')} hideButton />
@@ -149,7 +149,7 @@ const LoginForm: React.FC<Props> = ({ setActiveForm }) => {
                 bg: 'blue.300',
               }}
               isLoading={isSubmitting}
-              isDisabled={!isValid || !dirty}
+              isDisabled={!isValid}
             >
               {t('login.sign_in')}
             </Button>

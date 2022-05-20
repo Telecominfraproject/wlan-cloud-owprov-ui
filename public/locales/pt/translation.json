@@ -698,7 +698,10 @@
 		"successfully_removed_contact": "Contato removido com sucesso!",
 		"successfully_update_devices": "Atualizando {{num}} dispositivos!",
 		"title": "Locais",
-		"update_all_devices": "Atualizar todos os dispositivos",
+		"update_all_devices": "Atualizar todas as configurações do dispositivo",
+		"upgrade_all_devices": "Atualize todos os dispositivos para o firmware mais recente",
+		"upgrade_all_devices_error": "Erro ao atualizar dispositivos: {{e}}",
+		"upgrade_all_devices_success": "Atualização de dispositivos iniciada com sucesso!",
 		"use_existing": "Usar existente",
 		"use_existing_contacts": "Usar contatos existentes",
 		"use_this_contact": "Use este contato"
