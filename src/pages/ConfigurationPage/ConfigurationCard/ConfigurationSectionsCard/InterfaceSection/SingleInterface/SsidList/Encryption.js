@@ -5,7 +5,12 @@ import { useFormikContext, getIn } from 'formik';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
-import { INTERFACE_SSID_ENCRYPTION_SCHEMA } from '../../interfacesConstants';
+import {
+  ENCRYPTION_OPTIONS,
+  ENCRYPTION_PROTOS_REQUIRE_IEEE,
+  ENCRYPTION_PROTOS_REQUIRE_KEY,
+  INTERFACE_SSID_ENCRYPTION_SCHEMA,
+} from '../../interfacesConstants';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -13,11 +18,12 @@ const propTypes = {
   radiusPrefix: PropTypes.string.isRequired,
 };
 
-const keyProtos = ['psk', 'psk2', 'psk-mixed', 'sae-mixed'];
-
 const Encryption = ({ editing, namePrefix, radiusPrefix }) => {
   const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext();
+
+  const encryptionValue = useMemo(() => getIn(values, namePrefix), [getIn(values, namePrefix)]);
+  const radiusValue = useMemo(() => getIn(values, radiusPrefix), [getIn(values, radiusPrefix)]);
 
   const onEnabledChange = (e) => {
     if (e.target.checked) {
@@ -29,7 +35,7 @@ const Encryption = ({ editing, namePrefix, radiusPrefix }) => {
 
   const onProtoChange = useCallback(
     (e) => {
-      const value = getIn(values, `${namePrefix}`);
+      const value = encryptionValue;
       if (e.target.value === 'none') {
         setFieldValue(`${namePrefix}`, { proto: 'none' });
       } else if (value && value.proto === 'none') {
@@ -38,23 +44,26 @@ const Encryption = ({ editing, namePrefix, radiusPrefix }) => {
         setFieldValue(`${namePrefix}.proto`, e.target.value);
       }
     },
-    [getIn(values, `${namePrefix}`)],
+    [encryptionValue],
   );
 
-  const isEnabled = useMemo(() => getIn(values, `${namePrefix}`) !== undefined, [getIn(values, `${namePrefix}`)]);
+  const needIeee = useMemo(
+    () => encryptionValue && ENCRYPTION_PROTOS_REQUIRE_IEEE.includes(encryptionValue.proto),
+    [encryptionValue],
+  );
 
-  const canChangeIeee = useMemo(() => {
-    const configValue = getIn(values, `${namePrefix}`);
+  const canChangeIeee = useMemo(
+    () => encryptionValue && encryptionValue.proto && encryptionValue.proto !== 'none',
+    [encryptionValue],
+  );
 
-    return configValue && configValue.proto && configValue.proto !== 'none';
-  }, [getIn(values, `${namePrefix}`)]);
-
-  const isKeyNeeded = useMemo(() => {
-    const value = getIn(values, `${namePrefix}`);
-    const radiusValue = getIn(values, `${radiusPrefix}`);
-
-    return value !== undefined && keyProtos.includes(value.proto) && radiusValue === undefined;
-  }, [getIn(values, `${namePrefix}`), getIn(values, `${radiusPrefix}`)]);
+  const isKeyNeeded = useMemo(
+    () =>
+      encryptionValue !== undefined &&
+      ENCRYPTION_PROTOS_REQUIRE_KEY.includes(encryptionValue.proto) &&
+      radiusValue === undefined,
+    [encryptionValue, radiusValue],
+  );
 
   return (
     <>
@@ -62,29 +71,20 @@ const Encryption = ({ editing, namePrefix, radiusPrefix }) => {
         <Text mr={2}>Encryption</Text>
         <Switch
           onChange={onEnabledChange}
-          isChecked={isEnabled}
+          isChecked={encryptionValue !== undefined}
           borderRadius="15px"
           size="lg"
           isDisabled={!editing}
           _disabled={{ opacity: 0.8, cursor: 'not-allowed' }}
         />
       </Heading>
-      {isEnabled && (
+      {encryptionValue !== undefined && (
         <SimpleGrid minChildWidth="300px" spacing="20px">
           <SelectField
             name={`${namePrefix}.proto`}
             label="protocol"
             definitionKey="interface.ssid.encryption.proto"
-            options={[
-              { value: 'none', label: t('common.none') },
-              { value: 'psk', label: 'WPA-PSK' },
-              { value: 'psk2', label: 'WPA2-PSK' },
-              { value: 'psk-mixed', label: 'WPA-PSK/WPA2-PSK Personal Mixed' },
-              { value: 'wpa2', label: 'WPA2-Enterprise EAP-TLS' },
-              { value: 'sae-mixed', label: 'WPA2/WPA3 Transitional' },
-              { value: 'wpa3', label: 'WPA3-Enterprise EAP-TLS' },
-              { value: 'wpa3-192', label: 'WPA3-192-Enterprise EAP-TLS' },
-            ]}
+            options={ENCRYPTION_OPTIONS}
             isDisabled={!editing}
             isRequired
             onChange={onProtoChange}
@@ -100,7 +100,7 @@ const Encryption = ({ editing, namePrefix, radiusPrefix }) => {
                 { value: 'required', label: 'required' },
               ]}
               isDisabled={!editing}
-              isRequired
+              isRequired={needIeee}
             />
           )}
           {isKeyNeeded && (

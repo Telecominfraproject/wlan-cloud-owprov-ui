@@ -4,11 +4,14 @@ import { useFormikContext, getIn } from 'formik';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
+// eslint-disable-next-line max-len
+import {
+  ENCRYPTION_OPTIONS,
+  ENCRYPTION_PROTOS_REQUIRE_KEY,
+} from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/interfacesConstants';
 import { INTERFACE_SSID_ENCRYPTION_SCHEMA } from './schemas';
 
 const namePrefix = `encryption`;
-
-const keyProtos = ['psk', 'psk2', 'psk-mixed', 'sae-mixed'];
 
 const EncryptionResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
   const { t } = useTranslation();
@@ -45,7 +48,9 @@ const EncryptionResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
   }, [getIn(values, `${namePrefix}`)]);
 
   const isKeyNeeded = useMemo(
-    () => getIn(values, `${namePrefix}`) !== undefined && keyProtos.includes(getIn(values, `${namePrefix}`).proto),
+    () =>
+      getIn(values, `${namePrefix}`) !== undefined &&
+      ENCRYPTION_PROTOS_REQUIRE_KEY.includes(getIn(values, `${namePrefix}`).proto),
     [getIn(values, `${namePrefix}`)],
   );
 
@@ -68,16 +73,7 @@ const EncryptionResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
             name={`${namePrefix}.proto`}
             label="protocol"
             definitionKey="interface.ssid.encryption.proto"
-            options={[
-              { value: 'none', label: t('common.none') },
-              { value: 'psk', label: 'WPA-PSK' },
-              { value: 'psk2', label: 'WPA2-PSK' },
-              { value: 'psk-mixed', label: 'WPA-PSK/WPA2-PSK Personal Mixed' },
-              { value: 'wpa2', label: 'WPA2-Enterprise EAP-TLS' },
-              { value: 'sae-mixed', label: 'WPA2/WPA3 Transitional' },
-              { value: 'wpa3', label: 'WPA3-Enterprise EAP-TLS' },
-              { value: 'wpa3-192', label: 'WPA3-192-Enterprise EAP-TLS' },
-            ]}
+            options={ENCRYPTION_OPTIONS}
             onChange={onProtoChange}
             isRequired
             isDisabled={isDisabled}
