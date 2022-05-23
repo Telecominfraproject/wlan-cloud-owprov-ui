@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import parsePhoneNumber from 'libphonenumber-js';
 import {
   Box,
   Button,
@@ -45,6 +44,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
   const { t } = useTranslation();
   const [verifNumber, setVerifNumber] = useState('');
   const { avatar: savedAvatar } = useAuth();
+  const [isValidated, setValidated] = useState(false);
   const [currentAvatarLink, setCurrentAvatarLink] = useState(savedAvatar ?? '');
   const [currentAvatarFile, setCurrentAvatarFile] = useState(null);
   const { isOpen: showVerify, onOpen: openVerify, onClose: closeVerify } = useDisclosure();
@@ -84,9 +84,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
           ...user,
           mfa: user.userTypeProprietaryInfo.mfa.enabled ? user.userTypeProprietaryInfo.mfa.method : '',
           phoneNumber:
-            user.userTypeProprietaryInfo.mobiles.length > 0
-              ? user.userTypeProprietaryInfo.mobiles[0].number.replace('+', '')
-              : '',
+            user.userTypeProprietaryInfo.mobiles.length > 0 ? user.userTypeProprietaryInfo.mobiles[0].number : '',
         }}
         validationSchema={UpdateUserSchema(t, { passRegex: passwordPattern })}
         onSubmit={({ description, name, currentPassword, phoneNumber, mfa, notes }, { setSubmitting }) => {
@@ -106,20 +104,18 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
             });
           };
 
-          const parsedNumber = parsePhoneNumber(`+${phoneNumber}`);
-          let newPhone;
-          if (parsedNumber) newPhone = parsedNumber.format('E.164');
-
           const newUserTypeInfo = {
             ...user.userTypeProprietaryInfo,
             mfa: mfa !== '' ? { enabled: true, method: mfa } : undefined,
           };
+
           if (
-            newPhone &&
+            phoneNumber &&
+            phoneNumber.length > 0 &&
             (user.userTypeProprietaryInfo.mobiles.length === 0 ||
-              newPhone !== user.userTypeProprietaryInfo.mobiles[0].number)
+              phoneNumber !== user.userTypeProprietaryInfo.mobiles[0].number)
           ) {
-            newUserTypeInfo.mobiles[0] = { number: newPhone };
+            newUserTypeInfo.mobiles[0] = { number: phoneNumber };
           }
 
           if (currentAvatarLink === '' && savedAvatar !== '') deleteAvatar.mutateAsync();
@@ -131,31 +127,43 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
             userTypeProprietaryInfo: newUserTypeInfo,
             notes: notes.filter((note) => note.isNew),
           };
-          updateUser.mutateAsync(params, {
-            onSuccess,
-            onError: (e) => {
-              if (e?.response?.data?.ErrorDescription === 'You must provide at least one validated phone number.') {
-                toggleVerifyNumber(params, onSuccess);
-              } else {
-                toast({
-                  id: uuid(),
-                  title: t('common.error'),
-                  description: t('crud.error_update_obj', {
-                    obj: t('account.account'),
-                    e: e?.response?.data?.ErrorDescription,
-                  }),
-                  status: 'error',
-                  duration: 5000,
-                  isClosable: true,
-                  position: 'top-right',
-                });
-              }
-              setSubmitting(false);
-            },
-          });
+
+          const save = () =>
+            updateUser.mutateAsync(params, {
+              onSuccess,
+              onError: (e) => {
+                if (e?.response?.data?.ErrorDescription === 'You must provide at least one validated phone number.') {
+                  toggleVerifyNumber(params, onSuccess);
+                } else {
+                  toast({
+                    id: uuid(),
+                    title: t('common.error'),
+                    description: t('crud.error_update_obj', {
+                      obj: t('account.account'),
+                      e: e?.response?.data?.ErrorDescription,
+                    }),
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top-right',
+                  });
+                }
+                setSubmitting(false);
+              },
+            });
+
+          if (
+            !isValidated &&
+            ((phoneNumber && phoneNumber.length > 0) || user.userTypeProprietaryInfo.mobiles.length > 0)
+          ) {
+            setSubmitting(false);
+            toggleVerifyNumber(params);
+          } else {
+            save();
+          }
         }}
       >
-        {({ errors, setFieldValue, values, touched }) => (
+        {({ values }) => (
           <Box w="100%">
             <Tabs variant="enclosed">
               <TabList>
@@ -212,13 +220,11 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                             <StringField name="description" label={t('common.description')} isDisabled={!editing} />
                             <MfaSelectField
                               name="mfa"
+                              phoneName="phoneNumber"
                               label={t('account.mfa')}
-                              errors={errors}
-                              touched={touched}
                               isDisabled={!editing}
-                              setFieldValue={setFieldValue}
+                              setValidated={setValidated}
                             />
-                            <StringField name="phoneNumber" label={t('account.phone_number')} isDisabled={!editing} />
                           </SimpleGrid>
                         </Form>
                       </Box>
@@ -226,7 +232,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                   </Grid>
                 </TabPanel>
                 <TabPanel>
-                  <NotesTable name="notes" setNotes={setFieldValue} isDisabled={!editing} />
+                  <NotesTable name="notes" isDisabled={!editing} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
@@ -244,6 +250,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
         phoneNumber={verifNumber}
         cancel={closeVerify}
         updateUser={updateUser}
+        setValidated={setValidated}
       />
     </>
   );

@@ -21,10 +21,11 @@ import { axiosSec } from 'utils/axiosInstances';
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   cancel: PropTypes.func.isRequired,
+  setValidated: PropTypes.func.isRequired,
   phoneNumber: PropTypes.string.isRequired,
 };
 
-const VerifyNumberModal = ({ isOpen, cancel, phoneNumber }) => {
+const VerifyNumberModal = ({ isOpen, cancel, phoneNumber, setValidated }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const sendPhoneTest = useMutation(
@@ -69,6 +70,7 @@ const VerifyNumberModal = ({ isOpen, cancel, phoneNumber }) => {
   const onPinComplete = (code) =>
     testCode.mutateAsync(code, {
       onSuccess: () => {
+        setValidated(true);
         cancel();
         toast({
           id: 'verif-phone-success',

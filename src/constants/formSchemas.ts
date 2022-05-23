@@ -44,17 +44,7 @@ export const UpdateUserSchema = (t: (str: string) => string, { passRegex }: { pa
       .test('test-password', t('form.invalid_password'), (v) => testRegex(v, passRegex)),
     description: Yup.string(),
     mfa: Yup.string(),
-    phoneNumber: Yup.string().when('mfa', {
-      is: 'sms',
-      then: Yup.string()
-        .required(t('account.phone_required'))
-        .test('test-phone-number', t('form.invalid_phone_number'), (v) => {
-          if (v) {
-            return phoneNumberTest(v);
-          }
-          return true;
-        }),
-    }),
+    phoneNumber: Yup.string(),
   });
 
 export const RootSchemaForRootUser = (t: (str: string) => string) =>
