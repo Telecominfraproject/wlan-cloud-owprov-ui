@@ -13,6 +13,7 @@ import useOperatorChildren from 'hooks/useOperatorChildren';
 import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
 import { FormikProps } from 'formik';
 import { Device } from 'models/Device';
+import DeviceActionDropdown from 'components/Tables/InventoryTable/EditTagModal/ActionDropdown';
 import EditSubscriberDeviceForm from './Form';
 
 interface Props {
@@ -21,13 +22,21 @@ interface Props {
   subscriberDevice?: Device;
   refresh: () => void;
   operatorId: string;
+  onOpenScan: (serial: string) => void;
+  onOpenFactoryReset: (serial: string) => void;
+  onOpenUpgradeModal: (serial: string) => void;
 }
 
-const defaultProps = {
-  subscriberDevice: undefined,
-};
-
-const EditSubscriberDeviceModal: React.FC<Props> = ({ isOpen, onClose, subscriberDevice, refresh, operatorId }) => {
+const EditSubscriberDeviceModal: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  subscriberDevice,
+  refresh,
+  operatorId,
+  onOpenScan,
+  onOpenFactoryReset,
+  onOpenUpgradeModal,
+}) => {
   const { t } = useTranslation();
   const { form, formRef } = useFormRef();
   const [editing, setEditing] = useBoolean();
@@ -80,6 +89,16 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({ isOpen, onClose, subscribe
                   !editing || !form.isValid || !isConfigurationValid || (!form.dirty && !isConfigurationDirty)
                 }
               />
+              {subscriberDevice && (
+                <DeviceActionDropdown
+                  device={subscriberDevice}
+                  isDisabled={editing}
+                  refresh={refresh}
+                  onOpenScan={onOpenScan}
+                  onOpenFactoryReset={onOpenFactoryReset}
+                  onOpenUpgradeModal={onOpenUpgradeModal}
+                />
+              )}
               <EditButton ml={2} isDisabled={editing} onClick={setEditing.toggle} isCompact />
               <CloseButton ml={2} onClick={closeModal} />
             </>
@@ -117,7 +136,5 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({ isOpen, onClose, subscribe
     </Modal>
   );
 };
-
-EditSubscriberDeviceModal.defaultProps = defaultProps;
 
 export default EditSubscriberDeviceModal;

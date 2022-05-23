@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
+import { v4 as uuid } from 'uuid';
 import { Preference } from 'models/Preference';
 import { User } from 'models/User';
 import { Dispatch, SetStateAction } from 'react';
@@ -78,4 +79,47 @@ export const useDeleteAccountToken = ({
         window.location.replace('/');
       },
     },
+  );
+
+export const useSendPhoneTest = () => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useMutation(
+    (to: string) =>
+      axiosSec.post(`sms?validateNumber=true`, {
+        to,
+      }),
+    {
+      onSuccess: () => {
+        toast({
+          id: `send-test-phone-success${uuid()}`,
+          title: t('common.success'),
+          description: t('common.sent_code'),
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      },
+      onError: (e: AxiosError) => {
+        toast({
+          id: 'send-test-phone-error',
+          title: t('common.error'),
+          description: t('login.error_sending_code', { e: e?.response?.data?.ErrorDescription }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      },
+    },
+  );
+};
+
+export const useVerifyCode = ({ phoneNumber }: { phoneNumber: string }) =>
+  useMutation((code: string) =>
+    axiosSec.post(`sms?completeValidation=true&validationCode=${code}`, {
+      to: phoneNumber,
+    }),
   );

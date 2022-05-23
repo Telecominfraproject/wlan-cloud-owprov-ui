@@ -61,6 +61,9 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId }) => {
         subscriberDevice={subscriberDevice ?? undefined}
         refresh={refresh}
         operatorId={operatorId}
+        onOpenScan={onOpenScan}
+        onOpenFactoryReset={onOpenFactoryReset}
+        onOpenUpgradeModal={onOpenUpgradeModal}
       />
       <WifiScanModal modalProps={scanModalProps} serialNumber={serialNumber} />
       <FirmwareUpgradeModal modalProps={upgradeModalProps} serialNumber={serialNumber} />
