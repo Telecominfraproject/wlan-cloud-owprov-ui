@@ -31,20 +31,22 @@ const CreateSubscriberDeviceStep3: React.FC<Props> = ({ formRef, finishStep, con
     <Formik
       innerRef={formRef}
       initialValues={{
-        visual: '',
-        type: 'SUBSCRIBER',
-        salutation: '',
-        title: '',
-        firstname: '',
-        lastname: '',
-        initials: '',
-        primaryEmail: '',
-        secondaryEmail: '',
-        mobiles: [],
-        phones: [],
-        description: '',
-        accessPIN: '',
-        note: '',
+        contact: {
+          visual: '',
+          type: 'SUBSCRIBER',
+          salutation: '',
+          title: '',
+          firstname: '',
+          lastname: '',
+          initials: '',
+          primaryEmail: '',
+          secondaryEmail: '',
+          mobiles: [],
+          phones: [],
+          description: '',
+          accessPIN: '',
+          note: '',
+        },
       }}
       validateOnMount
       validationSchema={Yup.object().shape({ contact: SubscriberDeviceContactSchema(t) })}

@@ -1,10 +1,19 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
-import { PageInfo } from 'models/Table';
+import { PageInfo, SortInfo } from 'models/Table';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
+
+export const useGetInventoryTableSpecs = () =>
+  useQuery(
+    ['get-inventory-table-spec'],
+    () => axiosProv.get(`inventory?orderSpec=true`).then(({ data }) => data.list),
+    {
+      staleTime: Infinity,
+    },
+  );
 
 export const useGetInventoryCount = ({
   enabled,
@@ -51,6 +60,7 @@ export const useGetInventoryCount = ({
 
 export const useGetInventoryTags = ({
   pageInfo,
+  sortInfo,
   owner,
   tagSelect,
   enabled,
@@ -59,6 +69,7 @@ export const useGetInventoryTags = ({
   isSubscribersOnly = false,
 }: {
   pageInfo?: PageInfo;
+  sortInfo?: SortInfo;
   owner?: string;
   tagSelect?: string[];
   enabled: boolean;
@@ -68,6 +79,10 @@ export const useGetInventoryTags = ({
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  let sortString = '';
+  if (sortInfo && sortInfo.length > 0) {
+    sortString = `&orderBy=${sortInfo.map((info) => `${info.id}:${info.sort.charAt(0)}`).join(',')}`;
+  }
 
   if (tagSelect !== undefined && tagSelect !== null) {
     return useQuery(
@@ -78,7 +93,7 @@ export const useGetInventoryTags = ({
               .get(
                 `inventory?withExtendedInfo=true&select=${tagSelect}${
                   isSubscribersOnly ? '&subscribersOnly=true' : ''
-                }`,
+                }${sortString}`,
               )
               .then(({ data }) => data.taglist)
           : [],
@@ -107,7 +122,10 @@ export const useGetInventoryTags = ({
   if (owner !== undefined && owner !== null) {
     return useQuery(
       ['get-inventory-with-owner', owner],
-      () => axiosProv.get(`inventory?serialOnly=true&subscriber=${owner}`).then(({ data }) => data.serialNumbers),
+      () =>
+        axiosProv
+          .get(`inventory?serialOnly=true&subscriber=${owner}${sortString}`)
+          .then(({ data }) => data.serialNumbers),
       {
         enabled,
         onError: (e: AxiosError) => {
@@ -130,13 +148,13 @@ export const useGetInventoryTags = ({
   }
 
   return useQuery(
-    ['get-inventory-with-pagination', pageInfo, count, onlyUnassigned],
+    ['get-inventory-with-pagination', pageInfo, count, onlyUnassigned, sortInfo],
     () =>
       axiosProv
         .get(
           `inventory?withExtendedInfo=true&limit=${pageInfo?.limit ?? 10}&offset=${
             (pageInfo?.limit ?? 10) * (pageInfo?.index ?? 1)
-          }${onlyUnassigned ? '&unassigned=true' : ''}${isSubscribersOnly ? '&subscribersOnly=true' : ''}`,
+          }${onlyUnassigned ? '&unassigned=true' : ''}${isSubscribersOnly ? '&subscribersOnly=true' : ''}${sortString}`,
         )
         .then(({ data }) => data.taglist),
     {

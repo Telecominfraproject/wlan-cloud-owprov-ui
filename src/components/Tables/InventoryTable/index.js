@@ -121,6 +121,7 @@ const InventoryTable = ({
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        isMonospace: true,
       },
       {
         id: 'name',
@@ -130,6 +131,7 @@ const InventoryTable = ({
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        isMonospace: true,
       },
       {
         id: 'configuration',
@@ -181,7 +183,7 @@ const InventoryTable = ({
 
   useEffect(() => {
     refetchTags();
-  }, [refreshId]);
+  }, [t, refreshId]);
 
   if (isManual && tagSelect?.length === 0) {
     return (

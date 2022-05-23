@@ -69,7 +69,7 @@ const EntityTable = ({ actions, select }) => {
     ];
 
     return baseColumns;
-  }, []);
+  }, [t]);
 
   return (
     <DataTable

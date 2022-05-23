@@ -5,15 +5,19 @@ import useGetRequirements from './Network/Requirements';
 const useApiRequirements = () => {
   const { data: requirements } = useGetRequirements();
 
+  const getLinkFromResponse = (isAccess: boolean, apiResult?: string) => {
+    if (!apiResult && isAccess) return `${secUrl.split('/api/v1')[0]}/wwwassets/access_policy.html`;
+    if (!apiResult && !isAccess) return `${secUrl.split('/api/v1')[0]}/wwwassets/password_policy.html`;
+
+    if (apiResult?.startsWith('https')) return apiResult;
+    return `${secUrl.split('/api/v1')[0]}${apiResult}`;
+  };
+
   const toReturn = useMemo(
     () => ({
-      accessPolicyLink: `${secUrl.split('/api/v1')[0]}${
-        requirements?.accessPolicy ?? '/wwwassets/password_policy.html'
-      }`,
+      accessPolicyLink: getLinkFromResponse(true, requirements?.accessPolicy),
       passwordPattern: requirements?.passwordPattern ?? null,
-      passwordPolicyLink: `${secUrl.split('/api/v1')[0]}${
-        requirements?.passwordPolicy ?? '/wwwassets/password_policy.html'
-      }`,
+      passwordPolicyLink: getLinkFromResponse(false, requirements?.passwordPolicy),
       isLoaded: requirements !== undefined && requirements !== null,
     }),
     [requirements],

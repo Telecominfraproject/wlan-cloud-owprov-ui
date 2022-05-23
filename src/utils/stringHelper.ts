@@ -1,7 +1,7 @@
 export const lowercaseFirstLetter = (initial: string) =>
   initial ? initial.charAt(0).toLowerCase() + initial.slice(1) : null;
 export const uppercaseFirstLetter = (initial?: string) =>
-  initial ? initial.charAt(0).toUpperCase() + initial.slice(1) : null;
+  initial ? initial.charAt(0).toUpperCase() + initial.slice(1) : undefined;
 export const bytesString = (bytes: number, decimals = 2) => {
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   if (!bytes || bytes === 0) {

@@ -13,6 +13,7 @@ import CreateOperatorModal from 'components/Modals/Operator/CreateOperatorModal'
 import RefreshButton from 'components/Buttons/RefreshButton';
 import useControlledTable from 'hooks/useControlledTable';
 import { Column } from 'models/Table';
+import { UseQueryResult } from 'react-query';
 import Actions from './Actions';
 
 const OperatorsTable: React.FC = () => {
@@ -23,7 +24,10 @@ const OperatorsTable: React.FC = () => {
     isFetching,
     setPageInfo,
     refetchCount,
-  } = useControlledTable({ useCount: useGetOperatorCount, useGet: useGetOperators });
+  } = useControlledTable({
+    useCount: useGetOperatorCount as (props: unknown) => UseQueryResult,
+    useGet: useGetOperators as (props: unknown) => UseQueryResult,
+  });
   const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
 
   const memoizedActions = useCallback(
@@ -70,7 +74,7 @@ const OperatorsTable: React.FC = () => {
         alwaysShow: true,
       },
     ],
-    [],
+    [t],
   );
 
   return (

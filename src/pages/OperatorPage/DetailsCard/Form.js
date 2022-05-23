@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box, Heading } from '@chakra-ui/react';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { EntityShape } from 'constants/propShapes';
 import { EditOperatorSchema } from 'constants/formSchemas';
-import SelectField from 'components/FormFields/SelectField';
 import FormattedDate from 'components/FormattedDate';
 import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
 import { useUpdateOperator } from 'hooks/Network/Operators';
 import useMutationResult from 'hooks/useMutationResult';
-import ToggleField from 'components/FormFields/ToggleField';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -45,14 +44,14 @@ const EditOperatorForm = ({ editing, operator, formRef, stopEditing }) => {
       initialValues={operator}
       validationSchema={EditOperatorSchema(t)}
       onSubmit={(
-        { name, description, rrm, sourceIP, firmwareRCOnly, registrationId, notes },
+        { name, description, deviceRules, sourceIP, firmwareRCOnly, registrationId, notes },
         { setSubmitting, resetForm },
       ) =>
         updateOperator.mutateAsync(
           {
             name,
             description,
-            rrm,
+            deviceRules,
             sourceIP,
             firmwareRCOnly,
             registrationId,
@@ -81,18 +80,7 @@ const EditOperatorForm = ({ editing, operator, formRef, stopEditing }) => {
                 <SimpleGrid minChildWidth="300px" spacing="20px">
                   <StringField name="name" label={t('common.name')} isDisabled={!editing} isRequired />
                   <StringField name="description" label={t('common.description')} isDisabled={!editing} />
-                  <SelectField
-                    name="rrm"
-                    label="RRM"
-                    options={[
-                      { label: 'inherit', value: 'inherit' },
-                      { label: 'on', value: 'on' },
-                      { label: 'off', value: 'off' },
-                    ]}
-                    isDisabled={!editing}
-                    w={28}
-                  />
-                  <ToggleField name="firmwareRCOnly" label={t('configurations.rc_only')} isDisabled={!editing} />
+                  <DeviceRulesField isDisabled={!editing} />
                   <IpDetectionModalField name="sourceIP" setFieldValue={setFieldValue} isDisabled={!editing} />
                   <StringField
                     name="registrationId"
@@ -101,15 +89,6 @@ const EditOperatorForm = ({ editing, operator, formRef, stopEditing }) => {
                       <Heading size="md" pl={1} pt={2}>
                         {operator.registrationId}
                       </Heading>
-                    }
-                  />
-                  <StringField
-                    name="created"
-                    label={t('common.created')}
-                    element={
-                      <Box pl={1} pt={2}>
-                        <FormattedDate date={operator.created} />
-                      </Box>
                     }
                   />
                   <StringField
@@ -125,9 +104,7 @@ const EditOperatorForm = ({ editing, operator, formRef, stopEditing }) => {
               </Form>
             </TabPanel>
             <TabPanel>
-              <Field name="notes">
-                {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
-              </Field>
+              <NotesTable isDisabled={!editing} />
             </TabPanel>
           </TabPanels>
         </Tabs>

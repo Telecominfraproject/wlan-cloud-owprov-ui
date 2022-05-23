@@ -5,6 +5,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import theme from 'theme/theme';
 import { AuthProvider } from 'contexts/AuthProvider';
 import Router from 'router';
+import { WebSocketProvider } from 'contexts/WebSocketProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +25,9 @@ const App = () => {
         <ChakraProvider portalZIndex={40} theme={theme}>
           <Suspense fallback={<Spinner />}>
             <AuthProvider token={storageToken !== null ? storageToken : undefined}>
-              <Router />
+              <WebSocketProvider>
+                <Router />
+              </WebSocketProvider>
             </AuthProvider>
           </Suspense>
         </ChakraProvider>

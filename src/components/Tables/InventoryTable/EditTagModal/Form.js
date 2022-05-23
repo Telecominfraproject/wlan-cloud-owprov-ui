@@ -14,6 +14,7 @@ import SelectField from 'components/FormFields/SelectField';
 import { useGetVenues } from 'hooks/Network/Venues';
 import { useUpdateConfiguration } from 'hooks/Network/Configurations';
 import { useQueryClient } from 'react-query';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 import ComputedConfigurationDisplay from './ComputedConfigurationDisplay';
 import SpecialConfigurationManager from '../../../CustomFields/SpecialConfigurationManager';
 
@@ -72,12 +73,11 @@ const EditTagForm = ({
       initialValues={{
         ...tag,
         entity: getEntityFromData(tag),
-        rrm: tag.rrm === '' ? 'inherit' : tag.rrm,
         devClass: tag.devClass !== '' ? tag.devClass : 'any',
       }}
       validationSchema={UpdateTagSchema(t)}
       onSubmit={(
-        { name, description, notes, entity, deviceType, rrm, devClass, state },
+        { name, description, notes, entity, deviceType, deviceRules, devClass, state },
         { setSubmitting, resetForm },
       ) => {
         const params = {
@@ -85,7 +85,7 @@ const EditTagForm = ({
           description,
           notes: notes.filter((note) => note.isNew),
           deviceType,
-          rrm,
+          deviceRules,
           devClass,
           entity: entity === '' || entity.split(':')[0] !== 'ent' ? '' : entity.split(':')[1],
           venue: entity === '' || entity.split(':')[0] !== 'ven' ? '' : entity.split(':')[1],
@@ -227,18 +227,7 @@ const EditTagForm = ({
                       },
                     ]}
                   />
-                  <SelectField
-                    name="rrm"
-                    label="RRM"
-                    options={[
-                      { value: 'inherit', label: 'inherit' },
-                      { value: 'on', label: 'on' },
-                      { value: 'off', label: 'off' },
-                    ]}
-                    isRequired
-                    isDisabled={!editing}
-                    w={28}
-                  />
+                  <DeviceRulesField isDisabled={!editing} />
                   <SelectField
                     name="devClass"
                     label={t('inventory.dev_class')}

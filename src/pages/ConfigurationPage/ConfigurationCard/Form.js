@@ -15,20 +15,19 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
 import { EntityShape } from 'constants/propShapes';
 import { EntitySchema } from 'constants/formSchemas';
 import { useGetConfigurationInUse } from 'hooks/Network/Configurations';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
-import ToggleField from 'components/FormFields/ToggleField';
 import ConfigurationInUseModal from 'components/Modals/Configuration/ConfigurationInUseModal';
 import StringField from 'components/FormFields/StringField';
-import SelectField from 'components/FormFields/SelectField';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -68,135 +67,78 @@ const EditConfigurationForm = ({ editing, configuration, formRef }) => {
         initialValues={{
           ...configuration,
           entity: getEntity(),
-          rrm: configuration.rrm !== '' ? configuration.rrm : 'inherit',
         }}
         validationSchema={EntitySchema(t)}
       >
-        {({ errors, touched, setFieldValue }) => (
-          <Tabs variant="enclosed" w="100%">
-            <TabList>
-              <Tab>{t('common.main')}</Tab>
-              <Tab>{t('common.notes')}</Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <Form>
-                  <SimpleGrid minChildWidth="300px" spacing="20px">
-                    <StringField
-                      name="name"
-                      label={t('common.name')}
-                      errors={errors}
-                      touched={touched}
-                      isRequired
-                      isDisabled={!editing}
-                    />
-                    <MultiSelectField
-                      name="deviceTypes"
-                      label={t('configurations.device_types')}
-                      errors={errors}
-                      touched={touched}
-                      options={
-                        deviceTypesList
-                          ? deviceTypesList.map((deviceType) => ({
-                              value: deviceType,
-                              label: deviceType,
-                            }))
-                          : []
-                      }
-                      isRequired
-                      setFieldValue={setFieldValue}
-                      canSelectAll
-                      isDisabled={!editing}
-                    />
-                    <SelectField
-                      name="rrm"
-                      label="RRM"
-                      errors={errors}
-                      touched={touched}
-                      options={[
-                        { value: 'inherit', label: 'inherit' },
-                        { value: 'on', label: 'on' },
-                        { value: 'off', label: 'off' },
-                      ]}
-                      isRequired
-                      isDisabled={!editing}
-                      w={28}
-                    />
-                    <SelectField
-                      name="firmwareUpgrade"
-                      label={t('configurations.firmware_upgrade')}
-                      errors={errors}
-                      touched={touched}
-                      options={[
-                        { value: 'inherit', label: 'inherit' },
-                        { value: 'yes', label: t('common.yes') },
-                        { value: 'no', label: t('common.no') },
-                      ]}
-                      isRequired
-                      isDisabled={!editing}
-                    />
-                    <ToggleField
-                      name="firmwareRCOnly"
-                      label={t('configurations.rc_only')}
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!editing}
-                    />
-                    <StringField
-                      name="description"
-                      label={t('common.description')}
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!editing}
-                    />
-                    <SelectWithSearchField
-                      name="entity"
-                      label={t('inventory.parent')}
-                      errors={errors}
-                      touched={touched}
-                      isRequired
-                      isDisabled={!editing}
-                      options={[
-                        {
-                          label: t('entities.title'),
-                          options:
-                            entities?.map((ent) => ({
-                              value: `ent:${ent.id}`,
-                              label: `${ent.name}${ent.description ? `: ${ent.description}` : ''}`,
-                            })) ?? [],
-                        },
-                        {
-                          label: t('venues.title'),
-                          options:
-                            venues?.map((ven) => ({
-                              value: `ven:${ven.id}`,
-                              label: `${ven.name}${ven.description ? `: ${ven.description}` : ''}`,
-                            })) ?? [],
-                        },
-                      ]}
-                      setFieldValue={setFieldValue}
-                    />
-                    <FormControl>
-                      <FormLabel ms="4px" fontSize="md" fontWeight="normal">
-                        In Use By
-                      </FormLabel>
-                      <Button variant="link" mt={2} onClick={onOpen}>
-                        {`${inUse?.ent?.length ?? 0} ${t('entities.one')}, ${inUse?.ven?.length ?? 0} ${t(
-                          'venues.one',
-                        )}, ${inUse?.inv?.length ?? 0} ${t('devices.title')}`}
-                      </Button>
-                    </FormControl>
-                  </SimpleGrid>
-                </Form>
-              </TabPanel>
-              <TabPanel>
-                <Field name="notes">
-                  {({ field }) => <NotesTable notes={field.value} setNotes={setFieldValue} isDisabled={!editing} />}
-                </Field>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        )}
+        <Tabs variant="enclosed" w="100%">
+          <TabList>
+            <Tab>{t('common.main')}</Tab>
+            <Tab>{t('common.notes')}</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Form>
+                <SimpleGrid minChildWidth="300px" spacing="20px">
+                  <StringField name="name" label={t('common.name')} isRequired isDisabled={!editing} />
+                  <MultiSelectField
+                    name="deviceTypes"
+                    label={t('configurations.device_types')}
+                    options={
+                      deviceTypesList
+                        ? deviceTypesList.map((deviceType) => ({
+                            value: deviceType,
+                            label: deviceType,
+                          }))
+                        : []
+                    }
+                    isRequired
+                    canSelectAll
+                    isDisabled={!editing}
+                  />
+                  <DeviceRulesField isDisabled={!editing} />
+                  <StringField name="description" label={t('common.description')} isDisabled={!editing} />
+                  <SelectWithSearchField
+                    name="entity"
+                    label={t('inventory.parent')}
+                    isRequired
+                    isDisabled={!editing}
+                    options={[
+                      {
+                        label: t('entities.title'),
+                        options:
+                          entities?.map((ent) => ({
+                            value: `ent:${ent.id}`,
+                            label: `${ent.name}${ent.description ? `: ${ent.description}` : ''}`,
+                          })) ?? [],
+                      },
+                      {
+                        label: t('venues.title'),
+                        options:
+                          venues?.map((ven) => ({
+                            value: `ven:${ven.id}`,
+                            label: `${ven.name}${ven.description ? `: ${ven.description}` : ''}`,
+                          })) ?? [],
+                      },
+                    ]}
+                  />
+                  <FormControl>
+                    <FormLabel ms="4px" fontSize="md" fontWeight="normal">
+                      In Use By
+                    </FormLabel>
+                    <Button variant="link" mt={2} onClick={onOpen}>
+                      {`${inUse?.ent?.length ?? 0} ${t('entities.one')}, ${inUse?.ven?.length ?? 0} ${t(
+                        'venues.one',
+                      )}, ${inUse?.inv?.length ?? 0} ${t('devices.title')}`}
+                    </Button>
+                  </FormControl>
+                </SimpleGrid>
+              </Form>
+            </TabPanel>
+            <TabPanel>
+              <NotesTable isDisabled={!editing} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Formik>
       <ConfigurationInUseModal isOpen={isOpen} onClose={onClose} config={configuration} />
     </>

@@ -14,6 +14,7 @@ const SelectField: React.FC<Props> = ({
   isDisabled,
   label,
   isRequired,
+  onChange: onCustomChange,
   onChangeEffect,
   isHidden,
   isLabelHidden,
@@ -24,17 +25,24 @@ const SelectField: React.FC<Props> = ({
 }) => {
   const [{ value }, { touched, error }, { setValue, setTouched }] = useField(name);
 
-  const onChange = useCallback((e) => {
-    if (emptyIsUndefined && e.target.value === '') {
-      setValue(undefined);
-    } else {
-      setValue(isInt ? parseInt(e.target.value, 10) : e.target.value);
-    }
-    if (onChangeEffect !== undefined) onChangeEffect(e);
-    setTimeout(() => {
-      setTouched(true);
-    }, 200);
-  }, []);
+  const onChange = useCallback(
+    (e) => {
+      if (onCustomChange) {
+        onCustomChange(e);
+      } else {
+        if (emptyIsUndefined && e.target.value === '') {
+          setValue(undefined);
+        } else {
+          setValue(isInt ? parseInt(e.target.value, 10) : e.target.value);
+        }
+        if (onChangeEffect !== undefined) onChangeEffect(e);
+        setTimeout(() => {
+          setTouched(true);
+        }, 200);
+      }
+    },
+    [onCustomChange],
+  );
 
   const onFieldBlur = useCallback(() => {
     setTouched(true);

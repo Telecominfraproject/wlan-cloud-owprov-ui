@@ -155,7 +155,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
           });
         }}
       >
-        {({ errors, setFieldValue, values }) => (
+        {({ errors, setFieldValue, values, touched }) => (
           <Box w="100%">
             <Tabs variant="enclosed">
               <TabList>
@@ -191,10 +191,13 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                               name="userRole"
                               label={t('users.role')}
                               options={[
-                                { value: 'root', label: 'Root' },
-                                { value: 'partner', label: 'Partner' },
+                                { value: 'accounting', label: 'Accounting' },
                                 { value: 'admin', label: 'Admin' },
                                 { value: 'csr', label: 'CSR' },
+                                { value: 'installer', label: 'Installer' },
+                                { value: 'noc', label: 'NOC' },
+                                { value: 'root', label: 'Root' },
+                                { value: 'system', label: 'System' },
                               ]}
                               isRequired
                               isDisabled={!editing}
@@ -211,15 +214,11 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                               name="mfa"
                               label={t('account.mfa')}
                               errors={errors}
+                              touched={touched}
                               isDisabled={!editing}
                               setFieldValue={setFieldValue}
                             />
-                            <StringField
-                              name="phoneNumber"
-                              label={t('user.password')}
-                              isDisabled={!editing}
-                              hideButton
-                            />
+                            <StringField name="phoneNumber" label={t('account.phone_number')} isDisabled={!editing} />
                           </SimpleGrid>
                         </Form>
                       </Box>

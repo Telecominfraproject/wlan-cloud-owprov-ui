@@ -85,18 +85,23 @@ const Map = forwardRef(({ data, selectedMap, isEditing }, ref) => {
         nodeTypes={nodeTypes}
         onElementClick={onClick}
       >
-        <MapLegend />
-        <MiniMap
-          nodeColor={(n) => {
-            if (n.type === 'entity') return 'var(--chakra-colors-teal-200)';
-            if (n.type === 'venue') return 'var(--chakra-colors-cyan-200)';
-            if (n.type === 'device') return 'var(--chakra-colors-blue-200)';
+        {() => (
+          <>
+            <MapLegend />
+            <MiniMap
+              nodeColor={(n) => {
+                if (n.data?.isRoot || n.data?.id === '0000-0000-0000') return 'black';
+                if (n.type === 'entity') return 'var(--chakra-colors-teal-200)';
+                if (n.type === 'venue') return 'var(--chakra-colors-cyan-200)';
+                if (n.type === 'device') return 'var(--chakra-colors-blue-200)';
 
-            return '#fff';
-          }}
-          nodeBorderRadius={5}
-        />
-        <Controls />
+                return '#fff';
+              }}
+              nodeBorderRadius={5}
+            />
+            <Controls showInteractive={false} />
+          </>
+        )}
       </ReactFlow>
     </Center>
   );

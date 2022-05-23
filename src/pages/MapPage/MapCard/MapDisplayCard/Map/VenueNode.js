@@ -26,6 +26,7 @@ const propTypes = {
     details: PropTypes.instanceOf(Object).isRequired,
     label: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    isRoot: PropTypes.bool.isRequired,
   }).isRequired,
   isConnectable: PropTypes.bool.isRequired,
 };
@@ -41,7 +42,14 @@ const VenueNode = ({ data, isConnectable }) => {
       <Handle type="target" position="top" style={{ background: '#555' }} isConnectable={isConnectable} />
       <Popover isLazy trigger="hover">
         <PopoverTrigger>
-          <Box width="200px" bgColor={bgColor} p="4px" borderRadius={4} pointerEvents="all">
+          <Box
+            width="200px"
+            bgColor={data?.isRoot ? 'black' : bgColor}
+            p="4px"
+            borderRadius={4}
+            pointerEvents="all"
+            textColor={data?.isRoot ? 'white' : undefined}
+          >
             <Center>
               <Heading size="md" id={uuid()} textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
                 {data.label}

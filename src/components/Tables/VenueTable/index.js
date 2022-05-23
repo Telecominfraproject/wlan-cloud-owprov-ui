@@ -69,7 +69,7 @@ const VenueTable = ({ actions, select }) => {
     ];
 
     return baseColumns;
-  }, []);
+  }, [t]);
 
   return (
     <DataTable

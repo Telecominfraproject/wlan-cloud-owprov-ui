@@ -6,11 +6,10 @@ import { SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { CreateOperatorSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
-import SelectField from 'components/FormFields/SelectField';
 import { useCreateOperator } from 'hooks/Network/Operators';
 import useMutationResult from 'hooks/useMutationResult';
 import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
-import ToggleField from 'components/FormFields/ToggleField';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -30,9 +29,9 @@ const CreateOperatorForm = ({ isOpen, onClose, refresh, formRef }) => {
   });
   const create = useCreateOperator();
 
-  const createParameters = ({ name, description, note, sourceIP, rrm, firmwareRCOnly, registrationId }) => ({
+  const createParameters = ({ name, description, note, sourceIP, deviceRules, firmwareRCOnly, registrationId }) => ({
     name,
-    rrm,
+    deviceRules,
     sourceIP,
     registrationId,
     description,
@@ -51,7 +50,11 @@ const CreateOperatorForm = ({ isOpen, onClose, refresh, formRef }) => {
       initialValues={{
         name: '',
         description: '',
-        rrm: 'inherit',
+        deviceRules: {
+          rrm: 'inherit',
+          rcOnly: 'inherit',
+          firmwareUpgrade: 'inherit',
+        },
         registrationId: '',
         firmwareRCOnly: false,
         sourceIP: [],
@@ -74,18 +77,7 @@ const CreateOperatorForm = ({ isOpen, onClose, refresh, formRef }) => {
           <StringField name="name" label={t('common.name')} isRequired />
           <StringField name="description" label={t('common.description')} />
           <StringField name="registrationId" label={t('operator.registration_id')} isRequired />
-          <SelectField
-            name="rrm"
-            label="RRM"
-            options={[
-              { value: 'inherit', label: 'inherit' },
-              { value: 'on', label: 'on' },
-              { value: 'off', label: 'off' },
-            ]}
-            isRequired
-            w={28}
-          />
-          <ToggleField name="firmwareRCOnly" label={t('configurations.rc_only')} />
+          <DeviceRulesField />
           <IpDetectionModalField name="sourceIP" />
           <StringField name="note" label={t('common.note')} />
         </SimpleGrid>

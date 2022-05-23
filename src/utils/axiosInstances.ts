@@ -6,7 +6,7 @@ export const secUrl = `${window?._env_?.REACT_APP_UCENTRALSEC_URL || process.env
 
 const sec = axios.default.create({ baseURL: secUrl });
 
-sec.defaults.timeout = 60000;
+sec.defaults.timeout = 120000;
 sec.defaults.headers.get.Accept = 'application/json';
 sec.defaults.headers.post.Accept = 'application/json';
 
@@ -36,7 +36,7 @@ sec.interceptors.response.use(
 
 const prov = axios.default.create({ baseURL: secUrl });
 
-prov.defaults.timeout = 60000;
+prov.defaults.timeout = 120000;
 prov.defaults.headers.get.Accept = 'application/json';
 prov.defaults.headers.post.Accept = 'application/json';
 
@@ -66,7 +66,7 @@ prov.interceptors.response.use(
 
 const gw = axios.default.create({ baseURL: secUrl });
 
-gw.defaults.timeout = 60000;
+gw.defaults.timeout = 120000;
 gw.defaults.headers.get.Accept = 'application/json';
 gw.defaults.headers.post.Accept = 'application/json';
 
@@ -96,7 +96,7 @@ gw.interceptors.response.use(
 
 const fms = axios.default.create({ baseURL: secUrl });
 
-fms.defaults.timeout = 60000;
+fms.defaults.timeout = 120000;
 fms.defaults.headers.get.Accept = 'application/json';
 fms.defaults.headers.post.Accept = 'application/json';
 
@@ -126,7 +126,7 @@ fms.interceptors.response.use(
 
 const sub = axios.default.create({ baseURL: secUrl });
 
-sub.defaults.timeout = 60000;
+sub.defaults.timeout = 120000;
 sub.defaults.headers.get.Accept = 'application/json';
 sub.defaults.headers.post.Accept = 'application/json';
 
@@ -156,7 +156,7 @@ sub.interceptors.response.use(
 
 const owls = axios.default.create({ baseURL: secUrl });
 
-owls.defaults.timeout = 60000;
+owls.defaults.timeout = 120000;
 owls.defaults.headers.get.Accept = 'application/json';
 owls.defaults.headers.post.Accept = 'application/json';
 
@@ -186,7 +186,7 @@ owls.interceptors.response.use(
 
 const analytics = axios.default.create({ baseURL: secUrl });
 
-analytics.defaults.timeout = 60000;
+analytics.defaults.timeout = 120000;
 analytics.defaults.headers.get.Accept = 'application/json';
 analytics.defaults.headers.post.Accept = 'application/json';
 

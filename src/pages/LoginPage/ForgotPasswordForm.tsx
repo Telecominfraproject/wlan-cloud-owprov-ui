@@ -19,13 +19,14 @@ import { Formik, Form } from 'formik';
 import StringField from 'components/FormFields/StringField';
 import { useForgotPassword } from 'hooks/Network/Login';
 import useApiRequirements from 'hooks/useApiRequirements';
+import { LoginFormProps } from 'models/Login';
 
 const ForgotPasswordSchema = Yup.object().shape({
   userId: Yup.string().email('Invalid email').required('Required'),
 });
 
 interface Props {
-  setActiveForm: ({ form, data }: { form: string; data?: unknown }) => void;
+  setActiveForm: React.Dispatch<React.SetStateAction<LoginFormProps>>;
 }
 const ForgotPasswordForm: React.FC<Props> = ({ setActiveForm }) => {
   const { t } = useTranslation();

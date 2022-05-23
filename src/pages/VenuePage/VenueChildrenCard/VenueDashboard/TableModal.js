@@ -96,6 +96,7 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
         Cell: ({ cell }) => serialCell(cell),
         hasPopover: true,
         alwaysShow: true,
+        isMonospace: true,
       },
       {
         id: 'connected',

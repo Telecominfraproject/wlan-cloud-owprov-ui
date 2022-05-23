@@ -6,12 +6,12 @@ import { useToast, SimpleGrid } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { CreateConfigurationSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
-import SelectField from 'components/FormFields/SelectField';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import SpecialConfigurationManager from 'components/CustomFields/SpecialConfigurationManager';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -50,9 +50,9 @@ const CreateConfigurationForm = ({
     return `ven:${splitEntity[1]}`;
   };
 
-  const createParameters = ({ name, description, note, deviceTypes, entity, rrm, __CREATE_CONFIG }) => ({
+  const createParameters = ({ name, description, note, deviceTypes, entity, deviceRules, __CREATE_CONFIG }) => ({
     name,
-    rrm,
+    deviceRules,
     deviceTypes,
     description: description.length > 0 ? description : undefined,
     notes: note.length > 0 ? [{ note }] : undefined,
@@ -73,7 +73,11 @@ const CreateConfigurationForm = ({
         name: '',
         description: '',
         deviceTypes: [],
-        rrm: 'inherit',
+        deviceRules: {
+          rrm: 'inherit',
+          rcOnly: 'inherit',
+          firmwareUpgrade: 'inherit',
+        },
         note: '',
         entity: getEntityId(),
         __CREATE_CONFIG: null,
@@ -162,19 +166,7 @@ const CreateConfigurationForm = ({
               isHidden={entityId !== null}
               isPortal
             />
-            <SelectField
-              name="rrm"
-              label="RRM"
-              errors={errors}
-              touched={touched}
-              options={[
-                { value: 'inherit', label: 'inherit' },
-                { value: 'on', label: 'on' },
-                { value: 'off', label: 'off' },
-              ]}
-              isRequired
-              w={28}
-            />
+            <DeviceRulesField />
             <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>

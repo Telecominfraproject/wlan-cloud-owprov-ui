@@ -18,7 +18,6 @@ import {
   Spinner,
   UnorderedList,
   useBreakpoint,
-  useToast,
 } from '@chakra-ui/react';
 import useGetEntityTree from 'hooks/Network/EntityTree';
 import { useNavigate } from 'react-router-dom';
@@ -115,9 +114,8 @@ const EntityPopover: React.FC<Props> = ({ isOpen, onClose, children, toggleSideb
   const { t } = useTranslation();
   const navigate = useNavigate();
   const breakpoint = useBreakpoint();
-  const toast = useToast();
   const [closeOnBlur, setCloseOnBlur] = useState(false);
-  const { data: tree, isFetching } = useGetEntityTree({ t, toast });
+  const { data: tree, isFetching } = useGetEntityTree();
   const initRef = React.useRef<HTMLButtonElement>();
 
   const goTo = useCallback(

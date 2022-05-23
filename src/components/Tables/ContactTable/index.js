@@ -87,7 +87,7 @@ const ContactTable = ({ actions, select, ignoredColumns, refreshId, disabledIds 
     ];
 
     return baseColumns;
-  }, [disabledIds]);
+  }, [t, disabledIds]);
 
   useEffect(() => {
     if (refreshId > 0) refetch();

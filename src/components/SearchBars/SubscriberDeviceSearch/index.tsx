@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Select } from 'chakra-react-select';
 import { useTranslation } from 'react-i18next';
 import { Heading } from '@chakra-ui/react';
-import useWebSocket from 'hooks/useWebSocket';
+import useDeviceSearch from 'contexts/WebSocketProvider/hooks/Commands/useDeviceSearch';
 
 interface Props {
   onClick: ({ id, operatorId }: { id: string; operatorId: string }) => void;
@@ -15,11 +15,9 @@ const defaultProps = {
 
 const SubscriberDeviceSearch: React.FC<Props> = ({ operatorId, onClick, isDisabled }) => {
   const { t } = useTranslation();
-  const { inputValue, results, onInputChange, isConnected, resetSearch } = useWebSocket({
-    command: 'subdevice_search',
-    operatorId,
-    paramKey: 'serial_prefix',
+  const { inputValue, results, onInputChange, isOpen, resetSearch } = useDeviceSearch({
     minLength: 2,
+    operatorId,
   });
 
   const NoOptionsMessage = useCallback(
@@ -68,7 +66,7 @@ const SubscriberDeviceSearch: React.FC<Props> = ({ operatorId, onClick, isDisabl
       onInputChange={onChange}
       // @ts-ignore
       onChange={changeDevice}
-      isDisabled={isDisabled || !isConnected}
+      isDisabled={isDisabled || !isOpen}
     />
   );
 };

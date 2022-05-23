@@ -103,7 +103,12 @@ const CreateSubscriberDeviceStep2: React.FC<Props> = ({ formRef, finishStep, loc
               />
             </SimpleGrid>
 
-            <AddressSearchField placeholder={t('common.address_search_autofill')} maxWidth="600px" mb={2} />
+            <AddressSearchField
+              placeholder={t('common.address_search_autofill')}
+              namePrefix="location"
+              maxWidth="600px"
+              mb={2}
+            />
             <SimpleGrid minChildWidth="300px" spacing="20px" mb={8}>
               <StringField name="location.addressLineOne" label={t('locations.address_line_one')} isRequired />
               <StringField name="location.addressLineTwo" label={t('locations.address_line_two')} />

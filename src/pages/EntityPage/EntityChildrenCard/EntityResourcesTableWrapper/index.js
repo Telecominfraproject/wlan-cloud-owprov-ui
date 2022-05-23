@@ -4,9 +4,9 @@ import { v4 as uuid } from 'uuid';
 import { EntityShape } from 'constants/propShapes';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import { useQueryClient } from 'react-query';
-import CreateResourceModal from 'components/Tables/ResourceTable/CreateResourceModal';
-import EditResourceModal from 'components/Tables/ResourceTable/EditResourceModal';
 import ResourceTable from 'components/Tables/ResourceTable';
+import CreateResourceModal from 'components/Modals/Resources/CreateModal';
+import EditResourceModal from 'components/Modals/Resources/EditModal';
 import Actions from './Actions';
 
 const propTypes = {

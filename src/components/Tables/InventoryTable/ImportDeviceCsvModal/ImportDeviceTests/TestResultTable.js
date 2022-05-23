@@ -34,6 +34,7 @@ const TestResultTable = ({ devices, isShowingError }) => {
         customMaxWidth: '200px',
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
+        isMonospace: true,
       },
       {
         id: 'deviceType',

@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
 import { useCreateVenue } from 'hooks/Network/Venues';
 import LocationPickerCreator from 'components/CreateObjectsForms/LocationPickerCreator';
-import SelectField from 'components/FormFields/SelectField';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -28,9 +28,9 @@ const CreateVenueForm = ({ isOpen, onClose, formRef, parentId, entityId }) => {
   const [formKey, setFormKey] = useState(uuid());
   const create = useCreateVenue();
 
-  const createParameters = ({ name, description, note, rrm, location }) => ({
+  const createParameters = ({ name, description, note, deviceRules, location }) => ({
     name,
-    rrm,
+    deviceRules,
     description,
     notes: note.length > 0 ? [{ note }] : undefined,
     parent: parentId,
@@ -49,7 +49,11 @@ const CreateVenueForm = ({ isOpen, onClose, formRef, parentId, entityId }) => {
       initialValues={{
         name: '',
         description: '',
-        rrm: 'inherit',
+        deviceRules: {
+          rrm: 'inherit',
+          rcOnly: 'inherit',
+          firmwareUpgrade: 'inherit',
+        },
         note: '',
         location: '',
       }}
@@ -108,17 +112,7 @@ const CreateVenueForm = ({ isOpen, onClose, formRef, parentId, entityId }) => {
       <Form>
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={6}>
           <StringField name="name" label={t('common.name')} isRequired />
-          <SelectField
-            name="rrm"
-            label="RRM"
-            options={[
-              { value: 'inherit', label: 'inherit' },
-              { value: 'on', label: 'on' },
-              { value: 'off', label: 'off' },
-            ]}
-            isRequired
-            w={28}
-          />
+          <DeviceRulesField />
           <StringField name="description" label={t('common.description')} />
           <StringField name="note" label={t('common.note')} />
         </SimpleGrid>

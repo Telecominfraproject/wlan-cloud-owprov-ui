@@ -12,6 +12,7 @@ import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetAnalyticsBoard } from 'hooks/Network/Analytics';
 import { useAuth } from 'contexts/AuthProvider';
 import useFormRef from 'hooks/useFormRef';
+import VenueActions from './Actions';
 import EditVenueForm from './Form';
 import DeleteVenuePopover from './DeleteVenuePopover';
 import CreateVenueModal from '../../../components/Tables/VenueTable/CreateVenueModal';
@@ -54,6 +55,7 @@ const VenueCard = ({ id }) => {
           />
           <DeleteVenuePopover isDisabled={editing || isFetching} venue={venue} />
           <RefreshButton onClick={refetch} isFetching={isFetching} isDisabled={editing} ml={2} />
+          <VenueActions isDisabled={editing} venueId={id} />
         </Box>
       </CardHeader>
       <CardBody>

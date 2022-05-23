@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import NumberField from 'components/FormFields/NumberField';
 import { FormControl, FormLabel, Switch } from '@chakra-ui/react';
-import CustomNumberAsStringField from 'components/CustomFields/CustomNumberAsStringField';
 import { INTERFACE_IPV4_DHCP_SCHEMA } from '../../interfacesConstants';
 import DhcpLeaseIpV4 from './DhcpLeaseIpV4';
 
@@ -56,13 +55,11 @@ const DhcpIpV4 = ({ editing, index }) => {
             isDisabled={!editing}
             isRequired
           />
-          <CustomNumberAsStringField
+          <StringField
             name={`configuration[${index}].ipv4.dhcp.lease-time`}
             label="dhcp.lease-time"
             definitionKey="interface.ipv4.dhcp.lease-time"
             isDisabled={!editing}
-            unit="days"
-            unitSaved="d"
             isRequired
           />
           <StringField

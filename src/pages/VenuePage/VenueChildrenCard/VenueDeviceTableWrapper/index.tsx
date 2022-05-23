@@ -89,6 +89,9 @@ const VenueDeviceTableWrapper: React.FC<Props> = ({ venue = undefined }) => {
         tag={tag}
         refresh={refetchTags}
         pushConfig={pushConfiguration}
+        onOpenScan={onOpenScan}
+        onOpenFactoryReset={onOpenFactoryReset}
+        onOpenUpgradeModal={onOpenUpgradeModal}
       />
       <ConfigurationPushModal isOpen={isPushOpen} onClose={closePush} pushResult={pushConfiguration.data} />
       <WifiScanModal modalProps={scanModalProps} serialNumber={serialNumber} />

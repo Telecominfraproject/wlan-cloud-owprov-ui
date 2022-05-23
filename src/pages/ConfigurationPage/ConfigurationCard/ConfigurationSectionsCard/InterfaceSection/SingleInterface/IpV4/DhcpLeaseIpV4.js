@@ -6,7 +6,6 @@ import { FormControl, FormLabel, Switch } from '@chakra-ui/react';
 import ToggleField from 'components/FormFields/ToggleField';
 import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
-import CustomNumberAsStringField from 'components/CustomFields/CustomNumberAsStringField';
 import { INTERFACE_IPV4_DHCP_LEASE_SCHEMA } from '../../interfacesConstants';
 
 const propTypes = {
@@ -48,13 +47,11 @@ const DhcpLeaseIpV4 = ({ editing, index }) => {
             isDisabled={!editing}
             isRequired
           />
-          <CustomNumberAsStringField
+          <StringField
             name={`configuration[${index}].ipv4.dhcp-lease.lease-time`}
             label="dhcp-lease.lease-time"
             definitionKey="interface.ipv4.dhcp-lease.lease-time"
             isDisabled={!editing}
-            unit="days"
-            unitSaved="d"
             isRequired
           />
           <NumberField

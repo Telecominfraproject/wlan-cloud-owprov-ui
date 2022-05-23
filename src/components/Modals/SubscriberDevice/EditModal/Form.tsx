@@ -16,6 +16,7 @@ import { Device } from 'models/Device';
 import { ServiceClass } from 'models/ServiceClass';
 import { Subscriber } from 'models/Subscriber';
 import { Configuration } from 'models/Configuration';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 import SubscriberDeviceLocationForm from './Location';
 import SubscriberDeviceContactForm from './Contact';
 
@@ -159,18 +160,7 @@ const EditSubscriberDeviceForm: React.FC<Props> = ({
                   isRequired
                   isDisabled={!editing}
                 />
-                <SelectField
-                  name="rrm"
-                  label="RRM"
-                  options={[
-                    { value: 'inherit', label: 'inherit' },
-                    { value: 'on', label: 'on' },
-                    { value: 'off', label: 'off' },
-                  ]}
-                  isRequired
-                  w={28}
-                  isDisabled={!editing}
-                />
+                <DeviceRulesField isDisabled={!editing} />
               </SimpleGrid>
               <Heading size="md" mb={2}>
                 {t('subscribers.billing_contact_info')}

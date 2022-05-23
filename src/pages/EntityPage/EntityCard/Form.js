@@ -9,10 +9,10 @@ import StringField from 'components/FormFields/StringField';
 import { EntityShape } from 'constants/propShapes';
 import { EntitySchema } from 'constants/formSchemas';
 import { useUpdateEntity } from 'hooks/Network/Entity';
-import SelectField from 'components/FormFields/SelectField';
 import FormattedDate from 'components/FormattedDate';
 import { useQueryClient } from 'react-query';
 import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -39,12 +39,12 @@ const EditEntityForm = ({ editing, entity, formRef, stopEditing }) => {
       key={formKey}
       initialValues={{ ...entity, rrm: entity.rrm !== '' ? entity.rrm : 'inherit' }}
       validationSchema={EntitySchema(t)}
-      onSubmit={({ name, description, rrm, sourceIP, notes }, { setSubmitting, resetForm }) =>
+      onSubmit={({ name, description, sourceIP, notes, deviceRules }, { setSubmitting, resetForm }) =>
         updateEntity.mutateAsync(
           {
             name,
             description,
-            rrm,
+            deviceRules,
             sourceIP,
             notes: notes.filter((note) => note.isNew),
           },
@@ -111,19 +111,7 @@ const EditEntityForm = ({ editing, entity, formRef, stopEditing }) => {
                     touched={touched}
                     isDisabled={!editing}
                   />
-                  <SelectField
-                    name="rrm"
-                    label="RRM"
-                    errors={errors}
-                    touched={touched}
-                    options={[
-                      { label: 'inherit', value: 'inherit' },
-                      { label: 'on', value: 'on' },
-                      { label: 'off', value: 'off' },
-                    ]}
-                    isDisabled={!editing}
-                    w={28}
-                  />
+                  <DeviceRulesField isDisabled={!editing} />
                   <IpDetectionModalField
                     name="sourceIP"
                     setFieldValue={setFieldValue}

@@ -8,7 +8,6 @@ import {
   DrawerContent,
   DrawerOverlay,
   Flex,
-  Link,
   useColorModeValue,
   useColorMode,
   Text,
@@ -51,19 +50,7 @@ const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
 
   const brand = (
     <Box pt="25px" mb="12px">
-      <Link
-        href={`${process.env.PUBLIC_URL}/#/`}
-        target="_blank"
-        display="flex"
-        lineHeight="100%"
-        mb="30px"
-        fontWeight="bold"
-        justifyContent="center"
-        alignItems="center"
-        fontSize="11px"
-      >
-        <img src={colorMode === 'light' ? lightLogo : darkLogo} alt="OpenWifi" width="180px" height="100px" />
-      </Link>
+      <img src={colorMode === 'light' ? lightLogo : darkLogo} alt="OpenWifi" width="180px" height="100px" />
     </Box>
   );
 
@@ -120,7 +107,7 @@ const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
             borderRadius="16px"
           >
             <Box>{brand}</Box>
-            <Flex direction="column" mb="40px" h="calc(100vh - 200px)" alignItems="center">
+            <Flex direction="column" mb="40px" h="calc(100vh - 180px)" alignItems="center">
               <Box overflowY="auto">{createLinks(routes, activeRoute, user?.userRole ?? '', toggle)}</Box>
               <Spacer />
               <Box>

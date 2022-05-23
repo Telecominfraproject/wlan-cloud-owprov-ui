@@ -1,5 +1,22 @@
-import { testLength, testUcMac } from 'constants/formTests';
+import { testLeaseTime, testLength, testUcMac } from 'constants/formTests';
 import { object, number, string, array, bool } from 'yup';
+
+export const ENCRYPTION_PROTOS_REQUIRE_KEY = ['psk', 'psk2', 'psk-mixed', 'psk2-radius', 'sae', 'sae-mixed'];
+export const ENCRYPTION_PROTOS_REQUIRE_IEEE = ['sae', 'wpa3', 'wpa3-192'];
+export const ENCRYPTION_OPTIONS = [
+  { value: 'none', label: 'None' },
+  { value: 'psk', label: 'WPA-PSK' },
+  { value: 'psk2', label: 'WPA2-PSK' },
+  { value: 'psk2-radius', label: 'PSK2-RADIUS' },
+  { value: 'psk-mixed', label: 'WPA-PSK/WPA2-PSK Personal Mixed' },
+  { value: 'wpa', label: 'WPA-Enterprise' },
+  { value: 'wpa2', label: 'WPA2-Enterprise EAP-TLS' },
+  { value: 'wpa-mixed', label: 'WPA-Enterprise-Mixed' },
+  { value: 'sae', label: 'SAE' },
+  { value: 'sae-mixed', label: 'WPA2/WPA3 Transitional' },
+  { value: 'wpa3', label: 'WPA3-Enterprise EAP-TLS' },
+  { value: 'wpa3-192', label: 'WPA3-192-Enterprise EAP-TLS' },
+];
 
 export const CREATE_INTERFACE_SCHEMA = (t) =>
   object().shape({
@@ -100,16 +117,15 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
-const keyProtos = ['psk', 'psk2', 'psk-mixed', 'sae-mixed'];
-
 export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
       proto: string().required(t('form.required')).default('psk'),
-      ieee80211w: string().required(t('form.required')).default('disabled'),
+      ieee80211w: string().default('disabled'),
       key: string()
         .test('encryptionKeyTest', t('form.min_max_string', { min: 8, max: 63 }), (v, { from }) => {
-          if (!keyProtos.includes(from[0].value.proto) || from[1].value.radius !== undefined) return true;
+          if (!ENCRYPTION_PROTOS_REQUIRE_KEY.includes(from[0].value.proto) || from[1].value.radius !== undefined)
+            return true;
           return v.length >= 8 && v.length <= 63;
         })
         .default(''),
@@ -192,7 +208,10 @@ export const INTERFACE_IPV4_DHCP_SCHEMA = (t, useDefault = false) => {
     .shape({
       'lease-first': number().required(t('form.required')).positive().integer().default(1),
       'lease-count': number().required(t('form.required')).positive().integer().default(1),
-      'lease-time': string().required(t('form.required')).default('6h'),
+      'lease-time': string()
+        .required(t('form.required'))
+        .test('ipv4_dhcp.lease-time', t('form.invalid_lease_time'), testLeaseTime)
+        .default('6h'),
       'relay-server': string().default(undefined),
     })
     .default({
@@ -208,7 +227,10 @@ export const INTERFACE_IPV4_DHCP_LEASE_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
       macaddr: string().required(t('form.required')).default(''),
-      'lease-time': string().required(t('form.required')).default('6h'),
+      'lease-time': string()
+        .required(t('form.required'))
+        .test('ipv4_dhcp-lease.lease-time', t('form.invalid_lease_time'), testLeaseTime)
+        .default('6h'),
       'static-lease-offset': number().required(t('form.required')).positive().integer().default(1),
       'publish-hostname': bool().required(t('form.required')).default(true),
     })
@@ -240,12 +262,12 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
     subnet: string().when('addressing', {
       is: 'dynamic',
       then: string().nullable(),
-      otherwise: string().required(t('form.required')).default(''),
+      otherwise: string().default(''),
     }),
     gateway: string().when('addressing', {
       is: 'dynamic',
       then: string().nullable(),
-      otherwise: string().required(t('form.required')).default(''),
+      otherwise: string().default(''),
     }),
     'send-hostname': bool().when('addressing', {
       is: 'dynamic',
@@ -255,7 +277,7 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
     'use-dns': array().when('addressing', {
       is: 'dynamic',
       then: array().nullable(),
-      otherwise: array().of(string()).required(t('form.required')).min(1, t('form.required')).default([]),
+      otherwise: array().of(string()).default([]),
     }),
     dhcp: INTERFACE_IPV4_DHCP_SCHEMA(t, useDefault),
     'dhcp-lease': INTERFACE_IPV4_DHCP_LEASE_SCHEMA(t, useDefault),
@@ -312,7 +334,7 @@ export const SINGLE_INTERFACE_SCHEMA = (
     ethernet: array()
       .of(
         object().shape({
-          'select-ports': array().of(string()).default([]),
+          'select-ports': array().of(string()).min(1, t('form.required')).default([]),
         }),
       )
       .required(t('form.required'))
