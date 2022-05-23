@@ -265,6 +265,9 @@ const InventoryTable: React.FC = () => {
         tag={tag}
         refresh={refetchTags}
         pushConfig={pushConfiguration}
+        onOpenScan={onOpenScan}
+        onOpenFactoryReset={onOpenFactoryReset}
+        onOpenUpgradeModal={onOpenUpgradeModal}
       />
       <ConfigurationPushModal isOpen={isPushOpen} onClose={closePush} pushResult={pushConfiguration.data} />
       <WifiScanModal modalProps={scanModalProps} serialNumber={serialNumber} />

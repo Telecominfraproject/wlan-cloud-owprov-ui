@@ -1,7 +1,7 @@
 import { testLeaseTime, testLength, testUcMac } from 'constants/formTests';
 import { object, number, string, array, bool } from 'yup';
 
-export const ENCRYPTION_PROTOS_REQUIRE_KEY = ['psk', 'psk2', 'psk-mixed', 'psk2-radius', 'sae-mixed'];
+export const ENCRYPTION_PROTOS_REQUIRE_KEY = ['psk', 'psk2', 'psk-mixed', 'psk2-radius', 'sae', 'sae-mixed'];
 export const ENCRYPTION_PROTOS_REQUIRE_IEEE = ['sae', 'wpa3', 'wpa3-192'];
 export const ENCRYPTION_OPTIONS = [
   { value: 'none', label: 'None' },

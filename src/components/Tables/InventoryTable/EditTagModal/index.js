@@ -26,6 +26,7 @@ import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import { ArrowSquareOut, PaperPlaneTilt } from 'phosphor-react';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import EditTagForm from './Form';
+import DeviceActionDropdown from './ActionDropdown';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -36,13 +37,25 @@ const propTypes = {
   }),
   refresh: PropTypes.func.isRequired,
   pushConfig: PropTypes.instanceOf(Object).isRequired,
+  onOpenScan: PropTypes.func.isRequired,
+  onOpenFactoryReset: PropTypes.func.isRequired,
+  onOpenUpgradeModal: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
   tag: null,
 };
 
-const EditTagModal = ({ isOpen, onClose, tag, refresh, pushConfig }) => {
+const EditTagModal = ({
+  isOpen,
+  onClose,
+  tag,
+  refresh,
+  pushConfig,
+  onOpenScan,
+  onOpenFactoryReset,
+  onOpenUpgradeModal,
+}) => {
   const { t } = useTranslation();
   const [editing, setEditing] = useBoolean();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
@@ -120,6 +133,13 @@ const EditTagModal = ({ isOpen, onClose, tag, refresh, pushConfig }) => {
                 onClick={form.submitForm}
                 isLoading={form.isSubmitting}
                 isDisabled={!editing || !form.isValid || (configuration !== null && !configuration.__form.isValid)}
+              />
+              <DeviceActionDropdown
+                device={tag}
+                isDisabled={editing}
+                onOpenScan={onOpenScan}
+                onOpenFactoryReset={onOpenFactoryReset}
+                onOpenUpgradeModal={onOpenUpgradeModal}
               />
               <Tooltip hasArrow label={t('common.view_in_gateway')} placement="top">
                 <IconButton
