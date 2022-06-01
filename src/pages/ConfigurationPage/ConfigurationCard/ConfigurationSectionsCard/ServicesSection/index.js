@@ -5,7 +5,6 @@ import { ConfigurationSectionShape } from 'constants/propShapes';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import isEqual from 'react-fast-compare';
-import { Flex, Spacer } from '@chakra-ui/react';
 import DeleteButton from 'components/Buttons/DeleteButton';
 import Masonry from 'react-masonry-css';
 import { getSubSectionDefaults, SERVICES_SCHEMA } from './servicesConstants';
@@ -95,76 +94,71 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
   }, [editing]);
 
   return (
-    <>
-      <Flex>
-        <Spacer />
-        <DeleteButton my={2} onClick={removeUnit} isDisabled={!editing} />
-      </Flex>
-      <Formik
-        key={formKey}
-        innerRef={sectionRef}
-        initialValues={sectionInformation.data}
-        validationSchema={SERVICES_SCHEMA(t)}
-      >
-        {({ setFieldValue }) => (
-          <Masonry
-            breakpointCols={{
-              default: 3,
-              1400: 2,
-              1100: 1,
-            }}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-          >
-            <SectionGeneralCard
-              editing={editing}
-              subsectionPicker={
-                <SubSectionPicker
-                  editing={editing}
-                  subsections={[
-                    'airtime-policies',
-                    'data-plane',
-                    'facebook-wifi',
-                    'http',
-                    'ieee8021x',
-                    'igmp',
-                    'lldp',
-                    'log',
-                    'mdns',
-                    'ntp',
-                    'online-check',
-                    'open-flow',
-                    'quality-of-service',
-                    'radius-proxy',
-                    'rtty',
-                    'ssh',
-                    'wifi-steering',
-                  ]}
-                  onSubsectionsChange={(sub) => onSubsectionsChange(sub, setFieldValue)}
-                />
-              }
-            />
-            {isSubSectionActive('lldp') && <Lldp editing={editing} />}
-            {isSubSectionActive('ntp') && <Ntp editing={editing} />}
-            {isSubSectionActive('ssh') && <Ssh editing={editing} />}
-            {isSubSectionActive('mdns') && <Mdns editing={editing} />}
-            {isSubSectionActive('rtty') && <Rtty editing={editing} />}
-            {isSubSectionActive('log') && <Log editing={editing} />}
-            {isSubSectionActive('http') && <Http editing={editing} />}
-            {isSubSectionActive('igmp') && <Igmp editing={editing} />}
-            {isSubSectionActive('online-check') && <OnlineCheck editing={editing} />}
-            {isSubSectionActive('wifi-steering') && <WifiSteering editing={editing} />}
-            {isSubSectionActive('quality-of-service') && <QualityOfService editing={editing} />}
-            {isSubSectionActive('facebook-wifi') && <FacebookWifi editing={editing} />}
-            {isSubSectionActive('airtime-policies') && <AirtimePolicies editing={editing} />}
-            {isSubSectionActive('open-flow') && <OpenFlow editing={editing} />}
-            {isSubSectionActive('data-plane') && <DataPlane editing={editing} />}
-            {isSubSectionActive('ieee8021x') && <Ieee8021x editing={editing} />}
-            {isSubSectionActive('radius-proxy') && <RadiusProxy editing={editing} />}
-          </Masonry>
-        )}
-      </Formik>
-    </>
+    <Formik
+      key={formKey}
+      innerRef={sectionRef}
+      initialValues={sectionInformation.data}
+      validationSchema={SERVICES_SCHEMA(t)}
+    >
+      {({ setFieldValue }) => (
+        <Masonry
+          breakpointCols={{
+            default: 3,
+            1400: 2,
+            1100: 1,
+          }}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          <SectionGeneralCard
+            editing={editing}
+            buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />}
+            subsectionPicker={
+              <SubSectionPicker
+                editing={editing}
+                subsections={[
+                  'airtime-policies',
+                  'data-plane',
+                  'facebook-wifi',
+                  'http',
+                  'ieee8021x',
+                  'igmp',
+                  'lldp',
+                  'log',
+                  'mdns',
+                  'ntp',
+                  'online-check',
+                  'open-flow',
+                  'quality-of-service',
+                  'radius-proxy',
+                  'rtty',
+                  'ssh',
+                  'wifi-steering',
+                ]}
+                onSubsectionsChange={(sub) => onSubsectionsChange(sub, setFieldValue)}
+              />
+            }
+          />
+          {isSubSectionActive('lldp') && <Lldp editing={editing} />}
+          {isSubSectionActive('ntp') && <Ntp editing={editing} />}
+          {isSubSectionActive('ssh') && <Ssh editing={editing} />}
+          {isSubSectionActive('mdns') && <Mdns editing={editing} />}
+          {isSubSectionActive('rtty') && <Rtty editing={editing} />}
+          {isSubSectionActive('log') && <Log editing={editing} />}
+          {isSubSectionActive('http') && <Http editing={editing} />}
+          {isSubSectionActive('igmp') && <Igmp editing={editing} />}
+          {isSubSectionActive('online-check') && <OnlineCheck editing={editing} />}
+          {isSubSectionActive('wifi-steering') && <WifiSteering editing={editing} />}
+          {isSubSectionActive('quality-of-service') && <QualityOfService editing={editing} />}
+          {isSubSectionActive('facebook-wifi') && <FacebookWifi editing={editing} />}
+          {isSubSectionActive('airtime-policies') && <AirtimePolicies editing={editing} />}
+          {isSubSectionActive('open-flow') && <OpenFlow editing={editing} />}
+          {isSubSectionActive('data-plane') && <DataPlane editing={editing} />}
+          {isSubSectionActive('ieee8021x') && <Ieee8021x editing={editing} />}
+          {isSubSectionActive('radius-proxy') && <RadiusProxy editing={editing} />}
+        </Masonry>
+      )}
+    </Formik>
   );
 };
 

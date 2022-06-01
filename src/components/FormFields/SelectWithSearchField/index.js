@@ -58,6 +58,7 @@ const SelectWithSearchField = ({ options, name, isDisabled, label, isRequired, i
               control: (provided) => ({
                 ...provided,
                 borderRadius: '15px',
+                border: '2px solid',
               }),
               dropdownIndicator: (provided) => ({
                 ...provided,

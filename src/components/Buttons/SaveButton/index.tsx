@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { FloppyDisk } from 'phosphor-react';
 
-interface Props {
+interface Props extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   onClick: () => void;
   isDisabled?: boolean;
   isLoading?: boolean;

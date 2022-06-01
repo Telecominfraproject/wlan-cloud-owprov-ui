@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { SimpleGrid } from '@chakra-ui/react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import NumberField from 'components/FormFields/NumberField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 
@@ -13,7 +13,11 @@ const propTypes = {
 
 const AirtimePolicies = ({ editing }) => (
   <Card variant="widget" mb={3}>
-    <CardHeader>Airtime Policies</CardHeader>
+    <CardHeader>
+      <Heading size="md" borderBottom="1px solid">
+        Airtime Policies
+      </Heading>
+    </CardHeader>
     <CardBody>
       <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">
         <CreatableSelectField

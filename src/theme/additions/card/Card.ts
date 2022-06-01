@@ -13,13 +13,13 @@ const Card = {
     panel: (props: { colorMode: string }) => ({
       bg: props.colorMode === 'dark' ? 'gray.700' : 'white',
       width: '100%',
-      boxShadow: '0px 7px 23px rgba(0, 0, 0, 0.05)',
+      boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)',
       borderRadius: '15px',
     }),
     widget: (props: { colorMode: string }) => ({
       bg: props.colorMode === 'dark' ? 'gray.800' : 'gray.100',
       width: '100%',
-      boxShadow: '0px 7px 23px rgba(0, 0, 0, 0.1)',
+      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
       borderRadius: '15px',
     }),
   },

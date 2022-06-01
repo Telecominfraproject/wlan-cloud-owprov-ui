@@ -5,7 +5,7 @@ import { ConfigurationSectionShape } from 'constants/propShapes';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import isEqual from 'react-fast-compare';
-import { Flex, SimpleGrid, Spacer } from '@chakra-ui/react';
+import { SimpleGrid } from '@chakra-ui/react';
 import DeleteButton from 'components/Buttons/DeleteButton';
 import { GLOBALS_SCHEMA } from './globalsConstants';
 import SectionGeneralCard from '../common/SectionGeneralCard';
@@ -52,23 +52,17 @@ const GlobalsSection = ({ editing, setSection, sectionInformation, removeSub }) 
   }, [editing]);
 
   return (
-    <>
-      <Flex>
-        <Spacer />
-        <DeleteButton my={2} onClick={removeUnit} isDisabled={!editing} />
-      </Flex>
-      <Formik
-        key={formKey}
-        innerRef={sectionRef}
-        initialValues={sectionInformation.data}
-        validationSchema={GLOBALS_SCHEMA(t)}
-      >
-        <SimpleGrid minChildWidth="400px" spacing={4}>
-          <SectionGeneralCard editing={editing} />
-          <Globals editing={editing} />
-        </SimpleGrid>
-      </Formik>
-    </>
+    <Formik
+      key={formKey}
+      innerRef={sectionRef}
+      initialValues={sectionInformation.data}
+      validationSchema={GLOBALS_SCHEMA(t)}
+    >
+      <SimpleGrid minChildWidth="400px" spacing={4}>
+        <SectionGeneralCard buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />} editing={editing} />
+        <Globals editing={editing} />
+      </SimpleGrid>
+    </Formik>
   );
 };
 

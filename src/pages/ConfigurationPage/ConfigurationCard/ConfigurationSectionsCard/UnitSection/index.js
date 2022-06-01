@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ConfigurationSectionShape } from 'constants/propShapes';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Flex, SimpleGrid, Spacer } from '@chakra-ui/react';
+import { SimpleGrid } from '@chakra-ui/react';
 import isEqual from 'react-fast-compare';
 import DeleteButton from 'components/Buttons/DeleteButton';
 import { UNIT_SCHEMA } from './unitConstants';
@@ -44,18 +44,12 @@ const UnitSection = ({ editing, setSection, sectionInformation, removeSub }) => 
   const removeUnit = () => removeSub('unit');
 
   return (
-    <>
-      <Flex>
-        <Spacer />
-        <DeleteButton my={2} onClick={removeUnit} isDisabled={!editing} />
-      </Flex>
-      <Formik innerRef={sectionRef} initialValues={sectionInformation.data} validationSchema={UNIT_SCHEMA(t)}>
-        <SimpleGrid minChildWidth="400px" spacing={4}>
-          <SectionGeneralCard editing={editing} />
-          <Unit editing={editing} />
-        </SimpleGrid>
-      </Formik>
-    </>
+    <Formik innerRef={sectionRef} initialValues={sectionInformation.data} validationSchema={UNIT_SCHEMA(t)}>
+      <SimpleGrid minChildWidth="400px" spacing={4}>
+        <SectionGeneralCard buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />} editing={editing} />
+        <Unit editing={editing} />
+      </SimpleGrid>
+    </Formik>
   );
 };
 

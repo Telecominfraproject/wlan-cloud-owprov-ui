@@ -7,7 +7,7 @@ export const testIpv4 = (ip?: string) => {
     return ipv4RegExp.test(ip);
   }
 
-  return false;
+  return true;
 };
 
 export const testIpv6 = (ip?: string) => {
@@ -17,7 +17,7 @@ export const testIpv6 = (ip?: string) => {
     return ipv6RegExp.test(ip);
   }
 
-  return false;
+  return true;
 };
 
 export const testAlphanumWithDash = (str?: string) => {

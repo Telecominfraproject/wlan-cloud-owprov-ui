@@ -38,7 +38,7 @@ interface Props {
   count?: number;
   setPageInfo?: React.Dispatch<React.SetStateAction<PageInfo | undefined>>;
   isLoading?: boolean;
-  obj: string;
+  obj?: string;
   sortBy?: { id: string; desc: boolean }[];
   hiddenColumns?: string[];
   hideControls?: boolean;
@@ -245,7 +245,13 @@ const DataTable: React.FC<Props> = ({
           </Table>
           {!isLoading && data.length === 0 && (
             <Center>
-              <Heading pt={12}>{t('common.no_obj_found', { obj })}</Heading>
+              {obj ? (
+                <Heading pt={12}>{t('common.no_obj_found', { obj })}</Heading>
+              ) : (
+                <Heading size="sm" pt={12}>
+                  {t('common.empty_list')}
+                </Heading>
+              )}
             </Center>
           )}
         </LoadingOverlay>

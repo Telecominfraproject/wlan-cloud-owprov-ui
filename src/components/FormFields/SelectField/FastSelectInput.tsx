@@ -46,6 +46,7 @@ const FastSelectInput: React.FC<Props> = ({
       borderRadius="15px"
       fontSize="sm"
       _disabled={{ opacity: 0.8, cursor: 'not-allowed' }}
+      border="2px solid"
       w={w}
     >
       {options.map((option) => (

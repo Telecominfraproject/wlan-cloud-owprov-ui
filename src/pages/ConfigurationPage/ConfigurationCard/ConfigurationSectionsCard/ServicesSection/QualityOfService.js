@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { SimpleGrid } from '@chakra-ui/react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import NumberField from 'components/FormFields/NumberField';
 
 const propTypes = {
@@ -12,7 +12,11 @@ const propTypes = {
 
 const QualityOfService = ({ editing }) => (
   <Card variant="widget" mb={4}>
-    <CardHeader>Quality of Service</CardHeader>
+    <CardHeader>
+      <Heading size="md" borderBottom="1px solid">
+        Quality of Service
+      </Heading>
+    </CardHeader>
     <CardBody>
       <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">
         <NumberField
