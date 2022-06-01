@@ -67,6 +67,7 @@ const FastMultiSelectInput = ({
             ...provided,
             borderRadius: '15px',
             opacity: isControlDisabled ? '0.8 !important' : '1',
+            border: '2px solid',
           }),
           dropdownIndicator: (provided) => ({
             ...provided,

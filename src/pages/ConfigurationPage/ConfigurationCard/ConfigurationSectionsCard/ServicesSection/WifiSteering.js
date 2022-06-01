@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { SimpleGrid } from '@chakra-ui/react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import ToggleField from 'components/FormFields/ToggleField';
 import SelectField from 'components/FormFields/SelectField';
 import NumberField from 'components/FormFields/NumberField';
@@ -14,7 +14,11 @@ const propTypes = {
 
 const WifiSteering = ({ editing }) => (
   <Card variant="widget" mb={4}>
-    <CardHeader>Wifi Steering</CardHeader>
+    <CardHeader>
+      <Heading size="md" borderBottom="1px solid">
+        Wifi Steering
+      </Heading>
+    </CardHeader>
     <CardBody>
       <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">
         <SelectField

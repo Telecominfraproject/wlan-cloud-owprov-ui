@@ -55,14 +55,13 @@ const Local = ({ editing, namePrefix }) => {
             name={`${namePrefix}.users`}
             label="radius.local.users"
             definitionKey="interface.ssid.radius.local.users"
-            editing={editing}
             fields={
-              <>
+              <SimpleGrid minChildWidth="300px" gap={4}>
                 <StringField name="mac" label="mac" isRequired />
                 <StringField name="user-name" label="user-name" isRequired />
                 <StringField name="password" label="password" isRequired hideButton />
                 <NumberField name="vlan-id" label="vlan-id" isDisabled={!editing} isRequired w={24} />
-              </>
+              </SimpleGrid>
             }
             columns={[
               {

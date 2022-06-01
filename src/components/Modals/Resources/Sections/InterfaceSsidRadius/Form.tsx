@@ -176,12 +176,12 @@ const InterfaceSsidRadiusResourceForm = ({ isDisabled }: { isDisabled: boolean }
             label="users"
             isDisabled={isDisabled}
             fields={
-              <>
+              <SimpleGrid minChildWidth="300px" gap={4}>
                 <StringField name="mac" label="mac" isRequired />
                 <StringField name="user-name" label="user-name" isRequired />
                 <StringField name="password" label="password" isRequired hideButton />
                 <NumberField name="vlan-id" label="vlan-id" isRequired w={24} />
-              </>
+              </SimpleGrid>
             }
             columns={[
               {
