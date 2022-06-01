@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ToggleField from 'components/FormFields/ToggleField';
 import NumberField from 'components/FormFields/NumberField';
-import { useField } from 'formik';
+import useFastField from 'hooks/useFastField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -10,23 +10,16 @@ const propTypes = {
 };
 
 const He = ({ editing, index }) => {
-  const [{ value }, , { setValue }] = useField(`configuration[${index}].he`);
+  const { value, onChange } = useFastField({ name: `configuration[${index}].he` });
 
   useEffect(() => {
     if (value && Object.keys(value).length === 0) {
-      setValue(undefined);
+      onChange(undefined);
     }
   }, [value]);
 
   return (
     <>
-      <ToggleField
-        name={`configuration[${index}].he.multiple-bssid`}
-        label="multiple-bssid"
-        definitionKey="radio.he.multiple-bssid"
-        isDisabled={!editing}
-        falseIsUndefined
-      />
       <ToggleField
         name={`configuration[${index}].he.ema`}
         label="ema"

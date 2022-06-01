@@ -9,17 +9,12 @@ import CardBody from 'components/Card/CardBody';
 import { useTranslation } from 'react-i18next';
 import SelectField from 'components/FormFields/SelectField';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
-import ToggleField from 'components/FormFields/ToggleField';
-import NumberField from 'components/FormFields/NumberField';
 import { getIn, useFormikContext } from 'formik';
 import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
-import Rrm from './Rrm';
-import Roaming from './Roaming';
 import Encryption from './Encryption';
-import Radius from './Radius';
-import RateLimit from './RateLimit';
 import { INTERFACE_SSID_SCHEMA } from '../../interfacesConstants';
 import LockedSsid from './LockedSsid';
+import AdvancedSettings from './AdvancedSettings';
 
 const propTypes = {
   index: PropTypes.number.isRequired,
@@ -39,7 +34,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
   }, [getIn(values, `${namePrefix}`)]);
 
   return (
-    <Card mb={4}>
+    <Card mb={4} borderRadius={0}>
       <CardHeader flex="auto">
         <Heading size="md" mr={2} pt={2}>
           #{index}
@@ -56,7 +51,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
       <CardBody display="unset">
         {isUsingCustomRadius ? (
           <>
-            <SimpleGrid minChildWidth="300px" spacing="20px">
+            <SimpleGrid minChildWidth="300px" spacing="20px" mt={2}>
               <StringField
                 name={`${namePrefix}.name`}
                 label="name"
@@ -89,107 +84,13 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
                 ]}
                 isRequired
               />
-              <ToggleField
-                name={`${namePrefix}.hidden-ssid`}
-                label="hidden-ssid"
-                definitionKey="interface.ssid.hidden-ssid"
-                isDisabled={!editing}
-                isRequired
-              />
-              <MultiSelectField
-                name={`${namePrefix}.services`}
-                label="services"
-                definitionKey="interface.ssid.services"
-                isDisabled={!editing}
-                options={[
-                  { value: 'wifi-steering', label: 'wifi-steering' },
-                  { value: 'dhcp-snooping', label: 'dhcp-snooping' },
-                ]}
-              />
-              <NumberField
-                name={`${namePrefix}.maximum-clients`}
-                label="maximum-clients"
-                definitionKey="interface.ssid.maximum-clients"
-                isDisabled={!editing}
-                isRequired
-              />
-              <SelectField
-                name={`${namePrefix}.purpose`}
-                label="purpose"
-                definitionKey="interface.ssid.purpose"
-                isDisabled={!editing}
-                options={[
-                  { value: '', label: t('common.default') },
-                  { value: 'user-defined', label: 'user-defined' },
-                  { value: 'onboarding-ap', label: 'onboarding-ap' },
-                  { value: 'onboarding-sta', label: 'onboarding-sta' },
-                ]}
-                emptyIsUndefined
-              />
-              <ToggleField
-                name={`${namePrefix}.isolate-clients`}
-                label="isolate-clients"
-                definitionKey="interface.ssid.isolate-clients"
-                isDisabled={!editing}
-                isRequired
-                falseIsUndefined
-              />
-              <ToggleField
-                name={`${namePrefix}.power-save`}
-                label="power-save"
-                definitionKey="interface.ssid.power-save"
-                isDisabled={!editing}
-                falseIsUndefined
-              />
-              <ToggleField
-                name={`${namePrefix}.broadcast-time`}
-                label="broadcast-time"
-                definitionKey="interface.ssid.broadcast-time"
-                isDisabled={!editing}
-                falseIsUndefined
-              />
-              <ToggleField
-                name={`${namePrefix}.unicast-conversion`}
-                label="unicast-conversion"
-                definitionKey="interface.ssid.unicast-conversion"
-                isDisabled={!editing}
-                falseIsUndefined
-              />
-              <ToggleField
-                name={`${namePrefix}.proxy-arp`}
-                label="proxy-arp"
-                definitionKey="interface.ssid.proxy-arp"
-                isDisabled={!editing}
-                falseIsUndefined
-              />
-              <ToggleField
-                name={`${namePrefix}.disassoc-low-ack`}
-                label="disassoc-low-ack"
-                definitionKey="interface.ssid.disassoc-low-ack"
-                isDisabled={!editing}
-                falseIsUndefined
-              />
-              <StringField
-                name={`${namePrefix}.vendor-elements`}
-                label="vendor-elements"
-                definitionKey="interface.ssid.vendor-elements"
-                isDisabled={!editing}
-                emptyIsUndefined
-              />
             </SimpleGrid>
             <Encryption
               editing={editing}
               namePrefix={`${namePrefix}.encryption`}
               radiusPrefix={`${namePrefix}.radius`}
             />
-            <Radius
-              editing={editing}
-              namePrefix={`${namePrefix}.radius`}
-              encryptionKeyName={`${namePrefix}.encryption.key`}
-            />
-            <RateLimit editing={editing} namePrefix={`${namePrefix}.rate-limit`} />
-            <Rrm editing={editing} namePrefix={`${namePrefix}.rrm`} />
-            <Roaming editing={editing} namePrefix={`${namePrefix}.roaming`} />
+            <AdvancedSettings editing={editing} namePrefix={namePrefix} />
           </>
         ) : (
           <LockedSsid variableBlockId={getIn(values, `${namePrefix}.__variableBlock`)[0]} />

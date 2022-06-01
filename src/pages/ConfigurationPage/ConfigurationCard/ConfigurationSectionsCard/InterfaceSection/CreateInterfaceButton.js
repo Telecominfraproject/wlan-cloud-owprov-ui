@@ -18,21 +18,32 @@ const propTypes = {
   arrayHelpers: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  setTabIndex: PropTypes.func.isRequired,
+  arrLength: PropTypes.number.isRequired,
 };
 
-const CreateInterfaceButton = ({ editing, arrayHelpers: { push: pushInterface } }) => {
+const CreateInterfaceButton = ({ editing, arrayHelpers: { push: pushInterface }, setTabIndex, arrLength }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { form, formRef } = useFormRef();
 
   const addInterface = ({ role, name }) => {
     pushInterface(SINGLE_INTERFACE_SCHEMA(t, true, role, name, true).cast());
+    setTabIndex(arrLength);
     onClose();
   };
 
   return (
     <>
-      <Button colorScheme="blue" type="button" onClick={onOpen} rightIcon={<Plus size={20} />} hidden={!editing} ml={2}>
+      <Button
+        colorScheme="blue"
+        type="button"
+        onClick={onOpen}
+        rightIcon={<Plus size={20} />}
+        hidden={!editing}
+        borderRadius={0}
+        minWidth={24}
+      >
         {t('configurations.add_interface')}
       </Button>
       <Modal onClose={onClose} isOpen={isOpen} size="sm" scrollBehavior="inside">

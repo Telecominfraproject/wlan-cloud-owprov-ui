@@ -152,8 +152,6 @@ export const useGetClientLifecycle = ({
   fromDate: number;
   endDate: number;
 }) => {
-  const { t } = useTranslation();
-  const toast = useToast();
   let sortString = '';
   if (sortInfo && sortInfo.length > 0) {
     sortString = `&orderBy=${sortInfo.map((info) => `${info.id}:${info.sort.charAt(0)}`).join(',')}`;
@@ -172,21 +170,7 @@ export const useGetClientLifecycle = ({
     {
       keepPreviousData: true,
       enabled: count !== undefined && pageInfo !== undefined,
-      onError: (e: AxiosError) => {
-        if (!toast.isActive('get-operators-fetching-error'))
-          toast({
-            id: 'get-operators-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('operator.other'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+      onError: () => [],
     },
   );
 };

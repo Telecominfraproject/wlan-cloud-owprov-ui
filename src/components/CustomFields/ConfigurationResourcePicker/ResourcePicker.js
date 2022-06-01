@@ -22,7 +22,7 @@ const ResourcePicker = ({ value, resources, isDisabled, onChange }) => {
 
   return (
     <Select value={value} isDisabled={isDisabled} maxW={72} onChange={onChange}>
-      <option value="">{t('common.manual')}</option>
+      <option value="">{t('configurations.no_resource_selected')}</option>
       {resources.map((res) => (
         <option key={uuid()} value={res.value}>
           {res.label}

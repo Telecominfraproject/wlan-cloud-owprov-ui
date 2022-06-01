@@ -34,6 +34,16 @@ const LockedEncryption = ({ data }) => {
             options={ENCRYPTION_OPTIONS}
             isRequired
           />
+          {data?.encryption?.key !== undefined && (
+            <DisplayStringField
+              value={data?.encryption?.key}
+              label="key"
+              definitionKey="interface.ssid.encryption.key"
+              isDisabled
+              isRequired
+              hideButton
+            />
+          )}
           {data?.encryption?.ieee80211w !== undefined && (
             <DisplaySelectField
               label="ieee80211w"
@@ -45,16 +55,6 @@ const LockedEncryption = ({ data }) => {
                 { value: 'required', label: 'required' },
               ]}
               isRequired
-            />
-          )}
-          {data?.encryption?.key !== undefined && (
-            <DisplayStringField
-              value={data?.encryption?.key}
-              label="key"
-              definitionKey="interface.ssid.encryption.key"
-              isDisabled
-              isRequired
-              hideButton
             />
           )}
         </SimpleGrid>
