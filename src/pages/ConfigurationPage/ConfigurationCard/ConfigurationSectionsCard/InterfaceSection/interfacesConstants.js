@@ -1,8 +1,30 @@
-import { testLeaseTime, testLength, testUcMac } from 'constants/formTests';
+import { testIpv4, testIpv6, testLeaseTime, testLength, testUcMac } from 'constants/formTests';
 import { object, number, string, array, bool } from 'yup';
 
 export const ENCRYPTION_PROTOS_REQUIRE_KEY = ['psk', 'psk2', 'psk-mixed', 'psk2-radius', 'sae', 'sae-mixed'];
-export const ENCRYPTION_PROTOS_REQUIRE_IEEE = ['sae', 'wpa3', 'wpa3-192'];
+export const ENCRYPTION_PROTOS_REQUIRE_IEEE = [
+  'psk',
+  'psk2',
+  'psk2-radius',
+  'psk-mixed',
+  'wpa',
+  'wpa2',
+  'wpa-mixed',
+  'sae',
+  'sae-mixed',
+  'wpa3',
+  'wpa3-192',
+  'wpa3-mixed',
+];
+export const ENCRYPTION_PROTOS_REQUIRE_RADIUS = [
+  'psk2-radius',
+  'wpa',
+  'wpa2',
+  'wpa-mixed',
+  'wpa3',
+  'wpa3-192',
+  'wpa3-mixed',
+];
 export const ENCRYPTION_OPTIONS = [
   { value: 'none', label: 'None' },
   { value: 'psk', label: 'WPA-PSK' },
@@ -112,6 +134,29 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
         port: 1812,
         secret: 'YOUR_SECRET',
       },
+    });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
+export const INTERFACE_SSID_MULTIPSK_SCHEMA = (t, useDefault = false) => {
+  const shape = object()
+    .shape({
+      mac: string().default(undefined),
+      key: string()
+        .required(t('form.required'))
+        .test(
+          'multi-psk-key-test',
+          t('form.min_max_string', { min: 8, max: 63 }),
+          (v) => v.length >= 8 && v.length <= 63,
+        )
+        .default(''),
+      'vlan-id': number().required(t('form.required')).positive().lessThan(4097).integer().default(1813),
+    })
+    .default({
+      mac: undefined,
+      key: 'YOUR_KEY',
+      'vlan-id': 1813,
     });
 
   return useDefault ? shape : shape.nullable().default(undefined);
@@ -244,6 +289,20 @@ export const INTERFACE_IPV4_DHCP_LEASE_SCHEMA = (t, useDefault = false) => {
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
+export const INTERFACE_CAPTIVE_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    'gateway-name': string().default('uCentral - Captive Portal'),
+    'gateway-fqdn': string().default('ucentral.splash'),
+    'max-clients': number().moreThan(0).lessThan(65535).integer().default(32),
+    'upload-rate': number().moreThan(-1).lessThan(65535).integer().default(0),
+    'download-rate': number().moreThan(-1).lessThan(65535).integer().default(0),
+    'upload-quota': number().moreThan(-1).lessThan(65535).integer().default(0),
+    'download-quota': number().moreThan(-1).lessThan(65535).integer().default(0),
+  });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
 export const INTERFACE_BRIDGE_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
@@ -256,6 +315,19 @@ export const INTERFACE_BRIDGE_SCHEMA = (t, useDefault = false) => {
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
+export const INTERFACE_IPV4_PORT_FORWARD_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    protocol: string().default('any'),
+    'external-port': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(8080),
+    'internal-address': string()
+      .required(t('form.required'))
+      .test('test-ipv4-port-forward-address', t('form.invalid_ipv4'), testIpv4)
+      .default(''),
+    'internal-port': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(8080),
+  });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
 export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     addressing: string().required(t('form.required')).default('dynamic'),
@@ -279,8 +351,90 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
       then: array().nullable(),
       otherwise: array().of(string()).default([]),
     }),
+    'port-forward': array().when('addressing', {
+      is: 'dynamic',
+      then: array().nullable(),
+      otherwise: array().of(object()).default([]),
+    }),
     dhcp: INTERFACE_IPV4_DHCP_SCHEMA(t, useDefault),
     'dhcp-lease': INTERFACE_IPV4_DHCP_LEASE_SCHEMA(t, useDefault),
+  });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
+export const INTERFACE_IPV6_TRAFFIC_ALLOW_SCHEMA = (t, useDefault = false) => {
+  const shape = object()
+    .shape({
+      'destination-address': string()
+        .required(t('form.required'))
+        .test('test-ipv6-port-forward-address', t('form.invalid_ipv6'), testIpv6)
+        .default(''),
+      protocol: string().default('any'),
+      'source-address': string().test('test-ipv6-port-forward-address', t('form.invalid_ipv6'), testIpv6).default(''),
+      'source-ports': array().of(string()).min(1, t('form.required')).default([]),
+      'destination-ports': array().of(string()).min(1, t('form.required')).default([]),
+    })
+    .default({
+      'destination-address': '',
+      protocol: 'any',
+      'source-address': '',
+      'source-ports': [],
+      'destination-ports': [],
+    });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+export const INTERFACE_IPV6_PORT_FORWARD_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    protocol: string().default('any'),
+    'external-port': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(8080),
+    'internal-address': string()
+      .required(t('form.required'))
+      .test('test-ipv6-port-forward-address', t('form.invalid_ipv6'), testIpv6)
+      .default(''),
+    'internal-port': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(8080),
+  });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
+export const INTERFACE_IPV6_DHCP_SCHEMA = (t, useDefault = false) => {
+  const shape = object()
+    .shape({
+      mode: string().required(t('form.required')).default('hybrid'),
+      'announce-dns': array().of(object()).default(undefined),
+      'filter-prefix': string().default('::/0'),
+    })
+    .default({
+      mode: 'hybrid',
+      'announce-dns': undefined,
+      'filter-prefix': '::/0',
+    });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
+export const INTERFACE_IPV6_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    addressing: string().required(t('form.required')).default('dynamic'),
+    subnet: string().when('addressing', {
+      is: 'dynamic',
+      then: string().nullable(),
+      otherwise: string().default(''),
+    }),
+    gateway: string().when('addressing', {
+      is: 'dynamic',
+      then: string().nullable(),
+      otherwise: string().default(''),
+    }),
+    'prefix-size': number().moreThan(-1).lessThan(65).integer().default(undefined),
+    'port-forward': array().when('addressing', {
+      is: 'dynamic',
+      then: array().nullable(),
+      otherwise: array().of(object()).default([]),
+    }),
+    dhcpv6: INTERFACE_IPV6_DHCP_SCHEMA(t, useDefault),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);
@@ -334,7 +488,7 @@ export const SINGLE_INTERFACE_SCHEMA = (
     ethernet: array()
       .of(
         object().shape({
-          'select-ports': array().of(string()).min(1, t('form.required')).default([]),
+          'select-ports': array().of(string()).default([]),
         }),
       )
       .required(t('form.required'))
@@ -345,6 +499,7 @@ export const SINGLE_INTERFACE_SCHEMA = (
       : object().shape({
           id: number().required(t('form.required')).moreThan(0).lessThan(4051).default(1080),
         }),
+    captive: initialCreation ? object().shape().nullable().default(undefined) : INTERFACE_CAPTIVE_SCHEMA(t, useDefault),
     ipv4: initialCreation
       ? object()
           .shape({ addressing: string().required(t('form.required')) })

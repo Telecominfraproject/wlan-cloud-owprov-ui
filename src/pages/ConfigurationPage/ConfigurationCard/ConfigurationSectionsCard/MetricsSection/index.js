@@ -5,7 +5,6 @@ import { ConfigurationSectionShape } from 'constants/propShapes';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import isEqual from 'react-fast-compare';
-import { Flex, Spacer } from '@chakra-ui/react';
 import DeleteButton from 'components/Buttons/DeleteButton';
 import Masonry from 'react-masonry-css';
 import { getSubSectionDefaults, METRICS_SCHEMA } from './metricsConstants';
@@ -84,45 +83,40 @@ const MetricsSection = ({ editing, setSection, sectionInformation, removeSub }) 
   }, [editing]);
 
   return (
-    <>
-      <Flex>
-        <Spacer />
-        <DeleteButton my={2} onClick={removeUnit} isDisabled={!editing} />
-      </Flex>
-      <Formik
-        key={formKey}
-        innerRef={sectionRef}
-        initialValues={sectionInformation.data}
-        validationSchema={METRICS_SCHEMA(t)}
-      >
-        {({ setFieldValue }) => (
-          <Masonry
-            breakpointCols={{
-              default: 3,
-              1400: 2,
-              1100: 1,
-            }}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-          >
-            <SectionGeneralCard
-              editing={editing}
-              subsectionPicker={
-                <SubSectionPicker
-                  editing={editing}
-                  subsections={['statistics', 'health', 'wifi-frames', 'dhcp-snooping']}
-                  onSubsectionsChange={(sub) => onSubsectionsChange(sub, setFieldValue)}
-                />
-              }
-            />
-            {isSubSectionActive('statistics') && <Statistics editing={editing} />}
-            {isSubSectionActive('health') && <Health editing={editing} />}
-            {isSubSectionActive('wifi-frames') && <WifiFrames editing={editing} />}
-            {isSubSectionActive('dhcp-snooping') && <DhcpSnooping editing={editing} />}
-          </Masonry>
-        )}
-      </Formik>
-    </>
+    <Formik
+      key={formKey}
+      innerRef={sectionRef}
+      initialValues={sectionInformation.data}
+      validationSchema={METRICS_SCHEMA(t)}
+    >
+      {({ setFieldValue }) => (
+        <Masonry
+          breakpointCols={{
+            default: 3,
+            1400: 2,
+            1100: 1,
+          }}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          <SectionGeneralCard
+            editing={editing}
+            buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />}
+            subsectionPicker={
+              <SubSectionPicker
+                editing={editing}
+                subsections={['statistics', 'health', 'wifi-frames', 'dhcp-snooping']}
+                onSubsectionsChange={(sub) => onSubsectionsChange(sub, setFieldValue)}
+              />
+            }
+          />
+          {isSubSectionActive('statistics') && <Statistics editing={editing} />}
+          {isSubSectionActive('health') && <Health editing={editing} />}
+          {isSubSectionActive('wifi-frames') && <WifiFrames editing={editing} />}
+          {isSubSectionActive('dhcp-snooping') && <DhcpSnooping editing={editing} />}
+        </Masonry>
+      )}
+    </Formik>
   );
 };
 

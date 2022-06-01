@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { SimpleGrid } from '@chakra-ui/react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
 
 const propTypes = {
@@ -16,7 +16,11 @@ const WifiFrames = ({ editing }) => {
 
   return (
     <Card variant="widget" mb={4}>
-      <CardHeader>{t('configurations.wifi_frames')}</CardHeader>
+      <CardHeader>
+        <Heading size="md" borderBottom="1px solid">
+          {t('configurations.wifi_frames')}
+        </Heading>
+      </CardHeader>
       <CardBody>
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">
           <MultiSelectField

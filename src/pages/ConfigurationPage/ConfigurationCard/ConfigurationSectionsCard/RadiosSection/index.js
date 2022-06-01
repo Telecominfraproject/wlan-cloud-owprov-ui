@@ -55,7 +55,6 @@ const RadiosSection = ({ editing, setSection, sectionInformation, removeSub }) =
     <>
       <Flex>
         <Spacer />
-        <DeleteButton my={2} onClick={removeUnit} isDisabled={!editing} />
       </Flex>
       <Formik
         key={formKey}
@@ -65,7 +64,10 @@ const RadiosSection = ({ editing, setSection, sectionInformation, removeSub }) =
       >
         {({ values }) => (
           <VStack spacing={4}>
-            <SectionGeneralCard editing={editing} />
+            <SectionGeneralCard
+              editing={editing}
+              buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />}
+            />
             <FieldArray name="configuration">
               {(arrayHelpers) => (
                 <Radios

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { SimpleGrid } from '@chakra-ui/react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import FileInputFieldModal from 'components/FormFields/FileInputFieldModal';
 import { useTranslation } from 'react-i18next';
 import { testPemCertificate, testPemPrivateKey } from 'constants/formTests';
@@ -22,7 +22,11 @@ const Ieee8021x = ({ editing }) => {
 
   return (
     <Card variant="widget" mb={4}>
-      <CardHeader>Ieee8021x</CardHeader>
+      <CardHeader>
+        <Heading size="md" borderBottom="1px solid">
+          Ieee8021x
+        </Heading>
+      </CardHeader>
       <CardBody>
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">
           <ToggleField
@@ -68,14 +72,13 @@ const Ieee8021x = ({ editing }) => {
             name="configuration.ieee8021x.users"
             label="users"
             definitionKey="service.ieee8021x.users"
-            editing={editing}
             fields={
-              <>
+              <SimpleGrid minChildWidth="300px" gap={4}>
                 <StringField name="mac" label="mac" isRequired />
                 <StringField name="user-name" label="user-name" isRequired />
                 <StringField name="password" label="password" isRequired hideButton />
                 <NumberField name="vlan-id" label="vlan-id" isDisabled={!editing} isRequired w={24} />
-              </>
+              </SimpleGrid>
             }
             columns={[
               {

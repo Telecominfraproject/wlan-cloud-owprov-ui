@@ -59,4 +59,4 @@ const DeleteButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompa
 };
 
 DeleteButton.defaultProps = defaultProps;
-export default DeleteButton;
+export default React.memo(DeleteButton);
