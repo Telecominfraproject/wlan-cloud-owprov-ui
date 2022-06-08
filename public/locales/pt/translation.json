@@ -359,6 +359,7 @@
 		"push_success": "Configuração enviada com sucesso!",
 		"radios": "Rádios",
 		"rc_only": "Liberar apenas candidatos",
+		"save_warnings": "Tem certeza de que deseja salvar sua configuração?",
 		"services": "Serviços",
 		"special_configuration": "Configuração específica do dispositivo",
 		"start_special_creation": "Criar configuração para este dispositivo",
@@ -479,7 +480,8 @@
 		"sync_title": "Sincronizar {{name}}",
 		"test_digicert_creds": "Credenciais de teste",
 		"title": "Entidades",
-		"tree": "Árvore de entidades"
+		"tree": "Árvore de entidades",
+		"venues_under_root": "Os locais não podem ser criados diretamente na entidade raiz. Por favor, crie novas entidades e crie locais sob elas."
 	},
 	"footer": {
 		"powered_by": "Distribuído por",
@@ -501,8 +503,12 @@
 		"invalid_password": "Senha inválida, consulte a política de senha",
 		"invalid_phone_number": "Número de telefone inválido",
 		"invalid_phone_numbers": "Um ou mais números de telefone são inválidos. Forneça-os sem símbolos e espaços ou neste formato: +1(123)123-1234",
+		"invalid_port_range": "Valor de porta inválido. Ele precisa ser maior que 0 e menor que 65.535. Se estiver usando um intervalo de portas, certifique-se de que a segunda porta seja um número maior que o primeiro.",
+		"invalid_port_ranges": "Combinação de intervalo de portas inválida! Certifique-se de que ambos os valores de porta sejam do mesmo tipo (único ou intervalo). Se forem intervalos, certifique-se de que ambos estejam cobrindo a mesma quantidade de portas",
+		"invalid_select_ports": "Valores incompatíveis entre interfaces! Certifique-se de que não há combinação duplicada de PORT/VLAN ID entre suas interfaces",
 		"key_file_explanation": "Use um arquivo .pem que comece com \"-----BEGIN PRIVATE KEY-----\" e termine com \"-----END PRIVATE KEY-----\"",
 		"min_max_string": "O valor precisa ter um comprimento entre {{min}} (inclusive) e {{max}} (inclusive)",
+		"missing_interface_upstream": "Você precisa ter pelo menos uma interface upstream. No momento, todas as suas interfaces estão downstream",
 		"new_email_to_notify": "Novo e-mail para notificar",
 		"new_phone_to_notify": "Novo telefone para notificar",
 		"not_selected": "não selecionado",

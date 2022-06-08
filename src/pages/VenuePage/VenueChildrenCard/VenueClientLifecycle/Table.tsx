@@ -24,9 +24,10 @@ const ClientLifecyleTable: React.FC<{
   mac?: string;
   fromDate: number;
   endDate: number;
+  refreshId: number;
   timePickers: React.ReactNode;
   searchBar: React.ReactNode;
-}> = ({ venueId, mac, fromDate, endDate, timePickers, searchBar }) => {
+}> = ({ venueId, mac, fromDate, endDate, refreshId, timePickers, searchBar }) => {
   const { t } = useTranslation();
   const [sortInfo, setSortInfo] = useState<SortInfo>([{ id: 'timestamp', sort: 'dsc' }]);
   const {
@@ -37,8 +38,8 @@ const ClientLifecyleTable: React.FC<{
   } = useControlledTable({
     useCount: useGetClientLifecycleCount as (props: unknown) => UseQueryResult,
     useGet: useGetClientLifecycle as (props: unknown) => UseQueryResult,
-    countParams: { venueId, mac, sortInfo, fromDate, endDate },
-    getParams: { venueId, mac, sortInfo, fromDate, endDate },
+    countParams: { venueId, mac, sortInfo, fromDate, endDate, refreshId },
+    getParams: { venueId, mac, sortInfo, fromDate, endDate, refreshId },
   });
   const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
   const { data: tableSpecs } = useGetClientLifecycleTableSpecs();

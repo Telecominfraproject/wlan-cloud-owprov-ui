@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Center, Heading, Spacer, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import isEqual from 'react-fast-compare';
 import CardBody from 'components/Card/CardBody';
-import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import isEqual from 'react-fast-compare';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetConfiguration } from 'hooks/Network/Configurations';
+import CardHeader from 'components/Card/CardHeader';
+import Card from 'components/Card';
 import { useTranslation } from 'react-i18next';
-import DeleteButton from 'components/Buttons/DeleteButton';
 import GlobalsSection from './GlobalsSection';
 import { GLOBALS_SCHEMA } from './GlobalsSection/globalsConstants';
 import { UNIT_SCHEMA } from './UnitSection/unitConstants';
@@ -26,6 +26,7 @@ import { INTERFACES_SCHEMA } from './InterfaceSection/interfacesConstants';
 import InterfacesSection from './InterfaceSection';
 import ImportConfigurationButton from './ImportConfigurationButton';
 import useConfigurationTabs from './useConfigurationTabs';
+import ViewConfigWarningsModal from './ViewConfigWarningsModal';
 
 const propTypes = {
   configId: PropTypes.string.isRequired,
@@ -290,6 +291,9 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
         ...radios.invalidValues,
         ...interfaces.invalidValues,
       ],
+      warnings: {
+        interfaces: interfaces.warnings ?? [],
+      },
       activeConfigurations,
       data: {
         globals,
@@ -314,6 +318,18 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
         </Box>
         <Spacer />
         <Box>
+          <ViewConfigWarningsModal
+            warnings={{
+              globals: globals.warnings ?? [],
+              unit: unit.warnings ?? [],
+              metrics: metrics.warnings ?? [],
+              services: services.warnings ?? [],
+              radios: radios.warnings ?? [],
+              interfaces: interfaces.warnings ?? [],
+            }}
+            activeConfigurations={activeConfigurations}
+            isDisabled={isFetching}
+          />
           <ViewConfigErrorsModal
             errors={{
               globals: globals.invalidValues,

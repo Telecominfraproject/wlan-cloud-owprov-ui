@@ -17,10 +17,12 @@ const useDatePickers = ({
   const [tempEnd, setTempEnd] = useState<Date>(defaultEnd);
   const [start, setStart] = useState<Date>(defaultStart);
   const [end, setEnd] = useState<Date>(defaultEnd);
+  const [refreshId, setRefreshId] = useState<number>(0);
 
   const refresh = () => {
     setStart(tempStart);
     setEnd(tempEnd);
+    setRefreshId((state) => state + 1);
   };
 
   const timepickers = useMemo(
@@ -46,7 +48,7 @@ const useDatePickers = ({
     [t, tempStart, tempEnd],
   );
 
-  const toReturn = useMemo(() => ({ start, end, timepickers }), [start, end, timepickers]);
+  const toReturn = useMemo(() => ({ start, end, refreshId, timepickers }), [start, end, refreshId, timepickers]);
 
   return toReturn;
 };

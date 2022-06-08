@@ -1,6 +1,25 @@
 /* eslint-disable max-len */
 import { isValidNumber, isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 
+export const parseToInt = (val: string) => {
+  try {
+    const parsed = parseInt(val, 10);
+    if (Number.isNaN(parsed)) return undefined;
+    return parsed;
+  } catch {
+    return undefined;
+  }
+};
+
+export const isNumber = (str: string) => {
+  try {
+    const num = Number(str);
+    return !Number.isNaN(num);
+  } catch {
+    return false;
+  }
+};
+
 export const testIpv4 = (ip?: string) => {
   const ipv4RegExp = /^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$/gi;
   if (ip) {
@@ -157,4 +176,81 @@ export const testLeaseTime = (str: string) => {
     result = false;
   }
   return result;
+};
+
+export const getPortRange = (port?: string) => {
+  if (!port) return undefined;
+
+  const split = port.split('-');
+
+  if (split.length === 2) {
+    const first = parseToInt(split[0] ?? '');
+    const second = parseToInt(split[1] ?? '');
+
+    if (first !== undefined && second !== undefined) return second - first;
+  }
+  return undefined;
+};
+
+export const isValidPort = (port?: string) => {
+  if (!port) return false;
+  const num = parseToInt(port);
+  return num !== undefined && num > 0 && num < 65535;
+};
+
+export const isValidPortRange = (v: string) => {
+  if (isValidPort(v)) return true;
+  const range = getPortRange(v);
+  if (range !== undefined && range > 0) return true;
+  return false;
+};
+
+export const isValidPortRanges = (first: string, second: string) => {
+  const firstInt = isNumber(first);
+  const secondInt = isNumber(second);
+  if (firstInt && secondInt) return true;
+  if (firstInt !== secondInt) return false;
+
+  const firstRange = getPortRange(first);
+  const secondRange = getPortRange(second);
+
+  if (firstRange && secondRange) return firstRange === secondRange;
+
+  return false;
+};
+
+export type TestSelectPortsProps = { ports: string[]; vlan?: number }[];
+
+export const testSelectPorts = (obj: TestSelectPortsProps) => {
+  const pairs = [];
+  for (const { ports, vlan } of obj) {
+    for (const port of ports) {
+      if (port === 'WAN*') {
+        pairs.push({ port: 'WAN1', vlan });
+        pairs.push({ port: 'WAN2', vlan });
+        pairs.push({ port: 'WAN3', vlan });
+        pairs.push({ port: 'WAN4', vlan });
+      } else if (port === 'LAN*') {
+        pairs.push({ port: 'LAN1', vlan });
+        pairs.push({ port: 'LAN2', vlan });
+        pairs.push({ port: 'LAN3', vlan });
+        pairs.push({ port: 'LAN4', vlan });
+        pairs.push({ port: 'LAN5', vlan });
+        pairs.push({ port: 'LAN6', vlan });
+        pairs.push({ port: 'LAN7', vlan });
+        pairs.push({ port: 'LAN8', vlan });
+        pairs.push({ port: 'LAN9', vlan });
+        pairs.push({ port: 'LAN10', vlan });
+        pairs.push({ port: 'LAN11', vlan });
+        pairs.push({ port: 'LAN12', vlan });
+      } else pairs.push({ port, vlan });
+    }
+  }
+  for (let i = 0; i < pairs.length; i += 1) {
+    for (let y = i + 1; y < pairs.length; y += 1) {
+      if (i !== y && pairs[i]?.port === pairs[y]?.port && pairs[i]?.vlan === pairs[y]?.vlan) return false;
+    }
+  }
+
+  return true;
 };
