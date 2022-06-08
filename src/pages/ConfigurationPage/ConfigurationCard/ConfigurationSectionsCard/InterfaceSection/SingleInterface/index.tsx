@@ -1,14 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 import { Flex, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
-import DeleteButton from 'components/Buttons/DeleteButton';
 import { useTranslation } from 'react-i18next';
-import { FieldArray, useFormikContext } from 'formik';
-import StringField from 'components/FormFields/StringField';
-import SelectField from 'components/FormFields/SelectField';
+import { FieldArray } from 'formik';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
 import ToggleField from 'components/FormFields/ToggleField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import ConfigurationSelectPortsField from 'components/CustomFields/ConfigurationSelectPortsField';
+import useFastField from 'hooks/useFastField';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import StringField from 'components/FormFields/StringField';
+import SelectField from 'components/FormFields/SelectField';
 import IpV4 from './IpV4';
 import IpV6 from './IpV6';
 import Vlan from './Vlan';
@@ -16,17 +17,24 @@ import SsidList from './SsidList';
 import Tunnel from './Tunnel';
 import Captive from './Captive';
 
-const propTypes = {
-  editing: PropTypes.bool.isRequired,
-  index: PropTypes.number.isRequired,
-  remove: PropTypes.func.isRequired,
-};
+interface Props {
+  editing: boolean;
+  index: number;
+  remove: (e: number) => void;
+}
 
-const SingleInterface = ({ editing, index, remove }) => {
+const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
   const { t } = useTranslation();
-  const { values } = useFormikContext();
+  const { value } = useFastField({ name: `configuration[${index}].ssids` });
   const removeRadio = () => remove(index);
 
+  const roleOpts = useMemo(
+    () => [
+      { value: 'upstream', label: 'upstream' },
+      { value: 'downstream', label: 'downstream' },
+    ],
+    [],
+  );
   return (
     <>
       <Flex>
@@ -52,27 +60,11 @@ const SingleInterface = ({ editing, index, remove }) => {
           definitionKey="interface.role"
           isDisabled
           isRequired
-          options={[
-            { value: 'upstream', label: 'upstream' },
-            { value: 'downstream', label: 'downstream' },
-          ]}
+          options={roleOpts}
         />
-        <MultiSelectField
+        <ConfigurationSelectPortsField
           name={`configuration[${index}].ethernet[0].select-ports`}
-          label="select-ports"
-          definitionKey="interface.ethernet.select-ports"
-          options={[
-            {
-              value: 'WAN*',
-              label: 'WAN*',
-            },
-            {
-              value: 'LAN*',
-              label: 'LAN*',
-            },
-          ]}
           isDisabled={!editing}
-          emptyIsUndefined
         />
         <ToggleField
           name={`configuration[${index}].isolate-hosts`}
@@ -187,7 +179,7 @@ const SingleInterface = ({ editing, index, remove }) => {
             index={index}
             editing={editing}
             arrayHelpers={arrayHelpers}
-            ssidsLength={values.configuration[index].ssids !== undefined ? values.configuration[index].ssids.length : 0}
+            ssidsLength={value !== undefined ? value.length : 0}
           />
         )}
       </FieldArray>
@@ -195,5 +187,4 @@ const SingleInterface = ({ editing, index, remove }) => {
   );
 };
 
-SingleInterface.propTypes = propTypes;
 export default React.memo(SingleInterface);

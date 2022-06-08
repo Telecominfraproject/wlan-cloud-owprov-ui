@@ -246,7 +246,9 @@ const DataTable: React.FC<Props> = ({
           {!isLoading && data.length === 0 && (
             <Center>
               {obj ? (
-                <Heading pt={12}>{t('common.no_obj_found', { obj })}</Heading>
+                <Heading size="md" pt={12}>
+                  {t('common.no_obj_found', { obj })}
+                </Heading>
               ) : (
                 <Heading size="sm" pt={12}>
                   {t('common.empty_list')}

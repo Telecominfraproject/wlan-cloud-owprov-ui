@@ -109,7 +109,7 @@ export const useGetConfiguration = ({ id = null, onSuccess = () => {} }) => {
             id: 'configuration-fetching-error',
             title: t('common.error'),
             description: t('crud.error_fetching_obj', {
-              obj: t('configuration.one'),
+              obj: t('configurations.one'),
               e: e?.response?.data?.ErrorDescription,
             }),
             status: 'error',
@@ -117,7 +117,7 @@ export const useGetConfiguration = ({ id = null, onSuccess = () => {} }) => {
             isClosable: true,
             position: 'top-right',
           });
-        goToDefaultPage();
+        if (e.code === '404') goToDefaultPage();
       },
     },
   );

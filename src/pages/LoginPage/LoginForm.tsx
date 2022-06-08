@@ -79,6 +79,7 @@ const LoginForm: React.FC<Props> = ({ setActiveForm }) => {
                       verifUuid: response.data.uuid,
                       userId: values.email,
                       password: values.password,
+                      rememberMe: values.rememberMe,
                     },
                   });
                 } else {
