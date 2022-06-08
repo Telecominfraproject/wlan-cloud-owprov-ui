@@ -359,6 +359,7 @@
 		"push_success": "Konfiguration erfolgreich übertragen!",
 		"radios": "Radios",
 		"rc_only": "Nur für Release-Kandidaten",
+		"save_warnings": "Möchten Sie Ihre Konfiguration wirklich speichern?",
 		"services": "dienstleistungen",
 		"special_configuration": "Gerätespezifische Konfiguration",
 		"start_special_creation": "Konfiguration für dieses Gerät erstellen",
@@ -479,7 +480,8 @@
 		"sync_title": " {{name}}synchronisieren",
 		"test_digicert_creds": "Anmeldeinformationen testen",
 		"title": "Entitäten",
-		"tree": "Entitätsbaum"
+		"tree": "Entitätsbaum",
+		"venues_under_root": "Veranstaltungsorte können nicht direkt unter der Root-Entität erstellt werden. Bitte erstellen Sie neue Entitäten und erstellen Sie Veranstaltungsorte unter diesen."
 	},
 	"footer": {
 		"powered_by": "Unterstützt von",
@@ -501,8 +503,12 @@
 		"invalid_password": "Ungültiges Passwort, bitte sehen Sie sich die Passwortrichtlinie an",
 		"invalid_phone_number": "Ungültige Telefonnummer",
 		"invalid_phone_numbers": "Mindestens eine der Telefonnummern ist ungültig. Bitte geben Sie sie ohne Symbole und Leerzeichen oder in diesem Format an: +1(123)123-1234",
+		"invalid_port_range": "Ungültiger Portwert. Er muss größer als 0 und kleiner als 65 535 sein. Wenn Sie einen Portbereich verwenden, stellen Sie bitte sicher, dass der zweite Port eine höhere Nummer als der erste hat.",
+		"invalid_port_ranges": "Ungültige Portbereichskombination! Bitte stellen Sie sicher, dass beide Portwerte vom gleichen Typ sind (einzeln oder Bereich). Wenn es sich um Bereiche handelt, stellen Sie sicher, dass beide die gleiche Anzahl von Ports abdecken",
+		"invalid_select_ports": "Inkompatible Werte zwischen Schnittstellen! Bitte stellen Sie sicher, dass es keine doppelte PORT/VLAN-ID-Kombination zwischen Ihren Schnittstellen gibt",
 		"key_file_explanation": "Bitte verwenden Sie eine .pem-Datei, die mit „-----BEGIN PRIVATE KEY-----“ beginnt und mit „-----END PRIVATE KEY-----“ endet.",
 		"min_max_string": "Der Wert muss eine Länge zwischen {{min}} (einschließlich) und {{max}} (einschließlich) haben.",
+		"missing_interface_upstream": "Sie müssen mindestens eine Upstream-Schnittstelle haben. Im Moment sind alle Ihre Schnittstellen nachgelagert",
 		"new_email_to_notify": "Neue E-Mail zur Benachrichtigung",
 		"new_phone_to_notify": "Neues Telefon zu benachrichtigen",
 		"not_selected": "Nicht ausgewählt",

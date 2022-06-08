@@ -359,6 +359,7 @@
 		"push_success": "Configuration Successfully Pushed!",
 		"radios": "Radios",
 		"rc_only": "Release Candidates Only",
+		"save_warnings": "Are you sure you want to save your configuration? ",
 		"services": "Services",
 		"special_configuration": "Device-Specific Configuration",
 		"start_special_creation": "Create configuration for this device",
@@ -479,7 +480,8 @@
 		"sync_title": "Sync {{name}}",
 		"test_digicert_creds": "Test Credentials",
 		"title": "Entities",
-		"tree": "Entity Tree"
+		"tree": "Entity Tree",
+		"venues_under_root": "Venues cannot be created directly under the root entity. Please create new entities and create venues under these."
 	},
 	"footer": {
 		"powered_by": "Powered By",
@@ -501,8 +503,12 @@
 		"invalid_password": "Invalid password, please look at the password policy",
 		"invalid_phone_number": "Invalid Phone Number",
 		"invalid_phone_numbers": "One or more of the phone numbers are invalid. Please provide them without symbols and spaces, or in this format: +1(123)123-1234",
+		"invalid_port_range": "Invalid port value. It needs to be more than 0 and less than 65 535. If using a port range, please make sure the second port is a higher number than the first one.",
+		"invalid_port_ranges": "Invalid port range combination! Please make sure both port values are the same type (single or range). If they are ranges, make sure they are both covering the same amount of ports",
+		"invalid_select_ports": "Incompatible values between interfaces! Please make sure that there is no duplicate PORT/VLAN ID combination between your interfaces",
 		"key_file_explanation": "Please use a .pem file that starts with \"-----BEGIN PRIVATE KEY-----\" and ends with \"-----END PRIVATE KEY-----\"",
 		"min_max_string": "Value needs to be of a length between {{min}} (inclusive) and {{max}} (inclusive)",
+		"missing_interface_upstream": "You need to have at least one upstream interface. At the moment, all your interfaces are downstream",
 		"new_email_to_notify": "New email to notify",
 		"new_phone_to_notify": "New phone to notify",
 		"not_selected": "Not Selected",

@@ -1,18 +1,18 @@
 import { useField, useFormikContext } from 'formik';
 import { useCallback, useMemo } from 'react';
 
-interface Props {
+interface UseFastFieldProps {
   name: string;
 }
 
-const useFastField = <Type>({ name }: Props) => {
+const useFastField = <Type>({ name }: UseFastFieldProps) => {
   const { setFieldValue } = useFormikContext();
   const [{ value }, { touched, error }, { setValue, setTouched }] = useField(name);
 
   const onChange = useCallback((newValue: Type) => {
-    setValue(newValue);
+    setValue(newValue, true);
     setTimeout(() => {
-      setTouched(true);
+      setTouched(true, false);
     }, 200);
   }, []);
 

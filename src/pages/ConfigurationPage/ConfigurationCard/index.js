@@ -4,20 +4,21 @@ import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { Box, Center, Heading, Spacer, Spinner, useBoolean, useDisclosure, useToast } from '@chakra-ui/react';
-import CardBody from 'components/Card/CardBody';
-import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
-import RefreshButton from 'components/Buttons/RefreshButton';
-import ToggleEditButton from 'components/Buttons/ToggleEditButton';
-import SaveButton from 'components/Buttons/SaveButton';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetConfiguration, useUpdateConfiguration } from 'hooks/Network/Configurations';
-import isEqual from 'react-fast-compare';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import isEqual from 'react-fast-compare';
+import Card from 'components/Card';
+import CardHeader from 'components/Card/CardHeader';
+import SaveButton from 'components/Buttons/SaveButton';
+import ToggleEditButton from 'components/Buttons/ToggleEditButton';
+import RefreshButton from 'components/Buttons/RefreshButton';
+import CardBody from 'components/Card/CardBody';
 import EditConfigurationForm from './Form';
 import DeleteConfigurationPopover from './DeleteConfigurationPopover';
 import ConfigurationSectionsCard from './ConfigurationSectionsCard';
 import { BASE_SECTIONS } from '../../../constants/configuration';
+import ConfirmConfigurationWarnings from './ConfirmConfigurationWarnings';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -28,6 +29,7 @@ const ConfigurationCard = ({ id }) => {
   const toast = useToast();
   const queryClient = useQueryClient();
   const [editing, setEditing] = useBoolean();
+  const { isOpen: showWarnings, onOpen: openWarnings, onClose: closeWarnings } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const { data: configuration, refetch, isFetching } = useGetConfiguration({ id });
   const updateEntity = useUpdateConfiguration({ id });
@@ -50,6 +52,7 @@ const ConfigurationCard = ({ id }) => {
   );
 
   const submit = () => {
+    closeWarnings();
     updateEntity.mutateAsync(
       {
         ...form.values,
@@ -105,6 +108,14 @@ const ConfigurationCard = ({ id }) => {
     );
   };
 
+  const handleSubmitClick = () => {
+    if (!sections?.warnings?.interfaces || sections?.warnings?.interfaces.length === 0) {
+      submit();
+    } else {
+      openWarnings();
+    }
+  };
+
   const stopEditing = () => (form.dirty || sections.isDirty ? openConfirm() : setEditing.off());
 
   const toggleEdit = () => {
@@ -127,7 +138,7 @@ const ConfigurationCard = ({ id }) => {
           <Spacer />
           <Box>
             <SaveButton
-              onClick={submit}
+              onClick={handleSubmitClick}
               isLoading={updateEntity.isLoading}
               isCompact={false}
               isDisabled={
@@ -164,6 +175,13 @@ const ConfigurationCard = ({ id }) => {
         </CardBody>
       </Card>
       <ConfigurationSectionsCard editing={editing} configId={id} setSections={setSections} />
+      <ConfirmConfigurationWarnings
+        isOpen={showWarnings}
+        onClose={closeWarnings}
+        warnings={sections?.warnings ?? {}}
+        submit={submit}
+        activeConfigurations={sections?.activeConfigurations ?? []}
+      />
       <ConfirmCloseAlert isOpen={showConfirm} confirm={closeCancelAndForm} cancel={closeConfirm} />
     </>
   );

@@ -14,7 +14,7 @@ interface Props {
 const VenueClientLifecycle: React.FC<Props> = ({ venueId }) => {
   const [mac, setMac] = useState<string | undefined>();
   const { data: macs, isFetching } = useGetAnalyticsClients({ venueId });
-  const { start, end, timepickers } = useDatePickers({ defaultStart: getHoursAgo(5 * 24) });
+  const { start, end, timepickers, refreshId } = useDatePickers({ defaultStart: getHoursAgo(5 * 24) });
 
   return (
     <LoadingOverlay isLoading={isFetching}>
@@ -22,6 +22,7 @@ const VenueClientLifecycle: React.FC<Props> = ({ venueId }) => {
         <ClientLifecyleTable
           fromDate={Math.floor(start.getTime() / 1000)}
           endDate={Math.floor(end.getTime() / 1000)}
+          refreshId={refreshId}
           venueId={venueId}
           mac={mac}
           timePickers={timepickers}

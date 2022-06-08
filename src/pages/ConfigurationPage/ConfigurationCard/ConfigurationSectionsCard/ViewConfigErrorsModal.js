@@ -46,6 +46,7 @@ const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => 
           colorScheme={errorAmount === 0 ? 'green' : 'red'}
           type="button"
           onClick={onOpen}
+          ml={2}
           rightIcon={errorAmount === 0 ? <CheckCircle size={20} /> : <WarningOctagon size={20} />}
           isDisabled={isDisabled || errorAmount === 0}
         >
@@ -66,7 +67,7 @@ const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => 
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
           <ModalHeader
-            title={t('configurations.configuration_json')}
+            title={`${errorAmount} ${errorAmount === 1 ? t('common.error') : t('common.errors')}`}
             right={<CloseButton ml={2} onClick={onClose} />}
           />
           <ModalBody>

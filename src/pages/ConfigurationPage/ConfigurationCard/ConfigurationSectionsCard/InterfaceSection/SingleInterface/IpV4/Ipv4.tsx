@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Box, FormControl, Heading, Select, SimpleGrid, Switch, Text } from '@chakra-ui/react';
 import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
 import SelectField from 'components/FormFields/SelectField';
-import NumberField from 'components/FormFields/NumberField';
+import { PortRangeField } from 'components/FormFields/PortRangeField';
 import StringField from 'components/FormFields/StringField';
 import { INTERFACE_IPV4_PORT_FORWARD_SCHEMA } from '../../interfacesConstants';
 import StaticIpV4 from './StaticIpV4';
@@ -31,9 +31,11 @@ const IpV4Form: React.FC<{
             isRequired
           />
         </Box>
-        <SimpleGrid minChildWidth="200px" gap={4}>
-          <NumberField name="external-port" label="external-port" w="120px" isRequired />
-          <NumberField name="internal-port" w="120px" label="internal-port" isRequired />
+        <Box mb={4}>
+          <PortRangeField name="external-port" label="external-port" isRequired />
+        </Box>
+        <SimpleGrid minChildWidth="380px" gap={4}>
+          <PortRangeField name="internal-port" label="internal-port" isRequired />
           <StringField name="internal-address" label="internal-address" isRequired />
         </SimpleGrid>
       </>

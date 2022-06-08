@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { Box, Flex, FormControl, Heading, Select, SimpleGrid, Spacer, Switch, Text } from '@chakra-ui/react';
 import StringField from 'components/FormFields/StringField';
 import NumberField from 'components/FormFields/NumberField';
+import { PortRangeField } from 'components/FormFields/PortRangeField';
 import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
 import SelectField from 'components/FormFields/SelectField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
@@ -36,9 +37,11 @@ const IpV6: React.FC<{
             isRequired
           />
         </Box>
-        <SimpleGrid minChildWidth="200px" gap={4}>
-          <NumberField name="external-port" label="external-port" w="120px" isRequired />
-          <NumberField name="internal-port" w="120px" label="internal-port" isRequired />
+        <Box mb={4}>
+          <PortRangeField name="external-port" label="external-port" isRequired />
+        </Box>
+        <SimpleGrid minChildWidth="380px" gap={4}>
+          <PortRangeField name="internal-port" label="internal-port" isRequired />
           <StringField name="internal-address" label="internal-address" isRequired />
         </SimpleGrid>
       </>

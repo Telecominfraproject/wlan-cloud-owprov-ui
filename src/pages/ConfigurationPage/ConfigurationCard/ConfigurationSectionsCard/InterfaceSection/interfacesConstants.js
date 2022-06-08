@@ -1,4 +1,13 @@
-import { testIpv4, testIpv6, testLeaseTime, testLength, testUcMac } from 'constants/formTests';
+import {
+  isValidPortRange,
+  isValidPortRanges,
+  testIpv4,
+  testIpv6,
+  testLeaseTime,
+  testLength,
+  testSelectPorts,
+  testUcMac,
+} from 'constants/formTests';
 import { object, number, string, array, bool } from 'yup';
 
 export const ENCRYPTION_PROTOS_REQUIRE_KEY = ['psk', 'psk2', 'psk-mixed', 'psk2-radius', 'sae', 'sae-mixed'];
@@ -318,12 +327,19 @@ export const INTERFACE_BRIDGE_SCHEMA = (t, useDefault = false) => {
 export const INTERFACE_IPV4_PORT_FORWARD_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     protocol: string().default('any'),
-    'external-port': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(8080),
+    'external-port': string()
+      .test('ipv4-external-test', t('form.invalid_port_range'), isValidPortRange)
+      .test('ipv4-external-range-test', t('form.invalid_port_ranges'), (v, { from }) =>
+        isValidPortRanges(v, from[0].value['internal-port']),
+      )
+      .default('1000-1010'),
     'internal-address': string()
       .required(t('form.required'))
       .test('test-ipv4-port-forward-address', t('form.invalid_ipv4'), testIpv4)
       .default(''),
-    'internal-port': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(8080),
+    'internal-port': string()
+      .test('ipv4-internal-test', t('form.invalid_port_range'), isValidPortRange)
+      .default('2000-2010'),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);
@@ -388,14 +404,20 @@ export const INTERFACE_IPV6_TRAFFIC_ALLOW_SCHEMA = (t, useDefault = false) => {
 export const INTERFACE_IPV6_PORT_FORWARD_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     protocol: string().default('any'),
-    'external-port': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(8080),
+    'external-port': string()
+      .test('ipv4-external-test', t('form.invalid_port_range'), isValidPortRange)
+      .test('ipv4-external-range-test', t('form.invalid_port_ranges'), (v, { from }) =>
+        isValidPortRanges(v, from[0].value['internal-port']),
+      )
+      .default('1000-1010'),
     'internal-address': string()
       .required(t('form.required'))
       .test('test-ipv6-port-forward-address', t('form.invalid_ipv6'), testIpv6)
       .default(''),
-    'internal-port': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(8080),
+    'internal-port': string()
+      .test('ipv4-internal-test', t('form.invalid_port_range'), isValidPortRange)
+      .default('2000-2010'),
   });
-
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
@@ -482,13 +504,34 @@ export const SINGLE_INTERFACE_SCHEMA = (
 ) => {
   const shape = object().shape({
     name: string().required(t('form.required')).default(name),
-    role: string().required(t('form.required')).default(role),
+    role: string()
+      .required(t('form.required'))
+      .test('role-test', t('form.missing_interface_upstream'), (_, { from }) => {
+        const rootConfig = from[from.length - 1];
+        const allRoles = rootConfig.value.configuration.map(({ role: v }) => v);
+        return allRoles.includes('upstream');
+      })
+      .default(role),
     'isolate-hosts': bool().default(undefined),
     services: array().of(string()).default(undefined),
     ethernet: array()
       .of(
         object().shape({
-          'select-ports': array().of(string()).default([]),
+          'select-ports': array()
+            .of(string())
+            .test('select-ports-test', t('form.invalid_select_ports'), (v, { from }) => {
+              const rootConfig = from[from.length - 1];
+              const portStuff = [];
+
+              for (const conf of rootConfig.value.configuration) {
+                portStuff.push({
+                  ports: conf.ethernet && conf.ethernet && conf.ethernet[0] ? conf.ethernet[0]['select-ports'] : [],
+                  vlan: conf.vlan?.id ?? 'None',
+                });
+              }
+              return testSelectPorts(portStuff);
+            })
+            .default([]),
         }),
       )
       .required(t('form.required'))
