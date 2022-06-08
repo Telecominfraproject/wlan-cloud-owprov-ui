@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { SimpleGrid } from '@chakra-ui/react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
 import StringField from 'components/FormFields/StringField';
 import NumberField from 'components/FormFields/NumberField';
@@ -22,15 +22,18 @@ const RadiusProxy = ({ editing }) => {
 
   return (
     <Card variant="widget" mb={4}>
-      <CardHeader>Radius Proxy</CardHeader>
+      <CardHeader>
+        <Heading size="md" borderBottom="1px solid">
+          Radius Proxy
+        </Heading>
+      </CardHeader>
       <CardBody>
         <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">
           <ObjectArrayFieldModal
             name="configuration.radius-proxy.realms"
             label="realms"
-            editing={editing}
             fields={
-              <>
+              <SimpleGrid minChildWidth="300px" gap={4}>
                 <StringField name="realm" label="realm" isRequired />
                 <NumberField name="port" label="port" isDisabled={!editing} isRequired w={24} />
                 <ToggleField name="auto-discover" label="auto-discover" isDisabled={!editing} isRequired />
@@ -72,7 +75,7 @@ const RadiusProxy = ({ editing }) => {
                   isRequired
                 />
                 <StringField name="private-key-password" label="private-key-password" isRequired />
-              </>
+              </SimpleGrid>
             }
             columns={[
               {

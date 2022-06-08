@@ -1,6 +1,15 @@
 import React, { useState, useMemo, useEffect, Dispatch, SetStateAction, useRef } from 'react';
 import { useQuery } from 'react-query';
-import { axiosAnalytics, axiosFms, axiosGw, axiosOwls, axiosProv, axiosSec, axiosSub } from 'utils/axiosInstances';
+import {
+  axiosAnalytics,
+  axiosFms,
+  axiosGw,
+  axiosInstaller,
+  axiosOwls,
+  axiosProv,
+  axiosSec,
+  axiosSub,
+} from 'utils/axiosInstances';
 import { useGetEndpoints } from 'hooks/Network/Endpoints';
 import axios from 'axios';
 import { Endpoint } from 'models/Endpoint';
@@ -79,6 +88,9 @@ export const AuthProvider = ({ token, children }: Props) => {
           case 'owanalytics':
             axiosAnalytics.defaults.baseURL = `${endpoint.uri}/api/v1`;
             break;
+          case 'owinstaller':
+            axiosInstaller.defaults.baseURL = `${endpoint.uri}/api/v1`;
+            break;
           default:
             break;
         }
@@ -141,6 +153,7 @@ export const AuthProvider = ({ token, children }: Props) => {
       axiosSub.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
       axiosOwls.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
       axiosAnalytics.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
+      axiosInstaller.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
       refetchUser();
       refetchEndpoints();
     }

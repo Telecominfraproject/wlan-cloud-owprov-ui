@@ -56,4 +56,4 @@ const CreateButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompa
 
 CreateButton.defaultProps = defaultProps;
 
-export default CreateButton;
+export default React.memo(CreateButton);

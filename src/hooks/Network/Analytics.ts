@@ -98,17 +98,19 @@ export const useGetClientLifecycleCount = ({
   mac,
   fromDate,
   endDate,
+  refreshId,
 }: {
   venueId: string;
   mac?: string;
   fromDate: number;
   endDate: number;
+  refreshId: number;
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
 
   return useQuery(
-    ['get-lifecycles', venueId, mac, fromDate, endDate],
+    ['get-lifecycles', venueId, mac, fromDate, endDate, refreshId],
     () =>
       axiosAnalytics
         .get(`wifiClientHistory/${mac}?venue=${venueId}&countOnly=true&fromDate=${fromDate}&endDate=${endDate}`)
@@ -142,6 +144,7 @@ export const useGetClientLifecycle = ({
   sortInfo,
   fromDate,
   endDate,
+  refreshId,
 }: {
   pageInfo?: PageInfo;
   venueId: string;
@@ -151,16 +154,15 @@ export const useGetClientLifecycle = ({
   sortInfo?: SortInfo;
   fromDate: number;
   endDate: number;
+  refreshId: number;
 }) => {
-  const { t } = useTranslation();
-  const toast = useToast();
   let sortString = '';
   if (sortInfo && sortInfo.length > 0) {
     sortString = `&orderBy=${sortInfo.map((info) => `${info.id}:${info.sort.charAt(0)}`).join(',')}`;
   }
 
   return useQuery(
-    ['get-operators-with-pagination', pageInfo, count, sortInfo, fromDate, endDate],
+    ['get-operators-with-pagination', pageInfo, count, sortInfo, fromDate, endDate, refreshId],
     () =>
       axiosAnalytics
         .get(
@@ -172,21 +174,7 @@ export const useGetClientLifecycle = ({
     {
       keepPreviousData: true,
       enabled: count !== undefined && pageInfo !== undefined,
-      onError: (e: AxiosError) => {
-        if (!toast.isActive('get-operators-fetching-error'))
-          toast({
-            id: 'get-operators-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('operator.other'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+      onError: () => [],
     },
   );
 };

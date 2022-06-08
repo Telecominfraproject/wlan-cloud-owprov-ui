@@ -20,7 +20,7 @@ const MacSearchBar: React.FC<{ macs?: string[]; setMac: React.Dispatch<React.Set
   );
 
   const filter = useCallback(
-    (option: { label: string; value: string }, str: string) => option.value.includes(str),
+    (option: { label: string; value: string }, str: string) => option.value.includes(str.replace('*', '')),
     [macs],
   );
 
@@ -33,6 +33,7 @@ const MacSearchBar: React.FC<{ macs?: string[]; setMac: React.Dispatch<React.Set
       setInputValue(mac.value);
     }
   };
+  const onFocus = useCallback(() => setInputValue(''), []);
 
   const handleInputChange = (v: string, action: InputActionMeta) => {
     if (action.action !== 'menu-close' && action.action !== 'input-blur') setInputValue(v);
@@ -61,12 +62,14 @@ const MacSearchBar: React.FC<{ macs?: string[]; setMac: React.Dispatch<React.Set
       // @ts-ignore
       options={macs?.map((v: string) => ({ label: v, value: v })) ?? []}
       filterOption={filter}
+      onFocus={onFocus}
       inputValue={inputValue}
       value={inputValue}
       placeholder={t('common.search')}
       onInputChange={handleInputChange}
       onChange={onMacSelect}
       isDisabled={!macs}
+      blurInputOnSelect
     />
   );
 };
