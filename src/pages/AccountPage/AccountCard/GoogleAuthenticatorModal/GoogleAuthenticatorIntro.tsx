@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Center, Text } from '@chakra-ui/react';
 import { ArrowRightIcon } from '@chakra-ui/icons';
 
-const propTypes = {
-  setCurrentStep: PropTypes.func.isRequired,
-};
+interface Props {
+  setCurrentStep: (v: string) => void;
+}
 
-const GoogleAuthenticatorIntro = ({ setCurrentStep }) => {
+const GoogleAuthenticatorIntro: React.FC<Props> = ({ setCurrentStep }) => {
   const { t } = useTranslation();
 
   const handleClick = () => setCurrentStep('qr-code');
@@ -28,5 +27,4 @@ const GoogleAuthenticatorIntro = ({ setCurrentStep }) => {
   );
 };
 
-GoogleAuthenticatorIntro.propTypes = propTypes;
 export default GoogleAuthenticatorIntro;
