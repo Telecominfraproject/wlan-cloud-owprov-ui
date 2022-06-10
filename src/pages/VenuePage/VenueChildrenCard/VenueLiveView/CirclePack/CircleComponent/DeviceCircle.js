@@ -19,6 +19,7 @@ import {
   Tr,
   Box,
   Flex,
+  Tag as TagDisplay,
 } from '@chakra-ui/react';
 import { ArrowSquareOut, Tag } from 'phosphor-react';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
@@ -106,7 +107,11 @@ const DeviceCircle = ({ node, style, handleClicks }) => {
                   </Tr>
                   <Tr>
                     <Td w="130px">{t('analytics.health')}</Td>
-                    <Td>{node.data.details.deviceInfo.health}%</Td>
+                    <Td>
+                      <TagDisplay ml={-2} colorScheme={node.data.details.tagColor} size="md">
+                        <b>{node.data.details.deviceInfo.health}%</b>
+                      </TagDisplay>
+                    </Td>
                     <Td w="150px">5G {t('analytics.associations')}</Td>
                     <Td>{node.data.details.deviceInfo.associations_5g}</Td>
                   </Tr>

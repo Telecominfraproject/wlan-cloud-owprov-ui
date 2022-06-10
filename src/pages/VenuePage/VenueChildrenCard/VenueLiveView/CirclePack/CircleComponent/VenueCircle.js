@@ -11,6 +11,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  Tag,
   Text,
 } from '@chakra-ui/react';
 import { Buildings } from 'phosphor-react';
@@ -58,7 +59,11 @@ const VenueCircle = ({ node, style, handleClicks }) => {
               {node.data.children.length} {t('devices.title')}
             </Heading>
             <Heading size="sm">
-              {node.data.details.avgHealth}% {t('analytics.average_health')}
+              <Tag colorScheme={node.data.details.tagColor} size="md">
+                <b>
+                  {node.data.details.avgHealth}% {t('analytics.average_health')}
+                </b>
+              </Tag>
             </Heading>
           </PopoverBody>
         </PopoverContent>

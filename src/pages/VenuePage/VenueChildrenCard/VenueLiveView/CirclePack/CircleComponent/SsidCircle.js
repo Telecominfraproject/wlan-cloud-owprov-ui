@@ -19,6 +19,7 @@ import {
   Thead,
   Tr,
   Box,
+  Tag,
 } from '@chakra-ui/react';
 import { Broadcast } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
@@ -61,7 +62,12 @@ const SsidCircle = ({ node, style, handleClicks }) => {
           <PopoverHeader display="flex">
             <Broadcast size={24} weight="fill" />
             <Text ml={2}>
-              {node.data.details.band}G - {node?.data?.name.split('/')[0]} ({node.data.details.avgRssi} db)
+              {node.data.details.band}G - {node?.data?.name.split('/')[0]}{' '}
+              {node.data.children.length === 0 ? undefined : (
+                <Tag colorScheme={node.data.details.tagColor} size="md">
+                  <b>({node.data.details.avgRssi} avg db)</b>
+                </Tag>
+              )}
             </Text>
           </PopoverHeader>
           <PopoverBody px={0}>
