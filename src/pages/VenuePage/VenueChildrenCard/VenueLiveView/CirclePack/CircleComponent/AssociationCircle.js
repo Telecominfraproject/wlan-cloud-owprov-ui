@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
   Portal,
   Table,
+  Tag,
   Tbody,
   Td,
   Text,
@@ -59,7 +60,10 @@ const AssociationCircle = ({ node, style, handleClicks }) => {
           <PopoverHeader display="flex">
             <WifiHigh weight="bold" size={24} />
             <Text ml={2}>
-              {node?.data?.name.split('/')[0]} ({node.data.details.rssi} db)
+              {node?.data?.name.split('/')[0]}
+              <Tag ml={2} colorScheme={node.data.details.tagColor} size="md">
+                <b>({node.data.details.rssi} db)</b>
+              </Tag>
             </Text>
           </PopoverHeader>
           <PopoverBody px={0}>
