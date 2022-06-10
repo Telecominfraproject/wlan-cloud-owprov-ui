@@ -1,27 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Center, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
 import { useGetVenue } from 'hooks/Network/Venues';
-import CardBody from 'components/Card/CardBody';
-import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
-import RefreshButton from 'components/Buttons/RefreshButton';
-import ToggleEditButton from 'components/Buttons/ToggleEditButton';
-import SaveButton from 'components/Buttons/SaveButton';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetAnalyticsBoard } from 'hooks/Network/Analytics';
+import CardHeader from 'components/Card/CardHeader';
+import Card from 'components/Card';
+import SaveButton from 'components/Buttons/SaveButton';
 import { useAuth } from 'contexts/AuthProvider';
+import ToggleEditButton from 'components/Buttons/ToggleEditButton';
+import RefreshButton from 'components/Buttons/RefreshButton';
+import CardBody from 'components/Card/CardBody';
 import useFormRef from 'hooks/useFormRef';
 import VenueActions from './Actions';
 import EditVenueForm from './Form';
 import DeleteVenuePopover from './DeleteVenuePopover';
 import CreateVenueModal from '../../../components/Tables/VenueTable/CreateVenueModal';
 
-const propTypes = {
-  id: PropTypes.string.isRequired,
-};
-
-const VenueCard = ({ id }) => {
+const VenueCard: React.FC<{ id: string }> = ({ id }) => {
   const { endpoints } = useAuth();
   const [editing, setEditing] = useBoolean();
   const { data: venue, refetch, isFetching } = useGetVenue({ id });
@@ -50,7 +45,7 @@ const VenueCard = ({ id }) => {
             toggleEdit={setEditing.toggle}
             isEditing={editing}
             isDisabled={isFetching}
-            isDirty={formRef.dirty}
+            isDirty={form.dirty}
             ml={2}
           />
           <DeleteVenuePopover isDisabled={editing || isFetching} venue={venue} />
@@ -69,7 +64,7 @@ const VenueCard = ({ id }) => {
               editing={editing}
               venue={venue}
               stopEditing={setEditing.off}
-              formRef={formRef}
+              formRef={formRef ?? {}}
               board={board}
             />
           </LoadingOverlay>
@@ -78,7 +73,5 @@ const VenueCard = ({ id }) => {
     </Card>
   );
 };
-
-VenueCard.propTypes = propTypes;
 
 export default React.memo(VenueCard);

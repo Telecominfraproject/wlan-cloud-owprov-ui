@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import SaveButton from 'components/Buttons/SaveButton';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import GoogleAuthenticatorIntro from './GoogleAuthenticatorIntro';
 import GoogleAuthenticatorQrDisplay from './GoogleAuthenticatorQrDisplay';
 import GoogleAuthenticatorTests from './GoogleAuthenticatorTests';
 import GoogleAuthenticatorActivationSuccess from './GoogleAuthenticatorActivationSuccess';
 
-const propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func.isRequired,
-};
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess: () => void;
+}
 
-const GoogleAuthenticatorModal = ({ isOpen, onClose, onSuccess }) => {
+const GoogleAuthenticatorModal: React.FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState('intro');
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
@@ -35,7 +34,7 @@ const GoogleAuthenticatorModal = ({ isOpen, onClose, onSuccess }) => {
   return (
     <Modal onClose={openConfirm} isOpen={isOpen} size="xl">
       <ModalOverlay />
-      <ModalContent size="xl">
+      <ModalContent>
         <ModalHeader
           title={t('account.activating_google_authenticator')}
           right={
@@ -56,7 +55,5 @@ const GoogleAuthenticatorModal = ({ isOpen, onClose, onSuccess }) => {
     </Modal>
   );
 };
-
-GoogleAuthenticatorModal.propTypes = propTypes;
 
 export default GoogleAuthenticatorModal;

@@ -1,21 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Button, Center, Text, useToast } from '@chakra-ui/react';
-import { useGetGoogleAuthenticatorQrCode } from 'hooks/Network/GoogleAuthenticator';
+import { Button, Center, Text } from '@chakra-ui/react';
 import { ArrowRightIcon } from '@chakra-ui/icons';
+import { useGetGoogleAuthenticatorQrCode } from 'hooks/Network/GoogleAuthenticator';
 import QrCodeDisplay from 'components/QrCodeDisplay';
 
-const propTypes = {
-  setCurrentStep: PropTypes.func.isRequired,
-};
+interface Props {
+  setCurrentStep: (v: string) => void;
+}
 
-const GoogleAuthenticatorQrDisplay = ({ setCurrentStep }) => {
+const GoogleAuthenticatorQrDisplay: React.FC<Props> = ({ setCurrentStep }) => {
   const { t } = useTranslation();
-  const toast = useToast();
-  const { data: qrSvg } = useGetGoogleAuthenticatorQrCode({ t, toast });
+  const { data: qrSvg } = useGetGoogleAuthenticatorQrCode();
 
   const handleClick = () => setCurrentStep('tests');
+
+  const split = () => {
+    if (!qrSvg) return '';
+    const v = qrSvg.split('path d="');
+    if (v.length <= 1) return '';
+    return v[1] ? v[1].split('" fill="#000000"')[0] : '';
+  };
 
   return (
     <>
@@ -23,7 +28,7 @@ const GoogleAuthenticatorQrDisplay = ({ setCurrentStep }) => {
         <b>{t('account.google_authenticator_scan_qr_code_explanation')}</b>
       </Text>
       <Text mb={4}>{t('account.google_authenticator_scanned_qr_code')}</Text>
-      {qrSvg && <QrCodeDisplay path={qrSvg.split('path d="')[1].split('" fill="#000000"')[0]} />}
+      {qrSvg && <QrCodeDisplay path={split() ?? ''} />}
       <Center>
         <Button my={6} colorScheme="blue" onClick={handleClick} rightIcon={<ArrowRightIcon />}>
           {t('common.next')}
@@ -33,5 +38,4 @@ const GoogleAuthenticatorQrDisplay = ({ setCurrentStep }) => {
   );
 };
 
-GoogleAuthenticatorQrDisplay.propTypes = propTypes;
 export default GoogleAuthenticatorQrDisplay;
