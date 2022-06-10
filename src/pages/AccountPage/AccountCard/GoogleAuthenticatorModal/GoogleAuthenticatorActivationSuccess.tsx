@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Alert, Button, Center } from '@chakra-ui/react';
 import { ArrowRightIcon } from '@chakra-ui/icons';
 
-const propTypes = {
-  onSuccess: PropTypes.func.isRequired,
-};
+interface Props {
+  onSuccess: () => void;
+}
 
-const GoogleAuthenticatorActivationSuccess = ({ onSuccess }) => {
+const GoogleAuthenticatorActivationSuccess: React.FC<Props> = ({ onSuccess }) => {
   const { t } = useTranslation();
 
   const handleClick = () => onSuccess();
@@ -27,5 +26,4 @@ const GoogleAuthenticatorActivationSuccess = ({ onSuccess }) => {
   );
 };
 
-GoogleAuthenticatorActivationSuccess.propTypes = propTypes;
 export default GoogleAuthenticatorActivationSuccess;

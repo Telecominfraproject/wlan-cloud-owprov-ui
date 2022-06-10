@@ -65,13 +65,23 @@ const CirclePack = ({ timepoints, handle }) => {
         children: [],
       };
 
-      if (deviceInfo.health >= 90) finalDevice.details.color = successColor(colorMode);
-      else if (deviceInfo.health >= 70) finalDevice.details.color = warningColor(colorMode);
-      else finalDevice.details.color = errorColor(colorMode);
+      if (deviceInfo.health >= 90) {
+        finalDevice.details.color = successColor(colorMode);
+        finalDevice.details.tagColor = 'green';
+      } else if (deviceInfo.health >= 70) {
+        finalDevice.details.color = warningColor(colorMode);
+        finalDevice.details.tagColor = 'yellow';
+      } else {
+        finalDevice.details.color = errorColor(colorMode);
+        finalDevice.details.tagColor = 'red';
+      }
 
       const radioChannelIndex = {};
 
       for (const [i, { band, transmit_pct: transmitPct, ...radioDetails }] of radioData.entries()) {
+        let tagColor = 'green';
+        if (transmitPct > 30) tagColor = 'yellow';
+        else if (transmitPct > 50) tagColor = 'red';
         const finalRadio = {
           name: `${band}/radio/${uuid()}`,
           type: 'radio',
@@ -80,6 +90,7 @@ const CirclePack = ({ timepoints, handle }) => {
             transmitPct,
             ...radioDetails,
             color: getBlendedColor('#0ba057', '#FD3049', transmitPct / 100),
+            tagColor,
           },
           children: [],
         };
@@ -117,17 +128,32 @@ const CirclePack = ({ timepoints, handle }) => {
             scale: 1,
           };
 
-          if (rssi >= -45) finalAssociation.details.color = successColor(colorMode);
-          else if (rssi >= -60) finalAssociation.details.color = warningColor(colorMode);
-          else finalAssociation.details.color = errorColor(colorMode);
+          if (rssi >= -45) {
+            finalAssociation.details.color = successColor(colorMode);
+            finalAssociation.details.tagColor = 'green';
+          } else if (rssi >= -60) {
+            finalAssociation.details.color = warningColor(colorMode);
+            finalAssociation.details.tagColor = 'yellow';
+          } else {
+            finalAssociation.details.color = errorColor(colorMode);
+            finalAssociation.details.tagColor = 'red';
+          }
 
           totalRssi += rssi;
           finalSsid.children.push(finalAssociation);
         }
-        finalSsid.details.avgRssi = parseDbm(Math.floor(totalRssi / Math.max(associations.length, 1)));
-        if (finalSsid.details.avgRssi >= -45) finalSsid.details.color = successColor(colorMode);
-        else if (finalSsid.details.avgRssi >= -60) finalSsid.details.color = warningColor(colorMode);
-        else finalSsid.details.color = errorColor(colorMode);
+        finalSsid.details.avgRssi =
+          associations.length === 0 ? undefined : parseDbm(Math.floor(totalRssi / Math.max(associations.length, 1)));
+        if (associations.length === 0 || finalSsid.details.avgRssi >= -45) {
+          finalSsid.details.color = successColor(colorMode);
+          finalSsid.details.tagColor = 'green';
+        } else if (finalSsid.details.avgRssi >= -60) {
+          finalSsid.details.color = warningColor(colorMode);
+          finalSsid.details.tagColor = 'yellow';
+        } else {
+          finalSsid.details.color = errorColor(colorMode);
+          finalSsid.details.tagColor = 'red';
+        }
         finalDevice.children[radioChannelIndex[ssidDetails.band]].children.push(finalSsid);
       }
       root.children.push(finalDevice);
@@ -153,9 +179,16 @@ const CirclePack = ({ timepoints, handle }) => {
     }
 
     root.details.avgHealth = Math.floor(totalHealth / Math.max(timepoints[pointIndex].length, 1));
-    if (root.details.avgHealth >= 90) root.details.color = successColor(colorMode);
-    else if (root.details.avgHealth >= 70) root.details.color = warningColor(colorMode);
-    else root.details.color = errorColor(colorMode);
+    if (root.details.avgHealth >= 90) {
+      root.details.color = successColor(colorMode);
+      root.details.tagColor = 'green';
+    } else if (root.details.avgHealth >= 70) {
+      root.details.color = warningColor(colorMode);
+      root.details.tagColor = 'yellow';
+    } else {
+      root.details.color = errorColor(colorMode);
+      root.details.tagColor = 'red';
+    }
     root.color = '#31e88a';
 
     return root;

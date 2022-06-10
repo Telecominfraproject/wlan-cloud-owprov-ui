@@ -1,26 +1,26 @@
-import React, { ReactElement } from 'react';
-import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
+import React from 'react';
+import { Button, IconButton, LayoutProps, SpaceProps, Tooltip, useBreakpoint } from '@chakra-ui/react';
 
-interface Props {
+interface ResponsiveButtonProps extends LayoutProps, SpaceProps {
   onClick: () => void;
   isDisabled?: boolean;
   isLoading?: boolean;
   isCompact?: boolean;
   color: string;
   label: string;
-  ml?: string | number;
-  icon?: ReactElement;
+  icon?: React.ReactElement;
 }
 
-const defaultProps = {
-  isDisabled: false,
-  isLoading: false,
-  isCompact: false,
-  ml: undefined,
-  icon: undefined,
-};
-
-const ResponsiveButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, color, label, ml, icon }) => {
+const ResponsiveButton: React.FC<ResponsiveButtonProps> = ({
+  onClick,
+  isDisabled,
+  isLoading,
+  isCompact,
+  color,
+  label,
+  icon,
+  ...props
+}) => {
   const breakpoint = useBreakpoint();
 
   if (!isCompact && breakpoint !== 'base' && breakpoint !== 'sm') {
@@ -29,10 +29,11 @@ const ResponsiveButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isC
         colorScheme={color}
         type="button"
         onClick={onClick}
+        // @ts-ignore
         rightIcon={icon}
         isLoading={isLoading}
         isDisabled={isDisabled}
-        ml={ml}
+        {...props}
       >
         {label}
       </Button>
@@ -45,15 +46,14 @@ const ResponsiveButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isC
         colorScheme={color}
         type="button"
         onClick={onClick}
+        // @ts-ignore
         icon={icon}
         isLoading={isLoading}
         isDisabled={isDisabled}
-        ml={ml}
+        {...props}
       />
     </Tooltip>
   );
 };
-
-ResponsiveButton.defaultProps = defaultProps;
 
 export default React.memo(ResponsiveButton);

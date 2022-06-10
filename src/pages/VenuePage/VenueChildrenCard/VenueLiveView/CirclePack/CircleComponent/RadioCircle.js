@@ -16,6 +16,7 @@ import {
   Td,
   Tr,
   Box,
+  Tag,
 } from '@chakra-ui/react';
 import { Radio } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
@@ -73,7 +74,11 @@ const RadioCircle = ({ node, style, handleClicks }) => {
                   </Tr>
                   <Tr>
                     <Td w="100px">{t('analytics.airtime')}</Td>
-                    <Td>{node.data.details.transmitPct.toFixed(2)}%</Td>
+                    <Td>
+                      <Tag ml={-2} colorScheme={node.data.details.tagColor} size="md">
+                        <b>{node.data.details.transmitPct.toFixed(2)}%</b>
+                      </Tag>
+                    </Td>
                   </Tr>
                   <Tr>
                     <Td w="100px">{t('analytics.active')}</Td>
