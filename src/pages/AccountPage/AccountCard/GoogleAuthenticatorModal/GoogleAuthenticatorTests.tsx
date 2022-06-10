@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Alert, Button, Center, Heading, HStack, PinInput, PinInputField, Spinner, Text } from '@chakra-ui/react';
-import { useVerifyAuthenticator } from 'hooks/Network/GoogleAuthenticator';
 import { ArrowRightIcon } from '@chakra-ui/icons';
+import { useVerifyAuthenticator } from 'hooks/Network/GoogleAuthenticator';
 
-const propTypes = {
-  setCurrentStep: PropTypes.func.isRequired,
-};
+interface Props {
+  setCurrentStep: (v: string) => void;
+}
 
-const GoogleAuthenticatorTests = ({ setCurrentStep }) => {
+const GoogleAuthenticatorTests: React.FC<Props> = ({ setCurrentStep }) => {
   const { t } = useTranslation();
   const [testIndex, setTestIndex] = useState(1);
   const [code, setCode] = useState('');
   const [previousCode, setPreviousCode] = useState('');
   const verifyCode = useVerifyAuthenticator();
 
-  const submitCode = (fullCode) => {
+  const submitCode = (fullCode: string) => {
     verifyCode.mutateAsync(
       {
         code: fullCode,
@@ -98,5 +97,4 @@ const GoogleAuthenticatorTests = ({ setCurrentStep }) => {
   );
 };
 
-GoogleAuthenticatorTests.propTypes = propTypes;
 export default GoogleAuthenticatorTests;
