@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EntityDeviceTableWrapper from 'pages/EntityPage/EntityChildrenCard/EntityDeviceTableWrapper';
 import Card from 'components/Card';
-import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Alert, Center, Heading, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetEntity } from 'hooks/Network/Entity';
@@ -52,7 +52,15 @@ const EntityChildrenCard = ({ id }) => {
                   <EntityConfigurationsTableWrapper entity={entity} />
                 </TabPanel>
                 <TabPanel overflowX="auto">
-                  <EntityDeviceTableWrapper entity={entity} />
+                  {id === '0000-0000-0000' ? (
+                    <Center minHeight="334px">
+                      <Alert colorScheme="red" size="xl">
+                        <Heading size="md">{t('entities.devices_under_root')}</Heading>
+                      </Alert>
+                    </Center>
+                  ) : (
+                    <EntityDeviceTableWrapper entity={entity} />
+                  )}
                 </TabPanel>
                 <TabPanel overflowX="auto">
                   <EntityLocationTableWrapper entity={entity} />

@@ -5,7 +5,7 @@ export const SINGLE_RADIO_SCHEMA = (t, useDefault = false, band = '2G') => {
     band: string().required(t('form.required')).default(band),
     bandwidth: number().required(t('form.required')).integer().default(5),
     channel: string().required(t('form.required')).default('auto'),
-    country: string().required(t('form.required')).default('US'),
+    country: string().required(t('form.required')).default(''),
     'channel-mode': string().required(t('form.required')).default('HT'),
     'require-mode': string().default(undefined),
     'channel-width': number().required(t('form.required')).integer().default(40),

@@ -459,6 +459,7 @@
 		"current_state": "Aktuellen Zustand",
 		"default_redirector": "Standard-Redirector",
 		"devices_to_claim": "Neue Geräte zum Beantragen",
+		"devices_under_root": "Geräte können nicht direkt unter der Root-Entität erstellt werden. Bitte erstellen Sie neue Entitäten oder Veranstaltungsorte und erstellen Sie Geräte darunter.",
 		"enter_ips": "Geben Sie hier die IP(s) ein, die Sie hinzufügen möchten",
 		"entity": "Entität",
 		"error_sync": "Fehler beim Versuch, die Synchronisierung von {{name}}zu starten: {{e}}",
