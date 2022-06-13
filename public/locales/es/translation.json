@@ -459,6 +459,7 @@
 		"current_state": "Estado Actual",
 		"default_redirector": "Redirector predeterminado",
 		"devices_to_claim": "Nuevos dispositivos para reclamar",
+		"devices_under_root": "Los dispositivos no se pueden crear directamente bajo la entidad raíz. Cree nuevas entidades o lugares y cree dispositivos debajo de ellos.",
 		"enter_ips": "Ingrese las IP que desea agregar aquí",
 		"entity": "Entidad",
 		"error_sync": "Error al intentar iniciar la sincronización de {{name}}: {{e}}",
