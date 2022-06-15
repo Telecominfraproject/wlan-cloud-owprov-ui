@@ -62,7 +62,12 @@ const MapDisplayCard = ({ data, isLoading, refreshData }) => {
         <Flex w="100%" flexDirection="row" alignItems="center">
           <Box ms="auto" display="flex">
             <MapPicker map={mapId} setMap={setMapId} isLoading={isLoading} isDisabled={isEditing} />
-            <CreateMapButton isDisabled={isEditing || isLoading} setMapId={setMapId} mapRef={mapRef} />
+            <CreateMapButton
+              isDuplicating={mapId !== ''}
+              isDisabled={isEditing || isLoading}
+              setMapId={setMapId}
+              mapRef={mapRef}
+            />
             <SaveMapButton
               mapId={mapId}
               mapRef={mapRef}

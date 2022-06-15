@@ -194,7 +194,8 @@ const EditLocationForm = ({ editing, isOpen, onClose, refresh, location, formRef
                   <SelectField
                     name="country"
                     label={t('locations.country')}
-                    options={COUNTRY_LIST}
+                    options={[{ label: t('common.none'), value: '' }, ...COUNTRY_LIST]}
+                    isRequired
                     isDisabled={!editing}
                   />
                   <StringField name="buildingName" label={t('locations.building_name')} isDisabled={!editing} />

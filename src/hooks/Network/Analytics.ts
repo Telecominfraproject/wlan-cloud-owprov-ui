@@ -118,12 +118,12 @@ export const useGetClientLifecycleCount = ({
     {
       enabled: mac !== undefined,
       onError: (e: AxiosError) => {
-        if (!toast.isActive('operator-fetching-error'))
+        if (!toast.isActive('lifecycle-count-fetching-error'))
           toast({
-            id: 'operator-fetching-error',
+            id: 'lifecycle-count-fetching-error',
             title: t('common.error'),
             description: t('crud.error_fetching_obj', {
-              obj: t('operator.other'),
+              obj: t('analytics.board'),
               e: e?.response?.data?.ErrorDescription,
             }),
             status: 'error',
@@ -162,7 +162,7 @@ export const useGetClientLifecycle = ({
   }
 
   return useQuery(
-    ['get-operators-with-pagination', pageInfo, count, sortInfo, fromDate, endDate, refreshId],
+    ['get-lifecycles-with-pagination', pageInfo, count, sortInfo, fromDate, endDate, refreshId],
     () =>
       axiosAnalytics
         .get(

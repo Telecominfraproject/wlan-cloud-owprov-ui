@@ -70,7 +70,7 @@ const LocationPickerCreatorModal = ({ setLocation, reset }) => {
               city: '',
               state: '',
               postal: '',
-              country: 'US',
+              country: '',
               buildingName: '',
               mobiles: [],
               phones: [],
@@ -144,7 +144,12 @@ const LocationPickerCreatorModal = ({ setLocation, reset }) => {
                 <StringField name="city" label={t('locations.city')} isRequired />
                 <StringField name="state" label={t('locations.state')} isRequired />
                 <StringField name="postal" label={t('locations.postal')} isRequired />
-                <SelectField name="country" label={t('locations.country')} options={COUNTRY_LIST} />
+                <SelectField
+                  name="country"
+                  label={t('locations.country')}
+                  options={[{ label: t('common.none'), value: '' }, ...COUNTRY_LIST]}
+                  isRequired
+                />
                 <StringField name="buildingName" label={t('locations.building_name')} />
                 <StringField name="geoCode" label={t('locations.geocode')} />
                 <StringField name="note" label={t('common.note')} />

@@ -14,9 +14,10 @@ const propTypes = {
   mapRef: PropTypes.instanceOf(Object).isRequired,
   setMapId: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+  isDuplicating: PropTypes.bool.isRequired,
 };
 
-const CreateMapButton = ({ mapRef, setMapId, isDisabled }) => {
+const CreateMapButton = ({ mapRef, setMapId, isDisabled, isDuplicating }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
@@ -37,7 +38,7 @@ const CreateMapButton = ({ mapRef, setMapId, isDisabled }) => {
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
           <ModalHeader
-            title={t('crud.create_object', { obj: t('map.title') })}
+            title={isDuplicating ? t('map.duplicating') : t('crud.create_object', { obj: t('map.title') })}
             right={
               <>
                 <SaveButton
@@ -58,6 +59,7 @@ const CreateMapButton = ({ mapRef, setMapId, isDisabled }) => {
                 currentMapInformation={mapRef.current.getDataToSave()}
                 setMapId={setMapId}
                 formRef={formRef}
+                isDuplicating={isDuplicating}
               />
             )}
           </ModalBody>

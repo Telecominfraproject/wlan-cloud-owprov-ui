@@ -53,6 +53,7 @@ const EditTagForm = ({
   const { data: entities } = useGetEntities({ t, toast });
   const { data: venues } = useGetVenues({ t, toast });
   const updateConfiguration = useUpdateConfiguration({ id: tag.deviceConfiguration });
+  const [isDeleted, setIsDeleted] = useState(false);
   const queryClient = useQueryClient();
 
   const getEntityFromData = (data) => {
@@ -63,6 +64,7 @@ const EditTagForm = ({
 
   useEffect(() => {
     setFormKey(uuid());
+    setIsDeleted(false);
   }, [isOpen]);
 
   return (
@@ -245,9 +247,10 @@ const EditTagForm = ({
             </TabPanel>
             <TabPanel>
               <SpecialConfigurationManager
-                configId={tag.deviceConfiguration}
+                configId={isDeleted ? '' : tag.deviceConfiguration}
                 editing={editing}
                 onChange={onConfigurationChange}
+                onDelete={() => setIsDeleted(true)}
               />
             </TabPanel>
             <TabPanel>

@@ -24,9 +24,10 @@ const propTypes = {
     position: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
     elements: PropTypes.instanceOf(Array).isRequired,
   }).isRequired,
+  isDuplicating: PropTypes.bool.isRequired,
 };
 
-const CreateMapForm = ({ isOpen, onClose, create, formRef, setMapId, currentMapInformation }) => {
+const CreateMapForm = ({ isOpen, onClose, create, formRef, setMapId, currentMapInformation, isDuplicating }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [formKey, setFormKey] = useState(uuid());
@@ -137,6 +138,7 @@ const CreateMapForm = ({ isOpen, onClose, create, formRef, setMapId, currentMapI
                 },
               ]}
               setFieldValue={setFieldValue}
+              isDisabled={isDuplicating}
             />
           </SimpleGrid>
         </Form>

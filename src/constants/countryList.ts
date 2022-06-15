@@ -1,6 +1,4 @@
 const COUNTRY_LIST: { value: string; label: string }[] = [
-  { value: 'US', label: 'United States' },
-  { value: 'CA', label: 'Canada' },
   { value: 'AF', label: 'Afghanistan' },
   { value: 'AX', label: 'Aland Islands' },
   { value: 'AL', label: 'Albania' },

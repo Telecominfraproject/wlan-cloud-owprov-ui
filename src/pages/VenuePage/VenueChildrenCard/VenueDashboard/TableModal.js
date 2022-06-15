@@ -199,11 +199,9 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
 
     if (tableOptions?.prioritizedColumns?.length > 0) {
       for (const prioritizedColumn of tableOptions.prioritizedColumns) {
-        cols = arrayMoveIndex(
-          cols,
-          cols.findIndex((col) => col.id === prioritizedColumn),
-          1,
-        );
+        const i = cols.findIndex((col) => col.id === prioritizedColumn);
+        cols[i] = { ...cols[i], alwaysShow: true };
+        cols = arrayMoveIndex(cols, i, 1);
       }
     }
 

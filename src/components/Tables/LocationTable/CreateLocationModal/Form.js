@@ -216,7 +216,8 @@ const CreateLocationForm = ({ isOpen, onClose, refresh, formRef, entityId }) => 
               label={t('locations.country')}
               errors={errors}
               touched={touched}
-              options={COUNTRY_LIST}
+              options={[{ label: t('common.none'), value: '' }, ...COUNTRY_LIST]}
+              isRequired
             />
             <StringField name="buildingName" label={t('locations.building_name')} errors={errors} touched={touched} />
             <StringField name="geoCode" label={t('locations.geocode')} errors={errors} touched={touched} />
