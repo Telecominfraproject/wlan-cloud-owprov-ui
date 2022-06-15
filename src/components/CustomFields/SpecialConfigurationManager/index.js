@@ -35,6 +35,7 @@ const propTypes = {
   editing: PropTypes.bool.isRequired,
   configId: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   isEnabledByDefault: PropTypes.bool,
   isOnlySections: PropTypes.bool,
   isDeletePossible: PropTypes.bool,
@@ -45,12 +46,14 @@ const defaultProps = {
   isEnabledByDefault: false,
   isOnlySections: false,
   isDeletePossible: false,
+  onDelete: null,
 };
 
 const SpecialConfigurationManager = ({
   editing,
   configId,
   onChange,
+  onDelete,
   isEnabledByDefault,
   isOnlySections,
   isDeletePossible,
@@ -80,6 +83,7 @@ const SpecialConfigurationManager = ({
     setForm({});
   }, []);
   const handleDeleteClick = useCallback(() => {
+    if (onDelete) onDelete();
     setSections(null);
     setForm(null);
   }, []);
