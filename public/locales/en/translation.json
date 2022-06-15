@@ -595,6 +595,7 @@
 		"cumulative_devices": "Cumulative Devices",
 		"default_map": "Default Map",
 		"delete_warning": "Are you sure you want to delete this map? This operation is not reversible",
+		"duplicating": "Duplicating Map",
 		"my_maps": "My Maps",
 		"other": "Maps",
 		"root": "Root",
