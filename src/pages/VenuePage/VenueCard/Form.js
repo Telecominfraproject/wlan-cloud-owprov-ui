@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
-import { useAuth } from 'contexts/AuthProvider';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { EntityShape } from 'constants/propShapes';
@@ -15,6 +14,7 @@ import { useQueryClient } from 'react-query';
 import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
 import { useUpdateVenue } from 'hooks/Network/Venues';
 import LocationPickerCreator from 'components/CreateObjectsForms/LocationPickerCreator';
+import { useAuth } from 'contexts/AuthProvider';
 import { useCreateAnalyticsBoard, useDeleteAnalyticsBoard, useUpdateAnalyticsBoard } from 'hooks/Network/Analytics';
 import VenueAnalytics from './VenueAnalytics';
 
@@ -185,7 +185,9 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
                 ],
               },
               {
-                onSuccess: ({ data: boardData }) => updateVenueWithInfo([boardData.id]),
+                onSuccess: ({ data: boardData }) => {
+                  if (boardData && boardData.id && boardData.id.length > 0) updateVenueWithInfo([boardData.id]);
+                },
                 onError: (e) => {
                   toast({
                     id: uuid(),
