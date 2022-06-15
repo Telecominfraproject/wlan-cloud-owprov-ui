@@ -357,6 +357,14 @@ export const VenueSchema = (t: (str: string) => string) =>
     contact: Yup.string(),
     location: Yup.string(),
     sourceIP: Yup.array().of(Yup.string()),
+    __BOARD: Yup.object()
+      .shape({
+        name: Yup.string().required(t('form.required')),
+        interval: Yup.number().required(t('form.required')).moreThan(0).integer(),
+        retention: Yup.number().required(t('form.required')).moreThan(0).integer(),
+      })
+      .nullable()
+      .default(undefined),
   });
 
 // Configuration  Schemas
