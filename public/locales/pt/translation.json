@@ -595,6 +595,7 @@
 		"cumulative_devices": "Dispositivos cumulativos",
 		"default_map": "Mapa Padrão",
 		"delete_warning": "Tem certeza de que deseja excluir este mapa? Esta operação não é reversível",
+		"duplicating": "Mapa duplicado",
 		"my_maps": "Meus mapas",
 		"other": "Mapas",
 		"root": "Raiz",

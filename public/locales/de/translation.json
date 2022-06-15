@@ -595,6 +595,7 @@
 		"cumulative_devices": "Kumulative Geräte",
 		"default_map": "Standardkarte",
 		"delete_warning": "Möchten Sie diese Karte wirklich löschen? Dieser Vorgang ist nicht umkehrbar",
+		"duplicating": "Karte duplizieren",
 		"my_maps": "Meine Karten",
 		"other": "Karten",
 		"root": "Wurzel",

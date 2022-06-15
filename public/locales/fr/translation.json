@@ -595,6 +595,7 @@
 		"cumulative_devices": "Appareils cumulatifs",
 		"default_map": "Carte par défaut",
 		"delete_warning": "Voulez-vous vraiment supprimer cette carte ? Cette opération n'est pas réversible",
+		"duplicating": "Dupliquer la carte",
 		"my_maps": "mes cartes",
 		"other": "Plans",
 		"root": "Racine",
