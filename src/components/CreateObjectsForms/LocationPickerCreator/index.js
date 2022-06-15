@@ -74,7 +74,7 @@ const LocationPickerCreator = ({ locationName, createLocationName, editing, isMo
         city: '',
         state: '',
         postal: '',
-        country: 'US',
+        country: '',
         buildingName: '',
         mobiles: [],
         phones: [],
