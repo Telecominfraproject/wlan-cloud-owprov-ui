@@ -83,7 +83,7 @@ const MfaSelectField: React.FC<Props> = ({
         </Select>
         <FormErrorMessage>{error}</FormErrorMessage>
       </FormControl>
-      <FormControl isDisabled={isDisabled}>
+      <FormControl isDisabled={isDisabled} hidden={!phoneNumber || phoneNumber.length === 0}>
         <FormLabel ms="4px" fontSize="md" fontWeight="normal">
           {t('account.phone_number')}
         </FormLabel>
@@ -96,7 +96,7 @@ const MfaSelectField: React.FC<Props> = ({
               size="sm"
               color="gray"
               onClick={handleEditPhoneClick}
-              isDisabled={phoneNumber.length === 0}
+              isDisabled={phoneNumber.length === 0 || isDisabled}
             />
           </InputRightElement>
         </InputGroup>
