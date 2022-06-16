@@ -87,6 +87,7 @@ const InterfaceSection = ({ editing, setSection, sectionInformation, removeSub }
       innerRef={sectionRef}
       initialValues={sectionInformation.data}
       validationSchema={INTERFACES_SCHEMA(t)}
+      validateOnMount
     >
       {({ values }) => (
         <VStack spacing={4}>

@@ -44,7 +44,12 @@ const UnitSection = ({ editing, setSection, sectionInformation, removeSub }) => 
   const removeUnit = () => removeSub('unit');
 
   return (
-    <Formik innerRef={sectionRef} initialValues={sectionInformation.data} validationSchema={UNIT_SCHEMA(t)}>
+    <Formik
+      innerRef={sectionRef}
+      initialValues={sectionInformation.data}
+      validationSchema={UNIT_SCHEMA(t)}
+      validateOnMount
+    >
       <SimpleGrid minChildWidth="400px" spacing={4}>
         <SectionGeneralCard buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />} editing={editing} />
         <Unit editing={editing} />
