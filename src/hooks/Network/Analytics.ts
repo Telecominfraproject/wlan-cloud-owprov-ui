@@ -10,7 +10,7 @@ export const useGetAnalyticsBoard = ({ id }: { id: string }) => {
   const toast = useToast();
 
   return useQuery(['get-board', id], () => axiosAnalytics.get(`board/${id}`).then(({ data }) => data), {
-    enabled: id !== null,
+    enabled: id !== undefined && id !== null && id.length > 0,
     onError: (e: AxiosError) => {
       if (!toast.isActive('board-fetching-error'))
         toast({
@@ -37,7 +37,7 @@ export const useGetAnalyticsBoardDevices = ({ id }: { id: string }) => {
     ['get-board-devices', id],
     () => axiosAnalytics.get(`board/${id}/devices`).then(({ data }) => data.devices),
     {
-      enabled: id !== null,
+      enabled: id !== undefined && id !== null && id.length > 0,
       onError: (e: AxiosError) => {
         if (!toast.isActive('board-fetching-error'))
           toast({
