@@ -17,15 +17,16 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
 import { ArrowsClockwise } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
-import { axiosSec } from 'utils/axiosInstances';
 import { useGetSubsystems, useGetSystemInfo, useReloadSubsystems } from 'hooks/Network/System';
 import FormattedDate from 'components/FormattedDate';
 import { compactSecondsToDetailed } from 'utils/dateFormatting';
 import { MultiValue, Select } from 'chakra-react-select';
+import { useAuth } from 'contexts/AuthProvider';
+import CardBody from 'components/Card/CardBody';
+import Card from 'components/Card';
+import { axiosSec } from 'utils/axiosInstances';
 import SystemCertificatesTable from './SystemCertificatesTable';
 
 interface Props {
@@ -34,7 +35,12 @@ interface Props {
 }
 
 const SystemTile: React.FC<Props> = ({ axiosInstance, name }) => {
-  if (name !== 'owsec' && axiosSec.defaults.baseURL === axiosInstance.defaults.baseURL) {
+  const { endpoints } = useAuth();
+  if (
+    endpoints === null ||
+    endpoints[name] === undefined ||
+    (name !== 'owsec' && axiosSec.defaults.baseURL === axiosInstance.defaults.baseURL)
+  ) {
     return null;
   }
   const { t } = useTranslation();
