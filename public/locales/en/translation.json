@@ -427,6 +427,7 @@
 		"found_assigned": "already assigned devices",
 		"found_not_assigned": "already existing but now owned devices",
 		"import_batch_tags": "Import Devices",
+		"import_device_warning": "Please make sure there are no extra spaces at the start or end of any values unless it is part of the value desired",
 		"import_explanation": "To bulk import devices, you need to use a CSV file with the following columns: SerialNumber, DeviceType, Name, Description, Note",
 		"invalid_serial_number": "Invalid Serial Number (needs to be 12 HEX chars)",
 		"new_devices": "new devices",

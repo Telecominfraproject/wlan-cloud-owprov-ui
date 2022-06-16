@@ -427,6 +427,7 @@
 		"found_assigned": "dispositivos já atribuídos",
 		"found_not_assigned": "dispositivos já existentes, mas agora pertencentes",
 		"import_batch_tags": "Dispositivos de importação",
+		"import_device_warning": "Certifique-se de que não há espaços extras no início ou no final de nenhum valor, a menos que faça parte do valor desejado",
 		"import_explanation": "Para importar dispositivos em massa, você precisa usar um arquivo CSV com as seguintes colunas: SerialNumber, DeviceType, Name, Description, Note",
 		"invalid_serial_number": "Número de série inválido (precisa ter 12 caracteres HEX)",
 		"new_devices": "novos dispositivos",

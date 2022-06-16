@@ -37,9 +37,9 @@ const ImportDeviceFile = ({ setPhase, setDevices, setIsCloseable, refreshId }) =
       const csvConfig = {
         header: true,
         transformHeader,
+        skipEmptyLines: true,
         quoteChar: '"',
       };
-
       const data = readString(fileStr, csvConfig);
 
       if (data.errors.length > 0) {
@@ -63,6 +63,9 @@ const ImportDeviceFile = ({ setPhase, setDevices, setIsCloseable, refreshId }) =
   return (
     <>
       <Heading size="sm">{t('devices.import_explanation')}</Heading>
+      <Alert mt={2} status="warning">
+        {t('devices.import_device_warning')}
+      </Alert>
       <Input
         borderRadius="15px"
         my={4}
@@ -77,7 +80,7 @@ const ImportDeviceFile = ({ setPhase, setDevices, setIsCloseable, refreshId }) =
       />
       {result?.error && <Alert colorScheme="red">{result.error}</Alert>}
       <Center>
-        <Button isDisabled={!result?.deviceList} onClick={goToNext}>
+        <Button mb={4} isDisabled={!result?.deviceList} onClick={goToNext}>
           {t('devices.test_batch')}
         </Button>
       </Center>
