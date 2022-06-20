@@ -106,10 +106,7 @@ export const SERVICES_RTTY_SCHEMA = (t, useDefault = false) => {
 };
 export const SERVICES_LOG_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    host: string()
-      .required(t('form.required'))
-      .test('rtty.host.value', t('form.invalid_fqdn_host'), testFqdnHostname)
-      .default(''),
+    host: string().required(t('form.required')).test('log.host.value', t('form.invalid_cidr'), testIpv4).default(''),
     port: number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(5912),
     proto: string().required(t('form.required')).default('udp'),
     size: number().required(t('form.required')).moreThan(31).lessThan(65535).integer().default(1000),
