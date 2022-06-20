@@ -57,7 +57,6 @@ const GlobalsSection = ({ editing, setSection, sectionInformation, removeSub }) 
       innerRef={sectionRef}
       initialValues={sectionInformation.data}
       validationSchema={GLOBALS_SCHEMA(t)}
-      validateOnMount
     >
       <SimpleGrid minChildWidth="400px" spacing={4}>
         <SectionGeneralCard buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />} editing={editing} />
