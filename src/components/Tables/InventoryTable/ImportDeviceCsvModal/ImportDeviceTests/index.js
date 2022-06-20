@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from 'contexts/AuthProvider';
 import axios from 'axios';
 import {
   Box,
@@ -19,6 +18,7 @@ import {
   useBoolean,
 } from '@chakra-ui/react';
 import { axiosProv } from 'utils/axiosInstances';
+import { useAuth } from 'contexts/AuthProvider';
 import TestResultTable from './TestResultTable';
 
 const propTypes = {
@@ -210,7 +210,7 @@ const ImportDeviceTests = ({ devicesToTest, setPhase, setDevicesToImport }) => {
           </FormControl>
         )}
         <Center mt={6}>
-          <Button isDisabled={!canImport()} onClick={startImport}>
+          <Button mb={4} isDisabled={!canImport()} onClick={startImport}>
             {t('devices.start_import')}
           </Button>
         </Center>

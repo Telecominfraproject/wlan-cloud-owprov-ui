@@ -26,7 +26,7 @@ const VenueChildrenCard = ({ id }) => {
   const { data: venue, isFetching } = useGetVenue({ id });
 
   const panels = useMemo(() => {
-    if (endpoints.owanalytics && venue?.boards.length > 0) {
+    if (endpoints.owanalytics && venue?.boards.length > 0 && venue?.boards[0].length > 0) {
       return (
         <TabPanels>
           <TabPanel overflowX="auto">
@@ -82,7 +82,7 @@ const VenueChildrenCard = ({ id }) => {
       <CardBody>
         <Tabs isLazy variant="enclosed" w="100%">
           <TabList>
-            {endpoints.owanalytics && venue?.boards.length > 0 && (
+            {endpoints.owanalytics && venue?.boards.length > 0 && venue?.boards[0].length > 0 && (
               <>
                 <Tab>{t('analytics.dashboard')}</Tab>
                 <Tab>{t('analytics.live_view')}</Tab>

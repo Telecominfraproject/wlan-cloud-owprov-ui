@@ -133,7 +133,7 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
           );
 
         if (__BOARD) {
-          if (venue.boards.length > 0) {
+          if (venue.boards.length > 0 && venue.boards[0] !== '') {
             updateAnalytics.mutateAsync(
               {
                 name: __BOARD.name,

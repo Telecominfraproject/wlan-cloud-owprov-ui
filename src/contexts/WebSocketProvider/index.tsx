@@ -34,22 +34,27 @@ export const WebSocketProvider = ({ children }: { children: React.ReactElement }
     }
   }, []);
 
+  const onStartWebSocket = () => {
+    ws.current = new WebSocket(
+      `${axiosProv?.defaults?.baseURL ? axiosProv.defaults.baseURL.replace('https', 'wss') : ''}/ws`,
+    );
+    ws.current.onopen = () => {
+      setIsOpen(true);
+      ws.current?.send(`token:${token}`);
+    };
+    ws.current.onclose = () => {
+      setIsOpen(false);
+      setTimeout(onStartWebSocket, 3000);
+    };
+    ws.current.onerror = () => {
+      setIsOpen(false);
+    };
+  };
+
   // useEffect for created the WebSocket and 'storing' it in useRef
   useEffect(() => {
     if (isUserLoaded) {
-      ws.current = new WebSocket(
-        `${axiosProv?.defaults?.baseURL ? axiosProv.defaults.baseURL.replace('https', 'wss') : ''}/ws`,
-      );
-      ws.current.onopen = () => {
-        setIsOpen(true);
-        ws.current?.send(`token:${token}`);
-      };
-      ws.current.onclose = () => {
-        setIsOpen(false);
-      };
-      ws.current.onerror = () => {
-        setIsOpen(false);
-      };
+      onStartWebSocket();
     }
 
     const wsCurrent = ws?.current;

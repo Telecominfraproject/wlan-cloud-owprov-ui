@@ -206,10 +206,16 @@ export const isValidPortRange = (v: string) => {
 };
 
 export const isValidPortRanges = (first: string, second: string) => {
-  const firstInt = isNumber(first);
-  const secondInt = isNumber(second);
-  if (firstInt && secondInt) return true;
-  if (firstInt !== secondInt) return false;
+  const isFirstInt = isNumber(first);
+  const isSecondInt = isNumber(second);
+  if (first === second) return false;
+
+  if (isFirstInt && isSecondInt) {
+    const firstNum = parseToInt(first);
+    const secondNum = parseToInt(second);
+    return firstNum !== secondNum;
+  }
+  if (isFirstInt !== isSecondInt) return false;
 
   const firstRange = getPortRange(first);
   const secondRange = getPortRange(second);
@@ -254,3 +260,5 @@ export const testSelectPorts = (obj: TestSelectPortsProps) => {
 
   return true;
 };
+
+export const testObjectName = (str?: string) => (str ? str.length <= 50 : false);
