@@ -257,6 +257,7 @@
 		"monthly": "Mensual",
 		"my_account": "Mi cuenta",
 		"name": "Nombre",
+		"name_error": "El nombre debe tener menos de 50 caracteres",
 		"next": "Siguiente",
 		"no": "No",
 		"no_addresses_found": "No se encontraron direcciones",

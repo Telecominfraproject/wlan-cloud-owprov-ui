@@ -260,3 +260,5 @@ export const testSelectPorts = (obj: TestSelectPortsProps) => {
 
   return true;
 };
+
+export const testObjectName = (str?: string) => (str ? str.length <= 50 : false);

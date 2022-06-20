@@ -257,6 +257,7 @@
 		"monthly": "Monthly",
 		"my_account": "My Account",
 		"name": "Name",
+		"name_error": "Name must be less than 50 characters long",
 		"next": "Next",
 		"no": "No",
 		"no_addresses_found": "No Addresses Found",

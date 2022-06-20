@@ -8,10 +8,14 @@ import useSelectList from 'hooks/useSelectList';
 import { ServiceClass } from 'models/ServiceClass';
 import { Subscriber } from 'models/Subscriber';
 import * as Yup from 'yup';
+import { testObjectName } from 'constants/formTests';
 
 const Schema = (t: (str: string) => string) =>
   Yup.object().shape({
-    name: Yup.string().required(t('form.required')).default(''),
+    name: Yup.string()
+      .required(t('form.required'))
+      .test('name_test', t('common.name_error'), testObjectName)
+      .default(''),
     subscriberId: Yup.string().required(t('form.required')).default(''),
     description: Yup.string().default(''),
     note: Yup.string().default(''),
