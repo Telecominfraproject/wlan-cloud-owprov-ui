@@ -38,7 +38,7 @@ const SystemTile: React.FC<Props> = ({ axiosInstance, name }) => {
   const { endpoints } = useAuth();
   if (
     endpoints === null ||
-    endpoints[name] === undefined ||
+    (endpoints[name] === undefined && name !== 'owsec') ||
     (name !== 'owsec' && axiosSec.defaults.baseURL === axiosInstance.defaults.baseURL)
   ) {
     return null;
