@@ -61,7 +61,6 @@ const RadiosSection = ({ editing, setSection, sectionInformation, removeSub }) =
         innerRef={sectionRef}
         initialValues={sectionInformation.data}
         validationSchema={RADIOS_SCHEMA(t)}
-        validateOnMount
       >
         {({ values }) => (
           <VStack spacing={4}>

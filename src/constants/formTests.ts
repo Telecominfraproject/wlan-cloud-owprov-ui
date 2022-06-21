@@ -21,7 +21,8 @@ export const isNumber = (str: string) => {
 };
 
 export const testIpv4 = (ip?: string) => {
-  const ipv4RegExp = /^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$/gi;
+  const ipv4RegExp =
+    /^(([0-9])|([1-9][0-9])|(1([0-9]{2}))|(2[0-4][0-9])|(25[0-5]))((\.(([0-9])|([1-9][0-9])|(1([0-9]{2}))|(2[0-4][0-9])|(25[0-5]))){3})(\/(([0-9])|([12][0-9])|(3[0-2])))?$/gi;
   if (ip) {
     return ipv4RegExp.test(ip);
   }
@@ -206,10 +207,16 @@ export const isValidPortRange = (v: string) => {
 };
 
 export const isValidPortRanges = (first: string, second: string) => {
-  const firstInt = isNumber(first);
-  const secondInt = isNumber(second);
-  if (firstInt && secondInt) return true;
-  if (firstInt !== secondInt) return false;
+  const isFirstInt = isNumber(first);
+  const isSecondInt = isNumber(second);
+  if (first === second) return false;
+
+  if (isFirstInt && isSecondInt) {
+    const firstNum = parseToInt(first);
+    const secondNum = parseToInt(second);
+    return firstNum !== secondNum;
+  }
+  if (isFirstInt !== isSecondInt) return false;
 
   const firstRange = getPortRange(first);
   const secondRange = getPortRange(second);
@@ -254,3 +261,5 @@ export const testSelectPorts = (obj: TestSelectPortsProps) => {
 
   return true;
 };
+
+export const testObjectName = (str?: string) => (str ? str.length <= 50 : false);

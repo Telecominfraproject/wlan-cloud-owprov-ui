@@ -88,7 +88,6 @@ const MetricsSection = ({ editing, setSection, sectionInformation, removeSub }) 
       innerRef={sectionRef}
       initialValues={sectionInformation.data}
       validationSchema={METRICS_SCHEMA(t)}
-      validateOnMount
     >
       {({ setFieldValue }) => (
         <Masonry
