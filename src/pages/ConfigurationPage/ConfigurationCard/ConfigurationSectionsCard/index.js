@@ -90,7 +90,8 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
     invalidValues: [],
   });
   const [activeConfigurations, setActiveConfigurations] = useState([]);
-  const setConfigSectionsFromArray = (arr) => {
+
+  const setConfigSectionsFromArray = (arr, shouldValidate) => {
     setActiveConfigurations([]);
 
     setTimeout(() => {
@@ -101,6 +102,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
           data: getConfigurationData(arr, 'globals'),
           isDirty: false,
           invalidValues: [],
+          shouldValidate,
         });
       }
       if (newActiveConfigs.includes('unit')) {
@@ -108,6 +110,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
           data: getConfigurationData(arr, 'unit'),
           isDirty: false,
           invalidValues: [],
+          shouldValidate,
         });
       }
       if (newActiveConfigs.includes('metrics')) {
@@ -115,6 +118,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
           data: getConfigurationData(arr, 'metrics'),
           isDirty: false,
           invalidValues: [],
+          shouldValidate,
         });
       }
       if (newActiveConfigs.includes('services')) {
@@ -122,6 +126,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
           data: getConfigurationData(arr, 'services'),
           isDirty: false,
           invalidValues: [],
+          shouldValidate,
         });
       }
       if (newActiveConfigs.includes('radios')) {
@@ -129,6 +134,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
           data: getConfigurationData(arr, 'radios'),
           isDirty: false,
           invalidValues: [],
+          shouldValidate,
         });
       }
       if (newActiveConfigs.includes('interfaces')) {
@@ -136,6 +142,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
           data: getConfigurationData(arr, 'interfaces'),
           isDirty: false,
           invalidValues: [],
+          shouldValidate,
         });
       }
 
@@ -217,7 +224,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
   );
 
   const importConfig = (newConf) => {
-    setConfigSectionsFromArray(newConf);
+    setConfigSectionsFromArray(newConf, true);
   };
 
   useEffect(() => {

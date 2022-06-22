@@ -6,6 +6,7 @@ import Field from './FastToggleInput';
 interface Props extends FieldProps {
   falseIsUndefined?: boolean;
   onChangeCallback?: (e: boolean) => void;
+  defaultValue?: boolean;
 }
 
 const ToggleField: React.FC<Props> = ({
@@ -13,6 +14,7 @@ const ToggleField: React.FC<Props> = ({
   isDisabled = false,
   label,
   isRequired = false,
+  defaultValue,
   element,
   falseIsUndefined,
   definitionKey,
@@ -32,7 +34,7 @@ const ToggleField: React.FC<Props> = ({
   return (
     <Field
       label={label ?? name}
-      value={value !== undefined && value}
+      value={value === undefined && defaultValue !== undefined ? defaultValue : value !== undefined && value}
       onChange={onValueChange}
       error={error}
       onBlur={onBlur}
