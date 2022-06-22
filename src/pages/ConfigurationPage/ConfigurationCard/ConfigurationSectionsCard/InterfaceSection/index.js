@@ -12,6 +12,7 @@ import SectionGeneralCard from '../common/SectionGeneralCard';
 import Interfaces from './Interfaces';
 import { INTERFACES_SCHEMA } from './interfacesConstants';
 import InterfaceExpertModal from './InterfaceExpertModal';
+import InternalFormAccess from '../common/InternalFormAccess';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -89,26 +90,29 @@ const InterfaceSection = ({ editing, setSection, sectionInformation, removeSub }
       validationSchema={INTERFACES_SCHEMA(t)}
     >
       {({ values }) => (
-        <VStack spacing={4}>
-          <SectionGeneralCard
-            editing={editing}
-            buttons={
-              <>
-                <InterfaceExpertModal editing={editing} />
-                <DeleteButton ml={2} onClick={removeUnit} isDisabled={!editing} />
-              </>
-            }
-          />
-          <FieldArray name="configuration">
-            {(arrayHelpers) => (
-              <Interfaces
-                editing={editing}
-                arrayHelpers={arrayHelpers}
-                interfacesLength={values.configuration.length}
-              />
-            )}
-          </FieldArray>
-        </VStack>
+        <>
+          <InternalFormAccess shouldValidate={sectionInformation?.shouldValidate} />
+          <VStack spacing={4}>
+            <SectionGeneralCard
+              editing={editing}
+              buttons={
+                <>
+                  <InterfaceExpertModal editing={editing} />
+                  <DeleteButton ml={2} onClick={removeUnit} isDisabled={!editing} />
+                </>
+              }
+            />
+            <FieldArray name="configuration">
+              {(arrayHelpers) => (
+                <Interfaces
+                  editing={editing}
+                  arrayHelpers={arrayHelpers}
+                  interfacesLength={values.configuration.length}
+                />
+              )}
+            </FieldArray>
+          </VStack>
+        </>
       )}
     </Formik>
   );

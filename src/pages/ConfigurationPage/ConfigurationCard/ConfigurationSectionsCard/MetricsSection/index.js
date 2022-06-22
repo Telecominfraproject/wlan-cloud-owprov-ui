@@ -14,6 +14,7 @@ import SubSectionPicker from '../common/SubSectionPicker';
 import Health from './Health';
 import WifiFrames from './WifiFrames';
 import DhcpSnooping from './DhcpSnooping';
+import InternalFormAccess from '../common/InternalFormAccess';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -90,31 +91,34 @@ const MetricsSection = ({ editing, setSection, sectionInformation, removeSub }) 
       validationSchema={METRICS_SCHEMA(t)}
     >
       {({ setFieldValue }) => (
-        <Masonry
-          breakpointCols={{
-            default: 3,
-            1400: 2,
-            1100: 1,
-          }}
-          className="my-masonry-grid"
-          columnClassName="my-masonry-grid_column"
-        >
-          <SectionGeneralCard
-            editing={editing}
-            buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />}
-            subsectionPicker={
-              <SubSectionPicker
-                editing={editing}
-                subsections={['statistics', 'health', 'wifi-frames', 'dhcp-snooping']}
-                onSubsectionsChange={(sub) => onSubsectionsChange(sub, setFieldValue)}
-              />
-            }
-          />
-          {isSubSectionActive('statistics') && <Statistics editing={editing} />}
-          {isSubSectionActive('health') && <Health editing={editing} />}
-          {isSubSectionActive('wifi-frames') && <WifiFrames editing={editing} />}
-          {isSubSectionActive('dhcp-snooping') && <DhcpSnooping editing={editing} />}
-        </Masonry>
+        <>
+          <InternalFormAccess shouldValidate={sectionInformation?.shouldValidate} />
+          <Masonry
+            breakpointCols={{
+              default: 3,
+              1400: 2,
+              1100: 1,
+            }}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            <SectionGeneralCard
+              editing={editing}
+              buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />}
+              subsectionPicker={
+                <SubSectionPicker
+                  editing={editing}
+                  subsections={['statistics', 'health', 'wifi-frames', 'dhcp-snooping']}
+                  onSubsectionsChange={(sub) => onSubsectionsChange(sub, setFieldValue)}
+                />
+              }
+            />
+            {isSubSectionActive('statistics') && <Statistics editing={editing} />}
+            {isSubSectionActive('health') && <Health editing={editing} />}
+            {isSubSectionActive('wifi-frames') && <WifiFrames editing={editing} />}
+            {isSubSectionActive('dhcp-snooping') && <DhcpSnooping editing={editing} />}
+          </Masonry>
+        </>
       )}
     </Formik>
   );

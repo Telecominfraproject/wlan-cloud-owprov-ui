@@ -10,6 +10,7 @@ import DeleteButton from 'components/Buttons/DeleteButton';
 import SectionGeneralCard from '../common/SectionGeneralCard';
 import { RADIOS_SCHEMA } from './radiosConstants';
 import Radios from './Radios';
+import InternalFormAccess from '../common/InternalFormAccess';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -63,22 +64,25 @@ const RadiosSection = ({ editing, setSection, sectionInformation, removeSub }) =
         validationSchema={RADIOS_SCHEMA(t)}
       >
         {({ values }) => (
-          <VStack spacing={4}>
-            <SectionGeneralCard
-              editing={editing}
-              buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />}
-            />
-            <FieldArray name="configuration">
-              {(arrayHelpers) => (
-                <Radios
-                  editing={editing}
-                  arrayHelpers={arrayHelpers}
-                  radioBands={values.configuration.map((radio) => radio.band)}
-                  radioBandsLength={values.configuration.length}
-                />
-              )}
-            </FieldArray>
-          </VStack>
+          <>
+            <InternalFormAccess shouldValidate={sectionInformation?.shouldValidate} />
+            <VStack spacing={4}>
+              <SectionGeneralCard
+                editing={editing}
+                buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />}
+              />
+              <FieldArray name="configuration">
+                {(arrayHelpers) => (
+                  <Radios
+                    editing={editing}
+                    arrayHelpers={arrayHelpers}
+                    radioBands={values.configuration.map((radio) => radio.band)}
+                    radioBandsLength={values.configuration.length}
+                  />
+                )}
+              </FieldArray>
+            </VStack>
+          </>
         )}
       </Formik>
     </>
