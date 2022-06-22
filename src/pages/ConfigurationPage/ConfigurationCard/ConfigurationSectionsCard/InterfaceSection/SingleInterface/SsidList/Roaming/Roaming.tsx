@@ -44,7 +44,7 @@ const RoamingForm: React.FC<Props> = ({ editing, namePrefix, isEnabled, onToggle
           label="domain-identifier"
           definitionKey="interface.ssid.roaming.domain-identifier"
           isDisabled={!editing}
-          isRequired
+          emptyIsUndefined
         />
         <StringField
           name={`${namePrefix}.pmk-r0-key-holder`}
