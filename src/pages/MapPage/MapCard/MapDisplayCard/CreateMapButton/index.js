@@ -33,7 +33,13 @@ const CreateMapButton = ({ mapRef, setMapId, isDisabled, isDuplicating }) => {
 
   return (
     <>
-      <CreateButton onClick={onOpen} isDisabled={isDisabled} isCompact ml={2} />
+      <CreateButton
+        onClick={onOpen}
+        isDisabled={isDisabled}
+        isCompact
+        label={isDuplicating ? t('common.duplicate') : t('common.create')}
+        ml={2}
+      />
       <Modal onClose={closeModal} isOpen={isOpen} size="xl" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
