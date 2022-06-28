@@ -12,7 +12,6 @@ import LoadingOverlay from 'components/LoadingOverlay';
 import useFormRef from 'hooks/useFormRef';
 import EditEntityForm from './Form';
 import DeleteEntityPopover from './DeleteEntityPopover';
-import CreateEntityModal from '../CreateEntityModal';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -31,7 +30,6 @@ const EntityCard = ({ id }) => {
         </Box>
         <Spacer />
         <Box>
-          <CreateEntityModal parentId={entity?.id ?? ''} isDisabled={editing} />
           <SaveButton
             onClick={form.submitForm}
             isLoading={form.isSubmitting}
