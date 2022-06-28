@@ -59,7 +59,7 @@ const VenueContactTableWrapper: React.FC<Props> = ({ venue }) => {
         {venue && (
           <>
             <UseExistingContactModal onAssignContact={onContactCreate} venue={venue} />
-            <CreateContactModal refresh={refreshEntity} entityId={venue?.entity ?? ''} onCreate={onContactCreate} />
+            <CreateContactModal refresh={refreshEntity} isVenue entityId={venue?.id ?? ''} onCreate={onContactCreate} />
           </>
         )}
       </Box>
