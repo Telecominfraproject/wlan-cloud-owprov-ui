@@ -4,7 +4,10 @@ export interface Configuration {
   name: string;
   description: string;
   id: string;
+  inUse: string[];
   notes: Note[];
+  entity: string;
+  venue: string;
 }
 
 interface ConfigurationNestedForm {

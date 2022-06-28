@@ -325,6 +325,7 @@
 		"affected_explanation_other": "Existem {{count}} dispositivos afetados por esta configuração",
 		"applied_configuration": "Configuração aplicada",
 		"cant_delete_explanation": "Não é possível excluir esta configuração porque ela está sendo usada por pelo menos um dispositivo, local ou entidade. Você pode ver quais são clicando no botão ao lado de \"Em uso\" no formulário desta configuração",
+		"cant_delete_explanation_simple": "Não é possível excluir esta configuração porque ela está sendo usada por pelo menos um dispositivo, local ou entidade. Você pode ver quais são indo na página de configuração",
 		"configuration_json": "Configuração JSON",
 		"configuration_push_result": "Resultado de envio de configuração",
 		"configuration_sections": "Seções de configuração",

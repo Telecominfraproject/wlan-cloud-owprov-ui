@@ -325,6 +325,7 @@
 		"affected_explanation_other": "Il y a {{count}}  appareils concernés par cette configuration",
 		"applied_configuration": "Configuration appliquée",
 		"cant_delete_explanation": "Impossible de supprimer cette configuration car elle est utilisée par au moins un appareil, un lieu ou une entité. Vous pouvez voir ce qu'ils sont en cliquant sur le bouton à côté de \"En cours d'utilisation\" sur le formulaire de cette configuration",
+		"cant_delete_explanation_simple": "Impossible de supprimer cette configuration car elle est utilisée par au moins un appareil, un lieu ou une entité. Vous pouvez voir ce qu'ils sont en allant sur la page de configuration",
 		"configuration_json": "JSON de configuration",
 		"configuration_push_result": "Résultat de l'envoi de la configuration",
 		"configuration_sections": "Rubriques de configuration",

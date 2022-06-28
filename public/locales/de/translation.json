@@ -325,6 +325,7 @@
 		"affected_explanation_other": "Von dieser Konfiguration sind {{count}} Geräte betroffen",
 		"applied_configuration": "Angewandte Konfiguration",
 		"cant_delete_explanation": "Diese Konfiguration kann nicht gelöscht werden, da sie von mindestens einem Gerät, einem Ort oder einer Entität verwendet wird. Sie können sehen, was sie sind, indem Sie im Formular dieser Konfiguration auf die Schaltfläche neben \"In Verwendung\" klicken",
+		"cant_delete_explanation_simple": "Diese Konfiguration kann nicht gelöscht werden, da sie von mindestens einem Gerät, einem Ort oder einer Entität verwendet wird. Sie können sehen, was sie sind, indem Sie auf die Konfigurationsseite gehen",
 		"configuration_json": "Konfiguration JSON",
 		"configuration_push_result": "Konfigurations-Push-Ergebnis",
 		"configuration_sections": "Konfigurationsabschnitte",
