@@ -112,34 +112,35 @@ const CreateMapForm = ({ isOpen, onClose, create, formRef, setMapId, currentMapI
             />
             <StringField name="description" label={t('common.description')} />
             <StringField name="note" label={t('common.note')} />
-            <SelectWithSearchField
-              name="rootNode"
-              label={t('map.root_node')}
-              errors={errors}
-              touched={touched}
-              isRequired
-              isPortal
-              options={[
-                {
-                  label: t('entities.title'),
-                  options:
-                    entities?.map((ent) => ({
-                      value: `entity/${ent.id}`,
-                      label: `${ent.name}${ent.description ? `: ${ent.description}` : ''}`,
-                    })) ?? [],
-                },
-                {
-                  label: t('venues.title'),
-                  options:
-                    venues?.map((ven) => ({
-                      value: `venue/${ven.id}`,
-                      label: `${ven.name}${ven.description ? `: ${ven.description}` : ''}`,
-                    })) ?? [],
-                },
-              ]}
-              setFieldValue={setFieldValue}
-              isDisabled={isDuplicating}
-            />
+            {!isDuplicating && (
+              <SelectWithSearchField
+                name="rootNode"
+                label={t('map.root_node')}
+                errors={errors}
+                touched={touched}
+                isRequired
+                isPortal
+                options={[
+                  {
+                    label: t('entities.title'),
+                    options:
+                      entities?.map((ent) => ({
+                        value: `entity/${ent.id}`,
+                        label: `${ent.name}${ent.description ? `: ${ent.description}` : ''}`,
+                      })) ?? [],
+                  },
+                  {
+                    label: t('venues.title'),
+                    options:
+                      venues?.map((ven) => ({
+                        value: `venue/${ven.id}`,
+                        label: `${ven.name}${ven.description ? `: ${ven.description}` : ''}`,
+                      })) ?? [],
+                  },
+                ]}
+                setFieldValue={setFieldValue}
+              />
+            )}
           </SimpleGrid>
         </Form>
       )}

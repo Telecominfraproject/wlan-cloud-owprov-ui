@@ -10,6 +10,7 @@ import DeleteButton from 'components/Buttons/DeleteButton';
 import { GLOBALS_SCHEMA } from './globalsConstants';
 import SectionGeneralCard from '../common/SectionGeneralCard';
 import Globals from './Globals';
+import InternalFormAccess from '../common/InternalFormAccess';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -58,10 +59,13 @@ const GlobalsSection = ({ editing, setSection, sectionInformation, removeSub }) 
       initialValues={sectionInformation.data}
       validationSchema={GLOBALS_SCHEMA(t)}
     >
-      <SimpleGrid minChildWidth="400px" spacing={4}>
-        <SectionGeneralCard buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />} editing={editing} />
-        <Globals editing={editing} />
-      </SimpleGrid>
+      <>
+        <InternalFormAccess shouldValidate={sectionInformation?.shouldValidate} />
+        <SimpleGrid minChildWidth="400px" spacing={4}>
+          <SectionGeneralCard buttons={<DeleteButton onClick={removeUnit} isDisabled={!editing} />} editing={editing} />
+          <Globals editing={editing} />
+        </SimpleGrid>
+      </>
     </Formik>
   );
 };

@@ -38,7 +38,6 @@ const VenueConfigurationsTableWrapper = ({ venue }) => {
     [],
   );
 
-  // PUT updateAllDevices=true
   const refresh = () => queryClient.invalidateQueries(['get-venue', venue.id]);
   return (
     <>

@@ -177,7 +177,7 @@ export const useGetConfigurationAffected = ({ id, enabled }: { id: string; enabl
   );
 };
 
-export const useDeleteConfiguration = () => useMutation((id) => axiosProv.delete(`configuration/${id}`));
+export const useDeleteConfiguration = () => useMutation((id: string) => axiosProv.delete(`configuration/${id}`));
 
 export const useUpdateConfiguration = ({ id }: { id: string }) =>
   useMutation((newConf) => axiosProv.put(`configuration/${id}`, newConf));

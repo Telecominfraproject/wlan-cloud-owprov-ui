@@ -68,7 +68,7 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
     (cell) => (cell.row.values.connected ? t('common.connected') : t('common.disconnected')),
     [],
   );
-  const memoryCell = useCallback((cell) => `${Math.floor(cell.row.values.memory)}%`, []);
+  const memoryCell = useCallback((cell) => `${cell.row.values.memory}%`, []);
   const durationCell = useCallback(
     (cell, key) => (cell.row.values[key] !== undefined ? minimalSecondsToDetailed(cell.row.values[key], t) : ''),
     [],

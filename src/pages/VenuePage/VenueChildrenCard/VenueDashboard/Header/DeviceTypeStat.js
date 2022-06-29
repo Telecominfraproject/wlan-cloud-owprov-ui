@@ -26,7 +26,7 @@ const DeviceTypeStat = ({ data, handleModalClick }) => {
     }
 
     let othersTotal = 0;
-    for (let i = 3; i < orderedTotals.length; i += 1) {
+    for (let i = 2; i < orderedTotals.length; i += 1) {
       othersTotal += orderedTotals[i].amount;
     }
 

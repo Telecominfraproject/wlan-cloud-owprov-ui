@@ -74,6 +74,7 @@ const VenueDashboard = ({ boardId }) => {
 
         // For averages to be calculated after the loop
         totalUptime += device.uptime;
+        device.memory = Math.round(device.memory);
         totalMemory += device.memory;
 
         finalDevices.push(device);
@@ -88,13 +89,13 @@ const VenueDashboard = ({ boardId }) => {
       }
     }
     finalData.totalDevices = finalDevices.length + ignoredDevices.length;
-    finalData.connectedPercentage = Math.floor(
+    finalData.connectedPercentage = Math.round(
       (finalData.connectedDevices / Math.max(1, finalData.totalDevices)) * 100,
     );
     finalData.devices = finalDevices;
-    finalData.avgHealth = Math.floor(totalHealth / Math.max(1, finalData.connectedDevices));
-    finalData.avgUptime = Math.floor(totalUptime / Math.max(1, finalData.connectedDevices));
-    finalData.avgMemoryUsed = Math.floor(totalMemory / Math.max(1, finalData.connectedDevices));
+    finalData.avgHealth = Math.round(totalHealth / Math.max(1, finalData.connectedDevices));
+    finalData.avgUptime = Math.round(totalUptime / Math.max(1, finalData.connectedDevices));
+    finalData.avgMemoryUsed = Math.round(totalMemory / Math.max(1, finalData.connectedDevices));
     finalData.devices = finalDevices;
     finalData.ignoredDevices = ignoredDevices;
     return finalData;

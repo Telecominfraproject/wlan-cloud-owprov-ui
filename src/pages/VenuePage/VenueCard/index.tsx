@@ -14,7 +14,6 @@ import useFormRef from 'hooks/useFormRef';
 import VenueActions from './Actions';
 import EditVenueForm from './Form';
 import DeleteVenuePopover from './DeleteVenuePopover';
-import CreateVenueModal from '../../../components/Tables/VenueTable/CreateVenueModal';
 
 const VenueCard: React.FC<{ id: string }> = ({ id }) => {
   const { endpoints } = useAuth();
@@ -33,7 +32,6 @@ const VenueCard: React.FC<{ id: string }> = ({ id }) => {
         </Box>
         <Spacer />
         <Box>
-          <CreateVenueModal parentId={venue?.id ?? ''} isDisabled={editing} />
           <SaveButton
             onClick={form.submitForm}
             isLoading={form.isSubmitting}

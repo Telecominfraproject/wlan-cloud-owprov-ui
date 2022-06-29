@@ -1,28 +1,34 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
 import { Heading, SimpleGrid } from '@chakra-ui/react';
 import ToggleField from 'components/FormFields/ToggleField';
 import NumberField from 'components/FormFields/NumberField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import { useField } from 'formik';
+import useFastField from 'hooks/useFastField';
+import Card from 'components/Card';
+import CardHeader from 'components/Card/CardHeader';
+import CardBody from 'components/Card/CardBody';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
 };
 
 const Ssh = ({ editing }) => {
-  const [{ value: isPasswordAuth }] = useField('configuration.ssh.password-authentication');
-  const [, , { setValue: setAuthKeys, setTouched: setAuthKeysTouched }] = useField('configuration.ssh.authorized-keys');
+  const { value: isUsingPasswordAuth } = useFastField({ name: 'configuration.ssh.password-authentication' });
+  const { onChange: setAuthKeys, onBlur } = useFastField({ name: 'configuration.ssh.authorized-keys' });
 
   const onPasswordAuthenticationChange = useCallback((isChecked) => {
-    if (isChecked) setAuthKeys(undefined);
-    else setAuthKeys([]);
-    setTimeout(() => {
-      setAuthKeysTouched(true);
-    }, 200);
+    if (isChecked) {
+      setAuthKeys(undefined);
+      setTimeout(() => {
+        onBlur();
+      }, 200);
+    } else {
+      setAuthKeys([]);
+      setTimeout(() => {
+        onBlur();
+      }, 200);
+    }
   }, []);
 
   return (
@@ -49,8 +55,9 @@ const Ssh = ({ editing }) => {
             isDisabled={!editing}
             onChangeCallback={onPasswordAuthenticationChange}
             isRequired
+            defaultValue
           />
-          {!isPasswordAuth && (
+          {isUsingPasswordAuth !== undefined && !isUsingPasswordAuth && (
             <CreatableSelectField
               name="configuration.ssh.authorized-keys"
               label="authorized-keys"
