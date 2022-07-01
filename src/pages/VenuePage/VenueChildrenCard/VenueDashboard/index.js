@@ -67,22 +67,22 @@ const VenueDashboard = ({ boardId }) => {
         if (device.associations_5g > 0) finalData.fiveGAssociations += device.associations_5g;
         if (device.associations_6g > 0) finalData.sixGAssociations += device.associations_6g;
 
+        device.memory = Math.round(device.memory);
+
         if (device.connected) {
           finalData.connectedDevices += 1;
           totalHealth += device.health;
           totalMemory += device.memory;
+          totalUptime += device.uptime;
         } else finalData.disconnectedDevices += 1;
-
-        // For averages to be calculated after the loop
-        totalUptime += device.uptime;
-        device.memory = Math.round(device.memory);
 
         finalDevices.push(device);
       } else {
         ignoredDevices.push(device);
         if (device.connected) {
           finalData.connectedDevices += 1;
-          totalMemory += device.memory;
+          totalMemory += Math.round(device.memory);
+          totalUptime += device.uptime;
         } else finalData.disconnectedDevices += 1;
         if (finalData.deviceFirmwareTotals.Unknown > 0) finalData.deviceFirmwareTotals.Unknown += 1;
         else finalData.deviceFirmwareTotals.Unknown = 1;
