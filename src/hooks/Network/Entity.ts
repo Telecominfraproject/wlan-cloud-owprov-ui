@@ -73,7 +73,7 @@ export const useGetEntity = ({ id }: { id: string }) => {
     ['get-entity', id],
     () => axiosProv.get(`entity/${id}?withExtendedInfo=true`).then(({ data }) => data),
     {
-      enabled: id !== null,
+      enabled: id !== undefined && id !== null && id !== '',
       onError: (e: AxiosError) => {
         if (!toast.isActive('entity-fetching-error'))
           toast({
