@@ -1,10 +1,10 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
-import { GatewayDevice, WifiScanCommand, WifiScanResult } from 'models/Device';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosGw } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
+import { DeviceRttyApiResponse, GatewayDevice, WifiScanCommand, WifiScanResult } from '../../models/Device';
 
 export const useGetDevice = ({ serialNumber, onClose }: { serialNumber: string; onClose?: () => void }) => {
   const { t } = useTranslation();
@@ -114,6 +114,40 @@ export const useWifiScanDevice = ({ serialNumber }: { serialNumber: string }) =>
           isClosable: true,
           position: 'top-right',
         });
+      },
+    },
+  );
+};
+
+export const useGetDeviceRtty = ({ serialNumber, extraId }: { serialNumber: string; extraId: string | number }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
+    ['get-gateway-device-rtty', serialNumber, extraId],
+    () => axiosGw.get(`device/${serialNumber}/rtty`).then(({ data }: { data: DeviceRttyApiResponse }) => data),
+    {
+      enabled: false,
+      onSuccess: ({ server, viewport, connectionId }) => {
+        const url = `https://${server}:${viewport}/connect/${connectionId}`;
+        window.open(url, '_blank')?.focus();
+      },
+      onError: (e: AxiosError) => {
+        if (!toast.isActive('get-gateway-device-rtty-error'))
+          toast({
+            id: 'get-gateway-device-rtty',
+            title: t('common.error'),
+            description:
+              e?.response?.status === 404
+                ? t('devices.not_found_gateway')
+                : t('devices.error_rtty', {
+                    e: e?.response?.data?.ErrorDescription,
+                  }),
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
       },
     },
   );

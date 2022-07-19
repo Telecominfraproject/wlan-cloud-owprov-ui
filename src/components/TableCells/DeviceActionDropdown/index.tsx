@@ -1,10 +1,10 @@
 import React from 'react';
-import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip } from '@chakra-ui/react';
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, Spinner, Tooltip } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import useMutationResult from 'hooks/useMutationResult';
 import { Device } from 'models/Device';
-import { useBlinkDevice, useRebootDevice } from 'hooks/Network/GatewayDevices';
 import { Wrench } from 'phosphor-react';
+import { useBlinkDevice, useGetDeviceRtty, useRebootDevice } from 'hooks/Network/GatewayDevices';
 
 interface Props {
   device: Device;
@@ -24,7 +24,11 @@ const DeviceActionDropdown: React.FC<Props> = ({
   onOpenUpgradeModal,
 }) => {
   const { t } = useTranslation();
-  const { mutateAsync: reboot } = useRebootDevice({ serialNumber: device.serialNumber });
+  const { refetch: getRtty, isLoading: isRtty } = useGetDeviceRtty({
+    serialNumber: device.serialNumber,
+    extraId: 'inventory-modal',
+  });
+  const { mutateAsync: reboot, isLoading: isRebooting } = useRebootDevice({ serialNumber: device.serialNumber });
   const { mutateAsync: blink } = useBlinkDevice({ serialNumber: device.serialNumber });
   const { onSuccess: onRebootSuccess, onError: onRebootError } = useMutationResult({
     objName: t('devices.one'),
@@ -58,6 +62,7 @@ const DeviceActionDropdown: React.FC<Props> = ({
   const handleOpenScan = () => onOpenScan(device.serialNumber);
   const handleOpenFactoryReset = () => onOpenFactoryReset(device.serialNumber);
   const handleOpenUpgrade = () => onOpenUpgradeModal(device.serialNumber);
+  const handleConnectClick = () => getRtty();
 
   return (
     <Menu>
@@ -65,7 +70,7 @@ const DeviceActionDropdown: React.FC<Props> = ({
         <MenuButton
           as={IconButton}
           aria-label="Commands"
-          icon={<Wrench size={20} />}
+          icon={isRebooting || isRtty ? <Spinner /> : <Wrench size={20} />}
           size="sm"
           isDisabled={isDisabled}
           ml={2}
@@ -74,16 +79,13 @@ const DeviceActionDropdown: React.FC<Props> = ({
       <MenuList>
         <MenuItem onClick={handleRebootClick}>{t('commands.reboot')}</MenuItem>
         <MenuItem onClick={handleBlinkClick}>{t('commands.blink')}</MenuItem>
+        <MenuItem onClick={handleConnectClick}>{t('commands.connect')}</MenuItem>
         <MenuItem onClick={handleOpenScan}>{t('commands.wifiscan')}</MenuItem>
         <MenuItem onClick={handleOpenUpgrade}>{t('commands.firmware_upgrade')}</MenuItem>
         <MenuItem onClick={handleOpenFactoryReset}>{t('commands.factory_reset')}</MenuItem>
       </MenuList>
     </Menu>
   );
-};
-
-DeviceActionDropdown.defaultProps = {
-  isDisabled: false,
 };
 
 export default React.memo(DeviceActionDropdown);
