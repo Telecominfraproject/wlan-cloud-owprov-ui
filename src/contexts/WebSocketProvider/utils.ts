@@ -1,7 +1,12 @@
 import { StringMap, TOptions } from 'i18next';
 import { WebSocketNotification } from 'models/WebSocket';
 
-export const acceptedNotificationTypes = ['venue_configuration_update', 'entity_configuration_update'];
+export const acceptedNotificationTypes = [
+  'venue_configuration_update',
+  'entity_configuration_update',
+  'venue_rebooter',
+  'venue_upgrader',
+];
 
 type ResponseReturn =
   | undefined
@@ -49,12 +54,14 @@ export const getNotificationDescription = (
 ) => {
   if (
     notification.content.type === 'venue_configuration_update' ||
-    notification.content.type === 'entity_configuration_update'
+    notification.content.type === 'entity_configuration_update' ||
+    notification.content.type === 'venue_rebooter' ||
+    notification.content.type === 'venue_upgrader'
   ) {
     return t('configurations.notification_details', {
-      success: notification.content.success.length,
-      warning: notification.content.warning.length,
-      error: notification.content.error.length,
+      success: notification.content.success?.length ?? 0,
+      warning: notification.content.warning?.length ?? 0,
+      error: notification.content.error?.length ?? 0,
     });
   }
   return notification.content.details;

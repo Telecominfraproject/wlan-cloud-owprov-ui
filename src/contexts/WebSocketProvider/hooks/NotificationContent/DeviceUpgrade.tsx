@@ -8,13 +8,13 @@ interface Props {
   notification: WebSocketNotification;
 }
 
-const ConfigurationPushesNotificationContent = ({ notification }: Props) => {
+const DeviceUpgradeNotificationContent: React.FC<Props> = ({ notification }) => {
   const { t } = useTranslation();
 
   return (
     <>
       <Heading size="sm">
-        {t('configurations.successful_pushes', {
+        {t('inventory.successful_upgrades', {
           count: notification?.content?.success?.length ?? 0,
         })}
       </Heading>
@@ -28,7 +28,7 @@ const ConfigurationPushesNotificationContent = ({ notification }: Props) => {
         </Box>
       )}
       <Heading size="sm" mt={4}>
-        {t('configurations.warning_pushes', { count: notification?.content?.warning?.length ?? 0 })}
+        {t('inventory.warning_upgrades', { count: notification?.content?.warning?.length ?? 0 })}
       </Heading>
       {notification?.content?.warning && (
         <Box maxH="200px" overflowY="auto">
@@ -40,7 +40,7 @@ const ConfigurationPushesNotificationContent = ({ notification }: Props) => {
         </Box>
       )}
       <Heading size="sm" mt={4}>
-        {t('configurations.error_pushes', { count: notification?.content?.error?.length ?? 0 })}
+        {t('inventory.error_upgrades', { count: notification?.content?.error?.length ?? 0 })}
       </Heading>
       {notification?.content?.error && (
         <Box maxH="200px" overflowY="auto">
@@ -55,4 +55,4 @@ const ConfigurationPushesNotificationContent = ({ notification }: Props) => {
   );
 };
 
-export default ConfigurationPushesNotificationContent;
+export default DeviceUpgradeNotificationContent;
