@@ -24,6 +24,7 @@ export interface Device {
   operatorId: string;
   id: string;
   serialNumber: string;
+  deviceType: string;
   location: DeviceLocation;
   contact: DeviceContact;
   configuration?: Configuration[];
@@ -90,3 +91,9 @@ export interface ScanChannel {
   channel: number;
   devices: DeviceScanResult[];
 }
+
+export type DeviceRttyApiResponse = {
+  server: string;
+  viewport: string;
+  connectionId: string;
+};
