@@ -123,3 +123,40 @@ export const useVerifyCode = ({ phoneNumber }: { phoneNumber: string }) =>
       to: phoneNumber,
     }),
   );
+
+export const useUpdateAccount = ({ user }: { user: User }) => {
+  const queryClient = useQueryClient();
+
+  return useMutation((userInfo) => axiosSec.put(`user/${user.id}`, userInfo), {
+    onSuccess: (data) => {
+      const newUser = {
+        ...user,
+        name: data.data.name,
+        description: data.data.description,
+        notes: data.data.notes,
+        userTypeProprietaryInfo: data.data.userTypeProprietaryInfo,
+      };
+      queryClient.setQueryData(['get-user-profile'], newUser);
+    },
+  });
+};
+
+export const useDeleteAvatar = ({ user, refetch }: { user: User; refetch?: () => void }) =>
+  useMutation(() => axiosSec.delete(`avatar/${user.id}`), {
+    onSuccess: () => {
+      if (refetch) refetch();
+    },
+  });
+
+const addAvatar = (userId: string, avatarFile: string) => {
+  const data = new FormData();
+  data.append('file', avatarFile);
+  return axiosSec.post(`/avatar/${userId}`, data);
+};
+
+export const useUpdateAvatar = ({ user, refetch }: { user: User; refetch?: () => void }) =>
+  useMutation((newAvatar: string) => addAvatar(user.id, newAvatar), {
+    onSuccess: () => {
+      if (refetch) refetch();
+    },
+  });
