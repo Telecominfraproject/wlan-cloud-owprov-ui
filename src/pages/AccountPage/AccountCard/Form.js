@@ -20,15 +20,15 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import NotesTable from 'components/CustomFields/NotesTable';
-import { useAuth } from 'contexts/AuthProvider';
-import { UpdateUserSchema } from 'constants/formSchemas';
-import VerifyNumberModal from 'components/VerifyNumberModal';
-import StringField from 'components/FormFields/StringField';
-import FileInputButton from 'components/Buttons/FileInputButton';
-import SelectField from 'components/FormFields/SelectField';
-import useApiRequirements from 'hooks/useApiRequirements';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { useAuth } from 'contexts/AuthProvider';
+import useApiRequirements from 'hooks/useApiRequirements';
+import { UpdateUserSchema } from 'constants/formSchemas';
+import FileInputButton from 'components/Buttons/FileInputButton';
+import StringField from 'components/FormFields/StringField';
+import SelectField from 'components/FormFields/SelectField';
+import VerifyNumberModal from 'components/VerifyNumberModal';
+import { NotesField } from 'components/FormFields/NotesField';
 import MfaSelectField from './MfaSelectField';
 
 const propTypes = {
@@ -208,7 +208,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                                 { value: 'system', label: 'System' },
                               ]}
                               isRequired
-                              isDisabled={!editing}
+                              isDisabled
                             />
                             <StringField name="name" label={t('common.name')} isDisabled={!editing} />
                             <StringField
@@ -232,7 +232,7 @@ const UpdateAccountForm = ({ updateUser, deleteAvatar, updateAvatar, finishUpdat
                   </Grid>
                 </TabPanel>
                 <TabPanel>
-                  <NotesTable name="notes" isDisabled={!editing} />
+                  <NotesField name="notes" isDisabled={!editing} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
