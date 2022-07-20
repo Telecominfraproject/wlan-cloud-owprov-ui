@@ -1,16 +1,30 @@
 import { useToast } from '@chakra-ui/react';
-import { AxiosError, AxiosInstance } from 'axios';
+import { AxiosError } from 'axios';
 import { System } from 'models/System';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { errorToast, successToast } from 'utils/toastHelper';
+import * as axios from 'axios';
 
-export const useGetSystemInfo = ({ axiosInstance, name }: { axiosInstance: AxiosInstance; name: string }) => {
+const axiosInstance = axios.default.create();
+
+axiosInstance.defaults.timeout = 120000;
+axiosInstance.defaults.headers.get.Accept = 'application/json';
+axiosInstance.defaults.headers.post.Accept = 'application/json';
+
+export const useGetSystemInfo = ({ endpoint, name, token }: { endpoint: string; name: string; token: string }) => {
   const { t } = useTranslation();
   const toast = useToast();
   return useQuery(
     ['get-system-info', name],
-    () => axiosInstance.get('/system?command=info').then(({ data }: { data: System }) => data),
+    () =>
+      axiosInstance
+        .get(`${endpoint}/api/v1/system?command=info`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(({ data }: { data: System }) => data),
     {
       staleTime: 60000,
       onError: (e: AxiosError) => {
@@ -33,13 +47,15 @@ export const useGetSystemInfo = ({ axiosInstance, name }: { axiosInstance: Axios
 };
 
 export const useGetSubsystems = ({
+  endpoint,
   enabled,
-  axiosInstance,
   name,
+  token,
 }: {
+  endpoint: string;
   enabled: boolean;
-  axiosInstance: AxiosInstance;
   name: string;
+  token: string;
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
@@ -48,7 +64,15 @@ export const useGetSubsystems = ({
     ['get-subsystems', name],
     () =>
       axiosInstance
-        .post('/system', { command: 'getsubsystemnames' })
+        .post(
+          `${endpoint}/api/v1/system`,
+          { command: 'getsubsystemnames' },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        )
         .then(({ data }: { data: { list: string[] } }) => data.list),
     {
       staleTime: 60000,
@@ -73,17 +97,28 @@ export const useGetSubsystems = ({
 };
 
 export const useReloadSubsystems = ({
-  axiosInstance,
+  endpoint,
   resetSubs,
+  token,
 }: {
-  axiosInstance: AxiosInstance;
+  endpoint: string;
   resetSubs: () => void;
+  token: string;
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
 
   return useMutation(
-    (subsToReload: string[]) => axiosInstance.post(`system`, { command: 'reload', subsystems: subsToReload }),
+    (subsToReload: string[]) =>
+      axiosInstance.post(
+        `${endpoint}/api/v1/system`,
+        { command: 'reload', subsystems: subsToReload },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      ),
     {
       onSuccess: () => {
         toast(
