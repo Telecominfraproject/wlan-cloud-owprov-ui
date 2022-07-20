@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { AxiosInstance } from 'axios';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -23,26 +22,17 @@ import { useGetSubsystems, useGetSystemInfo, useReloadSubsystems } from 'hooks/N
 import FormattedDate from 'components/FormattedDate';
 import { compactSecondsToDetailed } from 'utils/dateFormatting';
 import { MultiValue, Select } from 'chakra-react-select';
-import { useAuth } from 'contexts/AuthProvider';
-import CardBody from 'components/Card/CardBody';
+import { EndpointApiResponse } from 'hooks/Network/Endpoints';
 import Card from 'components/Card';
-import { axiosSec } from 'utils/axiosInstances';
+import CardBody from 'components/Card/CardBody';
 import SystemCertificatesTable from './SystemCertificatesTable';
 
 interface Props {
-  axiosInstance: AxiosInstance;
-  name: string;
+  endpoint: EndpointApiResponse;
+  token: string;
 }
 
-const SystemTile: React.FC<Props> = ({ axiosInstance, name }) => {
-  const { endpoints } = useAuth();
-  if (
-    endpoints === null ||
-    (endpoints[name] === undefined && name !== 'owsec') ||
-    (name !== 'owsec' && axiosSec.defaults.baseURL === axiosInstance.defaults.baseURL)
-  ) {
-    return null;
-  }
+const SystemTile: React.FC<Props> = ({ endpoint, token }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [subs, setSubs] = useState<{ value: string; label: string }[]>([]);
@@ -50,14 +40,18 @@ const SystemTile: React.FC<Props> = ({ axiosInstance, name }) => {
     data: system,
     refetch: refreshSystem,
     isFetching: isFetchingSystem,
-  } = useGetSystemInfo({ axiosInstance, name });
+  } = useGetSystemInfo({ endpoint: endpoint.uri, name: endpoint.type, token });
   const {
     data: subsystems,
     refetch: refreshSubsystems,
     isFetching: isFetchingSubsystems,
-  } = useGetSubsystems({ enabled: true, axiosInstance, name });
+  } = useGetSubsystems({ enabled: true, endpoint: endpoint.uri, name: endpoint.type, token });
   const resetSubs = () => setSubs([]);
-  const { mutateAsync: reloadSubsystems, isLoading: isReloading } = useReloadSubsystems({ axiosInstance, resetSubs });
+  const { mutateAsync: reloadSubsystems, isLoading: isReloading } = useReloadSubsystems({
+    endpoint: endpoint.uri,
+    resetSubs,
+    token,
+  });
 
   const handleReloadClick = () => {
     reloadSubsystems(subs.map((sub) => sub.value));
@@ -72,7 +66,7 @@ const SystemTile: React.FC<Props> = ({ axiosInstance, name }) => {
     <>
       <Card>
         <Box display="flex" mb={2}>
-          <Heading pt={0}>{name}</Heading>
+          <Heading pt={0}>{endpoint.type}</Heading>
           <Spacer />
           <Button
             mt={1}
@@ -90,7 +84,7 @@ const SystemTile: React.FC<Props> = ({ axiosInstance, name }) => {
             <SimpleGrid minChildWidth="500px" w="100%">
               <Flex>
                 <Box w="150px">{t('system.endpoint')}:</Box>
-                {axiosInstance.defaults.baseURL}
+                {endpoint.uri}
               </Flex>
               <Flex>
                 <Box w="150px">{t('system.hostname')}:</Box>
