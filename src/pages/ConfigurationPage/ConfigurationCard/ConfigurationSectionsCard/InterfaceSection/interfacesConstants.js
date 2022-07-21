@@ -213,16 +213,14 @@ export const INTERFACE_SSID_ROAMING_SCHEMA = (t, useDefault = false) => {
 export const INTERFACE_SSID_RRM_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
-      'neighbor-reporting': bool().required(t('form.required')).default(false),
-      lci: string().required(t('form.required')).default(''),
-      'civic-location': string().required(t('form.required')).default(''),
-      'ftm-responder': bool().required(t('form.required')).default(false),
-      'stationary-ap': bool().required(t('form.required')).default(false),
+      'neighbor-reporting': bool().default(false),
+      lci: string().default(''),
+      'civic-location': string().default(''),
+      'ftm-responder': bool().default(false),
+      'stationary-ap': bool().default(false),
     })
     .default({
       'neighbor-reporting': false,
-      lci: '',
-      'civic-location': '',
       'ftm-responder': false,
       'stationary-ap': false,
     });

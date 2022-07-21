@@ -30,35 +30,32 @@ const RrmForm: React.FC<Props> = ({ editing, namePrefix, isEnabled, onToggle }) 
           label="neighbor-reporting"
           definitionKey="interface.ssid.rrm.neighbor-reporting"
           isDisabled={!editing}
-          isRequired
         />
         <StringField
           name={`${namePrefix}.lci`}
           label="lci"
           definitionKey="interface.ssid.rrm.lci"
           isDisabled={!editing}
-          isRequired
+          emptyIsUndefined
         />
         <StringField
           name={`${namePrefix}.civic-location`}
           label="civic-location"
           definitionKey="interface.ssid.rrm.civic-location"
           isDisabled={!editing}
-          isRequired
+          emptyIsUndefined
         />
         <ToggleField
           name={`${namePrefix}.ftm-responder`}
           label="ftm-responder"
           definitionKey="interface.ssid.rrm.ftm-responder"
           isDisabled={!editing}
-          isRequired
         />
         <ToggleField
           name={`${namePrefix}.stationary-ap`}
           label="stationary-ap"
           definitionKey="interface.ssid.rrm.stationary-ap"
           isDisabled={!editing}
-          isRequired
         />
       </SimpleGrid>
     )}
