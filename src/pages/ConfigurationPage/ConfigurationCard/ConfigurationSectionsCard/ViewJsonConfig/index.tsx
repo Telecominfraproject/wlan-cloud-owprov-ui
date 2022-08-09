@@ -1,5 +1,4 @@
 import React from 'react';
-import isEqual from 'react-fast-compare';
 import {
   Button,
   IconButton,
@@ -11,11 +10,12 @@ import {
   ModalContent,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 import { ArrowsOut } from 'phosphor-react';
+import isEqual from 'react-fast-compare';
+import { useTranslation } from 'react-i18next';
 import ModalHeader from 'components/Modals/ModalHeader';
-import CloseButton from 'components/Buttons/CloseButton';
 import { InterfaceProps } from 'models/ConfigurationSections/Interfaces';
+import CloseButton from 'components/Buttons/CloseButton';
 import useInterfacesJsonDisplay from './useInterfacesJsonDisplay';
 
 interface Props {
@@ -38,6 +38,30 @@ const ViewJsonConfigModal: React.FC<Props> = ({ configurations, activeConfigurat
   const { isOpen, onOpen, onClose } = useDisclosure();
   const interfaces = useInterfacesJsonDisplay({ interfaces: configurations.interfaces?.configuration, isOpen });
   const breakpoint = useBreakpoint();
+
+  const configStringToDisplay = () => {
+    try {
+      const finalConfig = {};
+      const configToDisplay = {
+        globals: activeConfigurations.includes('globals') ? configurations.globals : undefined,
+        unit: activeConfigurations.includes('unit') ? configurations.unit : undefined,
+        metrics: activeConfigurations.includes('metrics') ? configurations.metrics : undefined,
+        services: activeConfigurations.includes('services') ? configurations.services : undefined,
+        radios: activeConfigurations.includes('radios') ? configurations.radios : undefined,
+      };
+
+      for (const [key, config] of Object.entries(configToDisplay)) {
+        if (config) {
+          // @ts-ignore
+          finalConfig[key] = config.configuration;
+        }
+      }
+
+      return JSON.stringify({ ...finalConfig, interfaces }, null, 2);
+    } catch (e) {
+      return null;
+    }
+  };
 
   return (
     <>
@@ -73,20 +97,7 @@ const ViewJsonConfigModal: React.FC<Props> = ({ configurations, activeConfigurat
             right={<CloseButton ml={2} onClick={onClose} />}
           />
           <ModalBody>
-            <pre>
-              {JSON.stringify(
-                {
-                  globals: activeConfigurations.includes('globals') ? configurations.globals : undefined,
-                  unit: activeConfigurations.includes('unit') ? configurations.unit : undefined,
-                  metrics: activeConfigurations.includes('metrics') ? configurations.metrics : undefined,
-                  services: activeConfigurations.includes('services') ? configurations.services : undefined,
-                  radios: activeConfigurations.includes('radios') ? configurations.radios : undefined,
-                  interfaces,
-                },
-                null,
-                2,
-              )}
-            </pre>
+            <pre>{configStringToDisplay()}</pre>
           </ModalBody>
         </ModalContent>
       </Modal>
