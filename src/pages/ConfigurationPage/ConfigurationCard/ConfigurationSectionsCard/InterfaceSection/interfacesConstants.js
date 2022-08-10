@@ -113,26 +113,26 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
       'chargeable-user-id': bool().default(undefined),
       authentication: object()
         .shape({
-          host: string().required(t('form.required')).default('192.168.178.192'),
+          host: string().required(t('form.required')).default(''),
           port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1812),
-          secret: string().required(t('form.required')).min(8).max(63).default('YOUR_SECRET'),
+          secret: string().required(t('form.required')).default(''),
           'mac-filter': bool().default(undefined),
         })
         .nullable()
         .default(undefined),
       accounting: object()
         .shape({
-          host: string().required(t('form.required')).default('192.168.178.192'),
+          host: string().required(t('form.required')).default(''),
           port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
-          secret: string().required(t('form.required')).min(8).max(63).default('YOUR_SECRET'),
+          secret: string().required(t('form.required')).default(''),
         })
         .nullable()
         .default(undefined),
       'dynamic-authorization': object()
         .shape({
-          host: string().required(t('form.required')).default('YOUR_SECRET'),
+          host: string().required(t('form.required')).default(''),
           port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
-          secret: string().required(t('form.required')).min(8).max(63).default(''),
+          secret: string().required(t('form.required')).default(''),
         })
         .nullable()
         .default(undefined),
@@ -230,7 +230,7 @@ export const INTERFACE_SSID_RRM_SCHEMA = (t, useDefault = false) => {
 
 export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    name: string().required(t('form.required')).default('YOUR_SSID'),
+    name: string().required(t('form.required')).default(''),
     purpose: string().default(undefined),
     'wifi-bands': array().of(string()).required(t('form.required')).min(1, t('form.required')).default(['2G', '5G']),
     'bss-mode': string().required(t('form.required')).default('ap'),
@@ -484,7 +484,7 @@ export const INTERFACE_TUNNEL_SCHEMA = (t, useDefault = false) => {
     }),
     password: string().when('proto', {
       is: 'l2tp',
-      then: string().required(t('form.required')).min(8).max(63).default(''),
+      then: string().required(t('form.required')).default(''),
       otherwise: string().nullable(),
     }),
   });
