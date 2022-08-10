@@ -42,7 +42,7 @@ const CreateVenueModal = ({ parentId, entityId, isDisabled }) => {
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
           <ModalHeader
-            title={t('venues.create_child')}
+            title={t('crud.create_object', { obj: t('venues.sub_one') })}
             right={
               <>
                 <SaveButton

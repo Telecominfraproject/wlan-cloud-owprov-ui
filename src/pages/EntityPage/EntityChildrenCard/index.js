@@ -27,8 +27,8 @@ const EntityChildrenCard = ({ id }) => {
       <CardBody>
         <Tabs isLazy variant="enclosed" w="100%">
           <TabList>
-            <Tab>{t('entities.title')}</Tab>
-            <Tab>{t('venues.title')}</Tab>
+            <Tab>{t('entities.sub_other')}</Tab>
+            <Tab>{t('venues.sub_other')}</Tab>
             <Tab>{t('configurations.title')}</Tab>
             <Tab>{t('inventory.title')}</Tab>
             <Tab>{t('locations.other')}</Tab>
