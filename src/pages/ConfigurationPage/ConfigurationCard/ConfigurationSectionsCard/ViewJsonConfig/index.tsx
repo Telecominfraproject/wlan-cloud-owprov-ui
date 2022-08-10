@@ -57,7 +57,11 @@ const ViewJsonConfigModal: React.FC<Props> = ({ configurations, activeConfigurat
         }
       }
 
-      return JSON.stringify({ ...finalConfig, interfaces }, null, 2);
+      return JSON.stringify(
+        { ...finalConfig, interfaces: activeConfigurations.includes('interfaces') ? interfaces : undefined },
+        null,
+        2,
+      );
     } catch (e) {
       return null;
     }

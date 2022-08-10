@@ -52,14 +52,14 @@ export const RADIUS_SCHEMA = (t: (str: string) => string, useDefault = false) =>
       authentication: object().shape({
         host: string().required(t('form.required')).default('192.168.178.192'),
         port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1812),
-        secret: string().required(t('form.required')).min(8).max(63).default(''),
+        secret: string().required(t('form.required')).default(''),
         'mac-filter': bool().default(undefined),
       }),
       accounting: object()
         .shape({
           host: string().required(t('form.required')).default('192.168.178.192'),
           port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
-          secret: string().required(t('form.required')).min(8).max(63).default(''),
+          secret: string().required(t('form.required')).default(''),
         })
         .nullable()
         .default(undefined),
@@ -67,7 +67,7 @@ export const RADIUS_SCHEMA = (t: (str: string) => string, useDefault = false) =>
         .shape({
           host: string().required(t('form.required')).default('192.168.178.192'),
           port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
-          secret: string().required(t('form.required')).min(8).max(63).default(''),
+          secret: string().required(t('form.required')).default(''),
         })
         .nullable()
         .default(undefined),
@@ -94,13 +94,13 @@ export const EDIT_SCHEMA = (t: (str: string) => string) =>
     authentication: object().shape({
       host: string().required(t('form.required')).default(''),
       port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1812),
-      secret: string().required(t('form.required')).min(8).max(63).default(''),
+      secret: string().required(t('form.required')).default(''),
     }),
     accounting: object()
       .shape({
         host: string().required(t('form.required')).default(''),
         port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
-        secret: string().required(t('form.required')).min(8).max(63).default(''),
+        secret: string().required(t('form.required')).default(''),
       })
       .nullable()
       .default(undefined),
@@ -108,7 +108,7 @@ export const EDIT_SCHEMA = (t: (str: string) => string) =>
       .shape({
         host: string().required(t('form.required')).default(''),
         port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
-        secret: string().required(t('form.required')).min(8).max(63).default(''),
+        secret: string().required(t('form.required')).default(''),
       })
       .nullable()
       .default(undefined),
