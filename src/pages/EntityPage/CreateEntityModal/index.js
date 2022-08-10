@@ -39,7 +39,7 @@ const CreateEntityModal = ({ parentId, isDisabled }) => {
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
           <ModalHeader
-            title={t('entities.create_child_entity')}
+            title={t('crud.create_object', { obj: t('entities.sub_one') })}
             right={
               <>
                 <SaveButton
