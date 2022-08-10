@@ -21,7 +21,7 @@ import routes from 'router/routes';
 import { useAuth } from 'contexts/AuthProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { uppercaseFirstLetter } from 'utils/stringHelper';
-import { MapTrifold } from 'phosphor-react';
+import { ArrowCircleLeft, MapTrifold } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from 'components/LanguageSwitcher';
 
@@ -80,6 +80,8 @@ const Navbar: React.FC<Props> = ({ secondary, toggleSidebar, isSidebarOpen }) =>
     secondaryMargin = '22px';
   }
 
+  const goBack = () => navigate(-1);
+
   const changeNavbar = () => {
     if (window.scrollY > 1) {
       setScrolled(true);
@@ -128,8 +130,18 @@ const Navbar: React.FC<Props> = ({ secondary, toggleSidebar, isSidebarOpen }) =>
       }}
     >
       <Flex w="100%" flexDirection="row" alignItems="center">
-        <HamburgerIcon w="24px" h="24px" onClick={toggleSidebar} mr={10} />
+        <HamburgerIcon w="24px" h="24px" onClick={toggleSidebar} mr={10} mt={1} />
         <Heading>{t(getActiveRoute())}</Heading>
+        <Tooltip label={t('common.go_back')}>
+          <IconButton
+            mt={2}
+            ml={4}
+            colorScheme="blue"
+            aria-label={t('common.go_back')}
+            onClick={goBack}
+            icon={<ArrowCircleLeft width={20} height={20} />}
+          />
+        </Tooltip>
         <Box ms="auto" w={{ base: 'unset' }}>
           <Flex alignItems="center" flexDirection="row">
             <Tooltip hasArrow label={t('common.go_to_map')}>
