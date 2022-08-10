@@ -1,6 +1,7 @@
 import React from 'react';
 import StringField from 'components/FormFields/StringField';
 import NumberField from 'components/FormFields/NumberField';
+import ToggleField from 'components/FormFields/ToggleField';
 
 const TunnelValues: React.FC<{
   editing: boolean;
@@ -64,14 +65,24 @@ const TunnelValues: React.FC<{
   }
 
   return (
-    <StringField
-      key="gre.peer-address"
-      name={`configuration[${index}].tunnel.peer-address`}
-      label="peer-address"
-      definitionKey="interface.tunnel.gre.peer-address"
-      isDisabled={!editing}
-      isRequired
-    />
+    <>
+      <StringField
+        key="gre.peer-address"
+        name={`configuration[${index}].tunnel.peer-address`}
+        label="peer-address"
+        definitionKey="interface.tunnel.gre.peer-address"
+        isDisabled={!editing}
+        isRequired
+      />
+      <ToggleField
+        key="gre.dhcp-healthcheck"
+        name={`configuration[${index}].tunnel.dhcp-healthcheck`}
+        label="dhcp-healthcheck"
+        definitionKey="interface.tunnel.gre.dhcp-healthcheck"
+        isDisabled={!editing}
+        isRequired
+      />
+    </>
   );
 };
 

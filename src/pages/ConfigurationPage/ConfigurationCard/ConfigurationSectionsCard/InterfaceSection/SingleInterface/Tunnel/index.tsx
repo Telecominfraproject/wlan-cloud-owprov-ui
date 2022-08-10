@@ -36,6 +36,7 @@ const Tunnel: React.FC<{ editing: boolean; index: number }> = ({ editing, index 
         onChange({
           proto: 'gre',
           'peer-address': '192.168.0.1',
+          'dhcp-healthcheck': true,
         });
       }
     },
