@@ -11,9 +11,10 @@ const IpV4Form: React.FC<{
   editing: boolean;
   index: number;
   ipv4: string;
+  role: string;
   onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}> = ({ editing, index, ipv4, onToggle, onChange }) => {
+}> = ({ editing, index, ipv4, role, onToggle, onChange }) => {
   const portFields = useMemo(
     () => (
       <>
@@ -100,7 +101,7 @@ const IpV4Form: React.FC<{
             <option value="static">static</option>
           </Select>
         </FormControl>
-        {ipv4 !== '' && (
+        {role === 'downstream' && ipv4 !== '' && (
           <ObjectArrayFieldModal
             name={`configuration[${index}].ipv4.port-forward`}
             label="port-forward"
@@ -112,6 +113,7 @@ const IpV4Form: React.FC<{
             options={portOpts}
             hideLabel
             isRequired
+            emptyIsUndefined
           />
         )}
       </Heading>

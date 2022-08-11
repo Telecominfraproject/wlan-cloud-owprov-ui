@@ -15,9 +15,10 @@ const IpV6: React.FC<{
   editing: boolean;
   index: number;
   ipv6: string;
+  role: string;
   onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}> = ({ editing, index, ipv6, onToggle, onChange }) => {
+}> = ({ editing, index, ipv6, role, onToggle, onChange }) => {
   const arrCell = useCallback((cell, key) => <ArrayCell arr={cell.row.values[key]} key={uuid()} />, []);
 
   const portFields = useMemo(
@@ -194,7 +195,7 @@ const IpV6: React.FC<{
             <option value="static">static</option>
           </Select>
         </FormControl>
-        {ipv6 !== '' && (
+        {role === 'downstream' && ipv6 !== '' && (
           <Flex>
             <ObjectArrayFieldModal
               name={`configuration[${index}].ipv6.port-forward`}
@@ -205,6 +206,7 @@ const IpV6: React.FC<{
               schema={INTERFACE_IPV6_PORT_FORWARD_SCHEMA}
               isDisabled={!editing}
               hideLabel
+              emptyIsUndefined
               isRequired
             />
             <Spacer w={12} />
@@ -217,6 +219,7 @@ const IpV6: React.FC<{
               schema={INTERFACE_IPV6_TRAFFIC_ALLOW_SCHEMA}
               isDisabled={!editing}
               hideLabel
+              emptyIsUndefined
               isRequired
             />
           </Flex>

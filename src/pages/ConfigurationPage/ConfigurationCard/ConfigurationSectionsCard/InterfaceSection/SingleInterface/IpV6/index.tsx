@@ -7,6 +7,7 @@ import Ipv6Form from './Ipv6';
 const Ipv6: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
   const { t } = useTranslation();
   const { value, onChange } = useFastField({ name: `configuration[${index}].ipv6` });
+  const { value: role } = useFastField({ name: `configuration[${index}].role` });
 
   const { ipv6 } = useMemo(
     () => ({
@@ -33,12 +34,16 @@ const Ipv6: React.FC<{ editing: boolean; index: number }> = ({ editing, index })
     else {
       onChange({
         ...INTERFACE_IPV6_SCHEMA(t, true).cast(),
+        'port-forward': undefined,
+        'destination-ports': undefined,
         addressing: 'static',
       });
     }
   }, []);
 
-  return <Ipv6Form ipv6={ipv6} editing={editing} index={index} onToggle={onToggle} onChange={onIpv6Change} />;
+  return (
+    <Ipv6Form ipv6={ipv6} role={role} editing={editing} index={index} onToggle={onToggle} onChange={onIpv6Change} />
+  );
 };
 
 export default React.memo(Ipv6);
