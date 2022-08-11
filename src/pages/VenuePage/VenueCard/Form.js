@@ -154,19 +154,56 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
                   queryClient.invalidateQueries(['get-board', venue.boards[0]]);
                 },
                 onError: (e) => {
-                  toast({
-                    id: uuid(),
-                    title: t('common.error'),
-                    description: t('crud.error_update_obj', {
-                      obj: t('analytics.board'),
-                      e: e?.response?.data?.ErrorDescription,
-                    }),
-                    status: 'error',
-                    duration: 5000,
-                    isClosable: true,
-                    position: 'top-right',
-                  });
-                  setSubmitting(false);
+                  if (e?.response?.status === 404) {
+                    createAnalytics.mutateAsync(
+                      {
+                        name: __BOARD.name,
+                        venueList: [
+                          {
+                            id: venue.id,
+                            name,
+                            retention: __BOARD.retention,
+                            interval: __BOARD.interval,
+                            monitorSubVenues: __BOARD.monitorSubVenues,
+                          },
+                        ],
+                      },
+                      {
+                        onSuccess: ({ data: boardData }) => {
+                          if (boardData && boardData.id && boardData.id.length > 0) updateVenueWithInfo([boardData.id]);
+                        },
+                        onError: (createError) => {
+                          toast({
+                            id: uuid(),
+                            title: t('common.error'),
+                            description: t('crud.error_create_obj', {
+                              obj: t('analytics.board'),
+                              e: createError?.response?.data?.ErrorDescription,
+                            }),
+                            status: 'error',
+                            duration: 5000,
+                            isClosable: true,
+                            position: 'top-right',
+                          });
+                          setSubmitting(false);
+                        },
+                      },
+                    );
+                  } else {
+                    toast({
+                      id: uuid(),
+                      title: t('common.error'),
+                      description: t('crud.error_update_obj', {
+                        obj: t('analytics.board'),
+                        e: e?.response?.data?.ErrorDescription,
+                      }),
+                      status: 'error',
+                      duration: 5000,
+                      isClosable: true,
+                      position: 'top-right',
+                    });
+                    setSubmitting(false);
+                  }
                 },
               },
             );
