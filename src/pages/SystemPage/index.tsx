@@ -29,7 +29,7 @@ const SystemPage = () => {
         return 0;
       })
       .map((endpoint) => <SystemTile key={uuid()} endpoint={endpoint} token={token} />);
-  }, [endpoints, token]);
+  }, [endpoints, token, isUserLoaded]);
 
   return (
     <Flex flexDirection="column" pt="75px">

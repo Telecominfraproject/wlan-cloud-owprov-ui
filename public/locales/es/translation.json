@@ -663,6 +663,7 @@
 		"title": "Suscriptores"
 	},
 	"system": {
+		"could_not_retrieve": "Error: no se pudo recuperar la información del sistema {{name}} ",
 		"endpoint": "punto final",
 		"hostname": "Nombre de host",
 		"info": "Información del sistema",

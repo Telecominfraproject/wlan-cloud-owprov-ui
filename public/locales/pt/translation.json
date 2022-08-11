@@ -663,6 +663,7 @@
 		"title": "Inscritos"
 	},
 	"system": {
+		"could_not_retrieve": "Erro: não foi possível recuperar {{name}} informações do sistema",
 		"endpoint": "Ponto final",
 		"hostname": "Nome de anfitrião",
 		"info": "Informação do sistema",
