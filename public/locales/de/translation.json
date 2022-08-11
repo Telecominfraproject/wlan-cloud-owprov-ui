@@ -663,6 +663,7 @@
 		"title": "Abonnenten"
 	},
 	"system": {
+		"could_not_retrieve": "Fehler: {{name}} Systeminformationen konnten nicht abgerufen werden",
 		"endpoint": "Endpunkt",
 		"hostname": "Hostname",
 		"info": "Systeminformationen",

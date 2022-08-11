@@ -663,6 +663,7 @@
 		"title": "Les abonnés"
 	},
 	"system": {
+		"could_not_retrieve": "Erreur : impossible de récupérer les informations système {{name}} ",
 		"endpoint": "Point final",
 		"hostname": "nom d'hôte",
 		"info": "Information système",

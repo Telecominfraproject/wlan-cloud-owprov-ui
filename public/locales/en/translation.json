@@ -663,6 +663,7 @@
 		"title": "Subscribers"
 	},
 	"system": {
+		"could_not_retrieve": "Error: could not retrieve {{name}} system information",
 		"endpoint": "Endpoint",
 		"hostname": "Host Name",
 		"info": "System Info",

@@ -16,7 +16,7 @@ export const useGetSystemInfo = ({ endpoint, name, token }: { endpoint: string; 
   const { t } = useTranslation();
   const toast = useToast();
   return useQuery(
-    ['get-system-info', name],
+    ['get-system-info', name, endpoint],
     () =>
       axiosInstance
         .get(`${endpoint}/api/v1/system?command=info`, {
@@ -27,14 +27,13 @@ export const useGetSystemInfo = ({ endpoint, name, token }: { endpoint: string; 
         .then(({ data }: { data: System }) => data),
     {
       staleTime: 60000,
-      onError: (e: AxiosError) => {
-        if (!toast.isActive('system-fetching-error'))
+      onError: () => {
+        if (!toast.isActive(`system-fetching-error-${name}`))
           toast({
             id: 'system-fetching-error',
             title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('system.title'),
-              e: e?.response?.data?.ErrorDescription,
+            description: t('system.could_not_retrieve', {
+              name,
             }),
             status: 'error',
             duration: 5000,
@@ -61,7 +60,7 @@ export const useGetSubsystems = ({
   const toast = useToast();
 
   return useQuery(
-    ['get-subsystems', name],
+    ['get-subsystems', name, endpoint],
     () =>
       axiosInstance
         .post(
@@ -77,14 +76,13 @@ export const useGetSubsystems = ({
     {
       staleTime: 60000,
       enabled,
-      onError: (e: AxiosError) => {
-        if (!toast.isActive('subsystems-fetching-error'))
+      onError: () => {
+        if (!toast.isActive(`subsystems-fetching-error-${name}`))
           toast({
             id: 'subsystems-fetching-error',
             title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('system.title'),
-              e: e?.response?.data?.ErrorDescription,
+            description: t('system.could_not_retrieve', {
+              name,
             }),
             status: 'error',
             duration: 5000,
