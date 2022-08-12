@@ -44,63 +44,68 @@ const VenueDashboard = ({ boardId }) => {
       deviceTypeTotals: {},
       deviceFirmwareTotals: {},
     };
+    try {
+      // Temporary values
+      const finalDevices = [];
+      const ignoredDevices = [];
+      let totalHealth = 0;
+      let totalUptime = 0;
+      let totalMemory = 0;
 
-    // Temporary values
-    const finalDevices = [];
-    const ignoredDevices = [];
-    let totalHealth = 0;
-    let totalUptime = 0;
-    let totalMemory = 0;
+      for (let i = 0; i < devices.length; i += 1) {
+        const device = devices[i];
+        if (device.deviceType !== '') {
+          const splitFirmware = device.lastFirmware.split(' / ');
+          let firmware = splitFirmware.length > 1 ? splitFirmware[1] : device.lastFirmware;
+          if (device.lastFirmware.length === 0) firmware = 'Unknown';
 
-    for (let i = 0; i < devices.length; i += 1) {
-      const device = devices[i];
-      if (device.deviceType !== '') {
-        const splitFirmware = device.lastFirmware.split(' / ');
-        if (finalData.deviceFirmwareTotals[splitFirmware.length > 0 ? splitFirmware[1] : 'Unknown'])
-          finalData.deviceFirmwareTotals[splitFirmware.length > 0 ? splitFirmware[1] : 'Unknown'] += 1;
-        else finalData.deviceFirmwareTotals[splitFirmware.length > 0 ? splitFirmware[1] : 'Unknown'] = 1;
+          if (finalData.deviceFirmwareTotals[firmware]) finalData.deviceFirmwareTotals[firmware] += 1;
+          else finalData.deviceFirmwareTotals[firmware] = 1;
 
-        if (finalData.deviceTypeTotals[device.deviceType]) finalData.deviceTypeTotals[device.deviceType] += 1;
-        else finalData.deviceTypeTotals[device.deviceType] = 1;
+          if (finalData.deviceTypeTotals[device.deviceType]) finalData.deviceTypeTotals[device.deviceType] += 1;
+          else finalData.deviceTypeTotals[device.deviceType] = 1;
 
-        if (device.associations_2g > 0) finalData.twoGAssociations += device.associations_2g;
-        if (device.associations_5g > 0) finalData.fiveGAssociations += device.associations_5g;
-        if (device.associations_6g > 0) finalData.sixGAssociations += device.associations_6g;
+          if (device.associations_2g > 0) finalData.twoGAssociations += device.associations_2g;
+          if (device.associations_5g > 0) finalData.fiveGAssociations += device.associations_5g;
+          if (device.associations_6g > 0) finalData.sixGAssociations += device.associations_6g;
 
-        device.memory = Math.round(device.memory);
+          device.memory = Math.round(device.memory);
 
-        if (device.connected) {
-          finalData.connectedDevices += 1;
-          totalHealth += device.health;
-          totalMemory += device.memory;
-          totalUptime += device.uptime;
-        } else finalData.disconnectedDevices += 1;
+          if (device.connected) {
+            finalData.connectedDevices += 1;
+            totalHealth += device.health;
+            totalMemory += device.memory;
+            totalUptime += device.uptime;
+          } else finalData.disconnectedDevices += 1;
 
-        finalDevices.push(device);
-      } else {
-        ignoredDevices.push(device);
-        if (device.connected) {
-          finalData.connectedDevices += 1;
-          totalMemory += Math.round(device.memory);
-          totalUptime += device.uptime;
-        } else finalData.disconnectedDevices += 1;
-        if (finalData.deviceFirmwareTotals.Unknown > 0) finalData.deviceFirmwareTotals.Unknown += 1;
-        else finalData.deviceFirmwareTotals.Unknown = 1;
-        if (finalData.deviceTypeTotals.Unknown > 0) finalData.deviceTypeTotals.Unknown += 1;
-        else finalData.deviceTypeTotals.Unknown = 1;
+          finalDevices.push(device);
+        } else {
+          ignoredDevices.push(device);
+          if (device.connected) {
+            finalData.connectedDevices += 1;
+            totalMemory += Math.round(device.memory);
+            totalUptime += device.uptime;
+          } else finalData.disconnectedDevices += 1;
+          if (finalData.deviceFirmwareTotals.Unknown > 0) finalData.deviceFirmwareTotals.Unknown += 1;
+          else finalData.deviceFirmwareTotals.Unknown = 1;
+          if (finalData.deviceTypeTotals.Unknown > 0) finalData.deviceTypeTotals.Unknown += 1;
+          else finalData.deviceTypeTotals.Unknown = 1;
+        }
       }
+      finalData.totalDevices = finalDevices.length + ignoredDevices.length;
+      finalData.connectedPercentage = Math.round(
+        (finalData.connectedDevices / Math.max(1, finalData.totalDevices)) * 100,
+      );
+      finalData.devices = finalDevices;
+      finalData.avgHealth = Math.round(totalHealth / Math.max(1, finalData.connectedDevices));
+      finalData.avgUptime = Math.round(totalUptime / Math.max(1, finalData.connectedDevices));
+      finalData.avgMemoryUsed = Math.round(totalMemory / Math.max(1, finalData.connectedDevices));
+      finalData.devices = finalDevices;
+      finalData.ignoredDevices = ignoredDevices;
+      return finalData;
+    } catch (e) {
+      return finalData;
     }
-    finalData.totalDevices = finalDevices.length + ignoredDevices.length;
-    finalData.connectedPercentage = Math.round(
-      (finalData.connectedDevices / Math.max(1, finalData.totalDevices)) * 100,
-    );
-    finalData.devices = finalDevices;
-    finalData.avgHealth = Math.round(totalHealth / Math.max(1, finalData.connectedDevices));
-    finalData.avgUptime = Math.round(totalUptime / Math.max(1, finalData.connectedDevices));
-    finalData.avgMemoryUsed = Math.round(totalMemory / Math.max(1, finalData.connectedDevices));
-    finalData.devices = finalDevices;
-    finalData.ignoredDevices = ignoredDevices;
-    return finalData;
   }, [devices]);
 
   useEffect(() => {
