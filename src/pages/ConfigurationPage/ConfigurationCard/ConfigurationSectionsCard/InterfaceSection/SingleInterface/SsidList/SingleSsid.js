@@ -81,6 +81,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
                 options={[
                   { value: '2G', label: '2G' },
                   { value: '5G', label: '5G' },
+                  { value: '6G', label: '6G' },
                 ]}
                 isRequired
               />
