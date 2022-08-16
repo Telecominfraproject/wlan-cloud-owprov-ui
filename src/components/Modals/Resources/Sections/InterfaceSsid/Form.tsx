@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import StringField from 'components/FormFields/StringField';
 import NumberField from 'components/FormFields/NumberField';
@@ -8,10 +7,6 @@ import ToggleField from 'components/FormFields/ToggleField';
 import SelectField from 'components/FormFields/SelectField';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
 import Encryption from './Encryption';
-
-const propTypes = {
-  isDisabled: PropTypes.bool.isRequired,
-};
 
 const InterfaceSsidResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
   const { t } = useTranslation();
@@ -44,6 +39,7 @@ const InterfaceSsidResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
           options={[
             { value: '2G', label: '2G' },
             { value: '5G', label: '5G' },
+            { value: '6G', label: '6G' },
           ]}
           isDisabled={isDisabled}
           isRequired
@@ -141,5 +137,4 @@ const InterfaceSsidResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
   );
 };
 
-InterfaceSsidResourceForm.propTypes = propTypes;
 export default React.memo(InterfaceSsidResourceForm);
