@@ -217,7 +217,6 @@
 		"device_details": "Gerätedetails",
 		"discard_changes": "Änderungen verwerfen?",
 		"disconnected": "Getrennt",
-		"display_name": "Anzeigename",
 		"download": "Herunterladen",
 		"download_instructions": "Herunterladen erfolgreich! Wenn Sie die Datei nicht finden können, bestätigen Sie bitte, dass Sie Downloads von dieser Website zulassen",
 		"duplicate": "Duplikat",
@@ -635,117 +634,6 @@
 	"organization": {
 		"my_organization": "Meine Organisation",
 		"title": "Organisation"
-	},
-	"premium": {
-		"analytics": {
-			"no_analytics_data": "Keine Analytics-Daten",
-			"total_devices_explanation": "Alle Geräte auf dieser Etage ({{connectedCount}} verbunden, {{disconnectedCount}} nicht verbunden)",
-			"total_devices_explanation_building": "Alle Geräte in diesem Gebäude ({{connectedCount}} verbunden, {{disconnectedCount}} nicht verbunden)"
-		},
-		"annotation": {
-			"added": "Anmerkungen hinzugefügt",
-			"available": "Verfügbare Anmerkungen",
-			"manage": "Anmerkungen verwalten",
-			"other": "Anmerkungen",
-			"reserved": "Verwendet in anderem Grundriss"
-		},
-		"asset": {
-			"added": "Hinzugefügte Vermögenswerte",
-			"audio": "Audio",
-			"audio_explanation": "Bitte verwenden Sie .mp3- oder .mpeg-Dateien mit weniger als 10 MB",
-			"available": "Verfügbare Assets",
-			"building_assets": "Vermögensaufbau",
-			"create_asset": "Hochladen",
-			"file_one": "Datei",
-			"file_other": "Dateien",
-			"floor_assets": "Bodenvermögen",
-			"image_explanation": "Bitte wählen Sie ein Bild mit einer Größe von weniger als 10 MB",
-			"image_one": "Bild",
-			"image_other": "Bilder",
-			"link_click": "Besuch",
-			"link_one": "Verknüpfung",
-			"link_other": "Links",
-			"one": "Vermögenswert",
-			"other": "Vermögenswerte",
-			"pdf_explanation": "Bitte verwenden Sie eine .pdf-Datei mit einer Größe von weniger als 10 MB",
-			"pdf_one": "PDF",
-			"pdf_other": "PDFs",
-			"preview": "Vorschau",
-			"type_other": "Typen",
-			"video_explanation": "Bitte verwenden Sie Videodateien mit weniger als 10 MB",
-			"video_one": "Video",
-			"video_other": "Videos",
-			"view_assets": "Assets anzeigen"
-		},
-		"builder": {
-			"visit_building": "Gebäude besuchen"
-		},
-		"building": {
-			"add_picture": "Gebäudebild hinzufügen",
-			"custom_contact": "Welchen Kontakt möchten Sie nutzen?",
-			"custom_location": "Welchen Standort möchten Sie verwenden?",
-			"explorer": "Forscher",
-			"main_asset_missing": "Gebäudebild hinzufügen",
-			"one": "Gebäude",
-			"picture": "Gebäudebild",
-			"structure_type": "Strukturtyp",
-			"view_details": "Gebäudedetails anzeigen"
-		},
-		"clipboard_success": "Erfolgreich in die Zwischenablage kopiert!",
-		"contact": {
-			"create": "Füge neuen Kontakt hinzu",
-			"view_details": "Kontaktdaten anzeigen und bearbeiten"
-		},
-		"copy_to_clipboard": "In die Zwischenablage kopieren",
-		"depth": "Tiefe",
-		"device": {
-			"added": "Geräte hinzugefügt",
-			"connected_to": "Verbunden",
-			"manage": "Geräte verwalten",
-			"one": "Gerät",
-			"remove_from_plan": "Aus Plan entfernen"
-		},
-		"dimensions": "Maße",
-		"distance": "Abstand zwischen den beiden Markierungen",
-		"floor": {
-			"available_devices": "Verfügbare Geräte",
-			"dimensions_explanation": "Bitte geben Sie die realen Abmessungen des Grundrisses ein, den Sie verwenden werden",
-			"image": "Bild",
-			"image_explanation": "Bitte verwenden Sie ein hochauflösendes und qualitativ hochwertiges Bild, das auf jedem Display gut lesbar und klar ist",
-			"one": "Fußboden",
-			"other": "Fußboden",
-			"plan_one": "Planen",
-			"plan_other": "Pläne",
-			"scale": "Skala aus dem wirklichen Leben",
-			"scale_explanation": "Bitte ziehen Sie die beiden Markierungen auf Ihrer Karte und geben Sie die reale Entfernung ein, die die beiden Markierungen darstellen",
-			"view_details": "Etagendetails anzeigen",
-			"view_plan_details": "Plandetails anzeigen"
-		},
-		"height": "Höhe",
-		"layers": {
-			"band_other": "Bands",
-			"edit": "Ebenen bearbeiten"
-		},
-		"live_view": {
-			"explanation_1": "Grundriss -> AP -> Radio -> SSID -> UEs",
-			"main_explanation": "Das 'Live View'-Diagramm ist eine visuelle Darstellung Ihres Grundrisses."
-		},
-		"location": {
-			"data_unavailable": "Standortdaten derzeit nicht verfügbar",
-			"extra_details": "Andere Adressdetails (Wohnungsnummer, Etage usw.)",
-			"incomplete_details": "Bitte suchen und wählen Sie eine vollständige Adresse (einschließlich einer Straßenadresse)",
-			"incomplete_location": "Unvollständiger Standort!",
-			"view_details": "Standortdetails anzeigen und bearbeiten"
-		},
-		"management": "Verwaltung",
-		"measurement": "Messungen",
-		"other": "andere",
-		"select_all": "Zeige alles",
-		"status": "Status",
-		"try_again": "Bitte versuche es erneut",
-		"type": "Art",
-		"upload": "Hochladen",
-		"width": "Breite"
 	},
 	"resources": {
 		"configuration_resource": "Ressource",
