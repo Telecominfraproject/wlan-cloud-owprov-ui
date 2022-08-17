@@ -28,6 +28,7 @@ interface Props {
     interfaces?: {
       configuration: InterfaceProps[];
     };
+    'third-party'?: string;
   };
   activeConfigurations: string[];
   isDisabled?: boolean;
@@ -48,6 +49,7 @@ const ViewJsonConfigModal: React.FC<Props> = ({ configurations, activeConfigurat
         metrics: activeConfigurations.includes('metrics') ? configurations.metrics : undefined,
         services: activeConfigurations.includes('services') ? configurations.services : undefined,
         radios: activeConfigurations.includes('radios') ? configurations.radios : undefined,
+        'third-party': activeConfigurations.includes('third-party') ? configurations['third-party'] : undefined,
       };
 
       for (const [key, config] of Object.entries(configToDisplay)) {

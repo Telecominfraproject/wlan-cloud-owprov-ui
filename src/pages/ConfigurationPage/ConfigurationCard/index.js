@@ -24,6 +24,14 @@ const propTypes = {
   id: PropTypes.string.isRequired,
 };
 
+const tryParse = (value) => {
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    return {};
+  }
+};
+
 const ConfigurationCard = ({ id }) => {
   const { t } = useTranslation();
   const toast = useToast();
@@ -66,9 +74,10 @@ const ConfigurationCard = ({ id }) => {
             : form.values.entity.split(':')[1],
         configuration: sections.activeConfigurations.map((conf) => {
           const deviceConfig = sections.data[conf].data.configuration;
-          deviceConfig.__selected_subcategories = undefined;
+          if (conf !== 'third-party') deviceConfig.__selected_subcategories = undefined;
           const config = { ...sections.data[conf].data, configuration: {} };
           if (conf === 'interfaces') config.configuration = { interfaces: deviceConfig };
+          else if (conf === 'third-party') config.configuration = { 'third-party': tryParse(deviceConfig) };
           else config.configuration[conf] = deviceConfig;
           return config;
         }),

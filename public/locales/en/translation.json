@@ -217,6 +217,7 @@
 		"device_details": "Device Details",
 		"discard_changes": "Discard Changes?",
 		"disconnected": "Disconnected",
+		"display_name": "Display Name",
 		"download": "Download",
 		"download_instructions": "Download Successful! If you cannot find the file, please confirm that you are allowing downloads from this website",
 		"duplicate": "Duplicate",
@@ -370,6 +371,8 @@
 		"statistics": "Statistics",
 		"successful_pushes_one": "Successful Push: {{count}}",
 		"successful_pushes_other": "Successful Pushes: {{count}}",
+		"third_party": "Third Party",
+		"third_party_instructions": "Please use a valid JSON string in the following form: { \"value_name\": \"value\" }. ",
 		"title": "Configurations",
 		"unit": "Unit",
 		"view_affected_devices": "View Affected Devices",
@@ -515,6 +518,7 @@
 		"invalid_port_range": "Invalid port value. It needs to be more than 0 and less than 65 535. If using a port range, please make sure the second port is a higher number than the first one.",
 		"invalid_port_ranges": "Invalid port range combination! Please make sure both port values are the same type (single or range). If they are ranges, make sure they are both covering the same amount of ports",
 		"invalid_select_ports": "Incompatible values between interfaces! Please make sure that there is no duplicate PORT/VLAN ID combination between your interfaces",
+		"invalid_third_party": "Invalid Third Party JSON string. Please confirm that your value is a valid JSON",
 		"key_file_explanation": "Please use a .pem file that starts with \"-----BEGIN PRIVATE KEY-----\" and ends with \"-----END PRIVATE KEY-----\"",
 		"min_max_string": "Value needs to be of a length between {{min}} (inclusive) and {{max}} (inclusive)",
 		"missing_interface_upstream": "You need to have at least one upstream interface. At the moment, all your interfaces are downstream",
@@ -631,6 +635,117 @@
 	"organization": {
 		"my_organization": "My Organization",
 		"title": "Organization"
+	},
+	"premium": {
+		"analytics": {
+			"no_analytics_data": "No Analytics Data",
+			"total_devices_explanation": "All devices on this floor ({{connectedCount}} connected, {{disconnectedCount}} not connected)",
+			"total_devices_explanation_building": "All devices on this building ({{connectedCount}} connected, {{disconnectedCount}} not connected)"
+		},
+		"annotation": {
+			"added": "Added Annotations",
+			"available": "Available Annotations",
+			"manage": "Manage Annotations",
+			"other": "Annotations",
+			"reserved": "Used in Other Floor Plan"
+		},
+		"asset": {
+			"added": "Added Assets",
+			"audio": "Audio",
+			"audio_explanation": "Please use .mp3 or .mpeg files of less than 10mb",
+			"available": "Available Assets",
+			"building_assets": "Building Assets",
+			"create_asset": "Upload New Asset",
+			"file_one": "File",
+			"file_other": "Files",
+			"floor_assets": "Floor Assets",
+			"image_explanation": "Please choose an image with a size lower than 10mb",
+			"image_one": "Image",
+			"image_other": "Images",
+			"link_click": "Visit",
+			"link_one": "Link",
+			"link_other": "Links",
+			"one": "Asset",
+			"other": "Assets",
+			"pdf_explanation": "Please use a .pdf file of a size smaller than 10mb",
+			"pdf_one": "PDF",
+			"pdf_other": "PDFs",
+			"preview": "Preview",
+			"type_other": "Types",
+			"video_explanation": "Please use video files of less than 10mb",
+			"video_one": "Video",
+			"video_other": "Videos",
+			"view_assets": "View Assets"
+		},
+		"builder": {
+			"visit_building": "Visit Building"
+		},
+		"building": {
+			"add_picture": "Add Building Picture",
+			"custom_contact": "What contact do you want to use?",
+			"custom_location": "What location do you want to use?",
+			"explorer": "Explorer",
+			"main_asset_missing": "Add Building Picture",
+			"one": "Building",
+			"picture": "Building Picture",
+			"structure_type": "Structure Type",
+			"view_details": "View Building Details"
+		},
+		"clipboard_success": "Copied to Clipboard Successfully!",
+		"contact": {
+			"create": "Add New Contact",
+			"view_details": "View and Edit Contact Details"
+		},
+		"copy_to_clipboard": "Copy to Clipboard",
+		"depth": "Depth",
+		"device": {
+			"added": "Added devices",
+			"connected_to": "Connected to",
+			"manage": "Manage Devices",
+			"one": "Device",
+			"remove_from_plan": "Remove from Plan"
+		},
+		"dimensions": "Dimensions",
+		"distance": "Distance between the two markers",
+		"floor": {
+			"available_devices": "Available Devices",
+			"dimensions_explanation": "Please enter the real-life dimensions of the floor plan you will be using",
+			"image": "Image",
+			"image_explanation": "Please use a high definition and high quality picture which will be easily readable and clear on any display",
+			"one": "Floor",
+			"other": "Floors",
+			"plan_one": "Plan",
+			"plan_other": "Plans",
+			"scale": "Real-life Scale",
+			"scale_explanation": "Please drag the two markers present on your map and enter the real-life distance that the two markers represent",
+			"view_details": "View Floor Details",
+			"view_plan_details": "View Plan Details"
+		},
+		"height": "Height",
+		"layers": {
+			"band_other": "Bands",
+			"edit": "Edit Layers"
+		},
+		"live_view": {
+			"explanation_1": "Floor Plan -> AP -> Radio -> SSID -> UEs",
+			"main_explanation": "The 'Live View' graph is a visual representation of your floor plan."
+		},
+		"location": {
+			"data_unavailable": "Location data unavailable at the moment",
+			"extra_details": "Other Address Details (apartment #, floor, etc.)",
+			"incomplete_details": "Please search and select a complete address (which includes a street address)",
+			"incomplete_location": "Incomplete Location!",
+			"view_details": "View and Edit Location Details"
+		},
+		"management": "Management",
+		"measurement": "Measurement",
+		"other": "Other",
+		"select_all": "Show All",
+		"status": "Status",
+		"try_again": "Please try again",
+		"type": "Type",
+		"upload": "Upload",
+		"width": "Width"
 	},
 	"resources": {
 		"configuration_resource": "Resource",

@@ -217,6 +217,7 @@
 		"device_details": "Détails de l'appareil",
 		"discard_changes": "Annuler les modifications?",
 		"disconnected": "Débranché",
+		"display_name": "Afficher un nom",
 		"download": "Télécharger",
 		"download_instructions": "Téléchargement réussi ! Si vous ne trouvez pas le fichier, veuillez confirmer que vous autorisez les téléchargements à partir de ce site Web",
 		"duplicate": "Dupliquer",
@@ -370,6 +371,8 @@
 		"statistics": "statistiques",
 		"successful_pushes_one": "Poussée réussie : {{count}}",
 		"successful_pushes_other": "Transmissions réussies : {{count}}",
+		"third_party": "Tierce personne",
+		"third_party_instructions": "Veuillez utiliser une chaîne JSON valide sous la forme suivante : { \"value_name\": \"value\" }.",
 		"title": "Les configurations",
 		"unit": "Unité",
 		"view_affected_devices": "Afficher les appareils concernés",
@@ -515,6 +518,7 @@
 		"invalid_port_range": "Valeur de port non valide. Il doit être supérieur à 0 et inférieur à 65 535. Si vous utilisez une plage de ports, assurez-vous que le deuxième port est un nombre supérieur au premier.",
 		"invalid_port_ranges": "Combinaison de plages de ports non valide ! Assurez-vous que les deux valeurs de port sont du même type (simple ou plage). S'il s'agit de plages, assurez-vous qu'elles couvrent toutes les deux le même nombre de ports",
 		"invalid_select_ports": "Valeurs incompatibles entre les interfaces ! Veuillez vous assurer qu'il n'y a pas de combinaison PORT/VLAN ID en double entre vos interfaces",
+		"invalid_third_party": "Chaîne JSON tierce non valide. Veuillez confirmer que votre valeur est un JSON valide",
 		"key_file_explanation": "Veuillez utiliser un fichier .pem qui commence par \"-----BEGIN PRIVATE KEY-----\" et se termine par \"-----END PRIVATE KEY-----\"",
 		"min_max_string": "La valeur doit être d'une longueur comprise entre {{min}} (inclus) et {{max}} (inclus)",
 		"missing_interface_upstream": "Vous devez avoir au moins une interface en amont. Pour le moment, toutes vos interfaces sont en aval",
@@ -631,6 +635,117 @@
 	"organization": {
 		"my_organization": "Mon organisation",
 		"title": "Organisation"
+	},
+	"premium": {
+		"analytics": {
+			"no_analytics_data": "Aucune donnée analytique",
+			"total_devices_explanation": "Tous les appareils de cet étage ({{connectedCount}} connectés, {{disconnectedCount}} non connectés)",
+			"total_devices_explanation_building": "Tous les appareils de ce bâtiment ({{connectedCount}} connectés, {{disconnectedCount}} non connectés)"
+		},
+		"annotation": {
+			"added": "Annotations ajoutées",
+			"available": "Annotations disponibles",
+			"manage": "Gérer les annotations",
+			"other": "annotations",
+			"reserved": "Utilisé dans un autre plan d'étage"
+		},
+		"asset": {
+			"added": "Actifs ajoutés",
+			"audio": "l'audio",
+			"audio_explanation": "Veuillez utiliser des fichiers .mp3 ou .mpeg de moins de 10 Mo",
+			"available": "Actifs disponibles",
+			"building_assets": "Immobilisations",
+			"create_asset": "Télécharger",
+			"file_one": "Fichier",
+			"file_other": "Des dossiers",
+			"floor_assets": "Actifs d'étage",
+			"image_explanation": "Veuillez choisir une image d'une taille inférieure à 10 Mo",
+			"image_one": "Image",
+			"image_other": "Images",
+			"link_click": "Visite",
+			"link_one": "Lien",
+			"link_other": "Liens",
+			"one": "Atout",
+			"other": "Les atouts",
+			"pdf_explanation": "Veuillez utiliser un fichier .pdf d'une taille inférieure à 10 Mo",
+			"pdf_one": "PDF",
+			"pdf_other": "PDF",
+			"preview": "Aperçu",
+			"type_other": "Les types",
+			"video_explanation": "Veuillez utiliser des fichiers vidéo de moins de 10 Mo",
+			"video_one": "Vidéo",
+			"video_other": "Vidéos",
+			"view_assets": "Afficher les actifs"
+		},
+		"builder": {
+			"visit_building": "Visitez le bâtiment"
+		},
+		"building": {
+			"add_picture": "Ajouter une image du bâtiment",
+			"custom_contact": "Quel contact souhaitez-vous utiliser ?",
+			"custom_location": "Quel emplacement souhaitez-vous utiliser ?",
+			"explorer": "Explorateur",
+			"main_asset_missing": "Ajouter une image du bâtiment",
+			"one": "bâtiment",
+			"picture": "Image du bâtiment",
+			"structure_type": "Type de structure",
+			"view_details": "Afficher les détails du bâtiment"
+		},
+		"clipboard_success": "Copié dans le presse-papiers avec succès !",
+		"contact": {
+			"create": "Ajouter un nouveau contact",
+			"view_details": "Afficher et modifier les détails du contact"
+		},
+		"copy_to_clipboard": "Copier dans le presse-papier",
+		"depth": "Profondeur",
+		"device": {
+			"added": "Appareils ajoutés",
+			"connected_to": "Connecté à",
+			"manage": "Gérer les appareils",
+			"one": "Dispositif",
+			"remove_from_plan": "Supprimer du plan"
+		},
+		"dimensions": "Dimensions",
+		"distance": "Distance entre les deux marqueurs",
+		"floor": {
+			"available_devices": "Appareils disponibles",
+			"dimensions_explanation": "Veuillez entrer les dimensions réelles du plan d'étage que vous utiliserez",
+			"image": "Image",
+			"image_explanation": "Veuillez utiliser une image haute définition et de haute qualité qui sera facilement lisible et claire sur n'importe quel écran",
+			"one": "Sol",
+			"other": "Des sols",
+			"plan_one": "Plan",
+			"plan_other": "Des plans",
+			"scale": "Échelle de la vie réelle",
+			"scale_explanation": "Veuillez faire glisser les deux marqueurs présents sur votre carte et entrer la distance réelle que les deux marqueurs représentent",
+			"view_details": "Afficher les détails de l'étage",
+			"view_plan_details": "voir les détails du plan"
+		},
+		"height": "la taille",
+		"layers": {
+			"band_other": "bandes",
+			"edit": "Modifier les calques"
+		},
+		"live_view": {
+			"explanation_1": "Plan d'étage -> AP -> Radio -> SSID -> UE",
+			"main_explanation": "Le graphique \"Vue en direct\" est une représentation visuelle de votre plan d'étage."
+		},
+		"location": {
+			"data_unavailable": "Données de localisation indisponibles pour le moment",
+			"extra_details": "Autres détails d'adresse (n° d'appartement, étage, etc.)",
+			"incomplete_details": "Veuillez rechercher et sélectionner une adresse complète (qui comprend une adresse municipale)",
+			"incomplete_location": "Emplacement incomplet !",
+			"view_details": "Afficher et modifier les détails de l'emplacement"
+		},
+		"management": "La gestion",
+		"measurement": "Des mesures",
+		"other": "Autre",
+		"select_all": "Montre tout",
+		"status": "Statut",
+		"try_again": "Veuillez réessayer",
+		"type": "Type",
+		"upload": "Télécharger",
+		"width": "largeur"
 	},
 	"resources": {
 		"configuration_resource": "ressource",

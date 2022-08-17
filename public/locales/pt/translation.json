@@ -217,6 +217,7 @@
 		"device_details": "Detalhes do dispositivo",
 		"discard_changes": "Descartar mudanças?",
 		"disconnected": "Desconectado",
+		"display_name": "Mostrar nome",
 		"download": "Baixar",
 		"download_instructions": "Baixe com sucesso! Se você não conseguir encontrar o arquivo, confirme se está permitindo downloads deste site",
 		"duplicate": "Duplicado",
@@ -370,6 +371,8 @@
 		"statistics": "Estatisticas",
 		"successful_pushes_one": "Empurrão bem-sucedido: {{count}}",
 		"successful_pushes_other": "Empurrões bem-sucedidos: {{count}}",
+		"third_party": "Terceiro",
+		"third_party_instructions": "Use uma string JSON válida no seguinte formato: { \"value_name\": \"value\" }.",
 		"title": "configurações",
 		"unit": "Unidade",
 		"view_affected_devices": "Exibir dispositivos afetados",
@@ -515,6 +518,7 @@
 		"invalid_port_range": "Valor de porta inválido. Ele precisa ser maior que 0 e menor que 65.535. Se estiver usando um intervalo de portas, certifique-se de que a segunda porta seja um número maior que o primeiro.",
 		"invalid_port_ranges": "Combinação de intervalo de portas inválida! Certifique-se de que ambos os valores de porta sejam do mesmo tipo (único ou intervalo). Se forem intervalos, certifique-se de que ambos estejam cobrindo a mesma quantidade de portas",
 		"invalid_select_ports": "Valores incompatíveis entre interfaces! Certifique-se de que não há combinação duplicada de PORT/VLAN ID entre suas interfaces",
+		"invalid_third_party": "String JSON de terceiros inválida. Confirme se seu valor é um JSON válido",
 		"key_file_explanation": "Use um arquivo .pem que comece com \"-----BEGIN PRIVATE KEY-----\" e termine com \"-----END PRIVATE KEY-----\"",
 		"min_max_string": "O valor precisa ter um comprimento entre {{min}} (inclusive) e {{max}} (inclusive)",
 		"missing_interface_upstream": "Você precisa ter pelo menos uma interface upstream. No momento, todas as suas interfaces estão downstream",
@@ -631,6 +635,117 @@
 	"organization": {
 		"my_organization": "Minha organização",
 		"title": "Organização"
+	},
+	"premium": {
+		"analytics": {
+			"no_analytics_data": "Sem dados analíticos",
+			"total_devices_explanation": "Todos os dispositivos neste andar ({{connectedCount}} conectados, {{disconnectedCount}} não conectados)",
+			"total_devices_explanation_building": "Todos os dispositivos neste edifício ({{connectedCount}} conectados, {{disconnectedCount}} não conectados)"
+		},
+		"annotation": {
+			"added": "Anotações adicionadas",
+			"available": "Anotações disponíveis",
+			"manage": "Gerenciar anotações",
+			"other": "Anotações",
+			"reserved": "Usado em Outra Planta Baixa"
+		},
+		"asset": {
+			"added": "Recursos adicionados",
+			"audio": "Audio",
+			"audio_explanation": "Por favor, use arquivos .mp3 ou .mpeg com menos de 10mb",
+			"available": "Ativos disponíveis",
+			"building_assets": "Ativos de construção",
+			"create_asset": "Envio",
+			"file_one": "Arquivo",
+			"file_other": "Arquivos",
+			"floor_assets": "Ativos de chão",
+			"image_explanation": "Por favor, escolha uma imagem com um tamanho inferior a 10mb",
+			"image_one": "Imagem",
+			"image_other": "Imagens",
+			"link_click": "Visita",
+			"link_one": "Ligação",
+			"link_other": "Links",
+			"one": "De ativos",
+			"other": "Ativos",
+			"pdf_explanation": "Use um arquivo .pdf de tamanho menor que 10 MB",
+			"pdf_one": "PDF",
+			"pdf_other": "PDFs",
+			"preview": "Visualizar",
+			"type_other": "Tipos",
+			"video_explanation": "Por favor, use arquivos de vídeo com menos de 10 MB",
+			"video_one": "Vídeo",
+			"video_other": "vídeos",
+			"view_assets": "Ver recursos"
+		},
+		"builder": {
+			"visit_building": "Visite o Edifício"
+		},
+		"building": {
+			"add_picture": "Adicionar imagem do edifício",
+			"custom_contact": "Qual contato você deseja usar?",
+			"custom_location": "Qual local você deseja usar?",
+			"explorer": "Explorador",
+			"main_asset_missing": "Adicionar imagem do edifício",
+			"one": "Construção",
+			"picture": "Imagem do edifício",
+			"structure_type": "Tipo de estrutura",
+			"view_details": "Ver detalhes do edifício"
+		},
+		"clipboard_success": "Copiado para a área de transferência com sucesso!",
+		"contact": {
+			"create": "Adicionar novo contato",
+			"view_details": "Visualizar e editar detalhes do contato"
+		},
+		"copy_to_clipboard": "Copiar para área de transferência",
+		"depth": "Profundidade",
+		"device": {
+			"added": "Dispositivos adicionados",
+			"connected_to": "Conectado a",
+			"manage": "Gerenciar dispositivos",
+			"one": "Dispositivo",
+			"remove_from_plan": "Remover do plano"
+		},
+		"dimensions": "Dimensões",
+		"distance": "Distância entre os dois marcadores",
+		"floor": {
+			"available_devices": "Dispositivos disponiveis",
+			"dimensions_explanation": "Insira as dimensões reais da planta baixa que você usará",
+			"image": "Imagem",
+			"image_explanation": "Por favor, use uma imagem de alta definição e alta qualidade que será facilmente legível e clara em qualquer tela",
+			"one": "chão",
+			"other": "pavimentos",
+			"plan_one": "Plano",
+			"plan_other": "Planos",
+			"scale": "Escala da vida real",
+			"scale_explanation": "Arraste os dois marcadores presentes no seu mapa e insira a distância real que os dois marcadores representam",
+			"view_details": "Ver detalhes do andar",
+			"view_plan_details": "Ver detalhes do plano"
+		},
+		"height": "altura",
+		"layers": {
+			"band_other": "bandas",
+			"edit": "Editar camadas"
+		},
+		"live_view": {
+			"explanation_1": "Planta Baixa -> AP -> Rádio -> SSID -> UEs",
+			"main_explanation": "O gráfico 'Live View' é uma representação visual da sua planta baixa."
+		},
+		"location": {
+			"data_unavailable": "Dados de localização indisponíveis no momento",
+			"extra_details": "Outros detalhes de endereço (nº do apartamento, andar, etc.)",
+			"incomplete_details": "Pesquise e selecione um endereço completo (que inclui um endereço)",
+			"incomplete_location": "Localização incompleta!",
+			"view_details": "Visualizar e editar detalhes do local"
+		},
+		"management": "Gestão",
+		"measurement": "Medidas",
+		"other": "De outros",
+		"select_all": "mostre tudo",
+		"status": "Status",
+		"try_again": "Por favor, tente novamente",
+		"type": "Tipo",
+		"upload": "Envio",
+		"width": "Largura"
 	},
 	"resources": {
 		"configuration_resource": "recurso",

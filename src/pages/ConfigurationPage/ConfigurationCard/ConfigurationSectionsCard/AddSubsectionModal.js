@@ -89,6 +89,15 @@ const AddSubsectionModal = ({ editing, activeSubs, addSub }) => {
                   {t('configurations.interfaces')}
                 </Button>
               </Center>
+              <Center>
+                <Button
+                  colorScheme="blue"
+                  isDisabled={activeSubs.includes('third-party')}
+                  onClick={() => addNewSub('third-party')}
+                >
+                  {t('configurations.third_party')}
+                </Button>
+              </Center>
             </SimpleGrid>
           </ModalBody>
         </ModalContent>

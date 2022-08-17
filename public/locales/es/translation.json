@@ -217,6 +217,7 @@
 		"device_details": "Detalles del dispositivo",
 		"discard_changes": "¿Descartar los cambios?",
 		"disconnected": "Desconectado",
+		"display_name": "Nombre para mostrar",
 		"download": "Descargar",
 		"download_instructions": "¡Descarga Exitosa! Si no puede encontrar el archivo, confirme que está permitiendo las descargas desde este sitio web",
 		"duplicate": "Duplicar",
@@ -370,6 +371,8 @@
 		"statistics": "estadística",
 		"successful_pushes_one": "Empuje exitoso: {{count}}",
 		"successful_pushes_other": "Empujes exitosos: {{count}}",
+		"third_party": "Tercero",
+		"third_party_instructions": "Utilice una cadena JSON válida en el siguiente formato: { \"value_name\": \"value\" }.",
 		"title": "Configuraciones",
 		"unit": "Unidad",
 		"view_affected_devices": "Ver dispositivos afectados",
@@ -515,6 +518,7 @@
 		"invalid_port_range": "Valor de puerto no válido. Debe ser mayor que 0 y menor que 65 535. Si usa un rango de puertos, asegúrese de que el segundo puerto sea un número más alto que el primero.",
 		"invalid_port_ranges": "¡Combinación de intervalo de puertos no válida! Asegúrese de que ambos valores de puerto sean del mismo tipo (único o rango). Si son rangos, asegúrese de que ambos cubran la misma cantidad de puertos",
 		"invalid_select_ports": "¡Valores incompatibles entre interfaces! Asegúrese de que no haya una combinación de ID de VLAN/PUERTO duplicada entre sus interfaces",
+		"invalid_third_party": "Cadena JSON de terceros no válida. Confirme que su valor es un JSON válido",
 		"key_file_explanation": "Utilice un archivo .pem que comience con \"-----BEGIN PRIVATE KEY-----\" y termine con \"-----END PRIVATE KEY-----\"",
 		"min_max_string": "El valor debe tener una longitud entre {{min}} (inclusive) y {{max}} (inclusive)",
 		"missing_interface_upstream": "Debe tener al menos una interfaz ascendente. Por el momento, todas sus interfaces están en sentido descendente",
@@ -631,6 +635,117 @@
 	"organization": {
 		"my_organization": "MI ORGANIZACION",
 		"title": "Organización"
+	},
+	"premium": {
+		"analytics": {
+			"no_analytics_data": "Sin datos analíticos",
+			"total_devices_explanation": "Todos los dispositivos en este piso ({{connectedCount}} conectados, {{disconnectedCount}} no conectados)",
+			"total_devices_explanation_building": "Todos los dispositivos de este edificio ({{connectedCount}} conectados, {{disconnectedCount}} no conectados)"
+		},
+		"annotation": {
+			"added": "Anotaciones añadidas",
+			"available": "Anotaciones disponibles",
+			"manage": "Administrar anotaciones",
+			"other": "Anotaciones",
+			"reserved": "Usado en otro plano de planta"
+		},
+		"asset": {
+			"added": "Activos agregados",
+			"audio": "Audio",
+			"audio_explanation": "Utilice archivos .mp3 o .mpeg de menos de 10 MB",
+			"available": "Activos Disponibles",
+			"building_assets": "Bienes de construcción",
+			"create_asset": "Subir",
+			"file_one": "Expediente",
+			"file_other": "archivos",
+			"floor_assets": "Activos de piso",
+			"image_explanation": "Elija una imagen con un tamaño inferior a 10mb",
+			"image_one": "Imagen",
+			"image_other": "Imágenes",
+			"link_click": "Visitar",
+			"link_one": "Enlazar",
+			"link_other": "Campo de golf",
+			"one": "Activo",
+			"other": "bienes",
+			"pdf_explanation": "Utilice un archivo .pdf de un tamaño inferior a 10 MB",
+			"pdf_one": "pdf",
+			"pdf_other": "pdf",
+			"preview": "Avance",
+			"type_other": "Los tipos",
+			"video_explanation": "Utilice archivos de video de menos de 10 MB",
+			"video_one": "Vídeo",
+			"video_other": "Videos",
+			"view_assets": "Ver activos"
+		},
+		"builder": {
+			"visit_building": "Visitar Edificio"
+		},
+		"building": {
+			"add_picture": "Agregar imagen del edificio",
+			"custom_contact": "¿Qué contacto quieres usar?",
+			"custom_location": "¿Qué ubicación quieres usar?",
+			"explorer": "explorador",
+			"main_asset_missing": "Agregar imagen del edificio",
+			"one": "edificio",
+			"picture": "Imagen del edificio",
+			"structure_type": "Tipo de estructura",
+			"view_details": "Ver detalles del edificio"
+		},
+		"clipboard_success": "¡Copiado al portapapeles con éxito!",
+		"contact": {
+			"create": "Añadir nuevo contacto",
+			"view_details": "Ver y editar detalles de contacto"
+		},
+		"copy_to_clipboard": "Copiar al portapapeles",
+		"depth": "Profundidad",
+		"device": {
+			"added": "Dispositivos agregados",
+			"connected_to": "Conectado a",
+			"manage": "Administrar dispositivos",
+			"one": "Dispositivo",
+			"remove_from_plan": "Quitar del plan"
+		},
+		"dimensions": "Dimensiones",
+		"distance": "Distancia entre los dos marcadores",
+		"floor": {
+			"available_devices": "Dispositivos disponibles",
+			"dimensions_explanation": "Ingrese las dimensiones reales del plano de planta que usará",
+			"image": "Imagen",
+			"image_explanation": "Utilice una imagen de alta definición y alta calidad que sea fácil de leer y clara en cualquier pantalla",
+			"one": "Piso",
+			"other": "Pisos",
+			"plan_one": "plan",
+			"plan_other": "Planes",
+			"scale": "Escala de la vida real",
+			"scale_explanation": "Arrastre los dos marcadores presentes en su mapa e ingrese la distancia real que representan los dos marcadores",
+			"view_details": "Ver detalles del piso",
+			"view_plan_details": "Ver detalles del plan"
+		},
+		"height": "Altura",
+		"layers": {
+			"band_other": "Bandas",
+			"edit": "Editar capas"
+		},
+		"live_view": {
+			"explanation_1": "Plano de planta -> AP -> Radio -> SSID -> UE",
+			"main_explanation": "El gráfico 'Vista en vivo' es una representación visual de su plano de planta."
+		},
+		"location": {
+			"data_unavailable": "Datos de ubicación no disponibles en este momento",
+			"extra_details": "Otros detalles de la dirección (número de apartamento, piso, etc.)",
+			"incomplete_details": "Busque y seleccione una dirección completa (que incluye una calle)",
+			"incomplete_location": "Ubicación incompleta!",
+			"view_details": "Ver y editar detalles de ubicación"
+		},
+		"management": "administración",
+		"measurement": "Mediciones",
+		"other": "otro",
+		"select_all": "Mostrar todo",
+		"status": "Estado",
+		"try_again": "Inténtalo de nuevo",
+		"type": "Tipo",
+		"upload": "Subir",
+		"width": "anchura"
 	},
 	"resources": {
 		"configuration_resource": "Recurso",

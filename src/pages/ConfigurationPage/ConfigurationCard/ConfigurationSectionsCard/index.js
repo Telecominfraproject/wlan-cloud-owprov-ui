@@ -27,6 +27,8 @@ import InterfacesSection from './InterfaceSection';
 import ImportConfigurationButton from './ImportConfigurationButton';
 import useConfigurationTabs from './useConfigurationTabs';
 import ViewConfigWarningsModal from './ViewConfigWarningsModal';
+import { THIRD_PARTY_SCHEMA } from './ThirdPartySection/thirdPartyConstants';
+import ThirdPartySection from './ThirdPartySection';
 
 const propTypes = {
   configId: PropTypes.string.isRequired,
@@ -89,6 +91,11 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
     isDirty: false,
     invalidValues: [],
   });
+  const [thirdParty, setThirdParty] = useState({
+    data: THIRD_PARTY_SCHEMA(t).cast(),
+    isDirty: false,
+    invalidValues: [],
+  });
   const [activeConfigurations, setActiveConfigurations] = useState([]);
 
   const setConfigSectionsFromArray = (arr, shouldValidate) => {
@@ -140,6 +147,14 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
       if (newActiveConfigs.includes('interfaces')) {
         setInterfaces({
           data: getConfigurationData(arr, 'interfaces'),
+          isDirty: false,
+          invalidValues: [],
+          shouldValidate,
+        });
+      }
+      if (newActiveConfigs.includes('third-party')) {
+        setThirdParty({
+          data: getConfigurationData(arr, 'third-party'),
           isDirty: false,
           invalidValues: [],
           shouldValidate,
@@ -216,6 +231,14 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
             invalidValues: [],
           },
         });
+      if (sub === 'third-party')
+        setThirdParty({
+          ...{
+            data: THIRD_PARTY_SCHEMA(t).cast(),
+            isDirty: false,
+            invalidValues: [],
+          },
+        });
       const newSubs = activeConfigurations.filter((conf) => conf !== sub);
       setActiveConfigurations([...newSubs]);
       tabsRemovedConfiguration();
@@ -273,6 +296,13 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
           invalidValues: [],
         });
       }
+      if (newActiveConfigs.includes('third-party')) {
+        setThirdParty({
+          data: getConfigurationData(configuration.configuration, 'third-party'),
+          isDirty: false,
+          invalidValues: [],
+        });
+      }
 
       setActiveConfigurations(newActiveConfigs);
     }
@@ -288,6 +318,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
         services.isDirty ||
         radios.isDirty ||
         interfaces.isDirty ||
+        thirdParty.isDirty ||
         activeConfigurations.length !==
           (configuration ? getActiveConfigurations(configuration?.configuration).length : 0),
       invalidValues: [
@@ -297,6 +328,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
         ...services.invalidValues,
         ...radios.invalidValues,
         ...interfaces.invalidValues,
+        ...thirdParty.invalidValues,
       ],
       warnings: {
         interfaces: interfaces.warnings ?? [],
@@ -309,9 +341,10 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
         services,
         radios,
         interfaces,
+        'third-party': thirdParty,
       },
     });
-  }, [globals, unit, metrics, services, radios, interfaces, activeConfigurations, configuration]);
+  }, [globals, unit, metrics, services, radios, interfaces, thirdParty, activeConfigurations, configuration]);
 
   useEffect(() => {
     if (defaultConfig !== null) setConfigSectionsFromArray(defaultConfig);
@@ -333,6 +366,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
               services: services.warnings ?? [],
               radios: radios.warnings ?? [],
               interfaces: interfaces.warnings ?? [],
+              'third-party': thirdParty.warnings ?? [],
             }}
             activeConfigurations={activeConfigurations}
             isDisabled={isFetching}
@@ -345,6 +379,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
               services: services.invalidValues,
               radios: radios.invalidValues,
               interfaces: interfaces.invalidValues,
+              'third-party': thirdParty.invalidValues,
             }}
             activeConfigurations={activeConfigurations}
             isDisabled={isFetching}
@@ -357,6 +392,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
               services: services.data,
               radios: radios.data,
               interfaces: interfaces.data,
+              'third-party': thirdParty.data,
             }}
             activeConfigurations={activeConfigurations}
             isDisabled={isFetching}
@@ -382,6 +418,7 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
                   {activeConfigurations.includes('services') && <Tab>{t('configurations.services')}</Tab>}
                   {activeConfigurations.includes('radios') && <Tab>{t('configurations.radios')}</Tab>}
                   {activeConfigurations.includes('interfaces') && <Tab>{t('configurations.interfaces')}</Tab>}
+                  {activeConfigurations.includes('third-party') && <Tab>{t('configurations.third_party')}</Tab>}
                 </TabList>
                 <TabPanels>
                   {activeConfigurations.includes('globals') && (
@@ -440,6 +477,16 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
                         editing={editing}
                         setSection={setInterfaces}
                         sectionInformation={interfaces}
+                        removeSub={removeSub}
+                      />
+                    </TabPanel>
+                  )}
+                  {activeConfigurations.includes('third-party') && (
+                    <TabPanel>
+                      <ThirdPartySection
+                        editing={editing}
+                        setSection={setThirdParty}
+                        sectionInformation={thirdParty}
                         removeSub={removeSub}
                       />
                     </TabPanel>
