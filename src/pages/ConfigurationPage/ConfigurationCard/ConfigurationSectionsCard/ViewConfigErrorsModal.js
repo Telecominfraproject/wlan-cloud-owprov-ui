@@ -37,7 +37,8 @@ const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => 
     errors.metrics.length +
     errors.services.length +
     errors.radios.length +
-    errors.interfaces.length;
+    errors.interfaces.length +
+    errors['third-party'].length;
 
   return (
     <>
@@ -80,6 +81,7 @@ const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => 
                   services: activeConfigurations.includes('services') ? errors.services : undefined,
                   radios: activeConfigurations.includes('radios') ? errors.radios : undefined,
                   interfaces: activeConfigurations.includes('interfaces') ? errors.interfaces : undefined,
+                  'third-party': activeConfigurations.includes('third-party') ? errors['third-party'] : undefined,
                 },
                 null,
                 2,

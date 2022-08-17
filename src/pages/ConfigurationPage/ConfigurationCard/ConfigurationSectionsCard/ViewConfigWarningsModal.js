@@ -37,7 +37,8 @@ const ViewConfigWarningsModal = ({ warnings, activeConfigurations, isDisabled })
     warnings.metrics.length +
     warnings.services.length +
     warnings.radios.length +
-    warnings.interfaces.length;
+    warnings.interfaces.length +
+    warnings['third-party'].length;
 
   return (
     <>
@@ -79,6 +80,7 @@ const ViewConfigWarningsModal = ({ warnings, activeConfigurations, isDisabled })
                   services: activeConfigurations.includes('services') ? warnings.services : undefined,
                   radios: activeConfigurations.includes('radios') ? warnings.radios : undefined,
                   interfaces: activeConfigurations.includes('interfaces') ? warnings.interfaces : undefined,
+                  'third-party': activeConfigurations.includes('third-party') ? warnings['third-party'] : undefined,
                 },
                 null,
                 2,
