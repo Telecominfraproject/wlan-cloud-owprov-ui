@@ -1,6 +1,8 @@
 import { object, number, string, array, bool } from 'yup';
-
-const keyProtos = ['psk', 'psk2', 'psk-mixed', 'sae-mixed'];
+import {
+  ENCRYPTION_PROTOS_NO_6G,
+  ENCRYPTION_PROTOS_REQUIRE_KEY,
+} from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/interfacesConstants';
 
 export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (
   t: (str: string, obj?: Record<string, unknown>) => string,
@@ -8,14 +10,30 @@ export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (
 ) => {
   const shape = object()
     .shape({
-      proto: string().required(t('form.required')).default('psk'),
-      ieee80211w: string().required(t('form.required')).default('disabled'),
+      proto: string()
+        .required(t('form.required'))
+        // @ts-ignore
+        .test('encryption-6g-test', t('form.invalid_proto_6g'), (v, { from }) => {
+          const bands = from[1].value['wifi-bands'];
+          if (bands && bands.includes('6G') && ENCRYPTION_PROTOS_NO_6G.includes(v ?? '')) return false;
+          return true;
+        })
+        .default('psk'),
+      ieee80211w: string()
+        // @ts-ignore
+        .test('encryptionIeeeTest', t('form.invalid_ieee'), (v, { from }) => {
+          if ((from[0].value.proto === 'owe' || from[0].value.proto === 'owe-transition') && v === 'disabled') {
+            return false;
+          }
+          return true;
+        })
+        .default('disabled'),
       key: string()
         // @ts-ignore
         .test('encryptionKeyTest', t('form.min_max_string', { min: 8, max: 63 }), (v, { from }) => {
-          if (!keyProtos.includes(from[0].value.proto) || from[1].value.radius !== undefined) return true;
-          // @ts-ignore
-          return v.length >= 8 && v.length <= 63;
+          if (!ENCRYPTION_PROTOS_REQUIRE_KEY.includes(from[0].value.proto) || from[1].value.radius !== undefined)
+            return true;
+          return v && v.length >= 8 && v.length <= 63;
         })
         .default(''),
     })

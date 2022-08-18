@@ -27,7 +27,7 @@ const Encryption: React.FC<{ editing: boolean; namePrefix: string; radiusPrefix:
       onRadiusChange(undefined);
     } else {
       if (ENCRYPTION_PROTOS_REQUIRE_KEY.includes(e.target.value)) newEncryption.key = 'YOUR_SECRET';
-      if (ENCRYPTION_PROTOS_REQUIRE_IEEE.includes(e.target.value)) newEncryption.ieee80211w = 'YOUR_SECRET';
+      if (ENCRYPTION_PROTOS_REQUIRE_IEEE.includes(e.target.value)) newEncryption.ieee80211w = 'required';
       onEncryptionChange(newEncryption);
       if (ENCRYPTION_PROTOS_REQUIRE_RADIUS.includes(e.target.value))
         onRadiusChange(INTERFACE_SSID_RADIUS_SCHEMA(t, true).cast());
