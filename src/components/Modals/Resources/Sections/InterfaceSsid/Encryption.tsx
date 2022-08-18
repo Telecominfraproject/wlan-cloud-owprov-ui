@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
 import { useFormikContext, getIn } from 'formik';
+import { useTranslation } from 'react-i18next';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
-import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
-// eslint-disable-next-line max-len
 import {
   ENCRYPTION_OPTIONS,
+  ENCRYPTION_PROTOS_REQUIRE_IEEE,
   ENCRYPTION_PROTOS_REQUIRE_KEY,
 } from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/interfacesConstants';
 import { INTERFACE_SSID_ENCRYPTION_SCHEMA } from './schemas';
@@ -31,7 +31,11 @@ const EncryptionResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
       if (e.target.value === 'none') {
         setFieldValue(`${namePrefix}`, { proto: 'none' });
       } else if (value && value.proto === 'none') {
-        setFieldValue(`${namePrefix}`, { proto: e.target.value, ieee80211w: 'disabled', key: 'YOUR_SECRET' });
+        setFieldValue(`${namePrefix}`, {
+          proto: e.target.value,
+          ieee80211w: ENCRYPTION_PROTOS_REQUIRE_IEEE.includes(e.target.value) ? 'required' : 'disabled',
+          key: ENCRYPTION_PROTOS_REQUIRE_KEY.includes(e.target.value) ? 'YOUR_SECRET' : undefined,
+        });
       } else {
         setFieldValue(`${namePrefix}.proto`, e.target.value);
       }

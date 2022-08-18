@@ -24,6 +24,8 @@ export const ENCRYPTION_PROTOS_REQUIRE_IEEE = [
   'wpa3',
   'wpa3-192',
   'wpa3-mixed',
+  'owe',
+  'owe-transition',
 ];
 export const ENCRYPTION_PROTOS_REQUIRE_RADIUS = [
   'psk2-radius',
@@ -47,7 +49,10 @@ export const ENCRYPTION_OPTIONS = [
   { value: 'sae-mixed', label: 'WPA2/WPA3 Transitional' },
   { value: 'wpa3', label: 'WPA3-Enterprise EAP-TLS' },
   { value: 'wpa3-192', label: 'WPA3-192-Enterprise EAP-TLS' },
+  { value: 'owe', label: 'OWE' },
+  { value: 'owe-transition', label: 'OWE-Transition' },
 ];
+export const ENCRYPTION_PROTOS_NO_6G = ['owe-transition'];
 
 export const CREATE_INTERFACE_SCHEMA = (t) =>
   object().shape({
@@ -174,8 +179,22 @@ export const INTERFACE_SSID_MULTIPSK_SCHEMA = (t, useDefault = false) => {
 export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
-      proto: string().required(t('form.required')).default('psk'),
-      ieee80211w: string().default('disabled'),
+      proto: string()
+        .required(t('form.required'))
+        .test('encryption-6g-test', t('form.invalid_proto_6g'), (v, { from }) => {
+          const bands = from[1].value['wifi-bands'];
+          if (bands && bands.includes('6G') && ENCRYPTION_PROTOS_NO_6G.includes(from[0].value.proto)) return false;
+          return true;
+        })
+        .default('psk'),
+      ieee80211w: string()
+        .test('encryptionIeeeTest', t('form.invalid_ieee'), (v, { from }) => {
+          if ((from[0].value.proto === 'owe' || from[0].value.proto === 'owe-transition') && v === 'disabled') {
+            return false;
+          }
+          return true;
+        })
+        .default('disabled'),
       key: string()
         .test('encryptionKeyTest', t('form.min_max_string', { min: 8, max: 63 }), (v, { from }) => {
           if (!ENCRYPTION_PROTOS_REQUIRE_KEY.includes(from[0].value.proto) || from[1].value.radius !== undefined)
