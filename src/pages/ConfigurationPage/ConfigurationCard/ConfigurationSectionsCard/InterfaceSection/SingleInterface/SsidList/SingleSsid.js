@@ -88,6 +88,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
             </SimpleGrid>
             <Encryption
               editing={editing}
+              ssidName={namePrefix}
               namePrefix={`${namePrefix}.encryption`}
               radiusPrefix={`${namePrefix}.radius`}
             />
