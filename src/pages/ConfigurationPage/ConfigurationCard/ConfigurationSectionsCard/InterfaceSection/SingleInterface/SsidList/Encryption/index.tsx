@@ -9,14 +9,21 @@ import {
 } from '../../../interfacesConstants';
 import EncryptionForm from './Encryption';
 
-const Encryption: React.FC<{ editing: boolean; namePrefix: string; radiusPrefix: string }> = ({
+const Encryption = ({
   editing,
+  ssidName,
   namePrefix,
   radiusPrefix,
+}: {
+  editing: boolean;
+  namePrefix: string;
+  radiusPrefix: string;
+  ssidName: string;
 }) => {
   const { t } = useTranslation();
   const { value: encryptionValue, onChange: onEncryptionChange } = useFastField({ name: namePrefix });
   const { value: radiusValue, onChange: onRadiusChange } = useFastField({ name: radiusPrefix });
+  const { onChange: onMultiPskChange } = useFastField({ name: `${ssidName}.multi-psk` });
 
   const onProtoChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     const newEncryption: { proto: string; key?: string; ieee80211w?: string } = {
@@ -26,6 +33,7 @@ const Encryption: React.FC<{ editing: boolean; namePrefix: string; radiusPrefix:
       onEncryptionChange({ proto: 'none' });
       onRadiusChange(undefined);
     } else {
+      if (e.target.value === 'sae') onMultiPskChange(undefined);
       if (ENCRYPTION_PROTOS_REQUIRE_KEY.includes(e.target.value)) newEncryption.key = 'YOUR_SECRET';
       if (ENCRYPTION_PROTOS_REQUIRE_IEEE.includes(e.target.value)) newEncryption.ieee80211w = 'required';
       onEncryptionChange(newEncryption);

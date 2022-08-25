@@ -5,6 +5,7 @@ import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
+import useFastField from 'hooks/useFastField';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { INTERFACE_SSID_MULTIPSK_SCHEMA } from '../../interfacesConstants';
@@ -14,6 +15,7 @@ import Rrm from './Rrm';
 
 const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ editing, namePrefix }) => {
   const { t } = useTranslation();
+  const { value: proto } = useFastField({ name: `${namePrefix}.encryption.proto` });
 
   const pskFields = useMemo(
     () => (
@@ -145,16 +147,18 @@ const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ 
           isDisabled={!editing}
           emptyIsUndefined
         />
-        <ObjectArrayFieldModal
-          name={`${namePrefix}.multi-psk`}
-          label="multi-psk"
-          fields={pskFields}
-          columns={pskCols}
-          schema={INTERFACE_SSID_MULTIPSK_SCHEMA}
-          isDisabled={!editing}
-          emptyIsUndefined
-          isRequired
-        />
+        {proto !== 'sae' && (
+          <ObjectArrayFieldModal
+            name={`${namePrefix}.multi-psk`}
+            label="multi-psk"
+            fields={pskFields}
+            columns={pskCols}
+            schema={INTERFACE_SSID_MULTIPSK_SCHEMA}
+            isDisabled={!editing}
+            emptyIsUndefined
+            isRequired
+          />
+        )}
       </SimpleGrid>
       <RateLimit editing={editing} namePrefix={`${namePrefix}.rate-limit`} />
       <Rrm editing={editing} namePrefix={`${namePrefix}.rrm`} />
