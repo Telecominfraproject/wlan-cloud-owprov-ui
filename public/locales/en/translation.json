@@ -254,6 +254,7 @@
 		"map": "Map",
 		"max": "Max",
 		"min": "Min",
+		"mode": "Mode",
 		"model": "Model",
 		"modified": "Modified",
 		"monthly": "Monthly",
@@ -641,6 +642,19 @@
 		"configuration_resource": "Resource",
 		"title": "Resources",
 		"variable": "Variable"
+	},
+	"rrm": {
+		"algorithm": "Algorithm",
+		"cant_save_custom": "Cannot create or edit custom RRM configurations until RRM server is reachable. Please consult with your administrator",
+		"cron_error": "Error while parsing CRON expression: please confirm that it is valid",
+		"cron_scheduler": "CRON Scheduler",
+		"cron_templates": "Templates",
+		"no_algos": "Unable to fetch RRM algorithms at the moment",
+		"no_providers": "Unable to fetch RRM providers at the moment",
+		"param_error": "Your parameters do not respect the rules of this algorithm. Please look at the algorithm examples and details",
+		"parameters": "Parameters",
+		"vendor": "Vendor",
+		"version": "Version"
 	},
 	"service": {
 		"billing_code": "Billing Code",

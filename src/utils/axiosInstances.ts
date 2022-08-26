@@ -244,6 +244,36 @@ installer.interceptors.response.use(
   },
 );
 
+const rrm = axios.default.create({ baseURL: secUrl });
+
+rrm.defaults.timeout = 120000;
+rrm.defaults.headers.get.Accept = 'application/json';
+rrm.defaults.headers.post.Accept = 'application/json';
+
+rrm.interceptors.response.use(
+  // Success actions
+  undefined,
+  (error: axios.AxiosError) => {
+    switch (error?.response?.status) {
+      case 401:
+        break;
+      case 403:
+        if (
+          error.response.data?.ErrorCode === AUTH_EXPIRED_TOKEN_CODE ||
+          error.response.data?.ErrorCode === AUTH_INVALID_TOKEN_CODE
+        ) {
+          localStorage.removeItem('access_token');
+          sessionStorage.clear();
+          window.location.href = 'login';
+        }
+        break;
+      default:
+        break;
+    }
+    return Promise.reject(error);
+  },
+);
+
 export const axiosProv = prov;
 export const axiosSec = sec;
 export const axiosGw = gw;
@@ -252,3 +282,4 @@ export const axiosSub = sub;
 export const axiosOwls = owls;
 export const axiosAnalytics = analytics;
 export const axiosInstaller = installer;
+export const axiosRrm = rrm;

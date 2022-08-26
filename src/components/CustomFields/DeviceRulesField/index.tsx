@@ -1,6 +1,7 @@
-import SelectField from 'components/FormFields/SelectField';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import SelectField from 'components/FormFields/SelectField';
+import RrmFormField from '../RrmFormField';
 
 interface Props {
   isDisabled?: boolean;
@@ -23,7 +24,7 @@ const DeviceRulesField: React.FC<Props> = ({ namePrefix = 'deviceRules', isDisab
         isDisabled={isDisabled}
         options={options}
       />
-      <SelectField name={`${namePrefix}.rrm`} label="RRM" isDisabled={isDisabled} options={options} />
+      <RrmFormField namePrefix={namePrefix} isDisabled={isDisabled} />
       <SelectField
         name={`${namePrefix}.firmwareUpgrade`}
         label={t('configurations.firmware_upgrade')}

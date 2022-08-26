@@ -11,11 +11,8 @@ const axiosInstance = axios.default.create();
 axiosInstance.defaults.timeout = 120000;
 axiosInstance.defaults.headers.get.Accept = 'application/json';
 axiosInstance.defaults.headers.post.Accept = 'application/json';
-
-export const useGetSystemInfo = ({ endpoint, name, token }: { endpoint: string; name: string; token: string }) => {
-  const { t } = useTranslation();
-  const toast = useToast();
-  return useQuery(
+export const useGetSystemInfo = ({ endpoint, name, token }: { endpoint: string; name: string; token: string }) =>
+  useQuery(
     ['get-system-info', name, endpoint],
     () =>
       axiosInstance
@@ -27,23 +24,8 @@ export const useGetSystemInfo = ({ endpoint, name, token }: { endpoint: string; 
         .then(({ data }: { data: System }) => data),
     {
       staleTime: 60000,
-      onError: () => {
-        if (!toast.isActive(`system-fetching-error-${name}`))
-          toast({
-            id: 'system-fetching-error',
-            title: t('common.error'),
-            description: t('system.could_not_retrieve', {
-              name,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
     },
   );
-};
 
 export const useGetSubsystems = ({
   endpoint,
@@ -55,11 +37,8 @@ export const useGetSubsystems = ({
   enabled: boolean;
   name: string;
   token: string;
-}) => {
-  const { t } = useTranslation();
-  const toast = useToast();
-
-  return useQuery(
+}) =>
+  useQuery(
     ['get-subsystems', name, endpoint],
     () =>
       axiosInstance
@@ -76,23 +55,8 @@ export const useGetSubsystems = ({
     {
       staleTime: 60000,
       enabled,
-      onError: () => {
-        if (!toast.isActive(`subsystems-fetching-error-${name}`))
-          toast({
-            id: 'subsystems-fetching-error',
-            title: t('common.error'),
-            description: t('system.could_not_retrieve', {
-              name,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
     },
   );
-};
 
 export const useReloadSubsystems = ({
   endpoint,
