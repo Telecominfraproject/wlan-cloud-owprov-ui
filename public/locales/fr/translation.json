@@ -254,6 +254,7 @@
 		"map": "Carte",
 		"max": "Max",
 		"min": "Min",
+		"mode": "Mode",
 		"model": "Modèle",
 		"modified": "Modifié",
 		"monthly": "Mensuel",
@@ -641,6 +642,19 @@
 		"configuration_resource": "ressource",
 		"title": "Ressources",
 		"variable": "Variable"
+	},
+	"rrm": {
+		"algorithm": "Algorithme",
+		"cant_save_custom": "Impossible de créer ou de modifier des configurations RRM personnalisées tant que le serveur RRM n'est pas accessible. Veuillez consulter votre administrateur",
+		"cron_error": "Erreur lors de l'analyse de l'expression CRON : veuillez confirmer qu'elle est valide",
+		"cron_scheduler": "Planificateur CRON",
+		"cron_templates": "Modèles",
+		"no_algos": "Nous ne sommes pas en mesure de récupérer les algorithmes RRM pour le moment",
+		"no_providers": "Nous ne sommes pas en mesure de récupérer les fournisseurs RRM pour le moment",
+		"param_error": "Vos paramètres ne respectent pas les règles de cet algorithme. Veuillez regarder les exemples d'algorithmes et les détails",
+		"parameters": "Paramètres",
+		"vendor": "vendeur",
+		"version": "Version"
 	},
 	"service": {
 		"billing_code": "Code de facturation",

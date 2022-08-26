@@ -9,6 +9,7 @@ import {
   axiosProv,
   axiosSec,
   axiosSub,
+  axiosRrm,
 } from 'utils/axiosInstances';
 import { useGetEndpoints } from 'hooks/Network/Endpoints';
 import axios from 'axios';
@@ -91,6 +92,9 @@ export const AuthProvider = ({ token, children }: Props) => {
           case 'owinstaller':
             axiosInstaller.defaults.baseURL = `${endpoint.uri}/api/v1`;
             break;
+          case 'owrrm':
+            axiosRrm.defaults.baseURL = `${endpoint.uri}/api/v1`;
+            break;
           default:
             break;
         }
@@ -154,6 +158,8 @@ export const AuthProvider = ({ token, children }: Props) => {
       axiosOwls.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
       axiosAnalytics.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
       axiosInstaller.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
+      axiosRrm.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
+
       refetchUser();
       refetchEndpoints();
     }
