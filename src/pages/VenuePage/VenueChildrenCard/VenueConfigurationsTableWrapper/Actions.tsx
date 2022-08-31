@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
-import { ArrowSquareOut } from 'phosphor-react';
+import { MagnifyingGlass } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 import DeleteConfigurationButton from 'components/Tables/ConfigurationTable/DeleteConfigurationButton';
 import { Configuration } from 'models/Configuration';
@@ -21,12 +21,12 @@ const Actions = ({ cell: { original: configuration } }: Props) => {
   return (
     <Flex>
       <DeleteConfigurationButton configuration={configuration} />
-      <Tooltip hasArrow label={t('venues.go_to_page')} placement="top">
+      <Tooltip hasArrow label={t('common.view_details')} placement="top">
         <IconButton
-          aria-label={t('venues.go_to_page')}
+          aria-label={t('common.view_details')}
           ml={2}
           colorScheme="blue"
-          icon={<ArrowSquareOut size={20} />}
+          icon={<MagnifyingGlass size={20} />}
           size="sm"
           onClick={handleGoToPage}
         />

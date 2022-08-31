@@ -194,11 +194,11 @@ export const useGetAnalyticsBoardTimepoints = ({
   const toast = useToast();
 
   return useQuery(
-    ['get-board-timepoints', id],
+    ['get-board-timepoints', id, startTime?.toString(), endTime?.toString()],
     () =>
       axiosAnalytics
         .get(
-          `board/${id}/timepoints?fromDate=${Math.floor(startTime.getTime() / 1000)}${
+          `board/${id}/timepoints?limit=10000&fromDate=${Math.floor(startTime.getTime() / 1000)}${
             endTime ? `&endDate=${Math.floor(endTime.getTime() / 1000)}` : ''
           }`,
         )

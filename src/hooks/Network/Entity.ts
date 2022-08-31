@@ -1,6 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import useDefaultPage from 'hooks/useDefaultPage';
+import { Entity } from 'models/Entity';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
@@ -11,7 +12,10 @@ export const useGetEntities = () => {
 
   return useQuery(
     ['get-entities'],
-    () => axiosProv.get('entity?withExtendedInfo=true&offset=0&limit=500').then(({ data }) => data.entities),
+    () =>
+      axiosProv
+        .get('entity?withExtendedInfo=true&offset=0&limit=500')
+        .then(({ data }: { data: { entities: Entity[] } }) => data.entities),
     {
       staleTime: 30000,
       onError: (e: AxiosError) => {

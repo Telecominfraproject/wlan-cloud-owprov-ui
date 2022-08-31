@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
-import { ArrowSquareOut } from 'phosphor-react';
+import { MagnifyingGlass } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 
 const propTypes = {
@@ -22,8 +22,8 @@ const Actions = ({ cell: { original: entity } }) => {
 
   return (
     <Flex>
-      <Tooltip hasArrow label={t('venues.go_to_page')} placement="top">
-        <IconButton ml={2} colorScheme="blue" icon={<ArrowSquareOut size={20} />} size="sm" onClick={handleGoToPage} />
+      <Tooltip hasArrow label={t('common.view_details')} placement="top">
+        <IconButton ml={2} colorScheme="blue" icon={<MagnifyingGlass size={20} />} size="sm" onClick={handleGoToPage} />
       </Tooltip>
     </Flex>
   );

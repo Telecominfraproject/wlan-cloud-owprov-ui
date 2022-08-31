@@ -84,6 +84,14 @@ const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ 
           isDisabled={!editing}
           isRequired
         />
+        <NumberField
+          name={`${namePrefix}.fils-discovery-interval`}
+          label="fils-discovery-interval"
+          definitionKey="interface.ssid.fils-discovery-interval"
+          isDisabled={!editing}
+          emptyIsUndefined
+          acceptEmptyValue
+        />
         <SelectField
           name={`${namePrefix}.purpose`}
           label="purpose"

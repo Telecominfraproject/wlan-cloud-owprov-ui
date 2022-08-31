@@ -59,6 +59,7 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({
     data: { configuration, isDirty: isConfigurationDirty, isValid: isConfigurationValid },
     onChange: onConfigurationChange,
     reset,
+    // @ts-ignore
   } = useNestedConfigurationForm({ defaultConfiguration: subscriberDeviceData?.configuration ?? undefined });
 
   const refreshAfterUpdate = () => {
@@ -122,6 +123,7 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({
               refresh={refreshAfterUpdate}
               formRef={formRef as Ref<FormikProps<Device>> | undefined}
               configuration={configuration || undefined}
+              // @ts-ignore
               defaultConfiguration={subscriberDeviceData.configuration}
               onConfigurationChange={onConfigurationChange}
             />
