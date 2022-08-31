@@ -1,32 +1,54 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import Card from 'components/Card';
 import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetVenue } from 'hooks/Network/Venues';
-import CardBody from 'components/Card/CardBody';
 import { useAuth } from 'contexts/AuthProvider';
-import VenueDeviceTableWrapper from './VenueDeviceTableWrapper';
-import VenueConfigurationsTableWrapper from './VenueConfigurationsTableWrapper';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import LoadingOverlay from 'components/LoadingOverlay';
 import VenueChildrenTableWrapper from './VenueChildrenTableWrapper';
+import VenueClientLifecycle from './VenueClientLifecycle';
+import VenueConfigurationsTableWrapper from './VenueConfigurationsTableWrapper';
 import VenueContactTableWrapper from './VenueContactTableWrapper';
 import VenueDashboard from './VenueDashboard';
+import VenueDeviceTableWrapper from './VenueDeviceTableWrapper';
 import VenueLiveView from './VenueLiveView';
 import VenueResourcesTableWrapper from './VenueResourcesTableWrapper';
-import VenueClientLifecycle from './VenueClientLifecycle';
 
-const propTypes = {
-  id: PropTypes.string.isRequired,
+const getDefaultIndex = (hasAnalytics: boolean, id: string) => {
+  localStorage.getItem('venue.lastActiveIndex');
+  const index = parseInt(localStorage.getItem(`venue.${id}.lastActiveIndex`) || '0', 10);
+  if (hasAnalytics) {
+    return index >= 0 && index <= 7 ? index : 0;
+  }
+
+  if (index >= 0 && index <= 4) return index;
+  return 0;
 };
 
-const VenueChildrenCard = ({ id }) => {
+const VenueChildrenCard = ({ id }: { id: string }) => {
   const { t } = useTranslation();
   const { endpoints } = useAuth();
   const { data: venue, isFetching } = useGetVenue({ id });
+  const analyticsActive =
+    endpoints?.owanalytics !== undefined &&
+    venue?.boards !== undefined &&
+    venue?.boards.length > 0 &&
+    venue?.boards[0] !== undefined &&
+    venue?.boards[0].length > 0;
+  const [tabIndex, setTabIndex] = React.useState(getDefaultIndex(analyticsActive, id));
+
+  const onTabChange = (index: number) => {
+    setTabIndex(index);
+    localStorage.setItem(`venue.${id}.lastActiveIndex`, index.toString());
+  };
+
+  React.useEffect(() => {
+    setTabIndex(getDefaultIndex(analyticsActive, id));
+  }, [analyticsActive]);
 
   const panels = useMemo(() => {
-    if (endpoints.owanalytics && venue?.boards.length > 0 && venue?.boards[0].length > 0) {
+    if (analyticsActive && venue?.boards[0] !== undefined) {
       return (
         <TabPanels>
           <TabPanel overflowX="auto">
@@ -80,9 +102,9 @@ const VenueChildrenCard = ({ id }) => {
   return (
     <Card>
       <CardBody>
-        <Tabs isLazy variant="enclosed" w="100%">
+        <Tabs isLazy variant="enclosed" w="100%" index={tabIndex} onChange={onTabChange}>
           <TabList>
-            {endpoints.owanalytics && venue?.boards.length > 0 && venue?.boards[0].length > 0 && (
+            {analyticsActive && (
               <>
                 <Tab>{t('analytics.dashboard')}</Tab>
                 <Tab>{t('analytics.live_view')}</Tab>
@@ -108,5 +130,4 @@ const VenueChildrenCard = ({ id }) => {
   );
 };
 
-VenueChildrenCard.propTypes = propTypes;
 export default VenueChildrenCard;

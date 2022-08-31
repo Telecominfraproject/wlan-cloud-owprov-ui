@@ -1,16 +1,14 @@
 import React from 'react';
-import { Box, useStyleConfig } from '@chakra-ui/react';
-import { ThemeProps } from 'models/Theme';
+import { BackgroundProps, Box, InteractivityProps, LayoutProps, SpaceProps, useStyleConfig } from '@chakra-ui/react';
 
-interface Props extends ThemeProps {
+interface CardProps extends LayoutProps, SpaceProps, BackgroundProps, InteractivityProps {
   variant?: string;
+  onClick?: () => void;
+  className?: string;
+  children: React.ReactNode;
 }
 
-const defaultProps = {
-  variant: undefined,
-};
-
-const Card: React.FC<Props> = ({ variant, children, ...props }) => {
+const Card: React.FC<CardProps> = ({ variant, children, ...props }) => {
   // @ts-ignore
   const styles = useStyleConfig('Card', { variant });
   // Pass the computed styles into the `__css` prop
@@ -21,6 +19,4 @@ const Card: React.FC<Props> = ({ variant, children, ...props }) => {
   );
 };
 
-Card.defaultProps = defaultProps;
-
-export default Card;
+export default React.memo(Card);

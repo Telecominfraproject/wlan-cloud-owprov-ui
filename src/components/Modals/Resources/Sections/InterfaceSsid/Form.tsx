@@ -68,6 +68,14 @@ const InterfaceSsidResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
           isRequired
           isDisabled={isDisabled}
         />
+        <NumberField
+          name="fils-discovery-interval"
+          label="fils-discovery-interval"
+          definitionKey="interface.ssid.fils-discovery-interval"
+          isDisabled={isDisabled}
+          emptyIsUndefined
+          acceptEmptyValue
+        />
         <SelectField
           name="purpose"
           label="purpose"

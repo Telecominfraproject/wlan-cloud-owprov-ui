@@ -18,6 +18,28 @@ export interface DeviceContact {
   primaryEmail: string;
 }
 
+export type RadioConfiguration = {
+  band?: '2G' | '5G' | '6G';
+  bandwidth?: number;
+  'beacon-interval'?: number;
+  channel?: string;
+  'channel-mode'?: string;
+  'channel-width'?: number;
+  country?: string;
+  'dtim-period'?: number;
+  'maximum-clients'?: number;
+  'tx-power'?: number;
+};
+
+export type DeviceConfiguration = {
+  interfaces?: Record<string, unknown>[];
+  metrics?: Record<string, unknown>;
+  radios?: RadioConfiguration[];
+  globals?: Record<string, unknown>;
+  services?: Record<string, unknown>;
+  uuid: string;
+};
+
 export interface Device {
   name: string;
   description: string;
@@ -27,7 +49,7 @@ export interface Device {
   deviceType: string;
   location: DeviceLocation;
   contact: DeviceContact;
-  configuration?: Configuration[];
+  configuration?: DeviceConfiguration;
   notes?: Note[];
 }
 

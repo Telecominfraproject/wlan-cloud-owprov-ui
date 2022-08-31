@@ -59,6 +59,7 @@ export const INTERFACE_SSID_SCHEMA = (t: (str: string) => string, useDefault = f
     'unicast-conversion': bool().default(undefined),
     services: array().of(string()).default([]),
     'maximum-clients': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(64),
+    'fils-discovery-interval': number().integer().moreThan(0).lessThan(10001).default(20),
     'proxy-arp': bool().default(undefined),
     'disassoc-low-ack': bool().default(undefined),
     'vendor-elements': string(),

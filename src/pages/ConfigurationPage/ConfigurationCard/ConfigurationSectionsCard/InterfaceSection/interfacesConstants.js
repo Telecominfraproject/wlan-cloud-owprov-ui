@@ -262,6 +262,7 @@ export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
     'maximum-clients': number().required(t('form.required')).moreThan(0).lessThan(65535).integer().default(64),
     'proxy-arp': bool().default(undefined),
     'disassoc-low-ack': bool().default(undefined),
+    'fils-discovery-interval': number().integer().moreThan(0).lessThan(10001).default(20),
     'vendor-elements': string(),
     encryption: INTERFACE_SSID_ENCRYPTION_SCHEMA(t, useDefault),
     'rate-limit': INTERFACE_SSID_RATE_LIMIT_SCHEMA(t),
