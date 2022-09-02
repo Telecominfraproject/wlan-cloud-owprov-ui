@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Button, FormControl, FormErrorMessage, FormLabel, useDisclosure } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import useFastField from 'hooks/useFastField';
 import { useGetRrmAlgorithms, useGetRrmProvider } from 'hooks/Network/Rrm';
+import useFastField from 'hooks/useFastField';
 import EditRrmForm from './Form';
+import { isCustomRrm } from './helper';
 
 type Props = {
   namePrefix?: string;
@@ -19,11 +20,19 @@ const RrmFormField = ({ namePrefix = 'deviceRules', isDisabled }: Props) => {
   const { data: algos, isLoading: isLoadingAlgos } = useGetRrmAlgorithms();
 
   const displayedValue = React.useMemo(() => {
-    if (!value || value === 'inherit') return t('common.inherit');
-    if (value === 'no') return t('common.none');
-    const [, algo] = value.split(':');
+    try {
+      if (!value || value === 'inherit') return t('common.inherit');
+      if (value === 'no' || value === 'off') return t('common.none');
 
-    return algo ?? 'Unrecognized RRM';
+      const val = typeof value === 'string' ? JSON.parse(value) : value;
+      if (isCustomRrm(val) && val.algorithms[0]) {
+        return val.algorithms[0].name;
+      }
+
+      return 'Unrecognized RRM';
+    } catch {
+      return 'Unrecognized RRM';
+    }
   }, [value]);
 
   return (

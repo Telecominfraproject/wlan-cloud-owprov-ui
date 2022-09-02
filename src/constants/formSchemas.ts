@@ -4,7 +4,15 @@ import { testObjectName, testPhoneNumberArray, testRegex } from './formTests';
 
 export const DeviceRulesSchema = (t: (str: string) => string) =>
   Yup.object().shape({
-    rrm: Yup.string().required(t('form.required')),
+    rrm: Yup.lazy((value) => {
+      switch (typeof value) {
+        case 'object':
+          return Yup.object().required(t('form.required'));
+        case 'string':
+        default:
+          return Yup.string().required(t('form.required'));
+      }
+    }),
     rcOnly: Yup.string().required(t('form.required')),
     firmwareUpgrade: Yup.string().required(t('form.required')),
   });

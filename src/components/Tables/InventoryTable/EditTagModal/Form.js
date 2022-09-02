@@ -78,7 +78,7 @@ const EditTagForm = ({
         devClass: tag.devClass !== '' ? tag.devClass : 'any',
       }}
       validationSchema={UpdateTagSchema(t)}
-      onSubmit={(
+      onSubmit={async (
         { name, description, notes, entity, deviceType, deviceRules, devClass, state },
         { setSubmitting, resetForm },
       ) => {

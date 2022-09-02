@@ -119,7 +119,7 @@ const EditVenueForm = ({ editing, venue, formRef, stopEditing, board }) => {
                   id: uuid(),
                   title: t('common.error'),
                   description: t('crud.error_update_obj', {
-                    obj: t('venue.one'),
+                    obj: t('venues.one'),
                     e: e?.response?.data?.ErrorDescription,
                   }),
                   status: 'error',
