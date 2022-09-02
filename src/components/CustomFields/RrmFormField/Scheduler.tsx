@@ -16,7 +16,7 @@ import { getCronSchedulerLabel } from './helper';
 
 type Props = {
   value?: string;
-  setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setValue: (v: string) => void;
   isDisabled?: boolean;
 };
 const RrmScheduler = ({ value, setValue, isDisabled }: Props) => {
@@ -41,7 +41,7 @@ const RrmScheduler = ({ value, setValue, isDisabled }: Props) => {
           type="text"
           value={value}
           onChange={onChange}
-          placeholder="* * * * * *"
+          placeholder="* * * * *"
           w="200px"
           isDisabled={isDisabled}
         />

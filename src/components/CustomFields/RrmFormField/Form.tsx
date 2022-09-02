@@ -2,19 +2,40 @@ import * as React from 'react';
 import { Alert, Box, Flex, FormControl, FormLabel, Select, UseDisclosureReturn } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import { RrmAlgorithm, RrmProvider } from 'hooks/Network/Rrm';
 import { Modal } from 'components/Modals/Modal';
 import SaveButton from 'components/Buttons/SaveButton';
-import { RrmAlgorithm, RrmProvider } from 'hooks/Network/Rrm';
 import AlgorithmPicker from './AlgorithmPicker';
-import { DEFAULT_RRM_CRON, isValidRrm, parseRrmToParts } from './helper';
-import RrmParameters from './Parameters';
+import { CUSTOM_RRM, DEFAULT_RRM_CRON, isCustomRrm, isValidCustomRrm, RRM_VALUE } from './helper';
 import RrmProviderPicker from './ProviderPicker';
 import RrmScheduler from './Scheduler';
 
+const extractValueFromProps: (value: unknown) => RRM_VALUE = (value: unknown) => {
+  try {
+    const json = typeof value === 'string' ? JSON.parse(value) : value;
+    if (json) {
+      // @ts-ignore
+      if (json.algorithms && json.algorithms.length > 0 && json.vendor && json.schedule) {
+        const val = json as CUSTOM_RRM;
+        const splitSchedule = val.schedule.split(' ');
+        return { ...val, schedule: splitSchedule.splice(1, 5).join(' ') } as CUSTOM_RRM;
+      }
+    }
+
+    if (value === 'inherit') return 'inherit';
+
+    return 'no';
+  } catch (e) {
+    if (value === 'inherit') return 'inherit';
+
+    return 'no';
+  }
+};
+
 type Props = {
   modalProps: UseDisclosureReturn;
-  value: string;
-  onChange: (v: string) => void;
+  value: unknown;
+  onChange: (v: RRM_VALUE) => void;
   algorithms?: RrmAlgorithm[];
   provider?: RrmProvider;
   isDisabled?: boolean;
@@ -22,11 +43,7 @@ type Props = {
 
 const EditRrmForm = ({ value, modalProps, onChange, algorithms, provider, isDisabled }: Props) => {
   const { t } = useTranslation();
-  const [newValue, setNewValue] = React.useState(value);
-  const [newAlgo, setNewAlgo] = React.useState<RrmAlgorithm | undefined>(undefined);
-  const [newProvider, setNewProvider] = React.useState<RrmProvider | undefined>(undefined);
-  const [newParams, setNewParams] = React.useState<string | undefined>(undefined);
-  const [newSchedule, setNewSchedule] = React.useState<string | undefined>(undefined);
+  const [newValue, setNewValue] = React.useState<RRM_VALUE>(extractValueFromProps(value));
 
   const options = [
     { label: t('common.custom'), value: 'custom' },
@@ -34,65 +51,59 @@ const EditRrmForm = ({ value, modalProps, onChange, algorithms, provider, isDisa
     { label: t('common.inherit'), value: 'inherit' },
   ];
 
-  const isCustom = newValue !== 'no' && newValue !== 'inherit';
+  const isCustom = isCustomRrm(newValue);
+
+  const onVendorChange = (vendor: string) => {
+    if (isCustomRrm(newValue)) setNewValue({ ...newValue, vendor });
+  };
+  const onAlgoChange = (name: string) => {
+    if (isCustomRrm(newValue) && newValue.algorithms[0])
+      setNewValue({ ...newValue, algorithms: [{ ...newValue.algorithms[0], name }] });
+  };
+  const onParamsChange = (parameters: string) => {
+    if (isCustomRrm(newValue) && newValue.algorithms[0])
+      setNewValue({ ...newValue, algorithms: [{ ...newValue.algorithms[0], parameters }] });
+  };
+  const onScheduleChange = (schedule: string) => {
+    if (isCustomRrm(newValue)) setNewValue({ ...newValue, schedule });
+  };
 
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value === 'custom') {
-      setNewValue('custom');
-      setNewAlgo(algorithms?.[0] ?? undefined);
-      setNewProvider(provider);
-      setNewParams('');
-      setNewSchedule(DEFAULT_RRM_CRON);
-    } else {
+      setNewValue({
+        vendor: provider?.vendorShortname ?? '',
+        schedule: DEFAULT_RRM_CRON,
+        algorithms: [
+          {
+            name: algorithms?.[0]?.shortName ?? '',
+            parameters: '',
+          },
+        ],
+      });
+    } else if (e.target.value === 'no' || e.target.value === 'inherit') {
       setNewValue(e.target.value);
     }
   };
 
   const onSave = () => {
-    if (newValue === 'no' || newValue === 'inherit') {
-      onChange(newValue);
-      modalProps.onClose();
+    if (isCustomRrm(newValue)) {
+      onChange({ ...newValue, schedule: `0 ${newValue.schedule}` });
     } else {
-      const customVal = `${newProvider?.vendorShortname}:${newAlgo?.shortName}:0 ${newSchedule}:${newParams}`;
-      onChange(customVal);
-      modalProps.onClose();
+      onChange(newValue);
     }
-  };
-
-  const reset = () => {
-    setNewAlgo(undefined);
-    setNewProvider(undefined);
-    setNewParams(undefined);
-    setNewSchedule(undefined);
+    modalProps.onClose();
   };
 
   const isValid = React.useMemo(() => {
     if (newValue === 'no' || newValue === 'inherit') {
       return true;
     }
-    return isValidRrm(
-      `${newProvider?.vendorShortname}:${newAlgo?.shortName}:0 ${newSchedule}:${newParams}`,
-      newAlgo?.parameterFormat,
-    );
-  }, [newValue, newProvider, newAlgo, newSchedule, newParams]);
+    return isValidCustomRrm(newValue);
+  }, [newValue]);
 
   React.useEffect(() => {
     if (modalProps.isOpen) {
-      if (value === 'no' || value === 'inherit') {
-        setNewValue(value);
-        reset();
-      } else {
-        setNewValue(value);
-        const parts = parseRrmToParts(value);
-        if (parts) {
-          setNewProvider(provider);
-          setNewAlgo(algorithms?.find((a) => a.shortName === parts.algorithmShortName));
-          setNewParams(parts.parameters);
-          setNewSchedule(parts.schedule);
-        } else {
-          setNewValue('inherit');
-        }
-      }
+      setNewValue(extractValueFromProps(value));
     }
   }, [modalProps.isOpen]);
 
@@ -138,34 +149,31 @@ const EditRrmForm = ({ value, modalProps, onChange, algorithms, provider, isDisa
             </Select>
           </FormControl>
         </Flex>
-        {isCustom && (
+        {isCustomRrm(newValue) && (
           <>
             <Flex my={1}>
               <RrmProviderPicker
                 providers={provider ? [provider] : []}
-                value={newProvider}
-                setValue={setNewProvider}
+                value={newValue.vendor}
+                setValue={onVendorChange}
                 isDisabled={isDisabled}
               />
             </Flex>
-            <Flex my={1}>
+            <Box my={1}>
               <AlgorithmPicker
                 algorithms={algorithms}
-                value={newAlgo}
-                setValue={setNewAlgo}
+                value={newValue.algorithms}
+                setValue={onAlgoChange}
+                onParamsChange={onParamsChange}
                 isDisabled={isDisabled || !provider}
               />
-            </Flex>
+            </Box>
             <Flex my={1}>
-              <RrmParameters
-                algorithm={newAlgo}
-                value={newParams}
-                setValue={setNewParams}
-                isDisabled={isDisabled || !algorithms}
+              <RrmScheduler
+                value={newValue.schedule}
+                setValue={onScheduleChange}
+                isDisabled={isDisabled || !provider}
               />
-            </Flex>
-            <Flex my={1}>
-              <RrmScheduler value={newSchedule} setValue={setNewSchedule} isDisabled={isDisabled || !provider} />
             </Flex>
           </>
         )}

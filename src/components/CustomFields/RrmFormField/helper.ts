@@ -1,6 +1,28 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import CronStrue from 'cronstrue';
 
 export const DEFAULT_RRM_CRON = '*/10 * * * *';
+
+export type CUSTOM_RRM = {
+  schedule: string;
+  vendor: string;
+  algorithms: {
+    name: string;
+    parameters: string;
+  }[];
+};
+
+export type RRM_VALUE = 'inherit' | 'no' | CUSTOM_RRM;
+
+export const isCustomRrm = (value?: RRM_VALUE): value is CUSTOM_RRM => {
+  if (!value) return false;
+  // @ts-ignore
+  if (value === 'inherit' || value === 'no' || value === 'off') return false;
+  if (typeof value === 'object') {
+    return value.algorithms !== undefined && value.schedule !== undefined && value.vendor !== undefined;
+  }
+  return false;
+};
 
 export type RrmParts = {
   vendorShortName?: string;
@@ -86,4 +108,12 @@ export const isValidRrm = (rrm: string, regex?: string) => {
   } catch {
     return false;
   }
+};
+
+export const isValidCustomRrm = (rrm: CUSTOM_RRM) => {
+  if (rrm.vendor === undefined || rrm.vendor.length === 0) return false;
+  if (rrm.algorithms === undefined || rrm.algorithms.length === 0) return false;
+  if (rrm.schedule === undefined || rrm.schedule.length === 0) return false;
+  if (!isScheduleValid(rrm.schedule)) return false;
+  return true;
 };

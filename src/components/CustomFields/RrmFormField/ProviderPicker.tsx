@@ -2,22 +2,23 @@ import * as React from 'react';
 import { Alert, Box, Flex, FormControl, FormLabel, Link, Select, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { RrmProvider } from 'hooks/Network/Rrm';
 import { InfoPopover } from 'components/InfoPopover';
+import { RrmProvider } from 'hooks/Network/Rrm';
 
 type Props = {
   providers: RrmProvider[];
-  setValue: React.Dispatch<React.SetStateAction<RrmProvider | undefined>>;
-  value?: RrmProvider;
+  setValue: (v: string) => void;
+  value?: string;
   isDisabled?: boolean;
 };
 const RrmProviderPicker = ({ providers, value, setValue, isDisabled }: Props) => {
   const { t } = useTranslation();
   const options = providers.map((p) => ({ label: p.vendor, value: p.vendorShortname }));
 
+  const provider = providers.find((p) => p.vendorShortname === value);
+
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const provider = providers.find((p) => p.vendorShortname === e.target.value);
-    if (provider) setValue(provider);
+    setValue(e.target.value);
   };
 
   if (providers.length === 0 || !value) {
@@ -38,7 +39,7 @@ const RrmProviderPicker = ({ providers, value, setValue, isDisabled }: Props) =>
       </FormLabel>
       <Flex>
         <Select
-          value={value?.vendorShortname}
+          value={value}
           onChange={onSelectChange}
           borderRadius="15px"
           fontSize="sm"
@@ -54,18 +55,18 @@ const RrmProviderPicker = ({ providers, value, setValue, isDisabled }: Props) =>
         </Select>
         {value && (
           <InfoPopover
-            title={value.vendor}
+            title={provider?.vendor ?? ''}
             popoverContentProps={{ w: '400px' }}
             buttonProps={{ 'aria-label': 'Info', mt: 1, ml: 2, colorScheme: 'gray' }}
           >
             <Box>
               <Text display="flex">
-                {t('rrm.version')}: {value.version}
+                {t('rrm.version')}: {provider?.version}
               </Text>
               <Text display="flex">
                 {t('common.details')}:
-                <Link href={value.about} isExternal ml={1}>
-                  {value.about}
+                <Link href={provider?.about} isExternal ml={1}>
+                  {provider?.about}
                 </Link>
               </Text>
             </Box>
