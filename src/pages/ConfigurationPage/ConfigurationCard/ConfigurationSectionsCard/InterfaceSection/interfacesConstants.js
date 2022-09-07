@@ -10,6 +10,19 @@ import {
 } from 'constants/formTests';
 import { object, number, string, array, bool } from 'yup';
 
+export const DEFAULT_PASSPOINT_RADIUS = {
+  authentication: {
+    host: '0.0.0.0',
+    port: 1812,
+    secret: 'YOUR_SECRET',
+  },
+  accounting: {
+    host: '0.0.0.0',
+    port: 1813,
+    secret: 'YOUR_SECRET',
+  },
+};
+
 export const ENCRYPTION_PROTOS_REQUIRE_KEY = ['psk', 'psk2', 'psk-mixed', 'psk2-radius', 'sae', 'sae-mixed'];
 export const ENCRYPTION_PROTOS_REQUIRE_IEEE = [
   'psk',
@@ -59,6 +72,73 @@ export const CREATE_INTERFACE_SCHEMA = (t) =>
     name: string().required(t('form.required')).default(''),
     role: string().required(t('form.required')).default('upstream'),
   });
+
+export const INTERFACE_SSID_PASS_POINT_SCHEMA = (t, useDefault = false) => {
+  const shape = object()
+    .shape({
+      'venue-name': array().of(string()).default(undefined),
+      'venue-url': array().of(string()).default(undefined),
+      'venue-group': number().moreThan(-1).lessThan(33).integer().default(1),
+      'venue-type': number().moreThan(-1).lessThan(33).integer().default(1),
+      'auth-type': object()
+        .shape({
+          type: string().default('terms-and-condition'),
+          url: string().default(undefined),
+        })
+        .default({ type: 'terms-and-condition', url: undefined }),
+      'domain-name': array().of(string()).default(undefined),
+      'nai-realm': array().of(string()).default(undefined),
+      osen: bool().default(undefined),
+      'anqp-domain': number().moreThan(-1).lessThan(65535).integer().default(8888),
+      'anqp-3gpp-cell-net': array().of(string()).default(undefined),
+      'friendly-name': array().of(string()).default(undefined),
+      'access-network-type': number().moreThan(-1).lessThan(15).integer().default(0),
+      internet: bool().default(true),
+      asra: bool().default(undefined),
+      esr: bool().default(undefined),
+      uesa: bool().default(undefined),
+      hessid: string().default(undefined),
+      'roaming-consortium': array().of(string()).default(undefined),
+      'disable-dgaf': bool().default(undefined),
+      'ipaddr-type-available': number().moreThan(-1).lessThan(256).integer().default(undefined),
+      'connection-capability': array().of(string()).default(undefined),
+      icons: array().of(object()).default(undefined),
+      'wan-metrics': object()
+        .shape({
+          type: string().default('up'),
+          downlink: number().moreThan(-1).integer().default(20000),
+          uplink: number().moreThan(-1).integer().default(20000),
+        })
+        .default({ type: 'terms-and-condition', url: undefined }),
+    })
+    .default({
+      'venue-name': undefined,
+      'venue-url': undefined,
+      'venue-group': 1,
+      'venue-type': 1,
+      'auth-type': { type: 'terms-and-condition', url: undefined },
+      'domain-name': undefined,
+      'nai-realm': undefined,
+      osen: undefined,
+      'anqp-domain': 8888,
+      'anqp-3gpp-cell-net': undefined,
+      'friendly-name': undefined,
+      'access-network-type': 0,
+      internet: true,
+      asra: undefined,
+      esr: undefined,
+      uesa: undefined,
+      hessid: undefined,
+      'roaming-consortium': undefined,
+      'disable-dgaf': undefined,
+      'ipaddr-type-available': undefined,
+      'connection-capability': undefined,
+      icons: undefined,
+      'wan-metrics': { type: 'up', downlink: 20000, uplink: 20000 },
+    });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
 
 export const INTERFACE_SSID_RATE_LIMIT_SCHEMA = (t, useDefault = false) => {
   const shape = object()
@@ -186,6 +266,15 @@ export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (t, useDefault = false) => {
           if (bands && bands.includes('6G') && ENCRYPTION_PROTOS_NO_6G.includes(from[0].value.proto)) return false;
           return true;
         })
+        .test(
+          'encryption-passpoint-proto',
+          t('form.invalid_proto_passpoint'),
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          (v, { from }) =>
+            // const passpoint = from[1].value['pass-point'];
+            // if (passpoint !== undefined && !ENCRYPTION_PROTOS_REQUIRE_RADIUS.includes(from[0].value.proto)) return false;
+            true,
+        )
         .default('psk'),
       ieee80211w: string()
         .test('encryptionIeeeTest', t('form.invalid_ieee'), (v, { from }) => {
@@ -249,7 +338,7 @@ export const INTERFACE_SSID_RRM_SCHEMA = (t, useDefault = false) => {
 
 export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    name: string().required(t('form.required')).default(''),
+    name: string().default(''),
     purpose: string().default(undefined),
     'wifi-bands': array().of(string()).required(t('form.required')).min(1, t('form.required')).default(['2G', '5G']),
     'bss-mode': string().required(t('form.required')).default('ap'),
@@ -269,6 +358,7 @@ export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
     rrm: INTERFACE_SSID_RRM_SCHEMA(t),
     roaming: INTERFACE_SSID_ROAMING_SCHEMA(t),
     radius: INTERFACE_SSID_RADIUS_SCHEMA(t),
+    'pass-point': INTERFACE_SSID_PASS_POINT_SCHEMA(t),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);
