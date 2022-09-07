@@ -1,6 +1,27 @@
 import { testFqdnHostname, testIpv4, testLength, testUcMac } from 'constants/formTests';
 import { object, number, string, array, bool } from 'yup';
 
+export const SERVICES_CLASSIFIER_DNS_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    fqdn: string().default(''),
+    'suffix-matching': bool().default(true),
+    reclassify: bool().default(true),
+  });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
+export const SERVICES_CLASSIFIER_PORTS_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    protocol: string().required(t('form.required')).default('any'),
+    port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1812),
+    'range-end': number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
+    reclassify: bool().default(true),
+  });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
 export const SERVICES_INGRESS_FILTER_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     name: string().required(t('form.required')).default(''),
@@ -211,8 +232,24 @@ export const SERVICES_WIFI_STEERING_SCHEMA = (t, useDefault = false) => {
 };
 export const SERVICES_QUALITY_OF_SERVICE_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    'upload-rate': number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(0),
-    'download-rate': number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(0),
+    'select-ports': array().of(string()).default(['WAN*']),
+    'bandwidth-up': number().required(t('form.required')).moreThan(-1).integer().default(0),
+    'bandwidth-down': number().required(t('form.required')).moreThan(-1).integer().default(0),
+    'bulk-detection': object()
+      .shape({
+        dscp: string().required(t('form.required')).default('CS0'),
+        'packets-per-second': number().required(t('form.required')).moreThan(-1).integer().default(0),
+      })
+      .notRequired()
+      .default(undefined),
+    classifier: array()
+      .of(
+        object().shape({
+          ports: SERVICES_CLASSIFIER_PORTS_SCHEMA(t, useDefault),
+          dns: SERVICES_CLASSIFIER_DNS_SCHEMA(t, useDefault),
+        }),
+      )
+      .default([]),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);
