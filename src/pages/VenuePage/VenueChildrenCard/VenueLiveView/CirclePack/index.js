@@ -2,9 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import { ResponsiveCirclePacking } from '@nivo/circle-packing';
-import { useGetVenue } from 'hooks/Network/Venues';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { Box, Center, Heading, useColorMode } from '@chakra-ui/react';
 import { parseDbm } from 'utils/stringHelper';
 import { errorColor, getBlendedColor, successColor, warningColor } from 'utils/colors';
@@ -16,20 +14,51 @@ import CircleLabel from './CircleLabel';
 import CirclePackSlider from './Slider';
 import CirclePackInfoButton from './InfoButton';
 
+const theme = {
+  labels: {
+    text: {
+      background: 'black',
+    },
+    background: 'black',
+  },
+};
+const getFill = [
+  {
+    match: (d) => d.data.type === 'association' && d.data.details.rssi >= -45,
+    id: 'assoc_success',
+  },
+  {
+    match: (d) => d.data.type === 'association' && d.data.details.rssi >= -60,
+    id: 'assoc_warning',
+  },
+  {
+    match: (d) => d.data.type === 'association' && d.data.details.rssi < -60,
+    id: 'assoc_danger',
+  },
+];
+
+const getLabelsFilter = (label) => label.node.height === 0;
+
+const labelTextColor = {
+  from: 'color',
+  modifiers: [['darker', 4]],
+};
+
+const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
 const propTypes = {
   timepoints: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
   handle: PropTypes.shape({
     enter: PropTypes.func.isRequired,
     active: PropTypes.bool.isRequired,
   }).isRequired,
+  venue: PropTypes.instanceOf(Object).isRequired,
 };
 
-const CirclePack = ({ timepoints, handle }) => {
+const CirclePack = ({ timepoints, handle, venue }) => {
   const { t } = useTranslation();
   const { popoverRef } = useCircleGraph();
   const { colorMode } = useColorMode();
-  const { id } = useParams();
-  const { data: venue } = useGetVenue({ id });
   const [pointIndex, setPointIndex] = useState(Math.max(timepoints.length - 1, 0));
   const [zoomedId, setZoomedId] = useState(null);
 
@@ -49,9 +78,12 @@ const CirclePack = ({ timepoints, handle }) => {
     let totalHealth = 0;
     const allBandwidth = [];
 
-    for (const { device_info: deviceInfo, ssid_data: ssidData = [], radio_data: radioData = [] } of timepoints[
-      pointIndex
-    ]) {
+    for (const {
+      device_info: deviceInfo,
+      ssid_data: ssidData = [],
+      radio_data: radioData = [],
+      ap_data: apData,
+    } of timepoints[pointIndex]) {
       totalHealth += deviceInfo.health;
 
       const finalDevice = {
@@ -60,6 +92,7 @@ const CirclePack = ({ timepoints, handle }) => {
         details: {
           deviceInfo,
           ssidData,
+          apData,
         },
         scale: 1,
         children: [],
@@ -242,6 +275,13 @@ const CirclePack = ({ timepoints, handle }) => {
     [colorMode],
   );
 
+  const handleNodeClick = React.useCallback(
+    (node) => {
+      setZoomedId(zoomedId === node.id ? null : node.id);
+    },
+    [zoomedId],
+  );
+
   useEffect(() => {
     setPointIndex(timepoints.length - 1);
   }, [timepoints]);
@@ -258,50 +298,25 @@ const CirclePack = ({ timepoints, handle }) => {
           <>
             <CirclePackInfoButton />
             <ResponsiveCirclePacking
-              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+              margin={margin}
               padding="36"
               defs={shapeDefs}
-              fill={[
-                {
-                  match: (d) => d.data.type === 'association' && d.data.details.rssi >= -45,
-                  id: 'assoc_success',
-                },
-                {
-                  match: (d) => d.data.type === 'association' && d.data.details.rssi >= -60,
-                  id: 'assoc_warning',
-                },
-                {
-                  match: (d) => d.data.type === 'association' && d.data.details.rssi < -60,
-                  id: 'assoc_danger',
-                },
-              ]}
+              animate={false}
+              fill={getFill}
               id="name"
               value="scale"
               data={data}
               enableLabels
               labelsSkipRadius={42}
-              labelsFilter={(label) => label.node.height === 0}
-              labelTextColor={{
-                from: 'color',
-                modifiers: [['darker', 4]],
-              }}
+              labelsFilter={getLabelsFilter}
+              labelTextColor={labelTextColor}
               labelComponent={CircleLabel}
               onMouseEnter={null}
               tooltip={null}
               circleComponent={CircleComponent}
               zoomedId={zoomedId}
-              motionConfig="slow"
-              theme={{
-                labels: {
-                  text: {
-                    background: 'black',
-                  },
-                  background: 'black',
-                },
-              }}
-              onClick={(node) => {
-                setZoomedId(zoomedId === node.id ? null : node.id);
-              }}
+              theme={theme}
+              onClick={handleNodeClick}
             />
           </>
         )}

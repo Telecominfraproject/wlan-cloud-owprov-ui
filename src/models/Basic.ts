@@ -8,3 +8,9 @@ export interface BasicObjectInfo {
   created: number;
   modified: number;
 }
+
+export type DeviceRules = {
+  firmwareUpgrade: 'inherit' | 'off' | 'on';
+  rcOnly: 'inherit' | 'off' | 'on';
+  rrm: 'inherit' | 'off' | string;
+};

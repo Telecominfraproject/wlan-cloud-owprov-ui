@@ -2,10 +2,10 @@ import React from 'react';
 import { Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from 'contexts/AuthProvider';
-import EntityCard from './EntityCard';
-import EntityChildrenCard from './EntityChildrenCard';
+import VenueCard from './VenueCard';
+import VenueChildrenCard from './VenueChildrenCard';
 
-const EntityPage = ({ idToUse }: { idToUse?: string }) => {
+const VenuePage = ({ idToUse }: { idToUse?: string }) => {
   const { isUserLoaded } = useAuth();
   const { id } = useParams();
 
@@ -22,14 +22,14 @@ const EntityPage = ({ idToUse }: { idToUse?: string }) => {
 
   return (
     <Flex flexDirection="column" pt="75px">
-      {isUserLoaded && entityIdToUse && (
+      {isUserLoaded && entityIdToUse !== undefined && (
         <>
-          <EntityCard id={entityIdToUse} />
-          <EntityChildrenCard id={entityIdToUse} />
+          <VenueCard id={entityIdToUse} />
+          <VenueChildrenCard id={entityIdToUse} />
         </>
       )}
     </Flex>
   );
 };
 
-export default EntityPage;
+export default VenuePage;
