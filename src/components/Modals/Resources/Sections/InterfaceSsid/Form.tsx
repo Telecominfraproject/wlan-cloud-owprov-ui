@@ -1,27 +1,43 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import StringField from 'components/FormFields/StringField';
-import NumberField from 'components/FormFields/NumberField';
-import { Heading, SimpleGrid } from '@chakra-ui/react';
-import ToggleField from 'components/FormFields/ToggleField';
-import SelectField from 'components/FormFields/SelectField';
+import React, { useMemo } from 'react';
+import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
+import { getIn, useFormikContext } from 'formik';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
-import Encryption from './Encryption';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+// eslint-disable-next-line max-len
+import AdvancedSettings from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/SingleInterface/SsidList/AdvancedSettings';
+import Encryption from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/SingleInterface/SsidList/Encryption';
+import PassPoint from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/SingleInterface/SsidList/PassPoint';
+
+const namePrefix = 'editing';
 
 const InterfaceSsidResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
-  const { t } = useTranslation();
+  const { values } = useFormikContext();
+
+  const isPasspoint = useMemo(
+    // @ts-ignore
+    () => values !== undefined && values['pass-point'] !== undefined && values['pass-point'] !== null,
+    [getIn(values, `${namePrefix}`)],
+  );
 
   return (
     <>
       <Heading size="md" mt={6} mb={2} textDecoration="underline">
         interface.ssid
       </Heading>
-      <SimpleGrid minChildWidth="300px" spacing="20px">
-        <StringField name="name" label="name" definitionKey="interface.ssid.name" isRequired isDisabled={isDisabled} />
+      <SimpleGrid minChildWidth="300px" spacing="20px" mt={2}>
+        <StringField
+          name={`${namePrefix}.name`}
+          label="name"
+          definitionKey="interface.ssid.name"
+          isDisabled={isDisabled}
+          isRequired
+        />
         <SelectField
-          name="bss-mode"
+          name={`${namePrefix}.bss-mode`}
           label="bss-mode"
           definitionKey="interface.ssid.bss-mode"
+          isDisabled={isDisabled}
           options={[
             { value: 'ap', label: 'ap' },
             { value: 'sta', label: 'sta' },
@@ -29,118 +45,36 @@ const InterfaceSsidResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
             { value: 'wds-ap', label: 'wds-ap' },
             { value: 'wds-sta', label: 'wds-sta' },
           ]}
-          isDisabled={isDisabled}
           isRequired
         />
         <MultiSelectField
-          name="wifi-bands"
+          name={`${namePrefix}.wifi-bands`}
           label="wifi-bands"
           definitionKey="interface.ssid.wifi-bands"
+          isDisabled={isDisabled}
           options={[
             { value: '2G', label: '2G' },
             { value: '5G', label: '5G' },
             { value: '6G', label: '6G' },
           ]}
-          isDisabled={isDisabled}
           isRequired
-        />
-        <ToggleField
-          name="hidden-ssid"
-          label="hidden-ssid"
-          definitionKey="interface.ssid.hidden-ssid"
-          isRequired
-          isDisabled={isDisabled}
-        />
-        <MultiSelectField
-          name="services"
-          label="services"
-          definitionKey="interface.ssid.services"
-          options={[
-            { value: 'wifi-steering', label: 'wifi-steering' },
-            { value: 'dhcp-snooping', label: 'dhcp-snooping' },
-          ]}
-          isDisabled={isDisabled}
-        />
-        <NumberField
-          name="maximum-clients"
-          label="maximum-clients"
-          definitionKey="interface.ssid.maximum-clients"
-          isRequired
-          isDisabled={isDisabled}
-        />
-        <NumberField
-          name="fils-discovery-interval"
-          label="fils-discovery-interval"
-          definitionKey="interface.ssid.fils-discovery-interval"
-          isDisabled={isDisabled}
-          emptyIsUndefined
-          acceptEmptyValue
-        />
-        <SelectField
-          name="purpose"
-          label="purpose"
-          definitionKey="interface.ssid.purpose"
-          options={[
-            { value: '', label: t('common.default') },
-            { value: 'user-defined', label: 'user-defined' },
-            { value: 'onboarding-ap', label: 'onboarding-ap' },
-            { value: 'onboarding-sta', label: 'onboarding-sta' },
-          ]}
-          emptyIsUndefined
-          isDisabled={isDisabled}
-        />
-        <ToggleField
-          name="isolate-clients"
-          label="isolate-clients"
-          definitionKey="interface.ssid.isolate-clients"
-          isRequired
-          falseIsUndefined
-          isDisabled={isDisabled}
-        />
-        <ToggleField
-          name="power-save"
-          label="power-save"
-          definitionKey="interface.ssid.power-save"
-          falseIsUndefined
-          isDisabled={isDisabled}
-        />
-        <ToggleField
-          name="broadcast-time"
-          label="broadcast-time"
-          definitionKey="interface.ssid.broadcast-time"
-          falseIsUndefined
-          isDisabled={isDisabled}
-        />
-        <ToggleField
-          name="unicast-conversion"
-          label="unicast-conversion"
-          definitionKey="interface.ssid.unicast-conversion"
-          falseIsUndefined
-          isDisabled={isDisabled}
-        />
-        <ToggleField
-          name="proxy-arp"
-          label="proxy-arp"
-          definitionKey="interface.ssid.proxy-arp"
-          falseIsUndefined
-          isDisabled={isDisabled}
-        />
-        <ToggleField
-          name="disassoc-low-ack"
-          label="disassoc-low-ack"
-          definitionKey="interface.ssid.disassoc-low-ack"
-          falseIsUndefined
-          isDisabled={isDisabled}
-        />
-        <StringField
-          name="vendor-elements"
-          label="vendor-elements"
-          definitionKey="interface.ssid.vendor-elements"
-          emptyIsUndefined
-          isDisabled={isDisabled}
         />
       </SimpleGrid>
-      <Encryption isDisabled={isDisabled} />
+      <Encryption
+        editing={!isDisabled}
+        ssidName={namePrefix}
+        namePrefix={`${namePrefix}.encryption`}
+        radiusPrefix={`${namePrefix}.radius`}
+        isPasspoint={isPasspoint}
+      />
+      <Box my={2}>
+        <PassPoint
+          isDisabled={isDisabled}
+          namePrefix={`${namePrefix}.pass-point`}
+          radiusPrefix={`${namePrefix}.radius`}
+        />
+      </Box>
+      <AdvancedSettings editing={!isDisabled} namePrefix={namePrefix} />
     </>
   );
 };

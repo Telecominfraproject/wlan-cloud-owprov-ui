@@ -1,20 +1,21 @@
 import React, { useMemo } from 'react';
+import { Box, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
+import { getIn, useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
-import { Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
+import MultiSelectField from 'components/FormFields/MultiSelectField';
+import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
 import DeleteButton from 'components/Buttons/DeleteButton';
 import CardBody from 'components/Card/CardBody';
-import { useTranslation } from 'react-i18next';
-import SelectField from 'components/FormFields/SelectField';
-import MultiSelectField from 'components/FormFields/MultiSelectField';
-import { getIn, useFormikContext } from 'formik';
-import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
-import Encryption from './Encryption';
 import { INTERFACE_SSID_SCHEMA } from '../../interfacesConstants';
-import LockedSsid from './LockedSsid';
 import AdvancedSettings from './AdvancedSettings';
+import Encryption from './Encryption';
+import LockedSsid from './LockedSsid';
+import PassPoint from './PassPoint';
 
 const propTypes = {
   index: PropTypes.number.isRequired,
@@ -31,6 +32,10 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
   const isUsingCustomRadius = useMemo(() => {
     const v = getIn(values, `${namePrefix}`);
     return v !== undefined && v.__variableBlock === undefined;
+  }, [getIn(values, `${namePrefix}`)]);
+  const isPasspoint = useMemo(() => {
+    const v = getIn(values, `${namePrefix}`);
+    return v !== undefined && v['pass-point'] !== undefined;
   }, [getIn(values, `${namePrefix}`)]);
 
   return (
@@ -91,7 +96,15 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
               ssidName={namePrefix}
               namePrefix={`${namePrefix}.encryption`}
               radiusPrefix={`${namePrefix}.radius`}
+              isPasspoint={isPasspoint}
             />
+            <Box my={2}>
+              <PassPoint
+                isDisabled={!editing}
+                namePrefix={`${namePrefix}.pass-point`}
+                radiusPrefix={`${namePrefix}.radius`}
+              />
+            </Box>
             <AdvancedSettings editing={editing} namePrefix={namePrefix} />
           </>
         ) : (

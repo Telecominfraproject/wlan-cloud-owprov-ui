@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
+import { AxiosError } from 'axios';
+import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
-import { Formik, FormikProps } from 'formik';
-import { useCreateResource, useUpdateResource } from 'hooks/Network/Resources';
-import StringField from 'components/FormFields/StringField';
+import { object, string } from 'yup';
 import NotesTable from 'components/CustomFields/NotesTable';
-import { Resource } from 'models/Resource';
+import StringField from 'components/FormFields/StringField';
+import { useCreateResource, useUpdateResource } from 'hooks/Network/Resources';
 import { Note } from 'models/Note';
-import { AxiosError } from 'axios';
+import { Resource } from 'models/Resource';
+import { INTERFACE_SSID_SCHEMA } from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/interfacesConstants';
 import InterfaceSsidForm from './Form';
-import { INTERFACE_SSID_SCHEMA } from './schemas';
+
+export const EDIT_SCHEMA = (t: (str: string) => string) =>
+  object().shape({
+    _unused_name: string().required(t('form.required')).default(''),
+    _unused_description: string().default(''),
+    editing: INTERFACE_SSID_SCHEMA(t),
+  });
 
 interface Props {
   isOpen: boolean;
@@ -53,20 +61,20 @@ const InterfaceSsidResource: React.FC<Props> = ({
       initialValues={
         resource !== undefined && resource.variables[0]
           ? {
-              ...JSON.parse(resource.variables[0].value),
+              editing: { ...JSON.parse(resource.variables[0].value) },
               _unused_name: resource.name,
               _unused_description: resource.description,
               entity: resource.entity !== '' ? `ent:${resource.entity}` : `ven:${resource.venue}`,
               _unused_notes: resource.notes,
             }
           : {
-              ...INTERFACE_SSID_SCHEMA(t, true).cast(),
+              editing: { ...INTERFACE_SSID_SCHEMA(t, true).cast() },
               _unused_name: 'Name',
               _unused_description: 'Description',
               _unused_notes: [],
             }
       }
-      validationSchema={INTERFACE_SSID_SCHEMA(t)}
+      validationSchema={EDIT_SCHEMA(t)}
       onSubmit={async (formData, { setSubmitting, resetForm }) => {
         const after = (success: boolean) => {
           if (success) {
@@ -88,7 +96,8 @@ const InterfaceSsidResource: React.FC<Props> = ({
                     weight: 0,
                     prefix: 'interface.ssid',
                     value: {
-                      ...formData,
+                      // @ts-ignore
+                      ...formData.editing,
                       _unused_name: undefined,
                       _unused_description: undefined,
                       _unused_notes: undefined,
@@ -98,6 +107,7 @@ const InterfaceSsidResource: React.FC<Props> = ({
                 ],
                 name: formData._unused_name,
                 description: formData._unused_description,
+                // @ts-ignore
                 notes: formData._unused_notes.filter((note: Note) => note.isNew),
               },
               {
@@ -141,7 +151,8 @@ const InterfaceSsidResource: React.FC<Props> = ({
                     weight: 0,
                     prefix: 'interface.ssid',
                     value: {
-                      ...formData,
+                      // @ts-ignore
+                      ...formData.editing,
                       _unused_name: undefined,
                       _unused_description: undefined,
                       _unused_notes: undefined,
@@ -151,6 +162,7 @@ const InterfaceSsidResource: React.FC<Props> = ({
                 ...parent,
                 name: formData._unused_name,
                 description: formData._unused_description,
+                // @ts-ignore
                 notes: formData._unused_notes.filter((note: Note) => note.isNew),
               },
               {

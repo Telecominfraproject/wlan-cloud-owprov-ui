@@ -14,36 +14,47 @@ const Encryption = ({
   ssidName,
   namePrefix,
   radiusPrefix,
+  isPasspoint,
 }: {
   editing: boolean;
   namePrefix: string;
   radiusPrefix: string;
   ssidName: string;
+  isPasspoint?: boolean;
 }) => {
   const { t } = useTranslation();
   const { value: encryptionValue, onChange: onEncryptionChange } = useFastField({ name: namePrefix });
   const { value: radiusValue, onChange: onRadiusChange } = useFastField({ name: radiusPrefix });
   const { onChange: onMultiPskChange } = useFastField({ name: `${ssidName}.multi-psk` });
 
-  const onProtoChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newEncryption: { proto: string; key?: string; ieee80211w?: string } = {
-      proto: e.target.value,
-    };
-    if (e.target.value === 'none') {
-      onEncryptionChange({ proto: 'none' });
-      onRadiusChange(undefined);
-    } else {
-      if (e.target.value === 'sae') onMultiPskChange(undefined);
-      if (ENCRYPTION_PROTOS_REQUIRE_KEY.includes(e.target.value)) newEncryption.key = 'YOUR_SECRET';
-      if (ENCRYPTION_PROTOS_REQUIRE_IEEE.includes(e.target.value)) newEncryption.ieee80211w = 'required';
-      onEncryptionChange(newEncryption);
-      if (ENCRYPTION_PROTOS_REQUIRE_RADIUS.includes(e.target.value))
-        onRadiusChange(INTERFACE_SSID_RADIUS_SCHEMA(t, true).cast());
-      else {
+  const onProtoChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const newEncryption: { proto: string; key?: string; ieee80211w?: string } = {
+        proto: e.target.value,
+      };
+      if (e.target.value === 'none') {
+        onEncryptionChange({ proto: 'none' });
         onRadiusChange(undefined);
+      } else {
+        if (e.target.value === 'sae') onMultiPskChange(undefined);
+        if (ENCRYPTION_PROTOS_REQUIRE_KEY.includes(e.target.value)) newEncryption.key = 'YOUR_SECRET';
+        if (ENCRYPTION_PROTOS_REQUIRE_IEEE.includes(e.target.value)) newEncryption.ieee80211w = 'required';
+        onEncryptionChange(newEncryption);
+        if (ENCRYPTION_PROTOS_REQUIRE_RADIUS.includes(e.target.value)) {
+          /*
+          if (isPasspoint) {
+            onRadiusChange(DEFAULT_PASSPOINT_RADIUS);
+          } else {
+            onRadiusChange(INTERFACE_SSID_RADIUS_SCHEMA(t, true).cast());
+          } */
+          onRadiusChange(INTERFACE_SSID_RADIUS_SCHEMA(t, true).cast());
+        } else {
+          onRadiusChange(undefined);
+        }
       }
-    }
-  }, []);
+    },
+    [isPasspoint],
+  );
 
   const { isKeyNeeded, needIeee, isUsingRadius } = useMemo(
     () => ({
@@ -64,6 +75,7 @@ const Encryption = ({
       needIeee={needIeee}
       isKeyNeeded={isKeyNeeded}
       isUsingRadius={isUsingRadius}
+      isPasspoint={isPasspoint}
     />
   );
 };

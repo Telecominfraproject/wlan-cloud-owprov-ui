@@ -1,7 +1,7 @@
 import React from 'react';
+import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
-import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import { ENCRYPTION_OPTIONS } from '../../../interfacesConstants';
 import Radius from './Radius';
 
@@ -13,6 +13,7 @@ interface Props {
   needIeee: boolean;
   isKeyNeeded: boolean;
   isUsingRadius: boolean;
+  isPasspoint?: boolean;
 }
 
 const EncryptionForm: React.FC<Props> = ({
@@ -23,6 +24,7 @@ const EncryptionForm: React.FC<Props> = ({
   needIeee,
   isKeyNeeded,
   isUsingRadius,
+  isPasspoint,
 }) => (
   <>
     <Flex mt={4}>
@@ -65,7 +67,7 @@ const EncryptionForm: React.FC<Props> = ({
         />
       )}
     </SimpleGrid>
-    {isUsingRadius && <Radius editing={editing} namePrefix={radiusPrefix} />}
+    {isUsingRadius && <Radius editing={editing} namePrefix={radiusPrefix} isPasspoint={isPasspoint} />}
   </>
 );
 

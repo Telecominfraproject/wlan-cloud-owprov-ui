@@ -1,14 +1,14 @@
 import React from 'react';
-import StringField from 'components/FormFields/StringField';
-import NumberField from 'components/FormFields/NumberField';
 import { Flex, FormControl, FormLabel, Heading, SimpleGrid, Switch } from '@chakra-ui/react';
-import ToggleField from 'components/FormFields/ToggleField';
 import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
+import NumberField from 'components/FormFields/NumberField';
+import StringField from 'components/FormFields/StringField';
+import ToggleField from 'components/FormFields/ToggleField';
+import LockedRadius from './LockedRadius';
 import Local from '../../Local';
 import { INTERFACE_SSID_RADIUS_SCHEMA } from '../../../../interfacesConstants';
-import LockedRadius from './LockedRadius';
 
-const RadiusForm: React.FC<{
+type Props = {
   editing: boolean;
   namePrefix: string;
   isUsingCustom: boolean;
@@ -17,7 +17,10 @@ const RadiusForm: React.FC<{
   onDynamicChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isDynamicEnabled: boolean;
   variableBlock?: string;
-}> = ({
+  // eslint-disable-next-line react/no-unused-prop-types
+  isPasspoint?: boolean;
+};
+const RadiusForm = ({
   editing,
   namePrefix,
   isUsingCustom,
@@ -26,7 +29,7 @@ const RadiusForm: React.FC<{
   onDynamicChange,
   isDynamicEnabled,
   variableBlock,
-}) => (
+}: Props) => (
   <>
     <Flex mt={6}>
       <div>

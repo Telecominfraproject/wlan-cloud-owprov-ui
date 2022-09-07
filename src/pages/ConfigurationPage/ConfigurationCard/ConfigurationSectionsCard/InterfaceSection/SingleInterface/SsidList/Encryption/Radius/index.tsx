@@ -1,8 +1,10 @@
-import useFastField from 'hooks/useFastField';
 import React, { useMemo } from 'react';
+import useFastField from 'hooks/useFastField';
 import RadiusForm from './Radius';
 
-const Radius: React.FC<{ editing: boolean; namePrefix: string }> = ({ editing, namePrefix }) => {
+type Props = { editing: boolean; namePrefix: string; isPasspoint?: boolean };
+
+const Radius = ({ editing, namePrefix, isPasspoint }: Props) => {
   const { value: customRadius } = useFastField({ name: `${namePrefix}.__variableBlock` });
   const { value: accounting, onChange: setAccounting } = useFastField({ name: `${namePrefix}.accounting` });
   const { value: dynamicAuth, onChange: setDynamicAuth } = useFastField({
@@ -49,6 +51,7 @@ const Radius: React.FC<{ editing: boolean; namePrefix: string }> = ({ editing, n
       isDynamicEnabled={isDynamicEnabled}
       variableBlock={customRadius}
       namePrefix={namePrefix}
+      isPasspoint={isPasspoint}
     />
   );
 };
