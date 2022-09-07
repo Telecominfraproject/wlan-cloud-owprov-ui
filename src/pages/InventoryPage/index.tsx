@@ -3,7 +3,7 @@ import { Flex } from '@chakra-ui/react';
 import { useAuth } from 'contexts/AuthProvider';
 import Table from './Table';
 
-const InventoryPage: React.FC = () => {
+const InventoryPage = () => {
   const { isUserLoaded } = useAuth();
 
   return (

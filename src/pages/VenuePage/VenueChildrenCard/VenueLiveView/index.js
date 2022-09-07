@@ -13,9 +13,10 @@ import CirclePackTimePickers from './TimePickers';
 
 const propTypes = {
   boardId: PropTypes.string.isRequired,
+  venue: PropTypes.instanceOf(Object).isRequired,
 };
 
-const VenueLiveView = ({ boardId }) => {
+const VenueLiveView = ({ boardId, venue }) => {
   const handle = useFullScreenHandle();
   const color = useColorModeValue('gray.50', 'gray.800');
   const [startTime, setStartTime] = useState(getHoursAgo(1));
@@ -44,7 +45,7 @@ const VenueLiveView = ({ boardId }) => {
               <RefreshButton onClick={refetch} isLoading={isFetching} ml={2} />
             </Flex>
             <CircleGraphProvider>
-              {timepoints && <CirclePack timepoints={timepoints} handle={handle} />}
+              {timepoints && <CirclePack timepoints={timepoints} handle={handle} venue={venue} />}
             </CircleGraphProvider>
           </Box>
         </FullScreen>

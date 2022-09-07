@@ -55,7 +55,7 @@ const VenueChildrenCard = ({ id }: { id: string }) => {
             <VenueDashboard boardId={venue.boards[0]} />
           </TabPanel>
           <TabPanel overflowX="auto">
-            <VenueLiveView boardId={venue.boards[0]} />
+            <VenueLiveView boardId={venue.boards[0]} venue={venue} />
           </TabPanel>
           <TabPanel overflowX="auto">
             <VenueClientLifecycle venueId={venue?.id} />
