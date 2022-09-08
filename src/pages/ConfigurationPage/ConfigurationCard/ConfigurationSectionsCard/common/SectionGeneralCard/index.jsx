@@ -1,10 +1,10 @@
 import React from 'react';
+import { Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
 import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
 

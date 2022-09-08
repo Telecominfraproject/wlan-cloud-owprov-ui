@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
 import { Box, Center, Heading, List, ListItem, Progress, Spinner } from '@chakra-ui/react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import PushResultTable from './PushResultTable';
 import { useAuth } from 'contexts/AuthProvider';
 import { axiosProv } from 'utils/axiosInstances';
-import PushResultTable from './PushResultTable';
 
 const propTypes = {
   devices: PropTypes.shape({

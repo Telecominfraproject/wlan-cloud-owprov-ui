@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { SimpleGrid } from '@chakra-ui/react';
+import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { SimpleGrid } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
-import { CreateOperatorSchema } from 'constants/formSchemas';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
 import StringField from 'components/FormFields/StringField';
+import { CreateOperatorSchema } from 'constants/formSchemas';
 import { useCreateOperator } from 'hooks/Network/Operators';
 import useMutationResult from 'hooks/useMutationResult';
-import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

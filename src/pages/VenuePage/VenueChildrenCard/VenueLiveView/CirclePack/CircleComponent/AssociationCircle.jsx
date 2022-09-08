@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { animated } from '@react-spring/web';
 import {
   Box,
   Popover,
@@ -20,10 +18,12 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { animated } from '@react-spring/web';
 import { WifiHigh } from 'phosphor-react';
-import { bytesString, formatNumberToScientificBasedOnMax } from 'utils/stringHelper';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useCircleGraph } from 'contexts/CircleGraphProvider';
+import { bytesString, formatNumberToScientificBasedOnMax } from 'utils/stringHelper';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,

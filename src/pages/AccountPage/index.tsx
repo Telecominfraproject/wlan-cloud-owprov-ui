@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import { useAuth } from 'contexts/AuthProvider';
 import AccountCard from './AccountCard';
+import { useAuth } from 'contexts/AuthProvider';
 
 const AccountPage: React.FC = () => {
   const { isUserLoaded } = useAuth();

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useGetAnalyticsBoardTimepoints } from 'hooks/Network/Analytics';
 import { Box, Center, Flex, Spacer, Spinner, useColorModeValue } from '@chakra-ui/react';
-import LoadingOverlay from 'components/LoadingOverlay';
-import RefreshButton from 'components/Buttons/RefreshButton';
-import { CircleGraphProvider } from 'contexts/CircleGraphProvider';
-import { getHoursAgo } from 'utils/dateFormatting';
+import PropTypes from 'prop-types';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import CirclePack from './CirclePack';
 import ExpandButton from './ExpandButton';
 import CirclePackTimePickers from './TimePickers';
+import RefreshButton from 'components/Buttons/RefreshButton';
+import LoadingOverlay from 'components/LoadingOverlay';
+import { CircleGraphProvider } from 'contexts/CircleGraphProvider';
+import { useGetAnalyticsBoardTimepoints } from 'hooks/Network/Analytics';
+import { getHoursAgo } from 'utils/dateFormatting';
 
 const propTypes = {
   boardId: PropTypes.string.isRequired,

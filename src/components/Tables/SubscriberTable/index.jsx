@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import DataTable from 'components/DataTable';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
-import useControlledTable from 'hooks/useControlledTable';
 import { useGetSubscriberCount, useGetSubscribers } from 'hooks/Network/Subscribers';
+import useControlledTable from 'hooks/useControlledTable';
 
 const propTypes = {
   actions: PropTypes.func.isRequired,

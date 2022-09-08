@@ -1,3 +1,4 @@
+import { object, number, string, array, bool } from 'yup';
 import {
   isValidPortRange,
   isValidPortRanges,
@@ -8,7 +9,6 @@ import {
   testSelectPorts,
   testUcMac,
 } from 'constants/formTests';
-import { object, number, string, array, bool } from 'yup';
 
 export const DEFAULT_PASSPOINT_RADIUS = {
   authentication: {

@@ -1,7 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import CreateButton from 'components/Buttons/CreateButton';
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   Center,
@@ -12,7 +9,10 @@ import {
   SimpleGrid,
   useDisclosure,
 } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
+import CreateButton from 'components/Buttons/CreateButton';
 import ModalHeader from 'components/Modals/ModalHeader';
 
 const propTypes = {

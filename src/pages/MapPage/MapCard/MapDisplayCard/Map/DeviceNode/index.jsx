@@ -1,7 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { Handle } from 'react-flow-renderer';
 import {
   Box,
   Center,
@@ -19,11 +16,14 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react';
-import isEqual from 'react-fast-compare';
 import { ArrowSquareOut, Circle, Heart } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
+import { Handle } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import { useGetGatewayUi } from 'hooks/Network/Endpoints';
+import { v4 as uuid } from 'uuid';
 import AssociationsTable from './AssociationsTable';
+import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 
 const propTypes = {
   data: PropTypes.shape({

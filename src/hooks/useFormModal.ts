@@ -1,5 +1,5 @@
-import { useDisclosure } from '@chakra-ui/react';
 import { useMemo } from 'react';
+import { useDisclosure } from '@chakra-ui/react';
 
 interface Props {
   isDirty?: boolean;

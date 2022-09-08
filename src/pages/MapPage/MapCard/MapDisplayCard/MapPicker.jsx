@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useGetMaps } from 'hooks/Network/Maps';
-import { useTranslation } from 'react-i18next';
 import { Button, useToast } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
-import { useAuth } from 'contexts/AuthProvider';
 import { FloppyDisk, X } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from 'contexts/AuthProvider';
+import { useGetMaps } from 'hooks/Network/Maps';
 
 const groupStyles = {
   display: 'flex',

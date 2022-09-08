@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { EntityShape } from 'constants/propShapes';
 import { Alert, Box, Center, Heading } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
+import Actions from './Actions';
 import VenueTable from 'components/Tables/VenueTable';
 import CreateVenueModal from 'components/Tables/VenueTable/CreateVenueModal';
-import { useTranslation } from 'react-i18next';
-import Actions from './Actions';
+import { EntityShape } from 'constants/propShapes';
 
 const propTypes = {
   entity: PropTypes.shape(EntityShape).isRequired,

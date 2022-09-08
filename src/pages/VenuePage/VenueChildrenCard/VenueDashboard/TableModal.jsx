@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
 import {
   Box,
   Button,
@@ -13,15 +11,17 @@ import {
   ModalOverlay,
   Spacer,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
-import { useTranslation } from 'react-i18next';
 import { ArrowsOut } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import ColumnPicker from 'components/ColumnPicker';
 import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
-import { minimalSecondsToDetailed } from 'utils/dateFormatting';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import { arrayMoveIndex } from 'utils/arrayHelpers';
+import { minimalSecondsToDetailed } from 'utils/dateFormatting';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object),

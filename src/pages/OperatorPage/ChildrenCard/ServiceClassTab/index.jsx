@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
+import { Box } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import { Box } from '@chakra-ui/react';
-import useRefreshId from 'hooks/useRefreshId';
-import useObjectModal from 'hooks/useObjectModal';
-import EditServiceClassModal from 'components/Modals/ServiceClass/EditServiceClassModal';
+import CreateServiceModal from '../../../../components/Modals/ServiceClass/CreateServiceModal';
 import Actions from './Actions';
 import ServiceClassTable from './Table';
-import CreateServiceModal from '../../../../components/Modals/ServiceClass/CreateServiceModal';
+import EditServiceClassModal from 'components/Modals/ServiceClass/EditServiceClassModal';
+import useObjectModal from 'hooks/useObjectModal';
+import useRefreshId from 'hooks/useRefreshId';
 
 const propTypes = {
   operatorId: PropTypes.string.isRequired,

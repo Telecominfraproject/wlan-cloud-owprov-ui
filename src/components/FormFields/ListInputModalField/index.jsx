@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
 import {
   Button,
   useDisclosure,
@@ -20,11 +18,13 @@ import {
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
+import { Trash } from 'phosphor-react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import CloseButton from 'components/Buttons/CloseButton';
 import SaveButton from 'components/Buttons/SaveButton';
-import { Trash } from 'phosphor-react';
+import ModalHeader from 'components/Modals/ModalHeader';
 
 const propTypes = {
   initialValue: PropTypes.arrayOf(PropTypes.string).isRequired,

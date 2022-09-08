@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useColorModeValue } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 
 const propTypes = {
   path: PropTypes.string.isRequired,

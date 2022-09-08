@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { Box, Flex, Link, SimpleGrid } from '@chakra-ui/react';
+import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { Box, Flex, Link, SimpleGrid } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
-import { SubscriberSchema } from 'constants/formSchemas';
 import StringField from 'components/FormFields/StringField';
-import useMutationResult from 'hooks/useMutationResult';
-import { useCreateSubscriber } from 'hooks/Network/Subscribers';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
-import useApiRequirements from 'hooks/useApiRequirements';
 import ToggleField from 'components/FormFields/ToggleField';
+import { SubscriberSchema } from 'constants/formSchemas';
+import { useCreateSubscriber } from 'hooks/Network/Subscribers';
+import useApiRequirements from 'hooks/useApiRequirements';
+import useMutationResult from 'hooks/useMutationResult';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

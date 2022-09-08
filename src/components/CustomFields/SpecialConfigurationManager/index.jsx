@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import isEqual from 'react-fast-compare';
 import { Button, Center, Heading, Spacer } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
+import { useTranslation } from 'react-i18next';
+import SpecialConfigurationForm from './SpecialConfigurationForm';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import { BASE_SECTIONS } from 'constants/configuration';
 import { useGetConfiguration } from 'hooks/Network/Configurations';
 import ConfigurationSectionsCard from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard';
-import { BASE_SECTIONS } from 'constants/configuration';
-import DeleteButton from 'components/Buttons/DeleteButton';
-import SpecialConfigurationForm from './SpecialConfigurationForm';
 
 const convertConfigManagerData = (form, sections) => {
   if (form === null || sections === null) return null;

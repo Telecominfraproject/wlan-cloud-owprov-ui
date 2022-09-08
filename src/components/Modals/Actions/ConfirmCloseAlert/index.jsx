@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -9,6 +8,7 @@ import {
   AlertDialogOverlay,
   Button,
 } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 const propTypes = {

@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import { IconButton, Tooltip } from '@chakra-ui/react';
 import { TextAlignCenter } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const propTypes = {
   onClick: PropTypes.func,

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/react';
+import { Field, useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import { Field, useFormikContext } from 'formik';
-import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/react';
 import ConfigurationFieldExplanation from 'components/FormFields/ConfigurationFieldExplanation';
 
 const CHANNELS = {

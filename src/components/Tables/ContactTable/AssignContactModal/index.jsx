@@ -1,6 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
 import {
   Button,
   useDisclosure,
@@ -16,12 +14,14 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { Lock, Plus, Trash } from 'phosphor-react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import SaveButton from 'components/Buttons/SaveButton';
-import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/Modals/ModalHeader';
 import { useQueryClient } from 'react-query';
+import { v4 as uuid } from 'uuid';
+import CloseButton from 'components/Buttons/CloseButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import ModalHeader from 'components/Modals/ModalHeader';
 import ContactTable from 'components/Tables/ContactTable';
 import { useClaimContacts, useGetAllContacts } from 'hooks/Network/Contacts';
 

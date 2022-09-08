@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import DataTable from 'components/DataTable';
-import { useTranslation } from 'react-i18next';
 import { useToast } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
 import { useGetSelectLocations } from 'hooks/Network/Locations';
 

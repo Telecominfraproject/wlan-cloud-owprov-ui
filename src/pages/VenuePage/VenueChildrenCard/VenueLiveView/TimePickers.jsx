@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import DateTimePicker from 'components/DatePickers/DateTimePicker';
 import { Flex, Heading } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import DateTimePicker from 'components/DatePickers/DateTimePicker';
 
 const propTypes = {
   start: PropTypes.instanceOf(Date).isRequired,

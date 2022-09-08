@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import DataTable from 'components/DataTable';
-import { useTranslation } from 'react-i18next';
 import { Box } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import DataTable from 'components/DataTable';
 
 const propTypes = {
   isShowingError: PropTypes.bool,

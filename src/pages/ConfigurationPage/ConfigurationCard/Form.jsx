@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import {
   useToast,
   Tabs,
@@ -16,18 +13,21 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 import NotesTable from 'components/CustomFields/NotesTable';
-import { EntityShape } from 'constants/propShapes';
+import MultiSelectField from 'components/FormFields/MultiSelectField';
+import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
+import StringField from 'components/FormFields/StringField';
+import ConfigurationInUseModal from 'components/Modals/Configuration/ConfigurationInUseModal';
 import { EntitySchema } from 'constants/formSchemas';
+import { EntityShape } from 'constants/propShapes';
 import { useGetConfigurationInUse } from 'hooks/Network/Configurations';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
-import ConfigurationInUseModal from 'components/Modals/Configuration/ConfigurationInUseModal';
-import StringField from 'components/FormFields/StringField';
-import MultiSelectField from 'components/FormFields/MultiSelectField';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
-import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

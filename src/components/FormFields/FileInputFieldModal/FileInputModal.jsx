@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
 import {
   Box,
   CloseButton,
@@ -18,12 +16,14 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
-import FileInputButton from 'components/Buttons/FileInputButton';
-import { useTranslation } from 'react-i18next';
 import { UploadSimple } from 'phosphor-react';
-import SaveButton from 'components/Buttons/SaveButton';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
+import FileInputButton from 'components/Buttons/FileInputButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ModalHeader from 'components/Modals/ModalHeader';
 
 const propTypes = {
   value: PropTypes.string,

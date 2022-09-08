@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { animated } from '@react-spring/web';
+import PropTypes from 'prop-types';
 
 const propTypes = {
   label: PropTypes.string.isRequired,

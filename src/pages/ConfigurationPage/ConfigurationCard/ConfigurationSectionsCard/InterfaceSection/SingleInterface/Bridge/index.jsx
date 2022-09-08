@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormControl, FormLabel, Heading, SimpleGrid, Switch } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
-import BridgeSection from './BridgeSection';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { INTERFACE_BRIDGE_SCHEMA } from '../../interfacesConstants';
+import BridgeSection from './BridgeSection';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

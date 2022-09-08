@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useGetResource } from 'hooks/Network/Resources';
-import { useTranslation } from 'react-i18next';
 import { SimpleGrid, useToast } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import DisplayNumberField from 'components/DisplayFields/DisplayNumberField';
+import { useGetResource } from 'hooks/Network/Resources';
 
 const propTypes = {
   variableBlockId: PropTypes.string.isRequired,

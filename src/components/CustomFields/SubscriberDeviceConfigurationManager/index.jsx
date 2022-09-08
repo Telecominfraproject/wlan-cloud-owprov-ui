@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import isEqual from 'react-fast-compare';
 import { Button, Center } from '@chakra-ui/react';
-import ConfigurationSectionsCard from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard';
+import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
+import { useTranslation } from 'react-i18next';
 import { BASE_SECTIONS } from 'constants/configuration';
+import ConfigurationSectionsCard from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard';
 
 const convertConfigManagerData = (sections) => {
   if (sections === null) return null;

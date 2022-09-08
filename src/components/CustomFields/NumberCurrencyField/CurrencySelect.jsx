@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
+import { Select } from '@chakra-ui/react';
+import { useField } from 'formik';
 import PropTypes from 'prop-types';
 import useCurrency from 'hooks/useCurrency';
 import useSelectOptions from 'hooks/useSelectOptions';
-import { Select } from '@chakra-ui/react';
-import { useField } from 'formik';
 
 const propTypes = {
   name: PropTypes.string.isRequired,

@@ -1,17 +1,17 @@
 import React from 'react';
+import { Button, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Box } from '@chakra-ui/react';
+import { Formik } from 'formik';
+import { Plus } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
-import { Button, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Box } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { Plus } from 'phosphor-react';
-import ModalHeader from 'components/Modals/ModalHeader';
-import CloseButton from 'components/Buttons/CloseButton';
-import { Formik } from 'formik';
-import StringField from 'components/FormFields/StringField';
-import SelectField from 'components/FormFields/SelectField';
-import SaveButton from 'components/Buttons/SaveButton';
-import useFormRef from 'hooks/useFormRef';
 import { CREATE_INTERFACE_SCHEMA, SINGLE_INTERFACE_SCHEMA } from './interfacesConstants';
+import CloseButton from 'components/Buttons/CloseButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import ModalHeader from 'components/Modals/ModalHeader';
+import useFormRef from 'hooks/useFormRef';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

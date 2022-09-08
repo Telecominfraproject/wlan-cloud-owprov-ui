@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useGetResource } from 'hooks/Network/Resources';
-import { useTranslation } from 'react-i18next';
 import { FormControl, FormLabel, SimpleGrid, Switch, useToast } from '@chakra-ui/react';
-import DisplayStringField from 'components/DisplayFields/DisplayStringField';
-import DisplayNumberField from 'components/DisplayFields/DisplayNumberField';
 import { Formik } from 'formik';
-import DisplayToggleField from 'components/DisplayFields/DisplayToggleField';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Local from './Local';
+import DisplayNumberField from 'components/DisplayFields/DisplayNumberField';
+import DisplayStringField from 'components/DisplayFields/DisplayStringField';
+import DisplayToggleField from 'components/DisplayFields/DisplayToggleField';
+import { useGetResource } from 'hooks/Network/Resources';
 
 const propTypes = {
   variableBlockId: PropTypes.string.isRequired,

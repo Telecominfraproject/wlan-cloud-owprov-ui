@@ -1,11 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import DeleteButton from 'components/Buttons/DeleteButton';
-import { EntityShape } from 'constants/propShapes';
-import { useNavigate } from 'react-router-dom';
-import useMutationResult from 'hooks/useMutationResult';
-import { useDeleteOperator } from 'hooks/Network/Operators';
 import {
   Alert,
   AlertDialog,
@@ -17,6 +10,13 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import { EntityShape } from 'constants/propShapes';
+import { useDeleteOperator } from 'hooks/Network/Operators';
+import useMutationResult from 'hooks/useMutationResult';
 
 const propTypes = {
   operator: PropTypes.shape(EntityShape),

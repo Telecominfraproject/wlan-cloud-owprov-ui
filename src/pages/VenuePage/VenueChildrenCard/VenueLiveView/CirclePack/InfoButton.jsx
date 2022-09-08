@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Heading,
@@ -11,10 +12,9 @@ import {
   PopoverTrigger,
   Portal,
 } from '@chakra-ui/react';
-import { useCircleGraph } from 'contexts/CircleGraphProvider';
 import { Question } from 'phosphor-react';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCircleGraph } from 'contexts/CircleGraphProvider';
 
 const CirclePackInfoButton = () => {
   const { t } = useTranslation();

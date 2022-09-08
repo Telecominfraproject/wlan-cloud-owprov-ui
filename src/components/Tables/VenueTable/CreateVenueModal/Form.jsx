@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { useToast, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import { EntitySchema } from 'constants/formSchemas';
-import StringField from 'components/FormFields/StringField';
-import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import { useCreateVenue } from 'hooks/Network/Venues';
+import { useNavigate } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 import LocationPickerCreator from 'components/CreateObjectsForms/LocationPickerCreator';
 import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import StringField from 'components/FormFields/StringField';
+import { EntitySchema } from 'constants/formSchemas';
+import { useCreateVenue } from 'hooks/Network/Venues';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

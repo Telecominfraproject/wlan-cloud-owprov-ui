@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import {
   Alert,
   AlertIcon,
@@ -13,6 +11,8 @@ import {
   AccordionPanel,
   Center,
 } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 
 const propTypes = {

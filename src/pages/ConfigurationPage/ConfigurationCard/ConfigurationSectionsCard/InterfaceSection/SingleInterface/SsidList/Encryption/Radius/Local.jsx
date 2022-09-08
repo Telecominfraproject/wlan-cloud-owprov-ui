@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react';
+import { FormControl, FormLabel, SimpleGrid, Switch } from '@chakra-ui/react';
+import { useFormikContext, getIn } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useFormikContext, getIn } from 'formik';
-import StringField from 'components/FormFields/StringField';
-import { FormControl, FormLabel, SimpleGrid, Switch } from '@chakra-ui/react';
-import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
-import NumberField from 'components/FormFields/NumberField';
 import {
   INTERFACE_SSID_RADIUS_LOCAL_SCHEMA,
   INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA,
 } from '../../../../interfacesConstants';
+import NumberField from 'components/FormFields/NumberField';
+import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
+import StringField from 'components/FormFields/StringField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

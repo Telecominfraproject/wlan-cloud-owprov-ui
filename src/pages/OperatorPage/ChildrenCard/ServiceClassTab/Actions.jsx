@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import {
   Flex,
   IconButton,
@@ -19,8 +17,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
-import useMutationResult from 'hooks/useMutationResult';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useDeleteServiceClass } from 'hooks/Network/ServiceClasses';
+import useMutationResult from 'hooks/useMutationResult';
 
 const propTypes = {
   cell: PropTypes.shape({

@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { AddIcon } from '@chakra-ui/icons';
+import { IconButton, Input, InputGroup, InputRightElement, Tooltip } from '@chakra-ui/react';
+import { useField } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { IconButton, Input, InputGroup, InputRightElement, Tooltip } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
-import { useAuth } from 'contexts/AuthProvider';
-import DataTable from 'components/DataTable';
 import { v4 as uuid } from 'uuid';
+import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
-import { useField } from 'formik';
+import { useAuth } from 'contexts/AuthProvider';
 
 const propTypes = {
   name: PropTypes.string,

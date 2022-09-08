@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Tooltip } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { compactDate, formatDaysAgo } from 'utils/dateFormatting';
 
 const propTypes = {

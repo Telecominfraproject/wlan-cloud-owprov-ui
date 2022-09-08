@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import {
   Modal,
   ModalOverlay,
@@ -13,20 +12,21 @@ import {
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
+import { ArrowSquareOut, PaperPlaneTilt } from 'phosphor-react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import { axiosProv } from 'utils/axiosInstances';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import SaveButton from 'components/Buttons/SaveButton';
-import EditButton from 'components/Buttons/EditButton';
-import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/Modals/ModalHeader';
-import { useGetComputedConfiguration, useGetTag } from 'hooks/Network/Inventory';
-import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
-import { ArrowSquareOut, PaperPlaneTilt } from 'phosphor-react';
-import { useGetGatewayUi } from 'hooks/Network/Endpoints';
-import EditTagForm from './Form';
 import DeviceActionDropdown from './ActionDropdown';
+import EditTagForm from './Form';
+import CloseButton from 'components/Buttons/CloseButton';
+import EditButton from 'components/Buttons/EditButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import ModalHeader from 'components/Modals/ModalHeader';
+import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
+import { useGetGatewayUi } from 'hooks/Network/Endpoints';
+import { useGetComputedConfiguration, useGetTag } from 'hooks/Network/Inventory';
+import { axiosProv } from 'utils/axiosInstances';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { SimpleGrid } from '@chakra-ui/react';
+import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { SimpleGrid } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
-import { ServiceClassSchema } from 'constants/formSchemas';
-import StringField from 'components/FormFields/StringField';
-import useMutationResult from 'hooks/useMutationResult';
-import SelectField from 'components/FormFields/SelectField';
-import { useCreateServiceClass } from 'hooks/Network/ServiceClasses';
 import NumberCurrencyField from 'components/CustomFields/NumberCurrencyField';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import { ServiceClassSchema } from 'constants/formSchemas';
+import { useCreateServiceClass } from 'hooks/Network/ServiceClasses';
+import useMutationResult from 'hooks/useMutationResult';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

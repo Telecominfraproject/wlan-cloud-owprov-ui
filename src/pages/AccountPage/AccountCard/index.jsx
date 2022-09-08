@@ -1,16 +1,16 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Box, Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { Pencil, X } from 'phosphor-react';
-import { useAuth } from 'contexts/AuthProvider';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
-import CardBody from 'components/Card/CardBody';
-import SaveButton from 'components/Buttons/SaveButton';
-import useFormRef from 'hooks/useFormRef';
-import { useDeleteAvatar, useUpdateAccount, useUpdateAvatar } from 'hooks/Network/Account';
+import { useTranslation } from 'react-i18next';
 import UpdateForm from './Form';
+import SaveButton from 'components/Buttons/SaveButton';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import { useAuth } from 'contexts/AuthProvider';
+import { useDeleteAvatar, useUpdateAccount, useUpdateAvatar } from 'hooks/Network/Account';
+import useFormRef from 'hooks/useFormRef';
 
 const AccountCard = () => {
   const { t } = useTranslation();

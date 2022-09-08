@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   FormControl,
   FormErrorMessage,
@@ -12,8 +11,9 @@ import {
   InputGroup,
   InputRightAddon,
 } from '@chakra-ui/react';
-import ConfigurationFieldExplanation from 'components/FormFields/ConfigurationFieldExplanation';
+import PropTypes from 'prop-types';
 import CurrencySelect from './CurrencySelect';
+import ConfigurationFieldExplanation from 'components/FormFields/ConfigurationFieldExplanation';
 
 const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

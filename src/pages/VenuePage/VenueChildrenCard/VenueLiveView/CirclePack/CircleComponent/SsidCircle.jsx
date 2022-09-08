@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { animated } from '@react-spring/web';
 import {
   Heading,
   Popover,
@@ -21,10 +19,12 @@ import {
   Box,
   Tag,
 } from '@chakra-ui/react';
+import { animated } from '@react-spring/web';
 import { Broadcast } from 'phosphor-react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { bytesString } from 'utils/stringHelper';
 import { useCircleGraph } from 'contexts/CircleGraphProvider';
+import { bytesString } from 'utils/stringHelper';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,

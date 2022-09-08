@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   FormControl,
   FormErrorMessage,
@@ -12,6 +11,7 @@ import {
   InputGroup,
   InputRightAddon,
 } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 
 const propTypes = {
   value: PropTypes.number.isRequired,

@@ -1,16 +1,16 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { ConfigurationSectionShape } from 'constants/propShapes';
-import { FieldArray, Formik } from 'formik';
-import { useTranslation } from 'react-i18next';
-import isEqual from 'react-fast-compare';
 import { Flex, Spacer, VStack } from '@chakra-ui/react';
-import DeleteButton from 'components/Buttons/DeleteButton';
-import SectionGeneralCard from '../common/SectionGeneralCard';
-import { RADIOS_SCHEMA } from './radiosConstants';
-import Radios from './Radios';
+import { FieldArray, Formik } from 'formik';
+import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import InternalFormAccess from '../common/InternalFormAccess';
+import SectionGeneralCard from '../common/SectionGeneralCard';
+import Radios from './Radios';
+import { RADIOS_SCHEMA } from './radiosConstants';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import { ConfigurationSectionShape } from 'constants/propShapes';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

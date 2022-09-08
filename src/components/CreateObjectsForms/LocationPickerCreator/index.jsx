@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useField } from 'formik';
-import { useGetAllLocations, useGetSelectLocations } from 'hooks/Network/Locations';
-import { useTranslation } from 'react-i18next';
-import SelectField from 'components/FormFields/SelectField';
 import { useToast } from '@chakra-ui/react';
-import { useGetEntity } from 'hooks/Network/Entity';
+import { useField } from 'formik';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Form from './Form';
 import LocationPickerCreatorModal from './Modal';
+import SelectField from 'components/FormFields/SelectField';
+import { useGetEntity } from 'hooks/Network/Entity';
+import { useGetAllLocations, useGetSelectLocations } from 'hooks/Network/Locations';
 
 const propTypes = {
   locationName: PropTypes.string.isRequired,

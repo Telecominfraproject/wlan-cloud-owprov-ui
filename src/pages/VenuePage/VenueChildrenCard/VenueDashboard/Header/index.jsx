@@ -1,15 +1,15 @@
 import React from 'react';
+import { Heading, List, ListItem, Text } from '@chakra-ui/react';
+import { Circle } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Heading, List, ListItem, Text } from '@chakra-ui/react';
+import Masonry from 'react-masonry-css';
+import DeviceTypeStat from './DeviceTypeStat';
+import FirmwareStat from './FirmwareStat';
+import HealthStat from './HealthStat';
+import MemoryStat from './MemoryStat';
 import SimpleStatDisplay from 'components/StatisticsDisplay/SimpleStatDisplay';
 import { minimalSecondsToDetailed } from 'utils/dateFormatting';
-import { Circle } from 'phosphor-react';
-import Masonry from 'react-masonry-css';
-import HealthStat from './HealthStat';
-import FirmwareStat from './FirmwareStat';
-import DeviceTypeStat from './DeviceTypeStat';
-import MemoryStat from './MemoryStat';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,

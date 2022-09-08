@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -14,6 +13,7 @@ import {
   PinInputField,
   useToast,
 } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';

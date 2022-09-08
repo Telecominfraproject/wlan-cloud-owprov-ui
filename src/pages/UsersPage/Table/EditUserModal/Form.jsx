@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { Box, Flex, Link, useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
+import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { Box, Flex, Link, useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { Formik, Form } from 'formik';
-import { useAuth } from 'contexts/AuthProvider';
 import NotesTable from 'components/CustomFields/NotesTable';
-import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
-import useApiRequirements from 'hooks/useApiRequirements';
-import { UpdateUserSchema } from 'constants/formSchemas';
+import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
+import { UpdateUserSchema } from 'constants/formSchemas';
+import { useAuth } from 'contexts/AuthProvider';
+import useApiRequirements from 'hooks/useApiRequirements';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import isEqual from 'react-fast-compare';
 import {
   Button,
   IconButton,
@@ -12,10 +10,12 @@ import {
   ModalContent,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 import { CheckCircle, WarningOctagon } from 'phosphor-react';
-import ModalHeader from 'components/Modals/ModalHeader';
+import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
+import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
+import ModalHeader from 'components/Modals/ModalHeader';
 
 const propTypes = {
   warnings: PropTypes.instanceOf(Object).isRequired,

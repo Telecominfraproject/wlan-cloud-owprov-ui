@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import { compactDate } from 'utils/dateFormatting';
 import { Box, Center, Heading, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Tooltip } from '@chakra-ui/react';
 import { Clock } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { compactDate } from 'utils/dateFormatting';
 
 const propTypes = {
   index: PropTypes.number.isRequired,

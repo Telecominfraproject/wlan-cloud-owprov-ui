@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
-import NotesTable from 'components/CustomFields/NotesTable';
-import StringField from 'components/FormFields/StringField';
-import { EntityShape } from 'constants/propShapes';
-import { VenueSchema } from 'constants/formSchemas';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
-import FormattedDate from 'components/FormattedDate';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
-import { useUpdateVenue } from 'hooks/Network/Venues';
+import { v4 as uuid } from 'uuid';
+import VenueAnalytics from './VenueAnalytics';
 import LocationPickerCreator from 'components/CreateObjectsForms/LocationPickerCreator';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
+import NotesTable from 'components/CustomFields/NotesTable';
+import FormattedDate from 'components/FormattedDate';
+import StringField from 'components/FormFields/StringField';
+import { VenueSchema } from 'constants/formSchemas';
+import { EntityShape } from 'constants/propShapes';
 import { useAuth } from 'contexts/AuthProvider';
 import { useCreateAnalyticsBoard, useDeleteAnalyticsBoard, useUpdateAnalyticsBoard } from 'hooks/Network/Analytics';
-import VenueAnalytics from './VenueAnalytics';
+import { useUpdateVenue } from 'hooks/Network/Venues';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

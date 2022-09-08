@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {
   Modal,
   ModalOverlay,
@@ -11,16 +10,17 @@ import {
   useDisclosure,
   useBoolean,
 } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import SaveButton from 'components/Buttons/SaveButton';
-import EditButton from 'components/Buttons/EditButton';
+import EditLocationForm from './Form';
 import CloseButton from 'components/Buttons/CloseButton';
+import EditButton from 'components/Buttons/EditButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
 import { LocationShape } from 'constants/propShapes';
 import { useGetLocation } from 'hooks/Network/Locations';
 import useFormRef from 'hooks/useFormRef';
-import EditLocationForm from './Form';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

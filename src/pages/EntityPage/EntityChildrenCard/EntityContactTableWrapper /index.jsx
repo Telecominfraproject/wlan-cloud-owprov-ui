@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { EntityShape } from 'constants/propShapes';
 import { Box, useDisclosure } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useQueryClient } from 'react-query';
+import { v4 as uuid } from 'uuid';
+import Actions from './Actions';
+import ContactTable from 'components/Tables/ContactTable';
 import CreateContactModal from 'components/Tables/ContactTable/CreateContactModal';
 import EditContactModal from 'components/Tables/ContactTable/EditContactModal';
-import ContactTable from 'components/Tables/ContactTable';
-import Actions from './Actions';
+import { EntityShape } from 'constants/propShapes';
 
 const propTypes = {
   entity: PropTypes.shape(EntityShape).isRequired,

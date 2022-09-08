@@ -1,20 +1,20 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { ConfigurationSectionShape } from 'constants/propShapes';
 import { Formik } from 'formik';
-import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
-import DeleteButton from 'components/Buttons/DeleteButton';
+import { useTranslation } from 'react-i18next';
 import Masonry from 'react-masonry-css';
-import { getSubSectionDefaults, METRICS_SCHEMA } from './metricsConstants';
-import SectionGeneralCard from '../common/SectionGeneralCard';
-import Statistics from './Statistics';
-import SubSectionPicker from '../common/SubSectionPicker';
-import Health from './Health';
-import WifiFrames from './WifiFrames';
-import DhcpSnooping from './DhcpSnooping';
+import { v4 as uuid } from 'uuid';
 import InternalFormAccess from '../common/InternalFormAccess';
+import SectionGeneralCard from '../common/SectionGeneralCard';
+import SubSectionPicker from '../common/SubSectionPicker';
+import DhcpSnooping from './DhcpSnooping';
+import Health from './Health';
+import { getSubSectionDefaults, METRICS_SCHEMA } from './metricsConstants';
+import Statistics from './Statistics';
+import WifiFrames from './WifiFrames';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import { ConfigurationSectionShape } from 'constants/propShapes';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

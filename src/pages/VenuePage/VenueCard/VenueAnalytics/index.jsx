@@ -1,7 +1,7 @@
 import React from 'react';
+import { useField } from 'formik';
 import PropTypes from 'prop-types';
 import AnalyticsBoardForm from 'components/CustomFields/AnalyticsBoardForm';
-import { useField } from 'formik';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

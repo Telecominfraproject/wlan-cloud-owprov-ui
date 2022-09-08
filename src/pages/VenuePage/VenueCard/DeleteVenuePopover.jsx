@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   Center,
@@ -15,11 +13,13 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import DeleteButton from 'components/Buttons/DeleteButton';
-import { useDeleteVenue } from 'hooks/Network/Venues';
-import { EntityShape } from 'constants/propShapes';
-import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import { EntityShape } from 'constants/propShapes';
+import { useDeleteVenue } from 'hooks/Network/Venues';
 
 const propTypes = {
   venue: PropTypes.shape(EntityShape),

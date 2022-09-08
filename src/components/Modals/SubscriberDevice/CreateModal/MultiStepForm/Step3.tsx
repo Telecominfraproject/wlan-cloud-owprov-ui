@@ -1,13 +1,13 @@
 import * as React from 'react';
-import * as Yup from 'yup';
-import { v4 as uuid } from 'uuid';
-import { Formik, Form, FormikProps } from 'formik';
 import { Flex, Heading, Select, SimpleGrid } from '@chakra-ui/react';
+import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import SelectField from 'components/FormFields/SelectField';
-import { SubscriberDeviceContactSchema } from 'constants/formSchemas';
-import StringField from 'components/FormFields/StringField';
+import { v4 as uuid } from 'uuid';
+import * as Yup from 'yup';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import { SubscriberDeviceContactSchema } from 'constants/formSchemas';
 import { DeviceContact } from 'models/Device';
 
 interface Props {

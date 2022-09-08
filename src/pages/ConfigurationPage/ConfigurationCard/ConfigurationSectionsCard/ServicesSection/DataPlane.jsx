@@ -1,12 +1,12 @@
 import React from 'react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import { SERVICES_INGRESS_FILTER_SCHEMA } from './servicesConstants';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { Heading, SimpleGrid } from '@chakra-ui/react';
 import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
 import StringField from 'components/FormFields/StringField';
-import { SERVICES_INGRESS_FILTER_SCHEMA } from './servicesConstants';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

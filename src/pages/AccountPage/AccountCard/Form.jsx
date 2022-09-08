@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -20,16 +18,18 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
+import MfaSelectField from './MfaSelectField';
+import FileInputButton from 'components/Buttons/FileInputButton';
+import { NotesField } from 'components/FormFields/NotesField';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import VerifyNumberModal from 'components/VerifyNumberModal';
+import { UpdateUserSchema } from 'constants/formSchemas';
 import { useAuth } from 'contexts/AuthProvider';
 import useApiRequirements from 'hooks/useApiRequirements';
-import { UpdateUserSchema } from 'constants/formSchemas';
-import FileInputButton from 'components/Buttons/FileInputButton';
-import StringField from 'components/FormFields/StringField';
-import SelectField from 'components/FormFields/SelectField';
-import VerifyNumberModal from 'components/VerifyNumberModal';
-import { NotesField } from 'components/FormFields/NotesField';
-import MfaSelectField from './MfaSelectField';
 
 const propTypes = {
   updateUser: PropTypes.instanceOf(Object).isRequired,

@@ -1,14 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Card from 'components/Card';
 import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import LoadingOverlay from 'components/LoadingOverlay';
-import CardBody from 'components/Card/CardBody';
-import { useGetOperator } from 'hooks/Network/Operators';
-import ServiceClassTab from './ServiceClassTab';
 import OperatorDevicesTab from './DevicesTab';
+import ServiceClassTab from './ServiceClassTab';
 import SubscriberTab from './SubscriberTab';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import LoadingOverlay from 'components/LoadingOverlay';
+import { useGetOperator } from 'hooks/Network/Operators';
 
 const propTypes = {
   id: PropTypes.string.isRequired,

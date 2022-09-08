@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { useToast, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import { CreateLocationSchema } from 'constants/formSchemas';
-import StringField from 'components/FormFields/StringField';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
+import { v4 as uuid } from 'uuid';
+import AddressSearchField from 'components/CustomFields/AddressSearchField';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import SelectField from 'components/FormFields/SelectField';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
+import StringField from 'components/FormFields/StringField';
+import COUNTRY_LIST from 'constants/countryList';
+import { CreateLocationSchema } from 'constants/formSchemas';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useCreateLocation } from 'hooks/Network/Locations';
-import SelectField from 'components/FormFields/SelectField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import COUNTRY_LIST from 'constants/countryList';
-import AddressSearchField from 'components/CustomFields/AddressSearchField';
-import { useQueryClient } from 'react-query';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import { useAuth } from 'contexts/AuthProvider';
 import MapCard from './MapCard';
+import { useAuth } from 'contexts/AuthProvider';
 
 const MapPage = () => {
   const { isUserLoaded } = useAuth();

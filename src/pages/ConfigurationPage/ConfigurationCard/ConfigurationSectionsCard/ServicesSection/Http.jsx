@@ -1,9 +1,9 @@
 import React from 'react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { Heading, SimpleGrid } from '@chakra-ui/react';
 import NumberField from 'components/FormFields/NumberField';
 
 const propTypes = {

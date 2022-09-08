@@ -1,24 +1,24 @@
 import React, { useCallback, useState } from 'react';
+import { Box, Center, Heading, Spacer, Spinner, useBoolean, useDisclosure, useToast } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
+import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import { Box, Center, Heading, Spacer, Spinner, useBoolean, useDisclosure, useToast } from '@chakra-ui/react';
-import LoadingOverlay from 'components/LoadingOverlay';
-import { useGetConfiguration, useUpdateConfiguration } from 'hooks/Network/Configurations';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import isEqual from 'react-fast-compare';
-import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
+import { v4 as uuid } from 'uuid';
+import { BASE_SECTIONS } from '../../../constants/configuration';
+import ConfigurationSectionsCard from './ConfigurationSectionsCard';
+import ConfirmConfigurationWarnings from './ConfirmConfigurationWarnings';
+import DeleteConfigurationPopover from './DeleteConfigurationPopover';
+import EditConfigurationForm from './Form';
+import RefreshButton from 'components/Buttons/RefreshButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import ToggleEditButton from 'components/Buttons/ToggleEditButton';
-import RefreshButton from 'components/Buttons/RefreshButton';
+import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
-import EditConfigurationForm from './Form';
-import DeleteConfigurationPopover from './DeleteConfigurationPopover';
-import ConfigurationSectionsCard from './ConfigurationSectionsCard';
-import { BASE_SECTIONS } from '../../../constants/configuration';
-import ConfirmConfigurationWarnings from './ConfirmConfigurationWarnings';
+import CardHeader from 'components/Card/CardHeader';
+import LoadingOverlay from 'components/LoadingOverlay';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import { useGetConfiguration, useUpdateConfiguration } from 'hooks/Network/Configurations';
 
 const propTypes = {
   id: PropTypes.string.isRequired,

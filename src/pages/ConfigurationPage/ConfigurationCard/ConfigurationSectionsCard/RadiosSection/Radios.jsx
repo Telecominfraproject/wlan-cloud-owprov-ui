@@ -1,13 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useMemo, useState } from 'react';
+import { Center, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
+import RadioPicker from './RadioPicker';
+import RadioTab from './RadioTab';
+import SingleRadio from './SingleRadio';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
-import { Center, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import RadioPicker from './RadioPicker';
-import SingleRadio from './SingleRadio';
-import RadioTab from './RadioTab';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

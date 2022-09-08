@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Button, Center, SimpleGrid } from '@chakra-ui/react';
+import { useField } from 'formik';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
-import NumberField from 'components/FormFields/NumberField';
-import { useTranslation } from 'react-i18next';
-import { useField } from 'formik';
-import DeleteButton from 'components/Buttons/DeleteButton';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
