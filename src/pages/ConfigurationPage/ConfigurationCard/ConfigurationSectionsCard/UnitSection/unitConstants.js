@@ -1,5 +1,5 @@
-import { bool, object, number, string } from 'yup';
 import { testAlphanumWithDash } from 'constants/formTests';
+import { bool, object, number, string } from 'yup';
 
 export const DEFAULT_UNIT = {
   name: 'Unit',

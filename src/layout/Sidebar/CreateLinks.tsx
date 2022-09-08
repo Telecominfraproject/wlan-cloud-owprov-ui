@@ -1,8 +1,8 @@
+import { Route } from 'models/Routes';
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import EntityNavButton from './EntityNavButton';
 import NavLinkButton from './NavLinkButton';
-import { Route } from 'models/Routes';
 
 const createLinks = (
   routes: Route[],

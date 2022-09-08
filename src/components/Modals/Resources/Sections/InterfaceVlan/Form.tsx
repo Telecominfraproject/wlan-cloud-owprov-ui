@@ -1,6 +1,6 @@
 import React from 'react';
-import { Heading, SimpleGrid } from '@chakra-ui/react';
 import NumberField from 'components/FormFields/NumberField';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 
 const InterfaceVlanForm = ({ isDisabled }: { isDisabled: boolean }) => (
   <>

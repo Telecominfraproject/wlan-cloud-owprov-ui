@@ -1,8 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
+import { User } from 'models/User';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
-import { User } from 'models/User';
 import { axiosSec } from 'utils/axiosInstances';
 
 const getAvatarPromises = (userList: User[]) => {

@@ -1,6 +1,6 @@
+import { Configuration, ConfigurationNestedProps } from 'models/Configuration';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import isEqual from 'react-fast-compare';
-import { Configuration, ConfigurationNestedProps } from 'models/Configuration';
 
 const useNestedConfigurationForm = ({
   defaultConfiguration,

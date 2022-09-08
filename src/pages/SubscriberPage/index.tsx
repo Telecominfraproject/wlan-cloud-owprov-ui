@@ -1,9 +1,9 @@
 import React from 'react';
+import { useAuth } from 'contexts/AuthProvider';
 import { Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import SubscriberCard from './SubscriberCard';
 import SubscriberChildrenCard from './SubscriberChildrenCard';
-import { useAuth } from 'contexts/AuthProvider';
 
 const SubscriberPage = () => {
   const { isUserLoaded } = useAuth();

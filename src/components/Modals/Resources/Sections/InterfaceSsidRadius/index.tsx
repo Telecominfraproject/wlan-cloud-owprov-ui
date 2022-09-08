@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
-import { AxiosError } from 'axios';
-import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import { AxiosError } from 'axios';
+import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
+import { Formik, FormikProps } from 'formik';
+import { useCreateResource, useUpdateResource } from 'hooks/Network/Resources';
+import StringField from 'components/FormFields/StringField';
+import NotesTable from 'components/CustomFields/NotesTable';
+import { Resource } from 'models/Resource';
+import { Note } from 'models/Note';
 import InterfaceSsidRadiusForm from './Form';
 import { EDIT_SCHEMA, RADIUS_SCHEMA } from './schemas';
-import NotesTable from 'components/CustomFields/NotesTable';
-import StringField from 'components/FormFields/StringField';
-import { useCreateResource, useUpdateResource } from 'hooks/Network/Resources';
-import { Note } from 'models/Note';
-import { Resource } from 'models/Resource';
 
 interface Props {
   isOpen: boolean;

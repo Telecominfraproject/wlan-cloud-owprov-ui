@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
-import { ArrowRightIcon, ArrowLeftIcon, ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
+import { v4 as uuid } from 'uuid';
 import {
   Table,
   Tbody,
@@ -26,23 +26,14 @@ import {
   Heading,
   useBreakpoint,
 } from '@chakra-ui/react';
+import { ArrowRightIcon, ArrowLeftIcon, ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 // @ts-ignore
+import { useTable, usePagination, useSortBy, Row } from 'react-table';
 import { useTranslation } from 'react-i18next';
-import {
-  useTable,
-  usePagination,
-  useSortBy,
-  Row,
-  UsePaginationInstanceProps,
-  UseSortByInstanceProps,
-  UsePaginationState,
-  TableInstance,
-} from 'react-table';
-import { v4 as uuid } from 'uuid';
-import SortIcon from './SortIcon';
-import { isColumnSorted, isSortedDesc, onSortClick } from './utils';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { Column, PageInfo, SortInfo } from 'models/Table';
+import SortIcon from './SortIcon';
+import { isColumnSorted, isSortedDesc, onSortClick } from './utils';
 
 interface Props {
   columns: Column[];
@@ -61,12 +52,6 @@ interface Props {
   isManual?: boolean;
   saveSettingsId?: string;
 }
-
-type TableInstanceWithHooks<T extends object> = TableInstance<T> &
-  UsePaginationInstanceProps<T> &
-  UseSortByInstanceProps<T> & {
-    state: UsePaginationState<T>;
-  };
 
 const defaultProps = {
   count: undefined,
@@ -126,23 +111,21 @@ const SortableDataTable: React.FC<Props> = ({
     state: { pageIndex, pageSize },
   } = useTable(
     {
-      // @ts-ignore
       columns,
-      data, // @ts-ignore
+      data,
       initialState: { sortBy, pagination: !hideControls, pageSize: queryPageSize },
       manualPagination: isManual,
       pageCount: isManual && count !== undefined ? Math.ceil(count / queryPageSize) : undefined,
     },
     useSortBy,
     usePagination,
-  ) as TableInstanceWithHooks<object>;
+  );
 
   useEffect(() => {
     if (setPageInfo && pageIndex !== undefined) setPageInfo({ index: pageIndex, limit: queryPageSize });
   }, [queryPageSize, pageIndex]);
 
   useEffect(() => {
-    // @ts-ignore
     if (saveSettingsId) localStorage.setItem(saveSettingsId, pageSize);
     setQueryPageSize(pageSize);
   }, [pageSize]);
@@ -186,37 +169,43 @@ const SortableDataTable: React.FC<Props> = ({
         <LoadingOverlay isLoading={isManual !== undefined && isManual && isLoading !== undefined && isLoading}>
           <Table {...getTableProps()} size="small" textColor={textColor} w="100%">
             <Thead fontSize="14px">
-              {headerGroups.map((group) => (
-                <Tr {...group.getHeaderGroupProps()}>
-                  {group.headers.map((column) => (
-                    <Th
-                      color="gray.400"
-                      {...column.getHeaderProps()}
+              {
+                // @ts-ignore
+                headerGroups.map((group) => (
+                  <Tr {...group.getHeaderGroupProps()} key={uuid()}>
+                    {
                       // @ts-ignore
-                      minWidth={column.customMinWidth ?? null}
-                      // @ts-ignore
-                      maxWidth={column.customMaxWidth ?? null}
-                      // @ts-ignore
-                      width={column.customWidth ?? null}
-                    >
-                      <div
-                        onClick={() => onSortClick(column.id, sortInfo, setSortInfo)}
-                        style={{ alignContent: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}
-                      >
-                        {column.render('Header')}
-                        <SortIcon
+                      group.headers.map((column) => (
+                        <Th
+                          color="gray.400"
+                          {...column.getHeaderProps()}
                           // @ts-ignore
-                          isSorted={isColumnSorted(column.id, sortInfo)}
+                          minWidth={column.customMinWidth ?? null}
                           // @ts-ignore
-                          isSortedDesc={isSortedDesc(column.id, sortInfo)}
+                          maxWidth={column.customMaxWidth ?? null}
                           // @ts-ignore
-                          canSort={column.canSort}
-                        />
-                      </div>
-                    </Th>
-                  ))}
-                </Tr>
-              ))}
+                          width={column.customWidth ?? null}
+                        >
+                          <div
+                            onClick={() => onSortClick(column.id, sortInfo, setSortInfo)}
+                            style={{ alignContent: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}
+                          >
+                            {column.render('Header')}
+                            <SortIcon
+                              // @ts-ignore
+                              isSorted={isColumnSorted(column.id, sortInfo)}
+                              // @ts-ignore
+                              isSortedDesc={isSortedDesc(column.id, sortInfo)}
+                              // @ts-ignore
+                              canSort={column.canSort}
+                            />
+                          </div>
+                        </Th>
+                      ))
+                    }
+                  </Tr>
+                ))
+              }
             </Thead>
             {data.length > 0 && (
               <Tbody {...getTableBodyProps()}>
@@ -304,7 +293,7 @@ const SortableDataTable: React.FC<Props> = ({
                   w={28}
                   min={1}
                   max={pageOptions.length}
-                  onChange={(_: unknown, numberValue: number) => {
+                  onChange={(_, numberValue) => {
                     const newPage = numberValue ? numberValue - 1 : 0;
                     gotoPage(newPage);
                   }}
@@ -321,7 +310,7 @@ const SortableDataTable: React.FC<Props> = ({
             <Select
               w={32}
               value={pageSize}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              onChange={(e) => {
                 setPageSize(Number(e.target.value));
               }}
             >

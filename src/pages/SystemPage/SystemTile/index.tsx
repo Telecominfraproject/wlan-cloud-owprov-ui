@@ -16,16 +16,16 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import { MultiValue, Select } from 'chakra-react-select';
 import { ArrowsClockwise } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
-import SystemCertificatesTable from './SystemCertificatesTable';
+import { useGetSubsystems, useGetSystemInfo, useReloadSubsystems } from 'hooks/Network/System';
+import FormattedDate from 'components/FormattedDate';
+import { compactSecondsToDetailed } from 'utils/dateFormatting';
+import { MultiValue, Select } from 'chakra-react-select';
+import { EndpointApiResponse } from 'hooks/Network/Endpoints';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
-import FormattedDate from 'components/FormattedDate';
-import { EndpointApiResponse } from 'hooks/Network/Endpoints';
-import { useGetSubsystems, useGetSystemInfo, useReloadSubsystems } from 'hooks/Network/System';
-import { compactSecondsToDetailed } from 'utils/dateFormatting';
+import SystemCertificatesTable from './SystemCertificatesTable';
 
 interface Props {
   endpoint: EndpointApiResponse;

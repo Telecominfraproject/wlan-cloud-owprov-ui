@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import ValidatePhoneNumberIntro from './ValidatePhoneNumberIntro';
-import ValidatePhoneNumberSuccess from './ValidatePhoneNumberSuccess';
-import ValidatePhoneNumberTests from './ValidatePhoneNumberTests';
+import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
+import ValidatePhoneNumberIntro from './ValidatePhoneNumberIntro';
+import ValidatePhoneNumberTests from './ValidatePhoneNumberTests';
+import ValidatePhoneNumberSuccess from './ValidatePhoneNumberSuccess';
 
 const AddPhoneNumberModal: React.FC<{ isOpen: boolean; onClose: () => void; onSuccess: (phone: string) => void }> = ({
   isOpen,

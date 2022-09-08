@@ -1,9 +1,9 @@
 import React from 'react';
 import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
-import { ENCRYPTION_OPTIONS } from '../../../interfacesConstants';
-import Radius from './Radius';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
+import { ENCRYPTION_OPTIONS } from '../../../interfacesConstants';
+import Radius from './Radius';
 
 interface Props {
   editing: boolean;

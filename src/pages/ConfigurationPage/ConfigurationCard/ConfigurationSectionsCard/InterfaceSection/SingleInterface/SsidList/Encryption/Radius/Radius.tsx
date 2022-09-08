@@ -1,12 +1,12 @@
 import React from 'react';
 import { Flex, FormControl, FormLabel, Heading, SimpleGrid, Switch } from '@chakra-ui/react';
-import { INTERFACE_SSID_RADIUS_SCHEMA } from '../../../../interfacesConstants';
-import Local from '../../Local';
-import LockedRadius from './LockedRadius';
 import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
 import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
+import LockedRadius from './LockedRadius';
+import Local from '../../Local';
+import { INTERFACE_SSID_RADIUS_SCHEMA } from '../../../../interfacesConstants';
 
 type Props = {
   editing: boolean;

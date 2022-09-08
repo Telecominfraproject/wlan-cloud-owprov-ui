@@ -14,13 +14,13 @@ import {
   CloseButton as ChakraCloseButton,
   VStack,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { getNotificationDescription, getStatusFromNotification } from '../../utils';
-import NotificationContent from '.';
+import { WebSocketNotification } from 'models/WebSocket';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
-import { WebSocketNotification } from 'models/WebSocket';
+import { useTranslation } from 'react-i18next';
+import { getNotificationDescription, getStatusFromNotification } from '../../utils';
+import NotificationContent from '.';
 
 const useWebSocketNotification = () => {
   const { t } = useTranslation();

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowRightIcon } from '@chakra-ui/icons';
-import { Alert, Button, Center, Heading, HStack, PinInput, PinInputField, Spinner, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { Alert, Button, Center, Heading, HStack, PinInput, PinInputField, Spinner, Text } from '@chakra-ui/react';
+import { ArrowRightIcon } from '@chakra-ui/icons';
 import { useVerifyAuthenticator } from 'hooks/Network/GoogleAuthenticator';
 
 interface Props {

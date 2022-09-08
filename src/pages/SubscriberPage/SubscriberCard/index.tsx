@@ -1,19 +1,19 @@
 import React from 'react';
 import { Box, Center, Flex, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
-import Actions from './Actions';
-import DeleteVenuePopover from './DeletePopover';
-import EditSubscriberForm from './Form';
-import SuspendedNotification from './SuspendedNotification';
-import WaitingForVerification from './WaitingForVerification';
-import RefreshButton from 'components/Buttons/RefreshButton';
-import SaveButton from 'components/Buttons/SaveButton';
-import ToggleEditButton from 'components/Buttons/ToggleEditButton';
-import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
+import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
+import RefreshButton from 'components/Buttons/RefreshButton';
+import ToggleEditButton from 'components/Buttons/ToggleEditButton';
+import SaveButton from 'components/Buttons/SaveButton';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetSubscriber } from 'hooks/Network/Subscribers';
 import useFormRef from 'hooks/useFormRef';
+import EditSubscriberForm from './Form';
+import DeleteVenuePopover from './DeletePopover';
+import SuspendedNotification from './SuspendedNotification';
+import Actions from './Actions';
+import WaitingForVerification from './WaitingForVerification';
 
 interface Props {
   id: string;

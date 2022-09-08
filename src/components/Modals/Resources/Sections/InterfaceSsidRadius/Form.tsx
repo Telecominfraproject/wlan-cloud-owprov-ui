@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
-import { FormControl, FormLabel, Heading, SimpleGrid, Switch } from '@chakra-ui/react';
-import { useFormikContext, getIn } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { INTERFACE_SSID_RADIUS_LOCAL_SCHEMA, INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA } from './schemas';
-import NumberField from 'components/FormFields/NumberField';
-import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
+import { useFormikContext, getIn } from 'formik';
 import StringField from 'components/FormFields/StringField';
+import NumberField from 'components/FormFields/NumberField';
+import { FormControl, FormLabel, Heading, SimpleGrid, Switch } from '@chakra-ui/react';
 import ToggleField from 'components/FormFields/ToggleField';
+import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
+import { INTERFACE_SSID_RADIUS_LOCAL_SCHEMA, INTERFACE_SSID_RADIUS_LOCAL_USER_SCHEMA } from './schemas';
 
 const InterfaceSsidRadiusResourceForm = ({ isDisabled }: { isDisabled: boolean }) => {
   const { t } = useTranslation();

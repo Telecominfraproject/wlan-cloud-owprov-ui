@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import { Alert, Heading, SimpleGrid } from '@chakra-ui/react';
+import { ScanChannel, WifiScanResult, DeviceScanResult } from 'models/Device';
 import { useTranslation } from 'react-i18next';
+import { parseDbm } from 'utils/stringHelper';
 import { v4 as uuid } from 'uuid';
 import ResultCard from './ResultCard';
-import { ScanChannel, WifiScanResult, DeviceScanResult } from 'models/Device';
-import { parseDbm } from 'utils/stringHelper';
 
 interface Props {
   results: WifiScanResult;

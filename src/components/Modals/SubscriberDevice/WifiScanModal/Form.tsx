@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SimpleGrid } from '@chakra-ui/react';
-import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import { SimpleGrid } from '@chakra-ui/react';
+import { Formik, Form, FormikProps } from 'formik';
 import SelectField from 'components/FormFields/SelectField';
-import ToggleField from 'components/FormFields/ToggleField';
-import { WifiScanCommand } from 'models/Device';
 import { ModalProps } from 'models/Modal';
+import { WifiScanCommand } from 'models/Device';
+import ToggleField from 'components/FormFields/ToggleField';
 
 const defaultValues: WifiScanCommand = {
   activeScan: false,

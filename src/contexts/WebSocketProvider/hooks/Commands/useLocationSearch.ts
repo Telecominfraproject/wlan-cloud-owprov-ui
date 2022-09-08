@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import debounce from 'utils/debounce';
 import { WebSocketCommandResponse } from '../../useSocketReducer';
 import useWebSocketCommand from './useWebSocketCommand';
-import debounce from 'utils/debounce';
 
-type UseLocationSearchProps = {
+interface Props {
   minLength?: number;
-};
+}
 
-const useLocationSearch = ({ minLength = 8 }: UseLocationSearchProps) => {
+const useLocationSearch = ({ minLength = 8 }: Props) => {
   const [tempValue, setTempValue] = useState('');
   const [waitingSearch, setWaitingSearch] = useState<{ command: string; address: string } | undefined>(undefined);
   const [results, setResults] = useState<string[]>([]);
@@ -17,7 +17,7 @@ const useLocationSearch = ({ minLength = 8 }: UseLocationSearchProps) => {
   const { isOpen, send } = useWebSocketCommand({ callback: onNewResult });
 
   const onChange = useCallback(
-    (v: string) => {
+    (v) => {
       if (v.length >= minLength) setWaitingSearch({ command: 'address_completion', address: v });
     },
     [setWaitingSearch],
@@ -25,13 +25,13 @@ const useLocationSearch = ({ minLength = 8 }: UseLocationSearchProps) => {
 
   const debounceChange = useCallback(
     debounce((v) => {
-      onChange(v as string);
+      onChange(v);
     }, 300),
     [setWaitingSearch],
   );
 
   const onInputChange = useCallback(
-    (v: string) => {
+    (v) => {
       if (v !== tempValue) {
         setTempValue(v);
         debounceChange(v);

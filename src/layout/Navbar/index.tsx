@@ -17,13 +17,13 @@ import {
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
+import routes from 'router/routes';
+import { useAuth } from 'contexts/AuthProvider';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { uppercaseFirstLetter } from 'utils/stringHelper';
 import { ArrowCircleLeft, MapTrifold } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
 import LanguageSwitcher from 'components/LanguageSwitcher';
-import { useAuth } from 'contexts/AuthProvider';
-import routes from 'router/routes';
-import { uppercaseFirstLetter } from 'utils/stringHelper';
 
 interface Props {
   secondary: boolean;

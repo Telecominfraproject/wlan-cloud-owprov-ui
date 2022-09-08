@@ -1,17 +1,17 @@
 import React from 'react';
 import { Alert, Center, Heading, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import LoadingOverlay from 'components/LoadingOverlay';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import { useGetEntity } from 'hooks/Network/Entity';
 import EntityChildrenTableWrapper from './EntityChildrenTableWrapper';
 import EntityConfigurationsTableWrapper from './EntityConfigurationsTableWrapper';
 import EntityContactTableWrapper from './EntityContactTableWrapper ';
-import EntityDeviceTableWrapper from './EntityDeviceTableWrapper';
 import EntityLocationTableWrapper from './EntityLocationTableWrapper ';
 import EntityResourcesTableWrapper from './EntityResourcesTableWrapper';
 import EntityVenueTableWrapper from './EntityVenueTableWrapper';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import LoadingOverlay from 'components/LoadingOverlay';
-import { useGetEntity } from 'hooks/Network/Entity';
+import EntityDeviceTableWrapper from './EntityDeviceTableWrapper';
 
 const getDefaultIndex = (id: string) => {
   localStorage.getItem(`entity.${id}.lastActiveIndex`);

@@ -10,17 +10,17 @@ import {
   useBoolean,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import InterfaceSsidResource from '../Sections/InterfaceSsid';
-import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
-import InterfaceVlanResource from '../Sections/InterfaceVlan';
-import CloseButton from 'components/Buttons/CloseButton';
-import EditButton from 'components/Buttons/EditButton';
-import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import SaveButton from 'components/Buttons/SaveButton';
+import EditButton from 'components/Buttons/EditButton';
+import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
+import { Resource } from 'models/Resource';
 import { useGetResource } from 'hooks/Network/Resources';
 import useFormRef from 'hooks/useFormRef';
-import { Resource } from 'models/Resource';
+import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
+import InterfaceVlanResource from '../Sections/InterfaceVlan';
+import InterfaceSsidResource from '../Sections/InterfaceSsid';
 
 interface Props {
   isOpen: boolean;

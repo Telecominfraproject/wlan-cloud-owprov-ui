@@ -1,8 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
+import { PageInfo } from 'models/Table';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
-import { PageInfo } from 'models/Table';
 import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetContactCount = ({ enabled }: { enabled: boolean }) => {

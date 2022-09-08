@@ -1,17 +1,5 @@
 import React, { useState, useMemo, useEffect, Dispatch, SetStateAction, useRef } from 'react';
-import axios from 'axios';
 import { useQuery } from 'react-query';
-import {
-  useDeleteAccountToken,
-  useGetAvatar,
-  useGetPreferences,
-  useGetProfile,
-  useUpdatePreferences,
-} from 'hooks/Network/Account';
-import { useGetEndpoints } from 'hooks/Network/Endpoints';
-import { Endpoint } from 'models/Endpoint';
-import { Preference } from 'models/Preference';
-import { User } from 'models/User';
 import {
   axiosAnalytics,
   axiosFms,
@@ -23,6 +11,18 @@ import {
   axiosSub,
   axiosRrm,
 } from 'utils/axiosInstances';
+import { useGetEndpoints } from 'hooks/Network/Endpoints';
+import axios from 'axios';
+import { Endpoint } from 'models/Endpoint';
+import {
+  useDeleteAccountToken,
+  useGetAvatar,
+  useGetPreferences,
+  useGetProfile,
+  useUpdatePreferences,
+} from 'hooks/Network/Account';
+import { Preference } from 'models/Preference';
+import { User } from 'models/User';
 
 const getConfigDescriptions = async (baseUrl: string) =>
   axios.get(`${baseUrl.split('/api')[0]}/wwwassets/ucentral.schema.pretty.json`).then(({ data }) => data.$defs);

@@ -1,10 +1,10 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
+import { PageInfo, SortInfo } from 'models/Table';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
-import { v4 as uuid } from 'uuid';
-import { PageInfo, SortInfo } from 'models/Table';
 import { axiosProv } from 'utils/axiosInstances';
+import { v4 as uuid } from 'uuid';
 
 export const useGetInventoryTableSpecs = () =>
   useQuery(

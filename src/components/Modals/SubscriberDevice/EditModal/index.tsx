@@ -1,20 +1,20 @@
 import React, { Ref, useEffect } from 'react';
 import { Modal, ModalOverlay, ModalContent, ModalBody, Spinner, Center, useBoolean } from '@chakra-ui/react';
-import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import EditSubscriberDeviceForm from './Form';
-import CloseButton from 'components/Buttons/CloseButton';
-import EditButton from 'components/Buttons/EditButton';
-import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import SaveButton from 'components/Buttons/SaveButton';
+import EditButton from 'components/Buttons/EditButton';
+import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
-import DeviceActionDropdown from 'components/Tables/InventoryTable/EditTagModal/ActionDropdown';
-import { useGetSubscriberDevice } from 'hooks/Network/SubscriberDevices';
-import useFormModal from 'hooks/useFormModal';
 import useFormRef from 'hooks/useFormRef';
-import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
+import useFormModal from 'hooks/useFormModal';
+import { useGetSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import useOperatorChildren from 'hooks/useOperatorChildren';
+import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
+import { FormikProps } from 'formik';
 import { Device } from 'models/Device';
+import DeviceActionDropdown from 'components/Tables/InventoryTable/EditTagModal/ActionDropdown';
+import EditSubscriberDeviceForm from './Form';
 
 interface Props {
   isOpen: boolean;

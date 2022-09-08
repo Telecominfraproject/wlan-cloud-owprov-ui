@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
+import useFastField from 'hooks/useFastField';
 import { useTranslation } from 'react-i18next';
 import { INTERFACE_SSID_RATE_LIMIT_SCHEMA } from '../../../interfacesConstants';
 import RateLimitForm from './RateLimit';
-import useFastField from 'hooks/useFastField';
 
 const RateLimit: React.FC<{ editing: boolean; namePrefix: string }> = ({ editing, namePrefix }) => {
   const { t } = useTranslation();

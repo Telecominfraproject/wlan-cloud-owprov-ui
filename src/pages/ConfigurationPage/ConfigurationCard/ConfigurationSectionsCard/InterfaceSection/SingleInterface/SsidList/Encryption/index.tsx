@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import useFastField from 'hooks/useFastField';
 import { useTranslation } from 'react-i18next';
 import {
   ENCRYPTION_PROTOS_REQUIRE_IEEE,
@@ -7,7 +8,6 @@ import {
   INTERFACE_SSID_RADIUS_SCHEMA,
 } from '../../../interfacesConstants';
 import EncryptionForm from './Encryption';
-import useFastField from 'hooks/useFastField';
 
 const Encryption = ({
   editing,

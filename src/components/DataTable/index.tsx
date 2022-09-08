@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowRightIcon, ArrowLeftIcon, ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
+import { v4 as uuid } from 'uuid';
 import {
   Table,
   Tbody,
@@ -24,13 +24,13 @@ import {
   Heading,
   useBreakpoint,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { useTable, usePagination, useSortBy, Row } from 'react-table';
-import { v4 as uuid } from 'uuid';
+import { ArrowRightIcon, ArrowLeftIcon, ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 // @ts-ignore
-import SortIcon from './SortIcon';
+import { useTable, usePagination, useSortBy, Row } from 'react-table';
+import { useTranslation } from 'react-i18next';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { Column, PageInfo } from 'models/Table';
+import SortIcon from './SortIcon';
 
 interface Props {
   columns: Column[];

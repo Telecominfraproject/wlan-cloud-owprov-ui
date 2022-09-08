@@ -1,5 +1,5 @@
-import { object, number, string, array, bool } from 'yup';
 import { testFqdnHostname, testIpv4, testLength, testUcMac } from 'constants/formTests';
+import { object, number, string, array, bool } from 'yup';
 
 export const SERVICES_CLASSIFIER_DNS_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({

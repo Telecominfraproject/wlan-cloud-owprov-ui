@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -17,9 +18,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
-import { useTranslation } from 'react-i18next';
-import { useRemoveVenueContact } from 'hooks/Network/Venues';
 import { Contact } from 'models/Contact';
+import { useRemoveVenueContact } from 'hooks/Network/Venues';
 
 interface Props {
   cell: {

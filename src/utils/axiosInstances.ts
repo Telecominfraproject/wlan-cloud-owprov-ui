@@ -2,7 +2,7 @@ import * as axios from 'axios';
 import { AUTH_EXPIRED_TOKEN_CODE, AUTH_INVALID_TOKEN_CODE } from 'constants/apiErrors';
 
 // @ts-ignore
-export const secUrl = `${window?._env_?.REACT_APP_UCENTRALSEC_URL || import.meta.env.VITE_UCENTRALSEC_URL}/api/v1`;
+export const secUrl = `${window?._env_?.REACT_APP_UCENTRALSEC_URL || process.env.REACT_APP_UCENTRALSEC_URL}/api/v1`;
 
 const sec = axios.default.create({ baseURL: secUrl });
 

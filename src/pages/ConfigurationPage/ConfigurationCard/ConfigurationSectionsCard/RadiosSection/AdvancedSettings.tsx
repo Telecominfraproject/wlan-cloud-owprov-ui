@@ -1,10 +1,10 @@
 import React from 'react';
 import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import He from './He';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import NumberField from 'components/FormFields/NumberField';
 import SelectField from 'components/FormFields/SelectField';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import { useTranslation } from 'react-i18next';
+import He from './He';
 
 const AdvancedSettings: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
   const { t } = useTranslation();

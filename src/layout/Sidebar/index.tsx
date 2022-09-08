@@ -1,4 +1,5 @@
 import React, { LegacyRef, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   Box,
   Drawer,
@@ -14,12 +15,11 @@ import {
   useBreakpoint,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import createLinks from './CreateLinks';
-import darkLogo from 'assets/Logo_Dark_Mode.svg';
-import lightLogo from 'assets/Logo_Light_Mode.svg';
 import { useAuth } from 'contexts/AuthProvider';
 import { Route } from 'models/Routes';
+import darkLogo from 'assets/Logo_Dark_Mode.svg';
+import lightLogo from 'assets/Logo_Light_Mode.svg';
+import createLinks from './CreateLinks';
 
 const variantChange = '0.2s linear';
 
@@ -78,7 +78,7 @@ const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
                 <Spacer />
                 <Box>
                   <Text color="gray.400">
-                    {t('footer.version')} {__APP_VERSION__}
+                    {t('footer.version')} {process.env.REACT_APP_VERSION}
                   </Text>
                 </Box>
               </Flex>
@@ -112,7 +112,7 @@ const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
               <Spacer />
               <Box>
                 <Text color="gray.400">
-                  {t('footer.version')} {__APP_VERSION__}
+                  {t('footer.version')} {process.env.REACT_APP_VERSION}
                 </Text>
               </Box>
             </Flex>

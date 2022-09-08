@@ -1,10 +1,10 @@
 import React from 'react';
 import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
+import ToggleField from 'components/FormFields/ToggleField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import NumberField from 'components/FormFields/NumberField';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
-import ToggleField from 'components/FormFields/ToggleField';
 
 interface Props {
   isDisabled?: boolean;

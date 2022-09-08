@@ -1,0 +1,60 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "allowImportExportEverywhere": false,
+    "codeFrame": false,
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "@typescript-eslint/ban-ts-comment": ["off"],
+    "max-len": ["error", { "code": 150 }],
+    "prefer-promise-reject-errors": ["off"],
+    "react/jsx-filename-extension": ["off"],
+    "react/prop-types": ["warn"],
+    "no-return-assign": ["off"],
+    "react/jsx-props-no-spreading": ["off"],
+    "react/destructuring-assignment": ["off"],
+    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/require-default-props": "off",
+    "react/jsx-curly-newline": "off",
+    "no-underscore-dangle": "off",
+    "react/function-component-definition": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  }
+}

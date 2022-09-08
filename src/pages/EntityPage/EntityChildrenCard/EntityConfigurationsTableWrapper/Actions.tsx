@@ -1,7 +1,7 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
 import { MagnifyingGlass } from 'phosphor-react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import DeleteConfigurationButton from 'components/Tables/ConfigurationTable/DeleteConfigurationButton';
 import { Configuration } from 'models/Configuration';

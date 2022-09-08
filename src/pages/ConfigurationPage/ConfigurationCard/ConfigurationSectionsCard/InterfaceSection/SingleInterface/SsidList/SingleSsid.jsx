@@ -3,19 +3,19 @@ import { Box, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
 import { getIn, useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
+import MultiSelectField from 'components/FormFields/MultiSelectField';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import Card from 'components/Card';
+import CardHeader from 'components/Card/CardHeader';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import CardBody from 'components/Card/CardBody';
 import { INTERFACE_SSID_SCHEMA } from '../../interfacesConstants';
 import AdvancedSettings from './AdvancedSettings';
 import Encryption from './Encryption';
 import LockedSsid from './LockedSsid';
 import PassPoint from './PassPoint';
-import DeleteButton from 'components/Buttons/DeleteButton';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
-import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
-import MultiSelectField from 'components/FormFields/MultiSelectField';
-import SelectField from 'components/FormFields/SelectField';
-import StringField from 'components/FormFields/StringField';
 
 const propTypes = {
   index: PropTypes.number.isRequired,

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
-import { Heading } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
 import { useTranslation } from 'react-i18next';
+import { Heading } from '@chakra-ui/react';
 import useDeviceSearch from 'contexts/WebSocketProvider/hooks/Commands/useDeviceSearch';
 
 interface Props {
