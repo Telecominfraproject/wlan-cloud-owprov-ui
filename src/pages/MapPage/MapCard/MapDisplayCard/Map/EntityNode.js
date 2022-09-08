@@ -1,7 +1,4 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { Handle } from 'react-flow-renderer';
 import {
   Box,
   Center,
@@ -17,16 +14,19 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import isEqual from 'react-fast-compare';
 import { WifiHigh } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
+import { Handle } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 
 const propTypes = {
   data: PropTypes.shape({
     details: PropTypes.instanceOf(Object).isRequired,
     label: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    isRoot: PropTypes.bool.isRequired,
+    isRoot: PropTypes.bool,
   }).isRequired,
   isConnectable: PropTypes.bool.isRequired,
 };

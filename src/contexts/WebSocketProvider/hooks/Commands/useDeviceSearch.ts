@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import debounce from 'utils/debounce';
 import { WebSocketCommandResponse } from '../../useSocketReducer';
 import useWebSocketCommand from './useWebSocketCommand';
+import debounce from 'utils/debounce';
 
-interface Props {
+export type UseDeviceSearchProps = {
   minLength?: number;
   operatorId?: string;
-}
-const useDeviceSearch = ({ minLength = 4, operatorId }: Props) => {
+};
+
+export const useDeviceSearch = ({ minLength = 4, operatorId }: UseDeviceSearchProps) => {
   const [tempValue, setTempValue] = useState('');
   const [waitingSearch, setWaitingSearch] = useState<
     { command: string; serial_prefix: string; operatorId?: string } | undefined
@@ -19,7 +20,7 @@ const useDeviceSearch = ({ minLength = 4, operatorId }: Props) => {
   const { isOpen, send } = useWebSocketCommand({ callback: onNewResult });
 
   const onChange = useCallback(
-    (v) => {
+    (v: string) => {
       if (v.length >= minLength) setWaitingSearch({ command: 'serial_number_search', serial_prefix: v, operatorId });
     },
     [setWaitingSearch],
@@ -27,13 +28,13 @@ const useDeviceSearch = ({ minLength = 4, operatorId }: Props) => {
 
   const debounceChange = useCallback(
     debounce((v) => {
-      onChange(v);
+      onChange(v as string);
     }, 300),
     [setWaitingSearch],
   );
 
   const onInputChange = useCallback(
-    (v) => {
+    (v: string) => {
       if (v !== tempValue) {
         setTempValue(v);
         debounceChange(v);
@@ -60,5 +61,3 @@ const useDeviceSearch = ({ minLength = 4, operatorId }: Props) => {
 
   return toReturn;
 };
-
-export default useDeviceSearch;
