@@ -1,10 +1,10 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, Flex, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
-import IconBox from 'components/IconBox';
 import { ArrowCircleRight } from 'phosphor-react';
-import { Route } from 'models/Routes';
+import { useTranslation } from 'react-i18next';
 import EntityPopover from './EntityPopover';
+import IconBox from 'components/IconBox';
+import { Route } from 'models/Routes';
 
 const variantChange = '0.2s linear';
 

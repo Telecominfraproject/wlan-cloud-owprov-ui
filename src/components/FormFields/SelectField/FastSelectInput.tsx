@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/react';
-import { v4 as uuid } from 'uuid';
 import isEqual from 'react-fast-compare';
-import { defaultFormInput, FormInputProps } from 'models/FormField';
+import { v4 as uuid } from 'uuid';
 import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
+import { defaultFormInput, FormInputProps } from 'models/FormField';
 
 interface Props extends FormInputProps {
   value?: string;

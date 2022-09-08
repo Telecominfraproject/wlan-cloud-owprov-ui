@@ -1,5 +1,5 @@
-import { testJson } from 'constants/formTests';
 import { object, number, string } from 'yup';
+import { testJson } from 'constants/formTests';
 
 export const DEFAULT_THIRD_PARTY = {
   name: 'Third Party',

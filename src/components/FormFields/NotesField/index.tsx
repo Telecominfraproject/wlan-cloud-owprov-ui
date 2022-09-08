@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import React, { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IconButton, Input, InputGroup, InputRightElement, Tooltip } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { IconButton, Input, InputGroup, InputRightElement, Tooltip } from '@chakra-ui/react';
 import { Trash } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { useAuth } from 'contexts/AuthProvider';
-import { Note } from 'models/Note';
 import DataTable from 'components/DataTable';
-import useFastField from 'hooks/useFastField';
 import FormattedDate from 'components/FormattedDate';
+import { useAuth } from 'contexts/AuthProvider';
+import useFastField from 'hooks/useFastField';
+import { Note } from 'models/Note';
 
 export interface NotesFieldProps {
   name?: string;
@@ -17,10 +16,10 @@ export interface NotesFieldProps {
   hasDeleteButton?: boolean;
 }
 
-const _NotesField: React.FC<NotesFieldProps> = ({ name = 'notes', isDisabled, hasDeleteButton }) => {
+const _NotesField: React.FC<NotesFieldProps> = ({ name, isDisabled, hasDeleteButton }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { value: notes, onChange: setNotes } = useFastField({ name });
+  const { value: notes, onChange: setNotes } = useFastField({ name: name ?? 'notes' });
   const [newNote, setNewNote] = useState('');
 
   const addNoteToForm = () => {
@@ -43,9 +42,11 @@ const _NotesField: React.FC<NotesFieldProps> = ({ name = 'notes', isDisabled, ha
     setNotes(newArr);
   };
 
+  // @ts-ignore
   const memoizedDate = useCallback((cell) => <FormattedDate date={cell.row.values.created} key={uuid()} />, []);
 
   const removeAction = useCallback(
+    // @ts-ignore
     (cell) => (
       <Tooltip hasArrow label={t('common.remove')} placement="top">
         <IconButton
@@ -95,7 +96,7 @@ const _NotesField: React.FC<NotesFieldProps> = ({ name = 'notes', isDisabled, ha
         Cell: ({ cell }) => removeAction(cell),
       });
     return cols;
-  }, [notes]);
+  }, [memoizedDate, removeAction]);
 
   return (
     <>
