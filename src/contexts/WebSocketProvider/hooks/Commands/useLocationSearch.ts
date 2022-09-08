@@ -3,11 +3,11 @@ import { WebSocketCommandResponse } from '../../useSocketReducer';
 import useWebSocketCommand from './useWebSocketCommand';
 import debounce from 'utils/debounce';
 
-export type UseLocationSearchProps = {
+type UseLocationSearchProps = {
   minLength?: number;
 };
 
-export const useLocationSearch = ({ minLength = 8 }: UseLocationSearchProps) => {
+const useLocationSearch = ({ minLength = 8 }: UseLocationSearchProps) => {
   const [tempValue, setTempValue] = useState('');
   const [waitingSearch, setWaitingSearch] = useState<{ command: string; address: string } | undefined>(undefined);
   const [results, setResults] = useState<string[]>([]);
@@ -58,3 +58,5 @@ export const useLocationSearch = ({ minLength = 8 }: UseLocationSearchProps) => 
 
   return toReturn;
 };
+
+export default useLocationSearch;

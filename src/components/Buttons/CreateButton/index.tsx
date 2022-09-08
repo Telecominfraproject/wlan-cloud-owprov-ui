@@ -3,7 +3,7 @@ import { Button, IconButton, Tooltip, useBreakpoint, SpaceProps } from '@chakra-
 import { Plus } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 
-export interface CreateButtonProps extends SpaceProps {
+interface CreateButtonProps extends SpaceProps {
   onClick?: () => void;
   isDisabled?: boolean;
   isLoading?: boolean;
@@ -11,7 +11,7 @@ export interface CreateButtonProps extends SpaceProps {
   label?: string;
 }
 
-const _CreateButton: React.FC<CreateButtonProps> = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }) => {
+const CreateButton: React.FC<CreateButtonProps> = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 
@@ -46,4 +46,4 @@ const _CreateButton: React.FC<CreateButtonProps> = ({ onClick, isDisabled, isLoa
   );
 };
 
-export const CreateButton = React.memo(_CreateButton);
+export default React.memo(CreateButton);

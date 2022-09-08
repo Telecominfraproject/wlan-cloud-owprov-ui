@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, IconButton, SpaceProps, Tooltip, useBreakpoint } from '@chakra-ui/react';
 
-export interface ResponsiveButtonProps extends SpaceProps {
+interface ResponsiveButtonProps extends SpaceProps {
   onClick: () => void;
   isDisabled?: boolean;
   isLoading?: boolean;
@@ -11,7 +11,7 @@ export interface ResponsiveButtonProps extends SpaceProps {
   icon?: React.ReactElement;
 }
 
-const _ResponsiveButton: React.FC<ResponsiveButtonProps> = ({
+const ResponsiveButton: React.FC<ResponsiveButtonProps> = ({
   onClick,
   isDisabled,
   isLoading,
@@ -56,4 +56,4 @@ const _ResponsiveButton: React.FC<ResponsiveButtonProps> = ({
   );
 };
 
-export const ResponsiveButton = React.memo(_ResponsiveButton);
+export default React.memo(ResponsiveButton);

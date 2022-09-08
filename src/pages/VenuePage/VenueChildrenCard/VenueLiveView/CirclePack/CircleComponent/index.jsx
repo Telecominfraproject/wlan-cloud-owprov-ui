@@ -2,9 +2,9 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import AssociationCircle from './AssociationCircle';
 import DeviceCircle from './DeviceCircle';
+import RadioCircle from './RadioCircle';
 import SsidCircle from './SsidCircle';
 import VenueCircle from './VenueCircle';
-import RadioCircle from './RadioCircle';
 
 const propTypes = {
   node: PropTypes.instanceOf(Object).isRequired,

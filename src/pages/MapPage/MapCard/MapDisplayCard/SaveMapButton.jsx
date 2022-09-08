@@ -1,10 +1,10 @@
 import React from 'react';
+import { useToast } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useToast } from '@chakra-ui/react';
+import { useQueryClient } from 'react-query';
 import SaveButton from 'components/Buttons/SaveButton';
 import { useUpdateMap } from 'hooks/Network/Maps';
-import { useQueryClient } from 'react-query';
 
 const propTypes = {
   mapId: PropTypes.string.isRequired,

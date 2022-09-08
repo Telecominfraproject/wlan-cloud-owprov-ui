@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useField } from 'formik';
-import { useGetAllResources } from 'hooks/Network/Resources';
-import { useTranslation } from 'react-i18next';
 import { useToast } from '@chakra-ui/react';
+import { useField } from 'formik';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import ResourcePicker from './ResourcePicker';
+import { useGetAllResources } from 'hooks/Network/Resources';
 
 const propTypes = {
   name: PropTypes.string.isRequired,

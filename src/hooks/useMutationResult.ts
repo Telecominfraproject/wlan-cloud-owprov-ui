@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { v4 as uuid } from 'uuid';
 
-export type UseMutationResultProps = {
+type UseMutationResultProps = {
   objName: string;
   operationType: 'update' | 'delete' | 'create' | 'blink' | 'reboot';
   refresh?: () => void;
@@ -13,7 +13,7 @@ export type UseMutationResultProps = {
   queryToInvalidate?: string[];
 };
 
-export const useMutationResult = ({
+const useMutationResult = ({
   objName,
   operationType,
   refresh = () => {},
@@ -116,3 +116,5 @@ export const useMutationResult = ({
 
   return toReturn;
 };
+
+export default useMutationResult;

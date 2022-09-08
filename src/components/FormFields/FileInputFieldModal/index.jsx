@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { useField } from 'formik';
+import PropTypes from 'prop-types';
 import FileInputModal from './FileInputModal';
 
 const propTypes = {

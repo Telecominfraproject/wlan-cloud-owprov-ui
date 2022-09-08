@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -20,9 +18,11 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import { axiosProv } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
+import { axiosProv } from 'utils/axiosInstances';
 
 const deleteApi = async (id) => axiosProv.delete(`/contact/${id}`).then(() => true);
 
