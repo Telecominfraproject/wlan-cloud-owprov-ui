@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowRightIcon } from '@chakra-ui/icons';
-import { Alert, Button, Center, HStack, PinInput, PinInputField } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { Alert, Button, Center, HStack, PinInput, PinInputField } from '@chakra-ui/react';
+import { ArrowRightIcon } from '@chakra-ui/icons';
 import { useSendPhoneTest, useVerifyCode } from 'hooks/Network/Account';
 
 const ValidatePhoneNumberTests: React.FC<{ phoneNumber: string; nextStep: () => void }> = ({

@@ -1,8 +1,8 @@
+import { WebSocketNotification } from 'models/WebSocket';
 import React from 'react';
 import ConfigurationPushesNotificationContent from './ConfigurationPushes';
 import DeviceRebootNotificationContent from './DeviceReboot';
 import DeviceUpgradeNotificationContent from './DeviceUpgrade';
-import { WebSocketNotification } from 'models/WebSocket';
 
 interface Props {
   notification?: WebSocketNotification;

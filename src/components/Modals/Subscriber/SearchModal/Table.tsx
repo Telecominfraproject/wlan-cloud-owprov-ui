@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
-import { MagnifyingGlass } from 'phosphor-react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import DataTable from 'components/DataTable';
 import { Subscriber } from 'models/Subscriber';
+import { MagnifyingGlass } from 'phosphor-react';
+import React, { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   subscribers: Subscriber[];

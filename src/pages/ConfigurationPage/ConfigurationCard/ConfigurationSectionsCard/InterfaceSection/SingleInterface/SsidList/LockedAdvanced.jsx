@@ -2,15 +2,15 @@ import React, { useMemo } from 'react';
 import { Flex, Heading, SimpleGrid, Text } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { INTERFACE_SSID_MULTIPSK_SCHEMA } from '../../interfacesConstants';
 import DisplayMultiSelectField from 'components/DisplayFields/DisplayMultiSelectField';
 import DisplayNumberField from 'components/DisplayFields/DisplayNumberField';
 import DisplayObjectArrayField from 'components/DisplayFields/DisplayObjectArrayField';
 import DisplaySelectField from 'components/DisplayFields/DisplaySelectField';
 import DisplayStringField from 'components/DisplayFields/DisplayStringField';
 import DisplayToggleField from 'components/DisplayFields/DisplayToggleField';
-import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
+import NumberField from 'components/FormFields/NumberField';
+import { INTERFACE_SSID_MULTIPSK_SCHEMA } from '../../interfacesConstants';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,

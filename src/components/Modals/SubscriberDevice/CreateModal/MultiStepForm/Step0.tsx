@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Heading, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form, FormikProps } from 'formik';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
-import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
-import { testObjectName } from 'constants/formTests';
+import SelectField from 'components/FormFields/SelectField';
 import useSelectList from 'hooks/useSelectList';
 import { ServiceClass } from 'models/ServiceClass';
 import { Subscriber } from 'models/Subscriber';
+import * as Yup from 'yup';
+import { testObjectName } from 'constants/formTests';
 
 const Schema = (t: (str: string) => string) =>
   Yup.object().shape({

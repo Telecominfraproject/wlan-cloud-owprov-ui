@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Flex, Input, Select as ChakraSelect } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import useSubscriberSearch from 'contexts/WebSocketProvider/hooks/Commands/useSubscriberSearch';
+import { Flex, Input, Select as ChakraSelect } from '@chakra-ui/react';
 import { Subscriber } from 'models/Subscriber';
+import useSubscriberSearch from 'contexts/WebSocketProvider/hooks/Commands/useSubscriberSearch';
 
 interface Props {
   operatorId: string;

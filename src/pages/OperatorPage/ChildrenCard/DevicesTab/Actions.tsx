@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Flex,
   IconButton,
@@ -17,10 +18,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
-import { useTranslation } from 'react-i18next';
-import DeviceActionDropdown from 'components/TableCells/DeviceActionDropdown';
-import { useDeleteSubscriberDevice } from 'hooks/Network/SubscriberDevices';
 import useMutationResult from 'hooks/useMutationResult';
+import { useDeleteSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import DeviceActionDropdown from 'components/TableCells/DeviceActionDropdown';
 import { Device } from 'models/Device';
 
 interface Props {

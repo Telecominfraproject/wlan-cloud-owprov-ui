@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
 import { useGetResources } from 'hooks/Network/Resources';
 import { InterfaceProps } from 'models/ConfigurationSections/Interfaces';
 import { VariableBlock } from 'models/VariableBlock';
+import { useEffect, useMemo, useState } from 'react';
 
 const findAllVariableBlocks = (interfaces: InterfaceProps[]) => {
   let variableBlocks: string[] = [];

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
+import NumberField from 'components/FormFields/NumberField';
+import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
 import { ObjectShape } from 'yup/lib/object';
 import LockedVlan from './LockedVlan';
-import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
-import NumberField from 'components/FormFields/NumberField';
 
 interface Props {
   editing: boolean;

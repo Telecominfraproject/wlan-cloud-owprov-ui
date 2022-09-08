@@ -1,17 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import { Flex, Heading, Spacer, useDisclosure } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import Actions from './Actions';
+import { Flex, Heading, Spacer, useDisclosure } from '@chakra-ui/react';
+import useRefreshId from 'hooks/useRefreshId';
+import useObjectModal from 'hooks/useObjectModal';
+import SubscriberDeviceTable from 'components/Tables/SubscriberDeviceTable';
 import CreateSubscriberDeviceModal from 'components/Modals/SubscriberDevice/CreateModal';
 import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditModal';
+import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
 import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
-import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
-import SubscriberDeviceTable from 'components/Tables/SubscriberDeviceTable';
-import useObjectModal from 'hooks/useObjectModal';
-import useRefreshId from 'hooks/useRefreshId';
 import { Device } from 'models/Device';
+import Actions from './Actions';
 
 interface Props {
   operatorId: string;

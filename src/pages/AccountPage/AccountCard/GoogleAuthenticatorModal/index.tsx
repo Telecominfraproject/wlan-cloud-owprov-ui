@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import GoogleAuthenticatorActivationSuccess from './GoogleAuthenticatorActivationSuccess';
+import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react';
+import SaveButton from 'components/Buttons/SaveButton';
+import ModalHeader from 'components/Modals/ModalHeader';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import GoogleAuthenticatorIntro from './GoogleAuthenticatorIntro';
 import GoogleAuthenticatorQrDisplay from './GoogleAuthenticatorQrDisplay';
 import GoogleAuthenticatorTests from './GoogleAuthenticatorTests';
-import SaveButton from 'components/Buttons/SaveButton';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import ModalHeader from 'components/Modals/ModalHeader';
+import GoogleAuthenticatorActivationSuccess from './GoogleAuthenticatorActivationSuccess';
 
 interface Props {
   isOpen: boolean;

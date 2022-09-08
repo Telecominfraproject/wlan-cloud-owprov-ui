@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
+import { useMemo } from 'react';
 
 interface Props {
   isLoading?: boolean;

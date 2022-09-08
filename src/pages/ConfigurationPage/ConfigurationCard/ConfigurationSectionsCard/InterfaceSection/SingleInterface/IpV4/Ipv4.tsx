@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import { Box, FormControl, Heading, Select, SimpleGrid, Switch, Text } from '@chakra-ui/react';
+import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
+import SelectField from 'components/FormFields/SelectField';
+import { PortRangeField } from 'components/FormFields/PortRangeField';
+import StringField from 'components/FormFields/StringField';
 import { INTERFACE_IPV4_PORT_FORWARD_SCHEMA } from '../../interfacesConstants';
 import StaticIpV4 from './StaticIpV4';
-import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
-import { PortRangeField } from 'components/FormFields/PortRangeField';
-import SelectField from 'components/FormFields/SelectField';
-import StringField from 'components/FormFields/StringField';
 
 const IpV4Form: React.FC<{
   editing: boolean;

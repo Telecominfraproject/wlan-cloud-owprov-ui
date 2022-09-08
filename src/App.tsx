@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
-import { Spinner } from '@chakra-ui/react';
-import { QueryClientProvider, QueryClient } from 'react-query';
 import { HashRouter } from 'react-router-dom';
+import { ChakraProvider, Spinner } from '@chakra-ui/react';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import theme from 'theme/theme';
 import { AuthProvider } from 'contexts/AuthProvider';
-import { WebSocketProvider } from 'contexts/WebSocketProvider';
 import Router from 'router';
+import { WebSocketProvider } from 'contexts/WebSocketProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,13 +22,15 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <HashRouter>
-        <Suspense fallback={<Spinner />}>
-          <AuthProvider token={storageToken !== null ? storageToken : undefined}>
-            <WebSocketProvider>
-              <Router />
-            </WebSocketProvider>
-          </AuthProvider>
-        </Suspense>
+        <ChakraProvider portalZIndex={40} theme={theme}>
+          <Suspense fallback={<Spinner />}>
+            <AuthProvider token={storageToken !== null ? storageToken : undefined}>
+              <WebSocketProvider>
+                <Router />
+              </WebSocketProvider>
+            </AuthProvider>
+          </Suspense>
+        </ChakraProvider>
       </HashRouter>
     </QueryClientProvider>
   );

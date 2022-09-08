@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import { Box, useDisclosure } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
-import Actions from './Actions';
-import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditModal';
-import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
-import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
-import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
-import SubscriberDeviceSearch from 'components/SearchBars/SubscriberDeviceSearch';
-import SubscriberDeviceTable from 'components/Tables/SubscriberDeviceTable';
-import useObjectModal from 'hooks/useObjectModal';
 import useRefreshId from 'hooks/useRefreshId';
+import useObjectModal from 'hooks/useObjectModal';
+import { Box, useDisclosure } from '@chakra-ui/react';
+import SubscriberDeviceTable from 'components/Tables/SubscriberDeviceTable';
+import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditModal';
+import SubscriberDeviceSearch from 'components/SearchBars/SubscriberDeviceSearch';
+import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
+import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
+import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
+import Actions from './Actions';
 
 interface Props {
   operatorId: string;

@@ -1,32 +1,32 @@
 import React, { useCallback, useState } from 'react';
-import { Box, Flex, FormControl, FormLabel, Switch, useBoolean, useDisclosure } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
-import Actions from './Actions';
-import RefreshButton from 'components/Buttons/RefreshButton';
 import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import ColumnPicker from 'components/ColumnPicker';
-import FormattedDate from 'components/FormattedDate';
-import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
-import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
-import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
-import DeviceSearchBar from 'components/SearchBars/DeviceSearch';
-import SortableDataTable from 'components/SortableDataTable';
-import EntityCell from 'components/TableCells/EntityCell';
-import VenueCell from 'components/TableCells/VenueCell';
-import ConfigurationPushModal from 'components/Tables/InventoryTable/ConfigurationPushModal';
-import CreateConfigurationModal from 'components/Tables/InventoryTable/CreateTagModal';
-import EditTagModal from 'components/Tables/InventoryTable/EditTagModal';
+import CardBody from 'components/Card/CardBody';
+import { useTranslation } from 'react-i18next';
+import { Box, Flex, FormControl, FormLabel, Switch, useBoolean, useDisclosure } from '@chakra-ui/react';
 import {
   useGetInventoryCount,
   useGetInventoryTableSpecs,
   useGetInventoryTags,
   usePushConfig,
 } from 'hooks/Network/Inventory';
+import { v4 as uuid } from 'uuid';
+import FormattedDate from 'components/FormattedDate';
+import ColumnPicker from 'components/ColumnPicker';
+import EditTagModal from 'components/Tables/InventoryTable/EditTagModal';
+import ConfigurationPushModal from 'components/Tables/InventoryTable/ConfigurationPushModal';
+import CreateConfigurationModal from 'components/Tables/InventoryTable/CreateTagModal';
+import EntityCell from 'components/TableCells/EntityCell';
+import RefreshButton from 'components/Buttons/RefreshButton';
+import DeviceSearchBar from 'components/SearchBars/DeviceSearch';
 import { Device } from 'models/Device';
 import { PageInfo, SortInfo } from 'models/Table';
+import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
+import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
+import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
+import VenueCell from 'components/TableCells/VenueCell';
+import SortableDataTable from 'components/SortableDataTable';
+import Actions from './Actions';
 
 const InventoryTable: React.FC = () => {
   const { t } = useTranslation();

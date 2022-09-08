@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { LayoutProps } from '@chakra-ui/react';
-import Input from './Input';
 import useFastField from 'hooks/useFastField';
 import { FieldProps } from 'models/Form';
+import Input from './Input';
 
 const parseToInt = (val: string, acceptEmptyValue: boolean) => {
   if (acceptEmptyValue && val === '') return undefined;

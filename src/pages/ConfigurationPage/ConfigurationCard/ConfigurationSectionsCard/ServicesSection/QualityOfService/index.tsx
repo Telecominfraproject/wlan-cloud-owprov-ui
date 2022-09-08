@@ -1,14 +1,14 @@
 import React from 'react';
 import { Flex, Heading, SimpleGrid, Switch } from '@chakra-ui/react';
-import { DSCP_OPTIONS } from './ClassifierField';
-import Classifiers from './Classifiers';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
 import ConfigurationSelectPortsField from 'components/CustomFields/ConfigurationSelectPortsField';
+import useFastField from 'hooks/useFastField';
+import Card from 'components/Card';
+import CardHeader from 'components/Card/CardHeader';
+import CardBody from 'components/Card/CardBody';
 import NumberField from 'components/FormFields/NumberField';
 import SelectField from 'components/FormFields/SelectField';
-import useFastField from 'hooks/useFastField';
+import Classifiers from './Classifiers';
+import { DSCP_OPTIONS } from './ClassifierField';
 
 const QualityOfService = ({ editing }: { editing: boolean }) => {
   const { value: bulk, onChange: onBulkChange } = useFastField({

@@ -1,10 +1,10 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
+import { Firmware } from 'models/Firmware';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
-import { v4 as uuid } from 'uuid';
-import { Firmware } from 'models/Firmware';
 import { axiosFms, axiosGw } from 'utils/axiosInstances';
+import { v4 as uuid } from 'uuid';
 
 export const useGetAvailableFirmware = ({ deviceType }: { deviceType: string }) => {
   const { t } = useTranslation();

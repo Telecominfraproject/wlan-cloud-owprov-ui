@@ -1,24 +1,24 @@
 import React, { Ref, useEffect, useState } from 'react';
-import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Heading } from '@chakra-ui/react';
-import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import SubscriberDeviceContactForm from './Contact';
-import SubscriberDeviceLocationForm from './Location';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Heading } from '@chakra-ui/react';
+import { Formik, Form, FormikProps } from 'formik';
 import NotesTable from 'components/CustomFields/NotesTable';
-import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
-import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import { SubscriberDeviceSchema } from 'constants/formSchemas';
-import { useUpdateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import SelectField from 'components/FormFields/SelectField';
 import useMutationResult from 'hooks/useMutationResult';
 import useSelectList from 'hooks/useSelectList';
-import { Configuration } from 'models/Configuration';
-import { Device } from 'models/Device';
+import { useUpdateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
 import { ModalProps } from 'models/Modal';
+import { Device } from 'models/Device';
 import { ServiceClass } from 'models/ServiceClass';
 import { Subscriber } from 'models/Subscriber';
+import { Configuration } from 'models/Configuration';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import SubscriberDeviceLocationForm from './Location';
+import SubscriberDeviceContactForm from './Contact';
 
 interface Props {
   editing: boolean;

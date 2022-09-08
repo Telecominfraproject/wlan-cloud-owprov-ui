@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import { ConfigurationSectionShape } from 'constants/propShapes';
+import DeleteButton from 'components/Buttons/DeleteButton';
 import InternalFormAccess from '../common/InternalFormAccess';
 import SectionGeneralCard from '../common/SectionGeneralCard';
 import ThirdParty from './ThirdParty';
 import { THIRD_PARTY_SCHEMA } from './thirdPartyConstants';
-import DeleteButton from 'components/Buttons/DeleteButton';
-import { ConfigurationSectionShape } from 'constants/propShapes';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

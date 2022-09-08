@@ -1,6 +1,6 @@
 import React from 'react';
-import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
+import NumberField from 'components/FormFields/NumberField';
 import ToggleField from 'components/FormFields/ToggleField';
 
 const TunnelValues: React.FC<{

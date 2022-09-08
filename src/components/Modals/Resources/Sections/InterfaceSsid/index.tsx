@@ -5,13 +5,13 @@ import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { object, string } from 'yup';
-import InterfaceSsidForm from './Form';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { useCreateResource, useUpdateResource } from 'hooks/Network/Resources';
 import { Note } from 'models/Note';
 import { Resource } from 'models/Resource';
 import { INTERFACE_SSID_SCHEMA } from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/interfacesConstants';
+import InterfaceSsidForm from './Form';
 
 export const EDIT_SCHEMA = (t: (str: string) => string) =>
   object().shape({

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Button,
   Center,
@@ -12,13 +13,12 @@ import {
   PopoverHeader,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import DeleteButton from 'components/Buttons/DeleteButton';
+import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
+import { defaultSubscriber, Subscriber } from 'models/Subscriber';
 import { useDeleteSubscriber } from 'hooks/Network/Subscribers';
 import useMutationResult from 'hooks/useMutationResult';
-import { defaultSubscriber, Subscriber } from 'models/Subscriber';
 
 interface Props {
   subscriber?: Subscriber;

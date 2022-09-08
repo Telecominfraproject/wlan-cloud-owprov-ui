@@ -10,15 +10,15 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import SaveButton from 'components/Buttons/SaveButton';
+import CloseButton from 'components/Buttons/CloseButton';
+import ModalHeader from 'components/Modals/ModalHeader';
+import CreateButton from 'components/Buttons/CreateButton';
+import useFormRef from 'hooks/useFormRef';
 import InterfaceSsidResource from '../Sections/InterfaceSsid';
 import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
 import InterfaceVlanResource from '../Sections/InterfaceVlan';
-import CloseButton from 'components/Buttons/CloseButton';
-import CreateButton from 'components/Buttons/CreateButton';
-import SaveButton from 'components/Buttons/SaveButton';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import ModalHeader from 'components/Modals/ModalHeader';
-import useFormRef from 'hooks/useFormRef';
 
 interface Props {
   refresh: () => void;

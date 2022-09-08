@@ -1,9 +1,9 @@
 import React from 'react';
-import { ArrowRightIcon } from '@chakra-ui/icons';
-import { Button, Center, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import QrCodeDisplay from 'components/QrCodeDisplay';
+import { Button, Center, Text } from '@chakra-ui/react';
+import { ArrowRightIcon } from '@chakra-ui/icons';
 import { useGetGoogleAuthenticatorQrCode } from 'hooks/Network/GoogleAuthenticator';
+import QrCodeDisplay from 'components/QrCodeDisplay';
 
 interface Props {
   setCurrentStep: (v: string) => void;

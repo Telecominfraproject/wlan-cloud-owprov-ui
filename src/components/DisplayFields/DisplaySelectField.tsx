@@ -1,6 +1,6 @@
 import React from 'react';
-import { FormControl, FormLabel, LayoutProps, Select, SpaceProps } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
+import { FormControl, FormLabel, LayoutProps, Select, SpaceProps } from '@chakra-ui/react';
 
 interface Props extends LayoutProps, SpaceProps {
   label: string;

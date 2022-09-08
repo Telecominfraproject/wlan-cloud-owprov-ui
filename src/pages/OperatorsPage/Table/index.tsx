@@ -1,20 +1,20 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Box, Flex, Heading, Spacer } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { UseQueryResult } from 'react-query';
-import { v4 as uuid } from 'uuid';
-import Actions from './Actions';
-import RefreshButton from 'components/Buttons/RefreshButton';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
-import ColumnPicker from 'components/ColumnPicker';
 import DataTable from 'components/DataTable';
-import FormattedDate from 'components/FormattedDate';
-import CreateOperatorModal from 'components/Modals/Operator/CreateOperatorModal';
+import Card from 'components/Card';
+import CardHeader from 'components/Card/CardHeader';
+import CardBody from 'components/Card/CardBody';
+import { useTranslation } from 'react-i18next';
+import { Box, Flex, Heading, Spacer } from '@chakra-ui/react';
 import { useGetOperatorCount, useGetOperators } from 'hooks/Network/Operators';
+import { v4 as uuid } from 'uuid';
+import FormattedDate from 'components/FormattedDate';
+import ColumnPicker from 'components/ColumnPicker';
+import CreateOperatorModal from 'components/Modals/Operator/CreateOperatorModal';
+import RefreshButton from 'components/Buttons/RefreshButton';
 import useControlledTable from 'hooks/useControlledTable';
 import { Column } from 'models/Table';
+import { UseQueryResult } from 'react-query';
+import Actions from './Actions';
 
 const OperatorsTable: React.FC = () => {
   const { t } = useTranslation();

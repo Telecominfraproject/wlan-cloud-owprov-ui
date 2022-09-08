@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, IconButton, SpaceProps, Tooltip, useBreakpoint } from '@chakra-ui/react';
+import { Button, IconButton, LayoutProps, SpaceProps, Tooltip, useBreakpoint } from '@chakra-ui/react';
 
-interface ResponsiveButtonProps extends SpaceProps {
+interface ResponsiveButtonProps extends LayoutProps, SpaceProps {
   onClick: () => void;
   isDisabled?: boolean;
   isLoading?: boolean;

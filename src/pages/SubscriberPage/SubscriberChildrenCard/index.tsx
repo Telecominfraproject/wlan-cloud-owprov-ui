@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, Center, Spinner } from '@chakra-ui/react';
-import DevicesTab from './DevicesTab';
 import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetSubscriber } from 'hooks/Network/Subscribers';
+import CardBody from 'components/Card/CardBody';
+import DevicesTab from './DevicesTab';
 
 interface Props {
   id: string;

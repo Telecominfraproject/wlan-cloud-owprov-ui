@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Alert, Box, Flex, FormControl, FormLabel, Select, UseDisclosureReturn } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import { RrmAlgorithm, RrmProvider } from 'hooks/Network/Rrm';
+import { Modal } from 'components/Modals/Modal';
+import SaveButton from 'components/Buttons/SaveButton';
 import AlgorithmPicker from './AlgorithmPicker';
 import { CUSTOM_RRM, DEFAULT_RRM_CRON, isCustomRrm, isValidCustomRrm, RRM_VALUE } from './helper';
 import RrmProviderPicker from './ProviderPicker';
 import RrmScheduler from './Scheduler';
-import SaveButton from 'components/Buttons/SaveButton';
-import { Modal } from 'components/Modals/Modal';
-import { RrmAlgorithm, RrmProvider } from 'hooks/Network/Rrm';
 
 const extractValueFromProps: (value: unknown) => RRM_VALUE = (value: unknown) => {
   try {

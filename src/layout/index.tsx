@@ -2,15 +2,15 @@ import React, { Suspense } from 'react';
 import { Flex, Portal, Spinner, useBoolean, useBreakpoint } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
-import PanelContainer from './Containers/PanelContainer';
-import PanelContent from './Containers/PanelContent';
-import MainPanel from './MainPanel';
-import Navbar from './Navbar';
-import Sidebar from './Sidebar';
+import routes from 'router/routes';
 import CreateRootModal from 'components/Modals/Entity/CreateRootModal';
 import { Route as RouteProps } from 'models/Routes';
 import NotFoundPage from 'pages/NotFound';
-import routes from 'router/routes';
+import MainPanel from './MainPanel';
+import Navbar from './Navbar';
+import PanelContent from './Containers/PanelContent';
+import PanelContainer from './Containers/PanelContainer';
+import Sidebar from './Sidebar';
 
 const Layout = () => {
   const breakpoint = useBreakpoint('xl');

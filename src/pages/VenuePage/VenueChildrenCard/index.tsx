@@ -1,6 +1,11 @@
 import React, { useMemo } from 'react';
 import { Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { useGetVenue } from 'hooks/Network/Venues';
+import { useAuth } from 'contexts/AuthProvider';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import LoadingOverlay from 'components/LoadingOverlay';
 import VenueChildrenTableWrapper from './VenueChildrenTableWrapper';
 import VenueClientLifecycle from './VenueClientLifecycle';
 import VenueConfigurationsTableWrapper from './VenueConfigurationsTableWrapper';
@@ -9,11 +14,6 @@ import VenueDashboard from './VenueDashboard';
 import VenueDeviceTableWrapper from './VenueDeviceTableWrapper';
 import VenueLiveView from './VenueLiveView';
 import VenueResourcesTableWrapper from './VenueResourcesTableWrapper';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import LoadingOverlay from 'components/LoadingOverlay';
-import { useAuth } from 'contexts/AuthProvider';
-import { useGetVenue } from 'hooks/Network/Venues';
 
 const getDefaultIndex = (hasAnalytics: boolean, id: string) => {
   localStorage.getItem('venue.lastActiveIndex');

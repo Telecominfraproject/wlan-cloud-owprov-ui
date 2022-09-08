@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import RrmFormField from '../RrmFormField';
 import SelectField from 'components/FormFields/SelectField';
+import RrmFormField from '../RrmFormField';
 
 interface Props {
   isDisabled?: boolean;

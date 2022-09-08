@@ -1,7 +1,7 @@
 import React from 'react';
-import { ArrowRightIcon } from '@chakra-ui/icons';
-import { Button, Center, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { Button, Center, Text } from '@chakra-ui/react';
+import { ArrowRightIcon } from '@chakra-ui/icons';
 
 interface Props {
   setCurrentStep: (v: string) => void;

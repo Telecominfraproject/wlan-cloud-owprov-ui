@@ -1,8 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
+import { PageInfo, SortInfo } from 'models/Table';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
-import { PageInfo, SortInfo } from 'models/Table';
 import { axiosAnalytics } from 'utils/axiosInstances';
 
 export const useGetAnalyticsBoard = ({ id }: { id: string }) => {

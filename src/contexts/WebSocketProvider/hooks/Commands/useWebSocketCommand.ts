@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { randomIntId } from 'utils/stringHelper';
 import { useGlobalWebSocket } from '../..';
 import { WebSocketCommandResponse } from '../../useSocketReducer';
-import { randomIntId } from 'utils/stringHelper';
 
 const useWebSocketCommand = ({ callback }: { callback: (command: WebSocketCommandResponse) => void }) => {
   const { isOpen, webSocket, lastMessage } = useGlobalWebSocket();
   const [waitingCommands, setWaitingCommands] = useState<number[]>([]);
 
   const send = useCallback(
-    (data: Record<string, unknown>) => {
+    (data) => {
       if (isOpen && webSocket) {
         const id = randomIntId();
         setWaitingCommands([...waitingCommands, id]);

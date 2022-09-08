@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import OperatorsTable from './Table';
 import { useAuth } from 'contexts/AuthProvider';
+import OperatorsTable from './Table';
 
 const OperatorsPage: React.FC = () => {
   const { isUserLoaded } = useAuth();

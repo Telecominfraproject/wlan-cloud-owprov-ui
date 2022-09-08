@@ -1,9 +1,9 @@
 import { useToast } from '@chakra-ui/react';
+import { v4 as uuid } from 'uuid';
 import { AxiosError } from 'axios';
+import useDefaultPage from 'hooks/useDefaultPage';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
-import { v4 as uuid } from 'uuid';
-import useDefaultPage from 'hooks/useDefaultPage';
 import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetVenues = () => {

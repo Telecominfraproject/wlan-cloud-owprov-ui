@@ -14,21 +14,17 @@ import {
   Tooltip,
   IconButton,
 } from '@chakra-ui/react';
-import { Formik } from 'formik';
-import { Trash } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
-import CloseButton from 'components/Buttons/CloseButton';
-import SaveButton from 'components/Buttons/SaveButton';
-import DataTable from 'components/DataTable';
-import ModalHeader from 'components/Modals/ModalHeader';
 import { FieldInputProps } from 'models/Form';
+import { Trash } from 'phosphor-react';
+import { Formik } from 'formik';
+import ModalHeader from 'components/Modals/ModalHeader';
+import SaveButton from 'components/Buttons/SaveButton';
+import CloseButton from 'components/Buttons/CloseButton';
+import DataTable from 'components/DataTable';
 import { Column } from 'models/Table';
 // eslint-disable-next-line import/no-cycle
-
-export interface ObjectArrayFieldModalOptions {
-  buttonLabel?: string;
-  modalTitle?: string;
-}
+import { ObjectArrayFieldModalOptions } from '.';
 
 interface Props extends FieldInputProps<object[]> {
   name: string;
@@ -42,7 +38,7 @@ interface Props extends FieldInputProps<object[]> {
   schema: (t: (e: string) => string, useDefault?: boolean) => object;
 }
 
-const _ObjectArrayFieldInput: React.FC<Props> = ({
+const ObjectArrayFieldInput: React.FC<Props> = ({
   name,
   label,
   value,
@@ -179,4 +175,4 @@ const _ObjectArrayFieldInput: React.FC<Props> = ({
   );
 };
 
-export const ObjectArrayFieldInput = React.memo(_ObjectArrayFieldInput);
+export default React.memo(ObjectArrayFieldInput);

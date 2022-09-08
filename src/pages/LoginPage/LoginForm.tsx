@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Box,
@@ -14,15 +14,15 @@ import {
   Spacer,
   Link,
 } from '@chakra-ui/react';
-import { AxiosError } from 'axios';
-import { Formik, Field, Form } from 'formik';
-import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import StringField from 'components/FormFields/StringField';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { Formik, Field, Form } from 'formik';
 import { useAuth } from 'contexts/AuthProvider';
-import { useLogin } from 'hooks/Network/Login';
-import useApiRequirements from 'hooks/useApiRequirements';
+import StringField from 'components/FormFields/StringField';
 import { FormFieldProps } from 'models/FormField';
+import useApiRequirements from 'hooks/useApiRequirements';
+import { AxiosError } from 'axios';
+import { useLogin } from 'hooks/Network/Login';
 import { LoginFormProps } from 'models/Login';
 
 const LoginSchema = Yup.object().shape({
