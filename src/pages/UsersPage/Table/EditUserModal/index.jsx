@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {
   Modal,
   ModalOverlay,
@@ -11,17 +10,18 @@ import {
   useDisclosure,
   useBoolean,
 } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import { axiosSec } from 'utils/axiosInstances';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import { useGetUser } from 'hooks/Network/Users';
-import SaveButton from 'components/Buttons/SaveButton';
-import EditButton from 'components/Buttons/EditButton';
-import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/Modals/ModalHeader';
-import useFormRef from 'hooks/useFormRef';
 import UpdateUserForm from './Form';
+import CloseButton from 'components/Buttons/CloseButton';
+import EditButton from 'components/Buttons/EditButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import ModalHeader from 'components/Modals/ModalHeader';
+import { useGetUser } from 'hooks/Network/Users';
+import useFormRef from 'hooks/useFormRef';
+import { axiosSec } from 'utils/axiosInstances';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

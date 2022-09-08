@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import isEqual from 'react-fast-compare';
 import { Select } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 
 const propTypes = {
   value: PropTypes.string.isRequired,

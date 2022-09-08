@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { Heading, SimpleGrid } from '@chakra-ui/react';
-import ToggleField from 'components/FormFields/ToggleField';
-import NumberField from 'components/FormFields/NumberField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import useFastField from 'hooks/useFastField';
+import PropTypes from 'prop-types';
 import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import NumberField from 'components/FormFields/NumberField';
+import ToggleField from 'components/FormFields/ToggleField';
+import useFastField from 'hooks/useFastField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Modal,
   ModalOverlay,
@@ -11,13 +10,14 @@ import {
   ListItem,
   Heading,
 } from '@chakra-ui/react';
-import { v4 as uuid } from 'uuid';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
-import { useGetConfigurationInUse } from 'hooks/Network/Configurations';
 import EntityCell from 'components/TableCells/EntityCell';
 import VenueCell from 'components/TableCells/VenueCell';
+import { useGetConfigurationInUse } from 'hooks/Network/Configurations';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Center, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import CreateSsidButton from './CreateSsidButton';
 import SingleSsid from './SingleSsid';
 import SsidTab from './SsidTab';

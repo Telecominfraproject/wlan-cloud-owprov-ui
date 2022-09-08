@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Tooltip } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
+import { Tooltip } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useAuth } from 'contexts/AuthProvider';
 
 const findDefinition = (definitionKey, CONFIGURATION_DESCRIPTIONS) => {

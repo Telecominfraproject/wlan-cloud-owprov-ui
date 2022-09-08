@@ -1,8 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import isEqual from 'react-fast-compare';
-import { testInterfacesString } from 'constants/formTests';
 import {
   FormControl,
   FormErrorMessage,
@@ -13,9 +9,13 @@ import {
   ModalContent,
   ModalOverlay,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
+import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
+import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
 import SaveButton from 'components/Buttons/SaveButton';
+import ModalHeader from 'components/Modals/ModalHeader';
+import { testInterfacesString } from 'constants/formTests';
 
 const propTypes = {
   config: PropTypes.string.isRequired,

@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useDisclosure } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import EditButton from 'components/Buttons/EditButton';
 import { useField } from 'formik';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import InterfaceExpertForm from './Form';
+import EditButton from 'components/Buttons/EditButton';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

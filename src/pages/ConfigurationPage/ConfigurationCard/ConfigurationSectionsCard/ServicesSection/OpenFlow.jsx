@@ -1,14 +1,14 @@
 import React from 'react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { Heading, SimpleGrid } from '@chakra-ui/react';
 import FileInputFieldModal from 'components/FormFields/FileInputFieldModal';
-import { useTranslation } from 'react-i18next';
-import { testPemCertificate, testPemPrivateKey } from 'constants/formTests';
-import StringField from 'components/FormFields/StringField';
 import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import { testPemCertificate, testPemPrivateKey } from 'constants/formTests';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

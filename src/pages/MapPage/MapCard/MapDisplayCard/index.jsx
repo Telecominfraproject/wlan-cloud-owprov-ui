@@ -1,20 +1,20 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { Box, Flex, Heading, useBoolean, useToast } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
+import AutoAlignButton from './AutoAlignButton';
+import CreateMapButton from './CreateMapButton';
+import DeleteMapButton from './DeleteMapButton';
+import Map from './Map';
+import MapPicker from './MapPicker';
+import SaveMapButton from './SaveMapButton';
+import RefreshButton from 'components/Buttons/RefreshButton';
+import ToggleEditButton from 'components/Buttons/ToggleEditButton';
+import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import Card from 'components/Card';
-import { Box, Flex, Heading, useBoolean, useToast } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 import { useDeleteMap, useGetMaps } from 'hooks/Network/Maps';
-import ToggleEditButton from 'components/Buttons/ToggleEditButton';
-import RefreshButton from 'components/Buttons/RefreshButton';
-import { useQueryClient } from 'react-query';
-import MapPicker from './MapPicker';
-import Map from './Map';
-import AutoAlignButton from './AutoAlignButton';
-import DeleteMapButton from './DeleteMapButton';
-import CreateMapButton from './CreateMapButton';
-import SaveMapButton from './SaveMapButton';
 
 const propTypes = {
   data: PropTypes.shape({

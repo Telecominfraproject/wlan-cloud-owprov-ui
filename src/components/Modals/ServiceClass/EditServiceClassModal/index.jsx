@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, ModalOverlay, ModalContent, ModalBody, useBoolean, Center, Spinner } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import SaveButton from 'components/Buttons/SaveButton';
-import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/Modals/ModalHeader';
-import useFormRef from 'hooks/useFormRef';
-import useFormModal from 'hooks/useFormModal';
-import { useGetServiceClass } from 'hooks/Network/ServiceClasses';
-import EditButton from 'components/Buttons/EditButton';
 import EditServiceClassForm from './Form';
+import CloseButton from 'components/Buttons/CloseButton';
+import EditButton from 'components/Buttons/EditButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import ModalHeader from 'components/Modals/ModalHeader';
+import { useGetServiceClass } from 'hooks/Network/ServiceClasses';
+import useFormModal from 'hooks/useFormModal';
+import useFormRef from 'hooks/useFormRef';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

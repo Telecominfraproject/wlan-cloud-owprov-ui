@@ -1,7 +1,7 @@
 import React from 'react';
+import { Box, Heading } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Box, Heading } from '@chakra-ui/react';
 import DataTable from 'components/DataTable';
 
 const parseDbm = (value) => {

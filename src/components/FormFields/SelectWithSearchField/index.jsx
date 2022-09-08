@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
-import { Field, useFormikContext } from 'formik';
 import { Select } from 'chakra-react-select';
+import { Field, useFormikContext } from 'formik';
+import PropTypes from 'prop-types';
 
 const propTypes = {
   name: PropTypes.string.isRequired,

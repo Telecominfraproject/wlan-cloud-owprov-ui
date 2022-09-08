@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { useTranslation } from 'react-i18next';
-import SimpleStatDisplay from 'components/StatisticsDisplay/SimpleStatDisplay';
 import { Heading, List, ListItem } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
+import SimpleStatDisplay from 'components/StatisticsDisplay/SimpleStatDisplay';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,

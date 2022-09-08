@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Flex, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
-import DeleteButton from 'components/Buttons/DeleteButton';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import COUNTRY_LIST from 'constants/countryList';
-import ToggleField from 'components/FormFields/ToggleField';
-import SelectField from 'components/FormFields/SelectField';
-import NumberField from 'components/FormFields/NumberField';
+import AdvancedSettings from './AdvancedSettings';
 import ChannelPicker from './ChannelPicker';
 import Rates from './Rates';
-import AdvancedSettings from './AdvancedSettings';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import NumberField from 'components/FormFields/NumberField';
+import SelectField from 'components/FormFields/SelectField';
+import ToggleField from 'components/FormFields/ToggleField';
+import COUNTRY_LIST from 'constants/countryList';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

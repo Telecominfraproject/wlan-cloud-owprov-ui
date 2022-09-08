@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import DataTable from 'components/DataTable';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
-import useFreeTable from 'hooks/useFreeTable';
 import { useGetServiceClasses } from 'hooks/Network/ServiceClasses';
+import useFreeTable from 'hooks/useFreeTable';
 
 const propTypes = {
   operatorId: PropTypes.string.isRequired,

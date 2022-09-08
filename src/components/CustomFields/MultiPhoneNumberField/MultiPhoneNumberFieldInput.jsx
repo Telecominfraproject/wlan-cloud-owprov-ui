@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { isValidNumber, isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
 import { CreatableSelect } from 'chakra-react-select';
+import { isValidNumber, isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import ConfigurationFieldExplanation from 'components/FormFields/ConfigurationFieldExplanation';
 

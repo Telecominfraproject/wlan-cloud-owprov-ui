@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
   useDisclosure,
@@ -15,13 +14,14 @@ import {
   IconButton,
   Box,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
+import { ArrowDown, ArrowUp, Plus, Trash } from 'phosphor-react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
 import SaveButton from 'components/Buttons/SaveButton';
-import { useGetConfigurations } from 'hooks/Network/Configurations';
-import { ArrowDown, ArrowUp, Plus, Trash } from 'phosphor-react';
 import DataTable from 'components/DataTable';
+import ModalHeader from 'components/Modals/ModalHeader';
+import { useGetConfigurations } from 'hooks/Network/Configurations';
 
 const propTypes = {
   initialValue: PropTypes.arrayOf(PropTypes.string).isRequired,

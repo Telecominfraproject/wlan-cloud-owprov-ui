@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
+import { Flex, Spacer } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import { Flex, Spacer } from '@chakra-ui/react';
-import useRefreshId from 'hooks/useRefreshId';
+import Actions from './Actions';
+import SubscriberSearchModal from 'components/Modals/Subscriber/SearchModal';
 import SubscriberTable from 'components/Tables/SubscriberTable';
 import CreateSubscriberModal from 'components/Tables/SubscriberTable/CreateModal';
-import SubscriberSearchModal from 'components/Modals/Subscriber/SearchModal';
-import Actions from './Actions';
+import useRefreshId from 'hooks/useRefreshId';
 
 const propTypes = {
   operatorId: PropTypes.string.isRequired,

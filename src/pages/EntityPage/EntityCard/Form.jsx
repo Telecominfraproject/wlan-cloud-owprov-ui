@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
-import NotesTable from 'components/CustomFields/NotesTable';
-import StringField from 'components/FormFields/StringField';
-import { EntityShape } from 'constants/propShapes';
-import { EntitySchema } from 'constants/formSchemas';
-import { useUpdateEntity } from 'hooks/Network/Entity';
-import FormattedDate from 'components/FormattedDate';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
+import { v4 as uuid } from 'uuid';
 import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
+import NotesTable from 'components/CustomFields/NotesTable';
+import FormattedDate from 'components/FormattedDate';
+import StringField from 'components/FormFields/StringField';
+import { EntitySchema } from 'constants/formSchemas';
+import { EntityShape } from 'constants/propShapes';
+import { useUpdateEntity } from 'hooks/Network/Entity';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

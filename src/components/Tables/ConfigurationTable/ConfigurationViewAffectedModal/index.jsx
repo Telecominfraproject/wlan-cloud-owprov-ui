@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Modal,
   ModalOverlay,
@@ -11,8 +10,9 @@ import {
   ListItem,
   Heading,
 } from '@chakra-ui/react';
-import { v4 as uuid } from 'uuid';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
 import { useGetConfigurationAffected } from 'hooks/Network/Configurations';

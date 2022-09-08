@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { useToast, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import { CreateContactSchema } from 'constants/formSchemas';
-import StringField from 'components/FormFields/StringField';
-import { useCreateContact } from 'hooks/Network/Contacts';
-import SelectField from 'components/FormFields/SelectField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { v4 as uuid } from 'uuid';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import { CreateContactSchema } from 'constants/formSchemas';
+import { useCreateContact } from 'hooks/Network/Contacts';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

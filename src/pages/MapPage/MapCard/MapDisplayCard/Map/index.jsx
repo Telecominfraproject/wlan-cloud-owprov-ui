@@ -1,14 +1,14 @@
 import React, { forwardRef, useEffect, useState, useImperativeHandle, useCallback } from 'react';
+import { Center } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import ReactFlow, { MiniMap, Controls } from 'react-flow-renderer';
-import { Center } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { mapToFlowElements, rfInstanceToSave } from './dagreAdapter';
-import EntityNode from './EntityNode';
-import VenueNode from './VenueNode';
 import DeviceNode from './DeviceNode';
+import EntityNode from './EntityNode';
 import MapLegend from './MapLegend';
+import VenueNode from './VenueNode';
 
 const nodeTypes = {
   entity: EntityNode,

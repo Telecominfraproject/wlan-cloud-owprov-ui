@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, SimpleGrid, useDisclosure } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
-import SaveButton from 'components/Buttons/SaveButton';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import { Form, Formik } from 'formik';
-import { CreateLocationSchema } from 'constants/formSchemas';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import StringField from 'components/FormFields/StringField';
-import SelectField from 'components/FormFields/SelectField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import SaveButton from 'components/Buttons/SaveButton';
 import AddressSearchField from 'components/CustomFields/AddressSearchField';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import ModalHeader from 'components/Modals/ModalHeader';
 import COUNTRY_LIST from 'constants/countryList';
+import { CreateLocationSchema } from 'constants/formSchemas';
 import useFormRef from 'hooks/useFormRef';
 
 const propTypes = {

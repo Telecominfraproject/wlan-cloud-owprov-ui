@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import ListInputModalField from 'components/FormFields/ListInputModalField';
-import { useField } from 'formik';
-import { useTranslation } from 'react-i18next';
 import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
+import { useField } from 'formik';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import ListInputModalField from 'components/FormFields/ListInputModalField';
 import IP_REGEX from 'constants/IP_REGEX';
 
 const propTypes = {

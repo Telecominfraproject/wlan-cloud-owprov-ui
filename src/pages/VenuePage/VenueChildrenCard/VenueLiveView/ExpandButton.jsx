@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { ArrowsIn, ArrowsOut } from 'phosphor-react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 const propTypes = {

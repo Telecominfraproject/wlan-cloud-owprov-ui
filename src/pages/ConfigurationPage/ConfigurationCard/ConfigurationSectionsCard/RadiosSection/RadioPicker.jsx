@@ -1,12 +1,12 @@
 import React from 'react';
+import { Button, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Center } from '@chakra-ui/react';
+import { Plus } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
-import { Button, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Center } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { Plus } from 'phosphor-react';
-import ModalHeader from 'components/Modals/ModalHeader';
-import CloseButton from 'components/Buttons/CloseButton';
 import { SINGLE_RADIO_SCHEMA } from './radiosConstants';
+import CloseButton from 'components/Buttons/CloseButton';
+import ModalHeader from 'components/Modals/ModalHeader';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

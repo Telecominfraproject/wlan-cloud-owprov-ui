@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import {
   Alert,
   AlertDialog,
@@ -15,6 +13,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { Trash } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const propTypes = {
   deleteMap: PropTypes.func.isRequired,

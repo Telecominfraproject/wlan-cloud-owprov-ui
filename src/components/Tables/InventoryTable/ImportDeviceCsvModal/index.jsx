@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
 import {
   useDisclosure,
   Modal,
@@ -12,14 +10,16 @@ import {
   Tooltip,
   IconButton,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/Modals/ModalHeader';
 import { UploadSimple } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import ImportDeviceFile from './ImportDeviceFile';
-import ImportDeviceTests from './ImportDeviceTests';
 import ImportDevicePush from './ImportDevicePush';
+import ImportDeviceTests from './ImportDeviceTests';
+import CloseButton from 'components/Buttons/CloseButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import ModalHeader from 'components/Modals/ModalHeader';
 
 const propTypes = {
   refresh: PropTypes.func.isRequired,

@@ -1,5 +1,5 @@
-import { Box, Flex, Heading, Spacer, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
+import { Box, Flex, Heading, Spacer, useColorModeValue } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
 const MapLegend = () => {

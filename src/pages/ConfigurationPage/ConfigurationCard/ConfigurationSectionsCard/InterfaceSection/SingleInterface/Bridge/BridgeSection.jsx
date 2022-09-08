@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToggleField from 'components/FormFields/ToggleField';
 import NumberField from 'components/FormFields/NumberField';
+import ToggleField from 'components/FormFields/ToggleField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

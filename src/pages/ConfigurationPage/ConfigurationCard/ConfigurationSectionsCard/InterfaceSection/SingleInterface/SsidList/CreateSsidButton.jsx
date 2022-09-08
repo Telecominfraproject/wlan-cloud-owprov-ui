@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import CreateButton from 'components/Buttons/CreateButton';
-import { useTranslation } from 'react-i18next';
 import { Center } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { INTERFACE_SSID_SCHEMA } from '../../interfacesConstants';
+import CreateButton from 'components/Buttons/CreateButton';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

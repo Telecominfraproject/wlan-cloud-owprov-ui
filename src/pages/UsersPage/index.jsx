@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import { useAuth } from 'contexts/AuthProvider';
 import UserTable from './Table';
+import { useAuth } from 'contexts/AuthProvider';
 
 const UsersPage = () => {
   const { isUserLoaded } = useAuth();

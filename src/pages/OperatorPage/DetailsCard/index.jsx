@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import useFormRef from 'hooks/useFormRef';
 import { Box, Center, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
-import { useGetOperator } from 'hooks/Network/Operators';
-import CardBody from 'components/Card/CardBody';
-import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
-import RefreshButton from 'components/Buttons/RefreshButton';
-import ToggleEditButton from 'components/Buttons/ToggleEditButton';
-import SaveButton from 'components/Buttons/SaveButton';
-import LoadingOverlay from 'components/LoadingOverlay';
+import PropTypes from 'prop-types';
 import DeleteOperatorButton from './DeleteButton';
 import EditOperatorForm from './Form';
+import RefreshButton from 'components/Buttons/RefreshButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ToggleEditButton from 'components/Buttons/ToggleEditButton';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
+import LoadingOverlay from 'components/LoadingOverlay';
+import { useGetOperator } from 'hooks/Network/Operators';
+import useFormRef from 'hooks/useFormRef';
 
 const propTypes = {
   id: PropTypes.string.isRequired,

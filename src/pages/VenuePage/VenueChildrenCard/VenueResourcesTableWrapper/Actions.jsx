@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -20,6 +18,8 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { useDeleteResource } from 'hooks/Network/Resources';
 

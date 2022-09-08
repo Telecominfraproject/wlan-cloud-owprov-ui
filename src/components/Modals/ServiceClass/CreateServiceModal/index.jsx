@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import SaveButton from 'components/Buttons/SaveButton';
+import CreateServiceClassForm from './Form';
 import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/Modals/ModalHeader';
 import CreateButton from 'components/Buttons/CreateButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import ModalHeader from 'components/Modals/ModalHeader';
 import useFormModal from 'hooks/useFormModal';
 import useFormRef from 'hooks/useFormRef';
-import CreateServiceClassForm from './Form';
 
 const propTypes = {
   refresh: PropTypes.func.isRequired,

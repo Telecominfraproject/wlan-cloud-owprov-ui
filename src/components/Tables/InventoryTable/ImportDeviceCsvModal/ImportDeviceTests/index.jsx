@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
-import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 import {
   Box,
   Button,
@@ -17,9 +13,13 @@ import {
   Switch,
   useBoolean,
 } from '@chakra-ui/react';
-import { axiosProv } from 'utils/axiosInstances';
-import { useAuth } from 'contexts/AuthProvider';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import TestResultTable from './TestResultTable';
+import { useAuth } from 'contexts/AuthProvider';
+import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
+import { axiosProv } from 'utils/axiosInstances';
 
 const propTypes = {
   setPhase: PropTypes.func.isRequired,

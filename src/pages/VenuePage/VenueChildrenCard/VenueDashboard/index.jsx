@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useGetAnalyticsBoardDevices } from 'hooks/Network/Analytics';
-import { useTranslation } from 'react-i18next';
 import { Box, Center, Flex, Heading, Spacer, Spinner, useDisclosure } from '@chakra-ui/react';
-import LoadingOverlay from 'components/LoadingOverlay';
-import RefreshButton from 'components/Buttons/RefreshButton';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import VenueAnalyticsHeader from './Header';
 import VenueDashboardTableModal from './TableModal';
+import RefreshButton from 'components/Buttons/RefreshButton';
+import LoadingOverlay from 'components/LoadingOverlay';
+import { useGetAnalyticsBoardDevices } from 'hooks/Network/Analytics';
 
 const propTypes = {
   boardId: PropTypes.string.isRequired,

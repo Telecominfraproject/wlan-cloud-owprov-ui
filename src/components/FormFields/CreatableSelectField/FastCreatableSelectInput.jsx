@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
 import { CreatableSelect } from 'chakra-react-select';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
 

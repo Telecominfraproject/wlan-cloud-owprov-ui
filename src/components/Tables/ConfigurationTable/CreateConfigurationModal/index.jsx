@@ -1,17 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import { axiosProv } from 'utils/axiosInstances';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import SaveButton from 'components/Buttons/SaveButton';
+import CreateConfigurationForm from './Form';
 import CloseButton from 'components/Buttons/CloseButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import useFormRef from 'hooks/useFormRef';
-import CreateConfigurationForm from './Form';
+import { axiosProv } from 'utils/axiosInstances';
 
 const propTypes = {
   refresh: PropTypes.func,

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box, Heading } from '@chakra-ui/react';
+import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Box, Heading } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
-import NotesTable from 'components/CustomFields/NotesTable';
-import StringField from 'components/FormFields/StringField';
-import { EntityShape } from 'constants/propShapes';
-import { EditOperatorSchema } from 'constants/formSchemas';
-import FormattedDate from 'components/FormattedDate';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
+import NotesTable from 'components/CustomFields/NotesTable';
+import FormattedDate from 'components/FormattedDate';
+import StringField from 'components/FormFields/StringField';
+import { EditOperatorSchema } from 'constants/formSchemas';
+import { EntityShape } from 'constants/propShapes';
 import { useUpdateOperator } from 'hooks/Network/Operators';
 import useMutationResult from 'hooks/useMutationResult';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

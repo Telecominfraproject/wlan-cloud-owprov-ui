@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import useFastField from 'hooks/useFastField';
 import RadiusForm from './Radius';
+import useFastField from 'hooks/useFastField';
 
 type Props = { editing: boolean; namePrefix: string; isPasspoint?: boolean };
 

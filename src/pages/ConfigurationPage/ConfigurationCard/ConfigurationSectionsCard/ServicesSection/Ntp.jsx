@@ -1,11 +1,11 @@
 import React from 'react';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import { Heading, SimpleGrid } from '@chakra-ui/react';
-import ToggleField from 'components/FormFields/ToggleField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import ToggleField from 'components/FormFields/ToggleField';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

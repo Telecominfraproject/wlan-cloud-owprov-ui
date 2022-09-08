@@ -1,7 +1,7 @@
 import React from 'react';
+import { Button } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@chakra-ui/react';
 
 const propTypes = {
   venueName: PropTypes.string,

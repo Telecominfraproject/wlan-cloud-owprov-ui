@@ -1,21 +1,21 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import DataTable from 'components/DataTable';
-import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
-import CardBody from 'components/Card/CardBody';
-import { useTranslation } from 'react-i18next';
 import { Avatar, Box, Button, Flex, Heading, useDisclosure, useToast } from '@chakra-ui/react';
-import { v4 as uuid } from 'uuid';
-import FormattedDate from 'components/FormattedDate';
 import { ArrowsClockwise } from 'phosphor-react';
-import { useAuth } from 'contexts/AuthProvider';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
+import CreateUserModal from './CreateUserModal';
+import EditUserModal from './EditUserModal';
+import UserActions from './UserActions';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
 import ColumnPicker from 'components/ColumnPicker';
+import DataTable from 'components/DataTable';
+import FormattedDate from 'components/FormattedDate';
+import { useAuth } from 'contexts/AuthProvider';
 import useGetRequirements from 'hooks/Network/Requirements';
 import { useGetUsers } from 'hooks/Network/Users';
-import CreateUserModal from './CreateUserModal';
-import UserActions from './UserActions';
-import EditUserModal from './EditUserModal';
 
 const propTypes = {
   title: PropTypes.string,

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { useToast, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import { CreateMapSchema } from 'constants/formSchemas';
-import StringField from 'components/FormFields/StringField';
-import SelectField from 'components/FormFields/SelectField';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { v4 as uuid } from 'uuid';
+import SelectField from 'components/FormFields/SelectField';
+import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
+import StringField from 'components/FormFields/StringField';
+import { CreateMapSchema } from 'constants/formSchemas';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
-import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

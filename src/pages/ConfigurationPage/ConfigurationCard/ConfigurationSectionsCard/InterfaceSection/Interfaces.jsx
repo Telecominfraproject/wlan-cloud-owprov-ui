@@ -1,12 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Center, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import SingleInterface from './SingleInterface';
+import PropTypes from 'prop-types';
 import CreateInterfaceButton from './CreateInterfaceButton';
 import InterfaceTab from './InterfaceTab';
+import SingleInterface from './SingleInterface';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

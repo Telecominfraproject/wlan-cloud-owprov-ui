@@ -1,14 +1,14 @@
 import React from 'react';
+import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, CloseButton } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, CloseButton } from '@chakra-ui/react';
+import CreateMapForm from './Form';
+import CreateButton from 'components/Buttons/CreateButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
 import { useCreateMap } from 'hooks/Network/Maps';
-import CreateButton from 'components/Buttons/CreateButton';
 import useFormRef from 'hooks/useFormRef';
-import CreateMapForm from './Form';
 
 const propTypes = {
   mapRef: PropTypes.instanceOf(Object).isRequired,

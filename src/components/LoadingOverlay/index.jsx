@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Spinner, useColorMode } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 
 const propTypes = {
   isLoading: PropTypes.bool.isRequired,

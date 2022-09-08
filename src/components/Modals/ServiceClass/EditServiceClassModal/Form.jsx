@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
-import { ServiceClassSchema } from 'constants/formSchemas';
-import StringField from 'components/FormFields/StringField';
-import SelectField from 'components/FormFields/SelectField';
-import useMutationResult from 'hooks/useMutationResult';
-import { useUpdateServiceClass } from 'hooks/Network/ServiceClasses';
-import NumberCurrencyField from 'components/CustomFields/NumberCurrencyField';
 import NotesTable from 'components/CustomFields/NotesTable';
+import NumberCurrencyField from 'components/CustomFields/NumberCurrencyField';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import { ServiceClassSchema } from 'constants/formSchemas';
+import { useUpdateServiceClass } from 'hooks/Network/ServiceClasses';
+import useMutationResult from 'hooks/useMutationResult';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

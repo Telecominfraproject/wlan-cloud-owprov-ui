@@ -1,15 +1,15 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { ConfigurationSectionShape } from 'constants/propShapes';
-import { Formik } from 'formik';
-import { useTranslation } from 'react-i18next';
 import { SimpleGrid } from '@chakra-ui/react';
+import { Formik } from 'formik';
+import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
-import DeleteButton from 'components/Buttons/DeleteButton';
-import { UNIT_SCHEMA } from './unitConstants';
+import { useTranslation } from 'react-i18next';
+import InternalFormAccess from '../common/InternalFormAccess';
 import SectionGeneralCard from '../common/SectionGeneralCard';
 import Unit from './Unit';
-import InternalFormAccess from '../common/InternalFormAccess';
+import { UNIT_SCHEMA } from './unitConstants';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import { ConfigurationSectionShape } from 'constants/propShapes';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { FormControl, FormLabel } from '@chakra-ui/react';
-import { useField } from 'formik';
 import { Select } from 'chakra-react-select';
+import { useField } from 'formik';
+import PropTypes from 'prop-types';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

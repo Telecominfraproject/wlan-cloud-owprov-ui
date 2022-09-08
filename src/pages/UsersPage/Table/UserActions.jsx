@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -20,10 +18,12 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import { axiosSec } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
 import ActionsDropdown from './ActionsDropdown';
+import { axiosSec } from 'utils/axiosInstances';
 
 const deleteUserApi = async (userId) => axiosSec.delete(`/user/${userId}`).then(() => true);
 

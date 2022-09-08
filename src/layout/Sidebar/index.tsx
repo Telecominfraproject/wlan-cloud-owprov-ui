@@ -1,5 +1,4 @@
 import React, { LegacyRef, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import {
   Box,
   Drawer,
@@ -15,11 +14,12 @@ import {
   useBreakpoint,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from 'contexts/AuthProvider';
-import { Route } from 'models/Routes';
+import { useLocation } from 'react-router-dom';
+import createLinks from './CreateLinks';
 import darkLogo from 'assets/Logo_Dark_Mode.svg';
 import lightLogo from 'assets/Logo_Light_Mode.svg';
-import createLinks from './CreateLinks';
+import { useAuth } from 'contexts/AuthProvider';
+import { Route } from 'models/Routes';
 
 const variantChange = '0.2s linear';
 

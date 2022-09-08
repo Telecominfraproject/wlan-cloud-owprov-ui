@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { uppercaseFirstLetter } from 'utils/stringHelper';
 import {
   Alert,
   Box,
@@ -18,11 +15,14 @@ import {
   Textarea,
   useBoolean,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
-import SaveButton from 'components/Buttons/SaveButton';
-import CloseButton from 'components/Buttons/CloseButton';
-import { useTranslation } from 'react-i18next';
 import { WarningCircle } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
+import CloseButton from 'components/Buttons/CloseButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ModalHeader from 'components/Modals/ModalHeader';
+import { uppercaseFirstLetter } from 'utils/stringHelper';
 
 const fileToString = async (file) =>
   new Promise((resolve) => {

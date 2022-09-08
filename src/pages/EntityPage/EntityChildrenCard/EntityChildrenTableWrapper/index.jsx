@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
+import { Box } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import { EntityShape } from 'constants/propShapes';
-import { Box } from '@chakra-ui/react';
-import EntityTable from 'components/Tables/EntityTable';
-import CreateEntityModal from 'pages/EntityPage/CreateEntityModal';
 import Actions from './Actions';
+import EntityTable from 'components/Tables/EntityTable';
+import { EntityShape } from 'constants/propShapes';
+import CreateEntityModal from 'pages/EntityPage/CreateEntityModal';
 
 const propTypes = {
   entity: PropTypes.shape(EntityShape).isRequired,

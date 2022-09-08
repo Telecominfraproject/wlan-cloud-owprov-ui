@@ -1,18 +1,18 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { ConfigurationSectionShape } from 'constants/propShapes';
-import { FieldArray, Formik } from 'formik';
-import { useTranslation } from 'react-i18next';
-import isEqual from 'react-fast-compare';
 import { VStack } from '@chakra-ui/react';
-import { WAN_OPTIONS } from 'components/CustomFields/ConfigurationSelectPortsField/Input';
-import DeleteButton from 'components/Buttons/DeleteButton';
+import { FieldArray, Formik } from 'formik';
+import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
+import InternalFormAccess from '../common/InternalFormAccess';
 import SectionGeneralCard from '../common/SectionGeneralCard';
+import InterfaceExpertModal from './InterfaceExpertModal';
 import Interfaces from './Interfaces';
 import { INTERFACES_SCHEMA } from './interfacesConstants';
-import InterfaceExpertModal from './InterfaceExpertModal';
-import InternalFormAccess from '../common/InternalFormAccess';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import { WAN_OPTIONS } from 'components/CustomFields/ConfigurationSelectPortsField/Input';
+import { ConfigurationSectionShape } from 'constants/propShapes';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

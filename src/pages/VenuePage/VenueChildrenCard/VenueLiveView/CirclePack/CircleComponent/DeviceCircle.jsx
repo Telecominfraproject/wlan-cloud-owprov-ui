@@ -1,6 +1,4 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { animated } from '@react-spring/web';
 import {
   IconButton,
   Popover,
@@ -21,11 +19,13 @@ import {
   Flex,
   Tag as TagDisplay,
 } from '@chakra-ui/react';
+import { animated } from '@react-spring/web';
 import { ArrowSquareOut, Tag } from 'phosphor-react';
-import { useGetGatewayUi } from 'hooks/Network/Endpoints';
-import FormattedDate from 'components/FormattedDate';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import FormattedDate from 'components/FormattedDate';
 import { useCircleGraph } from 'contexts/CircleGraphProvider';
+import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import { bytesString } from 'utils/stringHelper';
 
 const propTypes = {

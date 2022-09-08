@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { ResponsiveCirclePacking } from '@nivo/circle-packing';
-import { useTranslation } from 'react-i18next';
 import { Box, Center, Heading, useColorMode } from '@chakra-ui/react';
-import { parseDbm } from 'utils/stringHelper';
-import { errorColor, getBlendedColor, successColor, warningColor } from 'utils/colors';
-import { getScaledArray } from 'utils/arrayHelpers';
-import { useCircleGraph } from 'contexts/CircleGraphProvider';
+import { ResponsiveCirclePacking } from '@nivo/circle-packing';
 import { patternLinesDef } from '@nivo/core';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import CircleComponent from './CircleComponent';
 import CircleLabel from './CircleLabel';
-import CirclePackSlider from './Slider';
 import CirclePackInfoButton from './InfoButton';
+import CirclePackSlider from './Slider';
+import { useCircleGraph } from 'contexts/CircleGraphProvider';
+import { getScaledArray } from 'utils/arrayHelpers';
+import { errorColor, getBlendedColor, successColor, warningColor } from 'utils/colors';
+import { parseDbm } from 'utils/stringHelper';
 
 const theme = {
   labels: {

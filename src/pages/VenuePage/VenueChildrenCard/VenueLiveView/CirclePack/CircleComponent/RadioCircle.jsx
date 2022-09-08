@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { animated } from '@react-spring/web';
 import {
   Popover,
   PopoverArrow,
@@ -18,7 +16,9 @@ import {
   Box,
   Tag,
 } from '@chakra-ui/react';
+import { animated } from '@react-spring/web';
 import { Radio } from 'phosphor-react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useCircleGraph } from 'contexts/CircleGraphProvider';
 

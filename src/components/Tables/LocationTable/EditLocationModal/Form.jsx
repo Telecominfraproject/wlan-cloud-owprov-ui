@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
+import { Formik, Field, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid } from '@chakra-ui/react';
-import { Formik, Field, Form } from 'formik';
-import NotesTable from 'components/CustomFields/NotesTable';
-import StringField from 'components/FormFields/StringField';
-import { LocationShape } from 'constants/propShapes';
-import { CreateLocationSchema } from 'constants/formSchemas';
-import { useGetEntities } from 'hooks/Network/Entity';
-import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
-import { useUpdateLocation } from 'hooks/Network/Locations';
-import SelectField from 'components/FormFields/SelectField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import AddressSearchField from 'components/CustomFields/AddressSearchField';
+import NotesTable from 'components/CustomFields/NotesTable';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import SelectField from 'components/FormFields/SelectField';
+import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
+import StringField from 'components/FormFields/StringField';
 import COUNTRY_LIST from 'constants/countryList';
+import { CreateLocationSchema } from 'constants/formSchemas';
+import { LocationShape } from 'constants/propShapes';
+import { useGetEntities } from 'hooks/Network/Entity';
+import { useUpdateLocation } from 'hooks/Network/Locations';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

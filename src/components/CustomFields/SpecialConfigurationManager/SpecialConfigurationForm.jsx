@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { Formik } from 'formik';
 import { SimpleGrid } from '@chakra-ui/react';
+import { Formik } from 'formik';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import SelectField from 'components/FormFields/SelectField';
 import ToggleField from 'components/FormFields/ToggleField';
 

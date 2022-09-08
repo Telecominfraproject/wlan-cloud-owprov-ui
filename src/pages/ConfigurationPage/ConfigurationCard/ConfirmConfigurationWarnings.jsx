@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Alert, Box, CloseButton, Heading, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import ModalHeader from 'components/Modals/ModalHeader';
 import SaveButton from 'components/Buttons/SaveButton';
+import ModalHeader from 'components/Modals/ModalHeader';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

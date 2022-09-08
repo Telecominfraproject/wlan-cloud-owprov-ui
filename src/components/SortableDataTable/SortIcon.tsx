@@ -1,6 +1,6 @@
 import React from 'react';
-import { ArrowDown, ArrowUp, Circle } from 'phosphor-react';
 import { Icon } from '@chakra-ui/react';
+import { ArrowDown, ArrowUp, Circle } from 'phosphor-react';
 
 interface Props {
   isSorted: boolean;

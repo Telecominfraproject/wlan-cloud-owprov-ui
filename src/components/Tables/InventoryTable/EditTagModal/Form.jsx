@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Textarea } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
-import NotesTable from 'components/CustomFields/NotesTable';
-import StringField from 'components/FormFields/StringField';
-import { TagShape } from 'constants/propShapes';
-import { UpdateTagSchema } from 'constants/formSchemas';
-import { useGetEntities } from 'hooks/Network/Entity';
-import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
-import SelectField from 'components/FormFields/SelectField';
-import { useGetVenues } from 'hooks/Network/Venues';
-import { useUpdateConfiguration } from 'hooks/Network/Configurations';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
-import ComputedConfigurationDisplay from './ComputedConfigurationDisplay';
+import { v4 as uuid } from 'uuid';
 import SpecialConfigurationManager from '../../../CustomFields/SpecialConfigurationManager';
+import ComputedConfigurationDisplay from './ComputedConfigurationDisplay';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import NotesTable from 'components/CustomFields/NotesTable';
+import SelectField from 'components/FormFields/SelectField';
+import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
+import StringField from 'components/FormFields/StringField';
+import { UpdateTagSchema } from 'constants/formSchemas';
+import { TagShape } from 'constants/propShapes';
+import { useUpdateConfiguration } from 'hooks/Network/Configurations';
+import { useGetEntities } from 'hooks/Network/Entity';
+import { useGetVenues } from 'hooks/Network/Venues';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

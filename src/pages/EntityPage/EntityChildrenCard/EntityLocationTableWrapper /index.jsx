@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { EntityShape } from 'constants/propShapes';
 import { Box, useDisclosure } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useQueryClient } from 'react-query';
-import EditLocationModal from 'components/Tables/LocationTable/EditLocationModal';
-import CreateLocationModal from 'components/Tables/LocationTable/CreateLocationModal';
-import LocationTable from 'components/Tables/LocationTable';
+import { v4 as uuid } from 'uuid';
 import Actions from './Actions';
+import LocationTable from 'components/Tables/LocationTable';
+import CreateLocationModal from 'components/Tables/LocationTable/CreateLocationModal';
+import EditLocationModal from 'components/Tables/LocationTable/EditLocationModal';
+import { EntityShape } from 'constants/propShapes';
 
 const propTypes = {
   entity: PropTypes.shape(EntityShape).isRequired,

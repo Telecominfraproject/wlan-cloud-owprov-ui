@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { SimpleGrid, Box } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import AddressSearchField from 'components/CustomFields/AddressSearchField';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import COUNTRY_LIST from 'constants/countryList';
-import AddressSearchField from 'components/CustomFields/AddressSearchField';
-import { useTranslation } from 'react-i18next';
-import SelectField from 'components/FormFields/SelectField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 
 const propTypes = {
   name: PropTypes.string.isRequired,

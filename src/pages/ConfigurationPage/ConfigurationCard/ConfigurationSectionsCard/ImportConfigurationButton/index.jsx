@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint, useDisclosure } from '@chakra-ui/react';
 import { UploadSimple } from 'phosphor-react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import ImportConfigurationModal from './Modal';
 
 const propTypes = {

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useToast, SimpleGrid } from '@chakra-ui/react';
+import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { useToast, SimpleGrid } from '@chakra-ui/react';
-import { Formik } from 'formik';
-import { CreateConfigurationSchema } from 'constants/formSchemas';
-import StringField from 'components/FormFields/StringField';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import SpecialConfigurationManager from 'components/CustomFields/SpecialConfigurationManager';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
+import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
+import StringField from 'components/FormFields/StringField';
+import { CreateConfigurationSchema } from 'constants/formSchemas';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
-import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
-import SpecialConfigurationManager from 'components/CustomFields/SpecialConfigurationManager';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

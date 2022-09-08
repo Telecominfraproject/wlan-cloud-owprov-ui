@@ -1,9 +1,16 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Box, Spacer } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import { UseQueryResult } from 'react-query';
 import { v4 as uuid } from 'uuid';
-import FormattedDate from 'components/FormattedDate';
 import ColumnPicker from 'components/ColumnPicker';
+import FormattedDate from 'components/FormattedDate';
+import SortableDataTable from 'components/SortableDataTable';
+import BooleanCell from 'components/TableCells/BooleanCell';
+import DataCell from 'components/TableCells/DataCell';
+import DecibelCell from 'components/TableCells/DecibelCell';
+import DurationCell from 'components/TableCells/DurationCell';
+import NumberCell from 'components/TableCells/NumberCell';
 import {
   useGetClientLifecycle,
   useGetClientLifecycleCount,
@@ -11,13 +18,6 @@ import {
 } from 'hooks/Network/Analytics';
 import useControlledTable from 'hooks/useControlledTable';
 import { Column, SortInfo } from 'models/Table';
-import { UseQueryResult } from 'react-query';
-import SortableDataTable from 'components/SortableDataTable';
-import DecibelCell from 'components/TableCells/DecibelCell';
-import DataCell from 'components/TableCells/DataCell';
-import DurationCell from 'components/TableCells/DurationCell';
-import BooleanCell from 'components/TableCells/BooleanCell';
-import NumberCell from 'components/TableCells/NumberCell';
 
 const ClientLifecyleTable: React.FC<{
   venueId: string;
