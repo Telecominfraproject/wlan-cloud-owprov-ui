@@ -78,7 +78,7 @@ const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
                 <Spacer />
                 <Box>
                   <Text color="gray.400">
-                    {t('footer.version')} {process.env.REACT_APP_VERSION}
+                    {t('footer.version')} {__APP_VERSION__}
                   </Text>
                 </Box>
               </Flex>
@@ -112,7 +112,7 @@ const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
               <Spacer />
               <Box>
                 <Text color="gray.400">
-                  {t('footer.version')} {process.env.REACT_APP_VERSION}
+                  {t('footer.version')} {__APP_VERSION__}
                 </Text>
               </Box>
             </Flex>

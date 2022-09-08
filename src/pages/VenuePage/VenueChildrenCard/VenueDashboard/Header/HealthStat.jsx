@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useColorMode } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import SimpleStatDisplay from 'components/StatisticsDisplay/SimpleStatDisplay';
 
@@ -9,37 +9,37 @@ const propTypes = {
   handleModalClick: PropTypes.func.isRequired,
 };
 
-const MemoryStat = ({ data, handleModalClick }) => {
+const HealthStat = ({ data, handleModalClick }) => {
   const { t } = useTranslation();
   const { colorMode } = useColorMode();
 
-  const getMemoryColor = () => {
-    if (data.avgMemoryUsed < 65)
+  const getHealthColor = () => {
+    if (data.avgHealth >= 90)
       return colorMode === 'light' ? 'var(--chakra-colors-green-200)' : 'var(--chakra-colors-green-400)';
-    if (data.avgMemoryUsed < 80)
+    if (data.avgHealth >= 70)
       return colorMode === 'light' ? 'var(--chakra-colors-yellow-200)' : 'var(--chakra-colors-yellow-400)';
     return colorMode === 'light' ? 'var(--chakra-colors-red-200)' : 'var(--chakra-colors-red-400)';
   };
 
   return (
     <SimpleStatDisplay
-      title={t('analytics.average_memory')}
-      label={`${data.avgMemoryUsed}%`}
-      explanation={t('analytics.average_memory_explanation')}
+      title={t('analytics.average_health')}
+      label={`${data.avgHealth}%`}
+      explanation={t('analytics.average_health_explanation')}
       openModal={handleModalClick({
-        prioritizedColumns: ['lastPing', 'memory'],
+        prioritizedColumns: ['lastHealth', 'health'],
         sortBy: [
           {
-            id: 'memory',
-            desc: true,
+            id: 'health',
+            desc: false,
           },
         ],
       })}
+      color={getHealthColor()}
       mb={4}
-      color={getMemoryColor()}
     />
   );
 };
 
-MemoryStat.propTypes = propTypes;
-export default MemoryStat;
+HealthStat.propTypes = propTypes;
+export default HealthStat;

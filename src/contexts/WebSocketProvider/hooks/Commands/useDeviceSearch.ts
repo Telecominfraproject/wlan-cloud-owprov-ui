@@ -3,12 +3,12 @@ import { WebSocketCommandResponse } from '../../useSocketReducer';
 import useWebSocketCommand from './useWebSocketCommand';
 import debounce from 'utils/debounce';
 
-export type UseDeviceSearchProps = {
+type UseDeviceSearchProps = {
   minLength?: number;
   operatorId?: string;
 };
 
-export const useDeviceSearch = ({ minLength = 4, operatorId }: UseDeviceSearchProps) => {
+const useDeviceSearch = ({ minLength = 4, operatorId }: UseDeviceSearchProps) => {
   const [tempValue, setTempValue] = useState('');
   const [waitingSearch, setWaitingSearch] = useState<
     { command: string; serial_prefix: string; operatorId?: string } | undefined
@@ -61,3 +61,5 @@ export const useDeviceSearch = ({ minLength = 4, operatorId }: UseDeviceSearchPr
 
   return toReturn;
 };
+
+export default useDeviceSearch;

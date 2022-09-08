@@ -4,12 +4,12 @@ import useWebSocketCommand from './useWebSocketCommand';
 import { Subscriber } from 'models/Subscriber';
 import debounce from 'utils/debounce';
 
-export type UseSubscriberSearchProps = {
+type UseSubscriberSearchProps = {
   minLength?: number;
   operatorId: string;
   mode: 'nameSearch' | 'emailSearch';
 };
-export const useSubscriberSearch = ({ minLength = 4, operatorId, mode }: UseSubscriberSearchProps) => {
+const useSubscriberSearch = ({ minLength = 4, operatorId, mode }: UseSubscriberSearchProps) => {
   const [tempValue, setTempValue] = useState('');
   const [waitingSearch, setWaitingSearch] = useState<
     { command: string; emailSearch?: string; nameSearch?: string; operatorId?: string } | undefined
@@ -68,3 +68,5 @@ export const useSubscriberSearch = ({ minLength = 4, operatorId, mode }: UseSubs
 
   return toReturn;
 };
+
+export default useSubscriberSearch;

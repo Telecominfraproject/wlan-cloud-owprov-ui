@@ -3,11 +3,11 @@ import { useField } from 'formik';
 import SelectInput from './FastSelectInput';
 import { FormFieldProps } from 'models/FormField';
 
-export interface SelectFieldProps extends FormFieldProps {
+interface SelectFieldProps extends FormFieldProps {
   options: { label: string; value: string | number }[];
 }
 
-const _SelectField = ({
+const SelectField = ({
   options,
   name,
   isDisabled,
@@ -66,4 +66,4 @@ const _SelectField = ({
   );
 };
 
-export const SelectField = React.memo(_SelectField);
+export default React.memo(SelectField);
