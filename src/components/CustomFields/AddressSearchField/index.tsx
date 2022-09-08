@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, FormControl, LayoutProps, SpaceProps } from '@chakra-ui/react';
-import { useFormikContext } from 'formik';
 import AddressSearchBar from 'components/SearchBars/AddressSearchBar';
+import { useFormikContext } from 'formik';
 import { AddressObject } from 'models/Location';
 
 const defaultProps = {

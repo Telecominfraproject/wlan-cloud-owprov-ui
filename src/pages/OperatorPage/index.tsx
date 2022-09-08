@@ -1,9 +1,9 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
+import { useAuth } from 'contexts/AuthProvider';
 import OperatorChildrenCard from './ChildrenCard';
 import DetailsCard from './DetailsCard';
-import { useAuth } from 'contexts/AuthProvider';
 
 const OperatorPage = ({ idToUse }: { idToUse?: string }) => {
   const { isUserLoaded } = useAuth();

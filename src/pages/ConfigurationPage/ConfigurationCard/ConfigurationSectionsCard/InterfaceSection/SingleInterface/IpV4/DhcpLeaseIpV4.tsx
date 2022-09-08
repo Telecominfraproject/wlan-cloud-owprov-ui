@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
-import { useField } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { INTERFACE_IPV4_DHCP_LEASE_SCHEMA } from '../../interfacesConstants';
-import ConfigurationSubSectionToggle from 'components/CustomFields/ConfigurationSubSection';
+import { useField } from 'formik';
+import ToggleField from 'components/FormFields/ToggleField';
 import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
-import ToggleField from 'components/FormFields/ToggleField';
+import ConfigurationSubSectionToggle from 'components/CustomFields/ConfigurationSubSection';
+import { INTERFACE_IPV4_DHCP_LEASE_SCHEMA } from '../../interfacesConstants';
 
 const DhcpLeaseIpV4: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
   const { t } = useTranslation();

@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Flex, Heading, IconButton, SimpleGrid, Spacer, Tooltip } from '@chakra-ui/react';
 import { Trash } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
-import { SERVICES_CLASSIFIER_DNS_SCHEMA, SERVICES_CLASSIFIER_PORTS_SCHEMA } from '../servicesConstants';
-import Card from 'components/Card';
-import NumberField from 'components/FormFields/NumberField';
 import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
-import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
+import SelectField from 'components/FormFields/SelectField';
+import NumberField from 'components/FormFields/NumberField';
+import Card from 'components/Card';
+import { SERVICES_CLASSIFIER_DNS_SCHEMA, SERVICES_CLASSIFIER_PORTS_SCHEMA } from '../servicesConstants';
 
 const CLASSIFIER_PROTO_OPTS = [
   { value: 'any', label: 'any' },

@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import React, { useCallback, useMemo, useState } from 'react';
-import { AddIcon } from '@chakra-ui/icons';
-import { IconButton, Input, InputGroup, InputRightElement, Tooltip } from '@chakra-ui/react';
-import { Trash } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
+import { IconButton, Input, InputGroup, InputRightElement, Tooltip } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
+import { Trash } from 'phosphor-react';
 import { v4 as uuid } from 'uuid';
-import DataTable from 'components/DataTable';
-import FormattedDate from 'components/FormattedDate';
 import { useAuth } from 'contexts/AuthProvider';
-import useFastField from 'hooks/useFastField';
 import { Note } from 'models/Note';
+import DataTable from 'components/DataTable';
+import useFastField from 'hooks/useFastField';
+import FormattedDate from 'components/FormattedDate';
 
 export interface NotesFieldProps {
   name?: string;
@@ -16,10 +17,10 @@ export interface NotesFieldProps {
   hasDeleteButton?: boolean;
 }
 
-const _NotesField: React.FC<NotesFieldProps> = ({ name, isDisabled, hasDeleteButton }) => {
+const _NotesField: React.FC<NotesFieldProps> = ({ name = 'notes', isDisabled, hasDeleteButton }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { value: notes, onChange: setNotes } = useFastField({ name: name ?? 'notes' });
+  const { value: notes, onChange: setNotes } = useFastField({ name });
   const [newNote, setNewNote] = useState('');
 
   const addNoteToForm = () => {
@@ -42,11 +43,9 @@ const _NotesField: React.FC<NotesFieldProps> = ({ name, isDisabled, hasDeleteBut
     setNotes(newArr);
   };
 
-  // @ts-ignore
   const memoizedDate = useCallback((cell) => <FormattedDate date={cell.row.values.created} key={uuid()} />, []);
 
   const removeAction = useCallback(
-    // @ts-ignore
     (cell) => (
       <Tooltip hasArrow label={t('common.remove')} placement="top">
         <IconButton
@@ -96,7 +95,7 @@ const _NotesField: React.FC<NotesFieldProps> = ({ name, isDisabled, hasDeleteBut
         Cell: ({ cell }) => removeAction(cell),
       });
     return cols;
-  }, [memoizedDate, removeAction]);
+  }, [notes]);
 
   return (
     <>

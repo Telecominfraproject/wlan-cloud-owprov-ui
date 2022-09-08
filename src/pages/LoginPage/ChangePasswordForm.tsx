@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Box,
@@ -13,14 +13,14 @@ import {
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
-import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import StringField from 'components/FormFields/StringField';
-import { testRegex } from 'constants/formTests';
+import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons';
+import { Formik, Form } from 'formik';
 import { useAuth } from 'contexts/AuthProvider';
-import { useChangePassword } from 'hooks/Network/Login';
+import { testRegex } from 'constants/formTests';
 import useApiRequirements from 'hooks/useApiRequirements';
+import StringField from 'components/FormFields/StringField';
+import { useChangePassword } from 'hooks/Network/Login';
 import { LoginFormProps } from 'models/Login';
 
 const LoginSchema = (t: (str: string) => string, { passRegex }: { passRegex: string }) =>

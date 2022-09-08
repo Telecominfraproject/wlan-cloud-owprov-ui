@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button, FormControl, FormErrorMessage, FormLabel, useDisclosure } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import EditRrmForm from './Form';
-import { isCustomRrm } from './helper';
 import { useGetRrmAlgorithms, useGetRrmProvider } from 'hooks/Network/Rrm';
 import useFastField from 'hooks/useFastField';
+import EditRrmForm from './Form';
+import { isCustomRrm } from './helper';
 
 type Props = {
   namePrefix?: string;

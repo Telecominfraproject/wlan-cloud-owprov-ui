@@ -1,5 +1,5 @@
-import { useReducer } from 'react';
 import { WebSocketNotification } from 'models/WebSocket';
+import { useReducer } from 'react';
 
 export type WebSocketCommandResponse = {
   type: 'COMMAND';

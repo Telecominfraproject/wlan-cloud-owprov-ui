@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Box, Center, Flex, useColorMode, useColorModeValue, Image } from '@chakra-ui/react';
+import { LoginFormProps } from 'models/Login';
 import darkLogo from '../../assets/Logo_Dark_Mode.svg';
 import lightLogo from '../../assets/Logo_Light_Mode.svg';
+import LoginForm from './LoginForm';
 import ChangePasswordForm from './ChangePasswordForm';
 import ForgotPasswordForm from './ForgotPasswordForm';
-import LoginForm from './LoginForm';
 import MfaForm from './MfaForm';
-import { LoginFormProps } from 'models/Login';
 
 const LoginPage = () => {
   const [activeForm, setActiveForm] = useState<LoginFormProps>({ form: 'login' });

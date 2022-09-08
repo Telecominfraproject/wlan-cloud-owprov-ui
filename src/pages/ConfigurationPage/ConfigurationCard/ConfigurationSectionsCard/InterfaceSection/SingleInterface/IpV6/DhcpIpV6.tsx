@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
-import { FormControl, FormLabel, Switch } from '@chakra-ui/react';
-import { getIn, useFormikContext } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { INTERFACE_IPV6_DHCP_SCHEMA } from '../../interfacesConstants';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
+import { useTranslation } from 'react-i18next';
+import { getIn, useFormikContext } from 'formik';
+import { FormControl, FormLabel, Switch } from '@chakra-ui/react';
+import SelectField from 'components/FormFields/SelectField';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import { INTERFACE_IPV6_DHCP_SCHEMA } from '../../interfacesConstants';
 
 const DhcpIpV6: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
   const { t } = useTranslation();

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Flex, SimpleGrid } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
-import SystemTile from './SystemTile';
-import { useAuth } from 'contexts/AuthProvider';
-import { useGetEndpoints } from 'hooks/Network/Endpoints';
 import { axiosSec } from 'utils/axiosInstances';
+import { useGetEndpoints } from 'hooks/Network/Endpoints';
+import { useAuth } from 'contexts/AuthProvider';
+import SystemTile from './SystemTile';
 
 const SystemPage = () => {
   const { token, isUserLoaded } = useAuth();

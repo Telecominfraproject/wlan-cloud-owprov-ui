@@ -10,8 +10,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import WarningButton from 'components/Buttons/WarningButton';
 import { useSendSubscriberEmailValidation } from 'hooks/Network/Subscribers';
+import WarningButton from 'components/Buttons/WarningButton';
 
 interface Props {
   id: string;

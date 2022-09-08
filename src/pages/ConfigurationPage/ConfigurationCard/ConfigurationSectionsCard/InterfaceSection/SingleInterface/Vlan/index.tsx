@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
+import useFastField from 'hooks/useFastField';
 import * as Yup from 'yup';
 import VlanForm from './Vlan';
-import useFastField from 'hooks/useFastField';
 
 const Vlan: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
   const { value, onChange } = useFastField({ name: `configuration[${index}].vlan` });

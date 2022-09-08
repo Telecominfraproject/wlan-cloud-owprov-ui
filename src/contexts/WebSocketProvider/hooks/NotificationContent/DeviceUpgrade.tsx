@@ -1,7 +1,7 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import { Box, Heading, ListItem, UnorderedList } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { WebSocketNotification } from '../../../../models/WebSocket';
 
 interface Props {

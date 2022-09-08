@@ -1,9 +1,9 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
+import { useAuth } from 'contexts/AuthProvider';
 import VenueCard from './VenueCard';
 import VenueChildrenCard from './VenueChildrenCard';
-import { useAuth } from 'contexts/AuthProvider';
 
 const VenuePage = ({ idToUse }: { idToUse?: string }) => {
   const { isUserLoaded } = useAuth();

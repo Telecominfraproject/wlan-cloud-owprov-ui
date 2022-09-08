@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Box, Flex, Heading, IconButton, Tooltip } from '@chakra-ui/react';
 import { Plus } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
-import { ClassifierField } from './ClassifierField';
 import useFastField from 'hooks/useFastField';
+import { ClassifierField } from './ClassifierField';
 
 const Classifiers = ({ editing }: { editing: boolean }) => {
   const { t } = useTranslation();

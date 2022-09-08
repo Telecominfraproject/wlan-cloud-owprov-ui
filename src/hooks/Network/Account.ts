@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
-import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { v4 as uuid } from 'uuid';
 import { Preference } from 'models/Preference';
 import { User } from 'models/User';
+import { Dispatch, SetStateAction } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
 
 export const useUpdatePreferences = () => {

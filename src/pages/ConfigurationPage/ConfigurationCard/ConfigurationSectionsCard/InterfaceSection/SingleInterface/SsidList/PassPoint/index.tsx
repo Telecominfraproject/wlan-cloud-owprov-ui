@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import useFastField from 'hooks/useFastField';
 import { INTERFACE_SSID_PASS_POINT_SCHEMA } from '../../../interfacesConstants';
 import PassPointForm from './Form';
-import useFastField from 'hooks/useFastField';
 
 type Props = {
   isDisabled?: boolean;

@@ -1,19 +1,19 @@
 import React from 'react';
 import { Box, Center, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
-import VenueActions from './Actions';
-import DeleteVenuePopover from './DeleteVenuePopover';
-import EditVenueForm from './Form';
-import RefreshButton from 'components/Buttons/RefreshButton';
-import SaveButton from 'components/Buttons/SaveButton';
-import ToggleEditButton from 'components/Buttons/ToggleEditButton';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
-import LoadingOverlay from 'components/LoadingOverlay';
-import { useAuth } from 'contexts/AuthProvider';
-import { useGetAnalyticsBoard } from 'hooks/Network/Analytics';
 import { useGetVenue } from 'hooks/Network/Venues';
+import LoadingOverlay from 'components/LoadingOverlay';
+import { useGetAnalyticsBoard } from 'hooks/Network/Analytics';
+import CardHeader from 'components/Card/CardHeader';
+import Card from 'components/Card';
+import SaveButton from 'components/Buttons/SaveButton';
+import { useAuth } from 'contexts/AuthProvider';
+import ToggleEditButton from 'components/Buttons/ToggleEditButton';
+import RefreshButton from 'components/Buttons/RefreshButton';
+import CardBody from 'components/Card/CardBody';
 import useFormRef from 'hooks/useFormRef';
+import VenueActions from './Actions';
+import EditVenueForm from './Form';
+import DeleteVenuePopover from './DeleteVenuePopover';
 
 const VenueCard: React.FC<{ id: string }> = ({ id }) => {
   const { endpoints } = useAuth();

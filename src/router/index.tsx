@@ -1,6 +1,6 @@
+import { useAuth } from 'contexts/AuthProvider';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useAuth } from 'contexts/AuthProvider';
 
 const Layout = React.lazy(() => import('layout'));
 const Login = React.lazy(() => import('pages/LoginPage'));

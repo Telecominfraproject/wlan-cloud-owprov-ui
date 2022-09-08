@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { compactDate } from 'utils/dateFormatting';
 import DataTable from 'components/DataTable';
 import { Column } from 'models/Table';
-import { compactDate } from 'utils/dateFormatting';
 
 interface Props {
   certificates?: { expiresOn: number; filename: string }[];

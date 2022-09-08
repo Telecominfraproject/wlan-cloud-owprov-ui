@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormControl, FormLabel, LayoutProps, SpaceProps } from '@chakra-ui/react';
-import { ObjectArrayFieldInput } from 'components/FormFields/ObjectArrayFieldModal/Input';
+import ObjectArrayFieldInput from 'components/FormFields/ObjectArrayFieldModal/Input';
 import { Column } from 'models/Table';
 
 interface ObjectArrayFieldModalOptions {

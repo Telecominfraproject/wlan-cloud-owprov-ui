@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import useGetRequirements from './Network/Requirements';
 import { secUrl } from 'utils/axiosInstances';
+import useGetRequirements from './Network/Requirements';
 
 const useApiRequirements = () => {
   const { data: requirements } = useGetRequirements();

@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
+import useFastField from 'hooks/useFastField';
 import { useTranslation } from 'react-i18next';
 import { INTERFACE_SSID_RRM_SCHEMA } from '../../../interfacesConstants';
 import RrmForm from './Rrm';
-import useFastField from 'hooks/useFastField';
 
 const Rrm: React.FC<{ editing: boolean; namePrefix: string }> = ({ editing, namePrefix }) => {
   const { t } = useTranslation();

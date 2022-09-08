@@ -1,21 +1,21 @@
 import React, { useMemo } from 'react';
 import { Flex, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
-import { FieldArray } from 'formik';
 import { useTranslation } from 'react-i18next';
-import Captive from './Captive';
+import { FieldArray } from 'formik';
+import MultiSelectField from 'components/FormFields/MultiSelectField';
+import ToggleField from 'components/FormFields/ToggleField';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import ConfigurationSelectPortsField from 'components/CustomFields/ConfigurationSelectPortsField';
+import useFastField from 'hooks/useFastField';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import StringField from 'components/FormFields/StringField';
+import SelectField from 'components/FormFields/SelectField';
 import IpV4 from './IpV4';
 import IpV6 from './IpV6';
+import Vlan from './Vlan';
 import SsidList from './SsidList';
 import Tunnel from './Tunnel';
-import Vlan from './Vlan';
-import DeleteButton from 'components/Buttons/DeleteButton';
-import ConfigurationSelectPortsField from 'components/CustomFields/ConfigurationSelectPortsField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import MultiSelectField from 'components/FormFields/MultiSelectField';
-import SelectField from 'components/FormFields/SelectField';
-import StringField from 'components/FormFields/StringField';
-import ToggleField from 'components/FormFields/ToggleField';
-import useFastField from 'hooks/useFastField';
+import Captive from './Captive';
 
 interface Props {
   editing: boolean;

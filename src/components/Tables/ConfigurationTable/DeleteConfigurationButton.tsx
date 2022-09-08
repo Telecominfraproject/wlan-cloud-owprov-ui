@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Button,
   Center,
@@ -16,11 +17,10 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { AxiosError } from 'axios';
-import { Trash } from 'phosphor-react';
-import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { useDeleteConfiguration } from 'hooks/Network/Configurations';
+import { AxiosError } from 'axios';
+import { Trash } from 'phosphor-react';
 import { Configuration } from 'models/Configuration';
 
 type Props = {

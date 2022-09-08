@@ -2,9 +2,9 @@ import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
+import { axiosGw } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
 import { DeviceRttyApiResponse, GatewayDevice, WifiScanCommand, WifiScanResult } from '../../models/Device';
-import { axiosGw } from 'utils/axiosInstances';
 
 export const useGetDevice = ({ serialNumber, onClose }: { serialNumber: string; onClose?: () => void }) => {
   const { t } = useTranslation();

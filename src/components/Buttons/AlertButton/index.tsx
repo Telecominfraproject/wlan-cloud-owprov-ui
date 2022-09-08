@@ -1,7 +1,7 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { Warning } from 'phosphor-react';
-import { useTranslation } from 'react-i18next';
 import { ThemeProps } from 'models/Theme';
 
 interface Props extends ThemeProps {

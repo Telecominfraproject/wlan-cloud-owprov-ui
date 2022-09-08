@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useField } from 'formik';
 import PropTypes from 'prop-types';
+import { useField } from 'formik';
 
 const propTypes = {
   index: PropTypes.number.isRequired,

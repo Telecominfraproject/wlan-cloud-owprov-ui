@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
+import useFastField from 'hooks/useFastField';
 import { useTranslation } from 'react-i18next';
 import { INTERFACE_IPV4_SCHEMA } from '../../interfacesConstants';
 import Ipv4Form from './Ipv4';
-import useFastField from 'hooks/useFastField';
 
 const Ipv4: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
   const { t } = useTranslation();

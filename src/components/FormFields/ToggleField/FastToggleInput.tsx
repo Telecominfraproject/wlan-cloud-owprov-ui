@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, FormErrorMessage, FormLabel, Switch } from '@chakra-ui/react';
-import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
 import { FieldInputProps } from 'models/Form';
+import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
 
 interface Props extends FieldInputProps<boolean> {
   element?: React.ReactNode;

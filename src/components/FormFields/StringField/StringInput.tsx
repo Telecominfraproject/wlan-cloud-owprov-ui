@@ -11,8 +11,8 @@ import {
   useBoolean,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
 import { FieldInputProps } from 'models/Form';
+import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
 
 interface Props extends FieldInputProps<string | undefined | string[]> {
   isError: boolean;

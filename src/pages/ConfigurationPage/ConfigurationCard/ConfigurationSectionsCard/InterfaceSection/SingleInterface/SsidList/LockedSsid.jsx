@@ -2,13 +2,13 @@ import React, { useMemo } from 'react';
 import { SimpleGrid, useToast } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import LockedAdvanced from './LockedAdvanced';
-import LockedEncryption from './LockedEncryption';
-import LockedPasspoint from './LockedPasspoint';
 import DisplayMultiSelectField from 'components/DisplayFields/DisplayMultiSelectField';
 import DisplaySelectField from 'components/DisplayFields/DisplaySelectField';
 import DisplayStringField from 'components/DisplayFields/DisplayStringField';
 import { useGetResource } from 'hooks/Network/Resources';
+import LockedPasspoint from './LockedPasspoint';
+import LockedEncryption from './LockedEncryption';
+import LockedAdvanced from './LockedAdvanced';
 
 const propTypes = {
   variableBlockId: PropTypes.string.isRequired,

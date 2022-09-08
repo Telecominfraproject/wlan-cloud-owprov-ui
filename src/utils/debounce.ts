@@ -5,7 +5,7 @@ export default (toRun: (e: unknown) => void, timeout = 1000) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       // @ts-ignore
-      toRun.apply(_, args);
+      toRun.apply(this, args);
     }, timeout);
   };
 };

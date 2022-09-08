@@ -1,24 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { AddIcon } from '@chakra-ui/icons';
 import { Button, Modal, ModalOverlay, ModalContent, ModalBody, Center, Spinner } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import { useAuth } from 'contexts/AuthProvider';
+import CloseButton from 'components/Buttons/CloseButton';
+import ModalHeader from 'components/Modals/ModalHeader';
+import useFormRef from 'hooks/useFormRef';
+import useFormModal from 'hooks/useFormModal';
+import useOperatorChildren from 'hooks/useOperatorChildren';
+import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
+import { Configuration } from 'models/Configuration';
+import { Device, EditDevice } from 'models/Device';
+import useMutationResult from 'hooks/useMutationResult';
+import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import StepButton from 'components/Buttons/StepButton';
 import CreateSubscriberDeviceStep0 from './MultiStepForm/Step0';
 import CreateSubscriberDeviceStep1 from './MultiStepForm/Step1';
 import CreateSubscriberDeviceStep2 from './MultiStepForm/Step2';
 import CreateSubscriberDeviceStep3 from './MultiStepForm/Step3';
-import CloseButton from 'components/Buttons/CloseButton';
-import StepButton from 'components/Buttons/StepButton';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import ModalHeader from 'components/Modals/ModalHeader';
-import { useAuth } from 'contexts/AuthProvider';
-import { useCreateSubscriberDevice } from 'hooks/Network/SubscriberDevices';
-import useFormModal from 'hooks/useFormModal';
-import useFormRef from 'hooks/useFormRef';
-import useMutationResult from 'hooks/useMutationResult';
-import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
-import useOperatorChildren from 'hooks/useOperatorChildren';
-import { Configuration } from 'models/Configuration';
-import { Device, EditDevice } from 'models/Device';
 
 const defaultConfiguration: Configuration[] = [];
 

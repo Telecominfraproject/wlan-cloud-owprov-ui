@@ -1,7 +1,7 @@
 import React from 'react';
-import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
 import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
+import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
 
 interface Props {
   editing: boolean;

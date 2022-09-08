@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { ModalProps } from 'models/Modal';
 import {
   Modal,
   ModalOverlay,
@@ -12,15 +14,13 @@ import {
   Switch,
   Heading,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import FirmwareList from './FirmwareList';
+import ModalHeader from 'components/Modals/ModalHeader';
 import CloseButton from 'components/Buttons/CloseButton';
 import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand';
-import ModalHeader from 'components/Modals/ModalHeader';
-import { useGetAvailableFirmware, useUpdateDeviceFirmware } from 'hooks/Network/Firmware';
-import { useGetDevice } from 'hooks/Network/GatewayDevices';
 import useCommandModal from 'hooks/useCommandModal';
-import { ModalProps } from 'models/Modal';
+import { useGetDevice } from 'hooks/Network/GatewayDevices';
+import { useGetAvailableFirmware, useUpdateDeviceFirmware } from 'hooks/Network/Firmware';
+import FirmwareList from './FirmwareList';
 
 interface Props {
   modalProps: ModalProps;

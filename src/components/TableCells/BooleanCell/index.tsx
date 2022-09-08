@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
 import { t } from 'i18next';
+import React, { useMemo } from 'react';
 
 const BooleanCell: React.FC<{ isTrue?: boolean }> = ({ isTrue }) => {
   const data = useMemo(() => {

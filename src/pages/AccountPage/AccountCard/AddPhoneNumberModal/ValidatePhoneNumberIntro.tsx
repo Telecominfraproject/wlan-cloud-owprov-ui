@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowRightIcon } from '@chakra-ui/icons';
-import { Button, Center, FormControl, FormErrorMessage, Input, Text } from '@chakra-ui/react';
-import { parsePhoneNumber, AsYouType } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
+import { Button, Center, FormControl, FormErrorMessage, Input, Text } from '@chakra-ui/react';
+import { ArrowRightIcon } from '@chakra-ui/icons';
+import { parsePhoneNumber, AsYouType } from 'libphonenumber-js';
 
 const ValidatePhoneNumberIntro: React.FC<{ nextStep: (phone: string) => void }> = ({ nextStep }) => {
   const { t } = useTranslation();

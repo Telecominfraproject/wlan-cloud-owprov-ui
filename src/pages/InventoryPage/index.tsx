@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import Table from './Table';
 import { useAuth } from 'contexts/AuthProvider';
+import Table from './Table';
 
 const InventoryPage = () => {
   const { isUserLoaded } = useAuth();

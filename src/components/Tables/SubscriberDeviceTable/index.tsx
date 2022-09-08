@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
+import DataTable from 'components/DataTable';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
 import { useGetSubscriberDevices } from 'hooks/Network/SubscriberDevices';
-import { Device } from 'models/Device';
 import { Column, DeviceCell } from 'models/Table';
+import { Device } from 'models/Device';
 
 interface Props {
   actions: (cell: DeviceCell) => React.ReactElement;

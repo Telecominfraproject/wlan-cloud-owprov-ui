@@ -1,6 +1,6 @@
-import React from 'react';
 import { Button, Heading, useColorModeValue, useMultiStyleConfig, useTab } from '@chakra-ui/react';
 import useFastField from 'hooks/useFastField';
+import React from 'react';
 
 // eslint-disable-next-line react/prop-types
 const RadioTab: React.FC<{ index: number }> = React.forwardRef(({ index, ...props }, ref) => {

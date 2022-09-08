@@ -1,10 +1,10 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
-import * as axios from 'axios';
+import { System } from 'models/System';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
-import { System } from 'models/System';
 import { errorToast, successToast } from 'utils/toastHelper';
+import * as axios from 'axios';
 
 const axiosInstance = axios.default.create();
 

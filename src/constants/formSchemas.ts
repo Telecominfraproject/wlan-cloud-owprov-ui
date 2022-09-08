@@ -1,6 +1,6 @@
+import phoneNumberTest from 'utils/phoneNumber';
 import * as Yup from 'yup';
 import { testObjectName, testPhoneNumberArray, testRegex } from './formTests';
-import phoneNumberTest from 'utils/phoneNumber';
 
 export const DeviceRulesSchema = (t: (str: string) => string) =>
   Yup.object().shape({

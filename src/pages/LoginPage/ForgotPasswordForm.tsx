@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Box,
@@ -13,9 +13,9 @@ import {
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
-import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
+import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons';
+import { Formik, Form } from 'formik';
 import StringField from 'components/FormFields/StringField';
 import { useForgotPassword } from 'hooks/Network/Login';
 import useApiRequirements from 'hooks/useApiRequirements';

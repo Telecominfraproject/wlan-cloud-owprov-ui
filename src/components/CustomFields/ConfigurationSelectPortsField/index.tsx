@@ -1,6 +1,6 @@
+import useFastField from 'hooks/useFastField';
 import React, { useMemo } from 'react';
 import MultiSelectInput from './Input';
-import useFastField from 'hooks/useFastField';
 
 interface Props {
   isDisabled?: boolean;

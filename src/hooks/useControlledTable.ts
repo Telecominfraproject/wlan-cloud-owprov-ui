@@ -1,6 +1,6 @@
+import { PageInfo } from 'models/Table';
 import { useMemo, useState } from 'react';
 import { UseQueryResult } from 'react-query';
-import { PageInfo } from 'models/Table';
 
 interface Props {
   useCount: (props: unknown) => UseQueryResult;

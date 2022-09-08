@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Button, Checkbox, IconButton, Menu, MenuButton, MenuItem, MenuList, useBreakpoint } from '@chakra-ui/react';
-import { FunnelSimple } from 'phosphor-react';
-import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import { useTranslation } from 'react-i18next';
+import { Button, Checkbox, IconButton, Menu, MenuButton, MenuItem, MenuList, useBreakpoint } from '@chakra-ui/react';
 import { useAuth } from 'contexts/AuthProvider';
+import { FunnelSimple } from 'phosphor-react';
 import { Column } from 'models/Table';
 
 interface Props {

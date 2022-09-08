@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
-import { Button, Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure } from '@chakra-ui/react';
-import { Plus } from 'phosphor-react';
-import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import Actions from './Actions';
+import { Button, Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
+import { Plus } from 'phosphor-react';
 import ContactTable from 'components/Tables/ContactTable';
 import { useGetEntity } from 'hooks/Network/Entity';
 import { Venue } from 'models/Venue';
+import Actions from './Actions';
 
 interface Props {
   venue: Venue;

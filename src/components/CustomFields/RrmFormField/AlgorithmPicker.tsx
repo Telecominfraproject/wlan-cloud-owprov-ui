@@ -14,9 +14,9 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { areRrmParamsValid } from './helper';
 import { InfoPopover } from 'components/InfoPopover';
 import { RrmAlgorithm } from 'hooks/Network/Rrm';
+import { areRrmParamsValid } from './helper';
 
 type Props = {
   algorithms?: RrmAlgorithm[];

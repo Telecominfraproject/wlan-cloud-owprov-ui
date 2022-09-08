@@ -2,10 +2,10 @@ import React from 'react';
 import { FormControl, FormErrorMessage, FormLabel, Heading, Textarea } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import Card from 'components/Card';
+import useFastField from 'hooks/useFastField';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import useFastField from 'hooks/useFastField';
+import Card from 'components/Card';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,

@@ -11,10 +11,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
-import { Pencil } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
-import AddPhoneNumberModal from '../AddPhoneNumberModal';
+import { Pencil } from 'phosphor-react';
 import GoogleAuthenticatorModal from '../GoogleAuthenticatorModal';
+import AddPhoneNumberModal from '../AddPhoneNumberModal';
 
 interface Props {
   name: string;

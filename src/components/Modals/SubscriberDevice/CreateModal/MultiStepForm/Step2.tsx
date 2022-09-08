@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Flex, Heading, Select, SimpleGrid } from '@chakra-ui/react';
+import * as Yup from 'yup';
 import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import * as Yup from 'yup';
-import AddressSearchField from 'components/CustomFields/AddressSearchField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import SelectField from 'components/FormFields/SelectField';
-import StringField from 'components/FormFields/StringField';
-import COUNTRY_LIST from 'constants/countryList';
 import { SubscriberDeviceLocationSchema } from 'constants/formSchemas';
+import { Flex, Heading, Select, SimpleGrid } from '@chakra-ui/react';
+import StringField from 'components/FormFields/StringField';
+import SelectField from 'components/FormFields/SelectField';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import AddressSearchField from 'components/CustomFields/AddressSearchField';
+import COUNTRY_LIST from 'constants/countryList';
 import { DeviceLocation } from 'models/Device';
 
 interface Props {

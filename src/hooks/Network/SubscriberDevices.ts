@@ -1,8 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
+import { Device, EditDevice } from 'models/Device';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
-import { Device, EditDevice } from 'models/Device';
 import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetSubscriberDevices = ({ operatorId, subscriberId }: { operatorId: string; subscriberId: string }) => {

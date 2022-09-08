@@ -1,6 +1,6 @@
 import React from 'react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useRebootVenueDevices, useUpdateVenueDevices, useUpgradeVenueDevices } from 'hooks/Network/Venues';
 

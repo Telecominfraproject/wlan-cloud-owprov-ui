@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import { LayoutProps } from '@chakra-ui/react';
-import StringInput from './StringInput';
 import useFastField from 'hooks/useFastField';
 import { FieldProps } from 'models/Form';
+import { LayoutProps } from '@chakra-ui/react';
+import StringInput from './StringInput';
 
 interface Props extends FieldProps, LayoutProps {
   hideButton?: boolean;

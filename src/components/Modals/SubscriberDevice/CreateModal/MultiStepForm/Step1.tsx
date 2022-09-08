@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Heading, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form, FormikProps } from 'formik';
+import { Heading, SimpleGrid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
-import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
-import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
-import { DeviceRulesSchema } from 'constants/formSchemas';
+import SelectField from 'components/FormFields/SelectField';
 import useSelectList from 'hooks/useSelectList';
+import * as Yup from 'yup';
+import SubscriberDeviceConfigurationManager from 'components/CustomFields/SubscriberDeviceConfigurationManager';
 import { Configuration } from 'models/Configuration';
+import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import { DeviceRulesSchema } from 'constants/formSchemas';
 
 const defaultConfiguration: Record<string, unknown>[] = [];
 
