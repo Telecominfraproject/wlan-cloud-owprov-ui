@@ -1,8 +1,8 @@
 import React from 'react';
-import { v4 as uuid } from 'uuid';
+import { Button, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { Button, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import { v4 as uuid } from 'uuid';
 import IconBox from 'components/IconBox';
 import { Route } from 'models/Routes';
 

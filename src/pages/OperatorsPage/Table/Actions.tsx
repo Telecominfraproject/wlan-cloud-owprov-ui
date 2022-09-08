@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Flex,
   IconButton,
@@ -18,9 +17,10 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
-import useMutationResult from 'hooks/useMutationResult';
-import { useDeleteOperator } from 'hooks/Network/Operators';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useDeleteOperator } from 'hooks/Network/Operators';
+import useMutationResult from 'hooks/useMutationResult';
 
 interface Props {
   cell: {

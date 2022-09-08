@@ -1,25 +1,25 @@
-import { useToast } from '@chakra-ui/react';
 import { useCallback, useMemo } from 'react';
-import { v4 as uuid } from 'uuid';
+import { useToast } from '@chakra-ui/react';
+import { AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import { AxiosError } from 'axios';
+import { v4 as uuid } from 'uuid';
 
-interface Props {
+type UseMutationResultProps = {
   objName: string;
   operationType: 'update' | 'delete' | 'create' | 'blink' | 'reboot';
   refresh?: () => void;
   onClose?: () => void;
   queryToInvalidate?: string[];
-}
-
-const defaultProps = {
-  refresh: () => {},
-  onClose: () => {},
-  queryToInvalidate: null,
 };
 
-const useMutationResult = ({ objName, operationType, refresh, onClose, queryToInvalidate }: Props) => {
+const useMutationResult = ({
+  objName,
+  operationType,
+  refresh = () => {},
+  onClose = () => {},
+  queryToInvalidate,
+}: UseMutationResultProps) => {
   const { t } = useTranslation();
   const toast = useToast();
   const queryClient = useQueryClient();
@@ -74,7 +74,7 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
   };
 
   const onSuccess = useCallback(
-    ({ setSubmitting, resetForm } = { setSubmitting: null, resetForm: null }) => {
+    ({ setSubmitting, resetForm }: { setSubmitting?: (v: boolean) => void; resetForm?: () => void } = {}) => {
       if (refresh) refresh();
       if (setSubmitting) setSubmitting(false);
       if (resetForm) resetForm();
@@ -93,7 +93,7 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
     [queryToInvalidate],
   );
 
-  const onError = useCallback((e, { setSubmitting } = { setSubmitting: null }) => {
+  const onError = useCallback((e: AxiosError, { setSubmitting }: { setSubmitting?: (v: boolean) => void } = {}) => {
     toast({
       id: uuid(),
       title: t('common.error'),
@@ -117,5 +117,4 @@ const useMutationResult = ({ objName, operationType, refresh, onClose, queryToIn
   return toReturn;
 };
 
-useMutationResult.defaultProps = defaultProps;
 export default useMutationResult;

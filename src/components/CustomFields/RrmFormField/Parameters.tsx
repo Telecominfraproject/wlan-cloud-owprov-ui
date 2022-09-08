@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FormControl, FormErrorMessage, FormHelperText, FormLabel, Textarea } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { RrmAlgorithm } from 'hooks/Network/Rrm';
 import { areRrmParamsValid } from './helper';
+import { RrmAlgorithm } from 'hooks/Network/Rrm';
 
 type Props = {
   algorithm?: RrmAlgorithm;

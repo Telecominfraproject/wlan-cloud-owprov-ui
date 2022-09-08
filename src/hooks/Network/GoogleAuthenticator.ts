@@ -1,9 +1,9 @@
-import { useMutation, useQuery } from 'react-query';
-import { axiosSec } from 'utils/axiosInstances';
 import { Buffer } from 'buffer';
-import { useTranslation } from 'react-i18next';
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
+import { useTranslation } from 'react-i18next';
+import { useMutation, useQuery } from 'react-query';
+import { axiosSec } from 'utils/axiosInstances';
 
 export const useGetGoogleAuthenticatorQrCode = () => {
   const { t } = useTranslation();
