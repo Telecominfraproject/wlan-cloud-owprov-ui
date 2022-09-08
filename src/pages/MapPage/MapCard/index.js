@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import useGetEntityTree from 'hooks/Network/EntityTree';
 import { useToast } from '@chakra-ui/react';
-import { useGetEntities } from 'hooks/Network/Entity';
-import { useGetVenues } from 'hooks/Network/Venues';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import MapDisplayCard from './MapDisplayCard';
 import { detailsTree, entitiesToObj, flattenEntityTree, getDevices, getTags } from './mapHelpers';
+import { useGetEntities, useGetEntityTree } from 'hooks/Network/Entity';
+import { useGetVenues } from 'hooks/Network/Venues';
 
 const MapCard = () => {
   const { t } = useTranslation();
@@ -45,10 +44,14 @@ const MapCard = () => {
     queryClient.invalidateQueries(['get-venues']);
   };
 
-  useEffect(async () => {
+  const getData = useCallback(async () => {
+    const newData = await createListOfEntitiesVenues();
+    setGroupedData(newData);
+  }, [createListOfEntitiesVenues]);
+
+  useEffect(() => {
     if (tree && entities && venues) {
-      const newData = await createListOfEntitiesVenues();
-      setGroupedData(newData);
+      getData();
     }
   }, [tree, entities, venues]);
 

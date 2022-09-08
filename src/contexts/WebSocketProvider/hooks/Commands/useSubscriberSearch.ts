@@ -1,15 +1,15 @@
-import { Subscriber } from 'models/Subscriber';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import debounce from 'utils/debounce';
 import { WebSocketCommandResponse } from '../../useSocketReducer';
 import useWebSocketCommand from './useWebSocketCommand';
+import { Subscriber } from 'models/Subscriber';
+import debounce from 'utils/debounce';
 
-interface Props {
+export type UseSubscriberSearchProps = {
   minLength?: number;
   operatorId: string;
   mode: 'nameSearch' | 'emailSearch';
-}
-const useSubscriberSearch = ({ minLength = 4, operatorId, mode }: Props) => {
+};
+export const useSubscriberSearch = ({ minLength = 4, operatorId, mode }: UseSubscriberSearchProps) => {
   const [tempValue, setTempValue] = useState('');
   const [waitingSearch, setWaitingSearch] = useState<
     { command: string; emailSearch?: string; nameSearch?: string; operatorId?: string } | undefined
@@ -21,7 +21,7 @@ const useSubscriberSearch = ({ minLength = 4, operatorId, mode }: Props) => {
   const { isOpen, send } = useWebSocketCommand({ callback: onNewResult });
 
   const onChange = useCallback(
-    (v) => {
+    (v: string) => {
       if (v.length >= minLength)
         setWaitingSearch({
           command: 'subuser_search',
@@ -35,13 +35,13 @@ const useSubscriberSearch = ({ minLength = 4, operatorId, mode }: Props) => {
 
   const debounceChange = useCallback(
     debounce((v) => {
-      onChange(v);
+      onChange(v as string);
     }, 300),
     [setWaitingSearch],
   );
 
   const onInputChange = useCallback(
-    (v) => {
+    (v: string) => {
       if (v !== tempValue) {
         setTempValue(v);
         debounceChange(v);
@@ -68,5 +68,3 @@ const useSubscriberSearch = ({ minLength = 4, operatorId, mode }: Props) => {
 
   return toReturn;
 };
-
-export default useSubscriberSearch;

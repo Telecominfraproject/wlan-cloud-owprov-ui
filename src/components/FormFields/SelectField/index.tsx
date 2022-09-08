@@ -1,14 +1,13 @@
 import React, { useCallback } from 'react';
 import { useField } from 'formik';
-import { defaultFormField, FormFieldProps } from 'models/FormField';
-import Field from './FastSelectInput';
+import SelectInput from './FastSelectInput';
+import { FormFieldProps } from 'models/FormField';
 
-interface Props extends FormFieldProps {
+export interface SelectFieldProps extends FormFieldProps {
   options: { label: string; value: string | number }[];
 }
-const defaultProps = defaultFormField;
 
-const SelectField: React.FC<Props> = ({
+const _SelectField = ({
   options,
   name,
   isDisabled,
@@ -22,11 +21,11 @@ const SelectField: React.FC<Props> = ({
   isInt,
   w,
   definitionKey,
-}) => {
+}: SelectFieldProps) => {
   const [{ value }, { touched, error }, { setValue, setTouched }] = useField(name);
 
   const onChange = useCallback(
-    (e) => {
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
       if (onCustomChange) {
         onCustomChange(e);
       } else {
@@ -49,7 +48,7 @@ const SelectField: React.FC<Props> = ({
   }, []);
 
   return (
-    <Field
+    <SelectInput
       label={label}
       value={value}
       onChange={onChange}
@@ -67,6 +66,4 @@ const SelectField: React.FC<Props> = ({
   );
 };
 
-SelectField.defaultProps = defaultProps;
-
-export default React.memo(SelectField);
+export const SelectField = React.memo(_SelectField);
