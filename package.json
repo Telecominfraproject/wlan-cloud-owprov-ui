@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.tsx",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "format": "prettier --write \"src/**/*.js\"",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
