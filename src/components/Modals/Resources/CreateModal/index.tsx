@@ -20,6 +20,7 @@ import InterfaceSsidResource from '../Sections/InterfaceSsid';
 import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
 import InterfaceVlanResource from '../Sections/InterfaceVlan';
 import SingleRadioResource from '../Sections/SingleRadio';
+import InterfaceCaptiveResource from '../Sections/CaptivePortal';
 
 interface Props {
   refresh: () => void;
@@ -68,12 +69,23 @@ const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = fal
                 {t('resources.variable')}
               </FormLabel>
               <Select value={selectedVariable} onChange={onVariableChange} borderRadius="15px" fontSize="sm" w="200px">
+                <option value="interface.captive">interface.captive</option>
+                <option value="interface.ssid">interface.ssid</option>
                 <option value="interface.ssid.radius">interface.ssid.radius</option>
                 <option value="interface.vlan">interface.vlan</option>
-                <option value="interface.ssid">interface.ssid</option>
                 <option value="radio">radio</option>
               </Select>
             </FormControl>
+            {selectedVariable === 'interface.captive' && (
+              <InterfaceCaptiveResource
+                isOpen={isOpen}
+                onClose={onClose}
+                refresh={refresh}
+                formRef={formRef}
+                parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
+                isDisabled={false}
+              />
+            )}
             {selectedVariable === 'interface.ssid.radius' && (
               <InterfaceSsidRadiusResource
                 isOpen={isOpen}

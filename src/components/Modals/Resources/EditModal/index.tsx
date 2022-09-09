@@ -22,6 +22,7 @@ import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
 import InterfaceVlanResource from '../Sections/InterfaceVlan';
 import InterfaceSsidResource from '../Sections/InterfaceSsid';
 import SingleRadioResource from '../Sections/SingleRadio';
+import InterfaceCaptiveResource from '../Sections/CaptivePortal';
 
 interface Props {
   isOpen: boolean;
@@ -70,6 +71,18 @@ const EditResourceModal: React.FC<Props> = ({ isOpen, onClose, resource, refresh
         <Center>
           <Spinner />
         </Center>
+      );
+
+    if (getType() === 'interface.captive')
+      return (
+        <InterfaceCaptiveResource
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+          isDisabled={!editing}
+        />
       );
 
     if (getType() === 'interface.ssid.radius')

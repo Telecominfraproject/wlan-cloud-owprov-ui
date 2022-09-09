@@ -354,6 +354,7 @@
 		"in_use_title": "{{name}} In Gebrauch",
 		"interfaces": "Schnittstellen",
 		"interfaces_instruction": "Bitte verwenden Sie eine gültige JSON-Zeichenfolge im folgenden Format: { \"interfaces\": [] }.",
+		"invalid_resource": "Ungültige oder Ressource löschen",
 		"metrics": "Metriken",
 		"no_resource_selected": "Keine Ressource ausgewählt",
 		"notification_details": "Aktualisiert: {{success}}, Warten auf Verbindung: {{warning}}, Fehler: {{error}}",

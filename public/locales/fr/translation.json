@@ -354,6 +354,7 @@
 		"in_use_title": "{{name}} En cours d'utilisation",
 		"interfaces": "Des interfaces",
 		"interfaces_instruction": "Veuillez utiliser une chaîne JSON valide sous la forme suivante : { \"interfaces\": [] }.",
+		"invalid_resource": "Ressource invalide ou supprimée",
 		"metrics": "métrique",
 		"no_resource_selected": "Aucune ressource sélectionnée",
 		"notification_details": "Mis à jour : {{success}}, En attente de connexion : {{warning}}, Erreurs : {{error}}",
