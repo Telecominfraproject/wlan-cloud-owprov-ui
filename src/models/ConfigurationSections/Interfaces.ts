@@ -9,5 +9,11 @@ export interface InterfaceProps {
   vlan?: {
     __variableBlock?: string[];
   };
+  tunnel?: {
+    __variableBlock?: string[];
+  };
+  captive?: {
+    __variableBlock?: string[];
+  };
   ssids?: Ssid[];
 }

@@ -1,13 +1,15 @@
 import React from 'react';
-import StringField from 'components/FormFields/StringField';
 import NumberField from 'components/FormFields/NumberField';
+import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
 
-const TunnelValues: React.FC<{
-  editing: boolean;
-  index: number;
+type Props = {
+  isDisabled?: boolean;
+  namePrefix: string;
   type: string;
-}> = ({ editing, index, type }) => {
+};
+
+const TunnelValues = ({ isDisabled, namePrefix, type }: Props) => {
   if (type === '' || type === 'mesh') return null;
 
   if (type === 'vxlan')
@@ -15,18 +17,18 @@ const TunnelValues: React.FC<{
       <>
         <StringField
           key="vxlan.peer-address"
-          name={`configuration[${index}].tunnel.peer-address`}
+          name={`${namePrefix}.peer-address`}
           label="peer-address"
           definitionKey="interface.tunnel.vxlan.peer-address"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           isRequired
         />
         <NumberField
           key="vxlan.peer-port"
-          name={`configuration[${index}].tunnel.peer-port`}
+          name={`${namePrefix}.peer-port`}
           label="peer-port"
           definitionKey="interface.tunnel.vxlan.peer-port"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           isRequired
         />
       </>
@@ -37,26 +39,26 @@ const TunnelValues: React.FC<{
       <>
         <StringField
           key="l2tp.server"
-          name={`configuration[${index}].tunnel.server`}
+          name={`${namePrefix}.server`}
           label="server"
           definitionKey="interface.tunnel.l2tp.server"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           isRequired
         />
         <StringField
           key="l2tp.user-name"
-          name={`configuration[${index}].tunnel.user-name`}
+          name={`${namePrefix}.user-name`}
           label="user-name"
           definitionKey="interface.tunnel.l2tp.user-name"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           isRequired
         />
         <StringField
           key="l2tp.password"
-          name={`configuration[${index}].tunnel.password`}
+          name={`${namePrefix}.password`}
           definitionKey="interface.tunnel.l2tp.password"
           label="password"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           isRequired
           hideButton
         />
@@ -68,18 +70,18 @@ const TunnelValues: React.FC<{
     <>
       <StringField
         key="gre.peer-address"
-        name={`configuration[${index}].tunnel.peer-address`}
+        name={`${namePrefix}.peer-address`}
         label="peer-address"
         definitionKey="interface.tunnel.gre.peer-address"
-        isDisabled={!editing}
+        isDisabled={isDisabled}
         isRequired
       />
       <ToggleField
         key="gre.dhcp-healthcheck"
-        name={`configuration[${index}].tunnel.dhcp-healthcheck`}
+        name={`${namePrefix}.dhcp-healthcheck`}
         label="dhcp-healthcheck"
         definitionKey="interface.tunnel.gre.dhcp-healthcheck"
-        isDisabled={!editing}
+        isDisabled={isDisabled}
         isRequired
       />
     </>

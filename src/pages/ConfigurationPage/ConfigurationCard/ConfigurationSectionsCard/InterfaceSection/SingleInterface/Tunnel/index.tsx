@@ -45,12 +45,13 @@ const Tunnel: React.FC<{ editing: boolean; index: number }> = ({ editing, index 
 
   return (
     <TunnelForm
-      editing={editing}
-      index={index}
+      isDisabled={!editing}
+      namePrefix={`configuration[${index}].tunnel`}
       value={value}
       onToggle={onToggle}
       onProtoChange={onProtoChange}
       protoValue={protoValue}
+      variableBlockId={value?.__variableBlock?.[0] as string | undefined}
     />
   );
 };
