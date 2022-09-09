@@ -545,7 +545,7 @@
 		"error_upgrades": "Erreur lors de l'envoi de la commande de mise à niveau : {{count}}",
 		"invalid_serial_number": "Numéro de série invalide. Un numéro de série ne doit comporter que 12 caractères HEX (A-F, 0-9)",
 		"no_computed": "Aucune configuration calculée : vous devrez attribuer une configuration valide pour la voir",
-		"no_firmware": "Aucun micrologiciel : {{count}}",
+		"no_firmware": "Aucun micrologiciel disponible pour le type d'appareil : {{count}}",
 		"not_connected": "Appareil non connecté : {{count}}",
 		"parent": "Parent",
 		"serial_number": "Numéro de série",

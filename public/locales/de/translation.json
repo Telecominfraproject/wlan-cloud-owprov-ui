@@ -545,7 +545,7 @@
 		"error_upgrades": "Fehler beim Senden des Upgrade-Befehls: {{count}}",
 		"invalid_serial_number": "Ungültige Seriennummer. Eine Seriennummer sollte nur 12 HEX-Zeichen lang sein (A-F, 0-9)",
 		"no_computed": "Keine berechnete Konfiguration: Sie müssen eine gültige Konfiguration zuweisen, um sie anzuzeigen",
-		"no_firmware": "Keine Firmware: {{count}}",
+		"no_firmware": "Keine Firmware verfügbar für Gerätetyp: {{count}}",
 		"not_connected": "Gerät nicht verbunden: {{count}}",
 		"parent": "Elternteil",
 		"serial_number": "Ordnungsnummer",

@@ -545,7 +545,7 @@
 		"error_upgrades": "Erro ao enviar comando de atualização: {{count}}",
 		"invalid_serial_number": "Número de série inválido. Um número de série deve ter apenas 12 caracteres HEX (A-F, 0-9)",
 		"no_computed": "Nenhuma configuração computada: você precisará atribuir uma configuração válida para vê-la",
-		"no_firmware": "Sem firmware: {{count}}",
+		"no_firmware": "Nenhum firmware disponível para o tipo de dispositivo: {{count}}",
 		"not_connected": "Dispositivo não conectado: {{count}}",
 		"parent": "Pai",
 		"serial_number": "Número de série",
