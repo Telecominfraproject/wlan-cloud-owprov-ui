@@ -24,6 +24,7 @@ import InterfaceSsidResource from '../Sections/InterfaceSsid';
 import SingleRadioResource from '../Sections/SingleRadio';
 import InterfaceCaptiveResource from '../Sections/CaptivePortal';
 import InterfaceTunnelResource from '../Sections/Tunnel';
+import InterfaceIpv4Resource from '../Sections/Ipv4';
 
 interface Props {
   isOpen: boolean;
@@ -100,6 +101,18 @@ const EditResourceModal: React.FC<Props> = ({ isOpen, onClose, resource, refresh
     if (getType() === 'interface.tunnel')
       return (
         <InterfaceTunnelResource
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+          isDisabled={!editing}
+        />
+      );
+
+    if (getType() === 'interface.ipv4')
+      return (
+        <InterfaceIpv4Resource
           resource={resourceData}
           isOpen={isOpen}
           onClose={onClose}

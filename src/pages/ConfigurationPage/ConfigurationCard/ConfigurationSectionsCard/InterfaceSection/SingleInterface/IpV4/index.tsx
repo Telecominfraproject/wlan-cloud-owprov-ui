@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
-import useFastField from 'hooks/useFastField';
 import { useTranslation } from 'react-i18next';
+import useFastField from 'hooks/useFastField';
 import { INTERFACE_IPV4_SCHEMA } from '../../interfacesConstants';
 import Ipv4Form from './Ipv4';
 
@@ -44,7 +44,16 @@ const Ipv4: React.FC<{ editing: boolean; index: number }> = ({ editing, index })
   );
 
   return (
-    <Ipv4Form ipv4={ipv4} role={role} editing={editing} index={index} onToggle={onToggle} onChange={onIpv4Change} />
+    <Ipv4Form
+      isEnabled={value !== undefined}
+      ipv4={ipv4}
+      role={role}
+      isDisabled={!editing}
+      namePrefix={`configuration[${index}].ipv4`}
+      onToggle={onToggle}
+      onChange={onIpv4Change}
+      variableBlockId={value?.__variableBlock?.[0] as string | undefined}
+    />
   );
 };
 

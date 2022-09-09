@@ -1,49 +1,48 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import DhcpIpV4 from './DhcpIpV4';
 
-const propTypes = {
-  editing: PropTypes.bool.isRequired,
-  index: PropTypes.number.isRequired,
-  isEnabled: PropTypes.bool.isRequired,
+type Props = {
+  isDisabled?: boolean;
+  namePrefix: string;
+  isEnabled: boolean;
 };
 
-const IpV4 = ({ editing, index, isEnabled }) => {
+const IpV4 = ({ isDisabled, namePrefix, isEnabled }: Props) => {
   if (!isEnabled) return null;
 
   return (
     <>
       <StringField
-        name={`configuration[${index}].ipv4.subnet`}
+        name={`${namePrefix}.subnet`}
         label="subnet"
         definitionKey="interface.ipv4.subnet"
-        isDisabled={!editing}
+        isDisabled={isDisabled}
       />
       <StringField
-        name={`configuration[${index}].ipv4.gateway`}
+        name={`${namePrefix}.gateway`}
         label="gateway"
         definitionKey="interface.ipv4.gateway"
-        isDisabled={!editing}
+        isDisabled={isDisabled}
       />
       <ToggleField
-        name={`configuration[${index}].ipv4.send-hostname`}
+        name={`${namePrefix}.send-hostname`}
         label="send-hostname"
         definitionKey="interface.ipv4.send-hostname"
-        isDisabled={!editing}
+        isDisabled={isDisabled}
         isRequired
       />
       <CreatableSelectField
-        name={`configuration[${index}].ipv4.use-dns`}
+        name={`${namePrefix}.use-dns`}
         label="use-dns"
         definitionKey="interface.ipv4.use-dns"
-        isDisabled={!editing}
+        isDisabled={isDisabled}
       />
-      <DhcpIpV4 index={index} editing={editing} />
+      <DhcpIpV4 namePrefix={namePrefix} isDisabled={isDisabled} />
     </>
   );
 };
-IpV4.propTypes = propTypes;
+
 export default React.memo(IpV4);

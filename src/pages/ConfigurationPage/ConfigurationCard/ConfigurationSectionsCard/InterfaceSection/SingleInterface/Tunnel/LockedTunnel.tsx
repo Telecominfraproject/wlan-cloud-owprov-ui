@@ -22,7 +22,7 @@ const LockedTunnel = ({ variableBlockId }: { variableBlockId?: string }) => {
     name: suffix,
     label: suffix,
     value: data?.[suffix],
-    definitionKey: `interface.captive.${suffix}`,
+    definitionKey: `interface.tunnel.${suffix}`,
     isDisabled: true,
   });
 
