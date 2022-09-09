@@ -354,6 +354,7 @@
 		"in_use_title": "{{name}} In Use",
 		"interfaces": "Interfaces",
 		"interfaces_instruction": "Please use a valid JSON string in the following form: { \"interfaces\": [] }. ",
+		"invalid_resource": "Invalid or Deleted Resource",
 		"metrics": "Metrics",
 		"no_resource_selected": "No Resource Selected",
 		"notification_details": "Updated: {{success}}, Waiting for connection: {{warning}}, Errors: {{error}}",

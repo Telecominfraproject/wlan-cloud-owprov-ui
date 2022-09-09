@@ -1,76 +1,91 @@
 import React from 'react';
 import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
+import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
 import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
+import LockedCaptive from './LockedCaptive';
+import { INTERFACE_CAPTIVE_SCHEMA } from '../../interfacesConstants';
 
 interface Props {
-  editing: boolean;
+  isDisabled?: boolean;
   isActive: boolean;
-  index: number;
-  onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  namePrefix: string;
+  onToggle?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  variableBlockId?: string;
 }
 
-const VlanForm: React.FC<Props> = ({ editing, index, isActive, onToggle }) => (
+const CaptiveForm: React.FC<Props> = ({ isDisabled, namePrefix, isActive, onToggle, variableBlockId }) => (
   <>
     <Heading size="md" display="flex">
       <Text pt={1}>Captive Portal</Text>
-      <Switch
-        pt={1}
-        onChange={onToggle}
-        isChecked={isActive}
-        borderRadius="15px"
-        size="lg"
-        mx={2}
-        isDisabled={!editing}
-      />
+      {onToggle !== undefined && (
+        <Switch
+          pt={1}
+          onChange={onToggle}
+          isChecked={isActive}
+          borderRadius="15px"
+          size="lg"
+          mx={2}
+          isDisabled={isDisabled}
+        />
+      )}
+      {onToggle !== undefined && isActive && (
+        <ConfigurationResourcePicker
+          name={namePrefix}
+          prefix="interface.captive"
+          isDisabled={isDisabled ?? false}
+          defaultValue={INTERFACE_CAPTIVE_SCHEMA}
+        />
+      )}
     </Heading>
-    {isActive && (
+    {variableBlockId !== undefined && <LockedCaptive variableBlockId={variableBlockId} />}
+    {variableBlockId === undefined && isActive && (
       <SimpleGrid minChildWidth="300px" spacing="20px" mb={8} mt={2} w="100%">
         <StringField
-          name={`configuration[${index}].captive.gateway-name`}
+          name={`${namePrefix}.gateway-name`}
           label="gateway-name"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           emptyIsUndefined
         />
         <StringField
-          name={`configuration[${index}].captive.gateway-fqdn`}
+          name={`${namePrefix}.gateway-fqdn`}
           label="gateway-fqdn"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           emptyIsUndefined
         />
         <NumberField
-          name={`configuration[${index}].captive.max-clients`}
+          name={`${namePrefix}.max-clients`}
           label="max-clients"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           acceptEmptyValue
           w={36}
         />
         <NumberField
-          name={`configuration[${index}].captive.upload-rate`}
+          name={`${namePrefix}.upload-rate`}
           label="upload-rate"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           acceptEmptyValue
           w={36}
         />
         <NumberField
-          name={`configuration[${index}].captive.download-rate`}
+          name={`${namePrefix}.download-rate`}
           label="download-rate"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           acceptEmptyValue
           w={36}
         />
         <NumberField
-          name={`configuration[${index}].captive.upload-quota`}
+          name={`${namePrefix}.upload-quota`}
           label="upload-quota"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           acceptEmptyValue
           w={36}
         />
         <NumberField
-          name={`configuration[${index}].captive.download-quota`}
+          name={`${namePrefix}.download-quota`}
           label="download-quota"
           acceptEmptyValue
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           w={36}
         />
       </SimpleGrid>
@@ -78,4 +93,4 @@ const VlanForm: React.FC<Props> = ({ editing, index, isActive, onToggle }) => (
   </>
 );
 
-export default React.memo(VlanForm);
+export default React.memo(CaptiveForm);

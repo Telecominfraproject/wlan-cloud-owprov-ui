@@ -28,6 +28,9 @@ const ResourcePicker = ({ value, resources, isDisabled, onChange }) => {
           {res.label}
         </option>
       ))}
+      {value !== '' && !resources.find(({ value: resource }) => resource === value) && (
+        <option value={value}>{t('configurations.invalid_resource')}</option>
+      )}
     </Select>
   );
 };

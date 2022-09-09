@@ -1,16 +1,18 @@
 import React, { useCallback, useMemo } from 'react';
-import useFastField from 'hooks/useFastField';
 import { useTranslation } from 'react-i18next';
-import CaptiveForm from './Captive';
+import useFastField from 'hooks/useFastField';
 import { INTERFACE_CAPTIVE_SCHEMA } from '../../interfacesConstants';
+import CaptiveForm from './Captive';
 
 const Captive: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
   const { t } = useTranslation();
   const { value, onChange } = useFastField({ name: `configuration[${index}].captive` });
 
-  const { isActive } = useMemo(
+  const { isActive, variableBlock } = useMemo(
     () => ({
       isActive: value !== undefined,
+      isUsingCustom: value !== undefined && value.__variableBlock === undefined,
+      variableBlock: value?.__variableBlock,
     }),
     [value],
   );
@@ -26,7 +28,15 @@ const Captive: React.FC<{ editing: boolean; index: number }> = ({ editing, index
     [onChange],
   );
 
-  return <CaptiveForm editing={editing} index={index} isActive={isActive} onToggle={onToggle} />;
+  return (
+    <CaptiveForm
+      isDisabled={!editing}
+      namePrefix={`configuration[${index}].captive`}
+      isActive={isActive}
+      onToggle={onToggle}
+      variableBlockId={variableBlock?.[0]}
+    />
+  );
 };
 
 export default React.memo(Captive);
