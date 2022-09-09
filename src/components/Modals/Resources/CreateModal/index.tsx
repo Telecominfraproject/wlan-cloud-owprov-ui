@@ -22,6 +22,7 @@ import InterfaceVlanResource from '../Sections/InterfaceVlan';
 import SingleRadioResource from '../Sections/SingleRadio';
 import InterfaceCaptiveResource from '../Sections/CaptivePortal';
 import InterfaceTunnelResource from '../Sections/Tunnel';
+import InterfaceIpv4Resource from '../Sections/Ipv4';
 
 interface Props {
   refresh: () => void;
@@ -71,6 +72,7 @@ const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = fal
               </FormLabel>
               <Select value={selectedVariable} onChange={onVariableChange} borderRadius="15px" fontSize="sm" w="200px">
                 <option value="interface.captive">interface.captive</option>
+                <option value="interface.ipv4">interface.ipv4</option>
                 <option value="interface.ssid">interface.ssid</option>
                 <option value="interface.ssid.radius">interface.ssid.radius</option>
                 <option value="interface.tunnel">interface.tunnel</option>
@@ -110,6 +112,16 @@ const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = fal
             )}
             {selectedVariable === 'interface.vlan' && (
               <InterfaceVlanResource
+                isOpen={isOpen}
+                onClose={onClose}
+                refresh={refresh}
+                isDisabled={false}
+                formRef={formRef}
+                parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
+              />
+            )}
+            {selectedVariable === 'interface.ipv4' && (
+              <InterfaceIpv4Resource
                 isOpen={isOpen}
                 onClose={onClose}
                 refresh={refresh}

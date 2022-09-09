@@ -1,20 +1,25 @@
 import React, { useMemo } from 'react';
 import { Box, FormControl, Heading, Select, SimpleGrid, Switch, Text } from '@chakra-ui/react';
+import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
 import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
 import SelectField from 'components/FormFields/SelectField';
-import { PortRangeField } from 'components/FormFields/PortRangeField';
 import StringField from 'components/FormFields/StringField';
-import { INTERFACE_IPV4_PORT_FORWARD_SCHEMA } from '../../interfacesConstants';
+import { PortRangeField } from 'components/FormFields/PortRangeField';
 import StaticIpV4 from './StaticIpV4';
+import LockedIpv4 from './LockedIpv4';
+import { INTERFACE_IPV4_PORT_FORWARD_SCHEMA, INTERFACE_IPV4_SCHEMA } from '../../interfacesConstants';
 
-const IpV4Form: React.FC<{
-  editing: boolean;
-  index: number;
+type Props = {
+  isEnabled?: boolean;
+  isDisabled?: boolean;
+  namePrefix: string;
   ipv4: string;
   role: string;
-  onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onToggle?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}> = ({ editing, index, ipv4, role, onToggle, onChange }) => {
+  variableBlockId?: string;
+};
+const IpV4Form = ({ isEnabled, isDisabled, namePrefix, ipv4, role, onToggle, onChange, variableBlockId }: Props) => {
   const portFields = useMemo(
     () => (
       <>
@@ -86,40 +91,58 @@ const IpV4Form: React.FC<{
     <>
       <Heading size="md" display="flex">
         <Text pt={1}>IpV4</Text>
-        <Switch
-          onChange={onToggle}
-          isChecked={ipv4 !== ''}
-          borderRadius="15px"
-          size="lg"
-          isDisabled={!editing}
-          pt={1}
-          mx={2}
-        />
-        <FormControl isDisabled={!editing} hidden={ipv4 === ''} w="120px">
-          <Select value={ipv4} onChange={onChange} borderRadius="15px" fontSize="sm" w="120px">
-            <option value="dynamic">dynamic</option>
-            <option value="static">static</option>
-          </Select>
-        </FormControl>
-        {role === 'downstream' && ipv4 !== '' && (
-          <ObjectArrayFieldModal
-            name={`configuration[${index}].ipv4.port-forward`}
-            label="port-forward"
-            definitionKey="interface.ipv4.port-forward"
-            fields={portFields}
-            columns={portCols}
-            schema={INTERFACE_IPV4_PORT_FORWARD_SCHEMA}
-            isDisabled={!editing}
-            options={portOpts}
-            hideLabel
-            isRequired
-            emptyIsUndefined
+        {onToggle !== undefined && (
+          <Switch
+            onChange={onToggle}
+            isChecked={isEnabled}
+            borderRadius="15px"
+            size="lg"
+            isDisabled={isDisabled}
+            pt={1}
+            mx={2}
           />
         )}
+        {isEnabled && onToggle !== undefined && (
+          <ConfigurationResourcePicker
+            name={namePrefix}
+            prefix="interface.ipv4"
+            isDisabled={isDisabled ?? false}
+            defaultValue={INTERFACE_IPV4_SCHEMA}
+          />
+        )}
+        {variableBlockId === undefined && (
+          <>
+            <FormControl isDisabled={isDisabled} hidden={ipv4 === ''} w="120px" ml={2}>
+              <Select value={ipv4} onChange={onChange} borderRadius="15px" fontSize="sm" w="120px">
+                <option value="dynamic">dynamic</option>
+                <option value="static">static</option>
+              </Select>
+            </FormControl>
+            {!onToggle || (role === 'downstream' && ipv4 !== '') ? (
+              <ObjectArrayFieldModal
+                name={`${namePrefix}.port-forward`}
+                label="port-forward"
+                definitionKey="interface.ipv4.port-forward"
+                fields={portFields}
+                columns={portCols}
+                schema={INTERFACE_IPV4_PORT_FORWARD_SCHEMA}
+                isDisabled={isDisabled}
+                options={portOpts}
+                hideLabel
+                isRequired
+                emptyIsUndefined
+              />
+            ) : null}
+          </>
+        )}
       </Heading>
-      <SimpleGrid minChildWidth="300px" spacing="20px" mb={ipv4 === 'static' ? 8 : undefined} mt={2} w="100%">
-        <StaticIpV4 index={index} isEnabled={ipv4 === 'static'} editing={editing} />
-      </SimpleGrid>
+      {variableBlockId ? (
+        <LockedIpv4 variableBlockId={variableBlockId} />
+      ) : (
+        <SimpleGrid minChildWidth="300px" spacing="20px" mb={ipv4 === 'static' ? 8 : undefined} mt={2} w="100%">
+          <StaticIpV4 namePrefix={namePrefix} isEnabled={ipv4 === 'static'} isDisabled={isDisabled} />
+        </SimpleGrid>
+      )}
     </>
   );
 };

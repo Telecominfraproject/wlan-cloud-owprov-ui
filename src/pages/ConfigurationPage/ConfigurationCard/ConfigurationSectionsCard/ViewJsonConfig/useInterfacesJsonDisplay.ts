@@ -16,6 +16,9 @@ const findAllVariableBlocks = (interfaces: InterfaceProps[]) => {
     if (interfc.captive?.__variableBlock !== undefined && interfc.captive?.__variableBlock[0] !== undefined)
       variableBlocks.push(interfc.captive?.__variableBlock[0]);
 
+    if (interfc.ipv4?.__variableBlock !== undefined && interfc.ipv4?.__variableBlock[0] !== undefined)
+      variableBlocks.push(interfc.ipv4?.__variableBlock[0]);
+
     for (const ssid of interfc.ssids ?? []) {
       if (ssid.__variableBlock !== undefined && ssid.__variableBlock[0] !== undefined)
         variableBlocks.push(ssid.__variableBlock[0]);
@@ -59,6 +62,12 @@ const replaceVariableBlocksWithContent = (interfaces: InterfaceProps[], variable
       const value = getVariableValueFromArray(interfc.tunnel?.__variableBlock[0], variableBlocks);
       // @ts-ignore
       result[i].tunnel = value;
+    }
+
+    if (interfc.ipv4?.__variableBlock !== undefined && interfc.ipv4?.__variableBlock[0] !== undefined) {
+      const value = getVariableValueFromArray(interfc.ipv4?.__variableBlock[0], variableBlocks);
+      // @ts-ignore
+      result[i].ipv4 = value;
     }
     if (interfc.captive?.__variableBlock !== undefined && interfc.captive?.__variableBlock[0] !== undefined) {
       const value = getVariableValueFromArray(interfc.captive?.__variableBlock[0], variableBlocks);

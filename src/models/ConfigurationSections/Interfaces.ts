@@ -15,5 +15,8 @@ export interface InterfaceProps {
   captive?: {
     __variableBlock?: string[];
   };
+  ipv4?: {
+    __variableBlock?: string[];
+  };
   ssids?: Ssid[];
 }
