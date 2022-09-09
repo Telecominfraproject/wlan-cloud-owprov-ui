@@ -21,6 +21,7 @@ import useFormRef from 'hooks/useFormRef';
 import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
 import InterfaceVlanResource from '../Sections/InterfaceVlan';
 import InterfaceSsidResource from '../Sections/InterfaceSsid';
+import SingleRadioResource from '../Sections/SingleRadio';
 
 interface Props {
   isOpen: boolean;
@@ -98,6 +99,18 @@ const EditResourceModal: React.FC<Props> = ({ isOpen, onClose, resource, refresh
     if (getType() === 'interface.ssid')
       return (
         <InterfaceSsidResource
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+          isDisabled={!editing}
+        />
+      );
+
+    if (getType() === 'radio')
+      return (
+        <SingleRadioResource
           resource={resourceData}
           isOpen={isOpen}
           onClose={onClose}

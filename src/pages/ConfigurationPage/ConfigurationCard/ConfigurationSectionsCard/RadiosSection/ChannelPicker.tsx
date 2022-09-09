@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import { Field, useFormikContext } from 'formik';
-import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/react';
-import ConfigurationFieldExplanation from 'components/FormFields/ConfigurationFieldExplanation';
+import SelectField from 'components/FormFields/SelectField';
+import useFastField from 'hooks/useFastField';
 
 const CHANNELS = {
   '2G': [1, 6, 11],
@@ -37,20 +34,21 @@ const CHANNELS = {
   },
 };
 
-const propTypes = {
-  index: PropTypes.number.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
+type Props = {
+  namePrefix: string;
+  isDisabled?: boolean;
 };
 
-const ChannelPicker = ({ index, isDisabled }) => {
-  const name = `configuration[${index}].channel`;
-  const [channelOptions, setChannelOptions] = useState([{ value: 'auto', label: 'auto' }]);
-  const { setFieldValue, values } = useFormikContext();
+const ChannelPicker = ({ namePrefix, isDisabled }: Props) => {
+  const [channelOptions, setChannelOptions] = useState<{ value: string | number; label: string }[]>([
+    { value: 'auto', label: 'auto' },
+  ]);
+  const { value: channel, onChange: onChannelChange } = useFastField({ name: `${namePrefix}.channel` });
+  const { value: band } = useFastField({ name: `${namePrefix}.band` });
+  const { value: channelWidth } = useFastField({ name: `${namePrefix}.channel-width` });
 
   useEffect(() => {
-    let options = ['auto'];
-    const { band } = values.configuration[index];
-    const channelWidth = values.configuration[index]['channel-width'];
+    let options: (string | number)[] = ['auto'];
 
     if (band === '2G') {
       options = [...options, ...CHANNELS['2G']];
@@ -142,41 +140,25 @@ const ChannelPicker = ({ index, isDisabled }) => {
       }
     }
 
-    options.sort((a, b) => a - b);
+    options.sort((a, b) => a.toString().localeCompare(b.toString(), 'en', { numeric: true }));
 
-    if (
-      values.configuration[index].channel !== 'auto' &&
-      !options.includes(parseInt(values.configuration[index].channel, 10))
-    ) {
-      setFieldValue(name, options[0]);
+    if (channel !== 'auto' && !options.includes(parseInt(channel, 10))) {
+      onChannelChange(options[0]);
     }
 
     const finalOptions = options.map((opt) => ({ value: opt, label: `${opt}` }));
     setChannelOptions([...finalOptions]);
-  }, [values]);
-
-  const updateValue = (e) => setFieldValue(name, parseInt(e.target.value, 10));
+  }, [band, channelWidth, channel]);
 
   return (
-    <Field name={name}>
-      {({ field, meta: { error, touched } }) => (
-        <FormControl isInvalid={error && touched} isRequired isDisabled={isDisabled}>
-          <FormLabel ms="4px" fontSize="md" fontWeight="normal">
-            channel <ConfigurationFieldExplanation definitionKey="radio.channel" />
-          </FormLabel>
-          <Select {...field} onChange={updateValue} borderRadius="15px" fontSize="sm" isDisabled={isDisabled}>
-            {channelOptions.map((option) => (
-              <option value={option.value} key={uuid()}>
-                {option.label}
-              </option>
-            ))}
-          </Select>
-          <FormErrorMessage>{error}</FormErrorMessage>
-        </FormControl>
-      )}
-    </Field>
+    <SelectField
+      name={`${namePrefix}.channel`}
+      label="channel"
+      options={channelOptions}
+      isDisabled={isDisabled}
+      isInt
+    />
   );
 };
 
-ChannelPicker.propTypes = propTypes;
 export default React.memo(ChannelPicker);
