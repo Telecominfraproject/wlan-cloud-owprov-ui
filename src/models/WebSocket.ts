@@ -6,6 +6,9 @@ export interface WebSocketNotification {
     title: string;
     details: string;
     success: string[];
+    noFirmware?: string[];
+    notConnected?: string[];
+    skipped?: string[];
     warning: string[];
     error: string[];
     timeStamp: number;

@@ -8,7 +8,7 @@ interface Props {
   notification: WebSocketNotification;
 }
 
-const DeviceUpgradeNotificationContent: React.FC<Props> = ({ notification }) => {
+const DeviceUpgradeNotificationContent = ({ notification }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -28,24 +28,36 @@ const DeviceUpgradeNotificationContent: React.FC<Props> = ({ notification }) => 
         </Box>
       )}
       <Heading size="sm" mt={4}>
-        {t('inventory.warning_upgrades', { count: notification?.content?.warning?.length ?? 0 })}
+        {t('inventory.not_connected', { count: notification?.content?.notConnected?.length ?? 0 })}
       </Heading>
-      {notification?.content?.warning && (
+      {notification?.content?.notConnected && (
         <Box maxH="200px" overflowY="auto">
           <UnorderedList maxH="200px" overflowY="auto">
-            {notification?.content?.warning.map((serialNumber) => (
+            {notification?.content?.notConnected.map((serialNumber) => (
               <ListItem key={uuid()}>{serialNumber}</ListItem>
             ))}
           </UnorderedList>
         </Box>
       )}
       <Heading size="sm" mt={4}>
-        {t('inventory.error_upgrades', { count: notification?.content?.error?.length ?? 0 })}
+        {t('inventory.no_firmware', { count: notification?.content?.noFirmware?.length ?? 0 })}
       </Heading>
-      {notification?.content?.error && (
+      {notification?.content?.noFirmware && (
         <Box maxH="200px" overflowY="auto">
           <UnorderedList maxH="200px" overflowY="auto">
-            {notification?.content?.error.map((serialNumber) => (
+            {notification?.content?.noFirmware.map((serialNumber) => (
+              <ListItem key={uuid()}>{serialNumber}</ListItem>
+            ))}
+          </UnorderedList>
+        </Box>
+      )}
+      <Heading size="sm" mt={4}>
+        {t('inventory.skipped_upgrades', { count: notification?.content?.skipped?.length ?? 0 })}
+      </Heading>
+      {notification?.content?.skipped && (
+        <Box maxH="200px" overflowY="auto">
+          <UnorderedList maxH="200px" overflowY="auto">
+            {notification?.content?.skipped.map((serialNumber) => (
               <ListItem key={uuid()}>{serialNumber}</ListItem>
             ))}
           </UnorderedList>
