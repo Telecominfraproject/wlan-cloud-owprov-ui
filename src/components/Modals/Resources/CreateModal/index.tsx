@@ -21,6 +21,7 @@ import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
 import InterfaceVlanResource from '../Sections/InterfaceVlan';
 import SingleRadioResource from '../Sections/SingleRadio';
 import InterfaceCaptiveResource from '../Sections/CaptivePortal';
+import InterfaceTunnelResource from '../Sections/Tunnel';
 
 interface Props {
   refresh: () => void;
@@ -72,6 +73,7 @@ const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = fal
                 <option value="interface.captive">interface.captive</option>
                 <option value="interface.ssid">interface.ssid</option>
                 <option value="interface.ssid.radius">interface.ssid.radius</option>
+                <option value="interface.tunnel">interface.tunnel</option>
                 <option value="interface.vlan">interface.vlan</option>
                 <option value="radio">radio</option>
               </Select>
@@ -94,6 +96,16 @@ const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = fal
                 isDisabled={false}
                 formRef={formRef}
                 parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
+              />
+            )}
+            {selectedVariable === 'interface.tunnel' && (
+              <InterfaceTunnelResource
+                isOpen={isOpen}
+                onClose={onClose}
+                refresh={refresh}
+                formRef={formRef}
+                parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
+                isDisabled={false}
               />
             )}
             {selectedVariable === 'interface.vlan' && (

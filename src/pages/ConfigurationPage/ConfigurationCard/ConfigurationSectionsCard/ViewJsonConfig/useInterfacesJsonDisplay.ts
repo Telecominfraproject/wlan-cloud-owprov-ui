@@ -1,7 +1,7 @@
+import { useEffect, useMemo, useState } from 'react';
 import { useGetResources } from 'hooks/Network/Resources';
 import { InterfaceProps } from 'models/ConfigurationSections/Interfaces';
 import { VariableBlock } from 'models/VariableBlock';
-import { useEffect, useMemo, useState } from 'react';
 
 const findAllVariableBlocks = (interfaces: InterfaceProps[]) => {
   let variableBlocks: string[] = [];
@@ -9,6 +9,12 @@ const findAllVariableBlocks = (interfaces: InterfaceProps[]) => {
   for (const interfc of interfaces) {
     if (interfc.vlan?.__variableBlock !== undefined && interfc.vlan?.__variableBlock[0] !== undefined)
       variableBlocks.push(interfc.vlan?.__variableBlock[0]);
+
+    if (interfc.tunnel?.__variableBlock !== undefined && interfc.tunnel?.__variableBlock[0] !== undefined)
+      variableBlocks.push(interfc.tunnel?.__variableBlock[0]);
+
+    if (interfc.captive?.__variableBlock !== undefined && interfc.captive?.__variableBlock[0] !== undefined)
+      variableBlocks.push(interfc.captive?.__variableBlock[0]);
 
     for (const ssid of interfc.ssids ?? []) {
       if (ssid.__variableBlock !== undefined && ssid.__variableBlock[0] !== undefined)
@@ -48,6 +54,16 @@ const replaceVariableBlocksWithContent = (interfaces: InterfaceProps[], variable
       const value = getVariableValueFromArray(interfc.vlan?.__variableBlock[0], variableBlocks);
       // @ts-ignore
       result[i].vlan = value;
+    }
+    if (interfc.tunnel?.__variableBlock !== undefined && interfc.tunnel?.__variableBlock[0] !== undefined) {
+      const value = getVariableValueFromArray(interfc.tunnel?.__variableBlock[0], variableBlocks);
+      // @ts-ignore
+      result[i].tunnel = value;
+    }
+    if (interfc.captive?.__variableBlock !== undefined && interfc.captive?.__variableBlock[0] !== undefined) {
+      const value = getVariableValueFromArray(interfc.captive?.__variableBlock[0], variableBlocks);
+      // @ts-ignore
+      result[i].captive = value;
     }
     for (const [y, ssid] of interfc.ssids?.entries() ?? []) {
       if (ssid.__variableBlock !== undefined && ssid.__variableBlock[0] !== undefined) {
