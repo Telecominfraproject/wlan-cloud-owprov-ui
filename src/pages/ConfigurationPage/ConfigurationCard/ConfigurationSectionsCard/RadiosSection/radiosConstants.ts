@@ -1,6 +1,6 @@
 import { object, number, string, array, bool } from 'yup';
 
-export const SINGLE_RADIO_SCHEMA = (t, useDefault = false, band = '2G') => {
+export const SINGLE_RADIO_SCHEMA = (t: (str: string) => string, useDefault = false, band = '2G') => {
   const shape = object().shape({
     band: string().required(t('form.required')).default(band),
     bandwidth: number().required(t('form.required')).integer().default(5),
@@ -34,7 +34,7 @@ export const SINGLE_RADIO_SCHEMA = (t, useDefault = false, band = '2G') => {
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
-export const RADIOS_SCHEMA = (t, useDefault = false) =>
+export const RADIOS_SCHEMA = (t: (str: string) => string, useDefault = false) =>
   object().shape({
     name: string().required(t('form.required')).default('Radio'),
     description: string().default(''),
@@ -46,4 +46,4 @@ export const RADIOS_SCHEMA = (t, useDefault = false) =>
       .default([]),
   });
 
-export const getSingleRadioDefault = (t) => SINGLE_RADIO_SCHEMA(t, true);
+export const getSingleRadioDefault = (t: (str: string) => string) => SINGLE_RADIO_SCHEMA(t, true);

@@ -11,9 +11,10 @@ const propTypes = {
   prefix: PropTypes.string.isRequired,
   defaultValue: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+  blockedIds: PropTypes.arrayOf(PropTypes.string),
 };
 
-const ConfigurationResourcePicker = ({ name, prefix, defaultValue, isDisabled }) => {
+const ConfigurationResourcePicker = ({ name, prefix, defaultValue, isDisabled, blockedIds }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [{ value }, , { setValue }] = useField(name);
@@ -22,10 +23,10 @@ const ConfigurationResourcePicker = ({ name, prefix, defaultValue, isDisabled })
   const availableResources = useMemo(() => {
     if (resources)
       return resources
-        .filter((resource) => resource.variables[0]?.prefix === prefix)
+        .filter((resource) => resource.variables[0]?.prefix === prefix && !blockedIds?.includes(resource.id))
         .map((resource) => ({ value: resource.id, label: resource.name }));
     return [];
-  }, [resources]);
+  }, [resources, blockedIds]);
 
   const getValue = () => {
     if (!value || !value.__variableBlock) return '';

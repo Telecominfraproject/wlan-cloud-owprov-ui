@@ -19,6 +19,7 @@ import useFormRef from 'hooks/useFormRef';
 import InterfaceSsidResource from '../Sections/InterfaceSsid';
 import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
 import InterfaceVlanResource from '../Sections/InterfaceVlan';
+import SingleRadioResource from '../Sections/SingleRadio';
 
 interface Props {
   refresh: () => void;
@@ -62,7 +63,7 @@ const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = fal
             }
           />
           <ModalBody>
-            <FormControl isRequired>
+            <FormControl isRequired mb={4}>
               <FormLabel ms="4px" fontSize="md" fontWeight="normal">
                 {t('resources.variable')}
               </FormLabel>
@@ -70,6 +71,7 @@ const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = fal
                 <option value="interface.ssid.radius">interface.ssid.radius</option>
                 <option value="interface.vlan">interface.vlan</option>
                 <option value="interface.ssid">interface.ssid</option>
+                <option value="radio">radio</option>
               </Select>
             </FormControl>
             {selectedVariable === 'interface.ssid.radius' && (
@@ -94,6 +96,16 @@ const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = fal
             )}
             {selectedVariable === 'interface.ssid' && (
               <InterfaceSsidResource
+                isOpen={isOpen}
+                onClose={onClose}
+                refresh={refresh}
+                formRef={formRef}
+                parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
+                isDisabled={false}
+              />
+            )}
+            {selectedVariable === 'radio' && (
+              <SingleRadioResource
                 isOpen={isOpen}
                 onClose={onClose}
                 refresh={refresh}

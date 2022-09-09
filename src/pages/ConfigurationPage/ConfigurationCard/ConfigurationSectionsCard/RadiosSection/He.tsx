@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import ToggleField from 'components/FormFields/ToggleField';
 import NumberField from 'components/FormFields/NumberField';
 import useFastField from 'hooks/useFastField';
 
-const propTypes = {
-  editing: PropTypes.bool.isRequired,
-  index: PropTypes.number.isRequired,
+type Props = {
+  namePrefix: string;
+  isDisabled?: boolean;
 };
 
-const He = ({ editing, index }) => {
-  const { value, onChange } = useFastField({ name: `configuration[${index}].he` });
+const He = ({ namePrefix, isDisabled }: Props) => {
+  const { value, onChange } = useFastField({ name: `${namePrefix}.he` });
 
   useEffect(() => {
     if (value && Object.keys(value).length === 0) {
@@ -21,17 +20,17 @@ const He = ({ editing, index }) => {
   return (
     <>
       <ToggleField
-        name={`configuration[${index}].he.ema`}
+        name={`${namePrefix}.he.ema`}
         label="ema"
         definitionKey="radio.he.ema"
-        isDisabled={!editing}
+        isDisabled={isDisabled}
         falseIsUndefined
       />
       <NumberField
-        name={`configuration[${index}].he.bss-color`}
+        name={`${namePrefix}.he.bss-color`}
         label="bss-color"
         definitionKey="radio.he.bss-color"
-        isDisabled={!editing}
+        isDisabled={isDisabled}
         w={24}
         acceptEmptyValue
       />
@@ -39,5 +38,4 @@ const He = ({ editing, index }) => {
   );
 };
 
-He.propTypes = propTypes;
 export default React.memo(He);

@@ -362,6 +362,7 @@
 		"push_configuration_error": "Erreur lors de la tentative d'envoi de la configuration sur l'appareil : {{e}}",
 		"push_configuration_explanation": "Configuration non poussée, code d'erreur {{code}}",
 		"push_success": "Configuration poussée avec succès !",
+		"radio_limit": "Vous avez atteint le nombre maximum de radios (5). Vous devez supprimer une des bandes activées pour en ajouter une nouvelle",
 		"radios": "Radios",
 		"rc_only": "Libérer les candidats uniquement",
 		"save_warnings": "Voulez-vous vraiment enregistrer votre configuration ?",

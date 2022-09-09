@@ -1,11 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
-import { Button, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Center } from '@chakra-ui/react';
+import {
+  Button,
+  useDisclosure,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
+  Center,
+  Alert,
+  AlertIcon,
+} from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from 'phosphor-react';
 import ModalHeader from 'components/Modals/ModalHeader';
 import CloseButton from 'components/Buttons/CloseButton';
+import { useFormikContext } from 'formik';
+import { useGetAllResources } from 'hooks/Network/Resources';
 import { SINGLE_RADIO_SCHEMA } from './radiosConstants';
 
 const propTypes = {
@@ -21,7 +33,31 @@ const propTypes = {
 
 const RadioPicker = ({ editing, radios, arrayHelpers: { push: pushRadio }, setTabIndex, arrLength }) => {
   const { t } = useTranslation();
+  const { values } = useFormikContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { data: resources } = useGetAllResources();
+
+  const createdBands = React.useMemo(() => {
+    if (!resources) return [];
+
+    const allUsedIds = values.configuration
+      ?.map((radio) => radio.__variableBlock?.[0])
+      .filter((id) => id !== undefined);
+
+    return resources
+      .map(({ id, variables }) => {
+        try {
+          if (allUsedIds.includes(id)) {
+            const { band } = JSON.parse(variables[0].value);
+            return band;
+          }
+        } catch {
+          return null;
+        }
+        return null;
+      })
+      .filter((band) => band !== null && band !== undefined);
+  }, [resources, values]);
 
   const addRadio = (band) => {
     pushRadio(SINGLE_RADIO_SCHEMA(t, true, band).cast());
@@ -29,7 +65,10 @@ const RadioPicker = ({ editing, radios, arrayHelpers: { push: pushRadio }, setTa
     onClose();
   };
 
-  const canAddBand = (band) => !radios.find((radio) => radio === band);
+  const canAddBand = (band) =>
+    radios.length < 5 &&
+    !radios.find((radio) => radio === band) &&
+    !createdBands.find((createdBand) => createdBand === band);
 
   return (
     <>
@@ -48,6 +87,14 @@ const RadioPicker = ({ editing, radios, arrayHelpers: { push: pushRadio }, setTa
         <ModalContent>
           <ModalHeader title={t('configurations.add_radio')} right={<CloseButton ml={2} onClick={onClose} />} />
           <ModalBody>
+            <Center mb={4}>
+              {radios.length >= 5 && (
+                <Alert status="error" borderRadius={12}>
+                  <AlertIcon />
+                  {t('configurations.radio_limit')}
+                </Alert>
+              )}
+            </Center>
             <Center my={2}>
               <Button
                 colorScheme="blue"

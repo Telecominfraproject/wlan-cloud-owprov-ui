@@ -6,7 +6,11 @@ import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import { useTranslation } from 'react-i18next';
 import He from './He';
 
-const AdvancedSettings: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
+type Props = {
+  isDisabled?: boolean;
+  namePrefix: string;
+};
+const AdvancedSettings = ({ namePrefix, isDisabled }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -18,10 +22,10 @@ const AdvancedSettings: React.FC<{ editing: boolean; index: number }> = ({ editi
       </Flex>
       <SimpleGrid minChildWidth="300px" spacing="20px">
         <SelectField
-          name={`configuration[${index}].rates.beacon`}
+          name={`${namePrefix}.rates.beacon`}
           label="beacon-rate"
           definitionKey="radio.rates.beacon"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           isInt
           emptyIsUndefined
           options={[
@@ -41,34 +45,34 @@ const AdvancedSettings: React.FC<{ editing: boolean; index: number }> = ({ editi
           ]}
         />
         <NumberField
-          name={`configuration[${index}].beacon-interval`}
+          name={`${namePrefix}.beacon-interval`}
           label="beacon-interval"
           definitionKey="radio.beacon-interval"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           isRequired
           w={24}
         />
         <NumberField
-          name={`configuration[${index}].dtim-period`}
+          name={`${namePrefix}.dtim-period`}
           label="dtim-period"
           definitionKey="radio.dtim-period"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           isRequired
           w={24}
         />
         <CreatableSelectField
-          name={`configuration[${index}].hostapd-iface-raw`}
+          name={`${namePrefix}.hostapd-iface-raw`}
           label="hostapd-iface-raw"
           definitionKey="radio.hostapd-iface-raw"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           placeholder={t('configurations.hostapd_warning')}
           emptyIsUndefined
         />
         <SelectField
-          name={`configuration[${index}].rates.multicast`}
+          name={`${namePrefix}.rates.multicast`}
           label="multicast"
           definitionKey="radio.rates.multicast"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           isInt
           emptyIsUndefined
           options={[
@@ -87,12 +91,12 @@ const AdvancedSettings: React.FC<{ editing: boolean; index: number }> = ({ editi
             { value: 54000, label: '54000' },
           ]}
         />
-        <He editing={editing} index={index} />
+        <He namePrefix={namePrefix} isDisabled={isDisabled} />
         <SelectField
-          name={`configuration[${index}].require-mode`}
+          name={`${namePrefix}.require-mode`}
           label="require-mode"
           definitionKey="radio.require-mode"
-          isDisabled={!editing}
+          isDisabled={isDisabled}
           options={[
             { value: '', label: 'None' },
             { value: 'HT', label: 'HT (A,B,G,N)' },

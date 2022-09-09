@@ -362,6 +362,7 @@
 		"push_configuration_error": "Error while trying to push configuration to device: {{e}}",
 		"push_configuration_explanation": "Configuration not pushed, error code {{code}}",
 		"push_success": "Configuration Successfully Pushed!",
+		"radio_limit": "You have reached the maximum amount of radios (5). You need to delete one of the activated bands to add a new one",
 		"radios": "Radios",
 		"rc_only": "Release Candidates Only",
 		"save_warnings": "Are you sure you want to save your configuration? ",

@@ -23,7 +23,7 @@ const Radios = ({ editing, arrayHelpers, radioBands, radioBandsLength }) => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleRemove = useCallback(
-    (index) => {
+    (index) => () => {
       arrayHelpers.remove(index);
       if (index > 0) setTabIndex(0);
     },
@@ -59,7 +59,7 @@ const Radios = ({ editing, arrayHelpers, radioBands, radioBandsLength }) => {
         .fill(1)
         .map((el, i) => (
           <TabPanel key={i}>
-            <SingleRadio index={i} remove={handleRemove} editing={editing} />
+            <SingleRadio namePrefix={`configuration[${i}]`} index={i} remove={handleRemove(i)} isDisabled={!editing} />
           </TabPanel>
         )),
     [editing, radioBandsLength],
