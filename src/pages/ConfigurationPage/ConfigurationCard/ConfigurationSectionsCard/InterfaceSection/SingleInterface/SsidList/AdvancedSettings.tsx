@@ -8,7 +8,7 @@ import ToggleField from 'components/FormFields/ToggleField';
 import useFastField from 'hooks/useFastField';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { INTERFACE_SSID_MULTIPSK_SCHEMA } from '../../interfacesConstants';
+import { INTERFACE_SSID_MULTIPSK_SCHEMA, NO_MULTI_PROTOS } from '../../interfacesConstants';
 import RateLimit from './RateLimit';
 import Roaming from './Roaming';
 import Rrm from './Rrm';
@@ -156,7 +156,7 @@ const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ 
           isDisabled={!editing}
           emptyIsUndefined
         />
-        {proto !== 'sae' && (
+        {!NO_MULTI_PROTOS.includes(proto) && (
           <ObjectArrayFieldModal
             name={`${namePrefix}.multi-psk`}
             label="multi-psk"

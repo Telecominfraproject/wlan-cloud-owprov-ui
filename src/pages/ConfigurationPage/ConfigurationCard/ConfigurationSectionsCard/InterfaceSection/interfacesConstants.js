@@ -22,7 +22,7 @@ export const DEFAULT_PASSPOINT_RADIUS = {
     secret: 'YOUR_SECRET',
   },
 };
-
+export const NO_MULTI_PROTOS = ['sae', 'owe', 'owe-transition', 'wpa3', 'wpa3-192'];
 export const ENCRYPTION_PROTOS_REQUIRE_KEY = ['psk', 'psk2', 'psk-mixed', 'psk2-radius', 'sae', 'sae-mixed'];
 export const ENCRYPTION_PROTOS_REQUIRE_IEEE = [
   'psk',
