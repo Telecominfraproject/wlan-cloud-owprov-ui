@@ -651,6 +651,7 @@
 	},
 	"rrm": {
 		"algorithm": "Algoritmo",
+		"algorithm_other": "Algoritmos",
 		"cant_save_custom": "Não é possível criar ou editar configurações personalizadas de RRM até que o servidor RRM esteja acessível. Consulte seu administrador",
 		"cron_error": "Erro ao analisar a expressão CRON: confirme se é válida",
 		"cron_scheduler": "Agendador CRON",

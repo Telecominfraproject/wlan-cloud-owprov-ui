@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Alert, Box, Flex, FormControl, FormLabel, Link, Select, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { InfoPopover } from 'components/InfoPopover';
 import { RrmProvider } from 'hooks/Network/Rrm';
+import { InfoPopover } from 'components/InfoPopover';
 
 type Props = {
   providers: RrmProvider[];
@@ -34,7 +34,7 @@ const RrmProviderPicker = ({ providers, value, setValue, isDisabled }: Props) =>
 
   return (
     <FormControl isRequired w="unset" mr={2}>
-      <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
+      <FormLabel ms="4px" fontSize="md" fontWeight="bold" _disabled={{ opacity: 0.8 }}>
         {t('rrm.vendor')}
       </FormLabel>
       <Flex>

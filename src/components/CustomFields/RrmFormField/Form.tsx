@@ -3,9 +3,9 @@ import { Alert, Box, Flex, FormControl, FormLabel, Select, UseDisclosureReturn }
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { RrmAlgorithm, RrmProvider } from 'hooks/Network/Rrm';
-import { Modal } from 'components/Modals/Modal';
 import SaveButton from 'components/Buttons/SaveButton';
-import AlgorithmPicker from './AlgorithmPicker';
+import { Modal } from 'components/Modals/Modal';
+import DeviceRulesAlgorithms from './Algorithms';
 import { CUSTOM_RRM, DEFAULT_RRM_CRON, isCustomRrm, isValidCustomRrm, RRM_VALUE } from './helper';
 import RrmProviderPicker from './ProviderPicker';
 import RrmScheduler from './Scheduler';
@@ -56,13 +56,8 @@ const EditRrmForm = ({ value, modalProps, onChange, algorithms, provider, isDisa
   const onVendorChange = (vendor: string) => {
     if (isCustomRrm(newValue)) setNewValue({ ...newValue, vendor });
   };
-  const onAlgoChange = (name: string) => {
-    if (isCustomRrm(newValue) && newValue.algorithms[0])
-      setNewValue({ ...newValue, algorithms: [{ ...newValue.algorithms[0], name }] });
-  };
-  const onParamsChange = (parameters: string) => {
-    if (isCustomRrm(newValue) && newValue.algorithms[0])
-      setNewValue({ ...newValue, algorithms: [{ ...newValue.algorithms[0], parameters }] });
+  const onAlgoChange = (v: { name: string; parameters: string }[]) => {
+    if (isCustomRrm(newValue)) setNewValue({ ...newValue, algorithms: v });
   };
   const onScheduleChange = (schedule: string) => {
     if (isCustomRrm(newValue)) setNewValue({ ...newValue, schedule });
@@ -160,11 +155,10 @@ const EditRrmForm = ({ value, modalProps, onChange, algorithms, provider, isDisa
               />
             </Flex>
             <Box my={1}>
-              <AlgorithmPicker
+              <DeviceRulesAlgorithms
                 algorithms={algorithms}
                 value={newValue.algorithms}
                 setValue={onAlgoChange}
-                onParamsChange={onParamsChange}
                 isDisabled={isDisabled || !provider}
               />
             </Box>
