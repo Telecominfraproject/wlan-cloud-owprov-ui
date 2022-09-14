@@ -34,7 +34,7 @@ const RrmScheduler = ({ value, setValue, isDisabled }: Props) => {
   return (
     <Box mt={4}>
       <FormControl w="unset" isInvalid={!description}>
-        <FormLabel ms="4px" mb={0} fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
+        <FormLabel ms="4px" mb={0} fontSize="md" fontWeight="bold" _disabled={{ opacity: 0.8 }}>
           {t('rrm.cron_scheduler')}
         </FormLabel>
         <Input

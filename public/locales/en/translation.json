@@ -651,6 +651,7 @@
 	},
 	"rrm": {
 		"algorithm": "Algorithm",
+		"algorithm_other": "Algorithms",
 		"cant_save_custom": "Cannot create or edit custom RRM configurations until RRM server is reachable. Please consult with your administrator",
 		"cron_error": "Error while parsing CRON expression: please confirm that it is valid",
 		"cron_scheduler": "CRON Scheduler",

@@ -8,7 +8,6 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-  Portal,
 } from '@chakra-ui/react';
 import { Question } from 'phosphor-react';
 
@@ -30,13 +29,11 @@ export const InfoPopover = ({ title, popoverContentProps, buttonProps, children 
         {...buttonProps}
       />
     </PopoverTrigger>
-    <Portal>
-      <PopoverContent {...popoverContentProps}>
-        <PopoverArrow />
-        <PopoverCloseButton alignContent="center" mt={1} />
-        <PopoverHeader display="flex">{title}</PopoverHeader>
-        <PopoverBody>{children}</PopoverBody>
-      </PopoverContent>
-    </Portal>
+    <PopoverContent {...popoverContentProps}>
+      <PopoverArrow />
+      <PopoverCloseButton alignContent="center" mt={1} />
+      <PopoverHeader display="flex">{title}</PopoverHeader>
+      <PopoverBody>{children}</PopoverBody>
+    </PopoverContent>
   </Popover>
 );
