@@ -1,11 +1,11 @@
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
-import { PageInfo, SortInfo } from 'models/Table';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
+import { PageInfo, SortInfo } from 'models/Table';
 import { axiosAnalytics } from 'utils/axiosInstances';
 
-export const useGetAnalyticsBoard = ({ id }: { id: string }) => {
+export const useGetAnalyticsBoard = ({ id }: { id?: string }) => {
   const { t } = useTranslation();
   const toast = useToast();
 
@@ -55,6 +55,26 @@ export const useGetAnalyticsBoardDevices = ({ id }: { id: string }) => {
       },
     },
   );
+};
+
+const getPartialClients = async (venueId: string, offset: number) =>
+  axiosAnalytics
+    .get(`wifiClientHistory?macsOnly=true&venue=${venueId}&limit=500&offset=${offset}`)
+    .then(({ data }) => data.entries as string[]);
+
+export const getAllClients = async (venueId: string) => {
+  const allClients: string[] = [];
+  let continueFirmware = true;
+  let offset = 0;
+  while (continueFirmware) {
+    // eslint-disable-next-line no-await-in-loop
+    const newClients = await getPartialClients(venueId, offset);
+    if (newClients === null || newClients.length === 0 || newClients.length < 500 || offset >= 50000)
+      continueFirmware = false;
+    allClients.push(...newClients);
+    offset += 500;
+  }
+  return allClients;
 };
 
 export const useGetAnalyticsClients = ({ venueId }: { venueId: string }) => {
@@ -194,11 +214,11 @@ export const useGetAnalyticsBoardTimepoints = ({
   const toast = useToast();
 
   return useQuery(
-    ['get-board-timepoints', id, startTime?.toString(), endTime?.toString()],
+    ['get-board-timepoints', id],
     () =>
       axiosAnalytics
         .get(
-          `board/${id}/timepoints?limit=10000&fromDate=${Math.floor(startTime.getTime() / 1000)}${
+          `board/${id}/timepoints?fromDate=${Math.floor(startTime.getTime() / 1000)}${
             endTime ? `&endDate=${Math.floor(endTime.getTime() / 1000)}` : ''
           }`,
         )
