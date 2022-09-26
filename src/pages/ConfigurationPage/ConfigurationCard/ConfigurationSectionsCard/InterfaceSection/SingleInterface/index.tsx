@@ -79,12 +79,8 @@ const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
           definitionKey="interface.services"
           options={[
             {
-              value: 'airtime-policies',
-              label: 'airtime-policies',
-            },
-            {
-              value: 'data-plane',
-              label: 'data-plane',
+              value: 'dhcp-snooping',
+              label: 'dhcp-snooping',
             },
             {
               value: 'http',
@@ -99,16 +95,8 @@ const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
               label: 'igmp',
             },
             {
-              value: 'http',
-              label: 'http',
-            },
-            {
               value: 'lldp',
               label: 'lldp',
-            },
-            {
-              value: 'log',
-              label: 'log',
             },
             {
               value: 'mdns',
@@ -119,32 +107,16 @@ const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
               label: 'ntp',
             },
             {
-              value: 'online-check',
-              label: 'online-check',
-            },
-            {
-              value: 'open-flow',
-              label: 'open-flow',
-            },
-            {
-              value: 'quality-of-service',
-              label: 'quality-of-service',
-            },
-            {
-              value: 'radius-proxy',
-              label: 'radius-proxy',
-            },
-            {
-              value: 'rtty',
-              label: 'rtty',
-            },
-            {
               value: 'ssh',
               label: 'ssh',
             },
             {
-              value: 'wifi-steering',
-              label: 'wifi-steering',
+              value: 'vxlan-overlay',
+              label: 'vxlan-overlay',
+            },
+            {
+              value: 'wireguard-overlay',
+              label: 'wireguard-overlay',
             },
           ]}
           isDisabled={!editing}
