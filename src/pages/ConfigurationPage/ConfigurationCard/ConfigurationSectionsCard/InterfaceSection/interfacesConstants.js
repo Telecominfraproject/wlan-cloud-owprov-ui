@@ -199,7 +199,7 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
       authentication: object()
         .shape({
           host: string().required(t('form.required')).default(''),
-          port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1812),
+          port: number().required(t('form.required')).positive().lessThan(65535).integer().default(1812),
           secret: string().required(t('form.required')).default(''),
           'mac-filter': bool().default(undefined),
         })
@@ -208,7 +208,7 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
       accounting: object()
         .shape({
           host: string().required(t('form.required')).default(''),
-          port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
+          port: number().required(t('form.required')).positive().lessThan(65535).integer().default(1813),
           secret: string().required(t('form.required')).default(''),
         })
         .nullable()
@@ -216,7 +216,7 @@ export const INTERFACE_SSID_RADIUS_SCHEMA = (t, useDefault = false) => {
       'dynamic-authorization': object()
         .shape({
           host: string().required(t('form.required')).default(''),
-          port: number().required(t('form.required')).positive().lessThan(4050).integer().default(1813),
+          port: number().required(t('form.required')).positive().lessThan(65535).integer().default(1813),
           secret: string().required(t('form.required')).default(''),
         })
         .nullable()
