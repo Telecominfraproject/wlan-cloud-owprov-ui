@@ -62,6 +62,7 @@ export const ENCRYPTION_OPTIONS = [
   { value: 'sae-mixed', label: 'WPA2/WPA3 Transitional' },
   { value: 'wpa3', label: 'WPA3-Enterprise EAP-TLS' },
   { value: 'wpa3-192', label: 'WPA3-192-Enterprise EAP-TLS' },
+  { value: 'wpa3-mixed', label: 'WPA3-Enterprise-Mixed' },
   { value: 'owe', label: 'OWE' },
   { value: 'owe-transition', label: 'OWE-Transition' },
 ];
