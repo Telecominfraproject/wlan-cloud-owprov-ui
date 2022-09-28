@@ -75,7 +75,7 @@ const PassPointForm: React.FC<Props> = ({ isDisabled, namePrefix, isEnabled, onT
           <ToggleField {...fieldProps('asra')} falseIsUndefined />
           <ToggleField {...fieldProps('esr')} falseIsUndefined />
           <ToggleField {...fieldProps('uesa')} falseIsUndefined />
-          <ToggleField {...fieldProps('hessid')} falseIsUndefined />
+          <StringField {...fieldProps('hessid')} emptyIsUndefined />
           <CreatableSelectField {...fieldProps('roaming-consortium')} emptyIsUndefined placeholder="BAA2D00100" />
           <ToggleField {...fieldProps('disable-dgaf')} falseIsUndefined />
           <NumberField {...fieldProps('ipaddr-type-available')} acceptEmptyValue emptyIsUndefined />
