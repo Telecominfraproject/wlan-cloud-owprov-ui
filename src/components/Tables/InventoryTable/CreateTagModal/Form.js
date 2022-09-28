@@ -58,7 +58,7 @@ const CreateTagForm = ({
   };
 
   const createParameters = ({ serialNumber, name, description, note, deviceType, devClass, deviceRules, entity }) => ({
-    serialNumber,
+    serialNumber: serialNumber.toLowerCase(),
     name,
     deviceRules,
     deviceType,
