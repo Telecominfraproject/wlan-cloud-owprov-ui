@@ -58,7 +58,7 @@ const LockedPasspoint = ({ data }) => {
           <DisplayToggleField {...fieldProps('asra')} />
           <DisplayToggleField {...fieldProps('esr')} />
           <DisplayToggleField {...fieldProps('uesa')} />
-          <DisplayToggleField {...fieldProps('hessid')} />
+          <DisplayStringField {...fieldProps('hessid')} />
           <FastCreatableSelectInput {...fieldProps('roaming-consortium')} />
           <DisplayToggleField {...fieldProps('disable-dgaf')} />
           <DisplayNumberField {...fieldProps('ipaddr-type-available')} isRequired />
