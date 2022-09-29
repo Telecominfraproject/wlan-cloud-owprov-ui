@@ -16,7 +16,7 @@ interface Props {
   isPasspoint?: boolean;
 }
 
-const EncryptionForm: React.FC<Props> = ({
+const EncryptionForm = ({
   editing,
   namePrefix,
   radiusPrefix,
@@ -25,7 +25,7 @@ const EncryptionForm: React.FC<Props> = ({
   isKeyNeeded,
   isUsingRadius,
   isPasspoint,
-}) => (
+}: Props) => (
   <>
     <Flex mt={4}>
       <Heading size="md" borderBottom="1px solid">
@@ -41,6 +41,7 @@ const EncryptionForm: React.FC<Props> = ({
         isDisabled={!editing}
         isRequired
         onChange={onProtoChange}
+        w="300px"
       />
       {isKeyNeeded && (
         <StringField
@@ -64,6 +65,7 @@ const EncryptionForm: React.FC<Props> = ({
           ]}
           isDisabled={!editing}
           isRequired
+          w="120px"
         />
       )}
     </SimpleGrid>
