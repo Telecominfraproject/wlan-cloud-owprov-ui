@@ -36,7 +36,9 @@ export const WebSocketProvider = ({ children }: { children: React.ReactElement }
 
   const onStartWebSocket = () => {
     ws.current = new WebSocket(
-      `${axiosProv?.defaults?.baseURL ? axiosProv.defaults.baseURL.replace('https', 'wss') : ''}/ws`,
+      `${
+        axiosProv?.defaults?.baseURL ? axiosProv.defaults.baseURL.replace('https', 'wss').replace('http', 'ws') : ''
+      }/ws`,
     );
     ws.current.onopen = () => {
       setIsOpen(true);

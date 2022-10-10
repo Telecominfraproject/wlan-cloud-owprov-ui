@@ -46,7 +46,7 @@ const CirclePackSlider = ({ index, setIndex, points }) => {
         </Tooltip>
       </Slider>
       <Center>
-        <Heading size="lg">{points[index] ? compactDate(points[index][0].timestamp) : ''}</Heading>
+        <Heading size="lg">{points[index] && points[index][0] ? compactDate(points[index][0].timestamp) : ''}</Heading>
       </Center>
     </>
   );

@@ -9,7 +9,7 @@ const useApiRequirements = () => {
     if (!apiResult && isAccess) return `${secUrl.split('/api/v1')[0]}/wwwassets/access_policy.html`;
     if (!apiResult && !isAccess) return `${secUrl.split('/api/v1')[0]}/wwwassets/password_policy.html`;
 
-    if (apiResult?.startsWith('https')) return apiResult;
+    if (apiResult?.startsWith('http')) return apiResult;
     return `${secUrl.split('/api/v1')[0]}${apiResult}`;
   };
 
