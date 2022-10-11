@@ -5,6 +5,7 @@ import {
   testIpv6,
   testLeaseTime,
   testLength,
+  testRegex,
   testSelectPorts,
   testUcMac,
 } from 'constants/formTests';
@@ -73,6 +74,26 @@ export const CREATE_INTERFACE_SCHEMA = (t) =>
     name: string().required(t('form.required')).default(''),
     role: string().required(t('form.required')).default('upstream'),
   });
+
+export const INTERFACE_PASSPOINT_ICONS_SCHEMA = (t, useDefault = false) => {
+  const shape = object()
+    .shape({
+      width: number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(64),
+      height: number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(64),
+      icon: string().required(t('form.required')).default(''),
+      language: string()
+        .required(t('form.required'))
+        .test('test-passpoint-icon-lang', t('form.invalid_icon_lang'), (v) => testRegex(v, '^[a-z][a-z][a-z]$'))
+        .default('eng'),
+    })
+    .default({
+      width: 64,
+      height: 64,
+      language: 'eng',
+    });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
 
 export const INTERFACE_SSID_PASS_POINT_SCHEMA = (t, useDefault = false) => {
   const shape = object()

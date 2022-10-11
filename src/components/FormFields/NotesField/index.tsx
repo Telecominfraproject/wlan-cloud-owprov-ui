@@ -122,7 +122,7 @@ const _NotesField: React.FC<NotesFieldProps> = ({ name = 'notes', isDisabled, ha
       </InputGroup>
       <DataTable
         columns={columns}
-        data={notes.sort((a: Note, b: Note) => b.created - a.created)}
+        data={notes?.sort((a: Note, b: Note) => b.created - a.created)}
         obj={hasDeleteButton ? undefined : t('common.notes')}
         minHeight="200px"
       />

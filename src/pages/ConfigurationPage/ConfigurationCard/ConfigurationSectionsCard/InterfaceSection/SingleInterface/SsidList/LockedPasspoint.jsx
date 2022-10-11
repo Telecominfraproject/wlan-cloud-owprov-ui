@@ -1,11 +1,16 @@
 import React from 'react';
-import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Flex, Heading, Image, NumberInputField, SimpleGrid } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import DisplayNumberField from 'components/DisplayFields/DisplayNumberField';
+import DisplayObjectArrayField from 'components/DisplayFields/DisplayObjectArrayField';
 import DisplaySelectField from 'components/DisplayFields/DisplaySelectField';
 import DisplayStringField from 'components/DisplayFields/DisplayStringField';
 import DisplayToggleField from 'components/DisplayFields/DisplayToggleField';
 import FastCreatableSelectInput from 'components/FormFields/CreatableSelectField/FastCreatableSelectInput';
+import ImageField from 'components/FormFields/ImageField';
+import StringField from 'components/FormFields/StringField';
+import NumberField from 'components/FormFields/NumberField';
+import { INTERFACE_PASSPOINT_ICONS_SCHEMA } from '../../interfacesConstants';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
@@ -19,6 +24,66 @@ const LockedPasspoint = ({ data }) => {
     definitionKey: `interface.ssid.pass-point.${suffix}`,
     isDisabled: true,
   });
+
+  const iconCell = React.useCallback(
+    (src, fileType) => (
+      <Image boxSize={100} mx="auto" my="auto" src={`data:${fileType ?? 'image/png'};base64,${src}`} alt="New Image" />
+    ),
+    [],
+  );
+  const iconFields = React.useMemo(
+    () => (
+      <>
+        <SimpleGrid minChildWidth="180px" gap={4} mb={4}>
+          <NumberInputField name="width" label="width" w="140px" emptyIsUndefined isRequired unit="px" />
+          <NumberField name="height" label="height" w="140px" isRequired unit="px" />
+          <StringField name="language" label="language" w="100px" isRequired />
+        </SimpleGrid>
+        <ImageField name="icon" heightName="height" widthName="width" typeName="type" />
+      </>
+    ),
+    [],
+  );
+  const iconCols = React.useMemo(
+    () => [
+      {
+        id: 'icon',
+        Header: 'icon',
+        Footer: '',
+        Cell: ({ cell }) => iconCell(cell.row.original.icon, cell.row.original.type),
+        accessor: 'icon',
+      },
+      {
+        id: 'type',
+        Header: 'type',
+        Footer: '',
+        accessor: 'type',
+        customWidth: '100px',
+      },
+      {
+        id: 'width',
+        Header: 'width',
+        Footer: '',
+        accessor: 'width',
+        customWidth: '150px',
+      },
+      {
+        id: 'height',
+        Header: 'height',
+        Footer: '',
+        accessor: 'height',
+        customWidth: '100px',
+      },
+      {
+        id: 'language',
+        Header: 'language',
+        Footer: '',
+        accessor: 'language',
+        customWidth: '100px',
+      },
+    ],
+    [],
+  );
 
   if (!data) return null;
 
@@ -89,6 +154,15 @@ const LockedPasspoint = ({ data }) => {
             emptyIsUndefined
           />
           <FastCreatableSelectInput {...fieldProps('connection-capability')} />
+          <DisplayObjectArrayField
+            {...fieldProps('icons')}
+            fields={iconFields}
+            columns={iconCols}
+            schema={INTERFACE_PASSPOINT_ICONS_SCHEMA}
+            isDisabled
+            emptyIsUndefined
+            isRequired
+          />
         </SimpleGrid>
       )}
     </>
