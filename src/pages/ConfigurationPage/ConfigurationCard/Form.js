@@ -49,8 +49,8 @@ const EditConfigurationForm = ({ editing, configuration, formRef }) => {
   });
 
   const getEntity = () => {
-    if (configuration.entity !== '') return `ent:${configuration.entity}`;
-    if (configuration.venue !== '') return `ven:${configuration.venue}`;
+    if (configuration?.entity !== '') return `ent:${configuration?.entity}`;
+    if (configuration?.venue !== '') return `ven:${configuration?.venue}`;
     return `ent:0000-0000-0000`;
   };
 

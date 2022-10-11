@@ -510,6 +510,7 @@
 		"invalid_file_content": "Ungültiger Dateiinhalt, bitte bestätigen Sie, dass es sich um ein gültiges Format handelt",
 		"invalid_fqdn_host": "Ungültiger FQDN-Hostname",
 		"invalid_hostname": "Ungültiger Hostname: Er darf nur aus alphanumerischen Zeichen und Bindestrichen bestehen",
+		"invalid_icon_lang": "Ungültige Sprache, sollte aus 3 Buchstaben bestehen (eng, fre, ger, ita usw.)",
 		"invalid_ieee": "Für dieses Verschlüsselungsprotokoll muss ieee80211w entweder „optional“ oder „erforderlich“ sein.",
 		"invalid_interfaces": "Ungültige Schnittstellen-JSON-Zeichenfolge. Bitte bestätigen Sie, dass Ihr Wert gültiges JSON ist und Schnittstellen als einzigen Schlüssel hat und dass der Schnittstellenwert ein Array ist. Beispiel: {\"interfaces\": []}",
 		"invalid_ipv4": "Ungültige IPv4-Adresse (Bsp.: 192.168.0.1 oder 192.168.0.1/16",

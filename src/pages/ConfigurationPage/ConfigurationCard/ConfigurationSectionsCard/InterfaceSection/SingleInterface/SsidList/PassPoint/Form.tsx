@@ -1,10 +1,13 @@
 import React from 'react';
-import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
+import { Heading, Image, SimpleGrid, Switch, Text } from '@chakra-ui/react';
 import ToggleField from 'components/FormFields/ToggleField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import NumberField from 'components/FormFields/NumberField';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
+import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
+import ImageField from 'components/FormFields/ImageField';
+import { INTERFACE_PASSPOINT_ICONS_SCHEMA } from '../../../interfacesConstants';
 
 interface Props {
   isDisabled?: boolean;
@@ -22,6 +25,77 @@ const PassPointForm: React.FC<Props> = ({ isDisabled, namePrefix, isEnabled, onT
     definitionKey: `interface.ssid.pass-point.${suffix}`,
     isDisabled,
   });
+
+  const iconCell = React.useCallback(
+    (src: string, fileType: string) => (
+      <Image boxSize={100} mx="auto" my="auto" src={`data:${fileType ?? 'image/png'};base64,${src}`} alt="New Image" />
+    ),
+    [],
+  );
+  const iconFields = React.useMemo(
+    () => (
+      <>
+        <SimpleGrid minChildWidth="180px" gap={4} mb={4}>
+          <NumberField name="width" label="width" w="140px" emptyIsUndefined isRequired unit="px" />
+          <NumberField name="height" label="height" w="140px" isRequired unit="px" />
+          <StringField name="language" label="language" isRequired />
+        </SimpleGrid>
+        <ImageField name="icon" heightName="height" widthName="width" typeName="type" />
+      </>
+    ),
+    [],
+  );
+  const iconCols = React.useMemo(
+    () => [
+      {
+        id: 'icon',
+        Header: 'icon',
+        Footer: '',
+        Cell: ({
+          cell,
+        }: {
+          cell: {
+            row: {
+              original: {
+                icon: string;
+                type: string;
+              };
+            };
+          };
+        }) => iconCell(cell.row.original.icon, cell.row.original.type),
+        accessor: 'icon',
+      },
+      {
+        id: 'type',
+        Header: 'type',
+        Footer: '',
+        accessor: 'type',
+        customWidth: '100px',
+      },
+      {
+        id: 'width',
+        Header: 'width',
+        Footer: '',
+        accessor: 'width',
+        customWidth: '150px',
+      },
+      {
+        id: 'height',
+        Header: 'height',
+        Footer: '',
+        accessor: 'height',
+        customWidth: '100px',
+      },
+      {
+        id: 'language',
+        Header: 'language',
+        Footer: '',
+        accessor: 'language',
+        customWidth: '100px',
+      },
+    ],
+    [],
+  );
 
   return (
     <>
@@ -106,6 +180,14 @@ const PassPointForm: React.FC<Props> = ({ isDisabled, namePrefix, isEnabled, onT
             emptyIsUndefined
           />
           <CreatableSelectField {...fieldProps('connection-capability')} emptyIsUndefined placeholder="17:5060:0" />
+          <ObjectArrayFieldModal
+            {...fieldProps('icons')}
+            fields={iconFields}
+            // @ts-ignore
+            columns={iconCols}
+            schema={INTERFACE_PASSPOINT_ICONS_SCHEMA}
+            emptyIsUndefined
+          />
         </SimpleGrid>
       )}
     </>

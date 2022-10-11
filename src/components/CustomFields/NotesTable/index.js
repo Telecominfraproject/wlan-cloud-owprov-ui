@@ -87,7 +87,7 @@ const NotesTable = ({ name, isDisabled }) => {
       </InputGroup>
       <DataTable
         columns={columns}
-        data={notes.sort((a, b) => b.created - a.created)}
+        data={notes?.sort((a, b) => b.created - a.created)}
         obj={t('common.notes')}
         minHeight="200px"
       />

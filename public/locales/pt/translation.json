@@ -510,6 +510,7 @@
 		"invalid_file_content": "Conteúdo de arquivo inválido. Confirme se está no formato válido",
 		"invalid_fqdn_host": "Nome de host FQDN inválido",
 		"invalid_hostname": "Nome de host inválido: precisa ser composto apenas de caracteres alfanuméricos e traços",
+		"invalid_icon_lang": "Idioma inválido, deve estar em formato de 3 letras (eng, fre, ger, ita, etc.)",
 		"invalid_ieee": "Para este protocolo de criptografia, ieee80211w precisa ser 'opcional' ou 'obrigatório'",
 		"invalid_interfaces": "Sequência JSON de interfaces inválida. Confirme se seu valor é: JSON válido e tem interfaces como sua única chave e que o valor de interfaces é uma matriz. Exemplo: {\"interfaces\": []}",
 		"invalid_ipv4": "Endereço IPv4 inválido (ex.: 192.168.0.1 ou 192.168.0.1/16",
