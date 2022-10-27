@@ -104,20 +104,18 @@ export const useReloadSubsystems = ({
         resetSubs();
       },
       onError: (e) => {
-        if (axios.isAxiosError(e)) {
-          toast({
-            id: 'system-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              e: e?.response?.data?.ErrorDescription,
-              obj: t('system.title'),
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-        }
+        toast({
+          id: 'system-fetching-error',
+          title: t('common.error'),
+          description: t('crud.error_fetching_obj', {
+            e: e?.response?.data?.ErrorDescription,
+            obj: t('system.title'),
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
       },
     },
   );
