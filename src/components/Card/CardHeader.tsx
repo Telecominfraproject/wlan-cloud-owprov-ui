@@ -4,6 +4,7 @@ import { ThemeProps } from 'models/Theme';
 
 interface Props extends ThemeProps {
   variant?: string;
+  children: React.ReactNode;
 }
 
 const defaultProps = {

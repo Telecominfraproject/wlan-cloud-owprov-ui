@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { Box, FormControl, Heading, Select, SimpleGrid, Switch, Text } from '@chakra-ui/react';
+import { INTERFACE_IPV4_PORT_FORWARD_SCHEMA, INTERFACE_IPV4_SCHEMA } from '../../interfacesConstants';
+import LockedIpv4 from './LockedIpv4';
+import StaticIpV4 from './StaticIpV4';
 import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
 import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
+import { PortRangeField } from 'components/FormFields/PortRangeField';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
-import { PortRangeField } from 'components/FormFields/PortRangeField';
-import StaticIpV4 from './StaticIpV4';
-import LockedIpv4 from './LockedIpv4';
-import { INTERFACE_IPV4_PORT_FORWARD_SCHEMA, INTERFACE_IPV4_SCHEMA } from '../../interfacesConstants';
 
 type Props = {
   isEnabled?: boolean;

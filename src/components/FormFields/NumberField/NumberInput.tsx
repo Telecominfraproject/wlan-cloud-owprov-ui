@@ -11,8 +11,8 @@ import {
   InputGroup,
   InputRightAddon,
 } from '@chakra-ui/react';
-import { FieldInputProps } from 'models/Form';
 import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
+import { FieldInputProps } from 'models/Form';
 
 interface Props extends FieldInputProps<string | undefined | string[]> {
   onChange: (v: string) => void;

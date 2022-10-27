@@ -1,9 +1,9 @@
 import { useToast } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useTranslation } from 'react-i18next';
 import useDefaultPage from 'hooks/useDefaultPage';
 import { Entity } from 'models/Entity';
-import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from 'react-query';
 import { axiosProv, axiosSec } from 'utils/axiosInstances';
 
 export const useGetEntityTree = () => {

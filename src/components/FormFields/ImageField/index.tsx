@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
-import useFastField from 'hooks/useFastField';
 import * as React from 'react';
 import ImageFieldInput from './Input';
+import useFastField from 'hooks/useFastField';
 
 type Props = {
   name: string;

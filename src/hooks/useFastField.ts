@@ -1,5 +1,5 @@
-import { useField, useFormikContext } from 'formik';
 import { useCallback, useMemo } from 'react';
+import { useField, useFormikContext } from 'formik';
 
 interface UseFastFieldProps {
   name: string;

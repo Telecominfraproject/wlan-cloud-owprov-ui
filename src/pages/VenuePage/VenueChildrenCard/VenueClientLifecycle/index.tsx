@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Box } from '@chakra-ui/react';
+import MacSearchBar from './MacSearchBar';
+import ClientLifecyleTable from './Table';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { getAllClients } from 'hooks/Network/Analytics';
 import useDatePickers from 'hooks/useDatePickers';
 import { getHoursAgo } from 'utils/dateFormatting';
-import ClientLifecyleTable from './Table';
-import MacSearchBar from './MacSearchBar';
 
 interface Props {
   venueId: string;

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Alert, Box, Button, Center, Heading } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { RrmAlgorithm } from 'hooks/Network/Rrm';
 import AlgorithmPicker from './AlgorithmPicker';
+import { RrmAlgorithm } from 'hooks/Network/Rrm';
 
 type Props = {
   algorithms?: RrmAlgorithm[];

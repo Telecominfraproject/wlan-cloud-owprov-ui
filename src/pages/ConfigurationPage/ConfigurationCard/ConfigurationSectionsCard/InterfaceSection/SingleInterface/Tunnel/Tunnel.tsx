@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormControl, Heading, Select, SimpleGrid, Switch, Text } from '@chakra-ui/react';
-import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
 import { INTERFACE_TUNNEL_SCHEMA } from '../../interfacesConstants';
 import LockedTunnel from './LockedTunnel';
 import TunnelValues from './TunnelValues';
+import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
 
 interface Props {
   isDisabled?: boolean;

@@ -1,11 +1,11 @@
 import { useToast } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useTranslation } from 'react-i18next';
 import useDefaultPage from 'hooks/useDefaultPage';
 import { DeviceRules } from 'models/Basic';
 import { Note } from 'models/Note';
 import { PageInfo } from 'models/Table';
-import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from 'react-query';
 import { axiosProv } from 'utils/axiosInstances';
 
 export type CreateOperatorRequest = {

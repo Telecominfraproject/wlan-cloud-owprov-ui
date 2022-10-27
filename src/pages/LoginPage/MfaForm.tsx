@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 import {
   Alert,
   Box,
@@ -15,18 +15,18 @@ import {
   PinInput,
   PinInputField,
 } from '@chakra-ui/react';
-import { ArrowBackIcon } from '@chakra-ui/icons';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from 'contexts/AuthProvider';
-import { LoginFormProps } from 'models/Login';
-import { AxiosError } from 'axios';
 import { useSendPhoneCode, useSendVerifyCode } from 'hooks/Network/Login';
+import { AxiosError } from 'models/Axios';
+import { LoginFormProps } from 'models/Login';
 
-interface Props {
+export interface MfaFormProps {
   setActiveForm: React.Dispatch<React.SetStateAction<LoginFormProps>>;
   activeForm: LoginFormProps;
 }
 
-const MfaForm: React.FC<Props> = ({ activeForm, setActiveForm }) => {
+const _MfaForm: React.FC<MfaFormProps> = ({ activeForm, setActiveForm }) => {
   const { t } = useTranslation();
   const { setToken } = useAuth();
   const titleColor = useColorModeValue('blue.300', 'white');
@@ -152,4 +152,4 @@ const MfaForm: React.FC<Props> = ({ activeForm, setActiveForm }) => {
   );
 };
 
-export default MfaForm;
+export const MfaForm = _MfaForm;

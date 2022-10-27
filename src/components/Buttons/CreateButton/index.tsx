@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint, LayoutProps, SpaceProps } from '@chakra-ui/react';
 import { Plus } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props extends LayoutProps, SpaceProps {
   onClick?: () => void;

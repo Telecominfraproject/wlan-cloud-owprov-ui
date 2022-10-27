@@ -1,7 +1,7 @@
+import React, { useMemo } from 'react';
 import { Button, Heading, useColorModeValue, useMultiStyleConfig, useTab } from '@chakra-ui/react';
 import { useGetResource } from 'hooks/Network/Resources';
 import useFastField from 'hooks/useFastField';
-import React, { useMemo } from 'react';
 
 const SsidTab: React.FC<{ index: number; interIndex: number }> = React.forwardRef(
   // eslint-disable-next-line react/prop-types
@@ -51,7 +51,7 @@ const SsidTab: React.FC<{ index: number; interIndex: number }> = React.forwardRe
     }, [wifiBands, resource]);
     return (
       // @ts-ignore
-      <Button
+      (<Button
         __css={styles.tab}
         {...tabProps}
         bgColor={isSelected ? bgColorSelected : bgColorUnSelected}
@@ -60,7 +60,7 @@ const SsidTab: React.FC<{ index: number; interIndex: number }> = React.forwardRe
         <Heading size="md">
           {name} ({bands?.join(', ')})
         </Heading>
-      </Button>
+      </Button>)
     );
   },
 );

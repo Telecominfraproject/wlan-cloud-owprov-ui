@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { IconButton, Tooltip } from '@chakra-ui/react';
 import { X } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onClick: () => void;

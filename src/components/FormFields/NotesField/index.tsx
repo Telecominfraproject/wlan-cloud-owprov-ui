@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import React, { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IconButton, Input, InputGroup, InputRightElement, Tooltip } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { IconButton, Input, InputGroup, InputRightElement, Tooltip } from '@chakra-ui/react';
 import { Trash } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { useAuth } from 'contexts/AuthProvider';
-import { Note } from 'models/Note';
 import DataTable from 'components/DataTable';
-import useFastField from 'hooks/useFastField';
 import FormattedDate from 'components/FormattedDate';
+import { useAuth } from 'contexts/AuthProvider';
+import useFastField from 'hooks/useFastField';
+import { Note } from 'models/Note';
 
 export interface NotesFieldProps {
   name?: string;

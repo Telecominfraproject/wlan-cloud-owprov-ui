@@ -1,18 +1,18 @@
 import React from 'react';
 import { Flex, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
-import DeleteButton from 'components/Buttons/DeleteButton';
 import { useTranslation } from 'react-i18next';
-import COUNTRY_LIST from 'constants/countryList';
-import ToggleField from 'components/FormFields/ToggleField';
-import SelectField from 'components/FormFields/SelectField';
-import NumberField from 'components/FormFields/NumberField';
-import useFastField from 'hooks/useFastField';
-import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
-import ChannelPicker from './ChannelPicker';
-import Rates from './Rates';
 import AdvancedSettings from './AdvancedSettings';
+import ChannelPicker from './ChannelPicker';
 import LockedRadio from './LockedRadio';
 import { SINGLE_RADIO_SCHEMA } from './radiosConstants';
+import Rates from './Rates';
+import DeleteButton from 'components/Buttons/DeleteButton';
+import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
+import NumberField from 'components/FormFields/NumberField';
+import SelectField from 'components/FormFields/SelectField';
+import ToggleField from 'components/FormFields/ToggleField';
+import COUNTRY_LIST from 'constants/countryList';
+import useFastField from 'hooks/useFastField';
 
 type Props = {
   namePrefix: string;

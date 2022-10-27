@@ -179,7 +179,7 @@ export const rfInstanceToSave = (rf, rootNode) => {
   if (rf) {
     const obj = rf.toObject();
 
-    const elements = obj.elements
+    const elements = [...obj.nodes, ...obj.edges]
       .filter((el) => el.source === undefined)
       .map((el) => ({
         id: el.id,

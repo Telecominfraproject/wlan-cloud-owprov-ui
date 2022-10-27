@@ -1,5 +1,5 @@
-import useFastField from 'hooks/useFastField';
 import React, { useEffect } from 'react';
+import useFastField from 'hooks/useFastField';
 
 const Rates = ({ namePrefix }: { namePrefix: string }) => {
   const { value, onChange } = useFastField({ name: `${namePrefix}.rates` });

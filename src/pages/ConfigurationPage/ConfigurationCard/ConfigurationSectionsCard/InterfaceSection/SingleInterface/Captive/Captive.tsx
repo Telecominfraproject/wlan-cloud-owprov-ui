@@ -1,10 +1,10 @@
 import React from 'react';
 import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
+import { INTERFACE_CAPTIVE_SCHEMA } from '../../interfacesConstants';
+import LockedCaptive from './LockedCaptive';
 import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
 import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
-import LockedCaptive from './LockedCaptive';
-import { INTERFACE_CAPTIVE_SCHEMA } from '../../interfacesConstants';
 
 interface Props {
   isDisabled?: boolean;

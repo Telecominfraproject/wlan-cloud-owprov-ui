@@ -1,6 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { ModalProps } from 'models/Modal';
 import {
   Modal,
   ModalOverlay,
@@ -15,11 +13,13 @@ import {
   Switch,
   Button,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
+import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
 import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand';
-import useCommandModal from 'hooks/useCommandModal';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { useFactoryReset } from 'hooks/Network/GatewayDevices';
+import useCommandModal from 'hooks/useCommandModal';
+import { ModalProps } from 'models/Modal';
 
 interface Props {
   modalProps: ModalProps;

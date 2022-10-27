@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
+import { Heading } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
 import { useTranslation } from 'react-i18next';
-import { Heading } from '@chakra-ui/react';
-import useDeviceSearch from 'contexts/WebSocketProvider/hooks/Commands/useDeviceSearch';
+import { useProviderDeviceSearch } from 'contexts/ProvisioningSocketProvider/hooks/Commands/useDeviceSearch';
 
 interface Props {
   onClick: (id: string) => void;
@@ -11,7 +11,7 @@ interface Props {
 
 const DeviceSearchBar: React.FC<Props> = ({ onClick, isDisabled }) => {
   const { t } = useTranslation();
-  const { inputValue, results, onInputChange, isOpen, resetSearch } = useDeviceSearch({
+  const { inputValue, results, onInputChange, isOpen, resetSearch } = useProviderDeviceSearch({
     minLength: 2,
   });
 

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import {
   Alert,
   Box,
@@ -13,16 +13,17 @@ import {
   useColorModeValue,
   Spacer,
   Link,
+  SimpleGrid,
 } from '@chakra-ui/react';
-import * as Yup from 'yup';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Formik, Field, Form } from 'formik';
-import { useAuth } from 'contexts/AuthProvider';
+import { useTranslation } from 'react-i18next';
+import * as Yup from 'yup';
 import StringField from 'components/FormFields/StringField';
-import { FormFieldProps } from 'models/FormField';
-import useApiRequirements from 'hooks/useApiRequirements';
-import { AxiosError } from 'axios';
+import { useAuth } from 'contexts/AuthProvider';
 import { useLogin } from 'hooks/Network/Login';
+import useApiRequirements from 'hooks/useApiRequirements';
+import { AxiosError } from 'models/Axios';
+import { FormFieldProps } from 'models/FormField';
 import { LoginFormProps } from 'models/Login';
 
 const LoginSchema = Yup.object().shape({
@@ -31,11 +32,11 @@ const LoginSchema = Yup.object().shape({
   rememberMe: Yup.bool(),
 });
 
-interface Props {
+export interface _LoginFormProps {
   setActiveForm: React.Dispatch<React.SetStateAction<LoginFormProps>>;
 }
 
-const LoginForm: React.FC<Props> = ({ setActiveForm }) => {
+const _LoginForm: React.FC<_LoginFormProps> = ({ setActiveForm }) => {
   const { t } = useTranslation();
   const { setToken } = useAuth();
   const { accessPolicyLink, passwordPolicyLink } = useApiRequirements();
@@ -45,7 +46,7 @@ const LoginForm: React.FC<Props> = ({ setActiveForm }) => {
   const forgotPassword = () => setActiveForm({ form: 'forgot-password' });
 
   const displayError = useMemo(() => {
-    const loginError: AxiosError = error as AxiosError;
+    const loginError = error as AxiosError;
 
     if (loginError?.response?.data?.ErrorCode === 4) return t('login.waiting_for_email_verification');
     return t('login.invalid_credentials');
@@ -104,8 +105,10 @@ const LoginForm: React.FC<Props> = ({ setActiveForm }) => {
       >
         {({ isSubmitting, isValid }) => (
           <Form>
-            <StringField name="email" label={t('common.email')} />
-            <StringField name="password" label={t('common.password')} hideButton />
+            <SimpleGrid minChildWidth="240px" spacing={4}>
+              <StringField name="email" label={t('common.email')} />
+              <StringField name="password" label={t('common.password')} hideButton />
+            </SimpleGrid>
             <Flex display={{ base: 'block', sm: 'flex' }} mt="24px">
               <Field name="rememberMe">
                 {({ field }: { field: FormFieldProps }) => (
@@ -174,4 +177,4 @@ const LoginForm: React.FC<Props> = ({ setActiveForm }) => {
   );
 };
 
-export default LoginForm;
+export const LoginForm = _LoginForm;

@@ -1,9 +1,9 @@
-import { useToast } from '@chakra-ui/react';
 import { useCallback, useMemo } from 'react';
-import { v4 as uuid } from 'uuid';
-import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useToast } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 
 interface Props {
   objName: string;

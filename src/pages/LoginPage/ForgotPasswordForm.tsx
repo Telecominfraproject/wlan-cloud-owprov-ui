@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import {
   Alert,
   Box,
@@ -13,9 +13,9 @@ import {
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
-import * as Yup from 'yup';
-import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { Formik, Form } from 'formik';
+import { useTranslation } from 'react-i18next';
+import * as Yup from 'yup';
 import StringField from 'components/FormFields/StringField';
 import { useForgotPassword } from 'hooks/Network/Login';
 import useApiRequirements from 'hooks/useApiRequirements';
@@ -25,10 +25,10 @@ const ForgotPasswordSchema = Yup.object().shape({
   userId: Yup.string().email('Invalid email').required('Required'),
 });
 
-interface Props {
+export interface ForgotPasswordFormProps {
   setActiveForm: React.Dispatch<React.SetStateAction<LoginFormProps>>;
 }
-const ForgotPasswordForm: React.FC<Props> = ({ setActiveForm }) => {
+const _ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ setActiveForm }) => {
   const { t } = useTranslation();
   const { accessPolicyLink } = useApiRequirements();
   const titleColor = useColorModeValue('blue.300', 'white');
@@ -129,4 +129,4 @@ const ForgotPasswordForm: React.FC<Props> = ({ setActiveForm }) => {
   );
 };
 
-export default ForgotPasswordForm;
+export const ForgotPasswordForm = _ForgotPasswordForm;

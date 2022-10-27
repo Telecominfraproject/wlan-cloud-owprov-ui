@@ -1,10 +1,10 @@
 import { useToast } from '@chakra-ui/react';
-import { AxiosError } from 'axios';
-import { PageInfo, SortInfo } from 'models/Table';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from 'react-query';
-import { axiosProv } from 'utils/axiosInstances';
 import { v4 as uuid } from 'uuid';
+import { AxiosError } from 'models/Axios';
+import { PageInfo, SortInfo } from 'models/Table';
+import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetInventoryTableSpecs = () =>
   useQuery(
@@ -45,7 +45,7 @@ export const useGetInventoryCount = ({
             id: 'inventory-fetching-error',
             title: t('common.error'),
             description: t('crud.error_fetching_obj', {
-              obj: t('inventory.one'),
+              obj: t('inventory.tags'),
               e: e?.response?.data?.ErrorDescription,
             }),
             status: 'error',

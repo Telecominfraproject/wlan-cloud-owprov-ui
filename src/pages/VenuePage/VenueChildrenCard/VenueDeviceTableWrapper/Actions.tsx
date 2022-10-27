@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -18,10 +17,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ArrowSquareOut, MagnifyingGlass, Trash } from 'phosphor-react';
-import { useGetGatewayUi } from 'hooks/Network/Endpoints';
+import { useTranslation } from 'react-i18next';
 import DeviceActionDropdown from 'components/TableCells/DeviceActionDropdown';
-import { Device } from 'models/Device';
+import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import { useDeleteTag } from 'hooks/Network/Inventory';
+import { Device } from 'models/Device';
 
 interface Props {
   cell: { original: Device };

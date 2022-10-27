@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import useFastField from 'hooks/useFastField';
 import { INTERFACE_CAPTIVE_SCHEMA } from '../../interfacesConstants';
 import CaptiveForm from './Captive';
+import useFastField from 'hooks/useFastField';
 
 const Captive: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
   const { t } = useTranslation();

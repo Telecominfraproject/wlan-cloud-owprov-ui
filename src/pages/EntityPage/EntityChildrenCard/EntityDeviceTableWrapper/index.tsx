@@ -1,19 +1,19 @@
 import React, { useCallback, useState } from 'react';
-import { v4 as uuid } from 'uuid';
-import InventoryTable from 'components/Tables/InventoryTable';
 import { Box, useDisclosure } from '@chakra-ui/react';
-import { usePushConfig } from 'hooks/Network/Inventory';
-import { useQueryClient } from 'react-query';
-import EditTagModal from 'components/Tables/InventoryTable/EditTagModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { v4 as uuid } from 'uuid';
+import Actions from './Actions';
+import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
+import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
+import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
+import InventoryTable from 'components/Tables/InventoryTable';
 import ConfigurationPushModal from 'components/Tables/InventoryTable/ConfigurationPushModal';
 import CreateTagModal from 'components/Tables/InventoryTable/CreateTagModal';
+import EditTagModal from 'components/Tables/InventoryTable/EditTagModal';
 import ImportDeviceCsvModal from 'components/Tables/InventoryTable/ImportDeviceCsvModal';
-import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
-import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
-import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
-import { Entity } from 'models/Entity';
+import { usePushConfig } from 'hooks/Network/Inventory';
 import { Device } from 'models/Device';
-import Actions from './Actions';
+import { Entity } from 'models/Entity';
 
 interface Props {
   entity: Entity;
