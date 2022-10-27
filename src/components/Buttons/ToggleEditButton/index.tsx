@@ -22,7 +22,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const ToggleEditButton: React.FC<Props> = ({
+const ToggleEditButton = ({
   toggleEdit,
   isEditing,
   isDirty,
@@ -31,7 +31,7 @@ const ToggleEditButton: React.FC<Props> = ({
   isCompact,
   ml,
   ...props
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();

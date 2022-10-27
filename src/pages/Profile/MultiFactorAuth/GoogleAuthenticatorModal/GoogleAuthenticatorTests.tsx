@@ -8,7 +8,11 @@ interface Props {
   setCurrentStep: (v: string) => void;
 }
 
-const GoogleAuthenticatorTests: React.FC<Props> = ({ setCurrentStep }) => {
+const GoogleAuthenticatorTests = (
+  {
+    setCurrentStep
+  }: Props
+) => {
   const { t } = useTranslation();
   const [testIndex, setTestIndex] = useState(1);
   const [code, setCode] = useState('');

@@ -35,13 +35,15 @@ const defaultProps = {
   subscriberId: undefined,
 };
 
-const CreateSubscriberDeviceStep0: React.FC<Props> = ({
-  formRef,
-  finishStep,
-  serviceClasses,
-  subscribers,
-  subscriberId,
-}) => {
+const CreateSubscriberDeviceStep0 = (
+  {
+    formRef,
+    finishStep,
+    serviceClasses,
+    subscribers,
+    subscriberId
+  }: Props
+) => {
   const { t } = useTranslation();
   const subscriberOptions = useSelectList({ values: subscribers, hasEmpty: true, valueKey: 'id', labelKey: 'name' });
   const serviceClassesOptions = useSelectList({

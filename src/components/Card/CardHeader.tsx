@@ -11,7 +11,13 @@ const defaultProps = {
   variant: undefined,
 };
 
-const CardHeader: React.FC<Props> = ({ variant, children, ...rest }) => {
+const CardHeader = (
+  {
+    variant,
+    children,
+    ...rest
+  }: Props
+) => {
   // @ts-ignore
   const styles = useStyleConfig('CardHeader', { variant });
   // Pass the computed styles into the `__css` prop

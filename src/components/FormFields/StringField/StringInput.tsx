@@ -21,21 +21,23 @@ interface Props extends FieldInputProps<string | undefined | string[]> {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
 }
 
-const StringInput: React.FC<Props> = ({
-  label,
-  value,
-  onChange,
-  onBlur,
-  isError,
-  error,
-  hideButton,
-  isRequired,
-  element,
-  isArea,
-  isDisabled,
-  definitionKey,
-  ...props
-}) => {
+const StringInput = (
+  {
+    label,
+    value,
+    onChange,
+    onBlur,
+    isError,
+    error,
+    hideButton,
+    isRequired,
+    element,
+    isArea,
+    isDisabled,
+    definitionKey,
+    ...props
+  }: Props
+) => {
   const { t } = useTranslation();
   const [show, setShow] = useBoolean();
 

@@ -4,10 +4,15 @@ import { Alert, Button, Center, HStack, PinInput, PinInputField } from '@chakra-
 import { useTranslation } from 'react-i18next';
 import { useSendPhoneTest, useVerifyCode } from 'hooks/Network/Account';
 
-const ValidatePhoneNumberTests: React.FC<{ phoneNumber: string; nextStep: () => void }> = ({
-  phoneNumber,
-  nextStep,
-}) => {
+const ValidatePhoneNumberTests = (
+  {
+    phoneNumber,
+    nextStep
+  }: {
+    phoneNumber: string
+    nextStep: () => void
+  }
+) => {
   const { t } = useTranslation();
   const [code, setCode] = useState('');
   const { mutateAsync: sendTest, isLoading: isSendingTest } = useSendPhoneTest();

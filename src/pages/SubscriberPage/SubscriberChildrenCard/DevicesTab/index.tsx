@@ -18,7 +18,7 @@ interface Props {
   subscriberId: string;
 }
 
-const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
+const OperatorDevicesTab = ({ operatorId, subscriberId }: Props) => {
   const { t } = useTranslation();
   const { refreshId, refresh } = useRefreshId();
   const [serialNumber, setSerialNumber] = useState<string>('');

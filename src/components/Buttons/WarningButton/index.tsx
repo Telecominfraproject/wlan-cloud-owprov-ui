@@ -19,7 +19,7 @@ const defaultProps = {
   label: undefined,
 };
 
-const WarningButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }) => {
+const WarningButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

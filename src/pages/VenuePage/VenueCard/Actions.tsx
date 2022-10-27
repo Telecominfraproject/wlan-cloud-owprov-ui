@@ -9,7 +9,12 @@ interface Props {
   isDisabled: boolean;
 }
 
-const VenueActions: React.FC<Props> = ({ venueId, isDisabled }) => {
+const VenueActions = (
+  {
+    venueId,
+    isDisabled
+  }: Props
+) => {
   const { t } = useTranslation();
   const { mutateAsync: rebootDevices } = useRebootVenueDevices({ id: venueId });
   const updateDevices = useUpdateVenueDevices({ id: venueId });

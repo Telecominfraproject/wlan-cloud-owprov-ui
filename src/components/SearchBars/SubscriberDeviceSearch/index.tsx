@@ -13,7 +13,7 @@ const defaultProps = {
   isDisabled: false,
 };
 
-const SubscriberDeviceSearch: React.FC<Props> = ({ operatorId, onClick, isDisabled }) => {
+const SubscriberDeviceSearch = ({ operatorId, onClick, isDisabled }: Props) => {
   const { t } = useTranslation();
   const { inputValue, results, onInputChange, isOpen, resetSearch } = useProviderDeviceSearch({
     minLength: 2,

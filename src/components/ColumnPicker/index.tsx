@@ -13,7 +13,7 @@ interface Props {
   setHiddenColumns: (str: string[]) => void;
 }
 
-const ColumnPicker: React.FC<Props> = ({ preference, columns, hiddenColumns, setHiddenColumns }) => {
+const ColumnPicker = ({ preference, columns, hiddenColumns, setHiddenColumns }: Props) => {
   const { t } = useTranslation();
   const { getPref, setPref } = useAuth();
   const breakpoint = useBreakpoint();

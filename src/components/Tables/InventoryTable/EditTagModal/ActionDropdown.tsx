@@ -15,14 +15,16 @@ interface Props {
   onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
-const DeviceActionDropdown: React.FC<Props> = ({
-  device,
-  refresh,
-  isDisabled,
-  onOpenScan,
-  onOpenFactoryReset,
-  onOpenUpgradeModal,
-}) => {
+const DeviceActionDropdown = (
+  {
+    device,
+    refresh,
+    isDisabled,
+    onOpenScan,
+    onOpenFactoryReset,
+    onOpenUpgradeModal
+  }: Props
+) => {
   const { t } = useTranslation();
   const { refetch: getRtty, isLoading: isRtty } = useGetDeviceRtty({
     serialNumber: device.serialNumber,

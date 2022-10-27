@@ -7,7 +7,15 @@ import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 
-const DhcpIpV6: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
+const DhcpIpV6 = (
+  {
+    editing,
+    index
+  }: {
+    editing: boolean
+    index: number
+  }
+) => {
   const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext();
 

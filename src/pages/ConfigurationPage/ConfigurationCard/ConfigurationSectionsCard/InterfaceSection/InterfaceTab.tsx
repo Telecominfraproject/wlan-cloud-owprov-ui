@@ -3,7 +3,15 @@ import { Button, Heading, useColorModeValue, useMultiStyleConfig, useTab } from 
 import useFastField from 'hooks/useFastField';
 
 // eslint-disable-next-line react/prop-types
-const InterfaceTab: React.FC<{ index: number }> = React.forwardRef(({ index, ...props }, ref) => {
+const InterfaceTab = React.forwardRef((
+  {
+    index,
+    ...props
+  }: {
+    index: number
+  },
+  ref
+) => {
   const { value } = useFastField({ name: `configuration[${index}]` });
 
   const bgColorSelected = useColorModeValue('gray.100', 'gray.800');

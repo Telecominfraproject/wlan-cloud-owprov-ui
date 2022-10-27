@@ -66,7 +66,7 @@ const defaultProps = {
   saveSettingsId: undefined,
 };
 
-const SortableDataTable: React.FC<Props> = ({
+const SortableDataTable = ({
   columns,
   data,
   isLoading,
@@ -82,7 +82,7 @@ const SortableDataTable: React.FC<Props> = ({
   setPageInfo,
   isManual,
   saveSettingsId,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
   const textColor = useColorModeValue('gray.700', 'white');

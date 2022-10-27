@@ -19,7 +19,7 @@ interface Props {
   entity: Entity;
 }
 
-const EntityDeviceTableWrapper: React.FC<Props> = ({ entity }) => {
+const EntityDeviceTableWrapper = ({ entity }: Props) => {
   const queryClient = useQueryClient();
   const [tag, setTag] = useState<Device | undefined>(undefined);
   const [serialNumber, setSerialNumber] = useState<string>('');

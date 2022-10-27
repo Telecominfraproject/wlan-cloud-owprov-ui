@@ -15,7 +15,7 @@ interface Props {
   onSuccess: () => void;
 }
 
-const GoogleAuthenticatorModal: React.FC<Props> = ({ isOpen, onClose, onSuccess }) => {
+const GoogleAuthenticatorModal = ({ isOpen, onClose, onSuccess }: Props) => {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState('intro');
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();

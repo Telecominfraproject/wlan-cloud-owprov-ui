@@ -7,7 +7,11 @@ interface Props {
   onSuccess: () => void;
 }
 
-const GoogleAuthenticatorActivationSuccess: React.FC<Props> = ({ onSuccess }) => {
+const GoogleAuthenticatorActivationSuccess = (
+  {
+    onSuccess
+  }: Props
+) => {
   const { t } = useTranslation();
 
   const handleClick = () => onSuccess();

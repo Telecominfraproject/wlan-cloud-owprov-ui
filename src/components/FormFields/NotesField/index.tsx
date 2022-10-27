@@ -17,7 +17,7 @@ export interface NotesFieldProps {
   hasDeleteButton?: boolean;
 }
 
-const _NotesField: React.FC<NotesFieldProps> = ({ name = 'notes', isDisabled, hasDeleteButton }) => {
+const _NotesField = ({ name = 'notes', isDisabled, hasDeleteButton }: NotesFieldProps) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { value: notes, onChange: setNotes } = useFastField({ name });

@@ -9,7 +9,7 @@ interface Props {
   setResults: Dispatch<SetStateAction<Subscriber[]>>;
 }
 
-const SubscriberSearch: React.FC<Props> = ({ operatorId, setResults }) => {
+const SubscriberSearch = ({ operatorId, setResults }: Props) => {
   const { t } = useTranslation();
   const [mode, setMode] = useState<'emailSearch' | 'nameSearch'>('emailSearch');
   const { results, onInputChange, isOpen, resetSearch } = useSubscriberSearch({

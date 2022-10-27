@@ -27,7 +27,7 @@ interface Props {
   onOpenUpgradeModal: (serial: string) => void;
 }
 
-const EditSubscriberDeviceModal: React.FC<Props> = ({
+const EditSubscriberDeviceModal = ({
   isOpen,
   onClose,
   subscriberDevice,
@@ -36,7 +36,7 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({
   onOpenScan,
   onOpenFactoryReset,
   onOpenUpgradeModal,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const { form, formRef } = useFormRef();
   const [editing, setEditing] = useBoolean();

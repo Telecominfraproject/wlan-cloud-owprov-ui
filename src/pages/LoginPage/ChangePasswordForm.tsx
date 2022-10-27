@@ -36,7 +36,12 @@ export interface ChangePasswordFormProps {
   setActiveForm: React.Dispatch<React.SetStateAction<LoginFormProps>>;
 }
 
-const _ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ activeForm, setActiveForm }) => {
+const _ChangePasswordForm = (
+  {
+    activeForm,
+    setActiveForm
+  }: ChangePasswordFormProps
+) => {
   const { t } = useTranslation();
   const { setToken } = useAuth();
   const titleColor = useColorModeValue('blue.300', 'white');

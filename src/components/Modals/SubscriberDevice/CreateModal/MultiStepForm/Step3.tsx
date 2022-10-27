@@ -16,7 +16,13 @@ interface Props {
   contactSuggestions: { serialNumber: string; contact: DeviceContact }[];
 }
 
-const CreateSubscriberDeviceStep3: React.FC<Props> = ({ formRef, finishStep, contactSuggestions }) => {
+const CreateSubscriberDeviceStep3 = (
+  {
+    formRef,
+    finishStep,
+    contactSuggestions
+  }: Props
+) => {
   const { t } = useTranslation();
 
   const onChange = (

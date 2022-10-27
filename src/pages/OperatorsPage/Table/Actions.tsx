@@ -33,12 +33,15 @@ interface Props {
   refreshTable: () => void;
 }
 
-const Actions: React.FC<Props> = ({
-  cell: {
-    original: { id, name, defaultOperator: isDefault },
-  },
-  refreshTable,
-}) => {
+const Actions = (
+  {
+    cell: {
+      original: { id, name, defaultOperator: isDefault },
+    },
+
+    refreshTable
+  }: Props
+) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSuccess, onError } = useMutationResult({

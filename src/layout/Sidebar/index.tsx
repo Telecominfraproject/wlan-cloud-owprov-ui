@@ -29,7 +29,7 @@ interface Props {
   toggle: () => void;
 }
 
-const Sidebar: React.FC<Props> = ({ routes, isOpen, toggle }) => {
+const Sidebar = ({ routes, isOpen, toggle }: Props) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const location = useLocation();

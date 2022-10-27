@@ -20,7 +20,7 @@ interface Props {
   venue?: Venue;
 }
 
-const VenueDeviceTableWrapper: React.FC<Props> = ({ venue = undefined }) => {
+const VenueDeviceTableWrapper = ({ venue = undefined }: Props) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [tag, setTag] = useState<Device | undefined>(undefined);

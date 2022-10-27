@@ -15,7 +15,7 @@ interface Props {
   operatorId: string;
 }
 
-const OperatorDevicesTab: React.FC<Props> = ({ operatorId }) => {
+const OperatorDevicesTab = ({ operatorId }: Props) => {
   const { refreshId, refresh } = useRefreshId();
   const { obj: subscriberDevice, openModal, isOpen, onClose } = useObjectModal();
   const [serialNumber, setSerialNumber] = useState<string>('');

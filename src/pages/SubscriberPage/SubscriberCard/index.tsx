@@ -19,7 +19,7 @@ interface Props {
   id: string;
 }
 
-const SubscriberCard: React.FC<Props> = ({ id }) => {
+const SubscriberCard = ({ id }: Props) => {
   const [editing, setEditing] = useBoolean();
   const { data: subscriber, refetch, isFetching } = useGetSubscriber({ id });
   const { form, formRef } = useFormRef();

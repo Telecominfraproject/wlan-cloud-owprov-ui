@@ -31,13 +31,15 @@ interface Props {
   venueId: string;
 }
 
-const Actions: React.FC<Props> = ({
-  cell: { original: contact },
-  refreshEntity,
-  openEditModal,
-  originalContacts,
-  venueId,
-}) => {
+const Actions = (
+  {
+    cell: { original: contact },
+    refreshEntity,
+    openEditModal,
+    originalContacts,
+    venueId
+  }: Props
+) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutateAsync: removeContactClaim, isLoading: isRemoving } = useRemoveVenueContact({

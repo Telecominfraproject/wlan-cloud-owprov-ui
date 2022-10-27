@@ -11,7 +11,7 @@ interface Props {
   venueId: string;
 }
 
-const VenueClientLifecycle: React.FC<Props> = ({ venueId }) => {
+const VenueClientLifecycle = ({ venueId }: Props) => {
   const [macs, setMacs] = useState<string[] | undefined>();
   const [mac, setMac] = useState<string | undefined>();
   const { start, end, timepickers, refreshId } = useDatePickers({ defaultStart: getHoursAgo(5 * 24) });

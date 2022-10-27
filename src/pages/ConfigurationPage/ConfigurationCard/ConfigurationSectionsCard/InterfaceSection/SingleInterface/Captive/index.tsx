@@ -4,7 +4,7 @@ import { INTERFACE_CAPTIVE_SCHEMA } from '../../interfacesConstants';
 import CaptiveForm from './Captive';
 import useFastField from 'hooks/useFastField';
 
-const Captive: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
+const Captive = ({ editing, index }: { editing: boolean; index: number }) => {
   const { t } = useTranslation();
   const { value, onChange } = useFastField({ name: `configuration[${index}].captive` });
 

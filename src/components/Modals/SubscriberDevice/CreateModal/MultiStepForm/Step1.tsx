@@ -40,7 +40,14 @@ interface Props {
   onConfigurationChange: (conf: Configuration) => void;
 }
 
-const CreateSubscriberDeviceStep1: React.FC<Props> = ({ formRef, finishStep, deviceTypes, onConfigurationChange }) => {
+const CreateSubscriberDeviceStep1 = (
+  {
+    formRef,
+    finishStep,
+    deviceTypes,
+    onConfigurationChange
+  }: Props
+) => {
   const { t } = useTranslation();
   const deviceTypeOptions = useSelectList({ values: deviceTypes, hasEmpty: true });
 

@@ -22,21 +22,23 @@ interface Props extends FieldInputProps<string | undefined | string[]> {
   w?: string | number;
 }
 
-const NumberInput: React.FC<Props> = ({
-  label,
-  value,
-  unit,
-  onChange,
-  onBlur,
-  error,
-  isError,
-  isRequired,
-  hideArrows,
-  element,
-  isDisabled,
-  w,
-  definitionKey,
-}) => {
+const NumberInput = (
+  {
+    label,
+    value,
+    unit,
+    onChange,
+    onBlur,
+    error,
+    isError,
+    isRequired,
+    hideArrows,
+    element,
+    isDisabled,
+    w,
+    definitionKey
+  }: Props
+) => {
   if (element)
     return (
       <FormControl isInvalid={isError} isRequired={isRequired} isDisabled={isDisabled}>

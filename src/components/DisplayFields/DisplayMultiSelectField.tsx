@@ -16,7 +16,16 @@ const defaultProps = {
   isRequired: false,
 };
 
-const DisplayMultiSelectField: React.FC<Props> = ({ label, value, isRequired, options, isPortal, ...props }) => {
+const DisplayMultiSelectField = (
+  {
+    label,
+    value,
+    isRequired,
+    options,
+    isPortal,
+    ...props
+  }: Props
+) => {
   const { t } = useTranslation();
 
   return (

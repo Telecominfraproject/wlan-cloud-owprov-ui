@@ -4,7 +4,15 @@ import { useGetResource } from 'hooks/Network/Resources';
 import useFastField from 'hooks/useFastField';
 
 // eslint-disable-next-line react/prop-types
-const RadioTab: React.FC<{ index: number }> = React.forwardRef(({ index, ...props }, ref) => {
+const RadioTab = React.forwardRef((
+  {
+    index,
+    ...props
+  }: {
+    index: number
+  },
+  ref
+) => {
   const { value } = useFastField({ name: `configuration[${index}]` });
   const { data: resource } = useGetResource({
     id: value?.__variableBlock,

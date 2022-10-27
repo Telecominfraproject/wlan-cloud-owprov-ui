@@ -28,7 +28,7 @@ import {
 import { Device } from 'models/Device';
 import { PageInfo, SortInfo } from 'models/Table';
 
-const InventoryTable: React.FC = () => {
+const InventoryTable = () => {
   const { t } = useTranslation();
   const [pageInfo, setPageInfo] = useState<PageInfo | undefined>(undefined);
   const [onlyUnassigned, setOnlyUnassigned] = useBoolean(false);

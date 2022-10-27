@@ -7,7 +7,11 @@ interface Props {
   setCurrentStep: (v: string) => void;
 }
 
-const GoogleAuthenticatorIntro: React.FC<Props> = ({ setCurrentStep }) => {
+const GoogleAuthenticatorIntro = (
+  {
+    setCurrentStep
+  }: Props
+) => {
   const { t } = useTranslation();
 
   const handleClick = () => setCurrentStep('qr-code');

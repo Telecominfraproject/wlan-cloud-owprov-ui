@@ -10,7 +10,11 @@ interface Props {
   subscribers: Subscriber[];
 }
 
-const SubscriberSearchDisplayTable: React.FC<Props> = ({ subscribers }) => {
+const SubscriberSearchDisplayTable = (
+  {
+    subscribers
+  }: Props
+) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 

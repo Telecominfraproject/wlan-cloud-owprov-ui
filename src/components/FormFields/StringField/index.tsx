@@ -8,7 +8,7 @@ interface Props extends FieldProps, LayoutProps {
   hideButton?: boolean;
 }
 
-const StringField: React.FC<Props> = ({
+const StringField = ({
   name,
   isDisabled = false,
   label,
@@ -19,7 +19,7 @@ const StringField: React.FC<Props> = ({
   emptyIsUndefined = false,
   definitionKey,
   ...props
-}) => {
+}: Props) => {
   const { value, error, isError, onChange, onBlur } = useFastField<string | undefined>({ name });
 
   const onFieldChange = useCallback(

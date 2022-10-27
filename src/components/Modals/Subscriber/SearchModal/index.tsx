@@ -12,7 +12,7 @@ interface Props {
   operatorId: string;
 }
 
-const SubscriberSearchModal: React.FC<Props> = ({ operatorId }) => {
+const SubscriberSearchModal = ({ operatorId }: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [results, setResults] = useState<Subscriber[]>([]);

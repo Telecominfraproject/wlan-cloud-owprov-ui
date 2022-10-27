@@ -15,7 +15,7 @@ import { useGetAnalyticsBoard } from 'hooks/Network/Analytics';
 import { useGetVenue } from 'hooks/Network/Venues';
 import useFormRef from 'hooks/useFormRef';
 
-const VenueCard: React.FC<{ id: string }> = ({ id }) => {
+const VenueCard = ({ id }: { id: string }) => {
   const { endpoints } = useAuth();
   const [editing, setEditing] = useBoolean();
   const { data: venue, refetch, isFetching } = useGetVenue({ id });

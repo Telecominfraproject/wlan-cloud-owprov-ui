@@ -26,7 +26,7 @@ interface Props {
   };
 }
 
-const InterfaceSsidRadiusResource: React.FC<Props> = ({
+const InterfaceSsidRadiusResource = ({
   isOpen,
   onClose,
   refresh,
@@ -34,7 +34,7 @@ const InterfaceSsidRadiusResource: React.FC<Props> = ({
   resource,
   isDisabled = false,
   parent,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [formKey, setFormKey] = useState(uuid());

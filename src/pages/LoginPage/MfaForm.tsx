@@ -26,7 +26,12 @@ export interface MfaFormProps {
   activeForm: LoginFormProps;
 }
 
-const _MfaForm: React.FC<MfaFormProps> = ({ activeForm, setActiveForm }) => {
+const _MfaForm = (
+  {
+    activeForm,
+    setActiveForm
+  }: MfaFormProps
+) => {
   const { t } = useTranslation();
   const { setToken } = useAuth();
   const titleColor = useColorModeValue('blue.300', 'white');

@@ -18,7 +18,13 @@ interface Props {
   locationSuggestions: { serialNumber: string; location: DeviceLocation }[];
 }
 
-const CreateSubscriberDeviceStep2: React.FC<Props> = ({ formRef, finishStep, locationSuggestions }) => {
+const CreateSubscriberDeviceStep2 = (
+  {
+    formRef,
+    finishStep,
+    locationSuggestions
+  }: Props
+) => {
   const { t } = useTranslation();
 
   const onChange = (

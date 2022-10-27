@@ -12,7 +12,13 @@ interface Props {
   isDisabled: boolean;
 }
 
-const Actions: React.FC<Props> = ({ cell: { original: contact }, claimContact, isDisabled }) => {
+const Actions = (
+  {
+    cell: { original: contact },
+    claimContact,
+    isDisabled
+  }: Props
+) => {
   const { t } = useTranslation();
   const handleOpenEdit = () => claimContact(contact.id);
 

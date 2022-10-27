@@ -16,7 +16,7 @@ interface Props extends FieldProps {
   schema: (t: (e: string) => string, useDefault?: boolean) => object;
 }
 
-const ObjectArrayFieldModal: React.FC<Props> = ({
+const ObjectArrayFieldModal = ({
   name,
   label,
   fields,
@@ -29,7 +29,7 @@ const ObjectArrayFieldModal: React.FC<Props> = ({
   emptyIsUndefined = false,
   definitionKey,
   options = {},
-}) => {
+}: Props) => {
   const { value, error, isError, onChange, onBlur } = useFastField<unknown[] | undefined>({ name });
 
   const onFieldChange = useCallback(

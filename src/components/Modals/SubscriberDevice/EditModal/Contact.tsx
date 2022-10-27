@@ -9,7 +9,11 @@ interface Props {
   editing: boolean;
 }
 
-const SubscriberDeviceContactForm: React.FC<Props> = ({ editing }) => {
+const SubscriberDeviceContactForm = (
+  {
+    editing
+  }: Props
+) => {
   const { t } = useTranslation();
 
   return (

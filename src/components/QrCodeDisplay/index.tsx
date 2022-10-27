@@ -1,7 +1,7 @@
 import React from 'react';
 import { useColorModeValue } from '@chakra-ui/react';
 
-const QrCodeDisplay: React.FC<{ path: string }> = ({ path }) => {
+const QrCodeDisplay = ({ path }: { path: string }) => {
   const pathColor = useColorModeValue('#000000', '#FFFFFF');
   const backgroundColor = useColorModeValue('#FFFFFF', 'var(--chakra-colors-blue-900)');
   return (

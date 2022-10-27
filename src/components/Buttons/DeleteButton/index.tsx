@@ -20,7 +20,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const DeleteButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, label, ml, ...props }) => {
+const DeleteButton = ({ onClick, isDisabled, isLoading, isCompact, label, ml, ...props }: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

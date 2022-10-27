@@ -18,7 +18,14 @@ interface Props {
   stopEditing: () => void;
 }
 
-const EditSubscriberForm: React.FC<Props> = ({ editing, subscriber, formRef, stopEditing }) => {
+const EditSubscriberForm = (
+  {
+    editing,
+    subscriber,
+    formRef,
+    stopEditing
+  }: Props
+) => {
   const { t } = useTranslation();
   const [formKey, setFormKey] = useState(uuid());
   const updateSubscriber = useUpdateSubscriber({ id: subscriber?.id });

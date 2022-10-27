@@ -10,7 +10,11 @@ import { ScanChannel } from 'models/Device';
 interface Props {
   channelInfo: ScanChannel;
 }
-const ResultCard: React.FC<Props> = ({ channelInfo: { channel, devices } }) => {
+const ResultCard = (
+  {
+    channelInfo: { channel, devices }
+  }: Props
+) => {
   const { t } = useTranslation();
 
   return (

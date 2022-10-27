@@ -18,7 +18,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const RefreshButton: React.FC<Props> = ({ onClick, isDisabled, isFetching, isCompact, ml, ...props }) => {
+const RefreshButton = ({ onClick, isDisabled, isFetching, isCompact, ml, ...props }: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

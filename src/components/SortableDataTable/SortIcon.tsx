@@ -12,7 +12,13 @@ const defaultProps = {
   isSortedDesc: false,
 };
 
-const SortIcon: React.FC<Props> = ({ isSorted, isSortedDesc, canSort }) => {
+const SortIcon = (
+  {
+    isSorted,
+    isSortedDesc,
+    canSort
+  }: Props
+) => {
   if (canSort) {
     if (isSorted) {
       return isSortedDesc ? <Icon pt={2} h={5} w={5} as={ArrowDown} /> : <Icon pt={2} h={5} w={5} as={ArrowUp} />;

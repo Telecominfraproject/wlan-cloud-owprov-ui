@@ -10,7 +10,7 @@ interface Props {
   id: string;
 }
 
-const SubscriberChildrenCard: React.FC<Props> = ({ id }) => {
+const SubscriberChildrenCard = ({ id }: Props) => {
   const { data: subscriber, isFetching } = useGetSubscriber({ id });
 
   return (

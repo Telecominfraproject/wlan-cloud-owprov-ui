@@ -11,7 +11,13 @@ interface Props {
   upgrade: (uri: string) => void;
   isLoading: boolean;
 }
-const FirmwareList: React.FC<Props> = ({ firmware, upgrade, isLoading }) => {
+const FirmwareList = (
+  {
+    firmware,
+    upgrade,
+    isLoading
+  }: Props
+) => {
   const { t } = useTranslation();
 
   const sortedFirmware = useMemo(() => firmware.sort((a, b) => b.created - a.created), [firmware]);

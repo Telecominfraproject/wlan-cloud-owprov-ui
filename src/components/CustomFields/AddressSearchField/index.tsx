@@ -17,7 +17,7 @@ interface Props extends LayoutProps, SpaceProps {
   isHidden?: boolean;
 }
 
-const AddressSearchField: React.FC<Props> = ({ namePrefix, isDisabled, placeholder, isHidden, ...props }) => {
+const AddressSearchField = ({ namePrefix, isDisabled, placeholder, isHidden, ...props }: Props) => {
   const { setFieldValue, validateForm } = useFormikContext();
 
   const onSelect = (v: AddressObject) => {

@@ -22,7 +22,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const SaveButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, isDirty, dirtyCheck, ...props }) => {
+const SaveButton = ({ onClick, isDisabled, isLoading, isCompact, isDirty, dirtyCheck, ...props }: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

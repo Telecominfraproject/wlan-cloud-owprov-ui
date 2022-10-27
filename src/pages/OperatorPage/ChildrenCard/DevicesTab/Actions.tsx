@@ -32,17 +32,20 @@ interface Props {
   onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
-const Actions: React.FC<Props> = ({
-  cell: {
-    original: { id, name },
-  },
-  cell: { original: subscriberDevice },
-  refreshTable,
-  openEdit,
-  onOpenScan,
-  onOpenFactoryReset,
-  onOpenUpgradeModal,
-}) => {
+const Actions = (
+  {
+    cell: {
+      original: { id, name },
+    },
+
+    cell: { original: subscriberDevice },
+    refreshTable,
+    openEdit,
+    onOpenScan,
+    onOpenFactoryReset,
+    onOpenUpgradeModal
+  }: Props
+) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSuccess, onError } = useMutationResult({

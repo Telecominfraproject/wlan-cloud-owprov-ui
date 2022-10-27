@@ -28,7 +28,11 @@ const ForgotPasswordSchema = Yup.object().shape({
 export interface ForgotPasswordFormProps {
   setActiveForm: React.Dispatch<React.SetStateAction<LoginFormProps>>;
 }
-const _ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ setActiveForm }) => {
+const _ForgotPasswordForm = (
+  {
+    setActiveForm
+  }: ForgotPasswordFormProps
+) => {
   const { t } = useTranslation();
   const { accessPolicyLink } = useApiRequirements();
   const titleColor = useColorModeValue('blue.300', 'white');

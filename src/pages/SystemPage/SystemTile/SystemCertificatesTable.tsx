@@ -12,7 +12,11 @@ const defaultProps = {
   certificates: [],
 };
 
-const SystemCertificatesTable: React.FC<Props> = ({ certificates }) => {
+const SystemCertificatesTable = (
+  {
+    certificates
+  }: Props
+) => {
   const { t } = useTranslation();
 
   const memoizedExpiry = useCallback((expiresOn: number) => compactDate(expiresOn), []);

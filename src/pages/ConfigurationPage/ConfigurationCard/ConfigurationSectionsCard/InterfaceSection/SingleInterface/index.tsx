@@ -23,7 +23,7 @@ interface Props {
   remove: (e: number) => void;
 }
 
-const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
+const SingleInterface = ({ editing, index, remove }: Props) => {
   const { t } = useTranslation();
   const { value } = useFastField({ name: `configuration[${index}].ssids` });
   const removeRadio = () => remove(index);

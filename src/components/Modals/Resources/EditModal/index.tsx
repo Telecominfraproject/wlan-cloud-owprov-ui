@@ -33,7 +33,7 @@ interface Props {
   refresh: () => void;
 }
 
-const EditResourceModal: React.FC<Props> = ({ isOpen, onClose, resource, refresh }) => {
+const EditResourceModal = ({ isOpen, onClose, resource, refresh }: Props) => {
   const { t } = useTranslation();
   const [editing, setEditing] = useBoolean();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();

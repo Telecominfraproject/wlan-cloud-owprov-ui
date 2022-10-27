@@ -22,7 +22,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const StepButton: React.FC<Props> = ({
+const StepButton = ({
   onNext,
   onSave,
   isDisabled,
@@ -32,7 +32,7 @@ const StepButton: React.FC<Props> = ({
   lastStep,
   ml,
   ...props
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

@@ -7,7 +7,7 @@ interface Props {
   isDisabled?: boolean;
   namePrefix?: string;
 }
-const DeviceRulesField: React.FC<Props> = ({ namePrefix = 'deviceRules', isDisabled }) => {
+const DeviceRulesField = ({ namePrefix = 'deviceRules', isDisabled }: Props) => {
   const { t } = useTranslation();
 
   const options = [

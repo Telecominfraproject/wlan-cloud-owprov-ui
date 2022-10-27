@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { t } from 'i18next';
 
-const BooleanCell: React.FC<{ isTrue?: boolean }> = ({ isTrue }) => {
+const BooleanCell = ({ isTrue }: { isTrue?: boolean }) => {
   const data = useMemo(() => {
     if (isTrue === undefined) return '-';
 

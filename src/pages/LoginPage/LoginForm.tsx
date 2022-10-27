@@ -36,7 +36,11 @@ export interface _LoginFormProps {
   setActiveForm: React.Dispatch<React.SetStateAction<LoginFormProps>>;
 }
 
-const _LoginForm: React.FC<_LoginFormProps> = ({ setActiveForm }) => {
+const _LoginForm = (
+  {
+    setActiveForm
+  }: _LoginFormProps
+) => {
   const { t } = useTranslation();
   const { setToken } = useAuth();
   const { accessPolicyLink, passwordPolicyLink } = useApiRequirements();

@@ -30,7 +30,12 @@ const defaultProps = {
   isDisabled: false,
 };
 
-const DeletePopover: React.FC<Props> = ({ subscriber, isDisabled }) => {
+const DeletePopover = (
+  {
+    subscriber,
+    isDisabled
+  }: Props
+) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const queryClient = useQueryClient();

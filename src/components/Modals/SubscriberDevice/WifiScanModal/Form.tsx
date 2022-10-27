@@ -19,7 +19,13 @@ interface Props {
   formRef: React.Ref<FormikProps<Record<string, unknown>>> | undefined;
 }
 
-const WifiScanForm: React.FC<Props> = ({ modalProps: { isOpen }, submit, formRef }) => {
+const WifiScanForm = (
+  {
+    modalProps: { isOpen },
+    submit,
+    formRef
+  }: Props
+) => {
   const { t } = useTranslation();
   const [formKey, setFormKey] = useState(uuid());
 

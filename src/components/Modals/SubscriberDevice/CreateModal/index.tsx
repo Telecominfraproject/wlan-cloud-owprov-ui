@@ -32,7 +32,7 @@ const defaultProps = {
   subscriberId: '',
 };
 
-const CreateSubscriberDeviceModal: React.FC<Props> = ({ refresh, operatorId, subscriberId, devices }) => {
+const CreateSubscriberDeviceModal = ({ refresh, operatorId, subscriberId, devices }: Props) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { isLoaded, deviceTypes, serviceClasses, subscribers } = useOperatorChildren({

@@ -19,14 +19,14 @@ export interface PortRangeFieldProps extends FieldProps, LayoutProps {
 type Values = { mode: 'single'; inputValue?: number } | { mode: 'range'; inputValue: [number, number] };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const _PortRangeField: React.FC<PortRangeFieldProps> = ({
+const _PortRangeField = ({
   name,
   isDisabled = false,
   label,
   isRequired = false,
   definitionKey,
   ...props
-}) => {
+}: PortRangeFieldProps) => {
   const { value, error, isError, onChange } = useFastField<string | number | undefined>({ name });
 
   const values = useMemo((): Values => {

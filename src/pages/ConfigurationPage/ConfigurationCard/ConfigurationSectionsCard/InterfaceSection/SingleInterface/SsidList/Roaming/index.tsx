@@ -4,7 +4,7 @@ import { INTERFACE_SSID_ROAMING_SCHEMA } from '../../../interfacesConstants';
 import RoamingForm from './Roaming';
 import useFastField from 'hooks/useFastField';
 
-const Roaming: React.FC<{ editing: boolean; namePrefix: string }> = ({ editing, namePrefix }) => {
+const Roaming = ({ editing, namePrefix }: { editing: boolean; namePrefix: string }) => {
   const { t } = useTranslation();
   const { value, onChange } = useFastField({ name: namePrefix });
 

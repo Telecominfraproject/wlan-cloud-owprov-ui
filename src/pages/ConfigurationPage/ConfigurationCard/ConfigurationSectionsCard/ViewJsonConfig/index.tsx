@@ -34,7 +34,7 @@ interface Props {
   isDisabled?: boolean;
 }
 
-const ViewJsonConfigModal: React.FC<Props> = ({ configurations, activeConfigurations, isDisabled }) => {
+const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled }: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const interfaces = useInterfacesJsonDisplay({ interfaces: configurations.interfaces?.configuration, isOpen });

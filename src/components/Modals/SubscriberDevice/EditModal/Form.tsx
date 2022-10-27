@@ -40,17 +40,19 @@ const defaultProps = {
   defaultConfiguration: undefined,
 };
 
-const EditSubscriberDeviceForm: React.FC<Props> = ({
-  editing,
-  modalProps: { isOpen, onClose },
-  refresh,
-  subscriberDevice,
-  externalData,
-  formRef,
-  configuration,
-  onConfigurationChange,
-  defaultConfiguration,
-}) => {
+const EditSubscriberDeviceForm = (
+  {
+    editing,
+    modalProps: { isOpen, onClose },
+    refresh,
+    subscriberDevice,
+    externalData,
+    formRef,
+    configuration,
+    onConfigurationChange,
+    defaultConfiguration
+  }: Props
+) => {
   const { t } = useTranslation();
   const { onSuccess, onError } = useMutationResult({
     objName: t('devices.one'),

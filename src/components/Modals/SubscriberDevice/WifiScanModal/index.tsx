@@ -21,7 +21,7 @@ interface Props {
   serialNumber: string;
 }
 
-const WifiScanModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, serialNumber }) => {
+const WifiScanModal = ({ modalProps: { isOpen, onClose }, serialNumber }: Props) => {
   const { t } = useTranslation();
   const { form, formRef } = useFormRef();
   const [csvData, setCsvData] = useState<DeviceScanResult[] | undefined>(undefined);

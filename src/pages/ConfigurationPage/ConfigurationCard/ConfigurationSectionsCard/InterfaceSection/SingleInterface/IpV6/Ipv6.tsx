@@ -11,14 +11,23 @@ import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import ArrayCell from 'components/TableCells/ArrayCell';
 
-const IpV6: React.FC<{
-  editing: boolean;
-  index: number;
-  ipv6: string;
-  role: string;
-  onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}> = ({ editing, index, ipv6, role, onToggle, onChange }) => {
+const IpV6 = (
+  {
+    editing,
+    index,
+    ipv6,
+    role,
+    onToggle,
+    onChange
+  }: {
+    editing: boolean
+    index: number
+    ipv6: string
+    role: string
+    onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  }
+) => {
   const arrCell = useCallback((cell, key) => <ArrayCell arr={cell.row.values[key]} key={uuid()} />, []);
 
   const portFields = useMemo(

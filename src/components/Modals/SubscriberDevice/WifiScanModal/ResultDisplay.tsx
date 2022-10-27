@@ -11,7 +11,12 @@ interface Props {
   setCsvData: (data: DeviceScanResult[]) => void;
 }
 
-const WifiScanResultDisplay: React.FC<Props> = ({ results, setCsvData }) => {
+const WifiScanResultDisplay = (
+  {
+    results,
+    setCsvData
+  }: Props
+) => {
   const { t } = useTranslation();
 
   const scanResults = useMemo(() => {

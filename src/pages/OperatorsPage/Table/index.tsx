@@ -16,7 +16,7 @@ import { useGetOperatorCount, useGetOperators } from 'hooks/Network/Operators';
 import useControlledTable from 'hooks/useControlledTable';
 import { Column } from 'models/Table';
 
-const OperatorsTable: React.FC = () => {
+const OperatorsTable = () => {
   const { t } = useTranslation();
   const {
     count,

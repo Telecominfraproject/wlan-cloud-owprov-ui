@@ -11,7 +11,7 @@ interface LoginPageProps {
   darkLogo: string;
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ lightLogo, darkLogo }) => {
+const LoginPage = ({ lightLogo, darkLogo }: LoginPageProps) => {
   const [activeForm, setActiveForm] = useState<LoginFormProps>({ form: 'login' });
   const { colorMode } = useColorMode();
   const loginBg = useColorModeValue('gray.100', 'gray.700');

@@ -26,7 +26,7 @@ const defaultProps = {
   minHeight: undefined,
 };
 
-const SubscriberDeviceTable: React.FC<Props> = ({
+const SubscriberDeviceTable = ({
   actions,
   operatorId,
   subscriberId = '',
@@ -35,7 +35,7 @@ const SubscriberDeviceTable: React.FC<Props> = ({
   refreshId,
   disabledIds,
   minHeight,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const { data: subscriberDevices, isFetching, refetch } = useGetSubscriberDevices({ operatorId, subscriberId });
 

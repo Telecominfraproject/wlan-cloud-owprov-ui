@@ -16,7 +16,14 @@ interface Props {
   onToggle: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PassPointForm: React.FC<Props> = ({ isDisabled, namePrefix, isEnabled, onToggle }) => {
+const PassPointForm = (
+  {
+    isDisabled,
+    namePrefix,
+    isEnabled,
+    onToggle
+  }: Props
+) => {
   const name = React.useCallback((suffix: string) => `${namePrefix}.${suffix}`, []);
 
   const fieldProps = (suffix: string) => ({

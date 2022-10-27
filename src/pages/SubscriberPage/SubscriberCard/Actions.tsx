@@ -12,7 +12,13 @@ interface Props {
   isDisabled?: boolean;
 }
 
-const SubscriberActions: React.FC<Props> = ({ subscriber, refresh, isDisabled }) => {
+const SubscriberActions = (
+  {
+    subscriber,
+    refresh,
+    isDisabled
+  }: Props
+) => {
   const { t } = useTranslation();
   const { mutateAsync: suspend } = useSuspendSubscriber({ id: subscriber?.id ?? '' });
   const { mutateAsync: resetPassword } = useSendEmailResetSubscriber({ id: subscriber?.id ?? '' });

@@ -15,7 +15,14 @@ interface Props {
   toggleSidebar: () => void;
 }
 
-const EntityNavButton: React.FC<Props> = ({ activeRoute, route, role, toggleSidebar }) => {
+const EntityNavButton = (
+  {
+    activeRoute,
+    route,
+    role,
+    toggleSidebar
+  }: Props
+) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const activeArrowColor = useColorModeValue('var(--chakra-colors-gray-700)', 'white');

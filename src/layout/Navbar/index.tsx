@@ -31,7 +31,7 @@ interface Props {
   toggleSidebar: () => void;
 }
 
-const Navbar: React.FC<Props> = ({ secondary, toggleSidebar, isSidebarOpen }) => {
+const Navbar = ({ secondary, toggleSidebar, isSidebarOpen }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();

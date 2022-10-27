@@ -18,15 +18,7 @@ const defaultProps = {
   isStringFile: false,
 };
 
-const FileInputButton: React.FC<Props> = ({
-  value,
-  setValue,
-  setFileName,
-  refreshId,
-  accept,
-  isHidden,
-  isStringFile,
-}) => {
+const FileInputButton = ({ value, setValue, setFileName, refreshId, accept, isHidden, isStringFile }: Props) => {
   const [fileKey, setFileKey] = useState(uuid());
   let fileReader: FileReader | undefined;
 

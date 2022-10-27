@@ -16,7 +16,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const CloseButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, ml, ...props }) => {
+const CloseButton = ({ onClick, isDisabled, isLoading, ml, ...props }: Props) => {
   const { t } = useTranslation();
 
   return (

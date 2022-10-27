@@ -27,7 +27,7 @@ interface Props {
   serialNumber: string;
 }
 
-const FirmwareUpgradeModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, serialNumber }) => {
+const FirmwareUpgradeModal = ({ modalProps: { isOpen, onClose }, serialNumber }: Props) => {
   const { t } = useTranslation();
   const [isRedirector, { toggle }] = useBoolean(false);
   const { data: device, isFetching: isFetchingDevice } = useGetDevice({ serialNumber, onClose });

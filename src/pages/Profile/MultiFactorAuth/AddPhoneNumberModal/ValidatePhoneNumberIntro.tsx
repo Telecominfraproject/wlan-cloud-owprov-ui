@@ -4,7 +4,13 @@ import { Button, Center, FormControl, FormErrorMessage, Input, Text } from '@cha
 import { parsePhoneNumber, AsYouType } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 
-const ValidatePhoneNumberIntro: React.FC<{ nextStep: (phone: string) => void }> = ({ nextStep }) => {
+const ValidatePhoneNumberIntro = (
+  {
+    nextStep
+  }: {
+    nextStep: (phone: string) => void
+  }
+) => {
   const { t } = useTranslation();
   const [temp, setTemp] = useState<string>('');
 

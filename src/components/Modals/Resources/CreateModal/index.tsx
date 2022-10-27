@@ -30,7 +30,7 @@ interface Props {
   isVenue?: boolean;
 }
 
-const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = false }) => {
+const CreateResourceModal = ({ refresh, entityId, isVenue = false }: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedVariable, setSelectedVariable] = useState('interface.ssid');

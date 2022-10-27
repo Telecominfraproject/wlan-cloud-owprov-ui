@@ -9,7 +9,7 @@ interface Props {
   isDisabled?: boolean;
 }
 
-const DeviceSearchBar: React.FC<Props> = ({ onClick, isDisabled }) => {
+const DeviceSearchBar = ({ onClick, isDisabled }: Props) => {
   const { t } = useTranslation();
   const { inputValue, results, onInputChange, isOpen, resetSearch } = useProviderDeviceSearch({
     minLength: 2,

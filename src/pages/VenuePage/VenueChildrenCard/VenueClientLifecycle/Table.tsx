@@ -19,15 +19,25 @@ import {
 import useControlledTable from 'hooks/useControlledTable';
 import { Column, SortInfo } from 'models/Table';
 
-const ClientLifecyleTable: React.FC<{
-  venueId: string;
-  mac?: string;
-  fromDate: number;
-  endDate: number;
-  refreshId: number;
-  timePickers: React.ReactNode;
-  searchBar: React.ReactNode;
-}> = ({ venueId, mac, fromDate, endDate, refreshId, timePickers, searchBar }) => {
+const ClientLifecyleTable = (
+  {
+    venueId,
+    mac,
+    fromDate,
+    endDate,
+    refreshId,
+    timePickers,
+    searchBar
+  }: {
+    venueId: string
+    mac?: string
+    fromDate: number
+    endDate: number
+    refreshId: number
+    timePickers: React.ReactNode
+    searchBar: React.ReactNode
+  }
+) => {
   const { t } = useTranslation();
   const [sortInfo, setSortInfo] = useState<SortInfo>([{ id: 'timestamp', sort: 'dsc' }]);
   const {

@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import VlanForm from './Vlan';
 import useFastField from 'hooks/useFastField';
 
-const Vlan: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
+const Vlan = ({ editing, index }: { editing: boolean; index: number }) => {
   const { value, onChange } = useFastField({ name: `configuration[${index}].vlan` });
 
   const { isActive, isUsingCustom, variableBlock } = useMemo(

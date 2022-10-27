@@ -110,7 +110,14 @@ interface Props {
   children: React.ReactNode;
   toggleSidebar: () => void;
 }
-const EntityPopover: React.FC<Props> = ({ isOpen, onClose, children, toggleSidebar }) => {
+const EntityPopover = (
+  {
+    isOpen,
+    onClose,
+    children,
+    toggleSidebar
+  }: Props
+) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const breakpoint = useBreakpoint();

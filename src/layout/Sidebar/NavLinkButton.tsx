@@ -14,7 +14,13 @@ interface Props {
   role: string;
 }
 
-const NavLinkButton: React.FC<Props> = ({ activeRoute, route, role }) => {
+const NavLinkButton = (
+  {
+    activeRoute,
+    route,
+    role
+  }: Props
+) => {
   const { t } = useTranslation();
   const activeTextColor = useColorModeValue('gray.700', 'white');
   const inactiveTextColor = useColorModeValue('gray.600', 'gray.200');

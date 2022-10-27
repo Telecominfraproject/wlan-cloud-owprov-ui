@@ -15,7 +15,7 @@ interface Props {
   onAssignContact: (contactId: string) => void;
 }
 
-const UseExistingContactModal: React.FC<Props> = ({ onAssignContact, venue }) => {
+const UseExistingContactModal = ({ onAssignContact, venue }: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: entity } = useGetEntity({ id: venue.entity });

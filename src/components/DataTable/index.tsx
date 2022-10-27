@@ -61,7 +61,7 @@ const defaultProps = {
   saveSettingsId: undefined,
 };
 
-const DataTable: React.FC<Props> = ({
+const DataTable = ({
   columns,
   data,
   isLoading,
@@ -75,7 +75,7 @@ const DataTable: React.FC<Props> = ({
   setPageInfo,
   isManual,
   saveSettingsId,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
   const textColor = useColorModeValue('gray.700', 'white');

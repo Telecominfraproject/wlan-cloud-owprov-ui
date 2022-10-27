@@ -7,11 +7,15 @@ import ValidatePhoneNumberTests from './ValidatePhoneNumberTests';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
 
-const AddPhoneNumberModal: React.FC<{
+const AddPhoneNumberModal = ({
+  isOpen,
+  onClose,
+  onSuccess,
+}: {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: (phone: string) => void;
-}> = ({ isOpen, onClose, onSuccess }) => {
+}) => {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState<'intro' | 'test' | 'success'>('intro');
   const [phoneNumber, setPhoneNumber] = useState<string>('');

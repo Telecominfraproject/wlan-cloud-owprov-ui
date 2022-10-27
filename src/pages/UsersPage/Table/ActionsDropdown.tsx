@@ -13,7 +13,14 @@ interface Props {
   refresh: () => void;
 }
 
-const UserActions: React.FC<Props> = ({ id, isSuspended, isWaitingForCheck, refresh }) => {
+const UserActions = (
+  {
+    id,
+    isSuspended,
+    isWaitingForCheck,
+    refresh
+  }: Props
+) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { mutateAsync: sendValidation } = useSendUserEmailValidation({ id, refresh });

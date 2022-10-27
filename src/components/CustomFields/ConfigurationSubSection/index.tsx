@@ -8,7 +8,7 @@ interface Props extends FieldProps {
   fieldsToDestroy?: string[];
 }
 
-const ConfigurationSubSectionToggle: React.FC<Props> = ({
+const ConfigurationSubSectionToggle = ({
   name,
   isDisabled = false,
   label,
@@ -16,7 +16,7 @@ const ConfigurationSubSectionToggle: React.FC<Props> = ({
   isRequired = false,
   definitionKey,
   fieldsToDestroy,
-}) => {
+}: Props) => {
   const { value, error, isError, onChange, onBlur, setFieldValue } = useFastField<object | undefined>({ name });
 
   const onValueChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

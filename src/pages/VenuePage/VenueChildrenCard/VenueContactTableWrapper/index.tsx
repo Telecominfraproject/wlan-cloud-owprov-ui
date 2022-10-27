@@ -15,7 +15,7 @@ interface Props {
   venue?: Venue;
 }
 
-const VenueContactTableWrapper: React.FC<Props> = ({ venue }) => {
+const VenueContactTableWrapper = ({ venue }: Props) => {
   const queryClient = useQueryClient();
   const [contact, setContact] = useState<Contact | undefined>(undefined);
   const [refreshId, setRefreshId] = useState(0);

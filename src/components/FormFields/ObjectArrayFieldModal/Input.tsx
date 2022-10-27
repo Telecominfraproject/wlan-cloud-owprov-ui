@@ -41,22 +41,24 @@ interface Props extends FieldInputProps<object[]> {
   schema: (t: (e: string) => string, useDefault?: boolean) => object;
 }
 
-const ObjectArrayFieldInput: React.FC<Props> = ({
-  name,
-  label,
-  value,
-  onChange,
-  isError,
-  error,
-  fields,
-  isRequired,
-  isHidden,
-  schema,
-  columns,
-  isDisabled,
-  hideLabel,
-  options,
-}) => {
+const ObjectArrayFieldInput = (
+  {
+    name,
+    label,
+    value,
+    onChange,
+    isError,
+    error,
+    fields,
+    isRequired,
+    isHidden,
+    schema,
+    columns,
+    isDisabled,
+    hideLabel,
+    options
+  }: Props
+) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tempValue, setTempValue] = useState<object[]>([]);

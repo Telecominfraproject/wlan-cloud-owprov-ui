@@ -3,7 +3,13 @@ import { ArrowRightIcon } from '@chakra-ui/icons';
 import { Alert, Button, Center } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
-const ValidatePhoneNumberSuccess: React.FC<{ nextStep: () => void }> = ({ nextStep }) => {
+const ValidatePhoneNumberSuccess = (
+  {
+    nextStep
+  }: {
+    nextStep: () => void
+  }
+) => {
   const { t } = useTranslation();
 
   const handleClick = () => nextStep();

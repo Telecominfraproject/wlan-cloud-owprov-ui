@@ -13,7 +13,15 @@ import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
 import useFastField from 'hooks/useFastField';
 
-const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ editing, namePrefix }) => {
+const AdvancedSettings = (
+  {
+    editing,
+    namePrefix
+  }: {
+    editing: boolean
+    namePrefix: string
+  }
+) => {
   const { t } = useTranslation();
   const { value: proto } = useFastField({ name: `${namePrefix}.encryption.proto` });
 

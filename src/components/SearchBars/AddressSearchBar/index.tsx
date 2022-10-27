@@ -12,7 +12,7 @@ interface Props {
   placeholder?: string;
 }
 
-const AddressSearchBar: React.FC<Props> = ({ onSelect, isDisabled, placeholder = '' }) => {
+const AddressSearchBar = ({ onSelect, isDisabled, placeholder = '' }: Props) => {
   const { t } = useTranslation();
   const { inputValue, results, onInputChange, isOpen, resetSearch } = useLocationSearch({});
 

@@ -19,7 +19,7 @@ interface Props extends FieldProps {
   conversionFactor?: number;
 }
 
-const NumberField: React.FC<Props> = ({
+const NumberField = ({
   name,
   unit,
   isDisabled = false,
@@ -30,7 +30,7 @@ const NumberField: React.FC<Props> = ({
   acceptEmptyValue = false,
   definitionKey,
   conversionFactor,
-}) => {
+}: Props) => {
   const { value, error, isError, onChange, onBlur } = useFastField<number | string | undefined>({
     name,
   });
