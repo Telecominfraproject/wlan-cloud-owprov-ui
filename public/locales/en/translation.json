@@ -678,6 +678,7 @@
 		"invalid_hostname": "Invalid hostname: it needs to be composed of alphanumeric characters and dashes only",
 		"invalid_icon_lang": "Invalid language, it should be in a 3-letter format (eng, fre, ger, ita, etc.)",
 		"invalid_ieee": "For this encryption protocol,  ieee80211w needs to be either 'optional' or 'required'",
+		"invalid_ieee_required": "ieee80211w needs to be 'required' for this encryption protocol",
 		"invalid_interfaces": "Invalid Interfaces JSON string. Please confirm that your value is: valid JSON and has interfaces as its only key and that the interfaces value is an array. Example: {\"interfaces\": []}",
 		"invalid_ipv4": "Invalid IPv4 address (ex.: 192.168.0.1 or 192.168.0.1/16",
 		"invalid_ipv6": "Invalid IPv6 address (ex.: 2001:db8:3333:4444:5555:6666:7777:8888)",

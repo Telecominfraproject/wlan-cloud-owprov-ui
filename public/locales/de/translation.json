@@ -678,6 +678,7 @@
 		"invalid_hostname": "Ungültiger Hostname: Er darf nur aus alphanumerischen Zeichen und Bindestrichen bestehen",
 		"invalid_icon_lang": "Ungültige Sprache, sollte aus 3 Buchstaben bestehen (eng, fre, ger, ita usw.)",
 		"invalid_ieee": "Für dieses Verschlüsselungsprotokoll muss ieee80211w entweder „optional“ oder „erforderlich“ sein.",
+		"invalid_ieee_required": "ieee80211w muss für dieses Verschlüsselungsprotokoll „erforderlich“ sein",
 		"invalid_interfaces": "Ungültige Schnittstellen-JSON-Zeichenfolge. Bitte bestätigen Sie, dass Ihr Wert gültiges JSON ist und Schnittstellen als einzigen Schlüssel hat und dass der Schnittstellenwert ein Array ist. Beispiel: {\"interfaces\": []}",
 		"invalid_ipv4": "Ungültige IPv4-Adresse (Bsp.: 192.168.0.1 oder 192.168.0.1/16",
 		"invalid_ipv6": "Ungültige IPv6-Adresse (Bsp.: 2001:db8:3333:4444:5555:6666:7777:8888)",

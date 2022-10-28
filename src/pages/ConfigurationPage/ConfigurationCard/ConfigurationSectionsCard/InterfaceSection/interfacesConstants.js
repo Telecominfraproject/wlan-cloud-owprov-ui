@@ -300,7 +300,15 @@ export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (t, useDefault = false) => {
         .default('psk'),
       ieee80211w: string()
         .test('encryptionIeeeTest', t('form.invalid_ieee'), (v, { from }) => {
-          if ((from[0].value.proto === 'owe' || from[0].value.proto === 'owe-transition') && v === 'disabled') {
+          const { proto } = from[0].value;
+          if ((proto === 'owe' || proto === 'owe-transition') && v === 'disabled') {
+            return false;
+          }
+          return true;
+        })
+        .test('encryptionRequiredIeee', t('form.invalid_ieee_required'), (v, { from }) => {
+          const { proto } = from[0].value;
+          if ((proto === 'wpa3' || proto === 'wpa3-192' || proto === 'wpa3-mixed') && v !== 'required') {
             return false;
           }
           return true;
