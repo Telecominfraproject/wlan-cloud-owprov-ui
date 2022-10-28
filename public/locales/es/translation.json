@@ -678,6 +678,7 @@
 		"invalid_hostname": "Nombre de host no válido: debe estar compuesto solo de caracteres alfanuméricos y guiones",
 		"invalid_icon_lang": "Idioma no válido, debe estar en un formato de 3 letras (eng, fre, ger, ita, etc.)",
 		"invalid_ieee": "Para este protocolo de encriptación, ieee80211w debe ser 'opcional' u 'requerido'",
+		"invalid_ieee_required": "ieee80211w debe ser 'requerido' para este protocolo de encriptación",
 		"invalid_interfaces": "Cadena JSON de interfaces no válida. Confirme que su valor es: JSON válido y tiene interfaces como su única clave y que el valor de las interfaces es una matriz. Ejemplo: {\"interfaces\": []}",
 		"invalid_ipv4": "Dirección IPv4 no válida (ej.: 192.168.0.1 o 192.168.0.1/16",
 		"invalid_ipv6": "Dirección IPv6 no válida (ej.: 2001:db8:3333:4444:5555:6666:7777:8888)",
