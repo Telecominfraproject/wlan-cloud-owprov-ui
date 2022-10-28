@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint, LayoutProps, SpaceProps } from '@chakra-ui/react';
 import { Plus } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props extends LayoutProps, SpaceProps {
   onClick?: () => void;
@@ -19,7 +19,7 @@ const defaultProps = {
   label: undefined,
 };
 
-const CreateButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }) => {
+const CreateButton = ({ onClick, isDisabled, isLoading, isCompact, label, ...props }: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

@@ -6,8 +6,8 @@ import FastCreatableSelectInput from 'components/FormFields/CreatableSelectField
 import NumberInput from 'components/FormFields/NumberField/NumberInput';
 import FastSelectInput from 'components/FormFields/SelectField/FastSelectInput';
 import FastToggleInput from 'components/FormFields/ToggleField/FastToggleInput';
-import { useGetResource } from 'hooks/Network/Resources';
 import COUNTRY_LIST from 'constants/countryList';
+import { useGetResource } from 'hooks/Network/Resources';
 
 const propTypes = {
   variableBlockId: PropTypes.string.isRequired,

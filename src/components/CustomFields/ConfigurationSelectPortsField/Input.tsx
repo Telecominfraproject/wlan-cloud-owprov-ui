@@ -17,7 +17,17 @@ interface Props {
 export const WAN_OPTIONS = ['WAN1', 'WAN2', 'WAN3', 'WAN4'];
 const lanOptions = ['LAN1', 'LAN2', 'LAN3', 'LAN4', 'LAN5', 'LAN6', 'LAN7', 'LAN8', 'LAN9', 'LAN10', 'LAN11', 'LAN12'];
 
-const MultiSelectInput: React.FC<Props> = ({ value, onChange, onBlur, options, error, isError, isDisabled }) => {
+const MultiSelectInput = (
+  {
+    value,
+    onChange,
+    onBlur,
+    options,
+    error,
+    isError,
+    isDisabled
+  }: Props
+) => {
   const { t } = useTranslation();
 
   const onValueChange = useCallback(

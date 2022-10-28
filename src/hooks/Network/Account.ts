@@ -1,16 +1,16 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useToast } from '@chakra-ui/react';
-import { AxiosError } from 'axios';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import { AxiosError } from 'models/Axios';
+import { Note } from 'models/Note';
 import { Preference } from 'models/Preference';
 import { User } from 'models/User';
-import { Dispatch, SetStateAction } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { axiosSec } from 'utils/axiosInstances';
 
 export const useUpdatePreferences = () => {
   const queryClient = useQueryClient();
-
   return useMutation((newPreferences: Preference[]) => axiosSec.put(`preferences`, { data: newPreferences }), {
     onSuccess: ({ data: { data: preferences } }: { data: { data: Preference[] } }) => {
       queryClient.setQueryData(['get-user-preferences'], preferences);
@@ -124,21 +124,39 @@ export const useVerifyCode = ({ phoneNumber }: { phoneNumber: string }) =>
     }),
   );
 
-export const useUpdateAccount = ({ user }: { user: User }) => {
+export const useUpdateAccount = ({ user }: { user?: User }) => {
   const queryClient = useQueryClient();
 
-  return useMutation((userInfo) => axiosSec.put(`user/${user.id}`, userInfo), {
-    onSuccess: (data) => {
-      const newUser = {
-        ...user,
-        name: data.data.name,
-        description: data.data.description,
-        notes: data.data.notes,
-        userTypeProprietaryInfo: data.data.userTypeProprietaryInfo,
+  return useMutation(
+    (userInfo: {
+      id?: string;
+      name?: string;
+      description?: string;
+      currentPassword?: string;
+      userTypeProprietaryInfo?: {
+        authenticatorSecret?: string;
+        mfa?: {
+          enabled?: boolean;
+          method?: 'authenticator' | 'sms' | 'email' | '';
+        };
+        mobiles?: { number: string }[];
       };
-      queryClient.setQueryData(['get-user-profile'], newUser);
+      notes?: Note[];
+    }) => axiosSec.put(`user/${user?.id ?? userInfo?.id}`, userInfo),
+    {
+      onSuccess: (data) => {
+        const newUser = {
+          ...user,
+          ...data.data,
+          name: data.data.name,
+          description: data.data.description,
+          notes: data.data.notes,
+          userTypeProprietaryInfo: data.data.userTypeProprietaryInfo,
+        };
+        queryClient.setQueryData(['get-user-profile'], newUser);
+      },
     },
-  });
+  );
 };
 
 export const useDeleteAvatar = ({ user, refetch }: { user: User; refetch?: () => void }) =>
@@ -148,14 +166,14 @@ export const useDeleteAvatar = ({ user, refetch }: { user: User; refetch?: () =>
     },
   });
 
-const addAvatar = (userId: string, avatarFile: string) => {
+const addAvatar = (userId: string, avatarFile: File) => {
   const data = new FormData();
   data.append('file', avatarFile);
   return axiosSec.post(`/avatar/${userId}`, data);
 };
 
 export const useUpdateAvatar = ({ user, refetch }: { user: User; refetch?: () => void }) =>
-  useMutation((newAvatar: string) => addAvatar(user.id, newAvatar), {
+  useMutation((newAvatar: File) => addAvatar(user.id, newAvatar), {
     onSuccess: () => {
       if (refetch) refetch();
     },

@@ -1,6 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { ModalProps } from 'models/Modal';
 import {
   Modal,
   ModalOverlay,
@@ -14,20 +12,22 @@ import {
   Switch,
   Heading,
 } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
+import { useTranslation } from 'react-i18next';
+import FirmwareList from './FirmwareList';
 import CloseButton from 'components/Buttons/CloseButton';
 import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand';
-import useCommandModal from 'hooks/useCommandModal';
-import { useGetDevice } from 'hooks/Network/GatewayDevices';
+import ModalHeader from 'components/Modals/ModalHeader';
 import { useGetAvailableFirmware, useUpdateDeviceFirmware } from 'hooks/Network/Firmware';
-import FirmwareList from './FirmwareList';
+import { useGetDevice } from 'hooks/Network/GatewayDevices';
+import useCommandModal from 'hooks/useCommandModal';
+import { ModalProps } from 'models/Modal';
 
 interface Props {
   modalProps: ModalProps;
   serialNumber: string;
 }
 
-const FirmwareUpgradeModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, serialNumber }) => {
+const FirmwareUpgradeModal = ({ modalProps: { isOpen, onClose }, serialNumber }: Props) => {
   const { t } = useTranslation();
   const [isRedirector, { toggle }] = useBoolean(false);
   const { data: device, isFetching: isFetchingDevice } = useGetDevice({ serialNumber, onClose });

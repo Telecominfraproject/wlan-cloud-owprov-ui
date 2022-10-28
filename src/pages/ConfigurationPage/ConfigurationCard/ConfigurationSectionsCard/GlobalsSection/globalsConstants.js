@@ -1,5 +1,5 @@
-import { testIpv4, testIpv6 } from 'constants/formTests';
 import { object, number, string } from 'yup';
+import { testIpv4, testIpv6 } from 'constants/formTests';
 
 export const DEFAULT_GLOBALS = {
   name: 'Globals',

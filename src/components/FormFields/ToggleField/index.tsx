@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
+import Field from './FastToggleInput';
 import useFastField from 'hooks/useFastField';
 import { FieldProps } from 'models/Form';
-import Field from './FastToggleInput';
 
 interface Props extends FieldProps {
   falseIsUndefined?: boolean;
@@ -9,7 +9,7 @@ interface Props extends FieldProps {
   defaultValue?: boolean;
 }
 
-const ToggleField: React.FC<Props> = ({
+const ToggleField = ({
   name,
   isDisabled = false,
   label,
@@ -19,7 +19,7 @@ const ToggleField: React.FC<Props> = ({
   falseIsUndefined,
   definitionKey,
   onChangeCallback,
-}) => {
+}: Props) => {
   const { value, error, isError, onChange, onBlur } = useFastField<boolean | undefined>({ name });
 
   const onValueChange = useCallback(

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Flex,
   IconButton,
@@ -18,11 +17,12 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, Trash } from 'phosphor-react';
-import useMutationResult from 'hooks/useMutationResult';
-import { useDeleteSubscriberDevice } from 'hooks/Network/SubscriberDevices';
-import { DeviceCell } from 'models/Table';
-import { Device } from 'models/Device';
+import { useTranslation } from 'react-i18next';
 import DeviceActionDropdown from 'components/TableCells/DeviceActionDropdown';
+import { useDeleteSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import useMutationResult from 'hooks/useMutationResult';
+import { Device } from 'models/Device';
+import { DeviceCell } from 'models/Table';
 
 interface Props {
   cell: DeviceCell;
@@ -33,17 +33,18 @@ interface Props {
   onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
-const Actions: React.FC<Props> = ({
+const Actions = ({
   cell: {
     original: { id, name },
   },
+
   cell: { original: subscriberDevice },
   refreshTable,
   openEdit,
   onOpenScan,
   onOpenFactoryReset,
   onOpenUpgradeModal,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSuccess, onError } = useMutationResult({

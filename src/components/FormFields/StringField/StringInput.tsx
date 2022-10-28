@@ -11,8 +11,8 @@ import {
   useBoolean,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { FieldInputProps } from 'models/Form';
 import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
+import { FieldInputProps } from 'models/Form';
 
 interface Props extends FieldInputProps<string | undefined | string[]> {
   isError: boolean;
@@ -21,21 +21,23 @@ interface Props extends FieldInputProps<string | undefined | string[]> {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
 }
 
-const StringInput: React.FC<Props> = ({
-  label,
-  value,
-  onChange,
-  onBlur,
-  isError,
-  error,
-  hideButton,
-  isRequired,
-  element,
-  isArea,
-  isDisabled,
-  definitionKey,
-  ...props
-}) => {
+const StringInput = (
+  {
+    label,
+    value,
+    onChange,
+    onBlur,
+    isError,
+    error,
+    hideButton,
+    isRequired,
+    element,
+    isArea,
+    isDisabled,
+    definitionKey,
+    ...props
+  }: Props
+) => {
   const { t } = useTranslation();
   const [show, setShow] = useBoolean();
 

@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Formik, Form, FormikProps } from 'formik';
 import { Heading, SimpleGrid } from '@chakra-ui/react';
+import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import StringField from 'components/FormFields/StringField';
+import * as Yup from 'yup';
 import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import { testObjectName } from 'constants/formTests';
 import useSelectList from 'hooks/useSelectList';
 import { ServiceClass } from 'models/ServiceClass';
 import { Subscriber } from 'models/Subscriber';
-import * as Yup from 'yup';
-import { testObjectName } from 'constants/formTests';
 
 const Schema = (t: (str: string) => string) =>
   Yup.object().shape({
@@ -35,13 +35,15 @@ const defaultProps = {
   subscriberId: undefined,
 };
 
-const CreateSubscriberDeviceStep0: React.FC<Props> = ({
-  formRef,
-  finishStep,
-  serviceClasses,
-  subscribers,
-  subscriberId,
-}) => {
+const CreateSubscriberDeviceStep0 = (
+  {
+    formRef,
+    finishStep,
+    serviceClasses,
+    subscribers,
+    subscriberId
+  }: Props
+) => {
   const { t } = useTranslation();
   const subscriberOptions = useSelectList({ values: subscribers, hasEmpty: true, valueKey: 'id', labelKey: 'name' });
   const serviceClassesOptions = useSelectList({

@@ -1,16 +1,20 @@
-import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
-import DataTable from 'components/DataTable';
-import { Subscriber } from 'models/Subscriber';
-import { MagnifyingGlass } from 'phosphor-react';
 import React, { useCallback, useMemo } from 'react';
+import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
+import { MagnifyingGlass } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import DataTable from 'components/DataTable';
+import { Subscriber } from 'models/Subscriber';
 
 interface Props {
   subscribers: Subscriber[];
 }
 
-const SubscriberSearchDisplayTable: React.FC<Props> = ({ subscribers }) => {
+const SubscriberSearchDisplayTable = (
+  {
+    subscribers
+  }: Props
+) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 

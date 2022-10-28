@@ -1,21 +1,21 @@
 import React, { useCallback } from 'react';
-import { v4 as uuid } from 'uuid';
 import { Button, Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure } from '@chakra-ui/react';
+import { Plus } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
+import Actions from './Actions';
 import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
-import { Plus } from 'phosphor-react';
 import ContactTable from 'components/Tables/ContactTable';
 import { useGetEntity } from 'hooks/Network/Entity';
 import { Venue } from 'models/Venue';
-import Actions from './Actions';
 
 interface Props {
   venue: Venue;
   onAssignContact: (contactId: string) => void;
 }
 
-const UseExistingContactModal: React.FC<Props> = ({ onAssignContact, venue }) => {
+const UseExistingContactModal = ({ onAssignContact, venue }: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: entity } = useGetEntity({ id: venue.entity });

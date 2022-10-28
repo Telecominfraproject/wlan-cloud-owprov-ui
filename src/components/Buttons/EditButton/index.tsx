@@ -19,7 +19,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const EditButton: React.FC<Props> = ({ onClick, label, isDisabled, isLoading, isCompact, ...props }) => {
+const EditButton = ({ onClick, label, isDisabled, isLoading, isCompact, ...props }: Props) => {
   const breakpoint = useBreakpoint();
 
   if (!isCompact && breakpoint !== 'base' && breakpoint !== 'sm') {

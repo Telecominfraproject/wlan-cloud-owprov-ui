@@ -1,6 +1,6 @@
 import React from 'react';
-import { ArrowDown, ArrowUp, Circle } from 'phosphor-react';
 import { Icon } from '@chakra-ui/react';
+import { ArrowDown, ArrowUp, Circle } from 'phosphor-react';
 
 interface Props {
   isSorted: boolean;
@@ -12,7 +12,13 @@ const defaultProps = {
   isSortedDesc: false,
 };
 
-const SortIcon: React.FC<Props> = ({ isSorted, isSortedDesc, canSort }) => {
+const SortIcon = (
+  {
+    isSorted,
+    isSortedDesc,
+    canSort
+  }: Props
+) => {
   if (canSort) {
     if (isSorted) {
       return isSortedDesc ? <Icon pt={2} h={5} w={5} as={ArrowDown} /> : <Icon pt={2} h={5} w={5} as={ArrowUp} />;

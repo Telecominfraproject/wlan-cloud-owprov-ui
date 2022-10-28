@@ -8,7 +8,7 @@ interface CardProps extends LayoutProps, SpaceProps, BackgroundProps, Interactiv
   children: React.ReactNode;
 }
 
-const Card: React.FC<CardProps> = ({ variant, children, ...props }) => {
+const Card = ({ variant, children, ...props }: CardProps) => {
   // @ts-ignore
   const styles = useStyleConfig('Card', { variant });
   // Pass the computed styles into the `__css` prop

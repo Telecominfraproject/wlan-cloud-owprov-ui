@@ -17,9 +17,9 @@ import {
 import { Trash } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { RrmAlgorithm } from 'hooks/Network/Rrm';
-import { InfoPopover } from 'components/InfoPopover';
 import { areRrmParamsValid } from './helper';
+import { InfoPopover } from 'components/InfoPopover';
+import { RrmAlgorithm } from 'hooks/Network/Rrm';
 
 type Props = {
   algorithms?: RrmAlgorithm[];

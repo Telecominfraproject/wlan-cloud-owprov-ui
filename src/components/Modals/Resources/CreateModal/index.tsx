@@ -10,19 +10,19 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import SaveButton from 'components/Buttons/SaveButton';
-import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/Modals/ModalHeader';
-import CreateButton from 'components/Buttons/CreateButton';
-import useFormRef from 'hooks/useFormRef';
+import InterfaceCaptiveResource from '../Sections/CaptivePortal';
 import InterfaceSsidResource from '../Sections/InterfaceSsid';
 import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
 import InterfaceVlanResource from '../Sections/InterfaceVlan';
-import SingleRadioResource from '../Sections/SingleRadio';
-import InterfaceCaptiveResource from '../Sections/CaptivePortal';
-import InterfaceTunnelResource from '../Sections/Tunnel';
 import InterfaceIpv4Resource from '../Sections/Ipv4';
+import SingleRadioResource from '../Sections/SingleRadio';
+import InterfaceTunnelResource from '../Sections/Tunnel';
+import CloseButton from 'components/Buttons/CloseButton';
+import CreateButton from 'components/Buttons/CreateButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import ModalHeader from 'components/Modals/ModalHeader';
+import useFormRef from 'hooks/useFormRef';
 
 interface Props {
   refresh: () => void;
@@ -30,7 +30,7 @@ interface Props {
   isVenue?: boolean;
 }
 
-const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = false }) => {
+const CreateResourceModal = ({ refresh, entityId, isVenue = false }: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedVariable, setSelectedVariable] = useState('interface.ssid');

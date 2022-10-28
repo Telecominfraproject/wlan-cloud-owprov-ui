@@ -4,6 +4,7 @@
 .pnp.js
 
 # testing
+/dev-dist
 /coverage
 
 # production

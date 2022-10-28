@@ -1,8 +1,8 @@
 import React from 'react';
+import DhcpIpV4 from './DhcpIpV4';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
-import DhcpIpV4 from './DhcpIpV4';
 
 type Props = {
   isDisabled?: boolean;

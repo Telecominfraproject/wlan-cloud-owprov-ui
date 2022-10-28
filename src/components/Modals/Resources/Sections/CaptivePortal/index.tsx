@@ -10,8 +10,8 @@ import StringField from 'components/FormFields/StringField';
 import { useCreateResource, useUpdateResource } from 'hooks/Network/Resources';
 import { Note } from 'models/Note';
 import { Resource } from 'models/Resource';
-import Captive from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/SingleInterface/Captive/Captive';
 import { INTERFACE_CAPTIVE_SCHEMA } from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/interfacesConstants';
+import Captive from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/SingleInterface/Captive/Captive';
 
 export const EDIT_SCHEMA = (t: (str: string) => string) =>
   object().shape({

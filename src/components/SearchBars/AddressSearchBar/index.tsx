@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
+import { Heading } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
 import { useTranslation } from 'react-i18next';
-import formatGoogleAddress from 'utils/formatGoogleAddress';
-import { Heading } from '@chakra-ui/react';
+import { useLocationSearch } from 'contexts/ProvisioningSocketProvider/hooks/Commands/useLocationSearch';
 import { AddressObject, GoogleResult } from 'models/Location';
-import useLocationSearch from 'contexts/WebSocketProvider/hooks/Commands/useLocationSearch';
+import formatGoogleAddress from 'utils/formatGoogleAddress';
 
 interface Props {
   onSelect: (obj: AddressObject) => void;
@@ -12,7 +12,7 @@ interface Props {
   placeholder?: string;
 }
 
-const AddressSearchBar: React.FC<Props> = ({ onSelect, isDisabled, placeholder = '' }) => {
+const AddressSearchBar = ({ onSelect, isDisabled, placeholder = '' }: Props) => {
   const { t } = useTranslation();
   const { inputValue, results, onInputChange, isOpen, resetSearch } = useLocationSearch({});
 

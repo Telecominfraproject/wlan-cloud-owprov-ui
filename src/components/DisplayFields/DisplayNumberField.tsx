@@ -11,16 +11,21 @@ const defaultProps = {
   isRequired: false,
 };
 
-const DisplayNumberField: React.FC<Props> = ({ label, value, isRequired, ...props }) => (
-  <FormControl isRequired={isRequired} isDisabled>
-    <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
-      {label}
-    </FormLabel>
-    <NumberInput allowMouseWheel value={value} borderRadius="15px" fontSize="sm" {...props}>
-      <NumberInputField />
-    </NumberInput>
-  </FormControl>
-);
+const DisplayNumberField = (
+  {
+    label,
+    value,
+    isRequired,
+    ...props
+  }: Props
+) => (<FormControl isRequired={isRequired} isDisabled>
+  <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
+    {label}
+  </FormLabel>
+  <NumberInput allowMouseWheel value={value} borderRadius="15px" fontSize="sm" {...props}>
+    <NumberInputField />
+  </NumberInput>
+</FormControl>);
 
 DisplayNumberField.defaultProps = defaultProps;
 export default DisplayNumberField;

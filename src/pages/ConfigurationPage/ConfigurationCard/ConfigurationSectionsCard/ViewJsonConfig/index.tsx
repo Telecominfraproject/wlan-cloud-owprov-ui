@@ -13,10 +13,10 @@ import {
 import { ArrowsOut } from 'phosphor-react';
 import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
+import useInterfacesJsonDisplay from './useInterfacesJsonDisplay';
+import CloseButton from 'components/Buttons/CloseButton';
 import ModalHeader from 'components/Modals/ModalHeader';
 import { InterfaceProps } from 'models/ConfigurationSections/Interfaces';
-import CloseButton from 'components/Buttons/CloseButton';
-import useInterfacesJsonDisplay from './useInterfacesJsonDisplay';
 
 interface Props {
   configurations: {
@@ -34,7 +34,7 @@ interface Props {
   isDisabled?: boolean;
 }
 
-const ViewJsonConfigModal: React.FC<Props> = ({ configurations, activeConfigurations, isDisabled }) => {
+const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled }: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const interfaces = useInterfacesJsonDisplay({ interfaces: configurations.interfaces?.configuration, isOpen });

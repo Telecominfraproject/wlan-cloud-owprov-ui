@@ -1,19 +1,5 @@
-import React, { useState, useMemo, useEffect, Dispatch, SetStateAction, useRef } from 'react';
-import { useQuery } from 'react-query';
-import {
-  axiosAnalytics,
-  axiosFms,
-  axiosGw,
-  axiosInstaller,
-  axiosOwls,
-  axiosProv,
-  axiosSec,
-  axiosSub,
-  axiosRrm,
-} from 'utils/axiosInstances';
-import { useGetEndpoints } from 'hooks/Network/Endpoints';
-import axios from 'axios';
-import { Endpoint } from 'models/Endpoint';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { AuthProviderProps, AuthProviderReturn, useGetConfigurationDescriptions } from './utils';
 import {
   useDeleteAccountToken,
   useGetAvatar,
@@ -21,49 +7,29 @@ import {
   useGetProfile,
   useUpdatePreferences,
 } from 'hooks/Network/Account';
+import { useGetEndpoints } from 'hooks/Network/Endpoints';
+import { Endpoint } from 'models/Endpoint';
 import { Preference } from 'models/Preference';
-import { User } from 'models/User';
-
-const getConfigDescriptions = async (baseUrl: string) =>
-  axios.get(`${baseUrl.split('/api')[0]}/wwwassets/ucentral.schema.pretty.json`).then(({ data }) => data.$defs);
-
-interface Props {
-  token?: string;
-  children: React.ReactNode;
-}
-
-interface AuthProviderReturn {
-  avatar: string;
-  refetchUser: () => void;
-  refetchAvatar: () => void;
-  user?: User;
-  token?: string;
-  setToken: Dispatch<SetStateAction<string | undefined>>;
-  logout: () => void;
-  getPref: (preference: string) => string | null;
-  setPref: ({ preference, value }: { preference: string; value: string }) => void;
-  deletePref: (preference: string) => void;
-  ref: React.MutableRefObject<undefined>;
-  endpoints: { [key: string]: string } | null;
-  configurationDescriptions: Record<string, unknown>;
-  isUserLoaded: boolean;
-}
+import {
+  axiosAnalytics,
+  axiosFms,
+  axiosGw,
+  axiosInstaller,
+  axiosOwls,
+  axiosProv,
+  axiosRrm,
+  axiosSec,
+  axiosSub,
+} from 'utils/axiosInstances';
 
 const AuthContext = React.createContext({} as AuthProviderReturn);
 
-export const AuthProvider = ({ token, children }: Props) => {
+export const AuthProvider = ({ token, children }: AuthProviderProps) => {
   const ref = useRef();
   const [loadedEndpoints, setLoadedEndpoints] = useState(false);
   const [currentToken, setCurrentToken] = useState(token);
   const [endpoints, setEndpoints] = useState<{ [key: string]: string } | null>(null);
-  const { data: configurationDescriptions } = useQuery(
-    ['get-configuration-descriptions'],
-    () => getConfigDescriptions(axiosProv.defaults.baseURL ?? ''),
-    {
-      staleTime: Infinity,
-      enabled: loadedEndpoints,
-    },
-  );
+  const { data: configurationDescriptions } = useGetConfigurationDescriptions({ enabled: loadedEndpoints });
   const { data: user, refetch: refetchUser } = useGetProfile();
   const { refetch: refetchEndpoints } = useGetEndpoints({
     onSuccess: (newEndpoints: Endpoint[]) => {
@@ -159,7 +125,6 @@ export const AuthProvider = ({ token, children }: Props) => {
       axiosAnalytics.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
       axiosInstaller.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
       axiosRrm.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
-
       refetchUser();
       refetchEndpoints();
     }

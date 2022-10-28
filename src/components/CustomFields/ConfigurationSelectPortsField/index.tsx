@@ -1,13 +1,13 @@
-import useFastField from 'hooks/useFastField';
 import React, { useMemo } from 'react';
 import MultiSelectInput from './Input';
+import useFastField from 'hooks/useFastField';
 
 interface Props {
   isDisabled?: boolean;
   name: string;
 }
 
-const ConfigurationSelectPortsField: React.FC<Props> = ({ name, isDisabled = false }) => {
+const ConfigurationSelectPortsField = ({ name, isDisabled = false }: Props) => {
   const { value, error, isError, onChange, onBlur } = useFastField<string[] | undefined>({ name });
 
   const options = useMemo(

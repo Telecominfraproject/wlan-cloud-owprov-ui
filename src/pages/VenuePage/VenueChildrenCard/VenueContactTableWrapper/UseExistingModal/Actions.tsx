@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
 import { Plus } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 import { Contact } from 'models/Contact';
 
 interface Props {
@@ -12,7 +12,13 @@ interface Props {
   isDisabled: boolean;
 }
 
-const Actions: React.FC<Props> = ({ cell: { original: contact }, claimContact, isDisabled }) => {
+const Actions = (
+  {
+    cell: { original: contact },
+    claimContact,
+    isDisabled
+  }: Props
+) => {
   const { t } = useTranslation();
   const handleOpenEdit = () => claimContact(contact.id);
 

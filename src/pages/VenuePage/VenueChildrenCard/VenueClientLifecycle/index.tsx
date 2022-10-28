@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Box } from '@chakra-ui/react';
+import MacSearchBar from './MacSearchBar';
+import ClientLifecyleTable from './Table';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { getAllClients } from 'hooks/Network/Analytics';
 import useDatePickers from 'hooks/useDatePickers';
 import { getHoursAgo } from 'utils/dateFormatting';
-import ClientLifecyleTable from './Table';
-import MacSearchBar from './MacSearchBar';
 
 interface Props {
   venueId: string;
 }
 
-const VenueClientLifecycle: React.FC<Props> = ({ venueId }) => {
+const VenueClientLifecycle = ({ venueId }: Props) => {
   const [macs, setMacs] = useState<string[] | undefined>();
   const [mac, setMac] = useState<string | undefined>();
   const { start, end, timepickers, refreshId } = useDatePickers({ defaultStart: getHoursAgo(5 * 24) });

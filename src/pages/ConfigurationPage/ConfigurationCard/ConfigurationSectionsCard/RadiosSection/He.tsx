@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import ToggleField from 'components/FormFields/ToggleField';
 import NumberField from 'components/FormFields/NumberField';
+import ToggleField from 'components/FormFields/ToggleField';
 import useFastField from 'hooks/useFastField';
 
 type Props = {

@@ -4,10 +4,18 @@ export interface User {
   name: string;
   avatar: string;
   description: string;
-  email: string;
   currentPassword?: string;
   id: string;
+  email: string;
   userRole: string;
+  userTypeProprietaryInfo: {
+    authenticatorSecret: string;
+    mfa: {
+      enabled: boolean;
+      method?: 'authenticator' | 'sms' | 'email' | '';
+    };
+    mobiles: { number: string }[];
+  };
   suspended: boolean;
   notes: Note[];
 }

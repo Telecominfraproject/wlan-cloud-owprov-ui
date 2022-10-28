@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { v4 as uuid } from 'uuid';
+import { ArrowRightIcon, ArrowLeftIcon, ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import {
   Table,
   Tbody,
@@ -24,13 +24,13 @@ import {
   Heading,
   useBreakpoint,
 } from '@chakra-ui/react';
-import { ArrowRightIcon, ArrowLeftIcon, ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
-// @ts-ignore
-import { useTable, usePagination, useSortBy, Row } from 'react-table';
 import { useTranslation } from 'react-i18next';
+import { useTable, usePagination, useSortBy, Row } from 'react-table';
+import { v4 as uuid } from 'uuid';
+// @ts-ignore
+import SortIcon from './SortIcon';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { Column, PageInfo } from 'models/Table';
-import SortIcon from './SortIcon';
 
 interface Props {
   columns: Column[];
@@ -61,7 +61,7 @@ const defaultProps = {
   saveSettingsId: undefined,
 };
 
-const DataTable: React.FC<Props> = ({
+const DataTable = ({
   columns,
   data,
   isLoading,
@@ -75,7 +75,7 @@ const DataTable: React.FC<Props> = ({
   setPageInfo,
   isManual,
   saveSettingsId,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
   const textColor = useColorModeValue('gray.700', 'white');

@@ -1,28 +1,27 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ModalProps } from 'models/Modal';
 import { Modal, ModalOverlay, ModalContent, ModalBody, Center, Spinner } from '@chakra-ui/react';
-import ModalHeader from 'components/Modals/ModalHeader';
-import CloseButton from 'components/Buttons/CloseButton';
-import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand';
-import useCommandModal from 'hooks/useCommandModal';
-import { useWifiScanDevice } from 'hooks/Network/GatewayDevices';
 import { ArrowLeft, Download, Gauge } from 'phosphor-react';
-import { DeviceScanResult, WifiScanCommand } from 'models/Device';
-import useFormRef from 'hooks/useFormRef';
-import ResponsiveButton from 'components/Buttons/ResponsiveButton';
 import { CSVLink } from 'react-csv';
-import { dateForFilename } from 'utils/dateFormatting';
-import { Data } from 'react-csv/components/CommonPropTypes';
+import { useTranslation } from 'react-i18next';
 import WifiScanForm from './Form';
 import WifiScanResultDisplay from './ResultDisplay';
+import CloseButton from 'components/Buttons/CloseButton';
+import ResponsiveButton from 'components/Buttons/ResponsiveButton';
+import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand';
+import ModalHeader from 'components/Modals/ModalHeader';
+import { useWifiScanDevice } from 'hooks/Network/GatewayDevices';
+import useCommandModal from 'hooks/useCommandModal';
+import useFormRef from 'hooks/useFormRef';
+import { DeviceScanResult, WifiScanCommand } from 'models/Device';
+import { ModalProps } from 'models/Modal';
+import { dateForFilename } from 'utils/dateFormatting';
 
 interface Props {
   modalProps: ModalProps;
   serialNumber: string;
 }
 
-const WifiScanModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, serialNumber }) => {
+const WifiScanModal = ({ modalProps: { isOpen, onClose }, serialNumber }: Props) => {
   const { t } = useTranslation();
   const { form, formRef } = useFormRef();
   const [csvData, setCsvData] = useState<DeviceScanResult[] | undefined>(undefined);
@@ -68,7 +67,7 @@ const WifiScanModal: React.FC<Props> = ({ modalProps: { isOpen, onClose }, seria
               {csvData ? (
                 <CSVLink
                   filename={`wifi_scan_${serialNumber}_${dateForFilename(new Date().getTime() / 1000)}.csv`}
-                  data={csvData as Data}
+                  data={csvData}
                 >
                   <ResponsiveButton
                     color="gray"

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Heading, Image, SimpleGrid, Switch, Text } from '@chakra-ui/react';
-import ToggleField from 'components/FormFields/ToggleField';
+import { INTERFACE_PASSPOINT_ICONS_SCHEMA } from '../../../interfacesConstants';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import ImageField from 'components/FormFields/ImageField';
 import NumberField from 'components/FormFields/NumberField';
+import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
-import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
-import ImageField from 'components/FormFields/ImageField';
-import { INTERFACE_PASSPOINT_ICONS_SCHEMA } from '../../../interfacesConstants';
+import ToggleField from 'components/FormFields/ToggleField';
 
 interface Props {
   isDisabled?: boolean;
@@ -16,7 +16,14 @@ interface Props {
   onToggle: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PassPointForm: React.FC<Props> = ({ isDisabled, namePrefix, isEnabled, onToggle }) => {
+const PassPointForm = (
+  {
+    isDisabled,
+    namePrefix,
+    isEnabled,
+    onToggle
+  }: Props
+) => {
   const name = React.useCallback((suffix: string) => `${namePrefix}.${suffix}`, []);
 
   const fieldProps = (suffix: string) => ({

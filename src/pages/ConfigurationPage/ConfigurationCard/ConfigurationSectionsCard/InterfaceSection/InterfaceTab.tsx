@@ -1,9 +1,17 @@
+import React, { useMemo } from 'react';
 import { Button, Heading, useColorModeValue, useMultiStyleConfig, useTab } from '@chakra-ui/react';
 import useFastField from 'hooks/useFastField';
-import React, { useMemo } from 'react';
 
 // eslint-disable-next-line react/prop-types
-const InterfaceTab: React.FC<{ index: number }> = React.forwardRef(({ index, ...props }, ref) => {
+const InterfaceTab = React.forwardRef((
+  {
+    index,
+    ...props
+  }: {
+    index: number
+  },
+  ref
+) => {
   const { value } = useFastField({ name: `configuration[${index}]` });
 
   const bgColorSelected = useColorModeValue('gray.100', 'gray.800');
