@@ -24,7 +24,7 @@ const DeviceActionDropdown = ({
   onOpenUpgradeModal,
 }: Props) => {
   const { t } = useTranslation();
-  const { refetch: getRtty, isLoading: isRtty } = useGetDeviceRtty({
+  const { refetch: getRtty, isInitialLoading: isRtty } = useGetDeviceRtty({
     serialNumber: device.serialNumber,
     extraId: 'inventory-modal',
   });

@@ -15,18 +15,16 @@ interface Props {
   onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
-const DeviceActionDropdown = (
-  {
-    device,
-    refresh,
-    isDisabled,
-    onOpenScan,
-    onOpenFactoryReset,
-    onOpenUpgradeModal
-  }: Props
-) => {
+const DeviceActionDropdown = ({
+  device,
+  refresh,
+  isDisabled,
+  onOpenScan,
+  onOpenFactoryReset,
+  onOpenUpgradeModal,
+}: Props) => {
   const { t } = useTranslation();
-  const { refetch: getRtty, isLoading: isRtty } = useGetDeviceRtty({
+  const { refetch: getRtty, isInitialLoading: isRtty } = useGetDeviceRtty({
     serialNumber: device.serialNumber,
     extraId: 'other',
   });
