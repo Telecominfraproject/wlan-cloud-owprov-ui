@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -18,10 +17,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ArrowSquareOut, MagnifyingGlass, Trash } from 'phosphor-react';
-import { useGetGatewayUi } from 'hooks/Network/Endpoints';
+import { useTranslation } from 'react-i18next';
 import DeviceActionDropdown from 'components/TableCells/DeviceActionDropdown';
-import { Device } from 'models/Device';
+import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import { useDeleteTag } from 'hooks/Network/Inventory';
+import { Device } from 'models/Device';
 
 interface Props {
   cell: { original: Device };
@@ -32,14 +32,16 @@ interface Props {
   onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
-const Actions: React.FC<Props> = ({
-  cell: { original: tag },
-  refreshEntity,
-  openEditModal,
-  onOpenScan,
-  onOpenFactoryReset,
-  onOpenUpgradeModal,
-}) => {
+const Actions = (
+  {
+    cell: { original: tag },
+    refreshEntity,
+    openEditModal,
+    onOpenScan,
+    onOpenFactoryReset,
+    onOpenUpgradeModal
+  }: Props
+) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: gwUi } = useGetGatewayUi();

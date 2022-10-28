@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { FloppyDisk } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   onClick: () => void;
@@ -22,7 +22,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const SaveButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, isDirty, dirtyCheck, ...props }) => {
+const SaveButton = ({ onClick, isDisabled, isLoading, isCompact, isDirty, dirtyCheck, ...props }: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint, useDisclosure } from '@chakra-ui/react';
 import { Pencil, X } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 
 interface Props {
@@ -22,7 +22,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const ToggleEditButton: React.FC<Props> = ({
+const ToggleEditButton = ({
   toggleEdit,
   isEditing,
   isDirty,
@@ -31,7 +31,7 @@ const ToggleEditButton: React.FC<Props> = ({
   isCompact,
   ml,
   ...props
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();

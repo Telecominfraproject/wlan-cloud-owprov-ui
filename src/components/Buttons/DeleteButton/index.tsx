@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { Trash } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onClick: () => void;
@@ -20,7 +20,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const DeleteButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, isCompact, label, ml, ...props }) => {
+const DeleteButton = ({ onClick, isDisabled, isLoading, isCompact, label, ml, ...props }: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import AlertButton from 'components/Buttons/AlertButton';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -11,6 +10,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import AlertButton from 'components/Buttons/AlertButton';
 import { useSuspendSubscriber } from 'hooks/Network/Subscribers';
 import useMutationResult from 'hooks/useMutationResult';
 
@@ -26,7 +26,14 @@ const defaultProps = {
   isDisabled: false,
 };
 
-const SubscriberSuspendedNotification: React.FC<Props> = ({ id, isSuspended, isDisabled, refresh }) => {
+const SubscriberSuspendedNotification = (
+  {
+    id,
+    isSuspended,
+    isDisabled,
+    refresh
+  }: Props
+) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const suspend = useSuspendSubscriber({ id });

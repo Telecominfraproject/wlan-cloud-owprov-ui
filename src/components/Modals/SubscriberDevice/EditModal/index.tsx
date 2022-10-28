@@ -1,20 +1,20 @@
 import React, { Ref, useEffect } from 'react';
 import { Modal, ModalOverlay, ModalContent, ModalBody, Spinner, Center, useBoolean } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import SaveButton from 'components/Buttons/SaveButton';
-import EditButton from 'components/Buttons/EditButton';
-import CloseButton from 'components/Buttons/CloseButton';
-import ModalHeader from 'components/Modals/ModalHeader';
-import useFormRef from 'hooks/useFormRef';
-import useFormModal from 'hooks/useFormModal';
-import { useGetSubscriberDevice } from 'hooks/Network/SubscriberDevices';
-import useOperatorChildren from 'hooks/useOperatorChildren';
-import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
 import { FormikProps } from 'formik';
-import { Device } from 'models/Device';
-import DeviceActionDropdown from 'components/Tables/InventoryTable/EditTagModal/ActionDropdown';
+import { useTranslation } from 'react-i18next';
 import EditSubscriberDeviceForm from './Form';
+import CloseButton from 'components/Buttons/CloseButton';
+import EditButton from 'components/Buttons/EditButton';
+import SaveButton from 'components/Buttons/SaveButton';
+import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import ModalHeader from 'components/Modals/ModalHeader';
+import DeviceActionDropdown from 'components/Tables/InventoryTable/EditTagModal/ActionDropdown';
+import { useGetSubscriberDevice } from 'hooks/Network/SubscriberDevices';
+import useFormModal from 'hooks/useFormModal';
+import useFormRef from 'hooks/useFormRef';
+import useNestedConfigurationForm from 'hooks/useNestedConfigurationForm';
+import useOperatorChildren from 'hooks/useOperatorChildren';
+import { Device } from 'models/Device';
 
 interface Props {
   isOpen: boolean;
@@ -27,7 +27,7 @@ interface Props {
   onOpenUpgradeModal: (serial: string) => void;
 }
 
-const EditSubscriberDeviceModal: React.FC<Props> = ({
+const EditSubscriberDeviceModal = ({
   isOpen,
   onClose,
   subscriberDevice,
@@ -36,7 +36,7 @@ const EditSubscriberDeviceModal: React.FC<Props> = ({
   onOpenScan,
   onOpenFactoryReset,
   onOpenUpgradeModal,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const { form, formRef } = useFormRef();
   const [editing, setEditing] = useBoolean();

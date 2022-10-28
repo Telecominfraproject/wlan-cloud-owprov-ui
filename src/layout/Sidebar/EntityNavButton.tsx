@@ -1,10 +1,10 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, Flex, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
-import IconBox from 'components/IconBox';
 import { ArrowCircleRight } from 'phosphor-react';
-import { Route } from 'models/Routes';
+import { useTranslation } from 'react-i18next';
 import EntityPopover from './EntityPopover';
+import IconBox from 'components/IconBox';
+import { Route } from 'models/Routes';
 
 const variantChange = '0.2s linear';
 
@@ -15,7 +15,14 @@ interface Props {
   toggleSidebar: () => void;
 }
 
-const EntityNavButton: React.FC<Props> = ({ activeRoute, route, role, toggleSidebar }) => {
+const EntityNavButton = (
+  {
+    activeRoute,
+    route,
+    role,
+    toggleSidebar
+  }: Props
+) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const activeArrowColor = useColorModeValue('var(--chakra-colors-gray-700)', 'white');

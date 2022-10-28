@@ -1,6 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { SimpleGrid } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import AddressSearchField from 'components/CustomFields/AddressSearchField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import SelectField from 'components/FormFields/SelectField';
@@ -11,7 +11,11 @@ interface Props {
   editing: boolean;
 }
 
-const SubscriberDeviceLocationForm: React.FC<Props> = ({ editing }) => {
+const SubscriberDeviceLocationForm = (
+  {
+    editing
+  }: Props
+) => {
   const { t } = useTranslation();
 
   return (

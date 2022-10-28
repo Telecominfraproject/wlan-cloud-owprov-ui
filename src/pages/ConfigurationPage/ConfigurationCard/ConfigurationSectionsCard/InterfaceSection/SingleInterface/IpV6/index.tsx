@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
-import useFastField from 'hooks/useFastField';
 import { useTranslation } from 'react-i18next';
 import { INTERFACE_IPV6_SCHEMA } from '../../interfacesConstants';
 import Ipv6Form from './Ipv6';
+import useFastField from 'hooks/useFastField';
 
-const Ipv6: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
+const Ipv6 = ({ editing, index }: { editing: boolean; index: number }) => {
   const { t } = useTranslation();
   const { value, onChange } = useFastField({ name: `configuration[${index}].ipv6` });
   const { value: role } = useFastField({ name: `configuration[${index}].role` });

@@ -5,7 +5,12 @@ interface Props extends LayoutProps {
   children: React.ReactNode;
 }
 
-const MainPanel: React.FC<Props> = ({ children, ...props }) => {
+const MainPanel = (
+  {
+    children,
+    ...props
+  }: Props
+) => {
   const styles = useStyleConfig('MainPanel');
 
   return (

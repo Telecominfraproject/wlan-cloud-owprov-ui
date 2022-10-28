@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { IconButton, Tooltip } from '@chakra-ui/react';
 import { X } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onClick: () => void;
@@ -16,7 +16,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const CloseButton: React.FC<Props> = ({ onClick, isDisabled, isLoading, ml, ...props }) => {
+const CloseButton = ({ onClick, isDisabled, isLoading, ml, ...props }: Props) => {
   const { t } = useTranslation();
 
   return (

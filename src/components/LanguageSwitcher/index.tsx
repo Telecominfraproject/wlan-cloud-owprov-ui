@@ -1,10 +1,10 @@
-import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip } from '@chakra-ui/react';
 import ReactCountryFlag from 'react-country-flag';
 import { useTranslation } from 'react-i18next';
 
 const iconStyle = { width: '24px', height: '24px', borderRadius: '20px' };
-const LanguageSwitcher: React.FC = () => {
+const LanguageSwitcher = () => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
 

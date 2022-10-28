@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import { useField } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { INTERFACE_IPV4_DHCP_LEASE_SCHEMA } from '../../interfacesConstants';
 import ConfigurationSubSectionToggle from 'components/CustomFields/ConfigurationSubSection';
 import NumberField from 'components/FormFields/NumberField';
 import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
-import { INTERFACE_IPV4_DHCP_LEASE_SCHEMA } from '../../interfacesConstants';
 
 type Props = {
   isDisabled?: boolean;

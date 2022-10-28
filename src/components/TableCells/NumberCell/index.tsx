@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-const NumberCell: React.FC<{ value?: number }> = ({ value }) => {
+const NumberCell = ({ value }: { value?: number }) => {
   const data = useMemo(() => {
     if (value === undefined) return '-';
 

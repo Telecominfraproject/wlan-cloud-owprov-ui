@@ -1,10 +1,10 @@
 import React from 'react';
 import { IconButton, Menu, MenuButton, MenuItem, MenuList, Spinner, Tooltip } from '@chakra-ui/react';
+import { Wrench } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
+import { useBlinkDevice, useGetDeviceRtty, useRebootDevice } from 'hooks/Network/GatewayDevices';
 import useMutationResult from 'hooks/useMutationResult';
 import { Device } from 'models/Device';
-import { useBlinkDevice, useGetDeviceRtty, useRebootDevice } from 'hooks/Network/GatewayDevices';
-import { Wrench } from 'phosphor-react';
 
 interface Props {
   device: Device;
@@ -15,16 +15,16 @@ interface Props {
   onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
-const DeviceActionDropdown: React.FC<Props> = ({
+const DeviceActionDropdown = ({
   device,
   refresh,
   isDisabled,
   onOpenScan,
   onOpenFactoryReset,
   onOpenUpgradeModal,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
-  const { refetch: getRtty, isLoading: isRtty } = useGetDeviceRtty({
+  const { refetch: getRtty, isInitialLoading: isRtty } = useGetDeviceRtty({
     serialNumber: device.serialNumber,
     extraId: 'other',
   });

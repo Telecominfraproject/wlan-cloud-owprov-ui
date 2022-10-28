@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Box, SimpleGrid } from '@chakra-ui/react';
+import { INTERFACE_IPV4_PORT_FORWARD_SCHEMA } from '../../interfacesConstants';
 import DisplayNumberField from 'components/DisplayFields/DisplayNumberField';
 import DisplayObjectArrayField from 'components/DisplayFields/DisplayObjectArrayField';
 import DisplaySelectField from 'components/DisplayFields/DisplaySelectField';
@@ -7,11 +8,10 @@ import DisplayStringField from 'components/DisplayFields/DisplayStringField';
 import DisplayToggleField from 'components/DisplayFields/DisplayToggleField';
 import FastCreatableSelectInput from 'components/FormFields/CreatableSelectField/FastCreatableSelectInput';
 import { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
+import { PortRangeField } from 'components/FormFields/PortRangeField';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import { useGetResource } from 'hooks/Network/Resources';
-import { PortRangeField } from 'components/FormFields/PortRangeField';
-import { INTERFACE_IPV4_PORT_FORWARD_SCHEMA } from '../../interfacesConstants';
 
 const LockedIpv4 = ({ variableBlockId }: { variableBlockId?: string }) => {
   const { data: resource } = useGetResource({

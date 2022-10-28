@@ -6,8 +6,11 @@
   width: auto;
 }
 .my-masonry-grid_column {
-  padding-left: 30px;
+  padding-left: 20px;
   background-clip: padding-box;
+}
+.my-masonry-grid_column > div {
+  margin-bottom: 20px;
 }
 
 .map-tooltip {

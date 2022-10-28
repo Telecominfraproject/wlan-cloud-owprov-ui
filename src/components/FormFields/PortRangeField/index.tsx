@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { LayoutProps } from '@chakra-ui/react';
+import Input from './Input';
 import useFastField from 'hooks/useFastField';
 import { FieldProps } from 'models/Form';
-import Input from './Input';
 
 const parseToInt = (val: string, acceptEmptyValue: boolean) => {
   if (acceptEmptyValue && val === '') return undefined;
@@ -19,14 +19,14 @@ export interface PortRangeFieldProps extends FieldProps, LayoutProps {
 type Values = { mode: 'single'; inputValue?: number } | { mode: 'range'; inputValue: [number, number] };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const _PortRangeField: React.FC<PortRangeFieldProps> = ({
+const _PortRangeField = ({
   name,
   isDisabled = false,
   label,
   isRequired = false,
   definitionKey,
   ...props
-}) => {
+}: PortRangeFieldProps) => {
   const { value, error, isError, onChange } = useFastField<string | number | undefined>({ name });
 
   const values = useMemo((): Values => {

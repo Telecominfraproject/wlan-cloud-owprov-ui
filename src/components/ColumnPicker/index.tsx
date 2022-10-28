@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { v4 as uuid } from 'uuid';
-import { useTranslation } from 'react-i18next';
 import { Button, Checkbox, IconButton, Menu, MenuButton, MenuItem, MenuList, useBreakpoint } from '@chakra-ui/react';
-import { useAuth } from 'contexts/AuthProvider';
 import { FunnelSimple } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
+import { useAuth } from 'contexts/AuthProvider';
 import { Column } from 'models/Table';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
   setHiddenColumns: (str: string[]) => void;
 }
 
-const ColumnPicker: React.FC<Props> = ({ preference, columns, hiddenColumns, setHiddenColumns }) => {
+const ColumnPicker = ({ preference, columns, hiddenColumns, setHiddenColumns }: Props) => {
   const { t } = useTranslation();
   const { getPref, setPref } = useAuth();
   const breakpoint = useBreakpoint();

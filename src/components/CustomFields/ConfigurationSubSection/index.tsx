@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
+import Field from './FastToggleInput';
 import useFastField from 'hooks/useFastField';
 import { FieldProps } from 'models/Form';
-import Field from './FastToggleInput';
 
 interface Props extends FieldProps {
   defaultValue: object;
   fieldsToDestroy?: string[];
 }
 
-const ConfigurationSubSectionToggle: React.FC<Props> = ({
+const ConfigurationSubSectionToggle = ({
   name,
   isDisabled = false,
   label,
@@ -16,7 +16,7 @@ const ConfigurationSubSectionToggle: React.FC<Props> = ({
   isRequired = false,
   definitionKey,
   fieldsToDestroy,
-}) => {
+}: Props) => {
   const { value, error, isError, onChange, onBlur, setFieldValue } = useFastField<object | undefined>({ name });
 
   const onValueChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

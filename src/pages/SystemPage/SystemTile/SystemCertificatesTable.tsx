@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { compactDate } from 'utils/dateFormatting';
 import DataTable from 'components/DataTable';
 import { Column } from 'models/Table';
+import { compactDate } from 'utils/dateFormatting';
 
 interface Props {
   certificates?: { expiresOn: number; filename: string }[];
@@ -12,19 +12,26 @@ const defaultProps = {
   certificates: [],
 };
 
-const SystemCertificatesTable: React.FC<Props> = ({ certificates }) => {
+const SystemCertificatesTable = (
+  {
+    certificates
+  }: Props
+) => {
   const { t } = useTranslation();
 
-  const memoizedExpiry = useCallback((cell) => compactDate(cell.row.values.expiresOn), []);
+  const memoizedExpiry = useCallback((expiresOn: number) => compactDate(expiresOn), []);
 
   const columns = React.useMemo(
-    (): Column[] => [
+    (): Column<{
+      expiresOn: number;
+      filename: string;
+    }>[] => [
       {
         id: 'expiresOn',
         Header: t('certificates.expires_on'),
         Footer: '',
         accessor: 'expiresOn',
-        Cell: ({ cell }: { cell: unknown }) => memoizedExpiry(cell),
+        Cell: ({ cell }) => memoizedExpiry(cell.row.original.expiresOn),
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
         hasPopover: true,
@@ -41,7 +48,7 @@ const SystemCertificatesTable: React.FC<Props> = ({ certificates }) => {
 
   return (
     <DataTable
-      columns={columns}
+      columns={columns as Column<object>[]}
       data={certificates ?? []}
       obj={t('certificates.title')}
       hideControls

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Flex, Heading, Image, NumberInputField, SimpleGrid } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import { INTERFACE_PASSPOINT_ICONS_SCHEMA } from '../../interfacesConstants';
 import DisplayNumberField from 'components/DisplayFields/DisplayNumberField';
 import DisplayObjectArrayField from 'components/DisplayFields/DisplayObjectArrayField';
 import DisplaySelectField from 'components/DisplayFields/DisplaySelectField';
@@ -8,9 +9,8 @@ import DisplayStringField from 'components/DisplayFields/DisplayStringField';
 import DisplayToggleField from 'components/DisplayFields/DisplayToggleField';
 import FastCreatableSelectInput from 'components/FormFields/CreatableSelectField/FastCreatableSelectInput';
 import ImageField from 'components/FormFields/ImageField';
-import StringField from 'components/FormFields/StringField';
 import NumberField from 'components/FormFields/NumberField';
-import { INTERFACE_PASSPOINT_ICONS_SCHEMA } from '../../interfacesConstants';
+import StringField from 'components/FormFields/StringField';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,

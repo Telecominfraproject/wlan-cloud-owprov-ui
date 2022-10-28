@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import useFastField from 'hooks/useFastField';
 import TunnelForm from './Tunnel';
+import useFastField from 'hooks/useFastField';
 
-const Tunnel: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
+const Tunnel = ({ editing, index }: { editing: boolean; index: number }) => {
   const { value, onChange } = useFastField({ name: `configuration[${index}].tunnel` });
   const { value: protoValue } = useFastField({ name: `configuration[${index}].tunnel.proto` });
 

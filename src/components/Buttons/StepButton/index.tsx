@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { ArrowRight, FloppyDisk } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onNext: () => void;
@@ -22,7 +22,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const StepButton: React.FC<Props> = ({
+const StepButton = ({
   onNext,
   onSave,
   isDisabled,
@@ -32,7 +32,7 @@ const StepButton: React.FC<Props> = ({
   lastStep,
   ml,
   ...props
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

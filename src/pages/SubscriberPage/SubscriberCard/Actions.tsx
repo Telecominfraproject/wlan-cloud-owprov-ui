@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useSendEmailResetSubscriber, useSuspendSubscriber } from 'hooks/Network/Subscribers';
 import useMutationResult from 'hooks/useMutationResult';
@@ -12,7 +12,13 @@ interface Props {
   isDisabled?: boolean;
 }
 
-const SubscriberActions: React.FC<Props> = ({ subscriber, refresh, isDisabled }) => {
+const SubscriberActions = (
+  {
+    subscriber,
+    refresh,
+    isDisabled
+  }: Props
+) => {
   const { t } = useTranslation();
   const { mutateAsync: suspend } = useSuspendSubscriber({ id: subscriber?.id ?? '' });
   const { mutateAsync: resetPassword } = useSendEmailResetSubscriber({ id: subscriber?.id ?? '' });

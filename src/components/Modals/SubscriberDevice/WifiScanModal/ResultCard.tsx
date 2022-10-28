@@ -1,16 +1,20 @@
 import React from 'react';
-import { ScanChannel } from 'models/Device';
-import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
 import { Box, Heading, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import CardBody from 'components/Card/CardBody';
 import { v4 as uuid } from 'uuid';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
+import { ScanChannel } from 'models/Device';
 
 interface Props {
   channelInfo: ScanChannel;
 }
-const ResultCard: React.FC<Props> = ({ channelInfo: { channel, devices } }) => {
+const ResultCard = (
+  {
+    channelInfo: { channel, devices }
+  }: Props
+) => {
   const { t } = useTranslation();
 
   return (

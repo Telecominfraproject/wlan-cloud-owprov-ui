@@ -1,13 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import SelectField from 'components/FormFields/SelectField';
 import RrmFormField from '../RrmFormField';
+import SelectField from 'components/FormFields/SelectField';
 
 interface Props {
   isDisabled?: boolean;
   namePrefix?: string;
 }
-const DeviceRulesField: React.FC<Props> = ({ namePrefix = 'deviceRules', isDisabled }) => {
+const DeviceRulesField = ({ namePrefix = 'deviceRules', isDisabled }: Props) => {
   const { t } = useTranslation();
 
   const options = [

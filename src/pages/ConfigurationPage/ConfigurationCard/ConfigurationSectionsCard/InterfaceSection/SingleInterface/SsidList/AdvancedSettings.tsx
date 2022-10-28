@@ -1,4 +1,10 @@
+import React, { useMemo } from 'react';
 import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import { INTERFACE_SSID_MULTIPSK_SCHEMA, NO_MULTI_PROTOS } from '../../interfacesConstants';
+import RateLimit from './RateLimit';
+import Roaming from './Roaming';
+import Rrm from './Rrm';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
 import NumberField from 'components/FormFields/NumberField';
 import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
@@ -6,14 +12,16 @@ import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import ToggleField from 'components/FormFields/ToggleField';
 import useFastField from 'hooks/useFastField';
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { INTERFACE_SSID_MULTIPSK_SCHEMA, NO_MULTI_PROTOS } from '../../interfacesConstants';
-import RateLimit from './RateLimit';
-import Roaming from './Roaming';
-import Rrm from './Rrm';
 
-const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ editing, namePrefix }) => {
+const AdvancedSettings = (
+  {
+    editing,
+    namePrefix
+  }: {
+    editing: boolean
+    namePrefix: string
+  }
+) => {
   const { t } = useTranslation();
   const { value: proto } = useFastField({ name: `${namePrefix}.encryption.proto` });
 

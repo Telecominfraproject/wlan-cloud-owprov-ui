@@ -3,7 +3,7 @@ import { Icon } from '@chakra-ui/react';
 import { Info, Storefront, Tag, TreeStructure, UsersThree } from 'phosphor-react';
 import { Route } from 'models/Routes';
 
-const AccountPage = React.lazy(() => import('pages/AccountPage'));
+const AccountPage = React.lazy(() => import('pages/Profile'));
 const ConfigurationPage = React.lazy(() => import('pages/ConfigurationPage'));
 const EntityPage = React.lazy(() => import('pages/EntityPage'));
 const InventoryPage = React.lazy(() => import('pages/InventoryPage'));

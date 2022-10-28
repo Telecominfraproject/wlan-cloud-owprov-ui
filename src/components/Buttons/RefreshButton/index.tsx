@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
 import { ArrowsClockwise } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onClick: () => void;
@@ -18,7 +18,7 @@ const defaultProps = {
   ml: undefined,
 };
 
-const RefreshButton: React.FC<Props> = ({ onClick, isDisabled, isFetching, isCompact, ml, ...props }) => {
+const RefreshButton = ({ onClick, isDisabled, isFetching, isCompact, ml, ...props }: Props) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
 

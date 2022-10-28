@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form, FormikProps } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import SelectField from 'components/FormFields/SelectField';
-import { ModalProps } from 'models/Modal';
-import { WifiScanCommand } from 'models/Device';
 import ToggleField from 'components/FormFields/ToggleField';
+import { WifiScanCommand } from 'models/Device';
+import { ModalProps } from 'models/Modal';
 
 const defaultValues: WifiScanCommand = {
   activeScan: false,
@@ -19,7 +19,13 @@ interface Props {
   formRef: React.Ref<FormikProps<Record<string, unknown>>> | undefined;
 }
 
-const WifiScanForm: React.FC<Props> = ({ modalProps: { isOpen }, submit, formRef }) => {
+const WifiScanForm = (
+  {
+    modalProps: { isOpen },
+    submit,
+    formRef
+  }: Props
+) => {
   const { t } = useTranslation();
   const [formKey, setFormKey] = useState(uuid());
 

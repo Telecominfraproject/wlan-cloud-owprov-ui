@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, FormControl, LayoutProps, SpaceProps } from '@chakra-ui/react';
-import AddressSearchBar from 'components/SearchBars/AddressSearchBar';
 import { useFormikContext } from 'formik';
+import AddressSearchBar from 'components/SearchBars/AddressSearchBar';
 import { AddressObject } from 'models/Location';
 
 const defaultProps = {
@@ -17,7 +17,7 @@ interface Props extends LayoutProps, SpaceProps {
   isHidden?: boolean;
 }
 
-const AddressSearchField: React.FC<Props> = ({ namePrefix, isDisabled, placeholder, isHidden, ...props }) => {
+const AddressSearchField = ({ namePrefix, isDisabled, placeholder, isHidden, ...props }: Props) => {
   const { setFieldValue, validateForm } = useFormikContext();
 
   const onSelect = (v: AddressObject) => {

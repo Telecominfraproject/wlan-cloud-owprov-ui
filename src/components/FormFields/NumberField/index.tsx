@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
+import Field from './NumberInput';
 import useFastField from 'hooks/useFastField';
 import { FieldProps } from 'models/Form';
-import Field from './NumberInput';
 
 const parseToInt = (val: string, acceptEmptyValue: boolean) => {
   if (acceptEmptyValue && val === '') return undefined;
@@ -19,7 +19,7 @@ interface Props extends FieldProps {
   conversionFactor?: number;
 }
 
-const NumberField: React.FC<Props> = ({
+const NumberField = ({
   name,
   unit,
   isDisabled = false,
@@ -30,7 +30,7 @@ const NumberField: React.FC<Props> = ({
   acceptEmptyValue = false,
   definitionKey,
   conversionFactor,
-}) => {
+}: Props) => {
   const { value, error, isError, onChange, onBlur } = useFastField<number | string | undefined>({
     name,
   });

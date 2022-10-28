@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { v4 as uuid } from 'uuid';
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   Center,
@@ -19,10 +17,12 @@ import {
   UnorderedList,
   useBreakpoint,
 } from '@chakra-ui/react';
-import useGetEntityTree from 'hooks/Network/EntityTree';
-import { useNavigate } from 'react-router-dom';
-import { TreeStructure, Buildings, X } from 'phosphor-react';
 import { FocusableElement } from '@chakra-ui/utils';
+import { TreeStructure, Buildings, X } from 'phosphor-react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
+import useGetEntityTree from 'hooks/Network/EntityTree';
 
 interface Tree {
   uuid: string;
@@ -110,7 +110,14 @@ interface Props {
   children: React.ReactNode;
   toggleSidebar: () => void;
 }
-const EntityPopover: React.FC<Props> = ({ isOpen, onClose, children, toggleSidebar }) => {
+const EntityPopover = (
+  {
+    isOpen,
+    onClose,
+    children,
+    toggleSidebar
+  }: Props
+) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const breakpoint = useBreakpoint();

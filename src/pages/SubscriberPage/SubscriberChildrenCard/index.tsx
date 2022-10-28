@@ -1,16 +1,16 @@
 import React from 'react';
-import Card from 'components/Card';
 import { Box, Center, Spinner } from '@chakra-ui/react';
+import DevicesTab from './DevicesTab';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetSubscriber } from 'hooks/Network/Subscribers';
-import CardBody from 'components/Card/CardBody';
-import DevicesTab from './DevicesTab';
 
 interface Props {
   id: string;
 }
 
-const SubscriberChildrenCard: React.FC<Props> = ({ id }) => {
+const SubscriberChildrenCard = ({ id }: Props) => {
   const { data: subscriber, isFetching } = useGetSubscriber({ id });
 
   return (

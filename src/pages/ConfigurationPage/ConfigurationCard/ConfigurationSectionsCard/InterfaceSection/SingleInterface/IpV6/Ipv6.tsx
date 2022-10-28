@@ -1,24 +1,33 @@
 import React, { useCallback, useMemo } from 'react';
-import { v4 as uuid } from 'uuid';
 import { Box, Flex, FormControl, Heading, Select, SimpleGrid, Spacer, Switch, Text } from '@chakra-ui/react';
-import StringField from 'components/FormFields/StringField';
-import NumberField from 'components/FormFields/NumberField';
-import { PortRangeField } from 'components/FormFields/PortRangeField';
-import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
-import SelectField from 'components/FormFields/SelectField';
-import CreatableSelectField from 'components/FormFields/CreatableSelectField';
-import ArrayCell from 'components/TableCells/ArrayCell';
+import { v4 as uuid } from 'uuid';
 import { INTERFACE_IPV6_PORT_FORWARD_SCHEMA, INTERFACE_IPV6_TRAFFIC_ALLOW_SCHEMA } from '../../interfacesConstants';
 import DhcpIpV6 from './DhcpIpV6';
+import CreatableSelectField from 'components/FormFields/CreatableSelectField';
+import NumberField from 'components/FormFields/NumberField';
+import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
+import { PortRangeField } from 'components/FormFields/PortRangeField';
+import SelectField from 'components/FormFields/SelectField';
+import StringField from 'components/FormFields/StringField';
+import ArrayCell from 'components/TableCells/ArrayCell';
 
-const IpV6: React.FC<{
-  editing: boolean;
-  index: number;
-  ipv6: string;
-  role: string;
-  onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}> = ({ editing, index, ipv6, role, onToggle, onChange }) => {
+const IpV6 = (
+  {
+    editing,
+    index,
+    ipv6,
+    role,
+    onToggle,
+    onChange
+  }: {
+    editing: boolean
+    index: number
+    ipv6: string
+    role: string
+    onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  }
+) => {
   const arrCell = useCallback((cell, key) => <ArrayCell arr={cell.row.values[key]} key={uuid()} />, []);
 
   const portFields = useMemo(

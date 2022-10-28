@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Alert, Box, Flex, FormControl, FormLabel, Link, Select, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { RrmProvider } from 'hooks/Network/Rrm';
 import { InfoPopover } from 'components/InfoPopover';
+import { RrmProvider } from 'hooks/Network/Rrm';
 
 type Props = {
   providers: RrmProvider[];
