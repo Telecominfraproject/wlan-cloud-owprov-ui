@@ -21,6 +21,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import ConfigurationFieldExplanation from '../ConfigurationFieldExplanation';
+import DeleteButton from 'components/Buttons/DeleteButton';
 import FileInputButton from 'components/Buttons/FileInputButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import ModalHeader from 'components/Modals/ModalHeader';
@@ -39,6 +40,9 @@ const propTypes = {
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   touched: PropTypes.bool,
   definitionKey: PropTypes.string,
+  canDelete: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  wantBase64: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -51,6 +55,7 @@ const defaultProps = {
   error: false,
   touched: false,
   definitionKey: null,
+  wantBase64: false,
 };
 
 const FileInputModal = ({
@@ -67,6 +72,9 @@ const FileInputModal = ({
   isDisabled,
   isHidden,
   definitionKey,
+  canDelete,
+  onDelete,
+  wantBase64,
 }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -108,9 +116,10 @@ const FileInputModal = ({
               onClick={onOpen}
               icon={<UploadSimple size={20} />}
               isDisabled={isDisabled}
-              ml={2}
+              mx={2}
             />
           </Tooltip>
+          {value !== undefined && canDelete && <DeleteButton onClick={onDelete} isCompact />}
         </Text>
         <FormErrorMessage>{error}</FormErrorMessage>
       </FormControl>
@@ -135,7 +144,8 @@ const FileInputModal = ({
                 setFileName={setTempFilename}
                 refreshId={refreshId}
                 accept={acceptedFileTypes}
-                isStringFile
+                isStringFile={!wantBase64}
+                wantBase64={wantBase64}
               />
             </Box>
             <FormControl isInvalid={tempValue !== '' && !test(tempValue)}>

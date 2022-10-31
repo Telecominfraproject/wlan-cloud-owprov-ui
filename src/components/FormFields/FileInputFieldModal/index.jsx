@@ -14,6 +14,8 @@ const propTypes = {
   isRequired: PropTypes.bool,
   isHidden: PropTypes.bool,
   definitionKey: PropTypes.string,
+  canDelete: PropTypes.bool,
+  wantBase64: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -22,6 +24,8 @@ const defaultProps = {
   isDisabled: false,
   isHidden: false,
   definitionKey: null,
+  canDelete: false,
+  wantBase64: false,
 };
 
 const FileInputFieldModal = ({
@@ -35,10 +39,16 @@ const FileInputFieldModal = ({
   isRequired,
   isHidden,
   definitionKey,
+  canDelete,
+  wantBase64,
 }) => {
   const [{ value }, { touched, error }, { setValue }] = useField(name);
   const [{ value: fileNameValue }, , { setValue: setFile }] = useField(fileName);
 
+  const onDelete = useCallback(() => {
+    setValue(undefined);
+    setFile(undefined);
+  }, []);
   const onChange = useCallback((newValue, newFilename) => {
     setValue(newValue);
     setFile(newFilename);
@@ -59,6 +69,9 @@ const FileInputFieldModal = ({
       isDisabled={isDisabled}
       isHidden={isHidden}
       definitionKey={definitionKey}
+      canDelete={canDelete}
+      onDelete={onDelete}
+      wantBase64={wantBase64}
     />
   );
 };
