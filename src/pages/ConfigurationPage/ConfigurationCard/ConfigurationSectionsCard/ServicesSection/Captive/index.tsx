@@ -147,7 +147,7 @@ const CaptiveConfiguration = ({ editing }: { editing: boolean }) => {
             <StringField {...fieldProps('uam-secret')} isRequired hideButton />
             <NumberField {...fieldProps('uam-port')} isRequired />
             <StringField {...fieldProps('nasid')} isRequired />
-            <StringField {...fieldProps('nasmac')} />
+            <StringField {...fieldProps('nasmac')} emptyIsUndefined />
             <SelectField
               {...fieldProps('mac-format')}
               options={[
@@ -160,7 +160,7 @@ const CaptiveConfiguration = ({ editing }: { editing: boolean }) => {
               ]}
               isRequired
             />
-            <StringField {...fieldProps('ssid')} />
+            <StringField {...fieldProps('ssid')} emptyIsUndefined />
           </VStack>
         )}
         {(mode === 'radius' || mode === 'uam') && (
