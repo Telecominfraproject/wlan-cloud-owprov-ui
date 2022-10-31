@@ -670,6 +670,7 @@
 		"version": "Versão"
 	},
 	"form": {
+		"captive_web_root_explanation": "Por favor, use apenas arquivos .tar (sem arquivos compactados como .targz, por exemplo)",
 		"certificate_file_explanation": "Use um arquivo .pem que comece com \"-----BEGIN CERTIFICATE-----\" e termine com \"-----END CERTIFICATE-----\"",
 		"invalid_cidr": "Endereço CIDR IPv4 inválido. Exemplo: 192.168.0.1/12",
 		"invalid_email": "E-mail inválido",

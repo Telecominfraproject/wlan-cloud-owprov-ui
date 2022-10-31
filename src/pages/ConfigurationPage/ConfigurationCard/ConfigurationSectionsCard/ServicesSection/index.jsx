@@ -9,6 +9,7 @@ import InternalFormAccess from '../common/InternalFormAccess';
 import SectionGeneralCard from '../common/SectionGeneralCard';
 import SubSectionPicker from '../common/SubSectionPicker';
 import AirtimePolicies from './AirtimePolicies';
+import Captive from './Captive';
 import DataPlane from './DataPlane';
 import FacebookWifi from './FacebookWifi';
 import Http from './Http';
@@ -121,6 +122,7 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
                   editing={editing}
                   subsections={[
                     'airtime-policies',
+                    'captive',
                     'data-plane',
                     'facebook-wifi',
                     'http',
@@ -159,6 +161,7 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
             {isSubSectionActive('data-plane') && <DataPlane editing={editing} />}
             {isSubSectionActive('ieee8021x') && <Ieee8021x editing={editing} />}
             {isSubSectionActive('radius-proxy') && <RadiusProxy editing={editing} />}
+            {isSubSectionActive('captive') && <Captive editing={editing} />}
           </Masonry>
         </>
       )}
