@@ -1,4 +1,4 @@
-import { object, number, string, array } from 'yup';
+import { object, number, string, array, bool } from 'yup';
 
 export const METRICS_STATISTICS_SCHEMA = (t, useDefault = false) =>
   useDefault
@@ -18,10 +18,18 @@ export const METRICS_HEALTH_SCHEMA = (t, useDefault = false) =>
   useDefault
     ? object().shape({
         interval: number().required(t('form.required')).moreThan(59).lessThan(1000).default(60),
+        'dhcp-local': bool().default(true),
+        'dhcp-remote': bool().default(false),
+        'dns-local': bool().default(true),
+        'dns-remote': bool().default(true),
       })
     : object()
         .shape({
           interval: number().required(t('form.required')).moreThan(59).lessThan(1000).default(60),
+          'dhcp-local': bool().default(true),
+          'dhcp-remote': bool().default(false),
+          'dns-local': bool().default(true),
+          'dns-remote': bool().default(true),
         })
         .nullable()
         .default(undefined);

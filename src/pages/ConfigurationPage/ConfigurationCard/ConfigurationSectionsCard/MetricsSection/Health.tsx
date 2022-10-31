@@ -1,17 +1,17 @@
 import React from 'react';
 import { Heading, SimpleGrid } from '@chakra-ui/react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
 import NumberField from 'components/FormFields/NumberField';
+import ToggleField from 'components/FormFields/ToggleField';
 
-const propTypes = {
-  editing: PropTypes.bool.isRequired,
+type Props = {
+  editing: boolean;
 };
 
-const Health = ({ editing }) => {
+const Health = ({ editing }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -31,11 +31,14 @@ const Health = ({ editing }) => {
             isRequired
             w={24}
           />
+          <ToggleField name="configuration.health.dhcp-local" label="dhcp-local" isRequired defaultValue />
+          <ToggleField name="configuration.health.dhcp-remote" label="dhcp-remote" isRequired />
+          <ToggleField name="configuration.health.dns-local" label="dns-local" isRequired defaultValue />
+          <ToggleField name="configuration.health.dns-remote" label="dns-remote" isRequired defaultValue />
         </SimpleGrid>
       </CardBody>
     </Card>
   );
 };
 
-Health.propTypes = propTypes;
 export default React.memo(Health);
