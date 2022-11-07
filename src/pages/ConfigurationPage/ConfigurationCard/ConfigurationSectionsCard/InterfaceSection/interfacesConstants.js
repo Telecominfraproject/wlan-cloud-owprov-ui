@@ -308,7 +308,10 @@ export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (t, useDefault = false) => {
         })
         .test('encryptionRequiredIeee', t('form.invalid_ieee_required'), (v, { from }) => {
           const { proto } = from[0].value;
-          if ((proto === 'wpa3' || proto === 'wpa3-192' || proto === 'wpa3-mixed') && v !== 'required') {
+          if (
+            (proto === 'wpa3' || proto === 'wpa3-192' || proto === 'wpa3-mixed' || proto === 'sae') &&
+            v !== 'required'
+          ) {
             return false;
           }
           return true;
