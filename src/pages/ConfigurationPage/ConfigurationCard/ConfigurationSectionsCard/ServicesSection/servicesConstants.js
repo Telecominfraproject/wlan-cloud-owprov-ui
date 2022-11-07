@@ -5,7 +5,12 @@ export const SERVICES_CAPTIVE_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
       'auto-mode': string().required(t('form.required')).default('click'),
-      'walled-garden-fqdn': array().of(string()).min(1, t('form.required')).default([]),
+      'walled-garden-fqdn': array()
+        .when('auth-mode', {
+          is: 'uam',
+          then: array().of(string()).min(1, t('form.required')),
+        })
+        .default(undefined),
       'web-root': string().default(undefined),
       'idle-timeout': number().required(t('form.required')).positive().lessThan(65535).integer().default(600),
       'session-timeout': number().positive().lessThan(65535).integer().default(undefined),
