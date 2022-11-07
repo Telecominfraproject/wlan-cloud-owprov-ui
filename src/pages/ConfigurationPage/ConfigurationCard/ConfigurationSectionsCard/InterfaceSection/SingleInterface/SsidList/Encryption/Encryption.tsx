@@ -4,6 +4,7 @@ import { ENCRYPTION_OPTIONS } from '../../../interfacesConstants';
 import Radius from './Radius';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
+import ToggleField from 'components/FormFields/ToggleField';
 
 interface Props {
   editing: boolean;
@@ -68,6 +69,13 @@ const EncryptionForm = ({
           w="120px"
         />
       )}
+      <ToggleField
+        name={`${namePrefix}.key-caching`}
+        label="key-caching"
+        definitionKey="interface.ssid.encryption.key-caching"
+        isDisabled={!editing}
+        defaultValue
+      />
     </SimpleGrid>
     {isUsingRadius && <Radius editing={editing} namePrefix={radiusPrefix} isPasspoint={isPasspoint} />}
   </>

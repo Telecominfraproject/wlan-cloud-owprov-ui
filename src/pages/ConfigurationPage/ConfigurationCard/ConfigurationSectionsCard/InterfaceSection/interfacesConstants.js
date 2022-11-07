@@ -321,6 +321,7 @@ export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (t, useDefault = false) => {
           return v.length >= 8 && v.length <= 63;
         })
         .default(''),
+      'key-caching': bool().default(true),
     })
     .default({
       proto: 'psk',

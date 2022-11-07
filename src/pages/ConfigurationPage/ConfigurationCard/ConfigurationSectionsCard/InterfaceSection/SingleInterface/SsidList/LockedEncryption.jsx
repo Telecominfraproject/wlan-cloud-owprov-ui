@@ -56,6 +56,14 @@ const LockedEncryption = ({ data }) => {
               isRequired
             />
           )}
+          <DisplayToggleField
+            value={data?.encryption?.['key-caching']}
+            label="key-caching"
+            definitionKey="interface.ssid.encryption.key-caching"
+            isDisabled
+            isRequired
+            hideButton
+          />
         </SimpleGrid>
       )}
       {data?.radius && (
