@@ -33,7 +33,6 @@ const CaptiveConfiguration = ({ editing }: { editing: boolean }) => {
   const handleAuthModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value === 'radius') {
       onChange({
-        'walled-garden-fqdn': [],
         'idle-timeout': 600,
         'auth-mode': e.target.value,
         'auth-server': '192.168.1.10',
@@ -54,7 +53,7 @@ const CaptiveConfiguration = ({ editing }: { editing: boolean }) => {
         nasid: 'TestLab',
       });
     } else {
-      onChange({ 'walled-garden-fqdn': [], 'idle-timeout': 600, 'auth-mode': e.target.value });
+      onChange({ 'idle-timeout': 600, 'auth-mode': e.target.value });
     }
   };
 
@@ -115,7 +114,12 @@ const CaptiveConfiguration = ({ editing }: { editing: boolean }) => {
           // Basic Fields
         }
         <VStack spacing={2}>
-          <CreatableSelectField {...fieldProps('walled-garden-fqdn')} placeholder="Example: *.google.com" isRequired />
+          <CreatableSelectField
+            {...fieldProps('walled-garden-fqdn')}
+            placeholder="Example: *.google.com"
+            emptyIsUndefined={mode !== 'uam'}
+            isRequired={mode === 'uam'}
+          />
           <FileInputFieldModal
             {...fieldProps('web-root')}
             fileName="configuration.captive.web-root-filename"
