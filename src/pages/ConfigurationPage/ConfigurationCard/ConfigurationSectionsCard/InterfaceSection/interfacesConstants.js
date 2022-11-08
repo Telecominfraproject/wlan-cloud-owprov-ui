@@ -352,6 +352,24 @@ export const INTERFACE_SSID_ROAMING_SCHEMA = (t, useDefault = false) => {
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
+export const INTERFACE_SSID_ACCESS_CONTROL_LIST_SCHEMA = (t, useDefault = false) => {
+  const shape = object()
+    .shape({
+      mode: string().required(t('form.required')).default(''),
+      'mac-address': array()
+        .of(string().test('ssid.access-control-list.mac', t('form.invalid_mac_uc'), testUcMac))
+        .required(t('form.required'))
+        .min(1, t('form.required'))
+        .default([]),
+    })
+    .default({
+      mode: '',
+      'mac-address': [],
+    });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
 export const INTERFACE_SSID_RRM_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
@@ -390,6 +408,7 @@ export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
     encryption: INTERFACE_SSID_ENCRYPTION_SCHEMA(t, useDefault),
     'rate-limit': INTERFACE_SSID_RATE_LIMIT_SCHEMA(t),
     rrm: INTERFACE_SSID_RRM_SCHEMA(t),
+    'access-control-list': INTERFACE_SSID_ACCESS_CONTROL_LIST_SCHEMA(t),
     roaming: INTERFACE_SSID_ROAMING_SCHEMA(t),
     radius: INTERFACE_SSID_RADIUS_SCHEMA(t),
     'pass-point': INTERFACE_SSID_PASS_POINT_SCHEMA(t),
