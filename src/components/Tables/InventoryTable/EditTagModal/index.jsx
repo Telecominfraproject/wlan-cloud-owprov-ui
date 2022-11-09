@@ -23,9 +23,10 @@ import EditButton from 'components/Buttons/EditButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
+import { useGetDeviceConfigurationOverrides } from 'hooks/Network/ConfigurationOverride';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
-import { useGetComputedConfiguration, useGetTag } from 'hooks/Network/Inventory';
+import { useGetTag } from 'hooks/Network/Inventory';
 import { axiosProv } from 'utils/axiosInstances';
 
 const propTypes = {
@@ -84,12 +85,7 @@ const EditTagModal = ({
     serialNumber: tag?.serialNumber,
     enabled: tag?.serialNumber !== '' && isOpen,
   });
-  const { data: computedConfig } = useGetComputedConfiguration({
-    t,
-    toast,
-    serialNumber: tag?.serialNumber,
-    enabled: tag?.serialNumber !== '' && isOpen,
-  });
+  const getOverrides = useGetDeviceConfigurationOverrides({ serialNumber: tag?.serialNumber });
   const updateTag = useMutation((tagInfo) =>
     axiosProv.put(
       `inventory/${tag?.serialNumber}${
@@ -166,10 +162,10 @@ const EditTagModal = ({
           }
         />
         <ModalBody>
-          {!isLoading && tagData ? (
+          {!isLoading && tagData && getOverrides.data ? (
             <EditTagForm
               editing={editing}
-              tag={{ ...tagData, computedConfig }}
+              tag={{ ...tagData, overrides: getOverrides.data.overrides }}
               updateTag={updateTag}
               isOpen={isOpen}
               onClose={setEditing.off}

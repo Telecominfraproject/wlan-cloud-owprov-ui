@@ -593,6 +593,8 @@
 	"devices": {
 		"all": "All",
 		"associations": "Associations",
+		"certificate_expires_in": "Certificate Expiry",
+		"certificate_expiry": "Cert. Expires In",
 		"connected": "Connected",
 		"create_errors": "errors while trying to create devices",
 		"create_success": " devices successfully created",
@@ -613,6 +615,7 @@
 		"notifications": "Device Notifications",
 		"one": "Device",
 		"reassign_already_owned": "Reassign devices which already exist and are owned by another entity/venue/subscriber?",
+		"restricted": "Restricted",
 		"sanity": "Sanity",
 		"start_import": "Start Device Importation",
 		"test_batch": "Test Import Data",
@@ -739,6 +742,13 @@
 		"successful_macs": "Successful MACs",
 		"title": "Jobs"
 	},
+	"keys": {
+		"description_error": "Description needs to be less than 64 characters long",
+		"expire_error": "The expiry cannot be more than one year in the future",
+		"name_error": "Name should be unique and be between 6 and 20 characters",
+		"one": "API Key",
+		"other": "API Keys"
+	},
 	"locations": {
 		"address_line_one": "Address Line One",
 		"address_line_two": "Address Line Two",
@@ -785,6 +795,25 @@
 		"your_new_password": "Your new password",
 		"your_password": "Your password"
 	},
+	"logs": {
+		"configuration_upgrade": "Configuration Update",
+		"device_firmware_upgrade": "Firmware Upgrade",
+		"device_statistics": "Device Statistics",
+		"export": "Export",
+		"filter": "Filter",
+		"firmware": "Firmware",
+		"global_connections": "Global Connections",
+		"level": "Level",
+		"message": "Message",
+		"one": "Log",
+		"receiving_types": "Receiving Types",
+		"security": "Security",
+		"source": "Source",
+		"thread": "Thread",
+		"venue_config": "Configuration",
+		"venue_reboot": "Reboot",
+		"venue_upgrade": "Upgrade"
+	},
 	"map": {
 		"auto_align": "Auto Align",
 		"auto_map": "Auto Map",
@@ -801,6 +830,10 @@
 		"title": "Map",
 		"visibility": "Visibility"
 	},
+	"notification": {
+		"one": "Notification",
+		"other": "Notifications"
+	},
 	"operator": {
 		"delete_explanation": "Are you sure you want to delete this operator? This operation is not reversible",
 		"delete_operator": "Delete Operator",
@@ -814,6 +847,22 @@
 	"organization": {
 		"my_organization": "My Organization",
 		"title": "Organization"
+	},
+	"overrides": {
+		"delete_source": "Delete all overrides from {{source}}",
+		"ignore_overrides": "Ignore Configuration Overrides",
+		"name_error": "Parameter is already defined by your source",
+		"one": "Configuration Override",
+		"other": "Configuration Overrides",
+		"param_name": "Parameter",
+		"param_value": "Value",
+		"parameter": "Parameter",
+		"reason": "Reason",
+		"reason_error": "Your reason needs to be less than 64 chars. long",
+		"source": "Source",
+		"tx_power_error": "Tx power needs to be between 1 and 32",
+		"update_success": "Updated Configuration Overrides!",
+		"value": "Value"
 	},
 	"profile": {
 		"about_me": "About Me",
@@ -846,6 +895,21 @@
 		"vendor": "Vendor",
 		"version": "Version"
 	},
+	"script": {
+		"automatic": "Automatic",
+		"custom_domain": "Custom Domain",
+		"deferred": "Deferred",
+		"device_title": "Run Device Script",
+		"explanation": "Run a custom script on this device and download its results",
+		"file_too_large": "Please select a file that is less than 500KB",
+		"now": "Now",
+		"one": "Script",
+		"schedule_success": "Scheduled script execution!",
+		"signature": "Signature",
+		"timeout": "Timeout",
+		"upload_destination": "Upload Destination",
+		"when": "Schedule Execution"
+	},
 	"service": {
 		"billing_code": "Billing Code",
 		"billing_frequency": "Billing Frequency",
@@ -854,6 +918,48 @@
 		"cost": "Cost",
 		"one": "Service Class",
 		"other": "Service Classes"
+	},
+	"simulation": {
+		"cancel": "Cancel Simulation",
+		"cancel_explanation": "Stop the simulation and erase its record",
+		"cancel_success": "Stopped simulation and erased its record!",
+		"client_interval": "Client Interval",
+		"concurrent_devices": "Concurrent Devices",
+		"controller": "Controller",
+		"current_live_devices": "Current Live Devices",
+		"delete_success": "Deleted Simulation!",
+		"duration": "Duration",
+		"error_devices": "Error Devices",
+		"healthcheck_interval": "Healthcheck Interval",
+		"infinite": "Infinite",
+		"keep_alive": "Keep Alive",
+		"mac_prefix": "MAC Prefix",
+		"max_associations": "Max. Associations",
+		"max_clients": "Max. Clients",
+		"min_associations": "Min. Associations",
+		"min_clients": "Min. Clients",
+		"no_sim_running": "No simulation currently running",
+		"one": "Simulation",
+		"other": "Simulations",
+		"owner": "Owner",
+		"realtime_data": "Real-Time Data",
+		"realtime_messages": "Real-Time Messages",
+		"reconnect_interval": "Reconnect Interval",
+		"result_delete_success": "Deleted Result!",
+		"rx": "Received",
+		"rx_messages": "Rx Messages",
+		"sim_currently_running": "Simulation \"{{sim}}\" in progress",
+		"sim_history": "{{sim}} Previous Runs",
+		"start": "Start Simulation",
+		"start_success": "Started simulation run!",
+		"state_interval": "State Interval",
+		"stop": "Stop Simulation",
+		"stop_success": "Stopped simulation!",
+		"threads": "Threads",
+		"time_to_full": "Time to full devices",
+		"tx": "Transmitted",
+		"tx_messages": "Tx Messages",
+		"view_previous_runs": "View Previous Runs"
 	},
 	"statistics": {
 		"last_stats": "Last Statistics",

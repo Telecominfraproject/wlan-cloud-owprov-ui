@@ -208,15 +208,37 @@ export const useGetTag = ({ enabled, serialNumber }: { enabled: boolean; serialN
   );
 };
 
+export type ComputedConfigurationExplanation =
+  | {
+      action: 'added';
+      element: Record<string, unknown>;
+      'from-name': string;
+      'from-uuid': string;
+      reason?: undefined;
+    }
+  | {
+      action: 'ignored';
+      'from-name': string;
+      'from-uuid': string;
+      reason: string;
+    };
+export type ComputedConfigurationResponse = {
+  config: Record<string, unknown> | 'none';
+  explanation: Partial<ComputedConfigurationExplanation>[];
+};
 export const useGetComputedConfiguration = ({ enabled, serialNumber }: { enabled: boolean; serialNumber: string }) => {
   const { t } = useTranslation();
   const toast = useToast();
 
   return useQuery(
     ['get-tag-computed-configuration', serialNumber],
-    () => axiosProv.get(`inventory/${serialNumber}?config=true&explain=true`).then(({ data }) => data),
+    () =>
+      axiosProv
+        .get(`inventory/${serialNumber}?config=true&explain=true`)
+        .then(({ data }) => data as ComputedConfigurationResponse),
     {
       enabled,
+      staleTime: 30000,
       onError: (e: AxiosError) => {
         if (!toast.isActive('tag-computed-configuration-fetching-error'))
           toast({
