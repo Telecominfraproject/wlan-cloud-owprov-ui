@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from '@chakra-ui/react';
-import { Info, Storefront, Tag, TreeStructure, UsersThree } from 'phosphor-react';
+import { Info, ListBullets, Storefront, Tag, TreeStructure, UsersThree } from 'phosphor-react';
 import { Route } from 'models/Routes';
 
 const AccountPage = React.lazy(() => import('pages/Profile'));
@@ -8,6 +8,7 @@ const ConfigurationPage = React.lazy(() => import('pages/ConfigurationPage'));
 const EntityPage = React.lazy(() => import('pages/EntityPage'));
 const InventoryPage = React.lazy(() => import('pages/InventoryPage'));
 const MapPage = React.lazy(() => import('pages/MapPage'));
+const NotificationsPage = React.lazy(() => import('pages/Notifications'));
 const OperatorPage = React.lazy(() => import('pages/OperatorPage'));
 const OperatorsPage = React.lazy(() => import('pages/OperatorsPage'));
 const SubscriberPage = React.lazy(() => import('pages/SubscriberPage'));
@@ -44,6 +45,15 @@ const routes: Route[] = [
       <Icon as={Storefront} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
     component: OperatorsPage,
+  },
+  {
+    authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+    path: '/logs',
+    name: 'controller.devices.logs',
+    icon: (active: boolean) => (
+      <Icon as={ListBullets} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
+    ),
+    component: NotificationsPage,
   },
   {
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],

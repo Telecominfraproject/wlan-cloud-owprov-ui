@@ -1,32 +1,33 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import useWebSocketNotification from './hooks/NotificationContent/useWebSocketNotification';
-import { useProvisioningStore } from './useStore';
-import { ProvisioningSocketRawMessage } from './utils';
+import { useQueryClient } from '@tanstack/react-query';
+import { useFirmwareStore } from './useStore';
+import { FirmwareSocketRawMessage } from './utils';
 import { useAuth } from 'contexts/AuthProvider';
-import { axiosProv, axiosSec } from 'utils/axiosInstances';
+import { axiosFms, axiosSec } from 'utils/axiosInstances';
 
-export type ProvisioningSocketContextReturn = Record<string, unknown>;
+export type FirmwareSocketContextReturn = Record<string, unknown>;
 
-const ProvisioningSocketContext = React.createContext<ProvisioningSocketContextReturn>({
+const FirmwareSocketContext = React.createContext<FirmwareSocketContextReturn>({
   webSocket: undefined,
   isOpen: false,
 });
 
-export const ProvisioningSocketProvider = ({ children }: { children: React.ReactElement }) => {
+export const FirmwareSocketProvider = ({ children }: { children: React.ReactElement }) => {
   const { token, isUserLoaded } = useAuth();
-  const { pushNotification, modal } = useWebSocketNotification();
-  const { addMessage, isOpen, webSocket, onStartWebSocket } = useProvisioningStore((state) => ({
+  const { addMessage, isOpen, webSocket, onStartWebSocket } = useFirmwareStore((state) => ({
     addMessage: state.addMessage,
     isOpen: state.isWebSocketOpen,
     webSocket: state.webSocket,
     onStartWebSocket: state.startWebSocket,
   }));
 
+  const queryClient = useQueryClient();
+
   const onMessage = useCallback((message: MessageEvent<string>) => {
     try {
-      const data = JSON.parse(message.data) as ProvisioningSocketRawMessage | undefined;
+      const data = JSON.parse(message.data) as FirmwareSocketRawMessage | undefined;
       if (data) {
-        addMessage(data, pushNotification);
+        addMessage(data, queryClient);
       }
       return undefined;
     } catch {
@@ -36,7 +37,7 @@ export const ProvisioningSocketProvider = ({ children }: { children: React.React
 
   // useEffect for created the WebSocket and 'storing' it in useRef
   useEffect(() => {
-    if (isUserLoaded && axiosProv?.defaults?.baseURL !== axiosSec?.defaults?.baseURL) {
+    if (isUserLoaded && axiosFms?.defaults?.baseURL !== axiosSec?.defaults?.baseURL) {
       onStartWebSocket(token ?? '');
     }
 
@@ -70,7 +71,7 @@ export const ProvisioningSocketProvider = ({ children }: { children: React.React
           // If tab is active again, verify if browser killed the WS
           clearTimeout(timeoutId);
 
-          if (!isOpen && isUserLoaded && axiosProv?.defaults?.baseURL !== axiosSec?.defaults?.baseURL) {
+          if (!isOpen && isUserLoaded && axiosFms?.defaults?.baseURL !== axiosSec?.defaults?.baseURL) {
             onStartWebSocket(token ?? '');
           }
         }
@@ -83,17 +84,9 @@ export const ProvisioningSocketProvider = ({ children }: { children: React.React
     };
   }, [webSocket, isOpen]);
 
-  const values: ProvisioningSocketContextReturn = useMemo(() => ({}), []);
+  const values: FirmwareSocketContextReturn = useMemo(() => ({}), []);
 
-  return (
-    <ProvisioningSocketContext.Provider value={values}>
-      <>
-        {children}
-        {modal}
-      </>
-    </ProvisioningSocketContext.Provider>
-  );
+  return <FirmwareSocketContext.Provider value={values}>{children}</FirmwareSocketContext.Provider>;
 };
 
-export const useGlobalProvisioningSocket: () => ProvisioningSocketContextReturn = () =>
-  React.useContext(ProvisioningSocketContext);
+export const useGlobalFirmwareSocket: () => FirmwareSocketContextReturn = () => React.useContext(FirmwareSocketContext);
