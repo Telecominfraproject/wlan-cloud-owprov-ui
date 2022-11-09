@@ -593,6 +593,8 @@
 	"devices": {
 		"all": "Todos",
 		"associations": "Associações",
+		"certificate_expires_in": "Certificado expira em",
+		"certificate_expiry": "Certificado expira em",
 		"connected": "Conectado",
 		"create_errors": "erros ao tentar criar dispositivos",
 		"create_success": " dispositivos criados com sucesso",
@@ -613,6 +615,7 @@
 		"notifications": "Notificações do dispositivo",
 		"one": "Dispositivo",
 		"reassign_already_owned": "Reatribuir dispositivos que já existem e são de propriedade de outra entidade/local/assinante?",
+		"restricted": "Restrito",
 		"sanity": "Sanidade",
 		"start_import": "Iniciar importação de dispositivos",
 		"test_batch": "Dados de importação de teste",
@@ -739,6 +742,13 @@
 		"successful_macs": "MACs de sucesso",
 		"title": "Empregos"
 	},
+	"keys": {
+		"description_error": "A descrição precisa ter menos de 64 caracteres",
+		"expire_error": "A expiração não pode ser superior a um ano no futuro",
+		"name_error": "O nome deve ser único e ter entre 6 e 20 caracteres",
+		"one": "Chave API",
+		"other": "Chaves de Api"
+	},
 	"locations": {
 		"address_line_one": "Linha de endereço um",
 		"address_line_two": "Linha de endereço dois",
@@ -785,6 +795,25 @@
 		"your_new_password": "Sua nova senha",
 		"your_password": "Sua senha"
 	},
+	"logs": {
+		"configuration_upgrade": "Atualização de configuração",
+		"device_firmware_upgrade": "Atualização de firmware",
+		"device_statistics": "Estatísticas do dispositivo",
+		"export": "Exportar",
+		"filter": "Filtro",
+		"firmware": "Firmware",
+		"global_connections": "Conexões Globais",
+		"level": "Nível",
+		"message": "mensagem",
+		"one": "Registro",
+		"receiving_types": "Tipos de recebimento",
+		"security": "SEGURANÇA",
+		"source": "Fonte",
+		"thread": "FIO",
+		"venue_config": "Configuração",
+		"venue_reboot": "Reiniciar",
+		"venue_upgrade": "Melhorar"
+	},
 	"map": {
 		"auto_align": "Alinhamento Automático",
 		"auto_map": "Mapa automático",
@@ -801,6 +830,10 @@
 		"title": "Mapa",
 		"visibility": "visibilidade"
 	},
+	"notification": {
+		"one": "Notificação",
+		"other": "Notificações"
+	},
 	"operator": {
 		"delete_explanation": "Tem certeza de que deseja excluir este operador? Esta operação não é reversível",
 		"delete_operator": "Excluir operador",
@@ -814,6 +847,22 @@
 	"organization": {
 		"my_organization": "Minha organização",
 		"title": "Organização"
+	},
+	"overrides": {
+		"delete_source": "Excluir todas as substituições de {{source}}",
+		"ignore_overrides": "Ignorar substituições de configuração",
+		"name_error": "O parâmetro já está definido pela sua fonte",
+		"one": "Substituição de configuração",
+		"other": "Substituições de configuração",
+		"param_name": "parâmetro",
+		"param_value": "Valor",
+		"parameter": "parâmetro",
+		"reason": "RAZÃO",
+		"reason_error": "Seu motivo precisa ter menos de 64 caracteres. grandes",
+		"source": "Fonte",
+		"tx_power_error": "A potência Tx precisa estar entre 1 e 32",
+		"update_success": "Substituições de configuração atualizadas!",
+		"value": "Valor"
 	},
 	"profile": {
 		"about_me": "Sobre mim",
@@ -846,6 +895,21 @@
 		"vendor": "fornecedor",
 		"version": "Versão"
 	},
+	"script": {
+		"automatic": "Automático",
+		"custom_domain": "Domínio personalizado",
+		"deferred": "Diferido",
+		"device_title": "Executar script de dispositivo",
+		"explanation": "Execute um script personalizado neste dispositivo e baixe seus resultados",
+		"file_too_large": "Selecione um arquivo com menos de 500 KB",
+		"now": "agora",
+		"one": "Roteiro",
+		"schedule_success": "Execução de script agendada!",
+		"signature": "Assinatura",
+		"timeout": "Tempo esgotado",
+		"upload_destination": "Carregar destino",
+		"when": "Agendar Execução"
+	},
 	"service": {
 		"billing_code": "código de cobrança",
 		"billing_frequency": "Freqüência de cobrança",
@@ -854,6 +918,48 @@
 		"cost": "Custo",
 		"one": "Classe de serviço",
 		"other": "Classes de serviço"
+	},
+	"simulation": {
+		"cancel": "Cancelar simulação",
+		"cancel_explanation": "Pare a simulação e apague seu registro",
+		"cancel_success": "Parou a simulação e apagou seu registro!",
+		"client_interval": "Intervalo do Cliente",
+		"concurrent_devices": "Dispositivos Simultâneos",
+		"controller": "Controlador",
+		"current_live_devices": "Dispositivos ativos atuais",
+		"delete_success": "Simulação excluída!",
+		"duration": "Duração",
+		"error_devices": "Dispositivos de Erro",
+		"healthcheck_interval": "Intervalo de verificação de saúde",
+		"infinite": "Infinito",
+		"keep_alive": "Mantenha vivo",
+		"mac_prefix": "Prefixo MAC",
+		"max_associations": "Máx. Associações",
+		"max_clients": "Máx. Clientes",
+		"min_associations": "Min. Associações",
+		"min_clients": "Min. Clientes",
+		"no_sim_running": "Nenhuma simulação em execução no momento",
+		"one": "Simulação",
+		"other": "Simulações",
+		"owner": "Proprietário",
+		"realtime_data": "Dados em tempo real",
+		"realtime_messages": "Mensagens em tempo real",
+		"reconnect_interval": "Intervalo de reconexão",
+		"result_delete_success": "Resultado deletado!",
+		"rx": "recebido",
+		"rx_messages": "Mensagens Rx",
+		"sim_currently_running": "Simulação \"{{sim}}\" em andamento",
+		"sim_history": "{{sim}} execuções anteriores",
+		"start": "Iniciar simulação",
+		"start_success": "Corrida de simulação iniciada!",
+		"state_interval": "Intervalo de estado",
+		"stop": "Parar simulação",
+		"stop_success": "Simulação parada!",
+		"threads": "Tópicos",
+		"time_to_full": "Tempo para dispositivos completos",
+		"tx": "Transmitido",
+		"tx_messages": "Mensagens Tx",
+		"view_previous_runs": "Ver execuções anteriores"
 	},
 	"statistics": {
 		"last_stats": "Últimas estatísticas",

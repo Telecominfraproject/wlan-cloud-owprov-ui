@@ -9,6 +9,7 @@ import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 import SelectField from 'components/FormFields/SelectField';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import StringField from 'components/FormFields/StringField';
+import ToggleField from 'components/FormFields/ToggleField';
 import { CreateTagSchema } from 'constants/formSchemas';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
@@ -57,7 +58,17 @@ const CreateTagForm = ({
     return `ven:${splitEntity[1]}`;
   };
 
-  const createParameters = ({ serialNumber, name, description, note, deviceType, devClass, deviceRules, entity }) => ({
+  const createParameters = ({
+    serialNumber,
+    name,
+    description,
+    note,
+    deviceType,
+    devClass,
+    deviceRules,
+    entity,
+    doNotAllowOverrides,
+  }) => ({
     serialNumber: serialNumber.toLowerCase(),
     name,
     deviceRules,
@@ -67,6 +78,7 @@ const CreateTagForm = ({
     notes: note.length > 0 ? [{ note }] : undefined,
     entity: entity === '' || entity.split(':')[0] !== 'ent' ? '' : entity.split(':')[1],
     venue: entity === '' || entity.split(':')[0] !== 'ven' ? '' : entity.split(':')[1],
+    doNotAllowOverrides,
     subscriber: subId !== '' ? subId : '',
   });
 
@@ -91,6 +103,7 @@ const CreateTagForm = ({
         devClass: deviceClass !== '' ? deviceClass : 'any',
         note: '',
         entity: getEntityId(),
+        doNotAllowOverrides: false,
       }}
       validationSchema={CreateTagSchema(t)}
       onSubmit={(formData, { setSubmitting, resetForm }) => {
@@ -190,6 +203,7 @@ const CreateTagForm = ({
             isRequired
             isHidden={deviceClass !== ''}
           />
+          <ToggleField name="doNotAllowOverrides" label={t('overrides.ignore_overrides')} isRequired />
           <StringField name="description" label={t('common.description')} />
           <StringField name="note" label={t('common.note')} />
         </SimpleGrid>

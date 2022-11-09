@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-loop-func */
+/* eslint-disable no-await-in-loop */
 import React, { useEffect, useState } from 'react';
 import { useToast, Tabs, TabList, TabPanels, TabPanel, Tab, SimpleGrid, Textarea } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -7,13 +9,16 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import SpecialConfigurationManager from '../../../CustomFields/SpecialConfigurationManager';
 import ComputedConfigurationDisplay from './ComputedConfigurationDisplay';
+import ConfigurationOverrides from 'components/ConfigurationOverrides';
 import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
 import NotesTable from 'components/CustomFields/NotesTable';
 import SelectField from 'components/FormFields/SelectField';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import StringField from 'components/FormFields/StringField';
+import ToggleField from 'components/FormFields/ToggleField';
 import { UpdateTagSchema } from 'constants/formSchemas';
 import { TagShape } from 'constants/propShapes';
+import { useUpdateSourceOverrides } from 'hooks/Network/ConfigurationOverride';
 import { useUpdateConfiguration } from 'hooks/Network/Configurations';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
@@ -55,6 +60,7 @@ const EditTagForm = ({
   const updateConfiguration = useUpdateConfiguration({ id: tag.deviceConfiguration });
   const [isDeleted, setIsDeleted] = useState(false);
   const queryClient = useQueryClient();
+  const updateOverrides = useUpdateSourceOverrides({ serialNumber: tag?.serialNumber });
 
   const getEntityFromData = (data) => {
     if (data.entity !== '') return `ent:${data.entity}`;
@@ -79,7 +85,7 @@ const EditTagForm = ({
       }}
       validationSchema={UpdateTagSchema(t)}
       onSubmit={async (
-        { name, description, notes, entity, deviceType, deviceRules, devClass, state },
+        { name, description, notes, entity, deviceType, deviceRules, devClass, state, overrides, doNotAllowOverrides },
         { setSubmitting, resetForm },
       ) => {
         const params = {
@@ -89,13 +95,77 @@ const EditTagForm = ({
           deviceType,
           deviceRules,
           devClass,
+          doNotAllowOverrides,
           entity: entity === '' || entity.split(':')[0] !== 'ent' ? '' : entity.split(':')[1],
           venue: entity === '' || entity.split(':')[0] !== 'ven' ? '' : entity.split(':')[1],
           state,
         };
+
         let configUpdateSuccess = true;
+        let overrideUpdateError;
+        if (overrides !== undefined) {
+          const overridesPerSource = overrides.reduce((acc, override) => {
+            if (!acc[override.source]) acc[override.source] = [];
+            acc[override.source].push(override);
+            return acc;
+          }, {});
+
+          for (const [source, overridesToUpdate] of Object.entries(overridesPerSource)) {
+            if (overridesPerSource[source]) {
+              await updateOverrides.mutateAsync(
+                { source, data: { serialNumber: tag?.serialNumber, overrides: overridesToUpdate } },
+                {
+                  onError: (e) => {
+                    overrideUpdateError = e;
+                  },
+                },
+              );
+              if (overrideUpdateError) {
+                toast({
+                  id: `override-update-error`,
+                  title: t('common.error'),
+                  description: overrideUpdateError?.response?.data?.ErrorDescription,
+                  status: 'error',
+                  duration: 5000,
+                  isClosable: true,
+                  position: 'top-right',
+                });
+                break;
+              }
+            }
+          }
+
+          // Now verify if any of the original sources were deleted
+          if (!overrideUpdateError) {
+            const sourcesToDelete = tag.overrides.map((o) => o.source).filter((source) => !overridesPerSource[source]);
+            const uniqueSourcesToDelete = [...new Set(sourcesToDelete)];
+            for (const source of uniqueSourcesToDelete) {
+              await updateOverrides.mutateAsync(
+                { source, data: { serialNumber: tag?.serialNumber, overrides: [] } },
+                {
+                  onError: (e) => {
+                    overrideUpdateError = e;
+                  },
+                },
+              );
+              if (overrideUpdateError) {
+                toast({
+                  id: `override-update-error`,
+                  title: t('common.error'),
+                  description: overrideUpdateError?.response?.data?.ErrorDescription,
+                  status: 'error',
+                  duration: 5000,
+                  isClosable: true,
+                  position: 'top-right',
+                });
+                break;
+              }
+            }
+          }
+        }
+
         // We need to attach configuration to update so it gets created
-        if (configuration !== null) {
+        if (configuration !== null && overrideUpdateError === undefined) {
           const configToPush = {
             ...configuration.data,
             name: `device:${tag.serialNumber}`,
@@ -105,7 +175,7 @@ const EditTagForm = ({
 
           if (tag.deviceConfiguration === '') params.__newConfig = configToPush;
           else
-            updateConfiguration.mutateAsync(configToPush, {
+            await updateConfiguration.mutateAsync(configToPush, {
               onSuccess: ({ data }) => {
                 toast({
                   id: 'configuration-update-success',
@@ -141,7 +211,7 @@ const EditTagForm = ({
             });
         } else params.deviceConfiguration = '';
 
-        if (configUpdateSuccess) {
+        if (configUpdateSuccess && overrideUpdateError === undefined) {
           updateTag.mutateAsync(params, {
             onSuccess: async () => {
               toast({
@@ -155,10 +225,15 @@ const EditTagForm = ({
                 isClosable: true,
                 position: 'top-right',
               });
-              setSubmitting(false);
-              resetForm();
-              refresh();
-              onClose();
+              queryClient.invalidateQueries(['get-inventory-tag', tag.serialNumber]);
+              queryClient.invalidateQueries(['configurationOverrides', tag.serialNumber]);
+              queryClient.invalidateQueries(['get-tag-computed-configuration', tag.serialNumber]);
+              setTimeout(() => {
+                setSubmitting(false);
+                resetForm();
+                refresh();
+                onClose();
+              }, 200);
             },
             onError: (e) => {
               toast({
@@ -185,6 +260,7 @@ const EditTagForm = ({
             <Tab>{t('common.main')}</Tab>
             <Tab>{t('configurations.special_configuration')}</Tab>
             <Tab>{t('inventory.computed_configuration')}</Tab>
+            <Tab>{t('overrides.other')}</Tab>
             <Tab>{t('common.notes')}</Tab>
             <Tab>{t('common.state')}</Tab>
           </TabList>
@@ -242,6 +318,12 @@ const EditTagForm = ({
                     isRequired
                     isDisabled={!editing}
                   />
+                  <ToggleField
+                    name="doNotAllowOverrides"
+                    label={t('overrides.ignore_overrides')}
+                    isDisabled={!editing}
+                    isRequired
+                  />
                 </SimpleGrid>
               </Form>
             </TabPanel>
@@ -254,7 +336,10 @@ const EditTagForm = ({
               />
             </TabPanel>
             <TabPanel>
-              <ComputedConfigurationDisplay computedConfig={tag.computedConfig} />
+              <ComputedConfigurationDisplay serialNumber={tag.serialNumber} />
+            </TabPanel>
+            <TabPanel>
+              <ConfigurationOverrides serialNumber={tag.serialNumber} isDisabled={!editing} />
             </TabPanel>
             <TabPanel>
               <Field name="notes">

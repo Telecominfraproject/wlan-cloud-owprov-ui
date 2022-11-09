@@ -593,6 +593,8 @@
 	"devices": {
 		"all": "Tout",
 		"associations": "Les associations",
+		"certificate_expires_in": "Le certificat expire dans",
+		"certificate_expiry": "Cert. Expire dans",
 		"connected": "Connecté",
 		"create_errors": "erreurs lors de la tentative de création d'appareils",
 		"create_success": " appareils créés avec succès",
@@ -613,6 +615,7 @@
 		"notifications": "notifications de l'appareil",
 		"one": "Dispositif",
 		"reassign_already_owned": "Réattribuer des appareils qui existent déjà et qui appartiennent à une autre entité/salle/abonné ?",
+		"restricted": "Limité",
 		"sanity": "Santé mentale",
 		"start_import": "Démarrer l'importation de l'appareil",
 		"test_batch": "Tester les données d'importation",
@@ -739,6 +742,13 @@
 		"successful_macs": "MAC réussis",
 		"title": "Emplois"
 	},
+	"keys": {
+		"description_error": "La description doit comporter moins de 64 caractères",
+		"expire_error": "L'expiration ne peut pas être supérieure à un an dans le futur",
+		"name_error": "Le nom doit être unique et comporter entre 6 et 20 caractères",
+		"one": "Clé API",
+		"other": "Clés API"
+	},
 	"locations": {
 		"address_line_one": "Adresse Ligne 1",
 		"address_line_two": "Adresse ligne deux",
@@ -785,6 +795,25 @@
 		"your_new_password": "Votre nouveau mot de passe",
 		"your_password": "Votre mot de passe"
 	},
+	"logs": {
+		"configuration_upgrade": "Mise à jour de la configuration",
+		"device_firmware_upgrade": "Mise à jour du firmware",
+		"device_statistics": "Statistiques de l'appareil",
+		"export": "Exportation",
+		"filter": "Filtre",
+		"firmware": "Micrologiciel",
+		"global_connections": "Connexions mondiales",
+		"level": "Niveau",
+		"message": "Message",
+		"one": "Bûche",
+		"receiving_types": "Types de réception",
+		"security": "SÉCURITÉ",
+		"source": "La source",
+		"thread": "Fil de discussion",
+		"venue_config": "Configuration",
+		"venue_reboot": "Redémarrer",
+		"venue_upgrade": "Améliorer"
+	},
 	"map": {
 		"auto_align": "Alignement automatique",
 		"auto_map": "Carte automatique",
@@ -801,6 +830,10 @@
 		"title": "Carte",
 		"visibility": "Visibilité"
 	},
+	"notification": {
+		"one": "Notification",
+		"other": "Les notifications"
+	},
 	"operator": {
 		"delete_explanation": "Voulez-vous vraiment supprimer cet opérateur ? Cette opération n'est pas réversible",
 		"delete_operator": "Supprimer l'opérateur",
@@ -814,6 +847,22 @@
 	"organization": {
 		"my_organization": "Mon organisation",
 		"title": "Organisation"
+	},
+	"overrides": {
+		"delete_source": "Supprimer tous les remplacements de {{source}}",
+		"ignore_overrides": "Ignorer les remplacements de configuration",
+		"name_error": "Le paramètre est déjà défini par votre source",
+		"one": "Remplacement de la configuration",
+		"other": "Remplacements de configuration",
+		"param_name": "paramètre",
+		"param_value": "Valeur",
+		"parameter": "paramètre",
+		"reason": "raison",
+		"reason_error": "Votre raison doit être inférieure à 64 caractères. long",
+		"source": "La source",
+		"tx_power_error": "La puissance de transmission doit être comprise entre 1 et 32",
+		"update_success": "Remplacements de configuration mis à jour !",
+		"value": "Valeur"
 	},
 	"profile": {
 		"about_me": "À propos de moi",
@@ -846,6 +895,21 @@
 		"vendor": "vendeur",
 		"version": "Version"
 	},
+	"script": {
+		"automatic": "Automatique",
+		"custom_domain": "Domaine personnalisé",
+		"deferred": "Différé",
+		"device_title": "Exécuter le script de périphérique",
+		"explanation": "Exécutez un script personnalisé sur cet appareil et téléchargez ses résultats",
+		"file_too_large": "Veuillez sélectionner un fichier de moins de 500 Ko",
+		"now": "À présent",
+		"one": "Scénario",
+		"schedule_success": "Exécution du script planifié !",
+		"signature": "signature",
+		"timeout": "Temps libre",
+		"upload_destination": "Destination de téléchargement",
+		"when": "Planifier l'exécution"
+	},
 	"service": {
 		"billing_code": "Code de facturation",
 		"billing_frequency": "Fréquence de facturation",
@@ -854,6 +918,48 @@
 		"cost": "Coût",
 		"one": "Classe de service",
 		"other": "Catégories de services"
+	},
+	"simulation": {
+		"cancel": "Annuler la simulation",
+		"cancel_explanation": "Arrêtez la simulation et effacez son enregistrement",
+		"cancel_success": "Simulation arrêtée et efface son enregistrement !",
+		"client_interval": "Intervalle client",
+		"concurrent_devices": "Périphériques simultanés",
+		"controller": "Manette",
+		"current_live_devices": "Appareils en direct actuels",
+		"delete_success": "Simulation supprimée !",
+		"duration": "Durée",
+		"error_devices": "Périphériques d'erreur",
+		"healthcheck_interval": "Intervalle de vérification de l'état",
+		"infinite": "Infini",
+		"keep_alive": "Rester en vie",
+		"mac_prefix": "Préfixe MAC",
+		"max_associations": "Max. Les associations",
+		"max_clients": "Max. Clients",
+		"min_associations": "Min. Les associations",
+		"min_clients": "Min. Clients",
+		"no_sim_running": "Aucune simulation en cours",
+		"one": "simulation",
+		"other": "Simulations",
+		"owner": "Propriétaire",
+		"realtime_data": "Données en temps réel",
+		"realtime_messages": "Messages en temps réel",
+		"reconnect_interval": "Intervalle de reconnexion",
+		"result_delete_success": "Résultat supprimé !",
+		"rx": "reçu",
+		"rx_messages": "Messages reçus",
+		"sim_currently_running": "Simulation \"{{sim}}\" en cours",
+		"sim_history": "{{sim}} courses précédentes",
+		"start": "Démarrer la simulation",
+		"start_success": "Lancement de la simulation !",
+		"state_interval": "Intervalle d'état",
+		"stop": "Arrêter la simulation",
+		"stop_success": "Simulation arrêtée !",
+		"threads": "Fils",
+		"time_to_full": "Temps pour les appareils pleins",
+		"tx": "Transmis",
+		"tx_messages": "Messages de transmission",
+		"view_previous_runs": "Voir les courses précédentes"
 	},
 	"statistics": {
 		"last_stats": "Dernières statistiques",
