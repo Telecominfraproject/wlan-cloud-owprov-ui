@@ -1,27 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import { useTranslation } from 'react-i18next';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePickerInput from '../DatePickerInput';
 
-const propTypes = {
-  date: PropTypes.instanceOf(Date).isRequired,
-  onChange: PropTypes.func.isRequired,
-  isStart: PropTypes.bool,
-  isEnd: PropTypes.bool,
-  startDate: PropTypes.instanceOf(Date),
-  endDate: PropTypes.instanceOf(Date),
+type Props = {
+  date: Date;
+  onChange: (v: Date | null) => void;
+  isStart?: boolean;
+  isEnd?: boolean;
+  startDate?: Date;
+  endDate?: Date;
+  isDisabled?: boolean;
 };
 
-const defaultProps = {
-  isStart: false,
-  isEnd: false,
-  startDate: null,
-  endDate: null,
-};
-
-const DateTimePicker = ({ date, onChange, isStart, isEnd, startDate, endDate }) => {
+const DateTimePicker = ({ date, onChange, isStart, isEnd, startDate, endDate, isDisabled }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -36,11 +29,9 @@ const DateTimePicker = ({ date, onChange, isStart, isEnd, startDate, endDate }) 
       dateFormat="dd/MM/yyyy hh:mm aa"
       timeFormat="p"
       showTimeSelect
-      customInput={<DatePickerInput />}
+      customInput={<DatePickerInput isDisabled={isDisabled} />}
     />
   );
 };
 
-DateTimePicker.propTypes = propTypes;
-DateTimePicker.defaultProps = defaultProps;
 export default React.memo(DateTimePicker);
