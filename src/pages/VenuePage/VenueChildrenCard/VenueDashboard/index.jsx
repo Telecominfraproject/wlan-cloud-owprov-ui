@@ -1,5 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Center, Flex, Heading, Spacer, Spinner, useDisclosure } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Center,
+  Flex,
+  Heading,
+  Spacer,
+  Spinner,
+  useDisclosure,
+} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import VenueAnalyticsHeader from './Header';
@@ -16,7 +28,7 @@ const VenueDashboard = ({ boardId }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure(false);
   const [tableOptions, setTableOptions] = useState(null);
-  const { data: devices, isFetching, refetch } = useGetAnalyticsBoardDevices({ id: boardId });
+  const { data: devices, isFetching, refetch, error } = useGetAnalyticsBoardDevices({ id: boardId });
 
   const handleRefreshClick = () => {
     refetch();
@@ -111,6 +123,21 @@ const VenueDashboard = ({ boardId }) => {
   useEffect(() => {
     if (!isOpen) setTableOptions(null);
   }, [isOpen]);
+
+  if (error)
+    return (
+      <Center mt={6}>
+        <Alert status="error" w="unset" borderRadius="15px">
+          <AlertIcon />
+          <Box>
+            <AlertTitle>{t('common.error')}</AlertTitle>
+            <AlertDescription>
+              {error.response?.status === 404 ? t('analytics.missing_board') : error.response?.data?.ErrorDescription}
+            </AlertDescription>
+          </Box>
+        </Alert>
+      </Center>
+    );
 
   return !devices ? (
     <Center mt={6}>
