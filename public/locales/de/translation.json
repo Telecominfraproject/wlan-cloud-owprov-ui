@@ -371,7 +371,7 @@
 		"push_configuration": "Push-Konfiguration",
 		"push_configuration_error": "Fehler beim Versuch, die Konfiguration auf das Gerät zu übertragen: {{e}}",
 		"push_configuration_explanation": "Konfiguration nicht übertragen, Fehlercode {{code}}",
-		"push_success": "Konfiguration erfolgreich übertragen!",
+		"push_success": "Die Konfiguration wurde verifiziert und ein \"Konfigurieren\"-Befehl wurde jetzt von der Steuerung initiiert!",
 		"radio_limit": "Sie haben die maximale Anzahl an Funkgeräten (5) erreicht. Sie müssen eines der aktivierten Bänder löschen, um ein neues hinzuzufügen",
 		"radios": "Radios",
 		"rc_only": "Nur für Release-Kandidaten",
