@@ -283,6 +283,7 @@ export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (t, useDefault = false) => {
     .shape({
       proto: string()
         .required(t('form.required'))
+        .oneOf(ENCRYPTION_OPTIONS.map(({ value }) => value))
         .test('encryption-6g-test', t('form.invalid_proto_6g'), (v, { from }) => {
           const bands = from[1].value['wifi-bands'];
           if (bands && bands.includes('6G') && ENCRYPTION_PROTOS_NO_6G.includes(from[0].value.proto)) return false;
