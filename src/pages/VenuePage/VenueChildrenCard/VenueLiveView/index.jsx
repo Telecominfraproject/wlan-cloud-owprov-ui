@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
-import { Box, Center, Flex, Spacer, Spinner, useColorModeValue } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Center,
+  Flex,
+  Spacer,
+  Spinner,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+import { useTranslation } from 'react-i18next';
 import CirclePack from './CirclePack';
 import ExpandButton from './ExpandButton';
 import CirclePackTimePickers from './TimePickers';
@@ -17,11 +29,32 @@ const propTypes = {
 };
 
 const VenueLiveView = ({ boardId, venue }) => {
+  const { t } = useTranslation();
   const handle = useFullScreenHandle();
   const color = useColorModeValue('gray.50', 'gray.800');
   const [startTime, setStartTime] = useState(getHoursAgo(1));
   const [endTime, setEndTime] = useState(new Date());
-  const { data: timepoints, isFetching, refetch } = useGetAnalyticsBoardTimepoints({ id: boardId, startTime, endTime });
+  const {
+    data: timepoints,
+    isFetching,
+    refetch,
+    error,
+  } = useGetAnalyticsBoardTimepoints({ id: boardId, startTime, endTime });
+
+  if (error)
+    return (
+      <Center mt={6}>
+        <Alert status="error" w="unset" borderRadius="15px">
+          <AlertIcon />
+          <Box>
+            <AlertTitle>{t('common.error')}</AlertTitle>
+            <AlertDescription>
+              {error.response?.status === 404 ? t('analytics.missing_board') : error.response?.data?.ErrorDescription}
+            </AlertDescription>
+          </Box>
+        </Alert>
+      </Center>
+    );
 
   return !timepoints ? (
     <Center mt={6}>
