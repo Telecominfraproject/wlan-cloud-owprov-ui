@@ -41,6 +41,7 @@ export const ENCRYPTION_PROTOS_REQUIRE_IEEE = [
   'owe',
   'owe-transition',
 ];
+export const ENCRYPTION_PROTOS_CAN_RADIUS = ['none'];
 export const ENCRYPTION_PROTOS_REQUIRE_RADIUS = [
   'psk2-radius',
   'wpa',

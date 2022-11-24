@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  ENCRYPTION_PROTOS_CAN_RADIUS,
   ENCRYPTION_PROTOS_REQUIRE_IEEE,
   ENCRYPTION_PROTOS_REQUIRE_KEY,
   ENCRYPTION_PROTOS_REQUIRE_RADIUS,
@@ -57,12 +58,13 @@ const Encryption = ({
     [isPasspoint],
   );
 
-  const { isKeyNeeded, needIeee, isUsingRadius } = useMemo(
+  const { isKeyNeeded, needIeee, isUsingRadius, canUseRadius } = useMemo(
     () => ({
       isKeyNeeded: ENCRYPTION_PROTOS_REQUIRE_KEY.includes(encryptionValue?.proto ?? ''),
       needIeee: ENCRYPTION_PROTOS_REQUIRE_IEEE.includes(encryptionValue?.proto ?? ''),
       isUsingRadius:
         ENCRYPTION_PROTOS_REQUIRE_RADIUS.includes(encryptionValue?.proto ?? '') || radiusValue !== undefined,
+      canUseRadius: ENCRYPTION_PROTOS_CAN_RADIUS.includes(encryptionValue?.proto ?? ''),
     }),
     [encryptionValue?.proto, radiusValue !== undefined],
   );
@@ -77,6 +79,7 @@ const Encryption = ({
       isKeyNeeded={isKeyNeeded}
       isUsingRadius={isUsingRadius}
       isPasspoint={isPasspoint}
+      canUseRadius={canUseRadius}
     />
   );
 };
