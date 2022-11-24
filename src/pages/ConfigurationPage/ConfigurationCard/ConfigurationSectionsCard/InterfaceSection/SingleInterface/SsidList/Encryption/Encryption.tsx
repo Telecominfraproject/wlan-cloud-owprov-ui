@@ -15,6 +15,7 @@ interface Props {
   isKeyNeeded: boolean;
   isUsingRadius: boolean;
   isPasspoint?: boolean;
+  canUseRadius: boolean;
 }
 
 const EncryptionForm = ({
@@ -26,6 +27,7 @@ const EncryptionForm = ({
   isKeyNeeded,
   isUsingRadius,
   isPasspoint,
+  canUseRadius,
 }: Props) => (
   <>
     <Flex mt={4}>
@@ -77,7 +79,9 @@ const EncryptionForm = ({
         defaultValue
       />
     </SimpleGrid>
-    {isUsingRadius && <Radius editing={editing} namePrefix={radiusPrefix} isPasspoint={isPasspoint} />}
+    {(isUsingRadius || canUseRadius) && (
+      <Radius editing={editing} namePrefix={radiusPrefix} isPasspoint={isPasspoint} isNotRequired={canUseRadius} />
+    )}
   </>
 );
 
