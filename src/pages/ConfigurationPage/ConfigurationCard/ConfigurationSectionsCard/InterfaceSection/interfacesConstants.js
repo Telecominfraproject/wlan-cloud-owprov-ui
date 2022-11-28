@@ -512,7 +512,7 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
     subnet: string().when('addressing', {
       is: 'dynamic',
       then: string().nullable(),
-      otherwise: string().default(''),
+      otherwise: string().test('test-ipv4-subnet', t('form.invalid_ipv4'), testIpv4).default(''),
     }),
     gateway: string().when('addressing', {
       is: 'dynamic',
