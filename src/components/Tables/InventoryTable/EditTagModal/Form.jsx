@@ -226,6 +226,7 @@ const EditTagForm = ({
                 position: 'top-right',
               });
               queryClient.invalidateQueries(['get-inventory-tag', tag.serialNumber]);
+              queryClient.invalidateQueries(['get-configuration']);
               queryClient.invalidateQueries(['configurationOverrides', tag.serialNumber]);
               queryClient.invalidateQueries(['get-tag-computed-configuration', tag.serialNumber]);
               setTimeout(() => {
