@@ -10,6 +10,7 @@ import {
   testSelectPorts,
   testUcMac,
 } from 'constants/formTests';
+import { testStaticIpv4ClassD, testStaticIpv4ClassE } from 'utils/formatTests';
 
 export const DEFAULT_PASSPOINT_RADIUS = {
   authentication: {
@@ -512,7 +513,11 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
     subnet: string().when('addressing', {
       is: 'dynamic',
       then: string().nullable(),
-      otherwise: string().test('test-ipv4-subnet', t('form.invalid_ipv4'), testIpv4).default(''),
+      otherwise: string()
+        .test('test-ipv4-subnet', t('form.invalid_ipv4'), testIpv4)
+        .test('test-ipv4-subnet-static-d', t('form.invalid_static_ipv4_d'), testStaticIpv4ClassD)
+        .test('test-ipv4-subnet-static-e', t('form.invalid_static_ipv4_e'), testStaticIpv4ClassE)
+        .default(''),
     }),
     gateway: string().when('addressing', {
       is: 'dynamic',
