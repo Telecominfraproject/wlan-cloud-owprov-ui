@@ -9,3 +9,29 @@ export const isJson = (str: string): boolean => {
   }
   return true;
 };
+export const testStaticIpv4ClassD = (str?: unknown): boolean => {
+  if (!str || typeof str !== 'string') return false;
+  const firstOctet = str.split('.')[0];
+  if (firstOctet) {
+    try {
+      const firstOctetNumber = Number(firstOctet);
+      if (firstOctetNumber >= 1 && (firstOctetNumber <= 223 || firstOctetNumber > 239)) return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+};
+export const testStaticIpv4ClassE = (str?: unknown): boolean => {
+  if (!str || typeof str !== 'string') return false;
+  const firstOctet = str.split('.')[0];
+  if (firstOctet) {
+    try {
+      const firstOctetNumber = Number(firstOctet);
+      if (firstOctetNumber >= 1 && firstOctetNumber <= 223 && firstOctetNumber <= 239) return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+};
