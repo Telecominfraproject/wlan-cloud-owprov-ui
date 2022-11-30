@@ -12,6 +12,7 @@ export const SINGLE_RADIO_SCHEMA = (t: (str: string) => string, useDefault = fal
     mimo: string().default(undefined),
     'tx-power': number().required(t('form.required')).moreThan(-1).lessThan(31).integer().default(0),
     'legacy-rates': bool().default(undefined),
+    'allow-dfs': bool().default(true),
     'beacon-interval': number().required(t('form.required')).moreThan(14).lessThan(65535).integer().default(100),
     'dtim-period': number().required(t('form.required')).moreThan(0).lessThan(256).integer().default(2),
     'maximum-clients': number().positive().integer().default(64),

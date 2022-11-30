@@ -5,6 +5,7 @@ import He from './He';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import NumberField from 'components/FormFields/NumberField';
 import SelectField from 'components/FormFields/SelectField';
+import ToggleField from 'components/FormFields/ToggleField';
 
 type Props = {
   isDisabled?: boolean;
@@ -21,6 +22,13 @@ const AdvancedSettings = ({ namePrefix, isDisabled }: Props) => {
         </Heading>
       </Flex>
       <SimpleGrid minChildWidth="300px" spacing="20px">
+        <ToggleField
+          name={`${namePrefix}.allow-dfs`}
+          label="allow-dfs"
+          definitionKey="radio.allow-dfs"
+          isDisabled={isDisabled}
+          defaultValue
+        />
         <SelectField
           name={`${namePrefix}.rates.beacon`}
           label="beacon-rate"
