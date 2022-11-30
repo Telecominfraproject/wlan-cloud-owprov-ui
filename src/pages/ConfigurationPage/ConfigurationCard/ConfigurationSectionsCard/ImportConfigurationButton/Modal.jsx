@@ -70,12 +70,19 @@ const ImportConfigurationModal = ({ isOpen, onClose, setValue }) => {
   const [error, { on, off }] = useBoolean();
 
   const saveValue = () => {
-    const newVal = JSON.parse(tempValue).map((conf) => ({
-      ...conf,
-      configuration: JSON.stringify(conf.configuration),
-    }));
-    setValue(newVal);
-    onClose();
+    try {
+      const final = JSON.parse(transformComputedConfigToEditable(JSON.parse(tempValue)));
+      if (final) {
+        const newVal = final.map((conf) => ({
+          ...conf,
+          configuration: JSON.stringify(conf.configuration),
+        }));
+        setValue(newVal);
+        onClose();
+      }
+    } catch (e) {
+      on();
+    }
   };
 
   const parseFile = async (file) => {
@@ -87,7 +94,7 @@ const ImportConfigurationModal = ({ isOpen, onClose, setValue }) => {
         const res = JSON.parse(fileStr);
         const transformConfig = transformComputedConfigToEditable(res);
         if (transformConfig) {
-          setTempValue(transformConfig);
+          setTempValue(JSON.stringify(res, null, 2));
           off();
         } else on();
       } catch {
@@ -98,6 +105,18 @@ const ImportConfigurationModal = ({ isOpen, onClose, setValue }) => {
 
   const onChange = (e) => {
     if (e.target.files?.length > 0) parseFile(e.target.files[0]);
+  };
+
+  const onTextAreaChange = (e) => {
+    setTempValue(e.target.value);
+    try {
+      const json = JSON.parse(e.target.value);
+      const res = transformComputedConfigToEditable(json);
+      if (res) off();
+      else on();
+    } catch {
+      on();
+    }
   };
 
   useEffect(() => {
@@ -126,7 +145,7 @@ const ImportConfigurationModal = ({ isOpen, onClose, setValue }) => {
             <Text ml={2}>{t('configurations.import_warning')}</Text>
           </Alert>
           <Heading size="sm">{t('configurations.import_file_explanation')}</Heading>
-          <Box w={72} mt={2}>
+          <Box mt={2}>
             <FormControl isInvalid={error}>
               <InputGroup>
                 <Input
@@ -137,12 +156,13 @@ const ImportConfigurationModal = ({ isOpen, onClose, setValue }) => {
                   onChange={onChange}
                   key={refreshId}
                   accept=".json"
+                  w={72}
                 />
               </InputGroup>
               <FormErrorMessage mt={2}>{t('form.invalid_file_content')}</FormErrorMessage>
             </FormControl>
           </Box>
-          <Textarea h="512px" isDisabled defaultValue={tempValue} mt={2} />
+          <Textarea h="512px" value={tempValue} onChange={onTextAreaChange} mt={2} />
         </ModalBody>
       </ModalContent>
     </Modal>
