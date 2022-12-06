@@ -11,7 +11,6 @@ import InterfaceExpertModal from './InterfaceExpertModal';
 import Interfaces from './Interfaces';
 import { INTERFACES_SCHEMA } from './interfacesConstants';
 import DeleteButton from 'components/Buttons/DeleteButton';
-import { WAN_OPTIONS } from 'components/CustomFields/ConfigurationSelectPortsField/Input';
 import { ConfigurationSectionShape } from 'constants/propShapes';
 
 const propTypes = {
@@ -29,10 +28,7 @@ const warningTests = (values) => {
   for (const config of values.configuration) {
     if (config.ethernet?.length > 0) {
       for (let i = 0; i < config.ethernet[0]['select-ports'].length; i += 1) {
-        if (
-          config.ethernet[0]['select-ports'][i] === 'WAN*' ||
-          WAN_OPTIONS.includes(config.ethernet[0]['select-ports'][i])
-        ) {
+        if (config.ethernet[0]['select-ports'][i] === 'WAN*' || config.ethernet[0]['select-ports'][i] === '*') {
           foundWan = true;
           break;
         }

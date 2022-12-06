@@ -14,20 +14,9 @@ interface Props {
   isDisabled: boolean;
 }
 
-export const WAN_OPTIONS = ['WAN1', 'WAN2', 'WAN3', 'WAN4'];
 const lanOptions = ['LAN1', 'LAN2', 'LAN3', 'LAN4', 'LAN5', 'LAN6', 'LAN7', 'LAN8', 'LAN9', 'LAN10', 'LAN11', 'LAN12'];
 
-const MultiSelectInput = (
-  {
-    value,
-    onChange,
-    onBlur,
-    options,
-    error,
-    isError,
-    isDisabled
-  }: Props
-) => {
+const MultiSelectInput: React.FC<Props> = ({ value, onChange, onBlur, options, error, isError, isDisabled }) => {
   const { t } = useTranslation();
 
   const onValueChange = useCallback(
@@ -43,13 +32,17 @@ const MultiSelectInput = (
       if (v) {
         let newValue = v;
         const newestValue = newValue.length === 0 ? '' : newValue[newValue.length - 1]?.value ?? '';
-
-        if (WAN_OPTIONS.includes(newestValue)) newValue = newValue.filter((val) => val?.value !== 'WAN*');
-        else if (newestValue === 'WAN*') newValue = newValue.filter((val) => !WAN_OPTIONS.includes(val?.value ?? ''));
+        if (newestValue === '*') {
+          newValue = [{ value: '*', label: t('common.all') }];
+        }
         if (lanOptions.includes(newestValue)) newValue = newValue.filter((val) => val?.value !== 'LAN*');
         else if (newestValue === 'LAN*') newValue = newValue.filter((val) => !lanOptions.includes(val?.value ?? ''));
 
-        onChange(newValue.map((val) => val?.value ?? ''));
+        onChange(
+          newValue.length === 1
+            ? newValue.map((val) => val?.value ?? '')
+            : newValue.map((val) => val?.value ?? '').filter((newV) => newV !== '*'),
+        );
       }
     },
     [],

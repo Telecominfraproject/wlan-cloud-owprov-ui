@@ -23,9 +23,9 @@ interface Props {
   remove: (e: number) => void;
 }
 
-const SingleInterface = ({ editing, index, remove }: Props) => {
+const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
   const { t } = useTranslation();
-  const { value } = useFastField({ name: `configuration[${index}].ssids` });
+  const { value } = useFastField<unknown[]>({ name: `configuration[${index}].ssids` });
   const removeRadio = () => remove(index);
 
   const roleOpts = useMemo(

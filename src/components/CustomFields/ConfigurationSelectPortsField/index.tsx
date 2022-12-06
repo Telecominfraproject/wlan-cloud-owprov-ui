@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import MultiSelectInput from './Input';
 import useFastField from 'hooks/useFastField';
 
@@ -7,11 +8,16 @@ interface Props {
   name: string;
 }
 
-const ConfigurationSelectPortsField = ({ name, isDisabled = false }: Props) => {
+const ConfigurationSelectPortsField: React.FC<Props> = ({ name, isDisabled = false }) => {
+  const { t } = useTranslation();
   const { value, error, isError, onChange, onBlur } = useFastField<string[] | undefined>({ name });
 
   const options = useMemo(
     () => [
+      {
+        value: '*',
+        label: t('common.all'),
+      },
       {
         value: 'WAN*',
         label: 'WAN*',
@@ -19,22 +25,6 @@ const ConfigurationSelectPortsField = ({ name, isDisabled = false }: Props) => {
       {
         value: 'LAN*',
         label: 'LAN*',
-      },
-      {
-        value: 'WAN1',
-        label: 'WAN1',
-      },
-      {
-        value: 'WAN2',
-        label: 'WAN2',
-      },
-      {
-        value: 'WAN3',
-        label: 'WAN3',
-      },
-      {
-        value: 'WAN4',
-        label: 'WAN4',
       },
       {
         value: 'LAN1',
@@ -90,7 +80,7 @@ const ConfigurationSelectPortsField = ({ name, isDisabled = false }: Props) => {
 
   return (
     <MultiSelectInput
-      value={value}
+      value={value ?? []}
       onChange={onChange}
       onBlur={onBlur}
       options={options}
