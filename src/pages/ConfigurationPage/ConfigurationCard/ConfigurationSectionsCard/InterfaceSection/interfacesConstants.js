@@ -393,7 +393,9 @@ export const INTERFACE_SSID_RRM_SCHEMA = (t, useDefault = false) => {
 
 export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    name: string().default(''),
+    name: string()
+      .test('ssid-name-test', t('form.min_max_string', { min: 1, max: 32 }), (v) => v.length >= 1 && v.length <= 32)
+      .default(''),
     purpose: string().default(undefined),
     'wifi-bands': array().of(string()).required(t('form.required')).min(1, t('form.required')).default(['2G', '5G']),
     'bss-mode': string().required(t('form.required')).default('ap'),
