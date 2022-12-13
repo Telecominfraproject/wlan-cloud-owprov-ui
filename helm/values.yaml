@@ -8,7 +8,7 @@ fullnameOverride: ""
 images:
   owprovui:
     repository: tip-tip-wlan-cloud-ucentral.jfrog.io/owprov-ui
-    tag: main
+    tag: v2.8.0-RC1
     pullPolicy: Always
 
 services:
