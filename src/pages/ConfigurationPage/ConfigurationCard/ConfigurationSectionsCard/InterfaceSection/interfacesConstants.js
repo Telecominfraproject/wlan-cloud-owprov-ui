@@ -417,6 +417,7 @@ export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
     roaming: INTERFACE_SSID_ROAMING_SCHEMA(t),
     radius: INTERFACE_SSID_RADIUS_SCHEMA(t),
     'pass-point': INTERFACE_SSID_PASS_POINT_SCHEMA(t),
+    'dtim-period': number().moreThan(0).lessThan(256).integer().default(2),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);

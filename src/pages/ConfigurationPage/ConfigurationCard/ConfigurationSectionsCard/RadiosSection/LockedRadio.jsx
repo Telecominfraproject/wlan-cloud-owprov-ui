@@ -126,7 +126,6 @@ const LockedRadio = ({ variableBlockId }) => {
           ]}
         />
         <NumberInput {...props('beacon-interval')} isRequired w={24} />
-        <NumberInput {...props('dtim-period')} isRequired w={24} />
         <FastCreatableSelectInput {...props('hostapd-iface-raw')} />
         <FastSelectInput
           {...props('rates.multicast')}

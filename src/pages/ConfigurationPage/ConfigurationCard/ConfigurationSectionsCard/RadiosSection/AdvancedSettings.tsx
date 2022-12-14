@@ -60,14 +60,6 @@ const AdvancedSettings = ({ namePrefix, isDisabled }: Props) => {
           isRequired
           w={24}
         />
-        <NumberField
-          name={`${namePrefix}.dtim-period`}
-          label="dtim-period"
-          definitionKey="radio.dtim-period"
-          isDisabled={isDisabled}
-          isRequired
-          w={24}
-        />
         <CreatableSelectField
           name={`${namePrefix}.hostapd-iface-raw`}
           label="hostapd-iface-raw"
