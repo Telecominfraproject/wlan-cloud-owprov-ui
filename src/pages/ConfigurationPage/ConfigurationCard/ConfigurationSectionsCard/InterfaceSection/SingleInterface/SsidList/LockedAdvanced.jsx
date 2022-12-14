@@ -101,6 +101,12 @@ const LockedAdvanced = ({ data }) => {
           ]}
           definitionKey="interface.ssid.purpose"
         />
+        <DisplayNumberField
+          value={data?.['dtim-period']}
+          label="dtim-period"
+          definitionKey="interface.ssid.dtim-period"
+          w={24}
+        />
         <DisplayToggleField
           value={data?.['isolate-clients']}
           label="isolate-clients"

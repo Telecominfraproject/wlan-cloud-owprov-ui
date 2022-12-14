@@ -107,6 +107,15 @@ const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ 
           ]}
           emptyIsUndefined
         />
+        <NumberField
+          name={`${namePrefix}.dtim-period`}
+          label="dtim-period"
+          definitionKey="radio.dtim-period"
+          isDisabled={!editing}
+          emptyIsUndefined
+          acceptEmptyValue
+          w={24}
+        />
         <ToggleField
           name={`${namePrefix}.isolate-clients`}
           label="isolate-clients"
@@ -157,7 +166,7 @@ const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ 
           isDisabled={!editing}
           emptyIsUndefined
         />
-        {!NO_MULTI_PROTOS.includes(proto) && (
+        {!NO_MULTI_PROTOS.includes(proto as string) && (
           <ObjectArrayFieldModal
             name={`${namePrefix}.multi-psk`}
             label="multi-psk"
