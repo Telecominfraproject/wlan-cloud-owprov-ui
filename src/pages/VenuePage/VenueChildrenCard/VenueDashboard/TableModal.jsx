@@ -23,6 +23,14 @@ import { useGetGatewayUi } from 'hooks/Network/Endpoints';
 import { arrayMoveIndex } from 'utils/arrayHelpers';
 import { minimalSecondsToDetailed } from 'utils/dateFormatting';
 
+const parseSerial = (serial) => {
+  try {
+    const res = parseInt(serial, 16);
+    return res;
+  } catch {
+    return 0;
+  }
+};
 const propTypes = {
   data: PropTypes.instanceOf(Object),
   isOpen: PropTypes.bool.isRequired,
@@ -48,12 +56,12 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
   const serialCell = useCallback(
     (cell) => (
       <Button
-        onClick={() => handleOpenInGateway(cell.row.values.serialNumber)}
+        onClick={() => handleOpenInGateway(cell.row.original.serialNumber)}
         variant="link"
         fontFamily="monospace"
         fontSize="0.8rem"
       >
-        {cell.row.values.serialNumber}
+        {cell.row.original.serialNumber}
       </Button>
     ),
     [],
@@ -65,10 +73,10 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
   );
   const healthCell = useCallback((cell) => `${cell.row.values.health}%`, []);
   const statusCell = useCallback(
-    (cell) => (cell.row.values.connected ? t('common.connected') : t('common.disconnected')),
+    (cell) => (cell.row.original.connected ? t('common.connected') : t('common.disconnected')),
     [],
   );
-  const memoryCell = useCallback((cell) => `${cell.row.values.memory}%`, []);
+  const memoryCell = useCallback((cell) => `${Math.floor(cell.row.values.memory * 100) / 100}%`, []);
   const durationCell = useCallback(
     (cell, key) => (cell.row.values[key] !== undefined ? minimalSecondsToDetailed(cell.row.values[key], t) : ''),
     [],
@@ -90,7 +98,7 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
         id: 'serialNumber',
         Header: t('inventory.serial_number'),
         Footer: '',
-        accessor: 'serialNumber',
+        accessor: (row) => parseSerial(row.serialNumber),
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
         Cell: ({ cell }) => serialCell(cell),
@@ -102,7 +110,7 @@ const VenueDashboardTableModal = ({ data, isOpen, onOpen, onClose, tableOptions 
         id: 'connected',
         Header: t('common.status'),
         Footer: '',
-        accessor: 'connected',
+        accessor: (row) => (row.connected ? 0 : 1),
         Cell: ({ cell }) => statusCell(cell),
         customMinWidth: '1%',
       },
