@@ -175,6 +175,7 @@
 		"other": "Befehle",
 		"override_dfs": "DFS überschreiben",
 		"reboot": "Starten Sie neu",
+		"reboot_description": "Möchten Sie dieses Gerät neu starten?",
 		"reboot_error": "Fehler beim Senden des Neustartbefehls: {{e}}",
 		"reboot_success": "Neustartbefehl erfolgreich gesendet!",
 		"revision": "Revision",
@@ -391,6 +392,7 @@
 		"warning_pushes_one": "Warten auf Geräteverbindung: {{count}}",
 		"warning_pushes_other": "Warten auf Geräteverbindung: {{count}}",
 		"weight": "Gewicht",
+		"wifi_bands_max": "Es können nicht mehr als 8 SSIDs dieses WLAN-Band verwenden",
 		"wifi_frames": "WiFi-Frames"
 	},
 	"contacts": {
@@ -894,6 +896,20 @@
 		"title": "Ressourcen",
 		"variable": "Variable"
 	},
+	"restrictions": {
+		"algo": "Signaturalgorithmus",
+		"allowed": "dürfen",
+		"countries": "erlaubte Länder",
+		"developer": "Entwicklermodus",
+		"dfs": "DFS-Überschreibung",
+		"gw_commands": "Gateway-Befehle",
+		"identifier": "Identifikator",
+		"key_verification": "Signieren von Schlüsselinformationen",
+		"restricted": "Beschränkt",
+		"signed_upgrade": "Nur signiertes Upgrade",
+		"title": "Beschränkungen",
+		"tty": "TTY-Zugriff"
+	},
 	"rrm": {
 		"algorithm": "Algorithmus",
 		"algorithm_other": "Algorithmen",
@@ -915,6 +931,7 @@
 		"custom_domain": "Benutzerdefinierten Domain",
 		"deferred": "Aufgeschoben",
 		"device_title": "Skript ausführen",
+		"diagnostics": "Diagnose",
 		"explanation": "Führen Sie ein benutzerdefiniertes Skript auf diesem Gerät aus und laden Sie die Ergebnisse herunter",
 		"file_not_ready": "Das Ergebnis wurde noch nicht hochgeladen, bitte kommen Sie später wieder",
 		"file_too_large": "Bitte wählen Sie eine Datei aus, die kleiner als 500 KB ist",

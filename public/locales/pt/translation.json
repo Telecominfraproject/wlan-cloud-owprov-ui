@@ -175,6 +175,7 @@
 		"other": "comandos",
 		"override_dfs": "Substituir DFS",
 		"reboot": "Reiniciar",
+		"reboot_description": "Deseja reiniciar este dispositivo?",
 		"reboot_error": "Erro ao enviar o comando de reinicialização: {{e}}",
 		"reboot_success": "Comando de reinicialização enviado com sucesso!",
 		"revision": "revisão",
@@ -391,6 +392,7 @@
 		"warning_pushes_one": "Aguardando a conexão dos dispositivos: {{count}}",
 		"warning_pushes_other": "Aguardando a conexão dos dispositivos: {{count}}",
 		"weight": "Peso",
+		"wifi_bands_max": "Não pode haver mais de 8 SSIDs usando esta banda wi-fi",
 		"wifi_frames": "Quadros WiFi"
 	},
 	"contacts": {
@@ -894,6 +896,20 @@
 		"title": "Recursos",
 		"variable": "Variável"
 	},
+	"restrictions": {
+		"algo": "Algoritmo de Assinatura",
+		"allowed": "Permitido",
+		"countries": "países permitidos",
+		"developer": "Modo de desenvolvedor",
+		"dfs": "Substituição DFS",
+		"gw_commands": "Comandos de gateway",
+		"identifier": "Identificador",
+		"key_verification": "Informações Chave de Assinatura",
+		"restricted": "Restrito",
+		"signed_upgrade": "Somente atualização assinada",
+		"title": "RESTRIÇÕES",
+		"tty": "Acesso TTY"
+	},
 	"rrm": {
 		"algorithm": "Algoritmo",
 		"algorithm_other": "Algoritmos",
@@ -915,6 +931,7 @@
 		"custom_domain": "Domínio personalizado",
 		"deferred": "Diferido",
 		"device_title": "Executar script",
+		"diagnostics": "Diagnóstico",
 		"explanation": "Execute um script personalizado neste dispositivo e baixe seus resultados",
 		"file_not_ready": "O resultado ainda não foi carregado, volte mais tarde",
 		"file_too_large": "Selecione um arquivo com menos de 500 KB",

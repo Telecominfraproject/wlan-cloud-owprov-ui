@@ -175,6 +175,7 @@
 		"other": "Commands",
 		"override_dfs": "Override DFS",
 		"reboot": "Reboot",
+		"reboot_description": "Do you want to reboot this device?",
 		"reboot_error": "Error while sending reboot command: {{e}}",
 		"reboot_success": "Successfully sent reboot command!",
 		"revision": "Revision",
@@ -391,6 +392,7 @@
 		"warning_pushes_one": "Waiting for devices to connect: {{count}}",
 		"warning_pushes_other": "Waiting for devices to connect: {{count}}",
 		"weight": "Weight",
+		"wifi_bands_max": "There cannot be more than 8 SSIDs using this wifi-band",
 		"wifi_frames": "WiFi Frames"
 	},
 	"contacts": {
@@ -894,6 +896,20 @@
 		"title": "Resources",
 		"variable": "Variable"
 	},
+	"restrictions": {
+		"algo": "Signing Algorithm",
+		"allowed": "Allowed",
+		"countries": "Allowed Countries",
+		"developer": "Developer Mode",
+		"dfs": "DFS Override",
+		"gw_commands": "Gateway Commands",
+		"identifier": "Identifier",
+		"key_verification": "Signing Key Information",
+		"restricted": "Restricted",
+		"signed_upgrade": "Signed Upgrade Only",
+		"title": "Restrictions",
+		"tty": "TTY Access"
+	},
 	"rrm": {
 		"algorithm": "Algorithm",
 		"algorithm_other": "Algorithms",
@@ -915,6 +931,7 @@
 		"custom_domain": "Custom Domain",
 		"deferred": "Deferred",
 		"device_title": "Run Script",
+		"diagnostics": "Diagnostics",
 		"explanation": "Run a custom script on this device and download its results",
 		"file_not_ready": "Result is not uploaded yet, please come back later",
 		"file_too_large": "Please select a file that is less than 500KB",

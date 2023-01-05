@@ -175,6 +175,7 @@
 		"other": "Les commandes",
 		"override_dfs": "Remplacer DFS",
 		"reboot": "Redémarrer",
+		"reboot_description": "Voulez-vous redémarrer cet appareil ?",
 		"reboot_error": "Erreur lors de l'envoi de la commande de redémarrage : {{e}}",
 		"reboot_success": "Commande de redémarrage envoyée avec succès !",
 		"revision": "Révision",
@@ -391,6 +392,7 @@
 		"warning_pushes_one": "En attente de connexion des appareils : {{count}}",
 		"warning_pushes_other": "En attente de connexion des appareils : {{count}}",
 		"weight": "Poids",
+		"wifi_bands_max": "Il ne peut y avoir plus de 8 SSID utilisant cette bande wifi",
 		"wifi_frames": "Cadres Wi-Fi"
 	},
 	"contacts": {
@@ -894,6 +896,20 @@
 		"title": "Ressources",
 		"variable": "Variable"
 	},
+	"restrictions": {
+		"algo": "Algorithme de signature",
+		"allowed": "Permis",
+		"countries": "Pays autorisés",
+		"developer": "Mode développeur",
+		"dfs": "Remplacement DFS",
+		"gw_commands": "Commandes de passerelle",
+		"identifier": "Identifiant",
+		"key_verification": "Signature des informations clés",
+		"restricted": "Limité",
+		"signed_upgrade": "Mise à niveau signée uniquement",
+		"title": "Restrictions",
+		"tty": "Accès ATS"
+	},
 	"rrm": {
 		"algorithm": "Algorithme",
 		"algorithm_other": "Algorithmes",
@@ -915,6 +931,7 @@
 		"custom_domain": "Domaine personnalisé",
 		"deferred": "Différé",
 		"device_title": "Script de lancement",
+		"diagnostics": "Diagnostics",
 		"explanation": "Exécutez un script personnalisé sur cet appareil et téléchargez ses résultats",
 		"file_not_ready": "Le résultat n'est pas encore téléchargé, veuillez revenir plus tard",
 		"file_too_large": "Veuillez sélectionner un fichier de moins de 500 Ko",
