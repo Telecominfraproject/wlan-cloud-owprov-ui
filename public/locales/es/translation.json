@@ -175,6 +175,7 @@
 		"other": "comandos",
 		"override_dfs": "Anular DFS",
 		"reboot": "Reiniciar",
+		"reboot_description": "¿Quieres reiniciar este dispositivo?",
 		"reboot_error": "Error al enviar el comando de reinicio: {{e}}",
 		"reboot_success": "¡Comando de reinicio enviado con éxito!",
 		"revision": "revisión",
@@ -391,6 +392,7 @@
 		"warning_pushes_one": "Esperando a que los dispositivos se conecten: {{count}}",
 		"warning_pushes_other": "Esperando a que los dispositivos se conecten: {{count}}",
 		"weight": "Peso",
+		"wifi_bands_max": "No puede haber más de 8 SSID usando esta banda wifi",
 		"wifi_frames": "Marcos WiFi"
 	},
 	"contacts": {
@@ -894,6 +896,20 @@
 		"title": "Recursos",
 		"variable": "Variable"
 	},
+	"restrictions": {
+		"algo": "Algoritmo de firma",
+		"allowed": "Permitido",
+		"countries": "países permitidos",
+		"developer": "Modo desarrollador",
+		"dfs": "Anulación de DFS",
+		"gw_commands": "Comandos de puerta de enlace",
+		"identifier": "Identificador",
+		"key_verification": "Información clave de firma",
+		"restricted": "Restringido",
+		"signed_upgrade": "Solo actualización firmada",
+		"title": "Las restricciones",
+		"tty": "Acceso TTY"
+	},
 	"rrm": {
 		"algorithm": "Algoritmo",
 		"algorithm_other": "Algoritmos",
@@ -915,6 +931,7 @@
 		"custom_domain": "Dominio personalizado",
 		"deferred": "Diferido",
 		"device_title": "Ejecutar guión",
+		"diagnostics": "Diagnósticos",
 		"explanation": "Ejecute un script personalizado en este dispositivo y descargue sus resultados",
 		"file_not_ready": "El resultado aún no se ha subido, vuelva más tarde",
 		"file_too_large": "Seleccione un archivo que tenga menos de 500 KB",
