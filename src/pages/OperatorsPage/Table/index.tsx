@@ -111,6 +111,12 @@ const OperatorsTable = () => {
             isManual
             hiddenColumns={hiddenColumns}
             obj={t('operator.other')}
+            sortBy={[
+              {
+                id: 'name',
+                desc: false,
+              },
+            ]}
             count={count || 0}
             // @ts-ignore
             setPageInfo={setPageInfo}

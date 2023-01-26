@@ -164,6 +164,7 @@ const UserTable = ({ title }) => {
               data={showUsers()}
               isLoading={isFetching}
               obj={t('users.title')}
+              sortBy={[{ id: 'email', desc: false }]}
               hiddenColumns={hiddenColumns}
               fullScreen
             />

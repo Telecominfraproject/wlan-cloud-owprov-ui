@@ -36,11 +36,7 @@ export interface _LoginFormProps {
   setActiveForm: React.Dispatch<React.SetStateAction<LoginFormProps>>;
 }
 
-const _LoginForm = (
-  {
-    setActiveForm
-  }: _LoginFormProps
-) => {
+const _LoginForm: React.FC<_LoginFormProps> = ({ setActiveForm }) => {
   const { t } = useTranslation();
   const { setToken } = useAuth();
   const { accessPolicyLink, passwordPolicyLink } = useApiRequirements();
@@ -50,9 +46,12 @@ const _LoginForm = (
   const forgotPassword = () => setActiveForm({ form: 'forgot-password' });
 
   const displayError = useMemo(() => {
-    const loginError = error as AxiosError;
+    const loginError: AxiosError = error as AxiosError;
 
-    if (loginError?.response?.data?.ErrorCode === 4) return t('login.waiting_for_email_verification');
+    if (loginError?.response?.data?.ErrorCode === 5) return t('login.waiting_for_email_verification');
+    if (loginError?.response?.data?.ErrorCode === 15) {
+      return t('login.suspended_error');
+    }
     return t('login.invalid_credentials');
   }, [t, error]);
 

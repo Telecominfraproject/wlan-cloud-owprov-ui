@@ -105,6 +105,12 @@ const LocationTable = ({ actions, select, refreshId, ignoredColumns, disabledIds
       data={venues ?? []}
       isLoading={isFetching}
       obj={t('locations.other')}
+      sortBy={[
+        {
+          id: 'name',
+          desc: false,
+        },
+      ]}
       minHeight="200px"
     />
   );

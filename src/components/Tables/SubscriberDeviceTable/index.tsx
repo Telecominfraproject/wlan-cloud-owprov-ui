@@ -119,6 +119,12 @@ const SubscriberDeviceTable = ({
       data={subscriberDevices ?? []}
       isLoading={isFetching}
       obj={t('devices.title')}
+      sortBy={[
+        {
+          id: 'serialNumber',
+          desc: false,
+        },
+      ]}
       minHeight={minHeight ?? '200px'}
     />
   );

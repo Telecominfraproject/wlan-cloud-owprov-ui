@@ -1,7 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'models/Axios';
+import { ContactObj } from 'models/Contact';
 import { PageInfo } from 'models/Table';
 import { axiosProv } from 'utils/axiosInstances';
 
@@ -102,32 +103,47 @@ export const useGetSelectContacts = ({ select }: { select: string[] }) => {
   );
 };
 
+const getContactsBatch = async (limit: number, offset: number) =>
+  axiosProv
+    .get(`contact?withExtendedInfo=true&limit=${limit}&offset=${offset}`)
+    .then(({ data }) => data.contacts as ContactObj[]);
+
+const getAllContacts = async () => {
+  const limit = 500;
+  let offset = 0;
+  let data: ContactObj[] = [];
+  let lastResponse: ContactObj[] = [];
+  do {
+    // eslint-disable-next-line no-await-in-loop
+    lastResponse = await getContactsBatch(limit, offset);
+    data = data.concat(lastResponse);
+    offset += 500;
+  } while (lastResponse.length === 500);
+  return data;
+};
+
 export const useGetAllContacts = () => {
   const { t } = useTranslation();
   const toast = useToast();
 
-  return useQuery(
-    ['get-all-contacts'],
-    () => axiosProv.get(`contact?withExtendedInfo=true&limit=500&offset=0`).then(({ data }) => data.contacts),
-    {
-      staleTime: 1000 * 1000,
-      onError: (e: AxiosError) => {
-        if (!toast.isActive('contacts-fetching-error'))
-          toast({
-            id: 'contacts-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('contacts.other'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+  return useQuery(['get-all-contacts'], () => getAllContacts(), {
+    staleTime: 60 * 1000,
+    onError: (e: AxiosError) => {
+      if (!toast.isActive('contacts-fetching-error'))
+        toast({
+          id: 'contacts-fetching-error',
+          title: t('common.error'),
+          description: t('crud.error_fetching_obj', {
+            obj: t('contacts.other'),
+            e: e?.response?.data?.ErrorDescription,
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
     },
-  );
+  });
 };
 
 export const useGetContact = ({ enabled, id }: { enabled: boolean; id: string }) => {

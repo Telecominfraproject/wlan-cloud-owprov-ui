@@ -602,6 +602,7 @@
 		"certificate_expires_in": "Certificado expira em",
 		"certificate_expiry": "Certificado expira em",
 		"connected": "Conectado",
+		"crash_logs": "Registros de falhas",
 		"create_errors": "erros ao tentar criar dispositivos",
 		"create_success": " dispositivos criados com sucesso",
 		"current_firmware": "Firmware atual",
@@ -615,6 +616,7 @@
 		"import_device_warning": "Certifique-se de que não há espaços extras no início ou no final de nenhum valor, a menos que faça parte do valor desejado",
 		"import_explanation": "Para importar dispositivos em massa, você precisa usar um arquivo CSV com as seguintes colunas: SerialNumber, DeviceType, Name, Description, Note",
 		"invalid_serial_number": "Número de série inválido (precisa ter 12 caracteres HEX)",
+		"logs_one": "Registro",
 		"new_devices": "novos dispositivos",
 		"no_model_image": "Nenhuma imagem de modelo encontrada",
 		"not_connected": "Não conectado",
@@ -799,6 +801,7 @@
 		"reset_password": "Redefinir senha",
 		"sign_in": "assinar em",
 		"sms_instructions": "Você deve receber um código de 6 dígitos em seu telefone em breve. Por favor, insira-o abaixo para fazer login",
+		"suspended_error": "Conta suspensa, entre em contato com seu administrador",
 		"verification": "Verifique seu login",
 		"waiting_for_email_verification": "Conta ainda não validada por e-mail. Verifique sua caixa de entrada ou peça ao administrador para reenviar uma validação",
 		"welcome_back": "Bem vindo de volta!",
@@ -1055,9 +1058,11 @@
 		"previous_page": "Página anterior"
 	},
 	"user": {
+		"email_not_validated": "e-mail não validado",
 		"error_fetching": "Erro ao buscar informações do usuário: {{e}}",
 		"password": "Senha",
 		"role": "Função",
+		"suspended": "Suspenso",
 		"title": "Do utilizador"
 	},
 	"users": {

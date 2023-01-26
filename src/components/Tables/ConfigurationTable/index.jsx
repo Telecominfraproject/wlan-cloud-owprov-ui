@@ -87,6 +87,12 @@ const ConfigurationsTable = ({ select, actions }) => {
       data={configurations ?? []}
       isLoading={isFetching}
       obj={t('configurations.title')}
+      sortBy={[
+        {
+          id: 'name',
+          desc: false,
+        },
+      ]}
       minHeight="200px"
     />
   );

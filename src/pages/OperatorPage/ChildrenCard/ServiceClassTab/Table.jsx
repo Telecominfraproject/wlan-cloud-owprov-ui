@@ -87,6 +87,12 @@ const ServiceClassTable = ({ operatorId, refreshId, actions }) => {
       columns={columns}
       data={serviceClasses ?? []}
       obj={t('service.other')}
+      sortBy={[
+        {
+          id: 'name',
+          desc: false,
+        },
+      ]}
       isLoading={isFetching}
       minHeight="200px"
     />

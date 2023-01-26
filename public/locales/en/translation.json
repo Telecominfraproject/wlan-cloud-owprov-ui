@@ -602,6 +602,7 @@
 		"certificate_expires_in": "Certificate Expiry",
 		"certificate_expiry": "Cert. Expires In",
 		"connected": "Connected",
+		"crash_logs": "Crash Logs",
 		"create_errors": "errors while trying to create devices",
 		"create_success": " devices successfully created",
 		"current_firmware": "Current Firmware",
@@ -615,6 +616,7 @@
 		"import_device_warning": "Please make sure there are no extra spaces at the start or end of any values unless it is part of the value desired",
 		"import_explanation": "To bulk import devices, you need to use a CSV file with the following columns: SerialNumber, DeviceType, Name, Description, Note",
 		"invalid_serial_number": "Invalid Serial Number (needs to be 12 HEX chars)",
+		"logs_one": "Log",
 		"new_devices": "new devices",
 		"no_model_image": "No Model Image Found",
 		"not_connected": "Not Connected",
@@ -799,6 +801,7 @@
 		"reset_password": "Reset Password",
 		"sign_in": "Sign In",
 		"sms_instructions": "You should receive a 6-digit code on your phone soon. Please enter it below to login",
+		"suspended_error": "Suspended account, please contact your administrator",
 		"verification": "Verify your login",
 		"waiting_for_email_verification": "Account not yet email validated. Please look at your inbox or ask your administrator to resend a validation",
 		"welcome_back": "Welcome Back!",
@@ -1055,9 +1058,11 @@
 		"previous_page": "Previous Page"
 	},
 	"user": {
+		"email_not_validated": "email not validated",
 		"error_fetching": "Error fetching user information: {{e}}",
 		"password": "Password",
 		"role": "Role",
+		"suspended": "suspended",
 		"title": "User"
 	},
 	"users": {

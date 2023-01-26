@@ -5,22 +5,18 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { useSendUserEmailValidation, useSuspendUser, useResetMfa, useResetPassword } from 'hooks/Network/Users';
 import useMutationResult from 'hooks/useMutationResult';
+import { AxiosError } from 'models/Axios';
 
 interface Props {
   id: string;
   isSuspended: boolean;
   isWaitingForCheck: boolean;
   refresh: () => void;
+  isDisabled?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 }
 
-const UserActions = (
-  {
-    id,
-    isSuspended,
-    isWaitingForCheck,
-    refresh
-  }: Props
-) => {
+const UserActions = ({ id, isSuspended, isWaitingForCheck, refresh, size = 'sm', isDisabled }: Props) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { mutateAsync: sendValidation } = useSendUserEmailValidation({ id, refresh });
@@ -38,7 +34,7 @@ const UserActions = (
         onSuccess();
       },
       onError: (e) => {
-        onError(e);
+        onError(e as AxiosError);
       },
     });
   const handleResetMfaClick = () =>
@@ -55,7 +51,7 @@ const UserActions = (
         });
       },
       onError: (e) => {
-        onError(e);
+        onError(e as AxiosError);
       },
     });
 
@@ -73,7 +69,7 @@ const UserActions = (
         });
       },
       onError: (e) => {
-        onError(e);
+        onError(e as AxiosError);
       },
     });
 
@@ -82,9 +78,16 @@ const UserActions = (
   return (
     <Menu>
       <Tooltip label={t('commands.other')}>
-        <MenuButton as={IconButton} aria-label="Commands" icon={<Wrench size={20} />} size="sm" ml={2} />
+        <MenuButton
+          as={IconButton}
+          aria-label="Commands"
+          icon={<Wrench size={20} />}
+          size={size}
+          ml={2}
+          isDisabled={isDisabled}
+        />
       </Tooltip>
-      <MenuList>
+      <MenuList fontSize="md">
         <MenuItem onClick={handleSuspendClick}>
           {isSuspended ? t('users.reactivate_user') : t('users.suspend')}
         </MenuItem>

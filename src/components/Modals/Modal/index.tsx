@@ -8,6 +8,7 @@ export type ModalProps = {
   onClose: () => void;
   title: string;
   topRightButtons?: React.ReactNode;
+  tags?: React.ReactNode;
   options?: {
     modalSize?: 'sm' | 'md' | 'lg';
     maxWidth?: LayoutProps['maxWidth'];
@@ -15,8 +16,7 @@ export type ModalProps = {
   children: React.ReactElement;
 };
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const _Modal = ({ isOpen, onClose, title, topRightButtons, options, children }: ModalProps) => {
+const _Modal = ({ isOpen, onClose, title, topRightButtons, tags, options, children }: ModalProps) => {
   const maxWidth = React.useMemo(() => {
     if (options?.maxWidth) return options.maxWidth;
     if (options?.modalSize === 'sm') return undefined;
@@ -33,6 +33,7 @@ const _Modal = ({ isOpen, onClose, title, topRightButtons, options, children }: 
       <ModalContent maxWidth={maxWidth}>
         <ModalHeader
           title={title}
+          left={tags}
           right={
             <HStack spacing={2}>
               {topRightButtons}

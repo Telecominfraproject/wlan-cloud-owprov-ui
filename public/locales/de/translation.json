@@ -602,6 +602,7 @@
 		"certificate_expires_in": "Zertifikat läuft ab in",
 		"certificate_expiry": "Zert. Läuft ab in",
 		"connected": "In Verbindung gebracht",
+		"crash_logs": "Absturzprotokolle",
 		"create_errors": "Fehler beim Versuch, Geräte zu erstellen",
 		"create_success": " Geräte erfolgreich erstellt",
 		"current_firmware": "Aktuelle Firmware",
@@ -615,6 +616,7 @@
 		"import_device_warning": "Bitte stellen Sie sicher, dass am Anfang oder Ende von Werten keine zusätzlichen Leerzeichen stehen, es sei denn, es handelt sich um einen Teil des gewünschten Werts",
 		"import_explanation": "Für den Massenimport von Geräten müssen Sie eine CSV-Datei mit den folgenden Spalten verwenden: SerialNumber, DeviceType, Name, Description, Note",
 		"invalid_serial_number": "Ungültige Seriennummer (muss 12 HEX-Zeichen lang sein)",
+		"logs_one": "Log",
 		"new_devices": "Neue Geräte",
 		"no_model_image": "Kein Modellbild gefunden",
 		"not_connected": "Nicht verbunden",
@@ -799,6 +801,7 @@
 		"reset_password": "Passwort zurücksetzen",
 		"sign_in": "Einloggen",
 		"sms_instructions": "Sie sollten bald einen 6-stelligen Code auf Ihrem Telefon erhalten. Bitte geben Sie es unten ein, um sich anzumelden",
+		"suspended_error": "Konto gesperrt, wenden Sie sich bitte an Ihren Administrator",
 		"verification": "Bestätigen Sie Ihre Anmeldung",
 		"waiting_for_email_verification": "Konto noch nicht per E-Mail validiert. Bitte sehen Sie in Ihrem Posteingang nach oder bitten Sie Ihren Administrator, eine Bestätigung erneut zu senden",
 		"welcome_back": "Willkommen zurück!",
@@ -1055,9 +1058,11 @@
 		"previous_page": "Vorherige Seite"
 	},
 	"user": {
+		"email_not_validated": "E-Mail nicht validiert",
 		"error_fetching": "Fehler beim Abrufen der Benutzerinformationen: {{e}}",
 		"password": "Passwort",
 		"role": "Rolle",
+		"suspended": "Suspendiert",
 		"title": "Nutzer"
 	},
 	"users": {
