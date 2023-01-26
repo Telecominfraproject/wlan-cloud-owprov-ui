@@ -602,6 +602,7 @@
 		"certificate_expires_in": "Le certificat expire dans",
 		"certificate_expiry": "Cert. Expire dans",
 		"connected": "Connecté",
+		"crash_logs": "Journaux des plantages",
 		"create_errors": "erreurs lors de la tentative de création d'appareils",
 		"create_success": " appareils créés avec succès",
 		"current_firmware": "Firmware actuel",
@@ -615,6 +616,7 @@
 		"import_device_warning": "Veuillez vous assurer qu'il n'y a pas d'espaces supplémentaires au début ou à la fin des valeurs, sauf si cela fait partie de la valeur souhaitée",
 		"import_explanation": "Pour importer en masse des appareils, vous devez utiliser un fichier CSV avec les colonnes suivantes : SerialNumber, DeviceType, Name, Description, Note",
 		"invalid_serial_number": "Numéro de série non valide (doit être composé de 12 caractères HEX)",
+		"logs_one": "Bûche",
 		"new_devices": "nouveaux appareils",
 		"no_model_image": "Aucune image de modèle trouvée",
 		"not_connected": "Pas connecté",
@@ -799,6 +801,7 @@
 		"reset_password": "Réinitialiser le mot de passe",
 		"sign_in": "se connecter",
 		"sms_instructions": "Vous devriez bientôt recevoir un code à 6 chiffres sur votre téléphone. Veuillez le saisir ci-dessous pour vous connecter",
+		"suspended_error": "Compte suspendu, veuillez contacter votre administrateur",
 		"verification": "Vérifiez votre connexion",
 		"waiting_for_email_verification": "Compte pas encore e-mail validé. Veuillez consulter votre boîte de réception ou demander à votre administrateur de renvoyer une validation",
 		"welcome_back": "Nous saluons le retour!",
@@ -1055,9 +1058,11 @@
 		"previous_page": "Page précédente"
 	},
 	"user": {
+		"email_not_validated": "Mail non valide",
 		"error_fetching": "Erreur lors de la récupération des informations utilisateur : {{e}}",
 		"password": "Mot de passe",
 		"role": "Rôle",
+		"suspended": "Suspendu",
 		"title": "Utilisateur"
 	},
 	"users": {

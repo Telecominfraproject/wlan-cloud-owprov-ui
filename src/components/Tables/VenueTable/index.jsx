@@ -78,6 +78,12 @@ const VenueTable = ({ actions, select }) => {
       data={venues ?? []}
       isLoading={isFetching}
       obj={t('venues.title')}
+      sortBy={[
+        {
+          id: 'name',
+          desc: false,
+        },
+      ]}
       minHeight="200px"
     />
   );

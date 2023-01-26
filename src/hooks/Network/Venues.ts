@@ -1,37 +1,53 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import useDefaultPage from 'hooks/useDefaultPage';
+import { AxiosError } from 'models/Axios';
+import { Venue } from 'models/Venue';
 import { axiosProv } from 'utils/axiosInstances';
+
+const getVenuesBatch = async (limit: number, offset: number) =>
+  axiosProv
+    .get(`venue?withExtendedInfo=true&offset=${offset}&limit=${limit}`)
+    .then(({ data }) => data.venues as Venue[]);
+
+const getAllVenues = async () => {
+  const limit = 500;
+  let offset = 0;
+  let data: Venue[] = [];
+  let lastResponse: Venue[] = [];
+  do {
+    // eslint-disable-next-line no-await-in-loop
+    lastResponse = await getVenuesBatch(limit, offset);
+    data = data.concat(lastResponse);
+    offset += limit;
+  } while (lastResponse.length === limit);
+  return data;
+};
 
 export const useGetVenues = () => {
   const { t } = useTranslation();
   const toast = useToast();
 
-  return useQuery(
-    ['get-venues'],
-    () => axiosProv.get('venue?withExtendedInfo=true&offset=0&limit=500').then(({ data }) => data.venues),
-    {
-      staleTime: 30000,
-      onError: (e: AxiosError) => {
-        if (!toast.isActive('venues-fetching-error'))
-          toast({
-            id: 'venues-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('venues.title'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+  return useQuery(['get-venues'], () => getAllVenues(), {
+    staleTime: 30000,
+    onError: (e: AxiosError) => {
+      if (!toast.isActive('venues-fetching-error'))
+        toast({
+          id: 'venues-fetching-error',
+          title: t('common.error'),
+          description: t('crud.error_fetching_obj', {
+            obj: t('venues.title'),
+            e: e?.response?.data?.ErrorDescription,
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
     },
-  );
+  });
 };
 
 export const useGetSelectVenues = ({ select }: { select: string[] }) => {

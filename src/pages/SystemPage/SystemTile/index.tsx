@@ -72,6 +72,7 @@ const SystemTile = ({ endpoint, token }: Props) => {
           <SystemLoggingButton endpoint={endpoint} token={token} />
           <Button
             mt={1}
+            ml={2}
             minWidth="112px"
             colorScheme="gray"
             rightIcon={<ArrowsClockwise />}

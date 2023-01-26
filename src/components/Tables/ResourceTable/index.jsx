@@ -93,6 +93,12 @@ const ResourcesTable = ({ select, actions, refreshId }) => {
       data={resources ?? []}
       isLoading={isFetching}
       obj={t('resources.title')}
+      sortBy={[
+        {
+          id: 'name',
+          desc: false,
+        },
+      ]}
       minHeight="200px"
     />
   );

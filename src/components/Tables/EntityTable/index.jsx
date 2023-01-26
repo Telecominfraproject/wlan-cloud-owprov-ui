@@ -78,6 +78,12 @@ const EntityTable = ({ actions, select }) => {
       data={entities ?? []}
       isLoading={isFetching}
       obj={t('entities.title')}
+      sortBy={[
+        {
+          id: 'name',
+          desc: false,
+        },
+      ]}
       minHeight="200px"
     />
   );

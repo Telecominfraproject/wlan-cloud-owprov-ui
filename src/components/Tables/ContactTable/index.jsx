@@ -99,6 +99,12 @@ const ContactTable = ({ actions, select, ignoredColumns, refreshId, disabledIds 
       data={venues ?? []}
       isLoading={isFetching}
       obj={t('contacts.other')}
+      sortBy={[
+        {
+          id: 'name',
+          desc: false,
+        },
+      ]}
       minHeight="200px"
     />
   );

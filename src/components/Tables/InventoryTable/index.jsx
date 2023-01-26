@@ -193,6 +193,12 @@ const InventoryTable = ({
         isLoading={isFetchingCount || isFetchingTags}
         isManual={!isManual}
         obj={t('devices.title')}
+        sortBy={[
+          {
+            id: 'serialNumber',
+            desc: false,
+          },
+        ]}
         count={count || 0}
         setPageInfo={setPageInfo}
         minHeight={minHeight ?? '200px'}
@@ -207,6 +213,12 @@ const InventoryTable = ({
       isLoading={isFetchingCount || isFetchingTags}
       isManual={!isManual}
       obj={t('devices.title')}
+      sortBy={[
+        {
+          id: 'serialNumber',
+          desc: false,
+        },
+      ]}
       count={count || 0}
       setPageInfo={setPageInfo}
       minHeight={minHeight ?? '200px'}

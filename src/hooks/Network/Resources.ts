@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'models/Axios';
 import { PageInfo } from 'models/Table';
 import { VariableBlock } from 'models/VariableBlock';
 import { axiosProv } from 'utils/axiosInstances';
@@ -33,31 +33,44 @@ export const useGetResourcesCount = () => {
   );
 };
 
+const getResourceBatch = async (limit: number, offset: number) =>
+  axiosProv.get(`variable?limit=${limit}&offset=${offset}`).then(({ data }) => data.variableBlocks as unknown[]);
+
+const getAllResources = async () => {
+  const limit = 500;
+  let offset = 0;
+  let data: unknown[] = [];
+  let lastResponse: unknown[] = [];
+  do {
+    // eslint-disable-next-line no-await-in-loop
+    lastResponse = await getResourceBatch(limit, offset);
+    data = data.concat(lastResponse);
+    offset += limit;
+  } while (lastResponse.length === limit);
+  return data;
+};
+
 export const useGetAllResources = () => {
   const { t } = useTranslation();
   const toast = useToast();
 
-  return useQuery(
-    ['get-all-resources'],
-    () => axiosProv.get(`variable?limit=500`).then(({ data }) => data.variableBlocks),
-    {
-      onError: (e: AxiosError) => {
-        if (!toast.isActive('resource-fetching-error'))
-          toast({
-            id: 'resource-fetching-error',
-            title: t('common.error'),
-            description: t('crud.error_fetching_obj', {
-              obj: t('resources.configuration_resource'),
-              e: e?.response?.data?.ErrorDescription,
-            }),
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top-right',
-          });
-      },
+  return useQuery(['get-all-resources'], () => getAllResources(), {
+    onError: (e: AxiosError) => {
+      if (!toast.isActive('resource-fetching-error'))
+        toast({
+          id: 'resource-fetching-error',
+          title: t('common.error'),
+          description: t('crud.error_fetching_obj', {
+            obj: t('resources.configuration_resource'),
+            e: e?.response?.data?.ErrorDescription,
+          }),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
     },
-  );
+  });
 };
 
 export const useGetResources = ({
