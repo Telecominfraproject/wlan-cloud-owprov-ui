@@ -26,8 +26,8 @@ const RrmFormField = ({ namePrefix = 'deviceRules', isDisabled }: Props) => {
 
       const val = typeof value === 'string' ? JSON.parse(value) : value;
       if (isCustomRrm(val) && val.algorithms.length > 0) {
-        if (val.algorithms.length <= 2) return val.algorithms.map(({ name: algoName }) => algoName).join(', ');
-        return `${val.algorithms[0]?.name}, ${val.algorithms[1]?.name}... (${val.algorithms.length})`;
+        if (val.algorithms.length <= 1) return val.algorithms.map(({ name: algoName }) => algoName).join(', ');
+        return `${val.algorithms[0]?.name}, ... (${val.algorithms.length})`;
       }
 
       return 'Unrecognized RRM';
@@ -46,6 +46,7 @@ const RrmFormField = ({ namePrefix = 'deviceRules', isDisabled }: Props) => {
         onClick={modalProps.onOpen}
         colorScheme="blue"
         mt={2}
+        ml={1}
         isLoading={isLoadingProvider || isLoadingAlgos}
       >
         {displayedValue}
