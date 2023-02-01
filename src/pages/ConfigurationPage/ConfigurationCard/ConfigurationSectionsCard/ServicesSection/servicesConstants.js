@@ -201,6 +201,16 @@ export const SERVICES_LLDP_SCHEMA = (t, useDefault = false) => {
 
   return useDefault ? shape : shape.nullable().default(undefined);
 };
+
+export const SERVICES_GPS_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    'baud-rate': number().required(t('form.required')).default(2400),
+    'adjust-time': bool().required(t('form.required')).default(false),
+  });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
 export const SERVICES_SSH_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     port: number().required(t('form.required')).moreThan(-1).lessThan(65535).integer().default(22),
@@ -420,6 +430,7 @@ export const SERVICES_SCHEMA = (t, useDefault = false) =>
       'radius-proxy': SERVICES_RADIUS_PROXY_SCHEMA(t, useDefault),
       ieee8021x: SERVICES_IEEE8021X_SCHEMA(t, useDefault),
       captive: SERVICES_CAPTIVE_SCHEMA(t, useDefault),
+      gps: SERVICES_GPS_SCHEMA(t, useDefault),
     }),
   });
 
@@ -461,6 +472,8 @@ export const getSubSectionDefaults = (t, sub) => {
       return SERVICES_RADIUS_PROXY_SCHEMA(t, true).cast();
     case 'captive':
       return SERVICES_CAPTIVE_SCHEMA(t, true).cast();
+    case 'gps':
+      return SERVICES_GPS_SCHEMA(t, true).cast();
     default:
       return null;
   }

@@ -12,6 +12,7 @@ import AirtimePolicies from './AirtimePolicies';
 import Captive from './Captive';
 import DataPlane from './DataPlane';
 import FacebookWifi from './FacebookWifi';
+import Gps from './Gps';
 import Http from './Http';
 import Ieee8021x from './Ieee8021x';
 import Igmp from './Igmp';
@@ -125,6 +126,7 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
                     'captive',
                     'data-plane',
                     'facebook-wifi',
+                    'gps',
                     'http',
                     'ieee8021x',
                     'igmp',
@@ -144,24 +146,25 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
                 />
               }
             />
-            {isSubSectionActive('lldp') && <Lldp editing={editing} />}
-            {isSubSectionActive('ntp') && <Ntp editing={editing} />}
-            {isSubSectionActive('ssh') && <Ssh editing={editing} />}
-            {isSubSectionActive('mdns') && <Mdns editing={editing} />}
-            {isSubSectionActive('rtty') && <Rtty editing={editing} />}
-            {isSubSectionActive('log') && <Log editing={editing} />}
-            {isSubSectionActive('http') && <Http editing={editing} />}
-            {isSubSectionActive('igmp') && <Igmp editing={editing} />}
-            {isSubSectionActive('online-check') && <OnlineCheck editing={editing} />}
-            {isSubSectionActive('wifi-steering') && <WifiSteering editing={editing} />}
-            {isSubSectionActive('quality-of-service') && <QualityOfService editing={editing} />}
-            {isSubSectionActive('facebook-wifi') && <FacebookWifi editing={editing} />}
             {isSubSectionActive('airtime-policies') && <AirtimePolicies editing={editing} />}
-            {isSubSectionActive('open-flow') && <OpenFlow editing={editing} />}
-            {isSubSectionActive('data-plane') && <DataPlane editing={editing} />}
-            {isSubSectionActive('ieee8021x') && <Ieee8021x editing={editing} />}
-            {isSubSectionActive('radius-proxy') && <RadiusProxy editing={editing} />}
             {isSubSectionActive('captive') && <Captive editing={editing} />}
+            {isSubSectionActive('data-plane') && <DataPlane editing={editing} />}
+            {isSubSectionActive('facebook-wifi') && <FacebookWifi editing={editing} />}
+            {isSubSectionActive('gps') && <Gps editing={editing} />}
+            {isSubSectionActive('http') && <Http editing={editing} />}
+            {isSubSectionActive('ieee8021x') && <Ieee8021x editing={editing} />}
+            {isSubSectionActive('igmp') && <Igmp editing={editing} />}
+            {isSubSectionActive('lldp') && <Lldp editing={editing} />}
+            {isSubSectionActive('log') && <Log editing={editing} />}
+            {isSubSectionActive('mdns') && <Mdns editing={editing} />}
+            {isSubSectionActive('ntp') && <Ntp editing={editing} />}
+            {isSubSectionActive('online-check') && <OnlineCheck editing={editing} />}
+            {isSubSectionActive('open-flow') && <OpenFlow editing={editing} />}
+            {isSubSectionActive('quality-of-service') && <QualityOfService editing={editing} />}
+            {isSubSectionActive('radius-proxy') && <RadiusProxy editing={editing} />}
+            {isSubSectionActive('rtty') && <Rtty editing={editing} />}
+            {isSubSectionActive('ssh') && <Ssh editing={editing} />}
+            {isSubSectionActive('wifi-steering') && <WifiSteering editing={editing} />}
           </Masonry>
         </>
       )}
