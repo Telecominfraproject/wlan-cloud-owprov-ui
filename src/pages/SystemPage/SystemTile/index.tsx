@@ -65,16 +65,15 @@ const SystemTile = ({ endpoint, token }: Props) => {
 
   return (
     <>
-      <Card>
+      <Card variant="widget">
         <Box display="flex" mb={2}>
           <Heading pt={0}>{endpoint.type}</Heading>
           <Spacer />
           <SystemLoggingButton endpoint={endpoint} token={token} />
           <Button
             mt={1}
-            ml={2}
             minWidth="112px"
-            colorScheme="gray"
+            colorScheme="blue"
             rightIcon={<ArrowsClockwise />}
             onClick={refresh}
             isLoading={isFetchingSystem || isFetchingSubsystems}
@@ -180,7 +179,7 @@ const SystemTile = ({ endpoint, token }: Props) => {
                   ml={2}
                   onClick={handleReloadClick}
                   icon={<ArrowsClockwise size={20} />}
-                  colorScheme="gray"
+                  colorScheme="blue"
                   isLoading={isReloading}
                   isDisabled={subs.length === 0}
                 />
