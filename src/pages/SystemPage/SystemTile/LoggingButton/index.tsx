@@ -15,7 +15,7 @@ const SystemLoggingButton = ({ endpoint, token }: Props) => {
 
   return (
     <>
-      <Button colorScheme="teal" onClick={modalProps.onOpen} my="auto">
+      <Button colorScheme="teal" onClick={modalProps.onOpen} mr={2} my="auto">
         {t('system.logging')}
       </Button>
       <SystemLoggingModal modalProps={modalProps} endpoint={endpoint.uri} token={token} />
