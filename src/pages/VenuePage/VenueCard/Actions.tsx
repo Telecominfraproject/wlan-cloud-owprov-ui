@@ -1,24 +1,20 @@
 import React from 'react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip, useDisclosure } from '@chakra-ui/react';
+import { Wrench } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
-import { useRebootVenueDevices, useUpdateVenueDevices, useUpgradeVenueDevices } from 'hooks/Network/Venues';
+import VenueFirmwareUpgradeModal from './VenueFirmwareUpgradeModal';
+import { useRebootVenueDevices, useUpdateVenueDevices } from 'hooks/Network/Venues';
 
-interface Props {
+type Props = {
   venueId: string;
   isDisabled: boolean;
-}
+};
 
-const VenueActions = (
-  {
-    venueId,
-    isDisabled
-  }: Props
-) => {
+const VenueActions = ({ venueId, isDisabled }: Props) => {
   const { t } = useTranslation();
+  const { isOpen: isUpgradeOpen, onOpen: onOpenUpgrade, onClose: onCloseUpgrade } = useDisclosure();
   const { mutateAsync: rebootDevices } = useRebootVenueDevices({ id: venueId });
   const updateDevices = useUpdateVenueDevices({ id: venueId });
-  const upgradeDevices = useUpgradeVenueDevices({ id: venueId });
 
   const handleUpdateClick = () => {
     updateDevices.mutateAsync();
@@ -28,21 +24,22 @@ const VenueActions = (
     rebootDevices();
   };
 
-  const handleUpgradeDevices = () => {
-    upgradeDevices.mutateAsync();
-  };
-
   return (
-    <Menu>
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />} ml={2} isDisabled={isDisabled}>
-        {t('common.actions')}
-      </MenuButton>
-      <MenuList>
-        <MenuItem onClick={handleRebootClick}>{t('venues.reboot_all_devices')}</MenuItem>
-        <MenuItem onClick={handleUpdateClick}>{t('venues.update_all_devices')}</MenuItem>
-        <MenuItem onClick={handleUpgradeDevices}>{t('venues.upgrade_all_devices')}</MenuItem>
-      </MenuList>
-    </Menu>
+    <>
+      <Menu>
+        <Tooltip label={t('common.actions')} hasArrow>
+          <MenuButton as={IconButton} icon={<Wrench size={20} />} ml={2} isDisabled={isDisabled}>
+            {t('common.actions')}
+          </MenuButton>
+        </Tooltip>
+        <MenuList>
+          <MenuItem onClick={handleRebootClick}>{t('venues.reboot_all_devices')}</MenuItem>
+          <MenuItem onClick={handleUpdateClick}>{t('venues.update_all_devices')}</MenuItem>
+          <MenuItem onClick={onOpenUpgrade}>{t('venues.upgrade_all_devices')}</MenuItem>
+        </MenuList>
+      </Menu>
+      <VenueFirmwareUpgradeModal isOpen={isUpgradeOpen} onClose={onCloseUpgrade} venueId={venueId} />
+    </>
   );
 };
 

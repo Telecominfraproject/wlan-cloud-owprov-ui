@@ -1,22 +1,43 @@
 import { useToast } from '@chakra-ui/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import useDefaultPage from 'hooks/useDefaultPage';
+import useDefaultPage from '../useDefaultPage';
 import { AxiosError } from 'models/Axios';
-import { Venue } from 'models/Venue';
+import { DeviceRules } from 'models/Basic';
+import { Note } from 'models/Note';
 import { axiosProv } from 'utils/axiosInstances';
+
+export interface VenueApiResponse {
+  id: string;
+  name: string;
+  description: string;
+  parent: string;
+  devices: string[];
+  children: string[];
+  contacts: string[];
+  entity: string;
+  boards: string[];
+  created: number;
+  modified: number;
+  configurations: string[];
+  notes: Note[];
+  variables: string[];
+  location: string;
+  sourceIP: string[];
+  deviceRules: DeviceRules;
+}
 
 const getVenuesBatch = async (limit: number, offset: number) =>
   axiosProv
     .get(`venue?withExtendedInfo=true&offset=${offset}&limit=${limit}`)
-    .then(({ data }) => data.venues as Venue[]);
+    .then(({ data }) => data.venues as VenueApiResponse[]);
 
 const getAllVenues = async () => {
   const limit = 500;
   let offset = 0;
-  let data: Venue[] = [];
-  let lastResponse: Venue[] = [];
+  let data: VenueApiResponse[] = [];
+  let lastResponse: VenueApiResponse[] = [];
   do {
     // eslint-disable-next-line no-await-in-loop
     lastResponse = await getVenuesBatch(limit, offset);
@@ -81,15 +102,16 @@ export const useGetSelectVenues = ({ select }: { select: string[] }) => {
   );
 };
 
-export const useGetVenue = ({ id }: { id: string }) => {
+export const useGetVenue = ({ id }: { id?: string }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const goToDefaultPage = useDefaultPage();
 
   return useQuery(
     ['get-venue', id],
-    () => axiosProv.get(`venue/${id}?withExtendedInfo=true`).then(({ data }) => data),
+    () => axiosProv.get(`venue/${id}?withExtendedInfo=true`).then(({ data }: { data: VenueApiResponse }) => data),
     {
+      enabled: id !== undefined && id !== '',
       onError: (e: AxiosError) => {
         if (!toast.isActive('venue-fetching-error'))
           toast({
@@ -104,7 +126,7 @@ export const useGetVenue = ({ id }: { id: string }) => {
             isClosable: true,
             position: 'top-right',
           });
-        goToDefaultPage();
+        if (e.response?.data?.ErrorCode === 404) goToDefaultPage();
       },
     },
   );
@@ -115,10 +137,25 @@ export const useCreateVenue = () =>
     axiosProv.post(`venue/0${createObjects ? `?createObjects=${JSON.stringify(createObjects)}` : ''}`, params),
   );
 
-export const useUpdateVenue = ({ id }: { id: string }) =>
-  useMutation(({ params, createObjects }: { params: unknown; createObjects: unknown }) =>
-    axiosProv.put(`venue/${id}${createObjects ? `?createObjects=${JSON.stringify(createObjects)}` : ''}`, params),
+export const useUpdateVenue = ({ id }: { id: string }) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    ({ params, createObjects }: { params: Partial<VenueApiResponse>; createObjects?: unknown }) =>
+      axiosProv
+        .put(`venue/${id}${createObjects ? `?createObjects=${JSON.stringify(createObjects)}` : ''}`, params)
+        .then((res: { data: VenueApiResponse }) => res),
+    {
+      onSuccess: ({ data }) => {
+        queryClient.invalidateQueries(['get-entity-tree']);
+        queryClient.invalidateQueries(['get-venues']);
+        queryClient.invalidateQueries(['get-all-locations', id]);
+        queryClient.setQueryData(['get-venue', id], data);
+      },
+    },
   );
+};
+
 export const useUpdateVenueDevices = ({ id }: { id: string }) => {
   const { t } = useTranslation();
   const toast = useToast();
@@ -185,36 +222,38 @@ export const useRebootVenueDevices = ({ id }: { id: string }) => {
   });
 };
 
-export const useUpgradeVenueDevices = ({ id }: { id: string }) => {
+export const useUpgradeVenueDevices = () => {
   const { t } = useTranslation();
   const toast = useToast();
 
-  return useMutation(() => axiosProv.put(`venue/${id}?upgradeAllDevices=true`, {}), {
-    onSuccess: () => {
-      toast({
-        id: 'venue-upgrade-devices-success',
-        title: t('common.success'),
-        description: t('venues.upgrade_all_devices_success'),
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'top-right',
-      });
+  return useMutation(
+    (data: { id: string; revision: string }) =>
+      axiosProv.put(`venue/${data.id}?upgradeAllDevices=true&revision=${data.revision}`, {}),
+    {
+      onSuccess: () => {
+        toast({
+          id: 'venue-upgrade-devices-success',
+          title: t('common.success'),
+          description: t('venues.upgrade_all_devices_success'),
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      },
+      onError: (e: AxiosError) => {
+        toast({
+          id: uuid(),
+          title: t('common.error'),
+          description: e?.response?.data?.ErrorDescription,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      },
     },
-    onError: (e: AxiosError) => {
-      toast({
-        id: uuid(),
-        title: t('common.error'),
-        description: t('crud.upgrade_all_devices_error', {
-          e: e?.response?.data?.ErrorDescription,
-        }),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top-right',
-      });
-    },
-  });
+  );
 };
 
 export const useDeleteVenue = () => useMutation((id) => axiosProv.delete(`venue/${id}`));
@@ -271,3 +310,21 @@ export const useRemoveVenueContact = ({
     },
   );
 };
+
+type Release = {
+  date: number;
+  revision: string;
+};
+const getVenueUpgradeAvailableFirmware = (id: string) =>
+  axiosProv.put(`venue/${id}?upgradeAllDevices=true&revisionsAvailable=true`, {}).then(
+    (res: {
+      data: {
+        releases: Release[];
+        releasesCandidates: Release[];
+        developmentReleases: Release[];
+      };
+    }) => res.data,
+  );
+
+export const useGetVenueUpgradeAvailableFirmware = ({ id }: { id: string }) =>
+  useQuery(['venue', id, 'availableFirmware'], () => getVenueUpgradeAvailableFirmware(id));
