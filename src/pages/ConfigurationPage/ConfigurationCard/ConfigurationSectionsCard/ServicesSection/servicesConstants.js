@@ -11,6 +11,7 @@ export const SERVICES_CAPTIVE_SCHEMA = (t, useDefault = false) => {
           then: array().of(string()).min(1, t('form.required')),
         })
         .default(undefined),
+      'walled-garden-ipaddr': array().of(string()).default(undefined),
       'web-root': string().default(undefined),
       'idle-timeout': number().required(t('form.required')).positive().lessThan(65535).integer().default(600),
       'session-timeout': number().positive().lessThan(65535).integer().default(undefined),

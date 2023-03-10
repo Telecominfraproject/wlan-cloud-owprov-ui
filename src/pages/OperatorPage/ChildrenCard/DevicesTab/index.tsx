@@ -15,7 +15,7 @@ interface Props {
   operatorId: string;
 }
 
-const OperatorDevicesTab = ({ operatorId }: Props) => {
+const OperatorDevicesTab: React.FC<Props> = ({ operatorId }) => {
   const { refreshId, refresh } = useRefreshId();
   const { obj: subscriberDevice, openModal, isOpen, onClose } = useObjectModal();
   const [serialNumber, setSerialNumber] = useState<string>('');
@@ -54,7 +54,13 @@ const OperatorDevicesTab = ({ operatorId }: Props) => {
       <Box w="250px">
         <SubscriberDeviceSearch operatorId={operatorId} onClick={openModal} />
       </Box>
-      <SubscriberDeviceTable operatorId={operatorId} actions={actions} refreshId={refreshId} minHeight="270px" />
+      <SubscriberDeviceTable
+        operatorId={operatorId}
+        onOpenDetails={openModal}
+        actions={actions}
+        refreshId={refreshId}
+        minHeight="270px"
+      />
       <EditSubscriberDeviceModal
         isOpen={isOpen}
         onClose={onClose}

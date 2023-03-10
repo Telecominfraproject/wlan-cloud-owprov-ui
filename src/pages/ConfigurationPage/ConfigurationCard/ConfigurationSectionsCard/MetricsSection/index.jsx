@@ -11,8 +11,11 @@ import SubSectionPicker from '../common/SubSectionPicker';
 import DhcpSnooping from './DhcpSnooping';
 import Health from './Health';
 import { getSubSectionDefaults, METRICS_SCHEMA } from './metricsConstants';
+import Realtime from './Realtime';
 import Statistics from './Statistics';
+import Telemetry from './Telemetry';
 import WifiFrames from './WifiFrames';
+import WifiScan from './WifiScan';
 import DeleteButton from 'components/Buttons/DeleteButton';
 import { ConfigurationSectionShape } from 'constants/propShapes';
 
@@ -108,15 +111,26 @@ const MetricsSection = ({ editing, setSection, sectionInformation, removeSub }) 
               subsectionPicker={
                 <SubSectionPicker
                   editing={editing}
-                  subsections={['statistics', 'health', 'wifi-frames', 'dhcp-snooping']}
+                  subsections={[
+                    'dhcp-snooping',
+                    'health',
+                    'realtime',
+                    'statistics',
+                    'telemetry',
+                    'wifi-frames',
+                    'wifi-scan',
+                  ]}
                   onSubsectionsChange={(sub) => onSubsectionsChange(sub, setFieldValue)}
                 />
               }
             />
-            {isSubSectionActive('statistics') && <Statistics editing={editing} />}
-            {isSubSectionActive('health') && <Health editing={editing} />}
-            {isSubSectionActive('wifi-frames') && <WifiFrames editing={editing} />}
             {isSubSectionActive('dhcp-snooping') && <DhcpSnooping editing={editing} />}
+            {isSubSectionActive('health') && <Health editing={editing} />}
+            {isSubSectionActive('realtime') && <Realtime editing={editing} />}
+            {isSubSectionActive('statistics') && <Statistics editing={editing} />}
+            {isSubSectionActive('telemetry') && <Telemetry editing={editing} />}
+            {isSubSectionActive('wifi-frames') && <WifiFrames editing={editing} />}
+            {isSubSectionActive('wifi-scan') && <WifiScan editing={editing} />}
           </Masonry>
         </>
       )}

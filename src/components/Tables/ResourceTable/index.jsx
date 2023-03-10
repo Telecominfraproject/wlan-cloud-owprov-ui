@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useToast } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -10,17 +10,13 @@ import { useGetResources } from 'hooks/Network/Resources';
 const propTypes = {
   actions: PropTypes.func.isRequired,
   select: PropTypes.arrayOf(PropTypes.string).isRequired,
-  refreshId: PropTypes.number.isRequired,
+  openDetailsModal: PropTypes.func.isRequired,
 };
 
-const ResourcesTable = ({ select, actions, refreshId }) => {
+const ResourcesTable = ({ select, actions, openDetailsModal }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const {
-    data: resources,
-    isFetching,
-    refetch,
-  } = useGetResources({
+  const { data: resources, isFetching } = useGetResources({
     t,
     toast,
     select,
@@ -70,7 +66,7 @@ const ResourcesTable = ({ select, actions, refreshId }) => {
       },
       {
         id: 'actions',
-        Header: t('common.actions'),
+        Header: '',
         Footer: '',
         accessor: 'id',
         customWidth: '80px',
@@ -82,10 +78,6 @@ const ResourcesTable = ({ select, actions, refreshId }) => {
 
     return baseColumns;
   }, [t]);
-
-  useEffect(() => {
-    if (refreshId > 0) refetch();
-  }, [refreshId]);
 
   return (
     <DataTable
@@ -100,6 +92,10 @@ const ResourcesTable = ({ select, actions, refreshId }) => {
         },
       ]}
       minHeight="200px"
+      showAllRows
+      hideControls
+      onRowClick={openDetailsModal}
+      isRowClickable={() => true}
     />
   );
 };

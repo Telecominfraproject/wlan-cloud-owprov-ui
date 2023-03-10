@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Box, Flex, Heading, Spacer } from '@chakra-ui/react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import Actions from './Actions';
 import RefreshButton from 'components/Buttons/RefreshButton';
@@ -12,7 +13,7 @@ import ColumnPicker from 'components/ColumnPicker';
 import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
 import CreateOperatorModal from 'components/Modals/Operator/CreateOperatorModal';
-import { useGetOperatorCount, useGetOperators } from 'hooks/Network/Operators';
+import { OperatorApiResponse, useGetOperatorCount, useGetOperators } from 'hooks/Network/Operators';
 import useControlledTable from 'hooks/useControlledTable';
 import { Column } from 'models/Table';
 
@@ -29,6 +30,9 @@ const OperatorsTable = () => {
     useGet: useGetOperators as (props: unknown) => UseQueryResult,
   });
   const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
+  const navigate = useNavigate();
+
+  const handleGoToClick = (operator: { id: string }) => navigate(`/operators/${operator.id}`);
 
   const memoizedActions = useCallback(
     (cell) => <Actions cell={cell.row} refreshTable={refetchCount} key={uuid()} />,
@@ -36,8 +40,8 @@ const OperatorsTable = () => {
   );
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
 
-  const columns: Column[] = useMemo(
-    (): Column[] => [
+  const columns: Column<OperatorApiResponse>[] = useMemo(
+    (): Column<OperatorApiResponse>[] => [
       {
         id: 'name',
         Header: t('common.name'),
@@ -97,7 +101,7 @@ const OperatorsTable = () => {
       </CardHeader>
       <CardBody>
         <Box overflowX="auto" w="100%">
-          <DataTable
+          <DataTable<OperatorApiResponse>
             columns={
               columns as {
                 id: string;
@@ -106,22 +110,24 @@ const OperatorsTable = () => {
                 accessor: string;
               }[]
             }
-            data={operators ?? []}
-            isLoading={isFetching}
-            isManual
-            hiddenColumns={hiddenColumns}
-            obj={t('operator.other')}
+            data={(operators as unknown as OperatorApiResponse[]) ?? []}
             sortBy={[
               {
                 id: 'name',
                 desc: false,
               },
             ]}
+            isLoading={isFetching}
+            isManual
+            hiddenColumns={hiddenColumns}
+            obj={t('operator.other')}
             count={count || 0}
             // @ts-ignore
             setPageInfo={setPageInfo}
             fullScreen
             saveSettingsId="operators.table"
+            onRowClick={handleGoToClick}
+            isRowClickable={() => true}
           />
         </Box>
       </CardBody>

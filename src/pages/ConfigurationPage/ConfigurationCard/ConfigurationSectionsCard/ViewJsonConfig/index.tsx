@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  IconButton,
-  Tooltip,
-  useBreakpoint,
-  useDisclosure,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-} from '@chakra-ui/react';
+import { IconButton, Tooltip, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { ArrowsOut } from 'phosphor-react';
 import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
@@ -34,11 +24,10 @@ interface Props {
   isDisabled?: boolean;
 }
 
-const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled }: Props) => {
+const ViewJsonConfigModal: React.FC<Props> = ({ configurations, activeConfigurations, isDisabled }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const interfaces = useInterfacesJsonDisplay({ interfaces: configurations.interfaces?.configuration, isOpen });
-  const breakpoint = useBreakpoint();
 
   const configStringToDisplay = () => {
     try {
@@ -71,30 +60,17 @@ const ViewJsonConfigModal = ({ configurations, activeConfigurations, isDisabled 
 
   return (
     <>
-      {breakpoint !== 'base' && breakpoint !== 'sm' ? (
-        <Button
+      <Tooltip label={t('common.view_json')}>
+        <IconButton
+          aria-label="Show JSON Configuration"
           colorScheme="gray"
           type="button"
           onClick={onOpen}
-          rightIcon={<ArrowsOut size={20} />}
+          icon={<ArrowsOut size={20} />}
           isDisabled={isDisabled}
           ml={2}
-        >
-          {t('common.view_json')}
-        </Button>
-      ) : (
-        <Tooltip label={t('common.view_json')}>
-          <IconButton
-            aria-label="Show JSON Configuration"
-            colorScheme="gray"
-            type="button"
-            onClick={onOpen}
-            icon={<ArrowsOut size={20} />}
-            isDisabled={isDisabled}
-            ml={2}
-          />
-        </Tooltip>
-      )}
+        />
+      </Tooltip>
       <Modal onClose={onClose} isOpen={isOpen} size="xl" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>

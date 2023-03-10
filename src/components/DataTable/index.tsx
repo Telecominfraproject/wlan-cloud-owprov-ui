@@ -45,15 +45,18 @@ const defaultProps = {
   sortBy: [],
 };
 
-type DataTableProps = {
-  columns: readonly Column<object>[];
-  data: object[];
+type DataTableProps<TValue> = {
+  columns: Column<TValue>[];
+  data: TValue[];
   count?: number;
   setPageInfo?: React.Dispatch<React.SetStateAction<PageInfo | undefined>>;
   isLoading?: boolean;
+  onRowClick?: (row: TValue) => void;
+  isRowClickable?: (row: TValue) => boolean;
   obj?: string;
   sortBy?: { id: string; desc: boolean }[];
   hiddenColumns?: string[];
+  hideEmptyListText?: boolean;
   hideControls?: boolean;
   minHeight?: string | number;
   fullScreen?: boolean;
@@ -68,7 +71,7 @@ type TableInstanceWithHooks<T extends object> = TableInstance<T> &
     state: UsePaginationState<T>;
   };
 
-const DataTable = ({
+const DataTable = <TValue extends object>({
   columns,
   data,
   isLoading,
@@ -78,16 +81,19 @@ const DataTable = ({
   sortBy,
   hiddenColumns,
   hideControls,
+  hideEmptyListText,
   count,
   setPageInfo,
   isManual,
   saveSettingsId,
   showAllRows,
-}: DataTableProps) => {
+  onRowClick,
+  isRowClickable,
+}: DataTableProps<TValue>) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
-  const hoveredRowBg = useColorModeValue('gray.100', 'gray.600');
   const textColor = useColorModeValue('gray.700', 'white');
+  const hoveredRowBg = useColorModeValue('gray.100', 'gray.600');
   const getPageSize = () => {
     try {
       if (showAllRows) return 1000000;
@@ -142,7 +148,7 @@ const DataTable = ({
     },
     useSortBy,
     usePagination,
-  ) as TableInstanceWithHooks<object>;
+  ) as TableInstanceWithHooks<TValue>;
 
   const handleGoToPage = (newPage: number) => {
     if (saveSettingsId) localStorage.setItem(`${saveSettingsId}.page`, String(newPage));
@@ -259,8 +265,10 @@ const DataTable = ({
             </Thead>
             {data.length > 0 && (
               <Tbody {...getTableBodyProps()}>
-                {page.map((row: Row) => {
+                {page.map((row: Row<TValue>) => {
                   prepareRow(row);
+                  const rowIsClickable = isRowClickable ? isRowClickable(row.original) : true;
+                  const onClick = rowIsClickable && onRowClick ? () => onRowClick(row.original) : undefined;
                   return (
                     <Tr
                       {...row.getRowProps()}
@@ -268,6 +276,7 @@ const DataTable = ({
                       _hover={{
                         backgroundColor: hoveredRowBg,
                       }}
+                      onClick={onClick}
                     >
                       {
                         // @ts-ignore
@@ -287,8 +296,26 @@ const DataTable = ({
                             fontSize="14px"
                             // @ts-ignore
                             textAlign={cell.column.isCentered ? 'center' : undefined}
-                            // @ts-ignore
-                            fontFamily={cell.column.isMonospace ? 'monospace' : undefined}
+                            fontFamily={
+                              // @ts-ignore
+                              cell.column.isMonospace
+                                ? 'Inter, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+                                : undefined
+                            }
+                            onClick={
+                              // @ts-ignore
+                              cell.column.stopPropagation || (cell.column.id === 'actions' && onRowClick)
+                                ? (e) => {
+                                    e.stopPropagation();
+                                  }
+                                : undefined
+                            }
+                            cursor={
+                              // @ts-ignore
+                              !cell.column.stopPropagation && cell.column.id !== 'actions' && onRowClick
+                                ? 'pointer'
+                                : undefined
+                            }
                           >
                             {cell.render('Cell')}
                           </Td>
@@ -300,7 +327,7 @@ const DataTable = ({
               </Tbody>
             )}
           </Table>
-          {!isLoading && data.length === 0 && (
+          {!isLoading && data.length === 0 && !hideEmptyListText && (
             <Center>
               {obj ? (
                 <Heading size="md" pt={12}>
@@ -413,4 +440,4 @@ const DataTable = ({
 
 DataTable.defaultProps = defaultProps;
 
-export default React.memo(DataTable);
+export default DataTable;

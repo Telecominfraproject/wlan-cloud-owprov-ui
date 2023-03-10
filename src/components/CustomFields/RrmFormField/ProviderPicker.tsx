@@ -2,26 +2,40 @@ import * as React from 'react';
 import { Alert, Box, Flex, FormControl, FormLabel, Link, Select, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
+import { DEFAULT_RRM_CRON, RRM_VALUE } from './helper';
 import { InfoPopover } from 'components/InfoPopover';
-import { RrmProvider } from 'hooks/Network/Rrm';
+import { RrmProviderCompleteInformation } from 'hooks/Network/Rrm';
 
 type Props = {
-  providers: RrmProvider[];
-  setValue: (v: string) => void;
+  setValue: (v: RRM_VALUE) => void;
   value?: string;
   isDisabled?: boolean;
+  providers?: RrmProviderCompleteInformation[];
 };
+
 const RrmProviderPicker = ({ providers, value, setValue, isDisabled }: Props) => {
   const { t } = useTranslation();
-  const options = providers.map((p) => ({ label: p.vendor, value: p.vendorShortname }));
+  const options = providers?.map((p) => ({ label: p.rrm.vendor, value: p.rrm.vendorShortname })) ?? [];
 
-  const provider = providers.find((p) => p.vendorShortname === value);
+  const provider = providers?.find((p) => p.rrm.vendorShortname === value);
 
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setValue(e.target.value);
+    const found = providers?.find((p) => p.rrm.vendorShortname === e.target.value);
+    if (found) {
+      setValue({
+        vendor: found.rrm.vendorShortname ?? '',
+        schedule: DEFAULT_RRM_CRON,
+        algorithms: [
+          {
+            name: found.algorithms?.[0]?.shortName ?? '',
+            parameters: '',
+          },
+        ],
+      });
+    }
   };
 
-  if (providers.length === 0 || !value) {
+  if (providers?.length === 0 || !value || !providers) {
     return (
       <FormControl isRequired w="unset" mr={2}>
         <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
@@ -61,13 +75,19 @@ const RrmProviderPicker = ({ providers, value, setValue, isDisabled }: Props) =>
           >
             <Box>
               <Text display="flex">
-                {t('rrm.version')}: {provider?.version}
+                {t('rrm.version')}: {provider?.rrm.version}
               </Text>
               <Text display="flex">
                 {t('common.details')}:
-                <Link href={provider?.about} isExternal ml={1}>
-                  {provider?.about}
-                </Link>
+                {provider?.rrm.about.includes('http') ? (
+                  <Link href={provider?.rrm.about} isExternal ml={1}>
+                    {provider?.rrm.about}
+                  </Link>
+                ) : (
+                  <Text ml={1} fontWeight="bold">
+                    {provider?.rrm.about}
+                  </Text>
+                )}
               </Text>
             </Box>
           </InfoPopover>

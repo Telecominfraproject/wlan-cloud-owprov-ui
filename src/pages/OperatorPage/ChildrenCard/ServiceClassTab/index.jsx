@@ -26,7 +26,7 @@ const ServiceClassTab = ({ operatorId }) => {
       <Box textAlign="right" mb={2}>
         <CreateServiceModal operatorId={operatorId} refresh={refresh} />
       </Box>
-      <ServiceClassTable operatorId={operatorId} actions={actions} refreshId={refreshId} />
+      <ServiceClassTable operatorId={operatorId} actions={actions} refreshId={refreshId} openDetailsModal={openModal} />
       <EditServiceClassModal serviceClass={serviceClass} isOpen={isOpen} onClose={onClose} refresh={refresh} />
     </>
   );

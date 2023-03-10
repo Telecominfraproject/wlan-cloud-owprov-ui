@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import AddSubsectionModal from './AddSubsectionModal';
+import ExpertModeButton from './ExpertModeButton';
 import GlobalsSection from './GlobalsSection';
 import { GLOBALS_SCHEMA } from './GlobalsSection/globalsConstants';
 import ImportConfigurationButton from './ImportConfigurationButton';
@@ -384,6 +385,22 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
             activeConfigurations={activeConfigurations}
             isDisabled={isFetching}
           />
+          <ExpertModeButton
+            defaultConfiguration={{
+              globals: globals.data,
+              unit: unit.data,
+              metrics: metrics.data,
+              services: services.data,
+              radios: radios.data,
+              interfaces: interfaces.data,
+              'third-party': thirdParty.data,
+            }}
+            activeConfigurations={activeConfigurations}
+            isDisabled={!editing}
+            setConfig={importConfig}
+          />
+          <ImportConfigurationButton isDisabled={!editing} setConfig={importConfig} />
+          <AddSubsectionModal editing={editing} activeSubs={activeConfigurations} addSub={addSubsection} />
           <ViewJsonConfigModal
             configurations={{
               globals: globals.data,
@@ -397,8 +414,6 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
             activeConfigurations={activeConfigurations}
             isDisabled={isFetching}
           />
-          <ImportConfigurationButton isDisabled={!editing} setConfig={importConfig} />
-          <AddSubsectionModal editing={editing} activeSubs={activeConfigurations} addSub={addSubsection} />
           {onDelete && <DeleteButton isDisabled={!editing} onClick={onDelete} ml={2} />}
         </Box>
       </CardHeader>

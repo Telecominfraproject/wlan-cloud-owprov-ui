@@ -18,7 +18,7 @@ interface Props {
   subscriberId: string;
 }
 
-const OperatorDevicesTab = ({ operatorId, subscriberId }: Props) => {
+const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
   const { t } = useTranslation();
   const { refreshId, refresh } = useRefreshId();
   const [serialNumber, setSerialNumber] = useState<string>('');
@@ -70,6 +70,7 @@ const OperatorDevicesTab = ({ operatorId, subscriberId }: Props) => {
         operatorId={operatorId}
         subscriberId={subscriberId}
         actions={actions}
+        onOpenDetails={openModal}
         refreshId={refreshId}
         minHeight="380px"
         setDevices={setDevices}

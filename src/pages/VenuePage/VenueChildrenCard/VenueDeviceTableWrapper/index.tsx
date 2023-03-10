@@ -82,6 +82,7 @@ const VenueDeviceTableWrapper = ({ venue = undefined }: Props) => {
         ignoredColumns={['entity', 'venue']}
         refreshId={refreshId}
         actions={actions}
+        openDetailsModal={openEditModal}
       />
       <EditTagModal
         isOpen={isEditOpen}

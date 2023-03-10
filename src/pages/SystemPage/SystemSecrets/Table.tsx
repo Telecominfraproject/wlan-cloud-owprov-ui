@@ -58,7 +58,7 @@ const SystemSecretsTable = () => {
         columns={columns as Column<object>[]}
         saveSettingsId="system.secrets.table"
         data={getSecrets.data ?? []}
-        obj={t('keys.other')}
+        obj={t('system.secrets')}
         sortBy={[{ id: 'key', desc: false }]}
         showAllRows
         hideControls
