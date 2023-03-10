@@ -111,7 +111,7 @@ const UserTable = ({ title }) => {
     ];
     if (user?.userRole !== 'csr')
       baseColumns.push({
-        id: 'user',
+        id: 'actions',
         Header: t('common.actions'),
         Footer: '',
         accessor: 'Id',
@@ -167,6 +167,7 @@ const UserTable = ({ title }) => {
               sortBy={[{ id: 'email', desc: false }]}
               hiddenColumns={hiddenColumns}
               fullScreen
+              onRowClick={({ id }) => openEditModal(id)}
             />
           </Box>
         </CardBody>

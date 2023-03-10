@@ -109,7 +109,7 @@ const CaptiveConfiguration = ({ editing }: { editing: boolean }) => {
           </Select>
         </Box>
       </CardHeader>
-      <CardBody pb={8} pt={2} display="block">
+      <CardBody pb={2} pt={2} display="block">
         {
           // Basic Fields
         }
@@ -119,6 +119,11 @@ const CaptiveConfiguration = ({ editing }: { editing: boolean }) => {
             placeholder="Example: *.google.com"
             emptyIsUndefined={mode !== 'uam'}
             isRequired={mode === 'uam'}
+          />
+          <CreatableSelectField
+            {...fieldProps('walled-garden-ipaddr')}
+            placeholder="Example: 192.168.0.1"
+            emptyIsUndefined
           />
           <FileInputFieldModal
             {...fieldProps('web-root')}

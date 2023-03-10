@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import InternalFormAccess from '../common/InternalFormAccess';
 import SectionGeneralCard from '../common/SectionGeneralCard';
-import InterfaceExpertModal from './InterfaceExpertModal';
 import Interfaces from './Interfaces';
 import { INTERFACES_SCHEMA } from './interfacesConstants';
 import DeleteButton from 'components/Buttons/DeleteButton';
@@ -91,12 +90,7 @@ const InterfaceSection = ({ editing, setSection, sectionInformation, removeSub }
           <VStack spacing={4}>
             <SectionGeneralCard
               editing={editing}
-              buttons={
-                <>
-                  <InterfaceExpertModal editing={editing} />
-                  <DeleteButton ml={2} onClick={removeUnit} isDisabled={!editing} />
-                </>
-              }
+              buttons={<DeleteButton ml={2} onClick={removeUnit} isDisabled={!editing} />}
             />
             <FieldArray name="configuration">
               {(arrayHelpers) => (

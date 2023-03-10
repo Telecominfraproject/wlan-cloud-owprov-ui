@@ -17,6 +17,7 @@ export type SortInfo = { id: string; sort: 'asc' | 'dsc' }[];
 export interface Column<T> {
   id: string;
   Header: string;
+  stopPropagation?: boolean;
   alwaysShow?: boolean;
   Footer?: string;
   accessor?: string;
@@ -28,3 +29,11 @@ export interface Column<T> {
   isMonospace?: boolean;
   Cell?: ({ cell }: { cell: { row: { original: T } } }) => React.ReactElement | string | JSX.Element;
 }
+
+export type TableOptions = {
+  isLoading?: boolean;
+  pageInfo?: PageInfo;
+  setPageInfo?: (v: PageInfo) => void;
+  minHeight?: number | string;
+  ignoreColumns?: string[];
+};

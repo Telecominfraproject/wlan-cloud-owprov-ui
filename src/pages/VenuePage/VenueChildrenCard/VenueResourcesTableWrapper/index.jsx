@@ -40,7 +40,13 @@ const VenueResourcesTableWrapper = ({ venue }) => {
       <Box textAlign="right" mb={2}>
         <CreateResourceModal refresh={refreshEntity} entityId={venue.id} isVenue />
       </Box>
-      <ResourceTable select={venue.variables} actions={actions} refreshId={refreshId} ignoredColumns={['entity']} />
+      <ResourceTable
+        select={venue.variables}
+        actions={actions}
+        refreshId={refreshId}
+        ignoredColumns={['entity']}
+        openDetailsModal={openEditModal}
+      />
       <EditResourceModal isOpen={isEditOpen} onClose={closeEdit} resource={resource} refresh={refreshTable} />
     </>
   );

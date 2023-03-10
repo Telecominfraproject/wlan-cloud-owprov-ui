@@ -26,24 +26,33 @@ import {
   Heading,
   useBreakpoint,
 } from '@chakra-ui/react';
-// @ts-ignore
 import { useTranslation } from 'react-i18next';
-import { useTable, usePagination, useSortBy, Row } from 'react-table';
+import {
+  useTable,
+  usePagination,
+  useSortBy,
+  Row,
+  UsePaginationInstanceProps,
+  UseSortByInstanceProps,
+  UsePaginationState,
+} from 'react-table';
 import { v4 as uuid } from 'uuid';
 import SortIcon from './SortIcon';
 import { isColumnSorted, isSortedDesc, onSortClick } from './utils';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { Column, PageInfo, SortInfo } from 'models/Table';
 
-interface Props {
-  columns: Column[];
-  data: object[];
+interface Props<TValue> {
+  columns: Column<TValue>[];
+  data: TValue[];
   count?: number;
   setPageInfo?: React.Dispatch<React.SetStateAction<PageInfo | undefined>>;
   sortInfo: SortInfo;
   setSortInfo: React.Dispatch<React.SetStateAction<SortInfo>>;
   isLoading?: boolean;
   obj: string;
+  onRowClick?: (row: TValue) => void;
+  isRowClickable?: (row: TValue) => boolean;
   sortBy?: { id: string; desc: boolean }[];
   hiddenColumns?: string[];
   hideControls?: boolean;
@@ -52,6 +61,12 @@ interface Props {
   isManual?: boolean;
   saveSettingsId?: string;
 }
+
+type TableInstanceWithHooks<T extends object> = TableInstance<T> &
+  UsePaginationInstanceProps<T> &
+  UseSortByInstanceProps<T> & {
+    state: UsePaginationState<T>;
+  };
 
 const defaultProps = {
   count: undefined,
@@ -66,7 +81,7 @@ const defaultProps = {
   saveSettingsId: undefined,
 };
 
-const SortableDataTable = ({
+const SortableDataTable = <TValue extends object>({
   columns,
   data,
   isLoading,
@@ -82,7 +97,9 @@ const SortableDataTable = ({
   setPageInfo,
   isManual,
   saveSettingsId,
-}: Props) => {
+  onRowClick,
+  isRowClickable,
+}: Props<TValue>) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
   const hoveredRowBg = useColorModeValue('gray.100', 'gray.600');
@@ -112,21 +129,23 @@ const SortableDataTable = ({
     state: { pageIndex, pageSize },
   } = useTable(
     {
+      // @ts-ignore
       columns,
-      data,
+      data, // @ts-ignore
       initialState: { sortBy, pagination: !hideControls, pageSize: queryPageSize },
       manualPagination: isManual,
       pageCount: isManual && count !== undefined ? Math.ceil(count / queryPageSize) : undefined,
     },
     useSortBy,
     usePagination,
-  );
+  ) as TableInstanceWithHooks<TValue>;
 
   useEffect(() => {
     if (setPageInfo && pageIndex !== undefined) setPageInfo({ index: pageIndex, limit: queryPageSize });
   }, [queryPageSize, pageIndex]);
 
   useEffect(() => {
+    // @ts-ignore
     if (saveSettingsId) localStorage.setItem(saveSettingsId, pageSize);
     setQueryPageSize(pageSize);
   }, [pageSize]);
@@ -170,48 +189,44 @@ const SortableDataTable = ({
         <LoadingOverlay isLoading={isManual !== undefined && isManual && isLoading !== undefined && isLoading}>
           <Table {...getTableProps()} size="small" textColor={textColor} w="100%">
             <Thead fontSize="14px">
-              {
-                // @ts-ignore
-                headerGroups.map((group) => (
-                  <Tr {...group.getHeaderGroupProps()} key={uuid()}>
-                    {
+              {headerGroups.map((group) => (
+                <Tr {...group.getHeaderGroupProps()}>
+                  {group.headers.map((column) => (
+                    <Th
+                      color="gray.400"
+                      {...column.getHeaderProps()}
                       // @ts-ignore
-                      group.headers.map((column) => (
-                        <Th
-                          color="gray.400"
-                          {...column.getHeaderProps()}
+                      minWidth={column.customMinWidth ?? null}
+                      // @ts-ignore
+                      maxWidth={column.customMaxWidth ?? null}
+                      // @ts-ignore
+                      width={column.customWidth ?? null}
+                    >
+                      <div
+                        onClick={() => onSortClick(column.id, sortInfo, setSortInfo)}
+                        style={{ alignContent: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}
+                      >
+                        {column.render('Header')}
+                        <SortIcon
                           // @ts-ignore
-                          minWidth={column.customMinWidth ?? null}
+                          isSorted={isColumnSorted(column.id, sortInfo)}
                           // @ts-ignore
-                          maxWidth={column.customMaxWidth ?? null}
+                          isSortedDesc={isSortedDesc(column.id, sortInfo)}
                           // @ts-ignore
-                          width={column.customWidth ?? null}
-                        >
-                          <div
-                            onClick={() => onSortClick(column.id, sortInfo, setSortInfo)}
-                            style={{ alignContent: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}
-                          >
-                            {column.render('Header')}
-                            <SortIcon
-                              // @ts-ignore
-                              isSorted={isColumnSorted(column.id, sortInfo)}
-                              // @ts-ignore
-                              isSortedDesc={isSortedDesc(column.id, sortInfo)}
-                              // @ts-ignore
-                              canSort={column.canSort}
-                            />
-                          </div>
-                        </Th>
-                      ))
-                    }
-                  </Tr>
-                ))
-              }
+                          canSort={column.canSort}
+                        />
+                      </div>
+                    </Th>
+                  ))}
+                </Tr>
+              ))}
             </Thead>
             {data.length > 0 && (
               <Tbody {...getTableBodyProps()}>
-                {page.map((row: Row) => {
+                {page.map((row: Row<TValue>) => {
                   prepareRow(row);
+                  const rowIsClickable = isRowClickable ? isRowClickable(row.original) : true;
+                  const onClick = rowIsClickable && onRowClick ? () => onRowClick(row.original) : undefined;
                   return (
                     <Tr
                       {...row.getRowProps()}
@@ -219,6 +234,7 @@ const SortableDataTable = ({
                       _hover={{
                         backgroundColor: hoveredRowBg,
                       }}
+                      onClick={onClick}
                     >
                       {
                         // @ts-ignore
@@ -238,8 +254,26 @@ const SortableDataTable = ({
                             fontSize="14px"
                             // @ts-ignore
                             textAlign={cell.column.isCentered ? 'center' : undefined}
-                            // @ts-ignore
-                            fontFamily={cell.column.isMonospace ? 'monospace' : undefined}
+                            fontFamily={
+                              // @ts-ignore
+                              cell.column.isMonospace
+                                ? 'Inter, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+                                : undefined
+                            }
+                            onClick={
+                              // @ts-ignore
+                              cell.column.stopPropagation || (cell.column.id === 'actions' && onRowClick)
+                                ? (e) => {
+                                    e.stopPropagation();
+                                  }
+                                : undefined
+                            }
+                            cursor={
+                              // @ts-ignore
+                              !cell.column.stopPropagation && cell.column.id !== 'actions' && onRowClick
+                                ? 'pointer'
+                                : undefined
+                            }
                           >
                             {cell.render('Cell')}
                           </Td>
@@ -300,7 +334,7 @@ const SortableDataTable = ({
                   w={28}
                   min={1}
                   max={pageOptions.length}
-                  onChange={(_, numberValue) => {
+                  onChange={(_: unknown, numberValue: number) => {
                     const newPage = numberValue ? numberValue - 1 : 0;
                     gotoPage(newPage);
                   }}
@@ -317,7 +351,7 @@ const SortableDataTable = ({
             <Select
               w={32}
               value={pageSize}
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                 setPageSize(Number(e.target.value));
               }}
             >

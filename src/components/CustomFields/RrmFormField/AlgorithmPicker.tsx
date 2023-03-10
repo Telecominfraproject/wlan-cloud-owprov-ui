@@ -98,6 +98,7 @@ const AlgorithmPicker = ({ algorithms, value, onChange, onRemove, isDisabled, op
             colorScheme="red"
             onClick={onRemove}
             icon={<Trash size={20} />}
+            isDisabled={isDisabled}
             mt={1}
           />
         </Tooltip>

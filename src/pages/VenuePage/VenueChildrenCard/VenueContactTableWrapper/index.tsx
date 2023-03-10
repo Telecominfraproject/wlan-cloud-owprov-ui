@@ -68,6 +68,7 @@ const VenueContactTableWrapper = ({ venue }: Props) => {
         actions={actions}
         refreshId={refreshId}
         ignoredColumns={['entity', 'venue']}
+        openDetailsModal={openEditModal}
       />
       <EditContactModal isOpen={isEditOpen} onClose={closeEdit} contact={contact} refresh={refetchContacts} />
     </>

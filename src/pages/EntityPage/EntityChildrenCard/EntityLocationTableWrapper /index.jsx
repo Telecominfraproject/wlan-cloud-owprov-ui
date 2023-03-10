@@ -41,7 +41,13 @@ const EntityLocationTableWrapper = ({ entity }) => {
       <Box textAlign="right" mb={2}>
         <CreateLocationModal refresh={refreshEntity} entityId={entity.id} />
       </Box>
-      <LocationTable select={entity.locations} actions={actions} refreshId={refreshId} ignoredColumns={['entity']} />
+      <LocationTable
+        select={entity.locations}
+        actions={actions}
+        refreshId={refreshId}
+        ignoredColumns={['entity']}
+        openDetailsModal={openEditModal}
+      />
       <EditLocationModal isOpen={isEditOpen} onClose={closeEdit} location={location} refresh={refetchLocations} />
     </>
   );

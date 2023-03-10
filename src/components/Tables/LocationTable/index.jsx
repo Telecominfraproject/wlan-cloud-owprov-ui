@@ -13,6 +13,7 @@ const propTypes = {
   ignoredColumns: PropTypes.arrayOf(PropTypes.string),
   refreshId: PropTypes.number,
   disabledIds: PropTypes.arrayOf(PropTypes.string),
+  openDetailsModal: PropTypes.func.isRequired,
 };
 const defaultProps = {
   ignoredColumns: [],
@@ -20,7 +21,7 @@ const defaultProps = {
   disabledIds: [],
 };
 
-const LocationTable = ({ actions, select, refreshId, ignoredColumns, disabledIds }) => {
+const LocationTable = ({ actions, select, refreshId, ignoredColumns, disabledIds, openDetailsModal }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { data: venues, isFetching, refetch } = useGetSelectLocations({ t, toast, select });
@@ -81,7 +82,7 @@ const LocationTable = ({ actions, select, refreshId, ignoredColumns, disabledIds
         disableSortBy: true,
       },
       {
-        id: 'id',
+        id: 'actions',
         Header: t('common.actions'),
         Footer: '',
         accessor: 'Id',
@@ -112,6 +113,8 @@ const LocationTable = ({ actions, select, refreshId, ignoredColumns, disabledIds
         },
       ]}
       minHeight="200px"
+      onRowClick={openDetailsModal}
+      isRowClickable={() => true}
     />
   );
 };

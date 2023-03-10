@@ -23,6 +23,10 @@ const EntityResourcesTableWrapper = ({ entity }) => {
     setResource(newResource);
     openEdit();
   };
+  const openDetailsModalFromTable = (openedResource) => {
+    setResource(openedResource);
+    openEdit();
+  };
 
   const refreshEntity = () => queryClient.invalidateQueries(['get-entity', entity.id]);
 
@@ -40,7 +44,13 @@ const EntityResourcesTableWrapper = ({ entity }) => {
       <Box textAlign="right" mb={2}>
         <CreateResourceModal refresh={refreshEntity} entityId={entity.id} />
       </Box>
-      <ResourceTable select={entity.variables} actions={actions} refreshId={refreshId} ignoredColumns={['entity']} />
+      <ResourceTable
+        select={entity.variables}
+        actions={actions}
+        refreshId={refreshId}
+        ignoredColumns={['entity']}
+        openDetailsModal={openDetailsModalFromTable}
+      />
       <EditResourceModal isOpen={isEditOpen} onClose={closeEdit} resource={resource} refresh={refreshTable} />
     </>
   );

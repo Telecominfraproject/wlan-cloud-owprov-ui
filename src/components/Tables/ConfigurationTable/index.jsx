@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
@@ -14,6 +15,9 @@ const propTypes = {
 const ConfigurationsTable = ({ select, actions }) => {
   const { t } = useTranslation();
   const { data: configurations, isFetching } = useGetSelectConfigurations({ select });
+  const navigate = useNavigate();
+
+  const handleGoToPage = (configuration) => navigate(`/configuration/${configuration.id}`);
 
   const dateCell = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
   const typesCell = useCallback((cell) => cell.row.values.deviceTypes.join(', '), []);
@@ -32,20 +36,13 @@ const ConfigurationsTable = ({ select, actions }) => {
         alwaysShow: true,
       },
       {
-        id: 'description',
-        Header: t('common.description'),
+        id: 'deviceTypes',
+        Header: t('configurations.device_types'),
         Footer: '',
-        accessor: 'description',
+        accessor: 'deviceTypes',
+        Cell: ({ cell }) => typesCell(cell),
         disableSortBy: true,
-      },
-      {
-        id: 'created',
-        Header: t('common.created'),
-        Footer: '',
-        accessor: 'created',
-        Cell: ({ cell }) => dateCell(cell, 'created'),
-        customMinWidth: '150px',
-        customWidth: '150px',
+        customMaxWidth: '150px',
       },
       {
         id: 'modified',
@@ -57,17 +54,15 @@ const ConfigurationsTable = ({ select, actions }) => {
         customWidth: '150px',
       },
       {
-        id: 'deviceTypes',
-        Header: t('configurations.device_types'),
+        id: 'description',
+        Header: t('common.description'),
         Footer: '',
-        accessor: 'deviceTypes',
-        Cell: ({ cell }) => typesCell(cell),
+        accessor: 'description',
         disableSortBy: true,
-        customMaxWidth: '150px',
       },
       {
-        id: 'id',
-        Header: t('common.actions'),
+        id: 'actions',
+        Header: '',
         Footer: '',
         accessor: 'Id',
         customWidth: '80px',
@@ -86,14 +81,18 @@ const ConfigurationsTable = ({ select, actions }) => {
       columns={columns}
       data={configurations ?? []}
       isLoading={isFetching}
-      obj={t('configurations.title')}
       sortBy={[
         {
           id: 'name',
           desc: false,
         },
       ]}
+      obj={t('configurations.title')}
       minHeight="200px"
+      hideControls
+      showAllRows
+      onRowClick={handleGoToPage}
+      isRowClickable={() => true}
     />
   );
 };
