@@ -17,6 +17,8 @@ const EVENT_TYPES = [
   'wired',
   'wired.carrier-up',
   'wired.carrier-down',
+  'unit',
+  'unit-boot-up',
 ];
 
 export const EVENT_TYPES_OPTIONS = EVENT_TYPES.map((type) => ({

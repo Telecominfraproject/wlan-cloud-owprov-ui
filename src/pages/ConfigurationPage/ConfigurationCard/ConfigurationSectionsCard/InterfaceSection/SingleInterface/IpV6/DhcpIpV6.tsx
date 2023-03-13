@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { FormControl, FormLabel, Switch } from '@chakra-ui/react';
+import React from 'react';
+import { Heading, SimpleGrid, Switch, Text } from '@chakra-ui/react';
 import { getIn, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { INTERFACE_IPV6_DHCP_SCHEMA } from '../../interfacesConstants';
@@ -7,15 +7,7 @@ import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 
-const DhcpIpV6 = (
-  {
-    editing,
-    index
-  }: {
-    editing: boolean
-    index: number
-  }
-) => {
+const DhcpIpV6: React.FC<{ editing: boolean; index: number }> = ({ editing, index }) => {
   const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext();
 
@@ -27,24 +19,27 @@ const DhcpIpV6 = (
     }
   };
 
-  const isEnabled = useMemo(
-    () => getIn(values, `configuration[${index}].ipv6.dhcpv6`) !== undefined,
-    [getIn(values, `configuration[${index}].ipv6.dhcpv6`)],
-  );
+  const isEnabled = !!getIn(values, `configuration[${index}].ipv6.dhcpv6`);
 
   return (
     <>
-      <FormControl isDisabled={!editing}>
-        <FormLabel ms="4px" fontSize="md" fontWeight="normal">
-          Enable DHCPv6
-        </FormLabel>
-        <Switch onChange={onEnabledChange} isChecked={isEnabled} borderRadius="15px" size="lg" isDisabled={!editing} />
-      </FormControl>
+      <Heading size="md" display="flex">
+        <Text pt={1}>DHCPv6</Text>
+        <Switch
+          pt={1}
+          onChange={onEnabledChange}
+          isChecked={isEnabled}
+          borderRadius="15px"
+          size="lg"
+          mx={2}
+          isDisabled={!editing}
+        />
+      </Heading>
       {isEnabled && (
-        <>
+        <SimpleGrid minChildWidth="300px" spacing="20px" mb={2} mt={2} w="100%">
           <SelectField
             name={`configuration[${index}].ipv6.dhcpv6.mode`}
-            label="dhcpv6.mode"
+            label="mode"
             definitionKey="interface.ipv6.dhcpv6.mode"
             options={[
               { value: 'hybrid', label: 'hybrid' },
@@ -57,18 +52,18 @@ const DhcpIpV6 = (
           />
           <CreatableSelectField
             name={`configuration[${index}].ipv6.dhcpv6.announce-dns`}
-            label="dhcpv6.announce-dns"
+            label="announce-dns"
             definitionKey="interface.ipv6.dhcpv6.announce-dns"
             emptyIsUndefined
           />
           <StringField
             name={`configuration[${index}].ipv6.dhcpv6.filter-prefix`}
-            label="dhcpv6.filter-prefix"
+            label="filter-prefix"
             definitionKey="interface.ipv6.dhcpv6.filter-prefix"
             isDisabled={!editing}
             emptyIsUndefined
           />
-        </>
+        </SimpleGrid>
       )}
     </>
   );
