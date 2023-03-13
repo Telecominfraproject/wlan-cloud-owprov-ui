@@ -304,11 +304,7 @@ export const SERVICES_IEEE8021X_SCHEMA = (t, useDefault = false) => {
 };
 export const SERVICES_RADIUS_PROXY_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
-    realms: array()
-      .of(SERVICES_REALMS_SCHEMA(t, useDefault))
-      .required(t('form.required'))
-      .min(1, t('form.required'))
-      .default([]),
+    realms: array().of(SERVICES_REALMS_SCHEMA(t, useDefault)).required(t('form.required')).default([]),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);

@@ -31,10 +31,28 @@ const Health = ({ editing }: Props) => {
             isRequired
             w={24}
           />
-          <ToggleField name="configuration.health.dhcp-local" label="dhcp-local" isRequired defaultValue />
-          <ToggleField name="configuration.health.dhcp-remote" label="dhcp-remote" isRequired />
-          <ToggleField name="configuration.health.dns-local" label="dns-local" isRequired defaultValue />
-          <ToggleField name="configuration.health.dns-remote" label="dns-remote" isRequired defaultValue />
+          <ToggleField
+            name="configuration.health.dhcp-local"
+            label="dhcp-local"
+            isRequired
+            defaultValue
+            isDisabled={!editing}
+          />
+          <ToggleField name="configuration.health.dhcp-remote" label="dhcp-remote" isRequired isDisabled={!editing} />
+          <ToggleField
+            name="configuration.health.dns-local"
+            label="dns-local"
+            isRequired
+            defaultValue
+            isDisabled={!editing}
+          />
+          <ToggleField
+            name="configuration.health.dns-remote"
+            label="dns-remote"
+            isRequired
+            defaultValue
+            isDisabled={!editing}
+          />
         </SimpleGrid>
       </CardBody>
     </Card>

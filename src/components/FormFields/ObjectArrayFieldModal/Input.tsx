@@ -27,6 +27,7 @@ import { Column } from 'models/Table';
 interface ObjectArrayFieldModalOptions {
   buttonLabel?: string;
   modalTitle?: string;
+  onFormSubmit?: (value: any) => object;
 }
 
 interface Props extends FieldInputProps<object[]> {
@@ -41,24 +42,22 @@ interface Props extends FieldInputProps<object[]> {
   schema: (t: (e: string) => string, useDefault?: boolean) => object;
 }
 
-const ObjectArrayFieldInput = (
-  {
-    name,
-    label,
-    value,
-    onChange,
-    isError,
-    error,
-    fields,
-    isRequired,
-    isHidden,
-    schema,
-    columns,
-    isDisabled,
-    hideLabel,
-    options
-  }: Props
-) => {
+const ObjectArrayFieldInput: React.FC<Props> = ({
+  name,
+  label,
+  value,
+  onChange,
+  isError,
+  error,
+  fields,
+  isRequired,
+  isHidden,
+  schema,
+  columns,
+  isDisabled,
+  hideLabel,
+  options,
+}) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tempValue, setTempValue] = useState<object[]>([]);
@@ -76,7 +75,7 @@ const ObjectArrayFieldInput = (
   };
 
   const removeAction = useCallback(
-    (cell) => (
+    (cell: { row: { index: number } }) => (
       <Tooltip hasArrow label={t('common.remove')} placement="top">
         <IconButton
           aria-label="Remove Object"
@@ -132,7 +131,11 @@ const ObjectArrayFieldInput = (
                 validateOnMount
                 onSubmit={(data, { setSubmitting, resetForm }) => {
                   setSubmitting(true);
-                  setTempValue([...tempValue, data]);
+                  if (!options.onFormSubmit) {
+                    setTempValue([...tempValue, data]);
+                  } else {
+                    setTempValue([...tempValue, options.onFormSubmit(data)]);
+                  }
                   resetForm();
                   setSubmitting(false);
                 }}

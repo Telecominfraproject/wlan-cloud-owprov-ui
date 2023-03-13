@@ -59,7 +59,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
             <SimpleGrid minChildWidth="300px" spacing="20px" mt={2}>
               <StringField
                 name={`${namePrefix}.name`}
-                label="name"
+                label="SSID"
                 definitionKey="interface.ssid.name"
                 isDisabled={!editing}
                 isRequired

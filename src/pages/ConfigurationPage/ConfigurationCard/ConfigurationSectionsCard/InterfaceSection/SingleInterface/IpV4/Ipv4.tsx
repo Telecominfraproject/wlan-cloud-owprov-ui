@@ -4,7 +4,7 @@ import { INTERFACE_IPV4_PORT_FORWARD_SCHEMA, INTERFACE_IPV4_SCHEMA } from '../..
 import LockedIpv4 from './LockedIpv4';
 import StaticIpV4 from './StaticIpV4';
 import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
-import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
+import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
 import { PortRangeField } from 'components/FormFields/PortRangeField';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
@@ -79,7 +79,7 @@ const IpV4Form = ({ isEnabled, isDisabled, namePrefix, ipv4, role, onToggle, onC
     ],
     [],
   );
-  const portOpts: ObjectArrayFieldModalOptions = useMemo(
+  const portOpts = useMemo(
     () => ({
       buttonLabel: 'IPv4 Port Forwarding',
       modalTitle: 'IPv4 Port Forwarding',
@@ -139,9 +139,7 @@ const IpV4Form = ({ isEnabled, isDisabled, namePrefix, ipv4, role, onToggle, onC
       {variableBlockId ? (
         <LockedIpv4 variableBlockId={variableBlockId} />
       ) : (
-        <SimpleGrid minChildWidth="300px" spacing="20px" mb={ipv4 === 'static' ? 8 : undefined} mt={2} w="100%">
-          <StaticIpV4 namePrefix={namePrefix} isEnabled={ipv4 === 'static'} isDisabled={isDisabled} />
-        </SimpleGrid>
+        <StaticIpV4 namePrefix={namePrefix} isEnabled={ipv4 === 'static'} isDisabled={isDisabled} />
       )}
     </>
   );
