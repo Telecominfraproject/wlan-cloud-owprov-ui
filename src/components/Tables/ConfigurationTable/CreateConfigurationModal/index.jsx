@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { AddIcon } from '@chakra-ui/icons';
-import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
+import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CreateConfigurationForm from './Form';
 import CloseButton from 'components/Buttons/CloseButton';
+import CreateButton from 'components/Buttons/CreateButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
@@ -51,9 +51,7 @@ const CreateConfigurationModal = ({ refresh, entityId }) => {
 
   return (
     <>
-      <Button alignItems="center" colorScheme="blue" rightIcon={<AddIcon />} onClick={openModal} ml={2}>
-        {t('crud.create')}
-      </Button>
+      <CreateButton onClick={openModal} ml={2} />
       <Modal onClose={closeModal} isOpen={isOpen} size="xl" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>

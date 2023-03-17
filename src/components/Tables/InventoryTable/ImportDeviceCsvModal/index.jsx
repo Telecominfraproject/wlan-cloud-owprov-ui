@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import {
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  useBreakpoint,
-  Button,
-  Tooltip,
-  IconButton,
-} from '@chakra-ui/react';
+import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, Tooltip, IconButton } from '@chakra-ui/react';
 import { UploadSimple } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -36,7 +26,6 @@ const defaultProps = {
 
 const ImportDeviceCsvModal = ({ refresh, deviceClass, parent }) => {
   const { t } = useTranslation();
-  const breakpoint = useBreakpoint();
   const [refreshId, setRefreshId] = useState(uuid());
   // 0: explanation, file import and file analysis
   // 1: testing the serial number list with the API
@@ -91,22 +80,6 @@ const ImportDeviceCsvModal = ({ refresh, deviceClass, parent }) => {
     onOpen();
   };
 
-  const getButton = () => {
-    if (breakpoint !== 'base' && breakpoint !== 'sm') {
-      return (
-        <Button ml={2} colorScheme="blue" onClick={openModal} rightIcon={<UploadSimple size={20} />}>
-          {t('devices.import_batch_tags')}
-        </Button>
-      );
-    }
-
-    return (
-      <Tooltip label={t('devices.import_batch_tags')}>
-        <IconButton ml={2} colorScheme="blue" onClick={openModal} icon={<UploadSimple size={20} />} />
-      </Tooltip>
-    );
-  };
-
   const closeModal = () => (isCloseable ? onClose() : openConfirm());
 
   const closeCancelAndForm = () => {
@@ -116,7 +89,9 @@ const ImportDeviceCsvModal = ({ refresh, deviceClass, parent }) => {
 
   return (
     <>
-      {getButton()}
+      <Tooltip label={t('devices.import_batch_tags')}>
+        <IconButton ml={2} colorScheme="teal" onClick={openModal} icon={<UploadSimple size={20} />} />
+      </Tooltip>
       <Modal onClose={closeModal} isOpen={isOpen} size="xl">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>

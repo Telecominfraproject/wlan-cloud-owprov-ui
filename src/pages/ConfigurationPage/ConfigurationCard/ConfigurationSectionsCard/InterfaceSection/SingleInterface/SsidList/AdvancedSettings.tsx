@@ -74,7 +74,6 @@ const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ 
           definitionKey="interface.ssid.services"
           isDisabled={!editing}
           options={[
-            { value: 'captive', label: 'captive' },
             { value: 'radius-gw-proxy', label: 'radius-gw-proxy' },
             { value: 'wifi-steering', label: 'wifi-steering' },
           ]}

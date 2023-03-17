@@ -18,7 +18,7 @@ const defaultProps = {
   onSave: undefined,
   isDisabled: false,
   isLoading: false,
-  isCompact: false,
+  isCompact: true,
   ml: undefined,
 };
 

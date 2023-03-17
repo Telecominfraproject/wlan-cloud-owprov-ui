@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { AddIcon } from '@chakra-ui/icons';
-import { Button, Modal, ModalOverlay, ModalContent, ModalBody, Center, Spinner } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalBody, Center, Spinner } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import CreateSubscriberDeviceStep0 from './MultiStepForm/Step0';
 import CreateSubscriberDeviceStep1 from './MultiStepForm/Step1';
 import CreateSubscriberDeviceStep2 from './MultiStepForm/Step2';
 import CreateSubscriberDeviceStep3 from './MultiStepForm/Step3';
 import CloseButton from 'components/Buttons/CloseButton';
+import CreateButton from 'components/Buttons/CreateButton';
 import StepButton from 'components/Buttons/StepButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
@@ -141,16 +141,7 @@ const CreateSubscriberDeviceModal = ({ refresh, operatorId, subscriberId, device
 
   return (
     <>
-      <Button
-        hidden={user?.userRole === 'CSR'}
-        alignItems="center"
-        colorScheme="blue"
-        rightIcon={<AddIcon />}
-        onClick={onOpen}
-        ml={2}
-      >
-        {t('crud.create')}
-      </Button>
+      {user?.userRole === 'CSR' ? null : <CreateButton onClick={onOpen} ml={2} />}
       <Modal onClose={closeModal} isOpen={isOpen} size="xl">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>

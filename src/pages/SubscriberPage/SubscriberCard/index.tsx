@@ -19,7 +19,7 @@ interface Props {
   id: string;
 }
 
-const SubscriberCard = ({ id }: Props) => {
+const SubscriberCard: React.FC<Props> = ({ id }) => {
   const [editing, setEditing] = useBoolean();
   const { data: subscriber, refetch, isFetching } = useGetSubscriber({ id });
   const { form, formRef } = useFormRef();
@@ -41,11 +41,12 @@ const SubscriberCard = ({ id }: Props) => {
         </Flex>
         <Spacer />
         <Box>
+          <DeleteVenuePopover isDisabled={editing || isFetching} subscriber={subscriber} />
           <SaveButton
             onClick={form.submitForm}
             isLoading={form.isSubmitting}
-            isCompact={false}
             isDisabled={!editing || !form.isValid || !form.dirty}
+            hidden={!editing}
             ml={2}
           />
           <ToggleEditButton
@@ -55,9 +56,8 @@ const SubscriberCard = ({ id }: Props) => {
             isDirty={form.dirty}
             ml={2}
           />
-          <DeleteVenuePopover isDisabled={editing || isFetching} subscriber={subscriber} />
-          <RefreshButton onClick={refetch} isFetching={isFetching} isDisabled={editing} ml={2} />
           <Actions subscriber={subscriber} refresh={refetch} isDisabled={editing} />
+          <RefreshButton onClick={refetch} isFetching={isFetching} isDisabled={editing} ml={2} />
         </Box>
       </CardHeader>
       <CardBody>

@@ -35,7 +35,6 @@ const VenueCard = ({ id }: { id: string }) => {
           <SaveButton
             onClick={form.submitForm}
             isLoading={form.isSubmitting}
-            isCompact={false}
             isDisabled={!editing || !form.isValid || !form.dirty}
             ml={2}
           />

@@ -15,7 +15,7 @@ const ResponsiveButton = ({
   onClick,
   isDisabled,
   isLoading,
-  isCompact,
+  isCompact = true,
   color,
   label,
   icon,

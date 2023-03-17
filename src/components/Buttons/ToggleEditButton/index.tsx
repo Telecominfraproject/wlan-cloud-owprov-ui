@@ -17,7 +17,7 @@ interface Props {
 const defaultProps = {
   isDisabled: false,
   isLoading: false,
-  isCompact: false,
+  isCompact: true,
   isDirty: false,
   ml: undefined,
 };
