@@ -1,6 +1,6 @@
 import React from 'react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip } from '@chakra-ui/react';
+import { Wrench } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { useSendEmailResetSubscriber, useSuspendSubscriber } from 'hooks/Network/Subscribers';
 import useMutationResult from 'hooks/useMutationResult';
@@ -12,13 +12,7 @@ interface Props {
   isDisabled?: boolean;
 }
 
-const SubscriberActions = (
-  {
-    subscriber,
-    refresh,
-    isDisabled
-  }: Props
-) => {
+const SubscriberActions: React.FC<Props> = ({ subscriber, refresh, isDisabled }) => {
   const { t } = useTranslation();
   const { mutateAsync: suspend } = useSuspendSubscriber({ id: subscriber?.id ?? '' });
   const { mutateAsync: resetPassword } = useSendEmailResetSubscriber({ id: subscriber?.id ?? '' });
@@ -41,9 +35,9 @@ const SubscriberActions = (
 
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />} ml={2} isDisabled={isDisabled}>
-        {t('common.actions')}
-      </MenuButton>
+      <Tooltip label={t('common.actions')} aria-label={t('common.actions')} hasArrow>
+        <MenuButton as={IconButton} icon={<Wrench size={20} />} ml={2} isDisabled={isDisabled} />
+      </Tooltip>
       <MenuList>
         <MenuItem onClick={handleSuspendClick}>
           {subscriber?.suspended ? t('users.stop_suspension') : t('users.suspend')}

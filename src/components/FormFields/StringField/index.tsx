@@ -5,27 +5,29 @@ import useFastField from 'hooks/useFastField';
 import { FieldProps } from 'models/Form';
 
 interface Props extends FieldProps, LayoutProps {
+  formatValue?: (value: string) => string;
   hideButton?: boolean;
 }
 
-const StringField = ({
+const StringField: React.FC<Props> = ({
   name,
   isDisabled = false,
   label,
   hideButton = false,
   isRequired = false,
   element,
+  formatValue,
   isArea = false,
   emptyIsUndefined = false,
   definitionKey,
   ...props
-}: Props) => {
+}) => {
   const { value, error, isError, onChange, onBlur } = useFastField<string | undefined>({ name });
 
   const onFieldChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       if (emptyIsUndefined && e.target.value.length === 0) onChange(undefined);
-      else onChange(e.target.value);
+      else onChange(formatValue ? formatValue(e.target.value) : e.target.value);
     },
     [onChange],
   );

@@ -149,12 +149,6 @@ const EditTagModal = ({
           title={t('crud.edit_obj', { obj: tag?.name ?? tag?.serialNumber })}
           right={
             <>
-              <SaveButton
-                onClick={form.submitForm}
-                isLoading={form.isSubmitting}
-                isDisabled={!editing || !form.isValid || (configuration !== null && !configuration.__form.isValid)}
-                mr={2}
-              />
               <Popover isOpen={isDeleteOpen} onOpen={onDeleteOpen} onClose={onDeleteClose}>
                 <Tooltip hasArrow label={t('crud.delete')} placement="top" isDisabled={isDeleteOpen}>
                   <Box>
@@ -208,6 +202,13 @@ const EditTagModal = ({
                   onClick={handlePushConfig}
                 />
               </Tooltip>
+              <SaveButton
+                onClick={form.submitForm}
+                isLoading={form.isSubmitting}
+                isDisabled={!editing || !form.isValid || (configuration !== null && !configuration.__form.isValid)}
+                hidden={!editing}
+                ml={2}
+              />
               <EditButton ml={2} isDisabled={editing} onClick={setEditing.toggle} isCompact />
               <CloseButton ml={2} onClick={closeModal} />
             </>

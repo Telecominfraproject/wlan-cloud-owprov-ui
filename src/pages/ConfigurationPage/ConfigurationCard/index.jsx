@@ -149,7 +149,6 @@ const ConfigurationCard = ({ id }) => {
             <SaveButton
               onClick={handleSubmitClick}
               isLoading={updateEntity.isLoading}
-              isCompact={false}
               isDisabled={
                 !editing || !form.isValid || sections.invalidValues.length > 0 || (!form.dirty && !sections.isDirty)
               }

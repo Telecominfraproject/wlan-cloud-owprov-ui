@@ -33,7 +33,7 @@ const ColumnPicker = ({
   setHiddenColumns,
   defaultHiddenColumns = [],
   size,
-  isCompact,
+  isCompact = true,
 }: ColumnPickerProps) => {
   const { t } = useTranslation();
   const { getPref, setPref } = useAuth();

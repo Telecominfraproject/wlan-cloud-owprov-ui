@@ -15,7 +15,7 @@ const defaultProps = {
   label: 'Edit',
   isDisabled: false,
   isLoading: false,
-  isCompact: false,
+  isCompact: true,
   ml: undefined,
 };
 

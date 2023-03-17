@@ -42,6 +42,18 @@ const DhcpIpV4 = ({ namePrefix, isDisabled }: Props) => {
           definitionKey="interface.ipv4.dhcp-lease.macaddr"
           isRequired
           w="220px"
+          formatValue={(v) => {
+            const r = /([a-f0-9]{2})([a-f0-9]{2})/i;
+            let str = v.replace(/[^a-f0-9]/gi, '');
+
+            while (r.test(str)) {
+              str = str.replace(r, `$1:$2`);
+            }
+
+            str = str.slice(0, 17);
+
+            return str;
+          }}
           mr={4}
         />
         <StaticLeaseOffsetField subnet={ipv4?.subnet} />
@@ -122,7 +134,7 @@ const DhcpIpV4 = ({ namePrefix, isDisabled }: Props) => {
               isRequired
               options={{
                 modalTitle: 'Reserved Addresses',
-                buttonLabel: 'Reserved Addresses',
+                buttonLabel: 'Manage Reserved Addresses',
                 onFormSubmit: (v: {
                   __temp_ip?: string;
                   secondMacAddress: string;

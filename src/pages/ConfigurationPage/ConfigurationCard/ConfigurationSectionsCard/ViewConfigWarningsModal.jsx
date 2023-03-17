@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  IconButton,
-  Tooltip,
-  useBreakpoint,
-  useDisclosure,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-} from '@chakra-ui/react';
+import { IconButton, Tooltip, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { CheckCircle, WarningOctagon } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
@@ -30,7 +20,6 @@ const defaultProps = {
 const ViewConfigWarningsModal = ({ warnings, activeConfigurations, isDisabled }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const breakpoint = useBreakpoint();
   const warningsAmount =
     warnings.globals.length +
     warnings.unit.length +
@@ -42,27 +31,19 @@ const ViewConfigWarningsModal = ({ warnings, activeConfigurations, isDisabled })
 
   return (
     <>
-      {breakpoint !== 'base' && breakpoint !== 'sm' ? (
-        <Button
+      <Tooltip
+        label={`${warningsAmount} ${warningsAmount === 1 ? t('common.warning') : t('common.warnings')}`}
+        hasArrow
+        shouldWrapChildren
+      >
+        <IconButton
           colorScheme={warningsAmount === 0 ? 'green' : 'yellow'}
           type="button"
           onClick={onOpen}
-          rightIcon={warningsAmount === 0 ? <CheckCircle size={20} /> : <WarningOctagon size={20} />}
+          icon={warningsAmount === 0 ? <CheckCircle size={20} /> : <WarningOctagon size={20} />}
           isDisabled={isDisabled || warningsAmount === 0}
-        >
-          {warningsAmount} {warningsAmount === 1 ? t('common.warning') : t('common.warnings')}
-        </Button>
-      ) : (
-        <Tooltip label={`${warningsAmount} ${warningsAmount === 1 ? t('common.warning') : t('common.warnings')}`}>
-          <IconButton
-            colorScheme={warningsAmount === 0 ? 'green' : 'yellow'}
-            type="button"
-            onClick={onOpen}
-            icon={warningsAmount === 0 ? <CheckCircle size={20} /> : <WarningOctagon size={20} />}
-            isDisabled={isDisabled || warningsAmount === 0}
-          />
-        </Tooltip>
-      )}
+        />
+      </Tooltip>
       <Modal onClose={onClose} isOpen={isOpen} size="xl" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>

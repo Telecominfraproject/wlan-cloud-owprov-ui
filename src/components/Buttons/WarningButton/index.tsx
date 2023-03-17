@@ -15,7 +15,7 @@ interface Props extends ThemeProps {
 const defaultProps = {
   isDisabled: false,
   isLoading: false,
-  isCompact: false,
+  isCompact: true,
   label: undefined,
 };
 
