@@ -11,9 +11,19 @@ import {
   useBoolean,
   IconButton,
   Tooltip,
+  Popover,
+  Box,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  Button,
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowSquareOut, PaperPlaneTilt } from 'phosphor-react';
+import { ArrowSquareOut, PaperPlaneTilt, Trash } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import DeviceActionDropdown from './ActionDropdown';
@@ -26,7 +36,7 @@ import ModalHeader from 'components/Modals/ModalHeader';
 import { useGetDeviceConfigurationOverrides } from 'hooks/Network/ConfigurationOverride';
 import useGetDeviceTypes from 'hooks/Network/DeviceTypes';
 import { useGetGatewayUi } from 'hooks/Network/Endpoints';
-import { useGetTag } from 'hooks/Network/Inventory';
+import { useDeleteTag, useGetTag } from 'hooks/Network/Inventory';
 import { axiosProv } from 'utils/axiosInstances';
 
 const propTypes = {
@@ -59,10 +69,24 @@ const EditTagModal = ({
 }) => {
   const { t } = useTranslation();
   const [editing, setEditing] = useBoolean();
+  const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const toast = useToast();
   const [form, setForm] = useState({});
   const [configuration, setConfiguration] = useState(null);
+  const { mutateAsync: deleteTag, isLoading: isDeleting } = useDeleteTag({
+    name: tag?.name,
+    refreshTable: refresh,
+    onClose,
+  });
+
+  const handleDeleteClick = () =>
+    deleteTag(tag.serialNumber, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
+
   const { data: gwUi } = useGetGatewayUi();
   const formRef = useCallback(
     (node) => {
@@ -125,11 +149,33 @@ const EditTagModal = ({
           title={t('crud.edit_obj', { obj: tag?.name ?? tag?.serialNumber })}
           right={
             <>
-              <SaveButton
-                onClick={form.submitForm}
-                isLoading={form.isSubmitting}
-                isDisabled={!editing || !form.isValid || (configuration !== null && !configuration.__form.isValid)}
-              />
+              <Popover isOpen={isDeleteOpen} onOpen={onDeleteOpen} onClose={onDeleteClose}>
+                <Tooltip hasArrow label={t('crud.delete')} placement="top" isDisabled={isDeleteOpen}>
+                  <Box>
+                    <PopoverTrigger>
+                      <IconButton aria-label="Open Device Delete" colorScheme="red" icon={<Trash size={20} />} />
+                    </PopoverTrigger>
+                  </Box>
+                </Tooltip>
+                <PopoverContent fontSize="md" fontWeight="normal">
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverHeader>
+                    {t('crud.delete')} {tag?.name}
+                  </PopoverHeader>
+                  <PopoverBody>{t('crud.delete_confirm', { obj: t('inventory.tag_one') })}</PopoverBody>
+                  <PopoverFooter>
+                    <Center>
+                      <Button colorScheme="gray" mr="1" onClick={onDeleteClose}>
+                        {t('common.cancel')}
+                      </Button>
+                      <Button colorScheme="red" ml="1" onClick={handleDeleteClick} isLoading={isDeleting}>
+                        {t('common.yes')}
+                      </Button>
+                    </Center>
+                  </PopoverFooter>
+                </PopoverContent>
+              </Popover>
               <DeviceActionDropdown
                 device={tag}
                 isDisabled={editing}
@@ -156,6 +202,13 @@ const EditTagModal = ({
                   onClick={handlePushConfig}
                 />
               </Tooltip>
+              <SaveButton
+                onClick={form.submitForm}
+                isLoading={form.isSubmitting}
+                isDisabled={!editing || !form.isValid || (configuration !== null && !configuration.__form.isValid)}
+                hidden={!editing}
+                ml={2}
+              />
               <EditButton ml={2} isDisabled={editing} onClick={setEditing.toggle} isCompact />
               <CloseButton ml={2} onClick={closeModal} />
             </>

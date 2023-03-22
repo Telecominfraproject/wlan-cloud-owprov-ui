@@ -79,7 +79,7 @@ const DeleteVenuePopover = ({ venue, isDisabled }) => {
       <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
         <PopoverAnchor>
           <span>
-            <DeleteButton onClick={onOpen} isDisabled={isDisabled} ml={2} />
+            <DeleteButton onClick={onOpen} isDisabled={isDisabled} />
           </span>
         </PopoverAnchor>
         <PopoverContent>

@@ -466,18 +466,20 @@ export const INTERFACE_IPV4_DHCP_SCHEMA = (t, useDefault = false) => {
 export const INTERFACE_IPV4_DHCP_LEASE_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
-      macaddr: string().required(t('form.required')).default(''),
+      macaddr: string()
+        .required(t('form.required'))
+        .test('test-first-mac', t('form.invalid_mac_uc'), testUcMac)
+        .default('00:11:22:33:44:55'),
+      'static-lease-offset': number().required(t('form.required')).positive().integer().default(undefined),
       'lease-time': string()
         .required(t('form.required'))
         .test('ipv4_dhcp-lease.lease-time', t('form.invalid_lease_time'), testLeaseTime)
         .default('6h'),
-      'static-lease-offset': number().required(t('form.required')).positive().integer().default(1),
       'publish-hostname': bool().required(t('form.required')).default(true),
     })
     .default({
-      macaddr: '',
+      macaddr: '00:11:22:33:44:55',
       'lease-time': '6h',
-      'static-lease-offset': 1,
       'publish-hostname': true,
     });
 
@@ -535,17 +537,30 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
     addressing: string().required(t('form.required')).default('dynamic'),
     subnet: string().when('addressing', {
       is: 'dynamic',
-      then: string().nullable(),
+      then: string(),
       otherwise: string()
-        .test('test-ipv4-subnet', t('form.invalid_ipv4'), testIpv4)
-        .test('test-ipv4-subnet-static-d', t('form.invalid_static_ipv4_d'), testStaticIpv4ClassD)
-        .test('test-ipv4-subnet-static-e', t('form.invalid_static_ipv4_e'), testStaticIpv4ClassE)
-        .default(''),
+        .test('test-ipv4-subnet', t('form.invalid_ipv4'), (v) => {
+          if (v === 'auto/24') return true;
+          return testIpv4(v);
+        })
+        .test('test-ipv4-subnet-static-d', t('form.invalid_static_ipv4_d'), (v) => {
+          if (v === 'auto/24') return true;
+          return testStaticIpv4ClassD(v);
+        })
+        .test('test-ipv4-subnet-static-e', t('form.invalid_static_ipv4_e'), (v) => {
+          if (v === 'auto/24') return true;
+          return testStaticIpv4ClassE(v);
+        })
+        .required(t('form.required'))
+        .default('192.168.1.1/24'),
     }),
     gateway: string().when('addressing', {
       is: 'dynamic',
       then: string().nullable(),
-      otherwise: string().default(''),
+      otherwise: string()
+        .test('test-ipv4-subnet', t('form.invalid_ipv4'), testIpv4)
+        .required(t('form.required'))
+        .default('192.168.1.1'),
     }),
     'send-hostname': bool().when('addressing', {
       is: 'dynamic',
@@ -563,7 +578,6 @@ export const INTERFACE_IPV4_SCHEMA = (t, useDefault = false) => {
       otherwise: array().of(object()).default([]),
     }),
     dhcp: INTERFACE_IPV4_DHCP_SCHEMA(t, useDefault),
-    'dhcp-lease': INTERFACE_IPV4_DHCP_LEASE_SCHEMA(t, useDefault),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);

@@ -18,6 +18,7 @@ const propTypes = {
   refreshId: PropTypes.number,
   onlyUnassigned: PropTypes.bool,
   minHeight: PropTypes.instanceOf(Object),
+  openDetailsModal: PropTypes.func,
 };
 
 const defaultProps = {
@@ -46,6 +47,7 @@ const InventoryTable = ({
   actions,
   refreshId,
   minHeight,
+  openDetailsModal,
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
@@ -122,6 +124,16 @@ const InventoryTable = ({
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
         isMonospace: true,
+        sortType: (rowA, rowB, id) => {
+          const a = rowA.values[id];
+          const b = rowB.values[id];
+
+          if (a && b) {
+            return a.localeCompare(b);
+          }
+
+          return 0;
+        },
       },
       {
         id: 'name',
@@ -171,11 +183,12 @@ const InventoryTable = ({
     if (actions !== null || addAction || removeAction) {
       baseColumns.push({
         id: 'actions',
-        Header: t('common.actions'),
+        Header: '',
         Footer: '',
         accessor: 'id',
         Cell: ({ cell }) => deviceActions(cell),
         customWidth: '50px',
+        disableSortBy: true,
       });
     }
     return baseColumns;
@@ -193,15 +206,17 @@ const InventoryTable = ({
         isLoading={isFetchingCount || isFetchingTags}
         isManual={!isManual}
         obj={t('devices.title')}
+        count={count || 0}
         sortBy={[
           {
             id: 'serialNumber',
             desc: false,
           },
         ]}
-        count={count || 0}
         setPageInfo={setPageInfo}
         minHeight={minHeight ?? '200px'}
+        onRowClick={openDetailsModal}
+        isRowClickable={openDetailsModal ? () => true : undefined}
       />
     );
   }
@@ -222,6 +237,8 @@ const InventoryTable = ({
       count={count || 0}
       setPageInfo={setPageInfo}
       minHeight={minHeight ?? '200px'}
+      onRowClick={openDetailsModal}
+      isRowClickable={openDetailsModal ? () => true : undefined}
     />
   );
 };

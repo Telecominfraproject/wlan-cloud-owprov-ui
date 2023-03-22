@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Button, Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure, Flex } from '@chakra-ui/react';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+  Flex,
+  Tooltip,
+  IconButton,
+} from '@chakra-ui/react';
 import { MagnifyingGlass } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import SubscriberSearchDisplayTable from './Table';
@@ -19,9 +28,9 @@ const SubscriberSearchModal = ({ operatorId }: Props) => {
 
   return (
     <>
-      <Button alignItems="center" colorScheme="blue" rightIcon={<MagnifyingGlass />} onClick={onOpen} ml={2}>
-        {t('common.search')}
-      </Button>
+      <Tooltip label={t('common.search')} hasArrow>
+        <IconButton aria-label={t('common.search')} icon={<MagnifyingGlass />} onClick={onOpen} colorScheme="teal" />
+      </Tooltip>
       <Modal onClose={onClose} isOpen={isOpen} size="xl">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>

@@ -1,10 +1,10 @@
 import React from 'react';
-import { AddIcon } from '@chakra-ui/icons';
-import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
+import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CreateContactForm from './Form';
 import CloseButton from 'components/Buttons/CloseButton';
+import CreateButton from 'components/Buttons/CreateButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
@@ -47,16 +47,7 @@ const CreateContactModal = ({ refresh, entityId, isVenue, onCreate }) => {
 
   return (
     <>
-      <Button
-        hidden={user?.userRole === 'CSR'}
-        alignItems="center"
-        colorScheme="blue"
-        rightIcon={<AddIcon />}
-        onClick={onOpen}
-        ml={2}
-      >
-        {t('crud.create')}
-      </Button>
+      {user?.userRole === 'CSR' ? null : <CreateButton onClick={onOpen} ml={2} />}
       <Modal onClose={closeModal} isOpen={isOpen} size="xl" initialFocusRef={initialRef}>
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>

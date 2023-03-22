@@ -15,7 +15,7 @@ const defaultProps = {
   onClick: () => {},
   isDisabled: false,
   isLoading: false,
-  isCompact: false,
+  isCompact: true,
   label: undefined,
 };
 

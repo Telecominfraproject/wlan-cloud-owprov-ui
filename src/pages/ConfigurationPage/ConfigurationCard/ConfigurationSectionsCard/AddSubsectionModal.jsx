@@ -32,7 +32,13 @@ const AddSubsectionModal = ({ editing, activeSubs, addSub }) => {
 
   return (
     <>
-      <CreateButton label={t('configurations.add_subsection')} onClick={onOpen} isDisabled={!editing} ml={2} />
+      <CreateButton
+        label={t('configurations.add_subsection')}
+        onClick={onOpen}
+        isDisabled={!editing}
+        ml={2}
+        isCompact
+      />
       <Modal onClose={onClose} isOpen={isOpen} size="sm" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>

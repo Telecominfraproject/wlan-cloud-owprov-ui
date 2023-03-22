@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import CreateUserModal from './CreateUserModal';
 import EditUserModal from './EditUserModal';
 import UserActions from './UserActions';
+import RefreshButton from 'components/Buttons/RefreshButton';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
@@ -111,7 +112,7 @@ const UserTable = ({ title }) => {
     ];
     if (user?.userRole !== 'csr')
       baseColumns.push({
-        id: 'user',
+        id: 'actions',
         Header: t('common.actions'),
         Footer: '',
         accessor: 'Id',
@@ -145,15 +146,7 @@ const UserTable = ({ title }) => {
                 preference="provisioning.userTable.hiddenColumns"
               />
               <CreateUserModal requirements={requirements} refreshUsers={refreshUsers} />
-              <Button
-                colorScheme="gray"
-                onClick={refreshUsers}
-                rightIcon={<ArrowsClockwise />}
-                ml={2}
-                isLoading={isFetching}
-              >
-                {t('common.refresh')}
-              </Button>
+              <RefreshButton onClick={refreshUsers} isFetching={isFetching} ml={2} />
             </Box>
           </Flex>
         </CardHeader>
@@ -167,6 +160,7 @@ const UserTable = ({ title }) => {
               sortBy={[{ id: 'email', desc: false }]}
               hiddenColumns={hiddenColumns}
               fullScreen
+              onRowClick={({ id }) => openEditModal(id)}
             />
           </Box>
         </CardBody>

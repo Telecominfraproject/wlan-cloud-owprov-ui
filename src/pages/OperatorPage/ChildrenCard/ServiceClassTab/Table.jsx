@@ -11,9 +11,10 @@ const propTypes = {
   operatorId: PropTypes.string.isRequired,
   refreshId: PropTypes.number.isRequired,
   actions: PropTypes.func.isRequired,
+  openDetailsModal: PropTypes.func.isRequired,
 };
 
-const ServiceClassTable = ({ operatorId, refreshId, actions }) => {
+const ServiceClassTable = ({ operatorId, refreshId, actions, openDetailsModal }) => {
   const { t } = useTranslation();
   const {
     data: serviceClasses,
@@ -95,6 +96,8 @@ const ServiceClassTable = ({ operatorId, refreshId, actions }) => {
       ]}
       isLoading={isFetching}
       minHeight="200px"
+      onRowClick={openDetailsModal}
+      isRowClickable={() => true}
     />
   );
 };

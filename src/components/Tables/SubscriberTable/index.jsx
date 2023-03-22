@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import DataTable from 'components/DataTable';
 import FormattedDate from 'components/FormattedDate';
@@ -33,6 +34,8 @@ const SubscriberTable = ({ actions, operatorId, refreshId, disabledIds }) => {
     countParams: { operatorId },
     getParams: { operatorId },
   });
+  const navigate = useNavigate();
+  const handleGoToClick = (subscriber) => navigate(`/subscriber/${subscriber.id}`);
 
   const actionCell = useCallback((cell) => actions(cell), [actions]);
   const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
@@ -89,7 +92,7 @@ const SubscriberTable = ({ actions, operatorId, refreshId, disabledIds }) => {
         disableSortBy: true,
       },
       {
-        id: 'id',
+        id: 'actions',
         Header: t('common.actions'),
         Footer: '',
         accessor: 'Id',
@@ -118,6 +121,8 @@ const SubscriberTable = ({ actions, operatorId, refreshId, disabledIds }) => {
       setPageInfo={setPageInfo}
       saveSettingsId="operator.subscribers.table"
       minHeight="200px"
+      onRowClick={handleGoToClick}
+      isRowClickable={() => true}
     />
   );
 };

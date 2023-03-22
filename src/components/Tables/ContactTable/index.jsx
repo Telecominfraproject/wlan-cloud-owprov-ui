@@ -13,6 +13,7 @@ const propTypes = {
   ignoredColumns: PropTypes.arrayOf(PropTypes.string),
   refreshId: PropTypes.number,
   disabledIds: PropTypes.arrayOf(PropTypes.string),
+  openDetailsModal: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -21,7 +22,7 @@ const defaultProps = {
   disabledIds: [],
 };
 
-const ContactTable = ({ actions, select, ignoredColumns, refreshId, disabledIds }) => {
+const ContactTable = ({ actions, select, ignoredColumns, refreshId, disabledIds, openDetailsModal }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { data: venues, isFetching, refetch } = useGetSelectContacts({ t, toast, select });
@@ -75,8 +76,8 @@ const ContactTable = ({ actions, select, ignoredColumns, refreshId, disabledIds 
         disableSortBy: true,
       },
       {
-        id: 'id',
-        Header: t('common.actions'),
+        id: 'actions',
+        Header: '',
         Footer: '',
         accessor: 'Id',
         customWidth: '80px',
@@ -106,6 +107,10 @@ const ContactTable = ({ actions, select, ignoredColumns, refreshId, disabledIds 
         },
       ]}
       minHeight="200px"
+      showAllRows
+      hideControls
+      onRowClick={openDetailsModal}
+      isRowClickable={() => true}
     />
   );
 };

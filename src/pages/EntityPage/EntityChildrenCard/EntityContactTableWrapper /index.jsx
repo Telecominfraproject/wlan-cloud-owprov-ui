@@ -41,7 +41,13 @@ const EntityContactTableWrapper = ({ entity }) => {
       <Box textAlign="right" mb={2}>
         <CreateContactModal refresh={refreshEntity} entityId={entity.id} />
       </Box>
-      <ContactTable select={entity.contacts} actions={actions} refreshId={refreshId} ignoredColumns={['entity']} />
+      <ContactTable
+        select={entity.contacts}
+        actions={actions}
+        refreshId={refreshId}
+        ignoredColumns={['entity']}
+        openDetailsModal={openEditModal}
+      />
       <EditContactModal isOpen={isEditOpen} onClose={closeEdit} contact={contact} refresh={refetchLocations} />
     </>
   );

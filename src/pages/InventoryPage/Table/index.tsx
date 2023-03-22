@@ -28,7 +28,7 @@ import {
 import { Device } from 'models/Device';
 import { PageInfo, SortInfo } from 'models/Table';
 
-const InventoryTable = () => {
+const InventoryTable: React.FC = () => {
   const { t } = useTranslation();
   const [pageInfo, setPageInfo] = useState<PageInfo | undefined>(undefined);
   const [onlyUnassigned, setOnlyUnassigned] = useBoolean(false);
@@ -146,6 +146,7 @@ const InventoryTable = () => {
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
         disableSortBy: true,
+        stopPropagation: true,
       },
       {
         id: 'venue',
@@ -157,6 +158,7 @@ const InventoryTable = () => {
         customWidth: 'calc(15vh)',
         customMinWidth: '150px',
         disableSortBy: true,
+        stopPropagation: true,
       },
       {
         id: 'subscriber',
@@ -231,6 +233,7 @@ const InventoryTable = () => {
               </FormControl>
               <ColumnPicker
                 columns={columns}
+                defaultHiddenColumns={['subscriber']}
                 hiddenColumns={hiddenColumns}
                 setHiddenColumns={setHiddenColumns}
                 preference="provisioning.inventoryTable.hiddenColumns"
@@ -242,8 +245,15 @@ const InventoryTable = () => {
         </CardHeader>
         <CardBody>
           <Box overflowX="auto" w="100%">
-            <SortableDataTable
-              columns={onlyUnassigned ? columns.filter((col) => col.id !== 'entity' && col.id !== 'venue') : columns}
+            <SortableDataTable<Device>
+              columns={
+                onlyUnassigned
+                  ? columns.filter(
+                      (col) =>
+                        col.id !== 'entity' && col.id !== 'venue' && !hiddenColumns.find((hidden) => hidden === col.id),
+                    )
+                  : columns.filter(({ id }) => !hiddenColumns.find((hidden) => hidden === id))
+              }
               data={tags ?? []}
               isLoading={isFetchingCount || isFetchingTags}
               isManual
@@ -255,6 +265,8 @@ const InventoryTable = () => {
               setPageInfo={setPageInfo}
               fullScreen
               saveSettingsId="inventory.table"
+              onRowClick={openEditModal}
+              isRowClickable={() => true}
             />
           </Box>
         </CardBody>

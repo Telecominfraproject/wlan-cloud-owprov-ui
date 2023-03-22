@@ -9,6 +9,7 @@ import { Column, DeviceCell } from 'models/Table';
 
 interface Props {
   actions: (cell: DeviceCell) => React.ReactElement;
+  onOpenDetails: (device: Device) => void;
   operatorId: string;
   subscriberId?: string;
   setDevices?: React.Dispatch<React.SetStateAction<Device[]>>;
@@ -26,16 +27,17 @@ const defaultProps = {
   minHeight: undefined,
 };
 
-const SubscriberDeviceTable = ({
+const SubscriberDeviceTable: React.FC<Props> = ({
   actions,
   operatorId,
+  onOpenDetails,
   subscriberId = '',
   setDevices,
   ignoredColumns,
   refreshId,
   disabledIds,
   minHeight,
-}: Props) => {
+}) => {
   const { t } = useTranslation();
   const { data: subscriberDevices, isFetching, refetch } = useGetSubscriberDevices({ operatorId, subscriberId });
 
@@ -44,7 +46,7 @@ const SubscriberDeviceTable = ({
 
   // Columns array. This array contains your table headings and accessors which maps keys from data array
   const columns = React.useMemo(
-    (): Column[] => [
+    (): Column<Device>[] => [
       {
         id: 'serialNumber',
         Header: t('inventory.serial_number'),
@@ -90,7 +92,7 @@ const SubscriberDeviceTable = ({
         disableSortBy: true,
       },
       {
-        id: 'id',
+        id: 'actions',
         Header: t('common.actions'),
         Footer: '',
         accessor: 'Id',
@@ -126,6 +128,8 @@ const SubscriberDeviceTable = ({
         },
       ]}
       minHeight={minHeight ?? '200px'}
+      onRowClick={onOpenDetails}
+      isRowClickable={() => true}
     />
   );
 };

@@ -9,8 +9,10 @@ export const isJson = (str: string): boolean => {
   }
   return true;
 };
+
 export const testStaticIpv4ClassD = (str?: unknown): boolean => {
-  if (!str || typeof str !== 'string') return false;
+  if (typeof str !== 'string') return false;
+  if (!str) return true;
   const firstOctet = str.split('.')[0];
   if (firstOctet) {
     try {
@@ -23,7 +25,8 @@ export const testStaticIpv4ClassD = (str?: unknown): boolean => {
   return false;
 };
 export const testStaticIpv4ClassE = (str?: unknown): boolean => {
-  if (!str || typeof str !== 'string') return false;
+  if (typeof str !== 'string') return false;
+  if (!str) return true;
   const firstOctet = str.split('.')[0];
   if (firstOctet) {
     try {

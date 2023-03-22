@@ -29,11 +29,12 @@ const OperatorDetailsCard = ({ id }) => {
           <Heading size="md">{operator?.name}</Heading>
         </Box>
         <Spacer />
+        <DeleteOperatorButton isDisabled={editing || isFetching} operator={operator} />
         <SaveButton
           onClick={form.submitForm}
           isLoading={form.isSubmitting}
-          isCompact={false}
           isDisabled={!editing || !form.isValid || !form.dirty}
+          hidden={!editing}
           ml={2}
         />
         <ToggleEditButton
@@ -43,7 +44,6 @@ const OperatorDetailsCard = ({ id }) => {
           isDirty={formRef.dirty}
           ml={2}
         />
-        <DeleteOperatorButton isDisabled={editing || isFetching} operator={operator} />
         <RefreshButton onClick={refetch} isFetching={isFetching} isDisabled={editing} ml={2} />
       </CardHeader>
       <CardBody>

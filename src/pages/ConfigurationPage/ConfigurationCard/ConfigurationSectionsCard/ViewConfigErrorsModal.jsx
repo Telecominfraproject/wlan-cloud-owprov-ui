@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  IconButton,
-  Tooltip,
-  useBreakpoint,
-  useDisclosure,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-} from '@chakra-ui/react';
+import { IconButton, Tooltip, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { CheckCircle, WarningOctagon } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
@@ -30,7 +20,6 @@ const defaultProps = {
 const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const breakpoint = useBreakpoint();
   const errorAmount =
     errors.globals.length +
     errors.unit.length +
@@ -42,28 +31,20 @@ const ViewConfigErrorsModal = ({ errors, activeConfigurations, isDisabled }) => 
 
   return (
     <>
-      {breakpoint !== 'base' && breakpoint !== 'sm' ? (
-        <Button
+      <Tooltip
+        label={`${errorAmount} ${errorAmount === 1 ? t('common.error') : t('common.errors')}`}
+        hasArrow
+        shouldWrapChildren
+      >
+        <IconButton
           colorScheme={errorAmount === 0 ? 'green' : 'red'}
           type="button"
           onClick={onOpen}
           ml={2}
-          rightIcon={errorAmount === 0 ? <CheckCircle size={20} /> : <WarningOctagon size={20} />}
+          icon={errorAmount === 0 ? <CheckCircle size={20} /> : <WarningOctagon size={20} />}
           isDisabled={isDisabled || errorAmount === 0}
-        >
-          {errorAmount} {errorAmount === 1 ? t('common.error') : t('common.errors')}
-        </Button>
-      ) : (
-        <Tooltip label={`${errorAmount} ${errorAmount === 1 ? t('common.error') : t('common.errors')}`}>
-          <IconButton
-            colorScheme={errorAmount === 0 ? 'green' : 'red'}
-            type="button"
-            onClick={onOpen}
-            icon={errorAmount === 0 ? <CheckCircle size={20} /> : <WarningOctagon size={20} />}
-            isDisabled={isDisabled || errorAmount === 0}
-          />
-        </Tooltip>
-      )}
+        />
+      </Tooltip>
       <Modal onClose={onClose} isOpen={isOpen} size="xl" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>

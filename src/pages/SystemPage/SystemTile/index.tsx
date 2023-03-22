@@ -21,6 +21,7 @@ import { ArrowsClockwise } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import SystemLoggingButton from './LoggingButton';
 import SystemCertificatesTable from './SystemCertificatesTable';
+import RefreshButton from 'components/Buttons/RefreshButton';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import FormattedDate from 'components/FormattedDate';
@@ -70,16 +71,7 @@ const SystemTile = ({ endpoint, token }: Props) => {
           <Heading pt={0}>{endpoint.type}</Heading>
           <Spacer />
           <SystemLoggingButton endpoint={endpoint} token={token} />
-          <Button
-            mt={1}
-            minWidth="112px"
-            colorScheme="blue"
-            rightIcon={<ArrowsClockwise />}
-            onClick={refresh}
-            isLoading={isFetchingSystem || isFetchingSubsystems}
-          >
-            {t('common.refresh')}
-          </Button>
+          <RefreshButton onClick={refresh} isFetching={isFetchingSystem || isFetchingSubsystems} />
         </Box>
         <CardBody>
           <VStack w="100%">

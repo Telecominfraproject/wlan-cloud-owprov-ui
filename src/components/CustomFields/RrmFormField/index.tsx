@@ -3,8 +3,8 @@ import { Button, FormControl, FormErrorMessage, FormLabel, useDisclosure } from 
 import { useTranslation } from 'react-i18next';
 import EditRrmForm from './Form';
 import { isCustomRrm } from './helper';
-import { useGetRrmAlgorithms, useGetRrmProvider } from 'hooks/Network/Rrm';
 import useFastField from 'hooks/useFastField';
+import { useRrm } from 'hooks/useRrm';
 
 type Props = {
   namePrefix?: string;
@@ -16,8 +16,7 @@ const RrmFormField = ({ namePrefix = 'deviceRules', isDisabled }: Props) => {
   const name = `${namePrefix}.rrm`;
   const { value, isError, error, onChange } = useFastField({ name });
   const modalProps = useDisclosure();
-  const { data: provider, isLoading: isLoadingProvider } = useGetRrmProvider();
-  const { data: algos, isLoading: isLoadingAlgos } = useGetRrmAlgorithms();
+  const rrm = useRrm();
 
   const displayedValue = React.useMemo(() => {
     try {
@@ -47,7 +46,7 @@ const RrmFormField = ({ namePrefix = 'deviceRules', isDisabled }: Props) => {
         colorScheme="blue"
         mt={2}
         ml={1}
-        isLoading={isLoadingProvider || isLoadingAlgos}
+        isLoading={rrm.getProviders.isFetching}
       >
         {displayedValue}
       </Button>
@@ -56,8 +55,7 @@ const RrmFormField = ({ namePrefix = 'deviceRules', isDisabled }: Props) => {
         value={value}
         modalProps={modalProps}
         onChange={onChange}
-        algorithms={algos}
-        provider={provider}
+        providers={rrm.getProviders.data}
         isDisabled={isDisabled}
       />
     </FormControl>

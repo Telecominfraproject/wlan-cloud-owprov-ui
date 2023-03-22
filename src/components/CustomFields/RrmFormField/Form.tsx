@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Alert, Box, Flex, FormControl, FormLabel, Select, UseDisclosureReturn } from '@chakra-ui/react';
+import { Alert, Box, Flex, UseDisclosureReturn } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import DeviceRulesAlgorithms from './Algorithms';
-import { CUSTOM_RRM, DEFAULT_RRM_CRON, isCustomRrm, isValidCustomRrm, RRM_VALUE } from './helper';
+import { CUSTOM_RRM, isCustomRrm, isValidCustomRrm, RRM_VALUE } from './helper';
 import RrmProviderPicker from './ProviderPicker';
 import RrmScheduler from './Scheduler';
+import RrmTypePicker from './TypePicker';
 import SaveButton from 'components/Buttons/SaveButton';
 import { Modal } from 'components/Modals/Modal';
-import { RrmAlgorithm, RrmProvider } from 'hooks/Network/Rrm';
+import { RrmProviderCompleteInformation } from 'hooks/Network/Rrm';
 
 const extractValueFromProps: (value: unknown) => RRM_VALUE = (value: unknown) => {
   try {
@@ -36,48 +36,21 @@ type Props = {
   modalProps: UseDisclosureReturn;
   value: unknown;
   onChange: (v: RRM_VALUE) => void;
-  algorithms?: RrmAlgorithm[];
-  provider?: RrmProvider;
+  providers?: RrmProviderCompleteInformation[];
   isDisabled?: boolean;
 };
 
-const EditRrmForm = ({ value, modalProps, onChange, algorithms, provider, isDisabled }: Props) => {
+const EditRrmForm = ({ value, modalProps, onChange, providers, isDisabled }: Props) => {
   const { t } = useTranslation();
   const [newValue, setNewValue] = React.useState<RRM_VALUE>(extractValueFromProps(value));
 
-  const options = [
-    { label: t('common.custom'), value: 'custom' },
-    { label: t('common.no'), value: 'no' },
-    { label: t('common.inherit'), value: 'inherit' },
-  ];
-
   const isCustom = isCustomRrm(newValue);
 
-  const onVendorChange = (vendor: string) => {
-    if (isCustomRrm(newValue)) setNewValue({ ...newValue, vendor });
-  };
   const onAlgoChange = (v: { name: string; parameters: string }[]) => {
     if (isCustomRrm(newValue)) setNewValue({ ...newValue, algorithms: v });
   };
   const onScheduleChange = (schedule: string) => {
     if (isCustomRrm(newValue)) setNewValue({ ...newValue, schedule });
-  };
-
-  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value === 'custom') {
-      setNewValue({
-        vendor: provider?.vendorShortname ?? '',
-        schedule: DEFAULT_RRM_CRON,
-        algorithms: [
-          {
-            name: algorithms?.[0]?.shortName ?? '',
-            parameters: '',
-          },
-        ],
-      });
-    } else if (e.target.value === 'no' || e.target.value === 'inherit') {
-      setNewValue(e.target.value);
-    }
   };
 
   const onSave = () => {
@@ -109,11 +82,7 @@ const EditRrmForm = ({ value, modalProps, onChange, algorithms, provider, isDisa
       onClose={modalProps.onClose}
       topRightButtons={
         <Box mr={2}>
-          <SaveButton
-            isCompact
-            onClick={onSave}
-            isDisabled={isDisabled || !isValid || (isCustom && (!provider || !algorithms))}
-          />
+          <SaveButton isCompact onClick={onSave} isDisabled={isDisabled || !isValid || (isCustom && !providers)} />
         </Box>
       }
       options={{
@@ -121,52 +90,38 @@ const EditRrmForm = ({ value, modalProps, onChange, algorithms, provider, isDisa
       }}
     >
       <Box>
-        {isCustom && (!provider || !algorithms) && <Alert status="error">{t('rrm.cant_save_custom')}</Alert>}
+        {isCustom && !providers && <Alert status="error">{t('rrm.cant_save_custom')}</Alert>}
         <Flex mb={2}>
-          <FormControl isRequired w="unset" mr={2}>
-            <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
-              {t('common.mode')}
-            </FormLabel>
-            <Select
-              value={isCustom ? 'custom' : newValue}
-              onChange={onSelectChange}
-              borderRadius="15px"
-              fontSize="sm"
-              _disabled={{ opacity: 0.8, cursor: 'not-allowed' }}
-              border="2px solid"
-              isDisabled={isDisabled}
-            >
-              {options.map((option) => (
-                <option value={option.value} key={uuid()}>
-                  {option.label}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+          <RrmTypePicker
+            value={isCustom ? 'custom' : newValue}
+            onChange={setNewValue}
+            providers={providers}
+            isDisabled={isDisabled}
+          />
         </Flex>
         {isCustomRrm(newValue) && (
           <>
             <Flex my={1}>
               <RrmProviderPicker
-                providers={provider ? [provider] : []}
+                providers={providers ?? []}
                 value={newValue.vendor}
-                setValue={onVendorChange}
+                setValue={setNewValue}
                 isDisabled={isDisabled}
               />
             </Flex>
             <Box my={1}>
               <DeviceRulesAlgorithms
-                algorithms={algorithms}
+                algorithms={providers?.find((p) => p.rrm.vendorShortname === newValue.vendor)?.algorithms ?? []}
                 value={newValue.algorithms}
                 setValue={onAlgoChange}
-                isDisabled={isDisabled || !provider}
+                isDisabled={isDisabled || !providers}
               />
             </Box>
             <Flex my={1}>
               <RrmScheduler
                 value={newValue.schedule}
                 setValue={onScheduleChange}
-                isDisabled={isDisabled || !provider}
+                isDisabled={isDisabled || !providers}
               />
             </Flex>
           </>

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { Button, Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure } from '@chakra-ui/react';
-import { Plus } from 'phosphor-react';
+import { Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure, Tooltip, IconButton } from '@chakra-ui/react';
+import { Copy } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import Actions from './Actions';
@@ -38,9 +38,14 @@ const UseExistingContactModal = ({ onAssignContact, venue }: Props) => {
 
   return (
     <>
-      <Button type="button" colorScheme="blue" rightIcon={<Plus size={20} />} onClick={onOpen} ml={2}>
-        {t('venues.use_existing')}
-      </Button>
+      <Tooltip label={t('venues.use_existing')}>
+        <IconButton
+          aria-label={t('venues.use_existing')}
+          icon={<Copy size={20} />}
+          onClick={onOpen}
+          colorScheme="teal"
+        />
+      </Tooltip>
       <Modal initialFocusRef={undefined} onClose={onClose} isOpen={isOpen} size="xl">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>

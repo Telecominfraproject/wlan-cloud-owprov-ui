@@ -23,9 +23,10 @@ const DeviceRulesAlgorithms = ({ algorithms, value, setValue, isDisabled }: Prop
     }
   };
   const onAdd = () => {
-    if (algorithms?.[0]) {
+    const unusedAlgos = algorithms?.filter((a) => !value?.find((v) => v.name === a.shortName));
+    if (unusedAlgos?.[0]) {
       const newValues = value ? [...value] : [];
-      newValues.push({ name: algorithms[0].shortName, parameters: '' });
+      newValues.push({ name: unusedAlgos[0].shortName, parameters: '' });
       setValue([...newValues]);
     }
   };
@@ -62,7 +63,7 @@ const DeviceRulesAlgorithms = ({ algorithms, value, setValue, isDisabled }: Prop
         />
       ))}
       <Center>
-        <Button onClick={onAdd} mb={2}>
+        <Button onClick={onAdd} mb={2} isDisabled={!algorithms || value.length >= algorithms.length}>
           {t('crud.add')} {t('rrm.algorithm')}
         </Button>
       </Center>

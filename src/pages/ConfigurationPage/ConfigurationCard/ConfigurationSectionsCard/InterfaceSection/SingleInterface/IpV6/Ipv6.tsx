@@ -5,29 +5,20 @@ import { INTERFACE_IPV6_PORT_FORWARD_SCHEMA, INTERFACE_IPV6_TRAFFIC_ALLOW_SCHEMA
 import DhcpIpV6 from './DhcpIpV6';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import NumberField from 'components/FormFields/NumberField';
-import ObjectArrayFieldModal, { ObjectArrayFieldModalOptions } from 'components/FormFields/ObjectArrayFieldModal';
+import ObjectArrayFieldModal from 'components/FormFields/ObjectArrayFieldModal';
 import { PortRangeField } from 'components/FormFields/PortRangeField';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import ArrayCell from 'components/TableCells/ArrayCell';
 
-const IpV6 = (
-  {
-    editing,
-    index,
-    ipv6,
-    role,
-    onToggle,
-    onChange
-  }: {
-    editing: boolean
-    index: number
-    ipv6: string
-    role: string
-    onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void
-    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  }
-) => {
+const IpV6: React.FC<{
+  editing: boolean;
+  index: number;
+  ipv6: string;
+  role: string;
+  onToggle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}> = ({ editing, index, ipv6, role, onToggle, onChange }) => {
   const arrCell = useCallback((cell, key) => <ArrayCell arr={cell.row.values[key]} key={uuid()} />, []);
 
   const portFields = useMemo(
@@ -89,7 +80,7 @@ const IpV6 = (
     ],
     [],
   );
-  const portOpts: ObjectArrayFieldModalOptions = useMemo(
+  const portOpts = useMemo(
     () => ({
       buttonLabel: 'IPv6 Port Forwarding',
       modalTitle: 'IPv6 Port Forwarding',
@@ -177,7 +168,7 @@ const IpV6 = (
     [],
   );
 
-  const trafficOpts: ObjectArrayFieldModalOptions = useMemo(
+  const trafficOpts = useMemo(
     () => ({
       buttonLabel: 'IPv6 Traffic management',
       modalTitle: 'IPv6 Traffic management',
@@ -187,7 +178,7 @@ const IpV6 = (
 
   return (
     <>
-      <Heading size="md" display="flex">
+      <Heading size="md" display="flex" mt={2}>
         <Text pt={1}>IpV6</Text>
         <Switch
           onChange={onToggle}
@@ -234,9 +225,9 @@ const IpV6 = (
           </Flex>
         )}
       </Heading>
-      <SimpleGrid minChildWidth="300px" spacing="20px" mb={2} mt={2} w="100%">
-        {ipv6 === 'static' && (
-          <>
+      {ipv6 === 'static' && (
+        <>
+          <SimpleGrid minChildWidth="300px" spacing="20px" mb={2} mt={2} w="100%">
             <StringField
               name={`configuration[${index}].ipv6.subnet`}
               label="subnet"
@@ -257,10 +248,11 @@ const IpV6 = (
               definitionKey="interface.ipv6.prefix-size"
               acceptEmptyValue
             />
-            <DhcpIpV6 editing={editing} index={index} />
-          </>
-        )}
-      </SimpleGrid>
+          </SimpleGrid>
+
+          <DhcpIpV6 editing={editing} index={index} />
+        </>
+      )}
     </>
   );
 };
