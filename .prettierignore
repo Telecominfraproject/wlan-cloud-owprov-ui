@@ -3,3 +3,7 @@ build
 dist
 node_modules
 .github
+docker-entrypoint.d
+helm
+.dockerignore
+Dockerfile

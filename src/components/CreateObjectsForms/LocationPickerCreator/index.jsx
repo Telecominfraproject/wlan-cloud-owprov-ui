@@ -97,7 +97,7 @@ const LocationPickerCreator = ({ locationName, createLocationName, editing, isMo
           { value: 'CREATE_NEW', label: getCreateLabel() },
           ...getOptions(),
         ]}
-        w={256}
+        w="unset"
       />
       {location === 'CREATE_NEW' && newLocation && !isModal && <Form name={createLocationName} />}
       {location === 'CREATE_NEW' && isModal && (

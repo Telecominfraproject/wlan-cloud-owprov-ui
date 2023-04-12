@@ -9,20 +9,12 @@ import { Route } from 'models/Routes';
 const variantChange = '0.2s linear';
 
 interface Props {
-  activeRoute: (path: string, otherRoute: string | undefined) => string;
+  isActive: boolean;
   route: Route;
-  role: string;
   toggleSidebar: () => void;
 }
 
-const EntityNavButton = (
-  {
-    activeRoute,
-    route,
-    role,
-    toggleSidebar
-  }: Props
-) => {
+const EntityNavButton = ({ isActive, route, toggleSidebar }: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const activeArrowColor = useColorModeValue('var(--chakra-colors-gray-700)', 'white');
@@ -33,17 +25,15 @@ const EntityNavButton = (
 
   return (
     <EntityPopover isOpen={isOpen} onClose={onClose} toggleSidebar={toggleSidebar}>
-      {activeRoute(route.path, '/venue/:id') === 'active' ? (
+      {isActive ? (
         <Button
           onClick={onOpen}
-          hidden={route.hidden || !route.authorized.includes(role)}
           boxSize="initial"
           justifyContent="flex-start"
           alignItems="center"
           boxShadow="none"
           bg="transparent"
           transition={variantChange}
-          mb="12px"
           mx="auto"
           ps="10px"
           py="12px"
@@ -71,12 +61,10 @@ const EntityNavButton = (
       ) : (
         <Button
           onClick={onOpen}
-          hidden={route.hidden || !route.authorized.includes(role)}
           boxSize="initial"
           justifyContent="flex-start"
           alignItems="center"
           bg="transparent"
-          mb="12px"
           mx="auto"
           py="12px"
           ps="10px"

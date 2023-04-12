@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, SimpleGrid, Spacer, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, SimpleGrid, Spacer, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import RefreshButton from '../../components/Buttons/RefreshButton';
@@ -25,7 +25,7 @@ type Props = {
 
 const SystemPage = ({ isOnlySec }: Props) => {
   const { t } = useTranslation();
-  const { token, user, isUserLoaded } = useAuth();
+  const { token, user } = useAuth();
   const { data: endpoints, refetch, isFetching } = useGetEndpoints({ onSuccess: () => {} });
   const [tabIndex, setTabIndex] = React.useState(getDefaultTabIndex());
   const handleTabChange = (index: number) => {
@@ -56,55 +56,51 @@ const SystemPage = ({ isOnlySec }: Props) => {
       .map((endpoint) => <SystemTile key={uuid()} endpoint={endpoint} token={token} />);
   }, [endpoints, token]);
 
-  if (!isUserLoaded) return null;
-
   return (
-    <Flex flexDirection="column" pt="75px">
-      <Card p={0}>
-        <Tabs index={tabIndex} onChange={handleTabChange} variant="enclosed" isLazy>
-          <TabList>
-            <CardHeader>
-              <Tab>{t('system.services')}</Tab>
-              <Tab hidden={!isRoot}>{t('system.configuration')}</Tab>
-            </CardHeader>
-          </TabList>
-          <TabPanels>
-            <TabPanel p={0}>
-              <Box
-                borderLeft="1px solid"
-                borderRight="1px solid"
-                borderBottom="1px solid"
-                borderColor="var(--chakra-colors-chakra-border-color)"
-                borderBottomLeftRadius="15px"
-                borderBottomRightRadius="15px"
-              >
-                {!isOnlySec && (
-                  <CardHeader px={4} pt={4}>
-                    <Spacer />
-                    <RefreshButton onClick={refetch} isFetching={isFetching} />
-                  </CardHeader>
-                )}
-                <SimpleGrid minChildWidth="500px" spacing="20px" p={4}>
-                  {endpointsList}
-                </SimpleGrid>
-              </Box>
-            </TabPanel>
-            <TabPanel p={0}>
-              <Box
-                borderLeft="1px solid"
-                borderRight="1px solid"
-                borderBottom="1px solid"
-                borderColor="var(--chakra-colors-chakra-border-color)"
-                borderBottomLeftRadius="15px"
-                borderBottomRightRadius="15px"
-              >
-                <SystemSecretsCard />
-              </Box>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Card>
-    </Flex>
+    <Card p={0}>
+      <Tabs index={tabIndex} onChange={handleTabChange} variant="enclosed" isLazy>
+        <TabList>
+          <CardHeader>
+            <Tab>{t('system.services')}</Tab>
+            <Tab hidden={!isRoot}>{t('system.configuration')}</Tab>
+          </CardHeader>
+        </TabList>
+        <TabPanels>
+          <TabPanel p={0}>
+            <Box
+              borderLeft="1px solid"
+              borderRight="1px solid"
+              borderBottom="1px solid"
+              borderColor="var(--chakra-colors-chakra-border-color)"
+              borderBottomLeftRadius="15px"
+              borderBottomRightRadius="15px"
+            >
+              {!isOnlySec && (
+                <CardHeader px={4} pt={4}>
+                  <Spacer />
+                  <RefreshButton onClick={refetch} isFetching={isFetching} />
+                </CardHeader>
+              )}
+              <SimpleGrid minChildWidth="500px" spacing="20px" p={4}>
+                {endpointsList}
+              </SimpleGrid>
+            </Box>
+          </TabPanel>
+          <TabPanel p={0}>
+            <Box
+              borderLeft="1px solid"
+              borderRight="1px solid"
+              borderBottom="1px solid"
+              borderColor="var(--chakra-colors-chakra-border-color)"
+              borderBottomLeftRadius="15px"
+              borderBottomRightRadius="15px"
+            >
+              <SystemSecretsCard />
+            </Box>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Card>
   );
 };
 

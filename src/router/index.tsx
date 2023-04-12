@@ -7,7 +7,7 @@ import { useAuth } from 'contexts/AuthProvider';
 const Layout = React.lazy(() => import('layout'));
 const Login = React.lazy(() => import('pages/LoginPage'));
 
-const Router = () => {
+const Router: React.FC = () => {
   const { token } = useAuth();
 
   return (

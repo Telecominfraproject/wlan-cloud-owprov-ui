@@ -55,8 +55,9 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
       validationSchema={EntitySchema(t)}
       onSubmit={(formData, { setSubmitting, resetForm }) =>
         create.mutateAsync(createParameters(formData), {
-          onSuccess: ({ data }) => {
+          onSuccess: (data) => {
             queryClient.invalidateQueries(['get-entity-tree']);
+            queryClient.invalidateQueries(['get-entity', parentId]);
             setSubmitting(false);
             resetForm();
             toast({

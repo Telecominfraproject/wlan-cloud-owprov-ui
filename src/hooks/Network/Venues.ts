@@ -4,29 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import useDefaultPage from '../useDefaultPage';
 import { AxiosError } from 'models/Axios';
-import { DeviceRules } from 'models/Basic';
-import { Note } from 'models/Note';
+import { VenueApiResponse } from 'models/Venue';
 import { axiosProv } from 'utils/axiosInstances';
-
-export interface VenueApiResponse {
-  id: string;
-  name: string;
-  description: string;
-  parent: string;
-  devices: string[];
-  children: string[];
-  contacts: string[];
-  entity: string;
-  boards: string[];
-  created: number;
-  modified: number;
-  configurations: string[];
-  notes: Note[];
-  variables: string[];
-  location: string;
-  sourceIP: string[];
-  deviceRules: DeviceRules;
-}
 
 const getVenuesBatch = async (limit: number, offset: number) =>
   axiosProv

@@ -1,9 +1,9 @@
 import { useToast } from '@chakra-ui/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import useDefaultPage from 'hooks/useDefaultPage';
+import { Entity } from '../../models/Entity';
+import useDefaultPage from '../useDefaultPage';
 import { AxiosError } from 'models/Axios';
-import { Entity } from 'models/Entity';
 import { axiosProv, axiosSec } from 'utils/axiosInstances';
 
 export const useGetEntityTree = () => {
@@ -151,7 +151,19 @@ export const useCreateEntity = (isRoot = false) =>
     axiosProv.post(`entity/${isRoot ? '0000-0000-0000' : 0}`, newEnt).then(({ data }) => data as Entity),
   );
 
-export const useUpdateEntity = ({ id }: { id: string }) =>
-  useMutation((newEnt) => axiosProv.put(`entity/${id}`, newEnt).then(({ data }) => data as Entity));
+export const useUpdateEntity = ({ id }: { id: string }) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (newEnt: Partial<Entity>) => axiosProv.put(`entity/${id}`, newEnt).then(({ data }) => data as Entity),
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(['get-entity-tree']);
+        queryClient.invalidateQueries(['get-entities']);
+        queryClient.setQueryData(['get-entity', id], data);
+      },
+    },
+  );
+};
 
 export const useDeleteEntity = () => useMutation((id: string) => axiosProv.delete(`entity/${id}`));
