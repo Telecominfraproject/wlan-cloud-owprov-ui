@@ -5,9 +5,9 @@ export const warningColor = (colorMode = 'light') =>
 export const errorColor = (colorMode = 'light') =>
   colorMode === 'light' ? 'var(--chakra-colors-danger-400)' : 'var(--chakra-colors-danger-400)';
 
-const mix = (start: number, end: number, percent: number) => start + percent * (end - start);
+const getMixedColors = (start: number, end: number, percent: number) => start + percent * (end - start);
 
-const generateHex = (red: number, green: number, blue: number) => {
+const getHexFromRGB = (red: number, green: number, blue: number) => {
   let r = red.toString(16);
   let g = green.toString(16);
   let b = blue.toString(16);
@@ -25,22 +25,23 @@ const generateHex = (red: number, green: number, blue: number) => {
   return `#${r}${g}${b}`;
 };
 
-export const getBlendedColor = (
-  color1: [string, string, string, string, string, string, string],
-  color2: [string, string, string, string, string, string, string],
-  percent: number,
-) => {
-  const red1 = parseInt(color1[1] + color1[2], 16);
-  const green1 = parseInt(color1[3] + color1[4], 16);
-  const blue1 = parseInt(color1[5] + color1[6], 16);
+const getColorChar = (str: string, index: number) => str[index] ?? '0';
 
-  const red2 = parseInt(color2[1] + color2[2], 16);
-  const green2 = parseInt(color2[3] + color2[4], 16);
-  const blue2 = parseInt(color2[5] + color2[6], 16);
+export const getBlendedColor = (color1: string, color2: string, percent: number) => {
+  if (color1.length >= 7 && color2.length >= 7) {
+    const red1 = parseInt(getColorChar(color1, 1) + getColorChar(color1, 2), 16);
+    const green1 = parseInt(getColorChar(color1, 3) + getColorChar(color1, 4), 16);
+    const blue1 = parseInt(getColorChar(color1, 5) + getColorChar(color1, 6), 16);
 
-  const red = Math.round(mix(red1, red2, percent));
-  const green = Math.round(mix(green1, green2, percent));
-  const blue = Math.round(mix(blue1, blue2, percent));
+    const red2 = parseInt(getColorChar(color2, 1) + getColorChar(color2, 2), 16);
+    const green2 = parseInt(getColorChar(color2, 3) + getColorChar(color2, 4), 16);
+    const blue2 = parseInt(getColorChar(color2, 5) + getColorChar(color2, 6), 16);
 
-  return generateHex(red, green, blue);
+    const red = Math.round(getMixedColors(red1, red2, percent));
+    const green = Math.round(getMixedColors(green1, green2, percent));
+    const blue = Math.round(getMixedColors(blue1, blue2, percent));
+
+    return getHexFromRGB(red, green, blue);
+  }
+  return color1;
 };

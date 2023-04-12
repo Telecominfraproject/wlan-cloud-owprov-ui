@@ -1,10 +1,7 @@
-import { Tooltip, extendTheme } from '@chakra-ui/react';
+import { extendTheme, Tooltip, type ThemeConfig } from '@chakra-ui/react';
 import CardComponent from './additions/card/Card';
 import CardBodyComponent from './additions/card/CardBody';
 import CardHeaderComponent from './additions/card/CardHeader';
-import MainPanelComponent from './additions/layout/MainPanel';
-import PanelContainerComponent from './additions/layout/PanelContainer';
-import PanelContentComponent from './additions/layout/PanelContent';
 import alertStyles from './components/alert';
 import badgeStyles from './components/badge';
 import buttonStyles from './components/button';
@@ -32,9 +29,6 @@ const theme = extendTheme({
     Card: CardComponent.components.Card,
     CardBody: CardBodyComponent.components.CardBody,
     CardHeader: CardHeaderComponent.components.CardHeader,
-    MainPanel: MainPanelComponent.components.MainPanel,
-    PanelContent: PanelContentComponent.components.PanelContent,
-    PanelContainer: PanelContainerComponent.components.PanelContainer,
   },
 });
 

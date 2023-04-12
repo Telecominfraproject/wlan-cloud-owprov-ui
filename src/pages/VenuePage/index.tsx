@@ -1,12 +1,9 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import VenueCard from './VenueCard';
-import VenueChildrenCard from './VenueChildrenCard';
-import { useAuth } from 'contexts/AuthProvider';
+import VenuePageLayout from './Layout';
+import VenuePageHeader from './VenueHeader';
 
 const VenuePage = ({ idToUse }: { idToUse?: string }) => {
-  const { isUserLoaded } = useAuth();
   const { id } = useParams();
 
   const entityIdToUse = React.useMemo(() => {
@@ -20,16 +17,12 @@ const VenuePage = ({ idToUse }: { idToUse?: string }) => {
     return undefined;
   }, [idToUse, id]);
 
-  return (
-    <Flex flexDirection="column" pt="75px">
-      {isUserLoaded && entityIdToUse !== undefined && (
-        <>
-          <VenueCard id={entityIdToUse} />
-          <VenueChildrenCard id={entityIdToUse} />
-        </>
-      )}
-    </Flex>
-  );
+  return entityIdToUse ? (
+    <>
+      <VenuePageHeader id={entityIdToUse} />
+      <VenuePageLayout id={entityIdToUse} />
+    </>
+  ) : null;
 };
 
 export default VenuePage;

@@ -1,12 +1,9 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import OperatorChildrenCard from './ChildrenCard';
 import DetailsCard from './DetailsCard';
-import { useAuth } from 'contexts/AuthProvider';
 
 const OperatorPage = ({ idToUse }: { idToUse?: string }) => {
-  const { isUserLoaded } = useAuth();
   const { id } = useParams();
 
   const entityIdToUse = React.useMemo(() => {
@@ -20,16 +17,12 @@ const OperatorPage = ({ idToUse }: { idToUse?: string }) => {
     return undefined;
   }, [idToUse, id]);
 
-  return (
-    <Flex flexDirection="column" pt="75px">
-      {isUserLoaded && entityIdToUse !== undefined && (
-        <>
-          <DetailsCard id={entityIdToUse} />
-          <OperatorChildrenCard id={entityIdToUse} />
-        </>
-      )}
-    </Flex>
-  );
+  return entityIdToUse !== undefined ? (
+    <>
+      <DetailsCard id={entityIdToUse} />
+      <OperatorChildrenCard id={entityIdToUse} />
+    </>
+  ) : null;
 };
 
 export default OperatorPage;

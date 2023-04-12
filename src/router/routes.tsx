@@ -1,14 +1,15 @@
 import React from 'react';
 import { Icon } from '@chakra-ui/react';
 import { Info, ListBullets, Storefront, Tag, TreeStructure, UsersThree } from 'phosphor-react';
+import EntityNavButton from 'layout/Sidebar/EntityNavButton';
 import { Route } from 'models/Routes';
 
-const AccountPage = React.lazy(() => import('pages/Profile'));
 const ConfigurationPage = React.lazy(() => import('pages/ConfigurationPage'));
 const EntityPage = React.lazy(() => import('pages/EntityPage'));
 const InventoryPage = React.lazy(() => import('pages/InventoryPage'));
-const MapPage = React.lazy(() => import('pages/MapPage'));
 const NotificationsPage = React.lazy(() => import('pages/Notifications'));
+const MapPage = React.lazy(() => import('pages/MapPage'));
+const ProfilePage = React.lazy(() => import('pages/Profile'));
 const OperatorPage = React.lazy(() => import('pages/OperatorPage'));
 const OperatorsPage = React.lazy(() => import('pages/OperatorsPage'));
 const SubscriberPage = React.lazy(() => import('pages/SubscriberPage'));
@@ -24,6 +25,9 @@ const routes: Route[] = [
     navName: 'entities.one',
     icon: (active: boolean) => (
       <Icon as={TreeStructure} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
+    ),
+    navButton: (isActive: boolean, toggleSidebar: () => void, route: Route) => (
+      <EntityNavButton isActive={isActive} toggleSidebar={toggleSidebar} route={route} />
     ),
     isEntity: true,
     component: EntityPage,
@@ -93,7 +97,7 @@ const routes: Route[] = [
     icon: (active: boolean) => (
       <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
     ),
-    component: AccountPage,
+    component: ProfilePage,
   },
   {
     hidden: true,

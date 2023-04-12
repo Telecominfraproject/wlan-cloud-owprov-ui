@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import FmsLogsCard from './FmsLogs';
 import GeneralLogsCard from './GeneralLogs';
@@ -7,7 +7,6 @@ import LogsCard from './Notifications';
 import SecLogsCard from './SecLogs';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
-import { useAuth } from 'contexts/AuthProvider';
 
 const INDEX_PARAM = 'notifications-tab-index';
 
@@ -22,7 +21,6 @@ const getDefaultTabIndex = () => {
 
 const NotificationsPage = () => {
   const { t } = useTranslation();
-  const { isUserLoaded } = useAuth();
   const [tabIndex, setTabIndex] = React.useState(getDefaultTabIndex());
 
   const handleTabChange = (index: number) => {
@@ -31,74 +29,70 @@ const NotificationsPage = () => {
   };
 
   return (
-    <Flex flexDirection="column" pt="75px">
-      {isUserLoaded && (
-        <Card p={0}>
-          <Tabs index={tabIndex} onChange={handleTabChange} variant="enclosed" isLazy>
-            <TabList>
-              <CardHeader>
-                <Tab>
-                  {t('venues.one')} {t('notification.other')}
-                </Tab>
-                <Tab>Provisioning</Tab>
-                <Tab>{t('logs.security')}</Tab>
-                <Tab>{t('logs.firmware')}</Tab>
-              </CardHeader>
-            </TabList>
-            <TabPanels>
-              <TabPanel p={0}>
-                <Box
-                  borderLeft="1px solid"
-                  borderRight="1px solid"
-                  borderBottom="1px solid"
-                  borderColor="var(--chakra-colors-chakra-border-color)"
-                  borderBottomLeftRadius="15px"
-                  borderBottomRightRadius="15px"
-                >
-                  <LogsCard />
-                </Box>
-              </TabPanel>
-              <TabPanel p={0}>
-                <Box
-                  borderLeft="1px solid"
-                  borderRight="1px solid"
-                  borderBottom="1px solid"
-                  borderColor="var(--chakra-colors-chakra-border-color)"
-                  borderBottomLeftRadius="15px"
-                  borderBottomRightRadius="15px"
-                >
-                  <GeneralLogsCard />
-                </Box>
-              </TabPanel>
-              <TabPanel p={0}>
-                <Box
-                  borderLeft="1px solid"
-                  borderRight="1px solid"
-                  borderBottom="1px solid"
-                  borderColor="var(--chakra-colors-chakra-border-color)"
-                  borderBottomLeftRadius="15px"
-                  borderBottomRightRadius="15px"
-                >
-                  <SecLogsCard />
-                </Box>
-              </TabPanel>
-              <TabPanel p={0}>
-                <Box
-                  borderLeft="1px solid"
-                  borderRight="1px solid"
-                  borderBottom="1px solid"
-                  borderColor="var(--chakra-colors-chakra-border-color)"
-                  borderBottomLeftRadius="15px"
-                  borderBottomRightRadius="15px"
-                >
-                  <FmsLogsCard />
-                </Box>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Card>
-      )}
-    </Flex>
+    <Card p={0}>
+      <Tabs index={tabIndex} onChange={handleTabChange} variant="enclosed" isLazy>
+        <TabList>
+          <CardHeader>
+            <Tab>
+              {t('venues.one')} {t('notification.other')}
+            </Tab>
+            <Tab>Provisioning</Tab>
+            <Tab>{t('logs.security')}</Tab>
+            <Tab>{t('logs.firmware')}</Tab>
+          </CardHeader>
+        </TabList>
+        <TabPanels>
+          <TabPanel p={0}>
+            <Box
+              borderLeft="1px solid"
+              borderRight="1px solid"
+              borderBottom="1px solid"
+              borderColor="var(--chakra-colors-chakra-border-color)"
+              borderBottomLeftRadius="15px"
+              borderBottomRightRadius="15px"
+            >
+              <LogsCard />
+            </Box>
+          </TabPanel>
+          <TabPanel p={0}>
+            <Box
+              borderLeft="1px solid"
+              borderRight="1px solid"
+              borderBottom="1px solid"
+              borderColor="var(--chakra-colors-chakra-border-color)"
+              borderBottomLeftRadius="15px"
+              borderBottomRightRadius="15px"
+            >
+              <GeneralLogsCard />
+            </Box>
+          </TabPanel>
+          <TabPanel p={0}>
+            <Box
+              borderLeft="1px solid"
+              borderRight="1px solid"
+              borderBottom="1px solid"
+              borderColor="var(--chakra-colors-chakra-border-color)"
+              borderBottomLeftRadius="15px"
+              borderBottomRightRadius="15px"
+            >
+              <SecLogsCard />
+            </Box>
+          </TabPanel>
+          <TabPanel p={0}>
+            <Box
+              borderLeft="1px solid"
+              borderRight="1px solid"
+              borderBottom="1px solid"
+              borderColor="var(--chakra-colors-chakra-border-color)"
+              borderBottomLeftRadius="15px"
+              borderBottomRightRadius="15px"
+            >
+              <FmsLogsCard />
+            </Box>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Card>
   );
 };
 

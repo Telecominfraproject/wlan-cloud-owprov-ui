@@ -177,4 +177,4 @@ export const useGetResource = ({ id, enabled }: { id: string; enabled: boolean }
 export const useCreateResource = () => useMutation((newResource: unknown) => axiosProv.post('variable/0', newResource));
 export const useUpdateResource = (id: string) =>
   useMutation((resource: unknown) => axiosProv.put(`variable/${id}`, resource));
-export const useDeleteResource = () => useMutation((id) => axiosProv.delete(`variable/${id}`, {}));
+export const useDeleteResource = () => useMutation((id: string) => axiosProv.delete(`variable/${id}`, {}));

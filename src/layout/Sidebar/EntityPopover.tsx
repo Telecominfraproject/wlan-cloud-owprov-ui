@@ -22,7 +22,7 @@ import { TreeStructure, Buildings, X } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
-import useGetEntityTree from 'hooks/Network/EntityTree';
+import { useGetEntityTree } from 'hooks/Network/Entity';
 
 interface Tree {
   uuid: string;
@@ -110,14 +110,7 @@ interface Props {
   children: React.ReactNode;
   toggleSidebar: () => void;
 }
-const EntityPopover = (
-  {
-    isOpen,
-    onClose,
-    children,
-    toggleSidebar
-  }: Props
-) => {
+const EntityPopover = ({ isOpen, onClose, children, toggleSidebar }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const breakpoint = useBreakpoint();
@@ -126,9 +119,9 @@ const EntityPopover = (
   const initRef = React.useRef<HTMLButtonElement>();
 
   const goTo = useCallback(
-    (id, type) => {
+    (id: string, type: string) => {
       navigate(`/${type}/${id}`);
-      if (breakpoint === 'base') toggleSidebar();
+      if (breakpoint === 'base' || breakpoint === 'sm' || breakpoint === 'md') toggleSidebar();
     },
     [breakpoint],
   );
@@ -145,7 +138,7 @@ const EntityPopover = (
 
   return (
     <Popover
-      offset={[140, -100]}
+      offset={[0, -100]}
       isLazy
       returnFocusOnClose={false}
       isOpen={isOpen}
@@ -154,8 +147,11 @@ const EntityPopover = (
       closeOnBlur={closeOnBlur}
       initialFocusRef={initRef as React.RefObject<FocusableElement>}
     >
-      <PopoverAnchor>{children}</PopoverAnchor>
-      {breakpoint === 'base' ? (
+      {
+        // @ts-ignore
+        <PopoverAnchor>{children}</PopoverAnchor>
+      }
+      {breakpoint === 'base' || breakpoint === 'sm' || breakpoint === 'md' ? (
         <PopoverContent maxW={{ base: 'calc(60vw)' }}>
           <PopoverHeader fontWeight="semibold" display="flex" alignItems="center">
             <Heading size="md">{t('entities.title')}</Heading>
