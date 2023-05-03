@@ -18,7 +18,7 @@ import {
   useToast,
   useBreakpoint,
 } from '@chakra-ui/react';
-import { Plus } from 'phosphor-react';
+import { Plus } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
@@ -115,8 +115,8 @@ const ProfileNotes = () => {
   );
 
   return (
-    <Card p={4}>
-      <CardHeader mb={2}>
+    <Card>
+      <CardHeader>
         <>
           <Heading size="md">{t('common.notes')}</Heading>
           <Spacer />

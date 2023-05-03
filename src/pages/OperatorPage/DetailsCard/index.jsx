@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Center, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
+import { Center, Heading, Spacer, Spinner, useBoolean } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import DeleteOperatorButton from './DeleteButton';
 import EditOperatorForm from './Form';
@@ -24,10 +24,8 @@ const OperatorDetailsCard = ({ id }) => {
 
   return (
     <Card mb={4}>
-      <CardHeader mb="10px" display="flex">
-        <Box pt={1}>
-          <Heading size="md">{operator?.name}</Heading>
-        </Box>
+      <CardHeader>
+        <Heading size="md">{operator?.name}</Heading>
         <Spacer />
         <DeleteOperatorButton isDisabled={editing || isFetching} operator={operator} />
         <SaveButton

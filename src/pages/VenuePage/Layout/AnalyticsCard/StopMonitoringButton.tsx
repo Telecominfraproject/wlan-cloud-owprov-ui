@@ -12,7 +12,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { Stop } from 'phosphor-react';
+import { Stop } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteAnalyticsBoard } from 'hooks/Network/Analytics';
 import { useUpdateVenue } from 'hooks/Network/Venues';

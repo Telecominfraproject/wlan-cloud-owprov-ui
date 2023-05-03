@@ -1,10 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useState } from 'react';
-import { Center, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, Center, Heading, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import CreateSsidButton from './CreateSsidButton';
 import SingleSsid from './SingleSsid';
 import SsidTab from './SsidTab';
+import Card from 'components/Card';
+import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
 
 const propTypes = {
   editing: PropTypes.bool.isRequired,
@@ -31,46 +34,52 @@ const SsidList = ({ editing, index, arrayHelpers, ssidsLength }) => {
   if (ssidsLength === 0) {
     return (
       <Center>
-        <CreateSsidButton editing={editing} pushSsid={arrayHelpers.push} />
+        <CreateSsidButton editing={editing} pushSsid={arrayHelpers.push} arrLength={0} />
       </Center>
     );
   }
   return (
-    <Tabs index={tabIndex} onChange={handleTabsChange} isLazy variant="enclosed-colored" w="100%" colorScheme="blue">
-      <TabList
-        w="100%"
-        overflowX="auto"
-        style={{
-          overflowY: 'hidden',
-        }}
-      >
-        {Array(ssidsLength)
-          .fill(1)
-          .map((el, i) => (
-            <SsidTab key={i} index={i} interIndex={index} />
-          ))}
-        <CreateSsidButton
-          editing={editing}
-          pushSsid={arrayHelpers.push}
-          setTabIndex={setTabIndex}
-          arrLength={ssidsLength}
-        />
-      </TabList>
-      <TabPanels>
-        {Array(ssidsLength)
-          .fill(1)
-          .map((el, i) => (
-            <TabPanel overflowX="auto" p={0} key={i}>
-              <SingleSsid
-                index={i}
-                namePrefix={`configuration[${index}].ssids[${i}]`}
-                remove={handleRemove}
-                editing={editing}
-              />
-            </TabPanel>
-          ))}
-      </TabPanels>
-    </Tabs>
+    <Card>
+      <CardHeader mb={0}>
+        <Heading size="md">SSIDs</Heading>
+      </CardHeader>
+      <CardBody display="block">
+        <Box display="unset" position="unset" w="100%">
+          <Tabs index={tabIndex} onChange={handleTabsChange} variant="enclosed" isLazy w="100%">
+            <Box overflowX="auto" overflowY="auto" pt={1} h="56px">
+              <TabList mt={0}>
+                {Array(ssidsLength)
+                  .fill(1)
+                  .map((el, i) => (
+                    <SsidTab key={i} index={i} interIndex={index} />
+                  ))}
+                <CreateSsidButton
+                  editing={editing}
+                  pushSsid={arrayHelpers.push}
+                  setTabIndex={setTabIndex}
+                  arrLength={ssidsLength}
+                />
+              </TabList>
+            </Box>
+
+            <TabPanels w="100%">
+              {Array(ssidsLength)
+                .fill(1)
+                .map((el, i) => (
+                  <TabPanel key={i}>
+                    <SingleSsid
+                      index={i}
+                      namePrefix={`configuration[${index}].ssids[${i}]`}
+                      remove={handleRemove}
+                      editing={editing}
+                    />
+                  </TabPanel>
+                ))}
+            </TabPanels>
+          </Tabs>
+        </Box>
+      </CardBody>
+    </Card>
   );
 };
 

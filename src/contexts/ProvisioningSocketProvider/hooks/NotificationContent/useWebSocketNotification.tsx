@@ -19,8 +19,8 @@ import {
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
+import { X } from '@phosphor-icons/react';
 import { TOptions } from 'i18next';
-import { X } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { ProvisioningVenueNotificationMessage } from '../../utils';

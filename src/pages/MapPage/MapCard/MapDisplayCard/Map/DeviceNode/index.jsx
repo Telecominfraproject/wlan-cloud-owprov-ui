@@ -16,7 +16,7 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { ArrowSquareOut, Circle, Heart } from 'phosphor-react';
+import { ArrowSquareOut, Circle, Heart } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import { Handle } from 'react-flow-renderer';

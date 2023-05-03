@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Box, Flex, HStack, IconButton, Spacer, Table, Text, Th, Thead, Tooltip, Tr } from '@chakra-ui/react';
-import { Download } from 'phosphor-react';
+import { Download } from '@phosphor-icons/react';
 import { CSVLink } from 'react-csv';
 import { useTranslation } from 'react-i18next';
 import ReactVirtualizedAutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
+import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
 import { ShownLogsDropdown } from 'components/ShownLogsDropdown';
@@ -110,8 +111,8 @@ const NotificationsCard = () => {
   );
 
   return (
-    <>
-      <CardHeader px={4} pt={4}>
+    <Card>
+      <CardHeader>
         <Spacer />
         <HStack spacing={2}>
           <ShownLogsDropdown
@@ -130,7 +131,7 @@ const NotificationsCard = () => {
           </CSVLink>
         </HStack>
       </CardHeader>
-      <CardBody p={4}>
+      <CardBody>
         <Box overflowX="auto" w="100%">
           <Table size="sm">
             <Thead>
@@ -155,7 +156,7 @@ const NotificationsCard = () => {
           </Box>
         </Box>
       </CardBody>
-    </>
+    </Card>
   );
 };
 

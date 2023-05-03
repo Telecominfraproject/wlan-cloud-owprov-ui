@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Flex, Heading, IconButton, SimpleGrid, Spacer, Tooltip } from '@chakra-ui/react';
-import { Trash } from 'phosphor-react';
+import { Trash } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { SERVICES_CLASSIFIER_DNS_SCHEMA, SERVICES_CLASSIFIER_PORTS_SCHEMA } from '../servicesConstants';
 import Card from 'components/Card';

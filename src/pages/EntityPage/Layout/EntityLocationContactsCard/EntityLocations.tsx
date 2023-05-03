@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Box, Spacer, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Spacer, useDisclosure } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import LocationActions from './LocationActions';
 import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
 import LocationTable from 'components/Tables/LocationTable';
 import CreateLocationModal from 'components/Tables/LocationTable/CreateLocationModal';
 import EditLocationModal from 'components/Tables/LocationTable/EditLocationModal';
@@ -38,10 +37,10 @@ const EntityLocations = ({ id }: Props) => {
 
   return (
     <>
-      <CardHeader px={2} pt={2}>
+      <Flex px={2} pt={2}>
         <Spacer />
         <CreateLocationModal refresh={getEntity.refetch} entityId={getEntity.data?.id ?? ''} />
-      </CardHeader>
+      </Flex>
       <CardBody p={4}>
         <Box w="100%" overflowX="auto">
           <LocationTable

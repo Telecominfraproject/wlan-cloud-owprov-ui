@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, IconButton, Tooltip, useBreakpoint } from '@chakra-ui/react';
-import { FloppyDisk } from 'phosphor-react';
+import { FloppyDisk } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 interface Props extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {

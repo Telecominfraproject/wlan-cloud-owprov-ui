@@ -14,8 +14,8 @@ import {
   Tooltip,
   IconButton,
 } from '@chakra-ui/react';
+import { Trash } from '@phosphor-icons/react';
 import { Formik } from 'formik';
-import { Trash } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';
 import SaveButton from 'components/Buttons/SaveButton';

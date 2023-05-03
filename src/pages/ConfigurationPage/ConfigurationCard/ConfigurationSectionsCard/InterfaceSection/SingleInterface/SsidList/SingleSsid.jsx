@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Box, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
+import { Box, Flex, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
 import { getIn, useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -9,9 +9,7 @@ import Encryption from './Encryption';
 import LockedSsid from './LockedSsid';
 import PassPoint from './PassPoint';
 import DeleteButton from 'components/Buttons/DeleteButton';
-import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
 import ConfigurationResourcePicker from 'components/CustomFields/ConfigurationResourcePicker';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
 import SelectField from 'components/FormFields/SelectField';
@@ -39,8 +37,8 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
   }, [getIn(values, `${namePrefix}`)]);
 
   return (
-    <Card mb={4} borderRadius={0}>
-      <CardHeader flex="auto">
+    <>
+      <Flex px={4} py={2}>
         <Heading size="md" mr={2} pt={2}>
           #{index}
         </Heading>
@@ -52,7 +50,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
         />
         <Spacer />
         <DeleteButton isDisabled={!editing} onClick={removeSsid} label={t('configurations.delete_ssid')} />
-      </CardHeader>
+      </Flex>
       <CardBody display="unset">
         {isUsingCustomRadius ? (
           <>
@@ -113,7 +111,7 @@ const SingleSsid = ({ editing, index, namePrefix, remove }) => {
           <LockedSsid variableBlockId={getIn(values, `${namePrefix}.__variableBlock`)[0]} />
         )}
       </CardBody>
-    </Card>
+    </>
   );
 };
 

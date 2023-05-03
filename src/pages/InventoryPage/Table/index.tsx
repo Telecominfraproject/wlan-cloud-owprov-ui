@@ -1,19 +1,16 @@
 import React, { useCallback, useState } from 'react';
-import { Box, Flex, FormControl, FormLabel, Switch, useBoolean, useDisclosure } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Switch, useBoolean, useDisclosure } from '@chakra-ui/react';
+import { CellContext } from '@tanstack/react-table';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import Actions from './Actions';
-import RefreshButton from 'components/Buttons/RefreshButton';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
-import ColumnPicker from 'components/ColumnPicker';
+import { DataGrid } from 'components/DataGrid';
+import { DataGridColumn, useDataGrid } from 'components/DataGrid/useDataGrid';
 import FormattedDate from 'components/FormattedDate';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
 import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
 import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
 import DeviceSearchBar from 'components/SearchBars/DeviceSearch';
-import SortableDataTable from 'components/SortableDataTable';
 import EntityCell from 'components/TableCells/EntityCell';
 import VenueCell from 'components/TableCells/VenueCell';
 import ConfigurationPushModal from 'components/Tables/InventoryTable/ConfigurationPushModal';
@@ -26,23 +23,25 @@ import {
   usePushConfig,
 } from 'hooks/Network/Inventory';
 import { Device } from 'models/Device';
-import { PageInfo, SortInfo } from 'models/Table';
+import { InventoryTagApiResponse } from 'models/Inventory';
 
-const InventoryTable: React.FC = () => {
+const InventoryTable = () => {
   const { t } = useTranslation();
-  const [pageInfo, setPageInfo] = useState<PageInfo | undefined>(undefined);
+  const tableController = useDataGrid({
+    tableSettingsId: 'provisioning.inventory.table',
+    defaultSortBy: [{ id: 'serialNumber', desc: false }],
+    defaultOrder: ['serialNumber', 'name', 'entity', 'venue', 'subscriber', 'description', 'modified', 'actions'],
+  });
   const [onlyUnassigned, setOnlyUnassigned] = useBoolean(false);
   const [serialNumber, setSerialNumber] = useState<string>('');
   const [tag, setTag] = useState<Device | { serialNumber: string } | undefined>(undefined);
   const { isOpen: isEditOpen, onOpen: openEdit, onClose: closeEdit } = useDisclosure();
   const { isOpen: isPushOpen, onOpen: openPush, onClose: closePush } = useDisclosure();
-  const [sortInfo, setSortInfo] = useState<SortInfo>([{ id: 'serialNumber', sort: 'asc' }]);
   const { data: tableSpecs } = useGetInventoryTableSpecs();
   const scanModalProps = useDisclosure();
   const resetModalProps = useDisclosure();
   const upgradeModalProps = useDisclosure();
   const pushConfiguration = usePushConfig({ onSuccess: () => openPush() });
-  const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
   const {
     data: count,
     isFetching: isFetchingCount,
@@ -56,9 +55,15 @@ const InventoryTable: React.FC = () => {
     isFetching: isFetchingTags,
     refetch: refetchTags,
   } = useGetInventoryTags({
-    pageInfo,
-    sortInfo,
-    enabled: pageInfo !== null,
+    pageInfo: {
+      limit: tableController.pageInfo.pageSize,
+      index: tableController.pageInfo.pageIndex,
+    },
+    sortInfo: tableController.sortBy.map((sort) => ({
+      id: sort.id,
+      sort: sort.desc ? 'dsc' : 'asc',
+    })),
+    enabled: true,
     count,
     onlyUnassigned,
   });
@@ -81,9 +86,9 @@ const InventoryTable: React.FC = () => {
   };
 
   const memoizedActions = useCallback(
-    (cell) => (
+    (cell: CellContext<InventoryTagApiResponse, unknown>) => (
       <Actions
-        cell={cell.row}
+        cell={cell.row as unknown as { original: Device }}
         refreshTable={refetchCount}
         key={uuid()}
         openEditModal={openEditModal}
@@ -94,16 +99,21 @@ const InventoryTable: React.FC = () => {
     ),
     [],
   );
-  const memoizedDate = useCallback((cell, key) => <FormattedDate date={cell.row.values[key]} key={uuid()} />, []);
+  const memoizedDate = useCallback(
+    (cell: CellContext<InventoryTagApiResponse, unknown>, key: 'modified') => (
+      <FormattedDate date={cell.row.original[key]} key={uuid()} />
+    ),
+    [],
+  );
 
   const entityCell = useCallback(
-    (cell) => (
+    (cell: CellContext<InventoryTagApiResponse, unknown>) => (
       <EntityCell entityName={cell.row.original.extendedInfo?.entity?.name ?? ''} entityId={cell.row.original.entity} />
     ),
     [],
   );
   const venueCell = useCallback(
-    (cell) => (
+    (cell: CellContext<InventoryTagApiResponse, unknown>) => (
       <VenueCell venueName={cell.row.original.extendedInfo?.venue?.name ?? ''} venueId={cell.row.original.venue} />
     ),
     [],
@@ -113,96 +123,104 @@ const InventoryTable: React.FC = () => {
     openEditModal({ serialNumber: serial });
   }, []);
 
-  const columns = React.useMemo(() => {
-    const baseColumns = [
+  const columns: DataGridColumn<InventoryTagApiResponse>[] = React.useMemo(() => {
+    const baseColumns: DataGridColumn<InventoryTagApiResponse>[] = [
       {
         id: 'serialNumber',
-        Header: t('inventory.serial_number'),
-        Footer: '',
-        accessor: 'serialNumber',
-        customMaxWidth: '200px',
-        customWidth: 'calc(15vh)',
-        customMinWidth: '150px',
-        alwaysShow: true,
-        isMonospace: true,
+        header: t('inventory.serial_number'),
+        accessorKey: 'serialNumber',
+        meta: {
+          customMaxWidth: '200px',
+          customWidth: 'calc(15vh)',
+          customMinWidth: '150px',
+          alwaysShow: true,
+          isMonospace: true,
+        },
       },
       {
         id: 'name',
-        Header: t('common.name'),
-        Footer: '',
-        accessor: 'name',
-        customMaxWidth: '200px',
-        customWidth: 'calc(15vh)',
-        customMinWidth: '150px',
-        isMonospace: true,
+        header: t('common.name'),
+        accessorKey: 'name',
+        meta: {
+          customMaxWidth: '200px',
+          customWidth: 'calc(15vh)',
+          customMinWidth: '150px',
+          isMonospace: true,
+        },
       },
       {
         id: 'entity',
-        Header: t('entities.one'),
-        Footer: '',
-        accessor: 'extendedInfo.entity.name',
-        Cell: ({ cell }: { cell: unknown }) => entityCell(cell),
-        customMaxWidth: '200px',
-        customWidth: 'calc(15vh)',
-        customMinWidth: '150px',
-        disableSortBy: true,
-        stopPropagation: true,
+        header: t('entities.one'),
+        accessorKey: 'extendedInfo.entity.name',
+        cell: entityCell,
+        enableSorting: false,
+        meta: {
+          customMaxWidth: '200px',
+          customWidth: 'calc(15vh)',
+          customMinWidth: '150px',
+          stopPropagation: true,
+        },
       },
       {
         id: 'venue',
-        Header: t('venues.one'),
-        Footer: '',
-        accessor: 'extendedInfo.venue.name',
-        Cell: ({ cell }: { cell: unknown }) => venueCell(cell),
-        customMaxWidth: '200px',
-        customWidth: 'calc(15vh)',
-        customMinWidth: '150px',
-        disableSortBy: true,
-        stopPropagation: true,
+        header: t('venues.one'),
+        accessorKey: 'extendedInfo.venue.name',
+        cell: venueCell,
+        enableSorting: false,
+        meta: {
+          customMaxWidth: '200px',
+          customWidth: 'calc(15vh)',
+          customMinWidth: '150px',
+          stopPropagation: true,
+        },
       },
       {
         id: 'subscriber',
-        Header: t('subscribers.one'),
-        Footer: '',
-        accessor: 'extendedInfo.subscriber.name',
-        customMaxWidth: '200px',
-        customWidth: 'calc(15vh)',
-        customMinWidth: '150px',
-        disableSortBy: true,
+        header: t('subscribers.one'),
+        accessorKey: 'extendedInfo.subscriber.name',
+        enableSorting: true,
+        meta: {
+          customMaxWidth: '200px',
+          customWidth: 'calc(15vh)',
+          customMinWidth: '150px',
+        },
       },
       {
         id: 'description',
-        Header: t('common.description'),
-        Footer: '',
-        accessor: 'description',
-        disableSortBy: true,
+        header: t('common.description'),
+        accessorKey: 'description',
+        enableSorting: false,
       },
       {
         id: 'modified',
-        Header: t('common.modified'),
-        Footer: '',
-        accessor: 'modified',
-        Cell: ({ cell }: { cell: unknown }) => memoizedDate(cell, 'modified'),
-        customMinWidth: '150px',
-        customWidth: '150px',
+        header: t('common.modified'),
+
+        accessorKey: 'modified',
+        cell: (cell) => memoizedDate(cell, 'modified'),
+        meta: {
+          customMinWidth: '150px',
+          customWidth: '150px',
+        },
       },
       {
         id: 'actions',
-        Header: t('common.actions'),
-        Footer: '',
-        accessor: 'Id',
-        customWidth: '80px',
-        Cell: ({ cell }: { cell: unknown }) => memoizedActions(cell),
-        disableSortBy: true,
-        alwaysShow: true,
+        header: t('common.actions'),
+        accessorKey: 'Id',
+        cell: memoizedActions,
+        enableSorting: false,
+        meta: {
+          customWidth: '80px',
+          alwaysShow: true,
+        },
       },
     ];
 
     return baseColumns.map((col) => {
       const lower = col.id.toLocaleLowerCase();
+      const isAlreadyDisabled = col.enableSorting === false;
       return {
         ...col,
-        disableSortBy: tableSpecs ? !tableSpecs.find((spec: string) => spec === lower) : true,
+        enableSorting: tableSpecs ? !!tableSpecs.find((spec: string) => spec === lower) : !isAlreadyDisabled,
       };
     });
   }, [t, tableSpecs]);
@@ -212,65 +230,35 @@ const InventoryTable: React.FC = () => {
   };
 
   return (
-    <>
-      <Card>
-        <CardHeader mb="10px">
-          <Box w="300px">
-            <DeviceSearchBar onClick={onSearchClick} />
-          </Box>
-          <Flex w="100%" flexDirection="row" alignItems="center">
-            <Box ms="auto" display="flex">
-              <FormControl display="flex" w="unset" alignItems="center" mr={2}>
-                <FormLabel htmlFor="unassigned-switch" mb="0">
-                  {t('devices.unassigned_only')}
-                </FormLabel>
-                <Switch
-                  id="unassigned-switch"
-                  defaultChecked={onlyUnassigned}
-                  onChange={onUnassignedToggle}
-                  size="lg"
-                />
-              </FormControl>
-              <ColumnPicker
-                columns={columns}
-                defaultHiddenColumns={['subscriber']}
-                hiddenColumns={hiddenColumns}
-                setHiddenColumns={setHiddenColumns}
-                preference="provisioning.inventoryTable.hiddenColumns"
-              />
-              <CreateConfigurationModal refresh={refetchCount} />
-              <RefreshButton onClick={refetchCount} isFetching={isFetchingCount || isFetchingTags} ml={2} />
-            </Box>
-          </Flex>
-        </CardHeader>
-        <CardBody>
-          <Box overflowX="auto" w="100%">
-            <SortableDataTable<Device>
-              columns={
-                onlyUnassigned
-                  ? columns.filter(
-                      (col) =>
-                        col.id !== 'entity' && col.id !== 'venue' && !hiddenColumns.find((hidden) => hidden === col.id),
-                    )
-                  : columns.filter(({ id }) => !hiddenColumns.find((hidden) => hidden === id))
-              }
-              data={tags ?? []}
-              isLoading={isFetchingCount || isFetchingTags}
-              isManual
-              sortInfo={sortInfo}
-              setSortInfo={setSortInfo}
-              hiddenColumns={hiddenColumns}
-              obj={t('inventory.tags')}
-              count={count || 0}
-              setPageInfo={setPageInfo}
-              fullScreen
-              saveSettingsId="inventory.table"
-              onRowClick={openEditModal}
-              isRowClickable={() => true}
-            />
-          </Box>
-        </CardBody>
-      </Card>
+    <Box>
+      <DataGrid<InventoryTagApiResponse>
+        controller={tableController}
+        header={{
+          title: `${t('devices.title')} ${count ? `(${count})` : ''}`,
+          objectListed: t('devices.title'),
+          otherButtons: (
+            <FormControl display="flex" w="unset" alignItems="center" mr={2}>
+              <FormLabel htmlFor="unassigned-switch" mb="0">
+                {t('devices.unassigned_only')}
+              </FormLabel>
+              <Switch id="unassigned-switch" defaultChecked={onlyUnassigned} onChange={onUnassignedToggle} size="lg" />
+            </FormControl>
+          ),
+          addButton: <CreateConfigurationModal refresh={refetchCount} />,
+          leftContent: <DeviceSearchBar onClick={onSearchClick} />,
+        }}
+        columns={onlyUnassigned ? columns.filter((col) => col.id !== 'entity' && col.id !== 'venue') : columns}
+        data={tags}
+        isLoading={isFetchingCount || isFetchingTags}
+        options={{
+          count,
+          isManual: true,
+          onRowClick: (device) => () => openEditModal(device),
+          refetch: refetchCount,
+          minimumHeight: '200px',
+          showAsCard: true,
+        }}
+      />
       <EditTagModal
         isOpen={isEditOpen}
         onClose={closeEdit}
@@ -285,7 +273,7 @@ const InventoryTable: React.FC = () => {
       <WifiScanModal modalProps={scanModalProps} serialNumber={serialNumber} />
       <FirmwareUpgradeModal modalProps={upgradeModalProps} serialNumber={serialNumber} />
       <FactoryResetModal modalProps={resetModalProps} serialNumber={serialNumber} />
-    </>
+    </Box>
   );
 };
 

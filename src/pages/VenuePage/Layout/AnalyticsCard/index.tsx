@@ -18,7 +18,7 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import { MagnifyingGlass } from 'phosphor-react';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import LiveView from './LiveView';
 import StartAnalyticsModal from './StartAnalyticsModal';
@@ -98,24 +98,22 @@ const VenueAnalyticsCard = ({ id }: Props) => {
       <Card p={0}>
         <Tabs variant="enclosed" isLazy>
           <TabList>
-            <CardHeader>
-              <Tab>{t('analytics.dashboard')}</Tab>
-              <Tab>{t('analytics.live_view')}</Tab>
-              <Tab>{t('analytics.client_lifecycle')}</Tab>
-              <Spacer />
-              <StopMonitoringButton boardId={boardId} venueId={id} />
-              <Tooltip label={t('common.view_details')} hasArrow>
-                <IconButton
-                  aria-label={t('common.view_details')}
-                  icon={<MagnifyingGlass size={20} />}
-                  h="41px"
-                  borderTopLeftRadius={0}
-                  borderBottomRadius="0px"
-                  colorScheme="blue"
-                  onClick={onViewOpen}
-                />
-              </Tooltip>
-            </CardHeader>
+            <Tab>{t('analytics.dashboard')}</Tab>
+            <Tab>{t('analytics.live_view')}</Tab>
+            <Tab>{t('analytics.client_lifecycle')}</Tab>
+            <Spacer />
+            <StopMonitoringButton boardId={boardId} venueId={id} />
+            <Tooltip label={t('common.view_details')} hasArrow>
+              <IconButton
+                aria-label={t('common.view_details')}
+                icon={<MagnifyingGlass size={20} />}
+                h="41px"
+                borderTopLeftRadius={0}
+                borderBottomRadius="0px"
+                colorScheme="blue"
+                onClick={onViewOpen}
+              />
+            </Tooltip>
           </TabList>
           <TabPanels>
             <TabPanel p={0}>

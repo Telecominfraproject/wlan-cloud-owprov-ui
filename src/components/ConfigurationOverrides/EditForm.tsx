@@ -27,7 +27,7 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Pen } from 'phosphor-react';
+import { Pen } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { ACCEPTED_CONFIGURATION_OVERRIDES, ConfigurationOverride } from 'hooks/Network/ConfigurationOverride';
 import useFastField from 'hooks/useFastField';

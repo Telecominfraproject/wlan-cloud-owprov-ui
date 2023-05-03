@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@chakra-ui/react';
-import { ArrowsIn, ArrowsOut } from 'phosphor-react';
+import { ArrowsIn, ArrowsOut } from '@phosphor-icons/react';
 import { FullScreenHandle } from 'react-full-screen';
 import { useTranslation } from 'react-i18next';
 

@@ -16,7 +16,7 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import { UploadSimple } from 'phosphor-react';
+import { UploadSimple } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';

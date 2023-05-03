@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Tooltip, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
-import { CheckCircle, WarningOctagon } from 'phosphor-react';
+import { CheckCircle, WarningOctagon } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';

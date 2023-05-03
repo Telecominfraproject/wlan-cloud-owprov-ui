@@ -140,7 +140,7 @@ const ConfigurationCard = ({ id }) => {
   return (
     <>
       <Card mb={4}>
-        <CardHeader mb="10px" display="flex">
+        <CardHeader>
           <Box pt={1}>
             <Heading size="md">{configuration?.name}</Heading>
           </Box>

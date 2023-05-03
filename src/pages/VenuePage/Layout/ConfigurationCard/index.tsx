@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import VenueConfigurations from './VenueConfigurations';
 import VenueResources from './VenueResources';
 import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
 
 type Props = {
   id: string;
@@ -17,10 +16,8 @@ const VenueConfigurationCard = ({ id }: Props) => {
     <Card p={0}>
       <Tabs variant="enclosed" isLazy>
         <TabList>
-          <CardHeader>
-            <Tab>{t('configurations.title')}</Tab>
-            <Tab>{t('resources.title')}</Tab>
-          </CardHeader>
+          <Tab>{t('configurations.title')}</Tab>
+          <Tab>{t('resources.title')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel p={0}>

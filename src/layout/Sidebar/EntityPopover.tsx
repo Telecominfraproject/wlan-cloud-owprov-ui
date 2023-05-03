@@ -18,7 +18,7 @@ import {
   useBreakpoint,
 } from '@chakra-ui/react';
 import { FocusableElement } from '@chakra-ui/utils';
-import { TreeStructure, Buildings, X } from 'phosphor-react';
+import { TreeStructure, Buildings, X } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
@@ -119,8 +119,9 @@ const EntityPopover = ({ isOpen, onClose, children, toggleSidebar }: Props) => {
   const initRef = React.useRef<HTMLButtonElement>();
 
   const goTo = useCallback(
-    (id: string, type: string) => {
+    (id, type) => {
       navigate(`/${type}/${id}`);
+      onClose();
       if (breakpoint === 'base' || breakpoint === 'sm' || breakpoint === 'md') toggleSidebar();
     },
     [breakpoint],

@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Box, HStack, IconButton, Spacer, Tooltip } from '@chakra-ui/react';
-import { MagnifyingGlass } from 'phosphor-react';
+import { Box, Flex, HStack, IconButton, Spacer, Tooltip } from '@chakra-ui/react';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
 import ConfigurationsTable from 'components/Tables/ConfigurationTable';
 import CreateConfigurationModal from 'components/Tables/ConfigurationTable/CreateConfigurationModal';
 import DeleteConfigurationButton from 'components/Tables/ConfigurationTable/DeleteConfigurationButton';
@@ -42,10 +41,10 @@ const VenueConfigurations = ({ id }: Props) => {
 
   return (
     <>
-      <CardHeader px={2} pt={2}>
+      <Flex px={2} pt={2}>
         <Spacer />
         <CreateConfigurationModal entityId={`venue:${id}`} refresh={getVenue.refetch} />
-      </CardHeader>
+      </Flex>
       <CardBody p={4}>
         <Box w="100%" overflowX="auto">
           <ConfigurationsTable select={getVenue.data?.configurations ?? []} actions={actions} />

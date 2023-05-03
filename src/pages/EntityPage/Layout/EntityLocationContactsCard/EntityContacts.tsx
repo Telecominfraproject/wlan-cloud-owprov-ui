@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Box, Spacer, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Spacer, useDisclosure } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import ContactActions from './ContactActions';
 import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
 import ContactTable from 'components/Tables/ContactTable';
 import CreateContactModal from 'components/Tables/ContactTable/CreateContactModal';
 import EditContactModal from 'components/Tables/ContactTable/EditContactModal';
@@ -38,10 +37,10 @@ const EntityContacts = ({ id }: Props) => {
 
   return (
     <>
-      <CardHeader px={2} pt={2}>
+      <Flex px={2} pt={2}>
         <Spacer />
         <CreateContactModal refresh={getEntity.refetch} entityId={getEntity.data?.id ?? ''} />
-      </CardHeader>
+      </Flex>
       <CardBody p={4}>
         <Box w="100%" overflowX="auto">
           <ContactTable

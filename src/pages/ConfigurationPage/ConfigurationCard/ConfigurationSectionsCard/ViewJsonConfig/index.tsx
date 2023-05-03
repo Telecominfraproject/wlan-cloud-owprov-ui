@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Tooltip, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
-import { ArrowsOut } from 'phosphor-react';
+import { ArrowsOut } from '@phosphor-icons/react';
 import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import useInterfacesJsonDisplay from './useInterfacesJsonDisplay';

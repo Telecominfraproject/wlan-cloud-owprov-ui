@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useMemo, useState } from 'react';
-import { Center, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, Center, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import RadioPicker from './RadioPicker';
@@ -66,37 +66,27 @@ const Radios = ({ editing, arrayHelpers, radioBands, radioBandsLength }) => {
   );
 
   return (
-    <Tabs
-      index={tabIndex}
-      onChange={handleTabsChange}
-      isLazy
-      variant="enclosed-colored"
-      colorScheme="blue"
-      w="100%"
-      px={0}
-    >
-      <TabList
-        w="100%"
-        overflowX="auto"
-        style={{
-          overflowY: 'hidden',
-        }}
-      >
-        {tabs}
-        <RadioPicker
-          radios={radioBands}
-          editing={editing}
-          arrayHelpers={arrayHelpers}
-          setTabIndex={setTabIndex}
-          arrLength={radioBandsLength}
-        />
-      </TabList>
-      <Card variant="widget" mb={4} borderRadius={0}>
-        <CardBody display="unset">
-          <TabPanels>{panels}</TabPanels>
-        </CardBody>
-      </Card>
-    </Tabs>
+    <Card variant="widget">
+      <CardBody display="block">
+        <Box display="unset" position="unset" w="100%">
+          <Tabs index={tabIndex} onChange={handleTabsChange} variant="enclosed" isLazy w="100%">
+            <Box overflowX="auto" overflowY="auto" pt={1} h="56px">
+              <TabList mt={0}>
+                {tabs}
+                <RadioPicker
+                  radios={radioBands}
+                  editing={editing}
+                  arrayHelpers={arrayHelpers}
+                  setTabIndex={setTabIndex}
+                  arrLength={radioBandsLength}
+                />
+              </TabList>
+            </Box>
+            <TabPanels>{panels}</TabPanels>
+          </Tabs>
+        </Box>
+      </CardBody>
+    </Card>
   );
 };
 

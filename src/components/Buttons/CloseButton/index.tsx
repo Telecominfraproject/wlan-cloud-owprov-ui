@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@chakra-ui/react';
-import { X } from 'phosphor-react';
+import { X } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {

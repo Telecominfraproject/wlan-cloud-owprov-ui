@@ -11,7 +11,7 @@ import {
   useBoolean,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Flask } from 'phosphor-react';
+import { Flask } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import SaveButton from 'components/Buttons/SaveButton';
 import { Modal } from 'components/Modals/Modal';

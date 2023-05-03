@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Flex, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
+import { Box, Flex, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
 import { FieldArray } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Captive from './Captive';
@@ -36,7 +36,7 @@ const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
     [],
   );
   return (
-    <>
+    <Box w="100%">
       <Flex>
         <div>
           <Heading size="md" borderBottom="1px solid">
@@ -155,7 +155,7 @@ const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
           />
         )}
       </FieldArray>
-    </>
+    </Box>
   );
 };
 

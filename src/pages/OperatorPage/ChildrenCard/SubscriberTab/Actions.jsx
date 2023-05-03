@@ -16,7 +16,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import { MagnifyingGlass, Trash } from 'phosphor-react';
+import { MagnifyingGlass, Trash } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';

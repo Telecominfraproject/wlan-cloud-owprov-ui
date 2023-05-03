@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useState } from 'react';
-import { Center, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, Center, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import CreateInterfaceButton from './CreateInterfaceButton';
 import InterfaceTab from './InterfaceTab';
@@ -42,48 +42,38 @@ const Interfaces = ({ editing, arrayHelpers, interfacesLength }) => {
     );
   }
   return (
-    <Tabs
-      index={tabIndex}
-      onChange={handleTabsChange}
-      isLazy
-      variant="enclosed-colored"
-      w="100%"
-      px={0}
-      colorScheme="blue"
-    >
-      <TabList
-        w="100%"
-        overflowX="auto"
-        style={{
-          overflowY: 'hidden',
-        }}
-      >
-        {Array(interfacesLength)
-          .fill(1)
-          .map((el, i) => (
-            <InterfaceTab key={i} index={i} />
-          ))}
-        <CreateInterfaceButton
-          editing={editing}
-          arrayHelpers={arrayHelpers}
-          setTabIndex={setTabIndex}
-          arrLength={interfacesLength}
-        />
-      </TabList>
-      <Card variant="widget" mb={4} borderRadius={0}>
-        <CardBody display="unset">
-          <TabPanels>
-            {Array(interfacesLength)
-              .fill(1)
-              .map((el, i) => (
-                <TabPanel overflowX="auto" px={0} key={i}>
-                  <SingleInterface index={i} remove={handleRemove} editing={editing} />
-                </TabPanel>
-              ))}
-          </TabPanels>
-        </CardBody>
-      </Card>
-    </Tabs>
+    <Card variant="widget">
+      <CardBody display="block">
+        <Box display="unset" position="unset" w="100%">
+          <Tabs index={tabIndex} onChange={handleTabsChange} variant="enclosed" isLazy w="100%">
+            <Box overflowX="auto" overflowY="auto" pt={1} h="56px">
+              <TabList mt={0}>
+                {Array(interfacesLength)
+                  .fill(1)
+                  .map((el, i) => (
+                    <InterfaceTab key={i} index={i} />
+                  ))}
+                <CreateInterfaceButton
+                  editing={editing}
+                  arrayHelpers={arrayHelpers}
+                  setTabIndex={setTabIndex}
+                  arrLength={interfacesLength}
+                />
+              </TabList>
+            </Box>
+            <TabPanels w="100%">
+              {Array(interfacesLength)
+                .fill(1)
+                .map((el, i) => (
+                  <TabPanel key={i}>
+                    <SingleInterface index={i} remove={handleRemove} editing={editing} />
+                  </TabPanel>
+                ))}
+            </TabPanels>
+          </Tabs>
+        </Box>
+      </CardBody>
+    </Card>
   );
 };
 

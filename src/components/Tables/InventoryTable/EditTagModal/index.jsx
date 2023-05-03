@@ -23,7 +23,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowSquareOut, PaperPlaneTilt, Trash } from 'phosphor-react';
+import { ArrowSquareOut, PaperPlaneTilt, Trash } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import DeviceActionDropdown from './ActionDropdown';

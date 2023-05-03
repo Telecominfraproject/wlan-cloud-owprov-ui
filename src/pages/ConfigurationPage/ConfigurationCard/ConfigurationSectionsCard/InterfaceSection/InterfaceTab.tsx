@@ -1,27 +1,15 @@
 import React, { useMemo } from 'react';
-import { Button, Heading, useColorModeValue, useMultiStyleConfig, useTab } from '@chakra-ui/react';
+import { Tab, useColorMode, useMultiStyleConfig, useTab } from '@chakra-ui/react';
 import useFastField from 'hooks/useFastField';
 
 // eslint-disable-next-line react/prop-types
-const InterfaceTab = React.forwardRef((
-  {
-    index,
-    ...props
-  }: {
-    index: number
-  },
-  ref
-) => {
+const InterfaceTab: React.FC<{ index: number }> = React.forwardRef(({ index, ...props }, ref) => {
   const { value } = useFastField({ name: `configuration[${index}]` });
-
-  const bgColorSelected = useColorModeValue('gray.100', 'gray.800');
-  const bgColorUnSelected = useColorModeValue('white', 'gray.700');
-
+  const { colorMode } = useColorMode();
+  const isLight = colorMode === 'light';
   // @ts-ignore
   const tabProps = useTab({ ...props, ref });
-  const isSelected = !!tabProps['aria-selected'];
 
-  // 2. Hook into the Tabs `size`, `variant`, props
   const styles = useMultiStyleConfig('Tabs', tabProps);
 
   const name = useMemo(() => {
@@ -32,16 +20,15 @@ const InterfaceTab = React.forwardRef((
   }, [value]);
 
   return (
-    <Button
-      __css={styles.tab}
-      {...tabProps}
-      bgColor={isSelected ? bgColorSelected : bgColorUnSelected}
-      _focus={{ outline: 'none !important' }}
+    <Tab
+      _selected={{
+        // @ts-ignore
+        ...styles.tab?._selected,
+        borderBottomColor: isLight ? 'gray.100' : 'gray.800',
+      }}
     >
-      <Heading size="md">
-        {name} ({value?.role})
-      </Heading>
-    </Button>
+      {name} ({value?.role})
+    </Tab>
   );
 });
 

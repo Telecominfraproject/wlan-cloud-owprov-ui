@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { ComputedDatum } from '@nivo/circle-packing';
 import { Interpolation, SpringValue, animated } from '@react-spring/web';
-import { Broadcast } from 'phosphor-react';
+import { Broadcast } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { SsidCircle } from '../utils';
 import { useCircleGraph } from 'contexts/CircleGraphProvider';

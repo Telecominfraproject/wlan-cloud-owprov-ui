@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Flex, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
-import { ArrowCircleRight } from 'phosphor-react';
+import { ArrowCircleRight } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import EntityPopover from './EntityPopover';
 import IconBox from 'components/IconBox';
@@ -21,7 +21,7 @@ const EntityNavButton = ({ isActive, route, toggleSidebar }: Props) => {
   const inactiveArrowColor = useColorModeValue('var(--chakra-colors-gray-600)', 'var(--chakra-colors-gray-200)');
   const activeTextColor = useColorModeValue('gray.700', 'white');
   const inactiveTextColor = useColorModeValue('gray.600', 'gray.200');
-  const inactiveIconColor = useColorModeValue('gray.100', 'gray.600');
+  const hoverBg = useColorModeValue('blue.100', 'blue.800');
 
   return (
     <EntityPopover isOpen={isOpen} onClose={onClose} toggleSidebar={toggleSidebar}>
@@ -35,7 +35,7 @@ const EntityNavButton = ({ isActive, route, toggleSidebar }: Props) => {
           bg="transparent"
           transition={variantChange}
           mx="auto"
-          ps="10px"
+          px={1}
           py="12px"
           borderRadius="15px"
           w="100%"
@@ -47,13 +47,17 @@ const EntityNavButton = ({ isActive, route, toggleSidebar }: Props) => {
           _focus={{
             boxShadow: '0px 7px 11px rgba(0, 0, 0, 0.04)',
           }}
+          _hover={{
+            bg: hoverBg,
+          }}
+          borderWidth="0px"
           rightIcon={<ArrowCircleRight size={24} color={activeArrowColor} />}
         >
-          <Flex>
-            <IconBox bg="blue.300" color="white" h="42px" w="42px" me="12px" transition={variantChange}>
-              {route.icon(true)}
+          <Flex alignItems="center" w="100%">
+            <IconBox color="blue.300" h="30px" w="30px" me="6px" transition={variantChange} fontWeight="bold">
+              {route.icon(false)}
             </IconBox>
-            <Text color={activeTextColor} my="auto" fontSize="lg">
+            <Text color={activeTextColor} fontSize="md" fontWeight="bold">
               {t(route.name)}
             </Text>
           </Flex>
@@ -67,7 +71,7 @@ const EntityNavButton = ({ isActive, route, toggleSidebar }: Props) => {
           bg="transparent"
           mx="auto"
           py="12px"
-          ps="10px"
+          ps={1}
           borderRadius="15px"
           w="100%"
           _active={{
@@ -78,13 +82,17 @@ const EntityNavButton = ({ isActive, route, toggleSidebar }: Props) => {
           _focus={{
             boxShadow: 'none',
           }}
+          _hover={{
+            bg: hoverBg,
+          }}
+          borderWidth="0px"
           rightIcon={<ArrowCircleRight size={20} color={inactiveArrowColor} />}
         >
-          <Flex>
-            <IconBox bg={inactiveIconColor} color="blue.300" h="34px" w="34px" me="12px" transition={variantChange}>
+          <Flex alignItems="center" w="100%">
+            <IconBox color="blue.300" h="30px" w="30px" me="6px" transition={variantChange} fontWeight="bold">
               {route.icon(false)}
             </IconBox>
-            <Text color={inactiveTextColor} my="auto" fontSize="sm">
+            <Text color={inactiveTextColor} fontSize="md" fontWeight="bold">
               {t(route.name)}
             </Text>
           </Flex>

@@ -1,29 +1,20 @@
 import React, { useMemo } from 'react';
-import { Button, Heading, useColorModeValue, useMultiStyleConfig, useTab } from '@chakra-ui/react';
+import { Tab, useColorMode, useMultiStyleConfig, useTab } from '@chakra-ui/react';
 import { useGetResource } from 'hooks/Network/Resources';
 import useFastField from 'hooks/useFastField';
 
 // eslint-disable-next-line react/prop-types
-const RadioTab = React.forwardRef((
-  {
-    index,
-    ...props
-  }: {
-    index: number
-  },
-  ref
-) => {
+const RadioTab: React.FC<{ index: number }> = React.forwardRef(({ index, ...props }, ref) => {
   const { value } = useFastField({ name: `configuration[${index}]` });
   const { data: resource } = useGetResource({
     id: value?.__variableBlock,
     enabled: value?.__variableBlock !== undefined,
   });
-  const bgColorSelected = useColorModeValue('gray.100', 'gray.800');
-  const bgColorUnSelected = useColorModeValue('white', 'gray.700');
+  const { colorMode } = useColorMode();
+  const isLight = colorMode === 'light';
 
   // @ts-ignore
   const tabProps = useTab({ ...props, ref });
-  const isSelected = !!tabProps['aria-selected'];
 
   // 2. Hook into the Tabs `size`, `variant`, props
   const styles = useMultiStyleConfig('Tabs', tabProps);
@@ -44,15 +35,15 @@ const RadioTab = React.forwardRef((
     return '';
   }, [value, resource]);
   return (
-    // @ts-ignore
-    (<Button
-      __css={styles.tab}
-      {...tabProps}
-      bgColor={isSelected ? bgColorSelected : bgColorUnSelected}
-      _focus={{ outline: 'none !important' }}
+    <Tab
+      _selected={{
+        // @ts-ignore
+        ...styles.tab?._selected,
+        borderBottomColor: isLight ? 'gray.100' : 'gray.800',
+      }}
     >
-      <Heading size="md">{name} Radio</Heading>
-    </Button>)
+      {name} Radio
+    </Tab>
   );
 });
 

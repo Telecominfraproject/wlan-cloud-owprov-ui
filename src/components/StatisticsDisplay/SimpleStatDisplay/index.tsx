@@ -1,7 +1,7 @@
 import React from 'react';
 import { InfoIcon } from '@chakra-ui/icons';
 import { Heading, IconButton, LayoutProps, LightMode, SpaceProps, Spacer, Tooltip } from '@chakra-ui/react';
-import { MagnifyingGlass } from 'phosphor-react';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 
@@ -32,6 +32,7 @@ const SimpleStatDisplay = ({
       onClick={openModal}
       cursor={openModal ? 'pointer' : ''}
       className="tile-shadow-animate"
+      p={4}
       {...props}
     >
       {title !== '' && (
@@ -48,7 +49,6 @@ const SimpleStatDisplay = ({
                   variant="ghost"
                   aria-label={t('common.view_details')}
                   size="sm"
-                  colorScheme="purple"
                   icon={<MagnifyingGlass height={20} width={20} />}
                   ml={2}
                 />

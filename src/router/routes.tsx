@@ -1,31 +1,33 @@
 import React from 'react';
-import { Icon } from '@chakra-ui/react';
-import { Info, ListBullets, Storefront, Tag, TreeStructure, UsersThree } from 'phosphor-react';
+import { Info, ListBullets, Storefront, Tag, TreeStructure, UsersThree } from '@phosphor-icons/react';
 import EntityNavButton from 'layout/Sidebar/EntityNavButton';
 import { Route } from 'models/Routes';
 
 const ConfigurationPage = React.lazy(() => import('pages/ConfigurationPage'));
 const EntityPage = React.lazy(() => import('pages/EntityPage'));
 const InventoryPage = React.lazy(() => import('pages/InventoryPage'));
-const NotificationsPage = React.lazy(() => import('pages/Notifications'));
+const ProvLogsPage = React.lazy(() => import('pages/Notifications/GeneralLogs'));
+const VenueNotificationsPage = React.lazy(() => import('pages/Notifications/Notifications'));
+const FmsLogsPage = React.lazy(() => import('pages/Notifications/FmsLogs'));
+const SecLogsPage = React.lazy(() => import('pages/Notifications/SecLogs'));
 const MapPage = React.lazy(() => import('pages/MapPage'));
 const ProfilePage = React.lazy(() => import('pages/Profile'));
 const OperatorPage = React.lazy(() => import('pages/OperatorPage'));
 const OperatorsPage = React.lazy(() => import('pages/OperatorsPage'));
 const SubscriberPage = React.lazy(() => import('pages/SubscriberPage'));
-const SystemPage = React.lazy(() => import('pages/SystemPage'));
+const EndpointsPage = React.lazy(() => import('pages/EndpointsPage'));
+const SystemConfigurationPage = React.lazy(() => import('pages/SystemConfigurationPage'));
 const UsersPage = React.lazy(() => import('pages/UsersPage'));
 const VenuePage = React.lazy(() => import('pages/VenuePage'));
 
 const routes: Route[] = [
   {
+    id: 'entity-page',
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/entity/:id',
     name: 'entities.title',
     navName: 'entities.one',
-    icon: (active: boolean) => (
-      <Icon as={TreeStructure} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <TreeStructure size={28} weight="bold" />,
     navButton: (isActive: boolean, toggleSidebar: () => void, route: Route) => (
       <EntityNavButton isActive={isActive} toggleSidebar={toggleSidebar} route={route} />
     ),
@@ -33,110 +35,145 @@ const routes: Route[] = [
     component: EntityPage,
   },
   {
+    id: 'inventory-page',
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/',
     name: 'inventory.title',
-    icon: (active: boolean) => (
-      <Icon as={Tag} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <Tag size={28} weight="bold" />,
     component: InventoryPage,
   },
   {
+    id: 'operators-page',
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/operators',
     name: 'operator.other',
-    icon: (active: boolean) => (
-      <Icon as={Storefront} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <Storefront size={28} weight="bold" />,
     component: OperatorsPage,
   },
   {
+    id: 'logs-group',
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
-    path: '/logs',
     name: 'controller.devices.logs',
-    icon: (active: boolean) => (
-      <Icon as={ListBullets} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
-    component: NotificationsPage,
+    icon: () => <ListBullets size={28} weight="bold" />,
+    children: [
+      {
+        id: 'logs-devices',
+        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+        path: '/logs/notifications',
+        name: 'venues.title',
+        navName: (t) => `${t('venues.one')} ${t('notification.other')}`,
+        component: VenueNotificationsPage,
+      },
+      {
+        id: 'logs-prov',
+        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+        path: '/logs/provisioning',
+        name: 'controller.provisioning.title',
+        navName: (t) => `${t('controller.provisioning.title')} ${t('controller.devices.logs')}`,
+        component: ProvLogsPage,
+      },
+      {
+        id: 'logs-security',
+        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+        path: '/logs/security',
+        name: 'logs.security',
+        navName: (t) => `${t('logs.security')} ${t('controller.devices.logs')}`,
+        component: SecLogsPage,
+      },
+      {
+        id: 'logs-firmware',
+        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+        path: '/logs/firmware',
+        name: 'logs.firmware',
+        navName: (t) => `${t('logs.firmware')} ${t('controller.devices.logs')}`,
+        component: FmsLogsPage,
+      },
+    ],
   },
   {
+    id: 'users-page',
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/users',
     name: 'users.title',
-    icon: (active: boolean) => (
-      <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <UsersThree size={28} weight="bold" />,
     component: UsersPage,
   },
   {
+    id: 'system-group',
     authorized: ['root', 'partner', 'admin'],
-    path: '/system',
     name: 'system.title',
-    icon: (active: boolean) => (
-      <Icon as={Info} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
-    component: SystemPage,
+    icon: () => <Info size={28} weight="bold" />,
+    children: [
+      {
+        id: 'system-services',
+        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+        path: '/services',
+        name: 'system.services',
+        component: EndpointsPage,
+      },
+      {
+        id: 'system-configuration',
+        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+        path: '/systemConfiguration',
+        name: 'system.configuration',
+        component: SystemConfigurationPage,
+      },
+    ],
   },
   {
+    id: 'venue-page',
     hidden: true,
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/venue/:id',
     name: 'venues.title',
     navName: 'venues.one',
-    icon: (active: boolean) => (
-      <Icon as={TreeStructure} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <TreeStructure size={28} weight="bold" />,
     isEntity: true,
     component: VenuePage,
   },
   {
+    id: 'account-page',
     hidden: true,
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/account',
     name: 'account.title',
-    icon: (active: boolean) => (
-      <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <UsersThree size={28} weight="bold" />,
     component: ProfilePage,
   },
   {
+    id: 'configuration-page',
     hidden: true,
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/configuration/:id',
     name: 'configurations.one',
-    icon: (active: boolean) => (
-      <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <UsersThree size={28} weight="bold" />,
     component: ConfigurationPage,
   },
   {
+    id: 'operator-page',
     hidden: true,
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/operators/:id',
     name: 'operator.one',
-    icon: (active: boolean) => (
-      <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <UsersThree size={28} weight="bold" />,
     component: OperatorPage,
   },
   {
+    id: 'subscriber-page',
     hidden: true,
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/subscriber/:id',
     name: 'subscribers.one',
-    icon: (active: boolean) => (
-      <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <UsersThree size={28} weight="bold" />,
     component: SubscriberPage,
   },
   {
+    id: 'map-page',
     hidden: true,
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/map',
     name: 'common.map',
-    icon: (active: boolean) => (
-      <Icon as={UsersThree} color="inherit" h={active ? '32px' : '24px'} w={active ? '32px' : '24px'} />
-    ),
+    icon: () => <UsersThree size={28} weight="bold" />,
     component: MapPage,
   },
 ];

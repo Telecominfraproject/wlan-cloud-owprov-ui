@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
+import { useEffect } from 'react';
 import { Spinner, Center, useDisclosure, useBoolean, Tag } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { Modal } from '../../../../components/Modals/Modal';
 import ActionsDropdown from '../ActionsDropdown';
 import UpdateUserForm from './Form';
 import SaveButton from 'components/Buttons/SaveButton';
 import ToggleEditButton from 'components/Buttons/ToggleEditButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
-import { Modal } from 'components/Modals/Modal';
-import { User, useGetUser } from 'hooks/Network/Users';
+import { useGetUser, User } from 'hooks/Network/Users';
 import useFormRef from 'hooks/useFormRef';
 
 type Props = {

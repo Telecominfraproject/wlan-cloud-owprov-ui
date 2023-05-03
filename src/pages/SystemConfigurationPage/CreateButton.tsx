@@ -10,7 +10,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { Modal } from '../../../components/Modals/Modal';
+import { Modal } from '../../components/Modals/Modal';
 import CreateButton from 'components/Buttons/CreateButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import { useCreateSystemSecret } from 'hooks/Network/Secrets';

@@ -16,9 +16,9 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import { Trash } from '@phosphor-icons/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { Trash } from 'phosphor-react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteConfiguration } from 'hooks/Network/Configurations';
 import { Configuration } from 'models/Configuration';

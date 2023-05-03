@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@chakra-ui/react';
-import { TextAlignCenter } from 'phosphor-react';
+import { TextAlignCenter } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 

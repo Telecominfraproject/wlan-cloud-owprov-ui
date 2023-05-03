@@ -26,19 +26,15 @@ const SubscriberCard: React.FC<Props> = ({ id }) => {
 
   return (
     <Card mb={4}>
-      <CardHeader mb="10px" display="flex">
-        <Flex pt={1}>
-          <Heading size="md" pt={1} mb={0} pb={0}>
-            {subscriber?.name}
-          </Heading>
-          <SuspendedNotification id={id} refresh={refetch} isSuspended={subscriber?.suspended} isDisabled={editing} />
-          <WaitingForVerification
-            id={id}
-            refresh={refetch}
-            isWaitingForEmailVerification={subscriber?.waitingForEmailCheck}
-            isDisabled={editing}
-          />
-        </Flex>
+      <CardHeader>
+        <Heading size="md">{subscriber?.name}</Heading>
+        <SuspendedNotification id={id} refresh={refetch} isSuspended={subscriber?.suspended} isDisabled={editing} />
+        <WaitingForVerification
+          id={id}
+          refresh={refetch}
+          isWaitingForEmailVerification={subscriber?.waitingForEmailCheck}
+          isDisabled={editing}
+        />
         <Spacer />
         <Box>
           <DeleteVenuePopover isDisabled={editing || isFetching} subscriber={subscriber} />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Heading, List, ListItem, Text } from '@chakra-ui/react';
-import { Circle } from 'phosphor-react';
+import { Circle } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Masonry from 'react-masonry-css';

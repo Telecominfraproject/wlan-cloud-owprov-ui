@@ -16,7 +16,7 @@ import {
   Box,
   Button,
 } from '@chakra-ui/react';
-import { MagnifyingGlass, Trash } from 'phosphor-react';
+import { MagnifyingGlass, Trash } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteOperator } from 'hooks/Network/Operators';
@@ -33,15 +33,13 @@ interface Props {
   refreshTable: () => void;
 }
 
-const Actions = (
-  {
-    cell: {
-      original: { id, name, defaultOperator: isDefault },
-    },
+const Actions = ({
+  cell: {
+    original: { id, name, defaultOperator: isDefault },
+  },
 
-    refreshTable
-  }: Props
-) => {
+  refreshTable,
+}: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSuccess, onError } = useMutationResult({

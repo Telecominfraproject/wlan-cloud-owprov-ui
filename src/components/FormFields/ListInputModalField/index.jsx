@@ -18,7 +18,7 @@ import {
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
-import { Trash } from 'phosphor-react';
+import { Trash } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';

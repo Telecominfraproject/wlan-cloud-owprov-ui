@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { ComputedDatum } from '@nivo/circle-packing';
 import { Interpolation, SpringValue, animated } from '@react-spring/web';
-import { Buildings } from 'phosphor-react';
+import { Buildings } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { CirclePackRoot } from '../utils';
 import { useCircleGraph } from 'contexts/CircleGraphProvider';

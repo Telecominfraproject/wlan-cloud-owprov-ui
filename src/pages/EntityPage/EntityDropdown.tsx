@@ -11,7 +11,7 @@ import {
   useBreakpoint,
   useDisclosure,
 } from '@chakra-ui/react';
-import { TreeStructure } from 'phosphor-react';
+import { TreeStructure } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import CreateEntityModal from './CreateEntityModal';

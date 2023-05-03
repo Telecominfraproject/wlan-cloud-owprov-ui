@@ -14,7 +14,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { WifiHigh } from 'phosphor-react';
+import { WifiHigh } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import { Handle } from 'react-flow-renderer';

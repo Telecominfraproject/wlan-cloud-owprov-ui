@@ -16,7 +16,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import { MagnifyingGlass, Trash } from 'phosphor-react';
+import { MagnifyingGlass, Trash } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import DeviceActionDropdown from 'components/TableCells/DeviceActionDropdown';
 import { useDeleteSubscriberDevice } from 'hooks/Network/SubscriberDevices';
