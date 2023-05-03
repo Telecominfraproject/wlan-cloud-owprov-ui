@@ -1,9 +1,9 @@
 import React from 'react';
 import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip, useToast } from '@chakra-ui/react';
-import { Wrench } from 'phosphor-react';
+import { Wrench } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import { useSendUserEmailValidation, useSuspendUser, useResetMfa, useResetPassword } from 'hooks/Network/Users';
+import { useResetMfa, useResetPassword, useSendUserEmailValidation, useSuspendUser } from 'hooks/Network/Users';
 import useMutationResult from 'hooks/useMutationResult';
 import { AxiosError } from 'models/Axios';
 

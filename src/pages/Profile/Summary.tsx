@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Avatar, AvatarBadge, Box, Center, Heading, Text, useDisclosure } from '@chakra-ui/react';
-import { Pen } from 'phosphor-react';
+import { Pen } from '@phosphor-icons/react';
 import AvatarModal from './AvatarModal';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
@@ -12,7 +12,7 @@ const SummaryInformationProfile = () => {
   const { user, avatar } = useAuth();
 
   return (
-    <Card p={4}>
+    <Card>
       <CardBody display="block">
         <Box
           h="120px"

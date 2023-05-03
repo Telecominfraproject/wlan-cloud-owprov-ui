@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { Preference } from 'models/Preference';
 import { User } from 'models/User';
 import { axiosProv } from 'utils/axiosInstances';
 
@@ -26,7 +27,8 @@ export interface AuthProviderReturn {
   logout: () => void;
   getPref: (preference: string) => string | null;
   setPref: ({ preference, value }: { preference: string; value: string }) => void;
-  deletePref: (preference: string) => void;
+  setPrefs: (preferencesToUpdate: Preference[]) => void;
+  deletePref: (preference: string | string[]) => void;
   ref: React.MutableRefObject<undefined>;
   endpoints: { [key: string]: string } | null;
   configurationDescriptions: Record<string, unknown>;

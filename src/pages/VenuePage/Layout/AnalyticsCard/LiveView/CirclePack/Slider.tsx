@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Box, Center, Heading, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Tooltip } from '@chakra-ui/react';
-import { Clock } from 'phosphor-react';
+import { Clock } from '@phosphor-icons/react';
 import { AnalyticsTimePointApiResponse } from 'models/Analytics';
 import { compactDate } from 'utils/dateFormatting';
 

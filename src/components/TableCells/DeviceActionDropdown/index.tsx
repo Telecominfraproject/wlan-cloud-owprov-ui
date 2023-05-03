@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Menu, MenuButton, MenuItem, MenuList, Spinner, Tooltip } from '@chakra-ui/react';
-import { Wrench } from 'phosphor-react';
+import { Wrench } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { useBlinkDevice, useGetDeviceRtty, useRebootDevice } from 'hooks/Network/GatewayDevices';
 import useMutationResult from 'hooks/useMutationResult';

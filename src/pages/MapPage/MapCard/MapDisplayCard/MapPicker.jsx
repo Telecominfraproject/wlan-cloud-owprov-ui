@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, useToast } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
-import { FloppyDisk, X } from 'phosphor-react';
+import { FloppyDisk, X } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'contexts/AuthProvider';

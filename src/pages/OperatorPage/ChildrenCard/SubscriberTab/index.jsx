@@ -18,7 +18,7 @@ const SubscriberTab = ({ operatorId }) => {
 
   return (
     <>
-      <Flex mb={2}>
+      <Flex>
         <Spacer />
         <SubscriberSearchModal operatorId={operatorId} />
         <CreateSubscriberModal refresh={refresh} operatorId={operatorId} />

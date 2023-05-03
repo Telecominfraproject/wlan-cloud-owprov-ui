@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Plus } from 'phosphor-react';
+import { Plus } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import CreateConfigurationOverrideForm from './CreateForm';
 import { useAuth } from 'contexts/AuthProvider';

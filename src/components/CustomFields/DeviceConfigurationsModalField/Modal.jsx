@@ -14,7 +14,7 @@ import {
   IconButton,
   Box,
 } from '@chakra-ui/react';
-import { ArrowDown, ArrowUp, Plus, Trash } from 'phosphor-react';
+import { ArrowDown, ArrowUp, Plus, Trash } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CloseButton from 'components/Buttons/CloseButton';

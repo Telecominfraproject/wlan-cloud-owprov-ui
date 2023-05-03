@@ -3,6 +3,8 @@ import { Flex, Heading, Spacer, useDisclosure } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import Actions from './Actions';
+import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
 import CreateSubscriberDeviceModal from 'components/Modals/SubscriberDevice/CreateModal';
 import EditSubscriberDeviceModal from 'components/Modals/SubscriberDevice/EditModal';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
@@ -56,7 +58,7 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
 
   return (
     <>
-      <Flex mb={2}>
+      <CardHeader>
         <Heading size="md">{t('devices.title')}</Heading>
         <Spacer />
         <CreateSubscriberDeviceModal
@@ -65,16 +67,18 @@ const OperatorDevicesTab: React.FC<Props> = ({ operatorId, subscriberId }) => {
           subscriberId={subscriberId}
           devices={devices}
         />
-      </Flex>
-      <SubscriberDeviceTable
-        operatorId={operatorId}
-        subscriberId={subscriberId}
-        actions={actions}
-        onOpenDetails={openModal}
-        refreshId={refreshId}
-        minHeight="380px"
-        setDevices={setDevices}
-      />
+      </CardHeader>
+      <CardBody display="block">
+        <SubscriberDeviceTable
+          operatorId={operatorId}
+          subscriberId={subscriberId}
+          actions={actions}
+          onOpenDetails={openModal}
+          refreshId={refreshId}
+          minHeight="380px"
+          setDevices={setDevices}
+        />
+      </CardBody>
       <EditSubscriberDeviceModal
         isOpen={isOpen}
         onClose={onClose}

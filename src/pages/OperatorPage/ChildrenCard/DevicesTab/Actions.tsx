@@ -16,7 +16,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import { MagnifyingGlass, Trash } from 'phosphor-react';
+import { MagnifyingGlass, Trash } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import DeviceActionDropdown from 'components/TableCells/DeviceActionDropdown';
 import { useDeleteSubscriberDevice } from 'hooks/Network/SubscriberDevices';
@@ -32,20 +32,18 @@ interface Props {
   onOpenUpgradeModal: (serialNumber: string) => void;
 }
 
-const Actions = (
-  {
-    cell: {
-      original: { id, name },
-    },
+const Actions = ({
+  cell: {
+    original: { id, name },
+  },
 
-    cell: { original: subscriberDevice },
-    refreshTable,
-    openEdit,
-    onOpenScan,
-    onOpenFactoryReset,
-    onOpenUpgradeModal
-  }: Props
-) => {
+  cell: { original: subscriberDevice },
+  refreshTable,
+  openEdit,
+  onOpenScan,
+  onOpenFactoryReset,
+  onOpenUpgradeModal,
+}: Props) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSuccess, onError } = useMutationResult({

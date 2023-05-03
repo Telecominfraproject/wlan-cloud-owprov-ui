@@ -4,6 +4,7 @@ import ReactCountryFlag from 'react-country-flag';
 import { useTranslation } from 'react-i18next';
 
 const iconStyle = { width: '24px', height: '24px', borderRadius: '20px' };
+
 const LanguageSwitcher = () => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
@@ -32,7 +33,14 @@ const LanguageSwitcher = () => {
   return (
     <Menu>
       <Tooltip label={t('common.language')}>
-        <MenuButton background="transparent" as={IconButton} aria-label="Commands" icon={languageIcon} size="sm" />
+        <MenuButton
+          background="transparent"
+          variant="ghost"
+          as={IconButton}
+          aria-label="Commands"
+          icon={languageIcon}
+          size="sm"
+        />
       </Tooltip>
       <MenuList>
         <MenuItem onClick={changeLanguage('de')}>Deutsche</MenuItem>

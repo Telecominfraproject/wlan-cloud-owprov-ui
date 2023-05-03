@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
   Tooltip,
 } from '@chakra-ui/react';
-import { Question } from 'phosphor-react';
+import { Question } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 const CirclePackInfoButton = () => {

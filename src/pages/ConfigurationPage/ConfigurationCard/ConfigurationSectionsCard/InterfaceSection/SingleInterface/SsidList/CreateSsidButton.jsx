@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { Center } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { INTERFACE_SSID_SCHEMA } from '../../interfacesConstants';
@@ -22,9 +21,14 @@ const CreateSsidButton = ({ editing, pushSsid, setTabIndex, arrLength }) => {
   if (!editing) return null;
 
   return (
-    <Center>
-      <CreateButton label={t('configurations.add_ssid')} onClick={createSsid} borderRadius={0} />
-    </Center>
+    <CreateButton
+      label={t('configurations.add_ssid')}
+      onClick={createSsid}
+      borderRadius={0}
+      mt="auto"
+      isCompact={arrLength !== 0}
+      size="lg"
+    />
   );
 };
 

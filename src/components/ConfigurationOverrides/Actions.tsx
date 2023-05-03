@@ -17,7 +17,7 @@ import {
   HStack,
   Text,
 } from '@chakra-ui/react';
-import { Trash } from 'phosphor-react';
+import { Trash } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import EditOverrideForm from './EditForm';
 import { ConfigurationOverride } from 'hooks/Network/ConfigurationOverride';

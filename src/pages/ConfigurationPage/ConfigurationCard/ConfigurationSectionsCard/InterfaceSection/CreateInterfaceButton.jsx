@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Box } from '@chakra-ui/react';
+import { useDisclosure, Modal, ModalBody, ModalContent, ModalOverlay, Box } from '@chakra-ui/react';
 import { Formik } from 'formik';
-import { Plus } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import { CREATE_INTERFACE_SCHEMA, SINGLE_INTERFACE_SCHEMA } from './interfacesConstants';
 import CloseButton from 'components/Buttons/CloseButton';
+import CreateButton from 'components/Buttons/CreateButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
@@ -35,17 +35,14 @@ const CreateInterfaceButton = ({ editing, arrayHelpers: { push: pushInterface },
 
   return (
     <>
-      <Button
-        colorScheme="blue"
-        type="button"
+      <CreateButton
+        label={t('configurations.add_interface')}
         onClick={onOpen}
-        rightIcon={<Plus size={20} />}
+        isCompact={arrLength !== 0}
         hidden={!editing}
+        size="lg"
         borderRadius={0}
-        minWidth={24}
-      >
-        {t('configurations.add_interface')}
-      </Button>
+      />
       <Modal onClose={onClose} isOpen={isOpen} size="sm" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>

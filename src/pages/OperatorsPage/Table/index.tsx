@@ -83,7 +83,7 @@ const OperatorsTable = () => {
 
   return (
     <Card>
-      <CardHeader mb="10px" display="flex">
+      <CardHeader>
         <Heading size="md" mt={1}>{`${count ?? 0} ${t('operator.operator', { count: count ?? 0 })}`}</Heading>
         <Spacer />
         <Flex flexDirection="row" alignItems="center">

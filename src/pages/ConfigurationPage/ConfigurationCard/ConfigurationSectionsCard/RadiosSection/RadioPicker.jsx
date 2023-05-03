@@ -10,13 +10,14 @@ import {
   Alert,
   AlertIcon,
 } from '@chakra-ui/react';
+import { Plus } from '@phosphor-icons/react';
 import { useFormikContext } from 'formik';
-import { Plus } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import { SINGLE_RADIO_SCHEMA } from './radiosConstants';
 import CloseButton from 'components/Buttons/CloseButton';
+import CreateButton from 'components/Buttons/CreateButton';
 import ModalHeader from 'components/Modals/ModalHeader';
 import { useGetAllResources } from 'hooks/Network/Resources';
 
@@ -72,16 +73,14 @@ const RadioPicker = ({ editing, radios, arrayHelpers: { push: pushRadio }, setTa
 
   return (
     <>
-      <Button
-        colorScheme="blue"
-        type="button"
+      <CreateButton
+        label={t('configurations.add_radio')}
+        size="lg"
         onClick={onOpen}
-        rightIcon={<Plus size={20} />}
+        isCompact={radios.length > 0}
         hidden={!editing}
         borderRadius={0}
-      >
-        {t('configurations.add_radio')}
-      </Button>
+      />
       <Modal onClose={onClose} isOpen={isOpen} size="sm" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>

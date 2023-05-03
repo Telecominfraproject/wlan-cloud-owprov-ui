@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Center, Heading, Spacer, Spinner, useDisclosure } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spacer, Spinner, useDisclosure } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import VenueAnalyticsHeader from './Header';
 import VenueDashboardTableModal from './TableModal';
 import RefreshButton from 'components/Buttons/RefreshButton';
 import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
 import LoadingOverlay from 'components/LoadingOverlay';
 import { useGetAnalyticsBoardDevices } from 'hooks/Network/Analytics';
 
@@ -120,7 +119,7 @@ const VenueDashboard = ({ boardId }) => {
     </Center>
   ) : (
     <>
-      <CardHeader px={2} pt={2}>
+      <Flex px={2} pt={2}>
         <Heading size="md" my="auto">
           {parsedData?.totalDevices} {t('devices.title')}
         </Heading>
@@ -133,7 +132,7 @@ const VenueDashboard = ({ boardId }) => {
           onClose={onClose}
         />
         <RefreshButton onClick={handleRefreshClick} isLoading={isFetching} ml={2} isCompact />
-      </CardHeader>
+      </Flex>
       <CardBody p={4}>
         <LoadingOverlay isLoading={isFetching}>
           <Box w="100%">

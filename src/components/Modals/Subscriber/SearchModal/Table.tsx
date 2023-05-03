@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
-import { MagnifyingGlass } from 'phosphor-react';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import DataTable from 'components/DataTable';
@@ -10,11 +10,7 @@ interface Props {
   subscribers: Subscriber[];
 }
 
-const SubscriberSearchDisplayTable = (
-  {
-    subscribers
-  }: Props
-) => {
+const SubscriberSearchDisplayTable = ({ subscribers }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 

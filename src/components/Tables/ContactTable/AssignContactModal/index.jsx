@@ -14,7 +14,7 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { Lock, Plus, Trash } from 'phosphor-react';
+import { Lock, Plus, Trash } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';

@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { ComputedDatum } from '@nivo/circle-packing';
 import { Interpolation, SpringValue, animated } from '@react-spring/web';
-import { ArrowSquareOut, Tag } from 'phosphor-react';
+import { ArrowSquareOut, Tag } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { DeviceCircleInfo } from '../utils';
 import FormattedDate from 'components/FormattedDate';

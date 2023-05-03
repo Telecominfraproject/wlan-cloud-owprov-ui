@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure, Tooltip, IconButton } from '@chakra-ui/react';
-import { Copy } from 'phosphor-react';
+import { Copy } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import Actions from './Actions';

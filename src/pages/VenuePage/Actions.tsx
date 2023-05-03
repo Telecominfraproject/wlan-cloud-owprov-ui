@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip, useDisclosure } from '@chakra-ui/react';
-import { Wrench } from 'phosphor-react';
+import { Wrench } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import VenueFirmwareUpgradeModal from './VenueFirmwareUpgradeModal';
 import { useRebootVenueDevices, useUpdateVenueDevices } from 'hooks/Network/Venues';

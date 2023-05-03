@@ -15,7 +15,7 @@ import {
   Textarea,
   useBoolean,
 } from '@chakra-ui/react';
-import { WarningCircle } from 'phosphor-react';
+import { WarningCircle } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';

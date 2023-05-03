@@ -353,10 +353,8 @@ const ConfigurationSectionsCard = ({ configId, editing, setSections, label, onDe
 
   return (
     <Card px={label ? 0 : undefined}>
-      <CardHeader mb="10px" display="flex">
-        <Box pt={1}>
-          <Heading size="md">{label ?? configuration?.name}</Heading>
-        </Box>
+      <CardHeader>
+        <Heading size="md">{label ?? configuration?.name}</Heading>
         <Spacer />
         <Box>
           <ViewConfigWarningsModal

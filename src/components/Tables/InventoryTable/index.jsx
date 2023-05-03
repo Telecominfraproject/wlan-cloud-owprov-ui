@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Flex, IconButton, Tooltip, useToast } from '@chakra-ui/react';
-import { Plus, Trash } from 'phosphor-react';
+import { Plus, Trash } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import DataTable from 'components/DataTable';

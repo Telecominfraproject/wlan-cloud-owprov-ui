@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import CreateApiKeyButton from './AddButton';
 import useApiKeyTable from './useApiKeyTable';
 import RefreshButton from 'components/Buttons/RefreshButton';
+import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
 import ColumnPicker from 'components/ColumnPicker';
 import DataTable from 'components/DataTable';
 import { Column } from 'models/Table';
@@ -17,8 +19,8 @@ const ApiKeyTable = ({ userId }: Props) => {
   const { query, columns, hiddenColumns } = useApiKeyTable({ userId });
 
   return (
-    <Box>
-      <Flex mb={2}>
+    <>
+      <CardHeader>
         <Heading size="md" my="auto">
           {t('keys.other')} ({query.data?.apiKeys.length})
         </Heading>
@@ -33,8 +35,8 @@ const ApiKeyTable = ({ userId }: Props) => {
           />
           <RefreshButton onClick={query.refetch} isFetching={query.isFetching} isCompact />
         </HStack>
-      </Flex>
-      <Box>
+      </CardHeader>
+      <CardBody>
         <DataTable
           columns={columns as Column<object>[]}
           saveSettingsId="apiKeys.profile.table"
@@ -46,8 +48,8 @@ const ApiKeyTable = ({ userId }: Props) => {
           showAllRows
           hideControls
         />
-      </Box>
-    </Box>
+      </CardBody>
+    </>
   );
 };
 

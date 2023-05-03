@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import EntityConfigurations from './EntityConfigurations';
 import EntityResources from './EntityResources';
 import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
 
 type Props = {
   id: string;
@@ -17,10 +16,8 @@ const ConfigurationCard = ({ id }: Props) => {
     <Card p={0}>
       <Tabs variant="enclosed" isLazy>
         <TabList>
-          <CardHeader>
-            <Tab>{t('configurations.title')}</Tab>
-            <Tab>{t('resources.title')}</Tab>
-          </CardHeader>
+          <Tab>{t('configurations.title')}</Tab>
+          <Tab>{t('resources.title')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel p={0}>

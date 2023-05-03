@@ -14,7 +14,7 @@ import {
   Textarea,
   Tooltip,
 } from '@chakra-ui/react';
-import { Trash } from 'phosphor-react';
+import { Trash } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { areRrmParamsValid } from './helper';

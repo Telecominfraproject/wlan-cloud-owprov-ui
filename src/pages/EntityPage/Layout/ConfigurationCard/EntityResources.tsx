@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Box, Spacer, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Spacer, useDisclosure } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import EntityResourceActions from './ResourceActions';
 import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
 import CreateResourceModal from 'components/Modals/Resources/CreateModal';
 import EditResourceModal from 'components/Modals/Resources/EditModal';
 import ResourcesTable from 'components/Tables/ResourceTable';
@@ -46,10 +45,10 @@ const EntityResources = ({ id }: Props) => {
 
   return (
     <>
-      <CardHeader px={2} pt={2}>
+      <Flex px={2} pt={2}>
         <Spacer />
         <CreateResourceModal refresh={getEntity.refetch} entityId={getEntity.data?.id ?? ''} />
-      </CardHeader>
+      </Flex>
       <CardBody p={4}>
         <Box w="100%" overflowX="auto">
           <ResourcesTable

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import EntityContacts from './EntityContacts';
 import EntityLocations from './EntityLocations';
 import Card from 'components/Card';
-import CardHeader from 'components/Card/CardHeader';
 
 type Props = {
   id: string;
@@ -17,10 +16,8 @@ const EntityLocationContactsCard = ({ id }: Props) => {
     <Card p={0}>
       <Tabs variant="enclosed" isLazy>
         <TabList>
-          <CardHeader>
-            <Tab>{t('locations.title')}</Tab>
-            <Tab>{t('contacts.other')}</Tab>
-          </CardHeader>
+          <Tab>{t('locations.title')}</Tab>
+          <Tab>{t('contacts.other')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel p={0}>

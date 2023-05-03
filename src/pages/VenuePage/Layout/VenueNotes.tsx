@@ -18,7 +18,7 @@ import {
   useBreakpoint,
   useToast,
 } from '@chakra-ui/react';
-import { Plus } from 'phosphor-react';
+import { Plus } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
@@ -110,8 +110,8 @@ const VenueNotes = ({ id }: { id: string }) => {
     [dateCell],
   );
   return (
-    <Card p={4}>
-      <CardHeader mb={2}>
+    <Card>
+      <CardHeader>
         <Heading size="md" my="auto">
           {t('common.notes')}
         </Heading>

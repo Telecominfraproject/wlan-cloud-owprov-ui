@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { HStack, Heading, Icon, Spacer } from '@chakra-ui/react';
-import { TreeStructure } from 'phosphor-react';
+import { TreeStructure } from '@phosphor-icons/react';
 import DeleteEntityPopover from './DeleteEntityPopover';
 import EntityDropdown from './EntityDropdown';
 import VenueDropdown from './VenueDropdown';
@@ -17,8 +17,8 @@ const EntityPageHeader = ({ id }: Props) => {
   const getEntity = useGetEntity({ id });
 
   return (
-    <Card mb={4} p={2}>
-      <CardHeader display="flex">
+    <Card mb={4}>
+      <CardHeader py={2} px={4} variant="unstyled" display="flex">
         <HStack spacing={2}>
           <Icon my="auto" as={TreeStructure} color="inherit" boxSize="24px" mr={2} />
           <Heading my="auto" size="md">

@@ -18,7 +18,7 @@ import {
   useBreakpoint,
   Portal,
 } from '@chakra-ui/react';
-import { ArrowCircleLeft, MapTrifold } from 'phosphor-react';
+import { ArrowCircleLeft } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from 'contexts/AuthProvider';
@@ -73,7 +73,6 @@ export const Navbar = ({ toggleSidebar, activeRoute, languageSwitcher }: NavbarP
   };
 
   const goToProfile = () => navigate('/account');
-  const goToMap = () => navigate('/map');
 
   window.addEventListener('scroll', changeNavbar);
 
@@ -98,14 +97,22 @@ export const Navbar = ({ toggleSidebar, activeRoute, languageSwitcher }: NavbarP
         ps="12px"
         pt="8px"
         top="15px"
-        w={isCompact ? '100%' : 'calc(100vw - 256px)'}
+        border={scrolled ? '0.5px solid' : undefined}
+        w={isCompact ? '100%' : 'calc(100% - 254px)'}
       >
-        <Flex w="100%" flexDirection="row" alignItems="center">
+        <Flex
+          w="100%"
+          flexDirection="row"
+          alignItems="center"
+          justifyItems="center"
+          alignContent="center"
+          justifyContent="center"
+        >
           {isCompact && <HamburgerIcon w="24px" h="24px" onClick={toggleSidebar} mr={10} mt={1} />}
-          <Heading>{activeRoute}</Heading>
+          <Heading size="lg">{activeRoute}</Heading>
           <Tooltip label={t('common.go_back')}>
             <IconButton
-              mt={2}
+              mt={1}
               ml={4}
               colorScheme="blue"
               aria-label={t('common.go_back')}
@@ -116,14 +123,6 @@ export const Navbar = ({ toggleSidebar, activeRoute, languageSwitcher }: NavbarP
           </Tooltip>
           <Box ms="auto" w={{ base: 'unset' }}>
             <Flex alignItems="center" flexDirection="row">
-              <Tooltip hasArrow label={t('common.go_to_map')}>
-                <IconButton
-                  aria-label={t('common.go_to_map')}
-                  variant="ghost"
-                  icon={<MapTrifold size={24} />}
-                  onClick={goToMap}
-                />
-              </Tooltip>
               <Tooltip hasArrow label={t('common.theme')}>
                 <IconButton
                   aria-label={t('common.theme')}
