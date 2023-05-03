@@ -1,6 +1,6 @@
 {
   "name": "wlan-cloud-owprov-ui",
-  "version": "2.10.0(7)",
+  "version": "2.10.0(8)",
   "description": "",
   "main": "index.tsx",
   "scripts": {
@@ -95,6 +95,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "lint-staged": "^13.2.1",
     "prettier": "^2.8.7",
+    "vite-plugin-pwa": "^0.14.7",
     "vite-tsconfig-paths": "^4.2.0"
   },
   "browserslist": {
