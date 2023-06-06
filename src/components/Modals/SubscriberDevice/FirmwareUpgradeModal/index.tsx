@@ -11,6 +11,7 @@ import {
   FormLabel,
   Switch,
   Heading,
+  Text,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import FirmwareList from './FirmwareList';
@@ -29,6 +30,7 @@ interface Props {
 
 const FirmwareUpgradeModal = ({ modalProps: { isOpen, onClose }, serialNumber }: Props) => {
   const { t } = useTranslation();
+  const [showDevFirmware, { toggle: toggleDev }] = useBoolean();
   const [isRedirector, { toggle }] = useBoolean(false);
   const { data: device, isFetching: isFetchingDevice } = useGetDevice({ serialNumber, onClose });
   const { data: firmware, isFetching: isFetchingFirmware } = useGetAvailableFirmware({
@@ -53,7 +55,13 @@ const FirmwareUpgradeModal = ({ modalProps: { isOpen, onClose }, serialNumber }:
       <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
         <ModalHeader
           title={`${t('commands.firmware_upgrade')} #${serialNumber}`}
-          right={<CloseButton ml={2} onClick={closeModal} />}
+          right={
+            <>
+              <Text>{t('controller.firmware.show_dev_releases')}</Text>
+              <Switch mx={2} isChecked={showDevFirmware} onChange={toggleDev} size="lg" />
+              <CloseButton onClick={closeModal} />
+            </>
+          }
         />
         <ModalBody>
           {isUpgrading || isFetchingDevice || isFetchingFirmware ? (
@@ -72,7 +80,11 @@ const FirmwareUpgradeModal = ({ modalProps: { isOpen, onClose }, serialNumber }:
                 <Switch isChecked={isRedirector} onChange={toggle} borderRadius="15px" size="lg" />
               </FormControl>
               {firmware?.firmwares && (
-                <FirmwareList firmware={firmware.firmwares} upgrade={submit} isLoading={isUpgrading} />
+                <FirmwareList
+                  firmware={firmware.firmwares.filter((firmw) => showDevFirmware || !firmw.revision.includes('devel'))}
+                  upgrade={submit}
+                  isLoading={isUpgrading}
+                />
               )}
             </>
           )}
