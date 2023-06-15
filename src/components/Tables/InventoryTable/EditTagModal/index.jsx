@@ -22,8 +22,8 @@ import {
   PopoverFooter,
   Button,
 } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
 import { ArrowSquareOut, PaperPlaneTilt, Trash } from '@phosphor-icons/react';
+import { useMutation } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import DeviceActionDropdown from './ActionDropdown';
@@ -195,7 +195,7 @@ const EditTagModal = ({
               <Tooltip hasArrow label={t('configurations.push_configuration')} placement="top">
                 <IconButton
                   ml={2}
-                  colorScheme="blue"
+                  colorScheme="teal"
                   icon={<PaperPlaneTilt size={20} />}
                   isDisabled={editing}
                   isLoading={pushConfig.isLoading}
@@ -209,7 +209,7 @@ const EditTagModal = ({
                 hidden={!editing}
                 ml={2}
               />
-              <EditButton ml={2} isDisabled={editing} onClick={setEditing.toggle} isCompact />
+              <EditButton ml={2} label={t('common.edit')} isDisabled={editing} onClick={setEditing.toggle} isCompact />
               <CloseButton ml={2} onClick={closeModal} />
             </>
           }
