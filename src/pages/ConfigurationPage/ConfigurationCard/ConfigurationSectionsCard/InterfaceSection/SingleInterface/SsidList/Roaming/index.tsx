@@ -1,32 +1,36 @@
-import React, { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { INTERFACE_SSID_ROAMING_SCHEMA } from '../../../interfacesConstants';
+import React, { useCallback } from 'react';
 import RoamingForm from './Roaming';
 import useFastField from 'hooks/useFastField';
 
 const Roaming = ({ editing, namePrefix }: { editing: boolean; namePrefix: string }) => {
-  const { t } = useTranslation();
   const { value, onChange } = useFastField({ name: namePrefix });
 
-  const { isEnabled } = useMemo(
-    () => ({
-      isEnabled: value !== undefined,
-    }),
-    [value],
-  );
-
-  const onToggle = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!e.target.checked) {
+  const state: 'on' | 'off' | 'custom' = React.useMemo(() => {
+    if (typeof value === 'object') {
+      return 'custom';
+    }
+    if (value === true) {
+      return 'on';
+    }
+    return 'off';
+  }, [value]);
+  const onSelect = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      if (e.target.value === 'off') {
         onChange(undefined);
+      } else if (e.target.value === 'on') {
+        onChange(true);
       } else {
-        onChange(INTERFACE_SSID_ROAMING_SCHEMA(t, true).cast());
+        onChange({
+          'message-exchange': 'ds',
+          'generate-psk': false,
+        });
       }
     },
     [onChange],
   );
 
-  return <RoamingForm editing={editing} namePrefix={namePrefix} isEnabled={isEnabled} onToggle={onToggle} />;
+  return <RoamingForm editing={editing} namePrefix={namePrefix} state={state} onSelect={onSelect} />;
 };
 
 export default React.memo(Roaming);
