@@ -1,4 +1,4 @@
-import { object, number, string, array, bool } from 'yup';
+import { object, number, string, array, bool, lazy } from 'yup';
 import {
   isValidPortRange,
   isValidPortRanges,
@@ -338,21 +338,23 @@ export const INTERFACE_SSID_ENCRYPTION_SCHEMA = (t, useDefault = false) => {
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
-export const INTERFACE_SSID_ROAMING_SCHEMA = (t, useDefault = false) => {
-  const shape = object()
-    .shape({
-      'message-exchange': string().required(t('form.required')).default('ds'),
-      'generate-psk': bool().required(t('form.required')).default(false),
-      'domain-identifier': string().default(undefined),
-      'pmk-r0-key-holder': string().default(undefined),
-      'pmk-r1-key-holder': string().default(undefined),
-    })
-    .default({
-      'message-exchange': 'ds',
-      'generate-psk': false,
-    });
+export const INTERFACE_SSID_ROAMING_SCHEMA = (t) => {
+  const shape = lazy((value) =>
+    typeof value === 'object'
+      ? object()
+          .shape({
+            'message-exchange': string().required(t('form.required')).default('ds'),
+            'generate-psk': bool().required(t('form.required')).default(false),
+            'domain-identifier': string().length(4).default(undefined),
+            'pmk-r0-key-holder': string().default(undefined),
+            'pmk-r1-key-holder': string().default(undefined),
+          })
+          .nullable()
+          .default(undefined)
+      : bool().default(undefined),
+  );
 
-  return useDefault ? shape : shape.nullable().default(undefined);
+  return shape;
 };
 
 export const INTERFACE_SSID_ACCESS_CONTROL_LIST_SCHEMA = (t, useDefault = false) => {
