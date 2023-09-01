@@ -42,7 +42,7 @@ const EntityLocations = ({ id }: Props) => {
         <CreateLocationModal refresh={getEntity.refetch} entityId={getEntity.data?.id ?? ''} />
       </Flex>
       <CardBody p={4}>
-        <Box w="100%" overflowX="auto">
+        <Box w="100%">
           <LocationTable
             select={getEntity.data?.locations ?? []}
             actions={actions}

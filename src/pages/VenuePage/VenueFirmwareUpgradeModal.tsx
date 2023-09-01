@@ -30,7 +30,7 @@ type Props = {
 
 const VenueFirmwareUpgradeModal = ({ isOpen, onClose, venueId }: Props) => {
   const { t } = useTranslation();
-  const getAvailableFirmware = useGetVenueUpgradeAvailableFirmware({ id: venueId });
+  const getAvailableFirmware = useGetVenueUpgradeAvailableFirmware({ id: venueId, enabled: isOpen });
   const upgrade = useUpgradeVenueDevices();
   const [selectedRevision, setSelectedRevision] = React.useState<string>();
 

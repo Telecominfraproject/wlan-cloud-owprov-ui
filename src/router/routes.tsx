@@ -1,6 +1,6 @@
 import React from 'react';
 import { Info, ListBullets, Storefront, Tag, TreeStructure, UsersThree } from '@phosphor-icons/react';
-import EntityNavButton from 'layout/Sidebar/EntityNavButton';
+import EntityNavigationButton from 'layout/Sidebar/EntityNavigationButton';
 import { Route } from 'models/Routes';
 
 const ConfigurationPage = React.lazy(() => import('pages/ConfigurationPage'));
@@ -16,6 +16,7 @@ const OperatorPage = React.lazy(() => import('pages/OperatorPage'));
 const OperatorsPage = React.lazy(() => import('pages/OperatorsPage'));
 const SubscriberPage = React.lazy(() => import('pages/SubscriberPage'));
 const EndpointsPage = React.lazy(() => import('pages/EndpointsPage'));
+const MonitoringPage = React.lazy(() => import('pages/MonitoringPage'));
 const SystemConfigurationPage = React.lazy(() => import('pages/SystemConfigurationPage'));
 const UsersPage = React.lazy(() => import('pages/UsersPage'));
 const VenuePage = React.lazy(() => import('pages/VenuePage'));
@@ -26,13 +27,24 @@ const routes: Route[] = [
     authorized: ['root', 'partner', 'admin', 'csr', 'system'],
     path: '/entity/:id',
     name: 'entities.title',
-    navName: 'entities.one',
+    navName: '',
     icon: () => <TreeStructure size={28} weight="bold" />,
-    navButton: (isActive: boolean, toggleSidebar: () => void, route: Route) => (
-      <EntityNavButton isActive={isActive} toggleSidebar={toggleSidebar} route={route} />
+    navButton: (_, toggleSidebar: () => void, route: Route) => (
+      <EntityNavigationButton toggleSidebar={toggleSidebar} route={route} />
     ),
     isEntity: true,
     component: EntityPage,
+  },
+  {
+    id: 'venue-page',
+    hidden: true,
+    authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+    path: '/venue/:id',
+    name: 'venues.title',
+    navName: '',
+    icon: () => <TreeStructure size={28} weight="bold" />,
+    isEntity: true,
+    component: VenuePage,
   },
   {
     id: 'inventory-page',
@@ -105,31 +117,27 @@ const routes: Route[] = [
     icon: () => <Info size={28} weight="bold" />,
     children: [
       {
-        id: 'system-services',
-        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
-        path: '/services',
-        name: 'system.services',
-        component: EndpointsPage,
-      },
-      {
         id: 'system-configuration',
         authorized: ['root', 'partner', 'admin', 'csr', 'system'],
         path: '/systemConfiguration',
         name: 'system.configuration',
         component: SystemConfigurationPage,
       },
+      {
+        id: 'system-monitoring',
+        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+        path: '/systemMonitoring',
+        name: 'analytics.monitoring',
+        component: MonitoringPage,
+      },
+      {
+        id: 'system-services',
+        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+        path: '/services',
+        name: 'system.services',
+        component: EndpointsPage,
+      },
     ],
-  },
-  {
-    id: 'venue-page',
-    hidden: true,
-    authorized: ['root', 'partner', 'admin', 'csr', 'system'],
-    path: '/venue/:id',
-    name: 'venues.title',
-    navName: 'venues.one',
-    icon: () => <TreeStructure size={28} weight="bold" />,
-    isEntity: true,
-    component: VenuePage,
   },
   {
     id: 'account-page',

@@ -1,4 +1,4 @@
-import { extendTheme, type ThemeConfig, Tooltip } from '@chakra-ui/react';
+import { extendTheme, type ThemeConfig, Tooltip, Modal } from '@chakra-ui/react';
 import CardComponent from './additions/card/Card';
 import CardBodyComponent from './additions/card/CardBody';
 import CardHeaderComponent from './additions/card/CardHeader';
@@ -36,5 +36,6 @@ const theme = extendTheme({
 });
 
 Tooltip.defaultProps = { ...Tooltip.defaultProps, hasArrow: true };
+Modal.defaultProps = { ...Modal.defaultProps, autoFocus: false, returnFocusOnClose: false, preserveScrollBarGap: true };
 
 export default theme;

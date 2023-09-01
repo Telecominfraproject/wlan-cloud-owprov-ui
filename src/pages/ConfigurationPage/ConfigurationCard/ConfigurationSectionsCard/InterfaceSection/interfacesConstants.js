@@ -7,7 +7,6 @@ import {
   testLeaseTime,
   testLength,
   testRegex,
-  testSelectPorts,
   testUcMac,
 } from 'constants/formTests';
 import { testStaticIpv4ClassD, testStaticIpv4ClassE } from 'utils/formatTests';
@@ -449,7 +448,7 @@ export const INTERFACE_IPV4_DHCP_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
       'lease-first': number().required(t('form.required')).positive().integer().default(1),
-      'lease-count': number().required(t('form.required')).positive().integer().default(1),
+      'lease-count': number().required(t('form.required')).positive().integer().default(128),
       'lease-time': string()
         .required(t('form.required'))
         .test('ipv4_dhcp.lease-time', t('form.invalid_lease_time'), testLeaseTime)
@@ -458,7 +457,7 @@ export const INTERFACE_IPV4_DHCP_SCHEMA = (t, useDefault = false) => {
     })
     .default({
       'lease-first': 1,
-      'lease-count': 1,
+      'lease-count': 128,
       'lease-time': '6h',
     });
 
@@ -701,6 +700,32 @@ export const INTERFACE_TUNNEL_SCHEMA = (t, useDefault = false) => {
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
+export const INTERFACE_ETHERNET_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    'select-ports': array().of(string()).min(1, t('form.required')).default([]),
+    multicast: bool().default(true),
+    learning: bool().default(true),
+    isolate: bool().default(false),
+    macaddr: string()
+      .test('interface.ethernet.mac.length', t('form.invalid_mac_uc'), (v) => (v === undefined ? true : testUcMac(v)))
+      .default(undefined),
+    'reverse-path': bool().default(false),
+    'vlan-tag': string().default('auto'),
+  });
+
+  return useDefault
+    ? shape
+    : shape.nullable().default({
+        'select-ports': [],
+        multicast: true,
+        learning: true,
+        isolate: false,
+        macaddr: undefined,
+        'reverse-path': false,
+        'vlan-tag': 'auto',
+      });
+};
+
 export const SINGLE_INTERFACE_SCHEMA = (
   t,
   useDefault = false,
@@ -721,28 +746,10 @@ export const SINGLE_INTERFACE_SCHEMA = (
     'isolate-hosts': bool().default(undefined),
     services: array().of(string()).default(undefined),
     ethernet: array()
-      .of(
-        object().shape({
-          'select-ports': array()
-            .of(string())
-            .test('select-ports-test', t('form.invalid_select_ports'), (v, { from }) => {
-              const rootConfig = from[from.length - 1];
-              const portStuff = [];
-
-              for (const conf of rootConfig.value.configuration) {
-                portStuff.push({
-                  ports: conf.ethernet && conf.ethernet && conf.ethernet[0] ? conf.ethernet[0]['select-ports'] : [],
-                  vlan: conf.vlan?.id ?? 'None',
-                });
-              }
-              return testSelectPorts(portStuff);
-            })
-            .default([]),
-        }),
-      )
+      .of(INTERFACE_ETHERNET_SCHEMA(t, useDefault))
       .required(t('form.required'))
       .min(1, t('form.required'))
-      .default([{ 'select-ports': [] }]),
+      .default([]),
     vlan: initialCreation
       ? object().shape().nullable().default(undefined)
       : object().shape({

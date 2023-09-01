@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
+import { Box, Button, Heading, ListItem, UnorderedList } from '@chakra-ui/react';
 import { useField } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -50,6 +50,14 @@ const IpDetectionModalField = ({ name, isDisabled, isRequired }) => {
   const { t } = useTranslation();
   const [{ value }, { error }, { setValue }] = useField(name);
 
+  const openButton = React.useCallback(
+    (onOpen) => (
+      <Button colorScheme="teal" onClick={onOpen}>
+        {isDisabled ? `View IPs (${value?.length ?? 0})` : `Edit IPs (${value?.length ?? 0})`}
+      </Button>
+    ),
+    [isDisabled, value?.length],
+  );
   return (
     <ListInputModalField
       initialValue={value}
@@ -59,16 +67,23 @@ const IpDetectionModalField = ({ name, isDisabled, isRequired }) => {
       buttonLabel={value.length === 0 ? t('entities.add_ips') : value.join(',')}
       title={t('entities.ip_detection')}
       explanation={
-        <Box>
-          <b>{t('entities.add_ips_explanation')}</b>
-          <UnorderedList>
-            <ListItem>{t('entities.ip_single_address')}</ListItem>
-            <ListItem>{t('entities.ip_list')}</ListItem>
-            <ListItem>{t('entities.ip_range')}</ListItem>
-            <ListItem>{t('entities.ip_cidr')}</ListItem>
-          </UnorderedList>
-        </Box>
+        isDisabled ? (
+          <Box>
+            <Heading size="sm">Current IPs ({value?.length ?? 0})</Heading>
+          </Box>
+        ) : (
+          <Box>
+            <b>{t('entities.add_ips_explanation')}</b>
+            <UnorderedList>
+              <ListItem>{t('entities.ip_single_address')}</ListItem>
+              <ListItem>{t('entities.ip_list')}</ListItem>
+              <ListItem>{t('entities.ip_range')}</ListItem>
+              <ListItem>{t('entities.ip_cidr')}</ListItem>
+            </UnorderedList>
+          </Box>
+        )
       }
+      button={openButton}
       error={error}
       placeholder={t('entities.enter_ips')}
       isDisabled={isDisabled}

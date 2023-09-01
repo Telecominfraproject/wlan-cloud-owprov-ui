@@ -1,23 +1,29 @@
 import React from 'react';
-import { useBoolean, useColorMode } from '@chakra-ui/react';
+import { IconButton, Tooltip, useBoolean, useBreakpoint, useColorMode } from '@chakra-ui/react';
+import { MapTrifold } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
+import FavoritesDropdown from './FavoritesDropdown';
 import { Navbar } from './Navbar';
 import { PageContainer } from './PageContainer';
 import { Sidebar } from './Sidebar';
 import darkLogo from 'assets/Logo_Dark_Mode.svg';
 import lightLogo from 'assets/Logo_Light_Mode.svg';
 import LanguageSwitcher from 'components/LanguageSwitcher';
+import { useAuth } from 'contexts/AuthProvider';
 import { RouteName } from 'models/Routes';
 import NotFoundPage from 'pages/NotFound';
 import routes from 'router/routes';
 
 const Layout = () => {
   const { t } = useTranslation();
+  const authContext = useAuth();
+  const navigate = useNavigate();
   const location = useLocation();
   const { colorMode } = useColorMode();
-  const [isSidebarOpen, { toggle: toggleSidebar }] = useBoolean(false);
+  const breakpoint = useBreakpoint('xl');
+  const [isSidebarOpen, { toggle: toggleSidebar }] = useBoolean(breakpoint !== 'base' && breakpoint !== 'sm');
   document.documentElement.dir = 'ltr';
 
   const activeRoute = React.useMemo(() => {
@@ -73,6 +79,8 @@ const Layout = () => {
     return instances;
   }, []);
 
+  const goToMap = () => navigate('/map');
+
   return (
     <>
       <Sidebar
@@ -93,7 +101,22 @@ const Layout = () => {
           />
         }
       />
-      <Navbar toggleSidebar={toggleSidebar} languageSwitcher={<LanguageSwitcher />} activeRoute={activeRoute} />
+      <Navbar
+        toggleSidebar={toggleSidebar}
+        languageSwitcher={<LanguageSwitcher />}
+        favoritesButton={authContext.isUserLoaded ? <FavoritesDropdown /> : null}
+        rightElements={
+          <Tooltip label="Map" aria-label={t('common.go_to_map')}>
+            <IconButton
+              aria-label={t('common.go_to_map')}
+              variant="ghost"
+              icon={<MapTrifold size={24} />}
+              onClick={goToMap}
+            />
+          </Tooltip>
+        }
+        activeRoute={activeRoute}
+      />
       <PageContainer waitForUser>
         <Routes>{[...routeInstances, <Route path="*" element={<NotFoundPage />} key={uuid()} />]}</Routes>
       </PageContainer>

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Masonry from 'react-masonry-css';
+import EntityBehaviorsCard from './BehaviorsCard';
 import ConfigurationCard from './ConfigurationCard';
 import EntityDetails from './EntityDetails';
 import EntityLocationContactsCard from './EntityLocationContactsCard';
@@ -21,6 +22,7 @@ const EntityPageLayout = ({ id }: Props) => (
     columnClassName="my-masonry-grid_column"
   >
     <EntityDetails id={id} />
+    <EntityBehaviorsCard id={id} />
     <EntityInventoryCard id={id} />
     <ConfigurationCard id={id} />
     <EntityLocationContactsCard id={id} />

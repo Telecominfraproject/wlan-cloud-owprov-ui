@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useToast, SimpleGrid } from '@chakra-ui/react';
+import { useToast, SimpleGrid, Heading, Box } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
+import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
+import RrmFormField from 'components/CustomFields/RrmFormField';
+import SelectField from 'components/FormFields/SelectField';
 import StringField from 'components/FormFields/StringField';
 import { EntitySchema } from 'constants/formSchemas';
 import { useCreateEntity } from 'hooks/Network/Entity';
@@ -26,12 +28,19 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
   const [formKey, setFormKey] = useState(uuid());
   const create = useCreateEntity();
 
-  const createParameters = ({ name, description, note, deviceRules }) => ({
+  const options = [
+    { value: 'yes', label: t('common.yes') },
+    { value: 'no', label: t('common.no') },
+    { value: 'inherit', label: t('common.inherit') },
+  ];
+
+  const createParameters = ({ name, description, note, deviceRules, sourceIP }) => ({
     name,
     deviceRules,
     description,
     notes: note.length > 0 ? [{ note }] : undefined,
     parent: parentId,
+    sourceIP,
   });
 
   useEffect(() => {
@@ -50,6 +59,7 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
           rcOnly: 'inherit',
           firmwareUpgrade: 'inherit',
         },
+        sourceIP: [],
         note: '',
       }}
       validationSchema={EntitySchema(t)}
@@ -57,7 +67,6 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
         create.mutateAsync(createParameters(formData), {
           onSuccess: (data) => {
             queryClient.invalidateQueries(['get-entity-tree']);
-            queryClient.invalidateQueries(['get-entity', parentId]);
             setSubmitting(false);
             resetForm();
             toast({
@@ -92,16 +101,33 @@ const CreateEntityForm = ({ isOpen, onClose, formRef, parentId }) => {
         })
       }
     >
-      {({ errors, touched }) => (
-        <Form>
-          <SimpleGrid minChildWidth="300px" spacing="20px" mb={6}>
-            <StringField name="name" label={t('common.name')} errors={errors} touched={touched} isRequired />
-            <DeviceRulesField />
-            <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
-            <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
-          </SimpleGrid>
-        </Form>
-      )}
+      <Form>
+        <Heading size="md">{t('common.details')}</Heading>
+        <StringField w="240px" name="name" label={t('common.name')} isRequired mr={4} />
+
+        <StringField name="description" isArea h="80px" label={t('common.description')} />
+        <StringField name="note" label={t('common.note')} />
+        <Heading size="md" mt={6} mb={4}>
+          Behaviors
+        </Heading>
+        <SimpleGrid minChildWidth="200px">
+          <IpDetectionModalField name="sourceIP" />
+          <Box>
+            <RrmFormField namePrefix="deviceRules" />
+          </Box>
+          <Box w="200px">
+            <SelectField name="deviceRules.rcOnly" label={t('configurations.rc_only')} options={options} w="100px" />
+          </Box>
+          <Box w="200px">
+            <SelectField
+              name="deviceRules.firmwareUpgrade"
+              label={t('configurations.firmware_upgrade')}
+              options={options}
+              w="100px"
+            />
+          </Box>
+        </SimpleGrid>
+      </Form>
     </Formik>
   );
 };

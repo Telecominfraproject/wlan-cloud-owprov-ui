@@ -50,7 +50,7 @@ const EntityResources = ({ id }: Props) => {
         <CreateResourceModal refresh={getEntity.refetch} entityId={getEntity.data?.id ?? ''} />
       </Flex>
       <CardBody p={4}>
-        <Box w="100%" overflowX="auto">
+        <Box w="100%">
           <ResourcesTable
             select={getEntity.data?.variables ?? []}
             actions={actions}

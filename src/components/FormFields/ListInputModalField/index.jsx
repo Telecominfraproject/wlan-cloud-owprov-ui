@@ -14,7 +14,6 @@ import {
   InputGroup,
   Input,
   InputRightElement,
-  Text,
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
@@ -38,6 +37,7 @@ const propTypes = {
   validation: PropTypes.func,
   isDisabled: PropTypes.bool,
   isRequired: PropTypes.bool,
+  button: PropTypes.func,
 };
 
 const defaultProps = {
@@ -60,6 +60,7 @@ const ListInputModalField = ({
   error,
   isDisabled,
   isRequired,
+  button,
 }) => {
   const { t } = useTranslation();
   const [entry, setEntry] = useState('');
@@ -85,20 +86,24 @@ const ListInputModalField = ({
   return (
     <>
       <FormControl isInvalid={error} isRequired={isRequired} isDisabled={isDisabled}>
-        <FormLabel ms="4px" fontSize="md" fontWeight="normal">
+        <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
           {label}
         </FormLabel>
-        <Button
-          mt={3}
-          alignItems="center"
-          colorScheme="blue"
-          onClick={onOpen}
-          ml={1}
-          isDisabled={isDisabled}
-          variant="link"
-        >
-          {buttonLabel}
-        </Button>
+        {button ? (
+          button(onOpen)
+        ) : (
+          <Button
+            mt={3}
+            alignItems="center"
+            colorScheme="blue"
+            onClick={onOpen}
+            ml={1}
+            isDisabled={isDisabled}
+            variant="link"
+          >
+            {buttonLabel}
+          </Button>
+        )}
         <FormErrorMessage>{error}</FormErrorMessage>
       </FormControl>
       <Modal onClose={onClose} isOpen={isOpen} size="md" initialFocusRef={initialRef}>
@@ -108,14 +113,14 @@ const ListInputModalField = ({
             title={title}
             right={
               <>
-                <SaveButton onClick={save} />
+                <SaveButton onClick={save} hidden={isDisabled} />
                 <CloseButton ml={2} onClick={onClose} ref={initialRef} />
               </>
             }
           />
           <ModalBody>
             {explanation}
-            <InputGroup size="md" my={6}>
+            <InputGroup size="md" mt={6} hidden={isDisabled}>
               <Input
                 borderRadius="15px"
                 fontSize="sm"
@@ -135,29 +140,24 @@ const ListInputModalField = ({
                 </Button>
               </InputRightElement>
             </InputGroup>
-            {localValue.length === 0 ? (
-              <Text mb={6}>
-                <b>{t('common.no_items_yet')}</b>
-              </Text>
-            ) : (
-              <UnorderedList>
-                {localValue.map((val) => (
-                  <ListItem key={uuid()}>
-                    {val}
-                    <Tooltip label={t('crud.delete')}>
-                      <IconButton
-                        ml={2}
-                        size="sm"
-                        colorScheme="red"
-                        type="button"
-                        onClick={() => deleteEntry(val)}
-                        icon={<Trash size={16} />}
-                      />
-                    </Tooltip>
-                  </ListItem>
-                ))}
-              </UnorderedList>
-            )}
+            <UnorderedList>
+              {localValue.map((val) => (
+                <ListItem key={uuid()}>
+                  {val}
+                  <Tooltip label={t('crud.delete')}>
+                    <IconButton
+                      ml={2}
+                      size="sm"
+                      colorScheme="red"
+                      type="button"
+                      onClick={() => deleteEntry(val)}
+                      icon={<Trash size={16} />}
+                      hidden={isDisabled}
+                    />
+                  </Tooltip>
+                </ListItem>
+              ))}
+            </UnorderedList>
           </ModalBody>
         </ModalContent>
       </Modal>

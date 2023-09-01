@@ -16,15 +16,25 @@ const propTypes = {
   isModal: PropTypes.bool,
   venueId: PropTypes.string,
   entityId: PropTypes.string,
+  hideLabel: PropTypes.bool,
 };
 
 const defaultProps = {
   isModal: false,
   entityId: null,
   venueId: null,
+  hideLabel: false,
 };
 
-const LocationPickerCreator = ({ locationName, createLocationName, editing, isModal, entityId, venueId }) => {
+const LocationPickerCreator = ({
+  locationName,
+  createLocationName,
+  editing,
+  isModal,
+  entityId,
+  venueId,
+  hideLabel,
+}) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [{ value: location }, , { setValue: setLocation }] = useField(locationName);
@@ -43,7 +53,7 @@ const LocationPickerCreator = ({ locationName, createLocationName, editing, isMo
   };
 
   const getCreateLabel = () => {
-    if (!newLocation) return t('common.create_new');
+    if (!newLocation) return 'New Location';
     return newLocation?.name;
   };
 
@@ -95,9 +105,11 @@ const LocationPickerCreator = ({ locationName, createLocationName, editing, isMo
         options={[
           { value: '', label: t('common.none') },
           { value: 'CREATE_NEW', label: getCreateLabel() },
+          { value: 'none', label: '──────────────────', isDisabled: true },
           ...getOptions(),
         ]}
         w="unset"
+        isLabelHidden={hideLabel}
       />
       {location === 'CREATE_NEW' && newLocation && !isModal && <Form name={createLocationName} />}
       {location === 'CREATE_NEW' && isModal && (

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { CloseButton, Modal, ModalBody, ModalContent, ModalOverlay, SimpleGrid, useDisclosure } from '@chakra-ui/react';
+import { Modal, ModalBody, ModalContent, ModalOverlay, SimpleGrid, useDisclosure } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import CloseButton from 'components/Buttons/CloseButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import AddressSearchField from 'components/CustomFields/AddressSearchField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
@@ -70,7 +71,7 @@ const LocationPickerCreatorModal = ({ setLocation, reset }) => {
               city: '',
               state: '',
               postal: '',
-              country: '',
+              country: 'US',
               buildingName: '',
               mobiles: [],
               phones: [],
@@ -136,7 +137,6 @@ const LocationPickerCreatorModal = ({ setLocation, reset }) => {
                 <CreatableSelectField name="phones" label={t('contacts.phones')} placeholder="+1(202)555-0103" />
                 <CreatableSelectField name="mobiles" label={t('contacts.mobiles')} placeholder="+1(202)555-0103" />
               </SimpleGrid>
-
               <AddressSearchField placeholder={t('common.address_search_autofill')} maxWidth="600px" mb={2} />
               <SimpleGrid minChildWidth="300px" spacing="20px" mb={8}>
                 <StringField name="addressLineOne" label={t('locations.address_line_one')} isRequired />

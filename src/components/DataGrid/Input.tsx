@@ -50,7 +50,18 @@ const DataGridControls = <T extends object>({ table, isDisabled }: Props<T>) => 
       </Flex>
 
       <Flex alignItems="center">
-        {isCompact ? null : (
+        {isCompact ? (
+          <Text flexShrink={0} mr={8}>
+            {t('table.page')}{' '}
+            <Text fontWeight="bold" as="span">
+              {table.getState().pagination.pageIndex + 1}
+            </Text>{' '}
+            {t('common.of')}{' '}
+            <Text fontWeight="bold" as="span">
+              {table.getPageCount()}
+            </Text>
+          </Text>
+        ) : (
           <>
             <Text flexShrink={0} mr={8}>
               {t('table.page')}{' '}

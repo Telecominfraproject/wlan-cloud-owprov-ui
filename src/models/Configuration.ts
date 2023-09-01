@@ -8,6 +8,7 @@ export interface Configuration {
   notes: Note[];
   entity: string;
   venue: string;
+  deviceTypes: string[];
 }
 
 interface ConfigurationNestedForm {

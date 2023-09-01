@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import * as axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'models/Axios';
 
 type System = {
   UI?: string;
@@ -103,7 +104,7 @@ export const useReloadSubsystems = ({
         });
         resetSubs();
       },
-      onError: (e) => {
+      onError: (e: AxiosError) => {
         toast({
           id: 'system-fetching-error',
           title: t('common.error'),
@@ -198,3 +199,36 @@ export const useUpdateSystemLogLevels = ({ endpoint, token }: { endpoint: string
     },
   });
 };
+
+export type SystemResources = {
+  currRealMem: number;
+  currVirtMem: number;
+  numberOfFileDescriptors: number;
+  peakRealMem: number;
+  peakVirtMem: number;
+};
+
+export const useGetSystemResources = ({
+  endpoint,
+  token,
+  onSuccess,
+}: {
+  endpoint: string;
+  token: string;
+  onSuccess?: (data: SystemResources) => void;
+}) =>
+  useQuery(
+    ['systemResources', endpoint],
+    () =>
+      axiosInstance
+        .get(`${endpoint}/api/v1/system?command=resources`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(({ data }: { data: SystemResources }) => data),
+    {
+      refetchInterval: 5 * 1000,
+      onSuccess,
+    },
+  );

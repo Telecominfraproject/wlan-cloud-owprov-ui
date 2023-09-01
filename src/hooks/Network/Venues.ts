@@ -91,6 +91,8 @@ export const useGetVenue = ({ id }: { id?: string }) => {
     () => axiosProv.get(`venue/${id}?withExtendedInfo=true`).then(({ data }: { data: VenueApiResponse }) => data),
     {
       enabled: id !== undefined && id !== '',
+      keepPreviousData: true,
+      staleTime: 1000 * 5,
       onError: (e: AxiosError) => {
         if (!toast.isActive('venue-fetching-error'))
           toast({
@@ -237,22 +239,23 @@ export const useUpgradeVenueDevices = () => {
 
 export const useDeleteVenue = () => useMutation((id) => axiosProv.delete(`venue/${id}`));
 
-export const useAddVenueContact = ({ id, originalContacts = [] }: { id: string; originalContacts?: string[] }) =>
-  useMutation((newContact: string) =>
-    axiosProv.put(`venue/${id}`, {
-      contacts: [...originalContacts, newContact],
-    }),
+export const useAddVenueContact = ({ id, originalContacts = [] }: { id: string; originalContacts?: string[] }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (newContact: string) =>
+      axiosProv.put(`venue/${id}`, {
+        contacts: [...originalContacts, newContact],
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['get-venue', id]);
+      },
+    },
   );
-export const useRemoveVenueContact = ({
-  id,
-  originalContacts = [],
-  refresh,
-}: {
-  id: string;
-  originalContacts?: string[];
-  refresh: () => void;
-}) => {
+};
+export const useRemoveVenueContact = ({ id, originalContacts = [] }: { id: string; originalContacts?: string[] }) => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation(
@@ -262,7 +265,7 @@ export const useRemoveVenueContact = ({
       }),
     {
       onSuccess: () => {
-        refresh();
+        queryClient.invalidateQueries(['get-venue', id]);
         toast({
           id: `contact-remove-success`,
           title: t('common.success'),
@@ -305,5 +308,7 @@ const getVenueUpgradeAvailableFirmware = (id: string) =>
     }) => res.data,
   );
 
-export const useGetVenueUpgradeAvailableFirmware = ({ id }: { id: string }) =>
-  useQuery(['venue', id, 'availableFirmware'], () => getVenueUpgradeAvailableFirmware(id));
+export const useGetVenueUpgradeAvailableFirmware = ({ id, enabled }: { id: string; enabled?: boolean }) =>
+  useQuery(['venue', id, 'availableFirmware'], () => getVenueUpgradeAvailableFirmware(id), {
+    enabled,
+  });

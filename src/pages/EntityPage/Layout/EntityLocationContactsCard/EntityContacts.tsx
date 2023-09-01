@@ -42,7 +42,7 @@ const EntityContacts = ({ id }: Props) => {
         <CreateContactModal refresh={getEntity.refetch} entityId={getEntity.data?.id ?? ''} />
       </Flex>
       <CardBody p={4}>
-        <Box w="100%" overflowX="auto">
+        <Box w="100%">
           <ContactTable
             select={getEntity.data?.contacts ?? []}
             actions={actions}
