@@ -1,7 +1,8 @@
 import { useToast } from '@chakra-ui/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'models/Axios';
+import { CreateLocation, Location } from 'models/Location';
 import { PageInfo } from 'models/Table';
 import { axiosProv } from 'utils/axiosInstances';
 
@@ -11,7 +12,7 @@ export const useGetLocationCount = ({ enabled }: { enabled: boolean }) => {
 
   return useQuery(
     ['get-location-count'],
-    () => axiosProv.get('location?countOnly=true').then(({ data }) => data.count),
+    () => axiosProv.get('location?countOnly=true').then(({ data }) => data.count as number),
     {
       enabled,
       staleTime: 30000,
@@ -51,7 +52,7 @@ export const useGetLocations = ({
     () =>
       axiosProv
         .get(`location?withExtendedInfo=true&limit=${pageInfo.limit}&offset=${pageInfo.limit * pageInfo.index}`)
-        .then(({ data }) => data.locations),
+        .then(({ data }) => data.locations as Location[]),
     {
       keepPreviousData: true,
       enabled,
@@ -84,7 +85,9 @@ export const useGetSelectLocations = ({ select, enabled = true }: { select: stri
     () =>
       select.length === 0
         ? []
-        : axiosProv.get(`location?withExtendedInfo=true&select=${select}`).then(({ data }) => data.locations),
+        : axiosProv
+            .get(`location?withExtendedInfo=true&select=${select}`)
+            .then(({ data }) => data.locations as Location[]),
     {
       enabled,
       staleTime: 100 * 1000,
@@ -156,12 +159,44 @@ export const useGetAllLocations = ({ venueId }: { venueId?: string }) => {
   });
 };
 
+export const useGetAllVenueLocations = ({ venueId }: { venueId: string }) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  return useQuery(
+    ['get-all-locations', venueId],
+    () =>
+      axiosProv
+        .get(`venue?locationsForVenue=${venueId}`)
+        .then(({ data }) => data.locations as { uuid: string; name: string }[]),
+    {
+      staleTime: 1000 * 1000,
+      onError: (e: AxiosError) => {
+        if (!toast.isActive('locations-fetching-error'))
+          toast({
+            id: 'locations-fetching-error',
+            title: t('common.error'),
+            description: t('crud.error_fetching_obj', {
+              obj: t('locations.other'),
+              e: e?.response?.data?.ErrorDescription,
+            }),
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+      },
+    },
+  );
+};
+
 export const useGetLocation = ({ enabled, id }: { enabled: boolean; id: string }) => {
   const { t } = useTranslation();
   const toast = useToast();
 
-  return useQuery(['get-location', id], () => axiosProv.get(`location/${id}`).then(({ data }) => data), {
+  return useQuery(['get-location', id], () => axiosProv.get(`location/${id}`).then(({ data }) => data as Location), {
     enabled,
+    staleTime: Infinity,
     onError: (e: AxiosError) => {
       if (!toast.isActive('location-fetching-error'))
         toast({
@@ -180,7 +215,20 @@ export const useGetLocation = ({ enabled, id }: { enabled: boolean; id: string }
   });
 };
 
-export const useCreateLocation = () => useMutation((newLocation) => axiosProv.post('location/0', newLocation));
+export const useCreateLocation = () =>
+  useMutation((newLocation: CreateLocation) =>
+    axiosProv.post('location/0', newLocation).then(({ data }) => data as Location),
+  );
 
-export const useUpdateLocation = ({ id }: { id: string }) =>
-  useMutation((newLocation) => axiosProv.put(`location/${id}`, newLocation));
+export const useUpdateLocation = ({ id }: { id: string }) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (newLocation: CreateLocation) => axiosProv.put(`location/${id}`, newLocation).then(({ data }) => data as Location),
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData(['get-location', id], data);
+      },
+    },
+  );
+};

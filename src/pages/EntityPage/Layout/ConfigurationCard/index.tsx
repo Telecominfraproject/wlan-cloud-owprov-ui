@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, useColorMode } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import EntityConfigurations from './EntityConfigurations';
 import EntityResources from './EntityResources';
 import Card from 'components/Card';
+import CardHeader from 'components/Card/CardHeader';
 
 type Props = {
   id: string;
@@ -11,13 +12,59 @@ type Props = {
 
 const ConfigurationCard = ({ id }: Props) => {
   const { t } = useTranslation();
+  const { colorMode } = useColorMode();
+  const isLight = colorMode === 'light';
 
   return (
     <Card p={0}>
       <Tabs variant="enclosed" isLazy>
-        <TabList>
-          <Tab>{t('configurations.title')}</Tab>
-          <Tab>{t('resources.title')}</Tab>
+        <TabList mt={0} px={0}>
+          <CardHeader>
+            <Tab
+              mb="-14px"
+              style={{
+                // borderBottom: '0px',
+                borderWidth: '1px',
+              }}
+              _selected={{
+                background: isLight ? 'white' : 'var(--chakra-colors-gray-700)',
+                borderColor: 'unset',
+                textColor: isLight ? 'var(--chakra-colors-blue-600)' : 'var(--chakra-colors-blue-300)',
+                fontWeight: 'semibold',
+                // borderTopRadius: '15px',
+                borderTopColor: isLight ? 'black' : 'white',
+                borderLeftColor: isLight ? 'black' : 'white',
+                borderRightColor: isLight ? 'black' : 'white',
+                borderWidth: '0.5px',
+                borderBottom: '2px solid',
+                borderBottomColor: isLight ? 'white' : 'gray.800',
+              }}
+            >
+              {t('configurations.title')}
+            </Tab>
+            <Tab
+              mb="-14px"
+              style={{
+                // borderBottom: '0px',
+                borderWidth: '1px',
+              }}
+              _selected={{
+                background: isLight ? 'white' : 'var(--chakra-colors-gray-700)',
+                borderColor: 'unset',
+                textColor: isLight ? 'var(--chakra-colors-blue-600)' : 'var(--chakra-colors-blue-300)',
+                fontWeight: 'semibold',
+                // borderTopRadius: '15px',
+                borderTopColor: isLight ? 'black' : 'white',
+                borderLeftColor: isLight ? 'black' : 'white',
+                borderRightColor: isLight ? 'black' : 'white',
+                borderWidth: '0.5px',
+                borderBottom: '2px solid',
+                borderBottomColor: isLight ? 'white' : 'gray.800',
+              }}
+            >
+              {t('resources.title')}
+            </Tab>
+          </CardHeader>
         </TabList>
         <TabPanels>
           <TabPanel p={0}>

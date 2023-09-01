@@ -3,13 +3,13 @@ import { Box, Flex, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
 import { FieldArray } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Captive from './Captive';
+import InterfaceSelectPortsField from './InterfaceSelectPortsField';
 import IpV4 from './IpV4';
 import IpV6 from './IpV6';
 import SsidList from './SsidList';
 import Tunnel from './Tunnel';
 import Vlan from './Vlan';
 import DeleteButton from 'components/Buttons/DeleteButton';
-import ConfigurationSelectPortsField from 'components/CustomFields/ConfigurationSelectPortsField';
 import CreatableSelectField from 'components/FormFields/CreatableSelectField';
 import MultiSelectField from 'components/FormFields/MultiSelectField';
 import SelectField from 'components/FormFields/SelectField';
@@ -62,10 +62,7 @@ const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
           isRequired
           options={roleOpts}
         />
-        <ConfigurationSelectPortsField
-          name={`configuration[${index}].ethernet[0].select-ports`}
-          isDisabled={!editing}
-        />
+        <InterfaceSelectPortsField name={`configuration[${index}].ethernet`} isDisabled={!editing} />
         <ToggleField
           name={`configuration[${index}].isolate-hosts`}
           label="isolate-hosts"

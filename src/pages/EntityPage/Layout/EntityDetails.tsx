@@ -2,13 +2,11 @@ import * as React from 'react';
 import {
   Box,
   Center,
+  Flex,
   FormControl,
   FormLabel,
-  Grid,
-  GridItem,
   HStack,
   Heading,
-  SimpleGrid,
   Spacer,
   Spinner,
   useBoolean,
@@ -22,8 +20,6 @@ import ToggleEditButton from 'components/Buttons/ToggleEditButton';
 import Card from 'components/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
-import DeviceRulesField from 'components/CustomFields/DeviceRulesField';
-import IpDetectionModalField from 'components/CustomFields/IpDetectionModalField';
 import FormattedDate from 'components/FormattedDate';
 import StringField from 'components/FormFields/StringField';
 import { EntitySchema } from 'constants/formSchemas';
@@ -82,13 +78,11 @@ const EntityDetails = ({ id }: Props) => {
               key={formKey}
               initialValues={getEntity.data}
               validationSchema={EntitySchema(t)}
-              onSubmit={({ name, description, sourceIP, deviceRules }, { setSubmitting, resetForm }) =>
+              onSubmit={({ name, description }, { setSubmitting, resetForm }) =>
                 updateEntity.mutateAsync(
                   {
                     name,
                     description,
-                    deviceRules,
-                    sourceIP,
                   },
                   {
                     onSuccess: () => {
@@ -127,24 +121,16 @@ const EntityDetails = ({ id }: Props) => {
               }
             >
               <Form>
-                <Grid templateRows="repeat(1, 1fr)" templateColumns="repeat(3, 1fr)" gap={4}>
-                  <GridItem colSpan={1}>
-                    <StringField name="name" label={t('common.name')} isDisabled={!editing} isRequired />
-                  </GridItem>
-                  <GridItem colSpan={2}>
-                    <StringField name="description" label={t('common.description')} isDisabled={!editing} />
-                  </GridItem>
-                </Grid>
-                <SimpleGrid minChildWidth="200px" spacing={4} mt={2}>
-                  <IpDetectionModalField name="sourceIP" isDisabled={!editing} />
-                  <DeviceRulesField isDisabled={!editing} />
-                  <FormControl>
+                <Flex>
+                  <StringField name="name" label={t('common.name')} isDisabled={!editing} isRequired w="240px" />
+                  <FormControl ml={4} w="200px">
                     <FormLabel>{t('common.modified')}</FormLabel>
-                    <Box pt={1.5}>
+                    <Box pt={2}>
                       <FormattedDate date={getEntity.data?.modified} />
                     </Box>
                   </FormControl>
-                </SimpleGrid>
+                </Flex>
+                <StringField name="description" label={t('common.description')} isDisabled={!editing} isArea h="80px" />
               </Form>
             </Formik>
           ) : (

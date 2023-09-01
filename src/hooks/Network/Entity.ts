@@ -6,30 +6,50 @@ import useDefaultPage from '../useDefaultPage';
 import { AxiosError } from 'models/Axios';
 import { axiosProv, axiosSec } from 'utils/axiosInstances';
 
+export type TreeVenue = {
+  name: string;
+  uuid: string;
+  type: 'venue';
+  children: TreeVenue[];
+  venues?: undefined;
+};
+
+export type TreeEntity = {
+  name: string;
+  uuid: string;
+  type: 'entity';
+  children: TreeEntity[];
+  venues: TreeVenue[];
+};
+
 export const useGetEntityTree = () => {
   const { t } = useTranslation();
   const toast = useToast();
 
-  return useQuery(['get-entity-tree'], () => axiosProv.get('entity?getTree=true').then(({ data }) => data), {
-    enabled: axiosProv.defaults.baseURL !== axiosSec.defaults.baseURL,
-    staleTime: Infinity,
-    keepPreviousData: true,
-    onError: (e: AxiosError) => {
-      if (!toast.isActive('entity-tree-fetching-error'))
-        toast({
-          id: 'entity-tree-fetching-error',
-          title: t('common.error'),
-          description: t('crud.error_fetching_obj', {
-            obj: t('entities.tree'),
-            e: e?.response?.data?.ErrorDescription,
-          }),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
+  return useQuery(
+    ['get-entity-tree'],
+    () => axiosProv.get('entity?getTree=true').then(({ data }) => data as TreeEntity),
+    {
+      enabled: axiosProv.defaults.baseURL !== axiosSec.defaults.baseURL,
+      staleTime: Infinity,
+      keepPreviousData: true,
+      onError: (e: AxiosError) => {
+        if (!toast.isActive('entity-tree-fetching-error'))
+          toast({
+            id: 'entity-tree-fetching-error',
+            title: t('common.error'),
+            description: t('crud.error_fetching_obj', {
+              obj: t('entities.tree'),
+              e: e?.response?.data?.ErrorDescription,
+            }),
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+      },
     },
-  });
+  );
 };
 
 const getEntitiesBatch = async (limit: number, offset: number) =>
@@ -116,7 +136,7 @@ export const useGetEntity = ({ id }: { id?: string }) => {
     () => axiosProv.get(`entity/${id}?withExtendedInfo=true`).then(({ data }) => data as Entity),
     {
       keepPreviousData: true,
-      staleTime: 1000 * 60 * 5,
+      staleTime: 1000 * 5,
       enabled: id !== undefined && id !== null && id !== '',
       onError: (e: AxiosError) => {
         if (!toast.isActive('entity-fetching-error'))

@@ -37,7 +37,7 @@ interface Props extends FieldInputProps<object[]> {
   isHidden: boolean;
   hideLabel: boolean;
   fields: React.ReactNode;
-  columns: Column<unknown>[];
+  columns: Column<object[]>[];
   options: ObjectArrayFieldModalOptions;
   schema: (t: (e: string) => string, useDefault?: boolean) => object;
 }
@@ -90,6 +90,13 @@ const ObjectArrayFieldInput: React.FC<Props> = ({
     [tempValue],
   );
 
+  const computedButtonLabel = () => {
+    if (options?.buttonLabel) return options.buttonLabel;
+
+    return `${t('common.manage')} ${variableName} (${value?.length ?? 0}
+            ${t('common.entries', { count: value?.length ?? 0 }).toLowerCase()})`;
+  };
+
   useEffect(() => {
     if (!isOpen) {
       setTempValue(value ?? []);
@@ -104,8 +111,7 @@ const ObjectArrayFieldInput: React.FC<Props> = ({
         </FormLabel>
         <Text ml={1} fontSize="sm">
           <Button colorScheme="blue" onClick={onOpen}>
-            {options?.buttonLabel ?? `${t('common.manage')} ${variableName} `} ({value?.length ?? 0}{' '}
-            {t('common.entries', { count: value?.length ?? 0 }).toLowerCase()})
+            {computedButtonLabel()}
           </Button>
         </Text>
         <FormErrorMessage>{error}</FormErrorMessage>

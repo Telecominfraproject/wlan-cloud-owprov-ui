@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 import Actions from './Actions';
 import { DataGrid } from 'components/DataGrid';
 import { DataGridColumn, useDataGrid } from 'components/DataGrid/useDataGrid';
+import ExportDevicesTableButton from 'components/ExportInventoryButton';
 import FormattedDate from 'components/FormattedDate';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
 import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
@@ -237,12 +238,20 @@ const InventoryTable = () => {
           title: `${t('devices.title')} ${count ? `(${count})` : ''}`,
           objectListed: t('devices.title'),
           otherButtons: (
-            <FormControl display="flex" w="unset" alignItems="center" mr={2}>
-              <FormLabel htmlFor="unassigned-switch" mb="0">
-                {t('devices.unassigned_only')}
-              </FormLabel>
-              <Switch id="unassigned-switch" defaultChecked={onlyUnassigned} onChange={onUnassignedToggle} size="lg" />
-            </FormControl>
+            <>
+              <FormControl display="flex" w="unset" alignItems="center" mr={2}>
+                <FormLabel htmlFor="unassigned-switch" mb="0">
+                  {t('devices.unassigned_only')}
+                </FormLabel>
+                <Switch
+                  id="unassigned-switch"
+                  defaultChecked={onlyUnassigned}
+                  onChange={onUnassignedToggle}
+                  size="lg"
+                />
+              </FormControl>
+              <ExportDevicesTableButton />
+            </>
           ),
           addButton: <CreateConfigurationModal refresh={refetchCount} />,
           leftContent: <DeviceSearchBar onClick={onSearchClick} />,

@@ -1,9 +1,8 @@
 import React from 'react';
-import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react';
+import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, CloseButton } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CreateEntityForm from './Form';
-import CloseButton from 'components/Buttons/CloseButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';

@@ -45,7 +45,7 @@ export const useGetInventoryCount = ({
             id: 'inventory-fetching-error',
             title: t('common.error'),
             description: t('crud.error_fetching_obj', {
-              obj: t('inventory.tags'),
+              obj: t('inventory.one'),
               e: e?.response?.data?.ErrorDescription,
             }),
             status: 'error',

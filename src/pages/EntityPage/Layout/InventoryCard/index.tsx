@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import EntityInventoryActions from './Actions';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
+import ExportDevicesTableButton from 'components/ExportInventoryButton';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
 import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
 import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
@@ -76,6 +77,7 @@ const EntityInventoryCard = ({ id }: Props) => {
           {t('inventory.title')}
         </Heading>
         <Spacer />
+        <ExportDevicesTableButton serialNumbers={getEntity.data?.devices ?? []} />
         <ImportDeviceCsvModal
           refresh={getEntity.refetch}
           parent={{ entity: getEntity.data?.id }}

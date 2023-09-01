@@ -225,6 +225,19 @@ const EditTagForm = ({
                 isClosable: true,
                 position: 'top-right',
               });
+              if (tag.entity.length > 0) {
+                queryClient.invalidateQueries(['get-entity', tag.entity]);
+              }
+              if (tag.venue.length > 0) {
+                queryClient.invalidateQueries(['get-venue', tag.venue]);
+              }
+              if (params.entity.length > 0) {
+                queryClient.invalidateQueries(['get-entity', params.entity]);
+              }
+              if (params.venue.length > 0) {
+                queryClient.invalidateQueries(['get-venue', params.venue]);
+              }
+
               queryClient.invalidateQueries(['get-inventory-tag', tag.serialNumber]);
               queryClient.invalidateQueries(['get-configuration']);
               queryClient.invalidateQueries(['configurationOverrides', tag.serialNumber]);
@@ -291,18 +304,22 @@ const EditTagForm = ({
                       {
                         label: t('entities.title'),
                         options:
-                          entities?.map((ent) => ({
-                            value: `ent:${ent.id}`,
-                            label: `${ent.name}${ent.description ? `: ${ent.description}` : ''}`,
-                          })) ?? [],
+                          entities
+                            ?.map((ent) => ({
+                              value: `ent:${ent.id}`,
+                              label: `${ent.name}${ent.description ? `: ${ent.description}` : ''}`,
+                            }))
+                            .sort((a, b) => a.label.localeCompare(b.label)) ?? [],
                       },
                       {
                         label: t('venues.title'),
                         options:
-                          venues?.map((ven) => ({
-                            value: `ven:${ven.id}`,
-                            label: `${ven.name}${ven.description ? `: ${ven.description}` : ''}`,
-                          })) ?? [],
+                          venues
+                            ?.map((ven) => ({
+                              value: `ven:${ven.id}`,
+                              label: `${ven.name}${ven.description ? `: ${ven.description}` : ''}`,
+                            }))
+                            .sort((a, b) => a.label.localeCompare(b.label)) ?? [],
                       },
                     ]}
                   />

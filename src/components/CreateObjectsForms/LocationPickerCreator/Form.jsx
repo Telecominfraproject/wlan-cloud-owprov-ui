@@ -36,7 +36,6 @@ const Form = ({ name }) => {
         <CreatableSelectField name={`${name}.phones`} label={t('contacts.phones')} placeholder="+1(202)555-0103" />
         <CreatableSelectField name={`${name}.mobiles`} label={t('contacts.mobiles')} placeholder="+1(202)555-0103" />
       </SimpleGrid>
-
       <AddressSearchField placeholder={t('common.address_search_autofill')} namePrefix={name} maxWidth="600px" mb={2} />
       <SimpleGrid minChildWidth="300px" spacing="20px" mb={8}>
         <StringField name={`${name}.addressLineOne`} label={t('locations.address_line_one')} isRequired />

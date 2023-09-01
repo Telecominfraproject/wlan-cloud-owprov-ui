@@ -1,10 +1,41 @@
 import { Note } from './Note';
 
+export interface CreateLocation {
+  name: string;
+  description?: string;
+  id?: string;
+  notes?: Note[];
+  type: 'SERVICE' | 'EQUIPMENT' | 'AUTO' | 'MANUAL' | 'SPECIAL' | 'UNKNOWN' | 'CORPORATE';
+  buildingName: string;
+  addressLines: string[];
+  city: string;
+  state: string;
+  postal: string;
+  country: string;
+  phones: string[];
+  mobiles: string[];
+  inUse?: string[];
+  entity: string;
+  geoCode: string;
+}
+
 export interface Location {
   name: string;
   description: string;
   id: string;
   notes: Note[];
+  type: 'SERVICE' | 'EQUIPMENT' | 'AUTO' | 'MANUAL' | 'SPECIAL' | 'UNKNOWN' | 'CORPORATE';
+  buildingName: string;
+  addressLines: string[];
+  city: string;
+  state: string;
+  postal: string;
+  country: string;
+  phones: string[];
+  mobiles: string[];
+  inUse: string[];
+  entity: string;
+  geoCode: string;
 }
 
 export interface AddressValue {

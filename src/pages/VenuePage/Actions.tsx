@@ -28,7 +28,7 @@ const VenueActions = ({ venueId, isDisabled }: Props) => {
     <>
       <Menu>
         <Tooltip label={t('common.actions')} hasArrow>
-          <MenuButton as={IconButton} icon={<Wrench size={20} />} ml={2} isDisabled={isDisabled}>
+          <MenuButton as={IconButton} icon={<Wrench size={20} />} isDisabled={isDisabled}>
             {t('common.actions')}
           </MenuButton>
         </Tooltip>

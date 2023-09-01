@@ -36,18 +36,11 @@ const RrmFormField = ({ namePrefix = 'deviceRules', isDisabled }: Props) => {
   }, [value]);
 
   return (
-    <FormControl isInvalid={isError} isRequired isDisabled={isDisabled}>
+    <FormControl isInvalid={isError} isDisabled={isDisabled}>
       <FormLabel ms="4px" fontSize="md" fontWeight="normal" _disabled={{ opacity: 0.8 }}>
         RRM
       </FormLabel>
-      <Button
-        variant="link"
-        onClick={modalProps.onOpen}
-        colorScheme="blue"
-        mt={2}
-        ml={1}
-        isLoading={rrm.getProviders.isFetching}
-      >
+      <Button onClick={modalProps.onOpen} colorScheme="teal" isLoading={rrm.getProviders.isFetching}>
         {displayedValue}
       </Button>
       <FormErrorMessage>{error}</FormErrorMessage>
