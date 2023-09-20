@@ -165,6 +165,13 @@ const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ 
           isDisabled={!editing}
           emptyIsUndefined
         />
+        <ToggleField
+          name={`${namePrefix}.tip-information-element`}
+          label="tip-information-element"
+          definitionKey="interface.ssid.tip-information-element"
+          isDisabled={!editing}
+          defaultValue
+        />
         {!NO_MULTI_PROTOS.includes(proto as string) && (
           <ObjectArrayFieldModal
             name={`${namePrefix}.multi-psk`}

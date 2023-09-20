@@ -13,6 +13,12 @@ export const DEFAULT_UNIT = {
   },
 };
 
+export const UNIT_BEACON_ADVERTISEMENT_SCHEMA = (t) =>
+  object().shape({
+    'device-name': string().required(t('form.required')).default(''),
+    'device-serial': string().required(t('form.required')).default(''),
+    'network-id': number().required(t('form.required')).min(0).lessThan(65535).default(1024),
+  });
 export const UNIT_SCHEMA = (t) =>
   object().shape({
     name: string().required(t('form.required')).default('Unit'),
@@ -27,5 +33,6 @@ export const UNIT_SCHEMA = (t) =>
       timezone: string().default(undefined),
       'leds-active': bool().default(true),
       'random-password': bool().default(false),
+      'beacon-advertisement': UNIT_BEACON_ADVERTISEMENT_SCHEMA(t).default(undefined),
     }),
   });

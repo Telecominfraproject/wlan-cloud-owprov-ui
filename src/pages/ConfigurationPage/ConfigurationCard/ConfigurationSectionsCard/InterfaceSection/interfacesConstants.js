@@ -439,6 +439,7 @@ export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
     radius: INTERFACE_SSID_RADIUS_SCHEMA(t),
     'pass-point': INTERFACE_SSID_PASS_POINT_SCHEMA(t),
     'dtim-period': number().moreThan(0).lessThan(256).integer().default(2),
+    'tip-information-element': bool().default(true),
   });
 
   return useDefault ? shape : shape.nullable().default(undefined);

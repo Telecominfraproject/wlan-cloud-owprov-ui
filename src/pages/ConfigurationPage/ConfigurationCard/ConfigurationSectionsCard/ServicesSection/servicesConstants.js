@@ -1,6 +1,26 @@
 import { object, number, string, array, bool } from 'yup';
 import { testFqdnHostname, testIpv4, testLength, testUcMac } from 'constants/formTests';
 
+export const SERVICES_DHCP_RELAY_VLAN_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    vlan: number().required(t('form.required')).moreThan(-1).lessThan(4097).integer().default(1),
+    'relay-server': string().required(t('form.required')).default(''),
+    'circuit-id-format': string().required(t('form.required')).default('vlan-id'),
+    'remote-id-format': string().required(t('form.required')).default('ap-mac'),
+  });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
+export const SERVICES_DHCP_RELAY_SCHEMA = (t, useDefault = false) => {
+  const shape = object().shape({
+    'select-ports': array().of(string()).min(1, t('form.required')).default([]),
+    vlans: array().of(SERVICES_DHCP_RELAY_VLAN_SCHEMA(t, useDefault)).default([]),
+  });
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
 export const SERVICES_CAPTIVE_SCHEMA = (t, useDefault = false) => {
   const shape = object()
     .shape({
@@ -428,6 +448,7 @@ export const SERVICES_SCHEMA = (t, useDefault = false) =>
       ieee8021x: SERVICES_IEEE8021X_SCHEMA(t, useDefault),
       captive: SERVICES_CAPTIVE_SCHEMA(t, useDefault),
       gps: SERVICES_GPS_SCHEMA(t, useDefault),
+      'dhcp-relay': SERVICES_DHCP_RELAY_SCHEMA(t, useDefault),
     }),
   });
 
@@ -471,6 +492,8 @@ export const getSubSectionDefaults = (t, sub) => {
       return SERVICES_CAPTIVE_SCHEMA(t, true).cast();
     case 'gps':
       return SERVICES_GPS_SCHEMA(t, true).cast();
+    case 'dhcp-relay':
+      return SERVICES_DHCP_RELAY_SCHEMA(t, true).cast();
     default:
       return null;
   }
