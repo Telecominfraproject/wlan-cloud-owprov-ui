@@ -11,6 +11,7 @@ import SubSectionPicker from '../common/SubSectionPicker';
 import AirtimePolicies from './AirtimePolicies';
 import Captive from './Captive';
 import DataPlane from './DataPlane';
+import DhcpRelay from './DhcpRelay';
 import FacebookWifi from './FacebookWifi';
 import Gps from './Gps';
 import Http from './Http';
@@ -125,6 +126,7 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
                     'airtime-policies',
                     'captive',
                     'data-plane',
+                    'dhcp-relay',
                     'facebook-wifi',
                     'gps',
                     'http',
@@ -149,6 +151,7 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
             {isSubSectionActive('airtime-policies') && <AirtimePolicies editing={editing} />}
             {isSubSectionActive('captive') && <Captive editing={editing} />}
             {isSubSectionActive('data-plane') && <DataPlane editing={editing} />}
+            {isSubSectionActive('dhcp-relay') && <DhcpRelay isEditing={editing} />}
             {isSubSectionActive('facebook-wifi') && <FacebookWifi editing={editing} />}
             {isSubSectionActive('gps') && <Gps editing={editing} />}
             {isSubSectionActive('http') && <Http editing={editing} />}
