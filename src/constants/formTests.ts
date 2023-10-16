@@ -69,16 +69,23 @@ export const testLength = ({ val, min, max }: { val?: string; min: number; max: 
   return false;
 };
 
-export const testPemCertificate = (val?: string) => {
+export const testPemCertificate = (val?: string, nonStrict?: boolean) => {
   if (val) {
+    if (nonStrict) {
+      return val.includes('---BEGIN') && val.includes('---END');
+    }
     return val.includes('---BEGIN CERTIFICATE---') && val.includes('---END CERTIFICATE---');
   }
 
   return false;
 };
 
-export const testPemPrivateKey = (val?: string) => {
+export const testPemPrivateKey = (val?: string, nonStrict?: boolean) => {
   if (val) {
+    if (nonStrict) {
+      return val.includes('---BEGIN') && val.includes('---END');
+    }
+
     return val.includes('---BEGIN PRIVATE KEY---') && val.includes('---END PRIVATE KEY---');
   }
 
@@ -225,7 +232,6 @@ export const isValidPortRanges = (first: string, second: string) => {
 
   return false;
 };
-
 export type TestSelectPortsProps = { ports: string[]; vlan?: number }[];
 
 export const testSelectPorts = (obj: TestSelectPortsProps) => {
@@ -262,4 +268,9 @@ export const testSelectPorts = (obj: TestSelectPortsProps) => {
   return true;
 };
 
-export const testObjectName = (str?: string) => (str ? str.length <= 50 : false);
+export const testObjectName = (str?: string) => (str ? str.length <= 30 : false);
+
+export const isValidEmailAddress = (email: string) =>
+  email.match(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  );

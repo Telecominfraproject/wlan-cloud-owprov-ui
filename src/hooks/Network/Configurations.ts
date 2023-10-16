@@ -1,8 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import useDefaultPage from 'hooks/useDefaultPage';
+import { AxiosError } from 'models/Axios';
 import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetConfigurations = () => {
@@ -92,7 +92,7 @@ export const useGetAvailableConfigurations = ({ tagId }: { tagId: string }) => {
   );
 };
 
-export const useGetConfiguration = ({ id = null, onSuccess = () => {} }) => {
+export const useGetConfiguration = ({ id, onSuccess = () => {} }: { id?: string | null; onSuccess?: () => void }) => {
   const { t } = useTranslation();
   const toast = useToast();
   const goToDefaultPage = useDefaultPage();
@@ -101,7 +101,9 @@ export const useGetConfiguration = ({ id = null, onSuccess = () => {} }) => {
     ['get-configuration', id],
     () => axiosProv.get(`configuration/${id}?withExtendedInfo=true`).then(({ data }) => data),
     {
-      enabled: id !== null && id !== '',
+      enabled: id !== undefined && id !== null && id !== '',
+      keepPreviousData: true,
+      staleTime: 10 * 1000,
       onSuccess,
       onError: (e: AxiosError) => {
         if (!toast.isActive('configuration-fetching-error'))

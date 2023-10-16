@@ -29,8 +29,9 @@ const SubNavigationButton = ({ isActive, route }: Props) => {
           bg: hoverBg,
         }}
         border="none"
+        textAlign="left"
       >
-        {t(route.name)}
+        {route.label ?? t(route.name)}
       </Button>
     </NavLink>
   );

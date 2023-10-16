@@ -7,7 +7,8 @@ export type SubRoute = {
   authorized: string[];
   path: string;
   name: RouteName;
-  component: React.ReactElement | LazyExoticComponent<React.ComponentType<unknown>>;
+  label?: string;
+  component: typeof React.Component | React.LazyExoticComponent<() => JSX.Element | null>;
   navName?: RouteName;
   hidden?: boolean;
   icon?: undefined;
@@ -21,6 +22,7 @@ export type RouteGroup = {
   id: string;
   authorized: string[];
   name: RouteName;
+  label?: string;
   icon: (active: boolean) => React.ReactElement;
   children: SubRoute[];
   hidden?: boolean;
@@ -36,15 +38,16 @@ export type SingleRoute = {
   authorized: string[];
   path: string;
   name: RouteName;
+  label?: string;
   navName?: RouteName;
   icon: (active: boolean) => React.ReactElement;
   navButton?: (
     isActive: boolean,
     toggleSidebar: () => void,
     route: Route,
-  ) => React.ReactElement | LazyExoticComponent<React.ComponentType<unknown>>;
+  ) => typeof React.Component | LazyExoticComponent<React.ComponentType<unknown>>;
   isEntity?: boolean;
-  component: React.ReactElement | LazyExoticComponent<React.ComponentType<unknown>>;
+  component: typeof React.Component | React.LazyExoticComponent<() => JSX.Element | null>;
   hidden?: boolean;
   isCustom?: boolean;
   children?: undefined;

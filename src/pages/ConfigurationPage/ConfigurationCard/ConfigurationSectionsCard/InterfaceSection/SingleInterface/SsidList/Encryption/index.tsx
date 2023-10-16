@@ -17,12 +17,14 @@ const Encryption = ({
   namePrefix,
   radiusPrefix,
   isPasspoint,
+  acceptedEncryptionProtos,
 }: {
   editing: boolean;
   namePrefix: string;
   radiusPrefix: string;
   ssidName: string;
   isPasspoint?: boolean;
+  acceptedEncryptionProtos?: string[];
 }) => {
   const { t } = useTranslation();
   const { value: encryptionValue, onChange: onEncryptionChange } = useFastField({ name: namePrefix });
@@ -43,12 +45,6 @@ const Encryption = ({
         if (ENCRYPTION_PROTOS_REQUIRE_IEEE.includes(e.target.value)) newEncryption.ieee80211w = 'required';
         onEncryptionChange(newEncryption);
         if (ENCRYPTION_PROTOS_REQUIRE_RADIUS.includes(e.target.value)) {
-          /*
-          if (isPasspoint) {
-            onRadiusChange(DEFAULT_PASSPOINT_RADIUS);
-          } else {
-            onRadiusChange(INTERFACE_SSID_RADIUS_SCHEMA(t, true).cast());
-          } */
           onRadiusChange(INTERFACE_SSID_RADIUS_SCHEMA(t, true).cast());
         } else {
           onRadiusChange(undefined);
@@ -80,6 +76,7 @@ const Encryption = ({
       isUsingRadius={isUsingRadius}
       isPasspoint={isPasspoint}
       canUseRadius={canUseRadius}
+      acceptedEncryptionProtos={acceptedEncryptionProtos}
     />
   );
 };

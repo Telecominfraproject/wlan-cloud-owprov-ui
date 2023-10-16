@@ -57,7 +57,9 @@ const Layout = () => {
       name = location.pathname.split('/')[location.pathname.split('/').length - 1] ?? '';
     }
 
-    if (name.includes('RAW-')) name.replace('RAW-', '');
+    if (name.includes('RAW-')) {
+      return name.replace('RAW-', '');
+    }
 
     return t(name);
   }, [t, location.pathname]);

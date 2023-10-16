@@ -10,6 +10,7 @@ import MultiSelectField from 'components/FormFields/MultiSelectField';
 import SelectWithSearchField from 'components/FormFields/SelectWithSearchField';
 import StringField from 'components/FormFields/StringField';
 import { CreateConfigurationSchema } from 'constants/formSchemas';
+import { ConfigurationProvider } from 'contexts/ConfigurationProvider';
 import { useGetEntities } from 'hooks/Network/Entity';
 import { useGetVenues } from 'hooks/Network/Venues';
 
@@ -170,7 +171,9 @@ const CreateConfigurationForm = ({
             <StringField name="description" label={t('common.description')} errors={errors} touched={touched} />
             <StringField name="note" label={t('common.note')} errors={errors} touched={touched} />
           </SimpleGrid>
-          <SpecialConfigurationManager editing isEnabledByDefault isOnlySections onChange={onConfigurationChange} />
+          <ConfigurationProvider entityId={getEntityId()}>
+            <SpecialConfigurationManager editing isEnabledByDefault isOnlySections onChange={onConfigurationChange} />
+          </ConfigurationProvider>
         </>
       )}
     </Formik>

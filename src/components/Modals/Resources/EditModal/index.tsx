@@ -15,6 +15,7 @@ import InterfaceSsidResource from '../Sections/InterfaceSsid';
 import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
 import InterfaceVlanResource from '../Sections/InterfaceVlan';
 import InterfaceIpv4Resource from '../Sections/Ipv4';
+import OpenRoamingSSID from '../Sections/OpenRoamingSsid';
 import SingleRadioResource from '../Sections/SingleRadio';
 import InterfaceTunnelResource from '../Sections/Tunnel';
 import CloseButton from 'components/Buttons/CloseButton';
@@ -22,6 +23,7 @@ import EditButton from 'components/Buttons/EditButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
+import { useGetRadiusEndpoints } from 'hooks/Network/RadiusEndpoints';
 import { useGetResource } from 'hooks/Network/Resources';
 import useFormRef from 'hooks/useFormRef';
 import { Resource } from 'models/Resource';
@@ -33,7 +35,7 @@ interface Props {
   refresh: () => void;
 }
 
-const EditResourceModal = ({ isOpen, onClose, resource, refresh }: Props) => {
+const EditResourceModal: React.FC<Props> = ({ isOpen, onClose, resource, refresh }) => {
   const { t } = useTranslation();
   const [editing, setEditing] = useBoolean();
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
@@ -46,7 +48,7 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }: Props) => {
     id: resource?.id ?? '',
     enabled: resource?.id !== '' && isOpen,
   });
-
+  const getRadiusEndpoints = useGetRadiusEndpoints();
   const closeModal = () => (form.dirty ? openConfirm() : onClose());
 
   const closeCancelAndForm = () => {
@@ -75,7 +77,9 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }: Props) => {
         </Center>
       );
 
-    if (getType() === 'interface.captive')
+    const resourceType = getType();
+
+    if (resourceType === 'interface.captive')
       return (
         <InterfaceCaptiveResource
           resource={resourceData}
@@ -87,7 +91,7 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }: Props) => {
         />
       );
 
-    if (getType() === 'interface.ssid.radius')
+    if (resourceType === 'interface.ssid.radius')
       return (
         <InterfaceSsidRadiusResource
           resource={resourceData}
@@ -98,7 +102,7 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }: Props) => {
           isDisabled={!editing}
         />
       );
-    if (getType() === 'interface.tunnel')
+    if (resourceType === 'interface.tunnel')
       return (
         <InterfaceTunnelResource
           resource={resourceData}
@@ -110,19 +114,20 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }: Props) => {
         />
       );
 
-    if (getType() === 'interface.ipv4')
+    if (resourceType === 'interface.ssid.openroaming')
       return (
-        <InterfaceIpv4Resource
+        <OpenRoamingSSID
           resource={resourceData}
           isOpen={isOpen}
           onClose={onClose}
           refresh={refreshAll}
           formRef={formRef}
           isDisabled={!editing}
+          radiusEndpoints={getRadiusEndpoints.data ?? []}
         />
       );
 
-    if (getType() === 'interface.vlan')
+    if (resourceType === 'interface.vlan')
       return (
         <InterfaceVlanResource
           resource={resourceData}
@@ -134,7 +139,7 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }: Props) => {
         />
       );
 
-    if (getType() === 'interface.ssid')
+    if (resourceType === 'interface.ssid')
       return (
         <InterfaceSsidResource
           resource={resourceData}
@@ -145,8 +150,19 @@ const EditResourceModal = ({ isOpen, onClose, resource, refresh }: Props) => {
           isDisabled={!editing}
         />
       );
+    if (resourceType === 'interface.ipv4')
+      return (
+        <InterfaceIpv4Resource
+          resource={resourceData}
+          isOpen={isOpen}
+          onClose={onClose}
+          refresh={refreshAll}
+          formRef={formRef}
+          isDisabled={!editing}
+        />
+      );
 
-    if (getType() === 'radio')
+    if (resourceType === 'radio')
       return (
         <SingleRadioResource
           resource={resourceData}

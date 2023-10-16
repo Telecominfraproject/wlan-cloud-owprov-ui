@@ -15,6 +15,7 @@ import InterfaceSsidResource from '../Sections/InterfaceSsid';
 import InterfaceSsidRadiusResource from '../Sections/InterfaceSsidRadius';
 import InterfaceVlanResource from '../Sections/InterfaceVlan';
 import InterfaceIpv4Resource from '../Sections/Ipv4';
+import OpenRoamingSSID from '../Sections/OpenRoamingSsid';
 import SingleRadioResource from '../Sections/SingleRadio';
 import InterfaceTunnelResource from '../Sections/Tunnel';
 import CloseButton from 'components/Buttons/CloseButton';
@@ -22,6 +23,7 @@ import CreateButton from 'components/Buttons/CreateButton';
 import SaveButton from 'components/Buttons/SaveButton';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
 import ModalHeader from 'components/Modals/ModalHeader';
+import { useGetRadiusEndpoints } from 'hooks/Network/RadiusEndpoints';
 import useFormRef from 'hooks/useFormRef';
 
 interface Props {
@@ -30,12 +32,13 @@ interface Props {
   isVenue?: boolean;
 }
 
-const CreateResourceModal = ({ refresh, entityId, isVenue = false }: Props) => {
+const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = false }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedVariable, setSelectedVariable] = useState('interface.ssid');
   const { isOpen: showConfirm, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
   const { form, formRef } = useFormRef();
+  const getRadiusEndpoints = useGetRadiusEndpoints();
 
   const closeModal = () => (form.dirty ? openConfirm() : onClose());
 
@@ -48,7 +51,7 @@ const CreateResourceModal = ({ refresh, entityId, isVenue = false }: Props) => {
 
   return (
     <>
-      <CreateButton ml={2} onClick={onOpen} />
+      <CreateButton ml={2} onClick={onOpen} isCompact />
       <Modal onClose={closeModal} isOpen={isOpen} size="xl" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent maxWidth={{ sm: '600px', md: '700px', lg: '800px', xl: '50%' }}>
@@ -68,16 +71,22 @@ const CreateResourceModal = ({ refresh, entityId, isVenue = false }: Props) => {
           <ModalBody>
             <FormControl isRequired mb={4}>
               <FormLabel ms="4px" fontSize="md" fontWeight="normal">
-                {t('resources.variable')}
+                Configuration Section
               </FormLabel>
               <Select value={selectedVariable} onChange={onVariableChange} borderRadius="15px" fontSize="sm" w="200px">
                 <option value="interface.captive">interface.captive</option>
                 <option value="interface.ipv4">interface.ipv4</option>
+                <option value="radio">radio</option>
                 <option value="interface.ssid">interface.ssid</option>
+                <option
+                  value="interface.ssid.openroaming"
+                  hidden={!getRadiusEndpoints.data || getRadiusEndpoints.data.length === 0}
+                >
+                  Open Roaming SSID
+                </option>
                 <option value="interface.ssid.radius">interface.ssid.radius</option>
                 <option value="interface.tunnel">interface.tunnel</option>
                 <option value="interface.vlan">interface.vlan</option>
-                <option value="radio">radio</option>
               </Select>
             </FormControl>
             {selectedVariable === 'interface.captive' && (
@@ -100,6 +109,17 @@ const CreateResourceModal = ({ refresh, entityId, isVenue = false }: Props) => {
                 parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
               />
             )}
+            {selectedVariable === 'interface.ssid.openroaming' && getRadiusEndpoints.data && (
+              <OpenRoamingSSID
+                isOpen={isOpen}
+                onClose={onClose}
+                refresh={refresh}
+                isDisabled={false}
+                formRef={formRef}
+                parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
+                radiusEndpoints={getRadiusEndpoints.data}
+              />
+            )}
             {selectedVariable === 'interface.tunnel' && (
               <InterfaceTunnelResource
                 isOpen={isOpen}
@@ -120,16 +140,6 @@ const CreateResourceModal = ({ refresh, entityId, isVenue = false }: Props) => {
                 parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
               />
             )}
-            {selectedVariable === 'interface.ipv4' && (
-              <InterfaceIpv4Resource
-                isOpen={isOpen}
-                onClose={onClose}
-                refresh={refresh}
-                isDisabled={false}
-                formRef={formRef}
-                parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
-              />
-            )}
             {selectedVariable === 'interface.ssid' && (
               <InterfaceSsidResource
                 isOpen={isOpen}
@@ -142,6 +152,16 @@ const CreateResourceModal = ({ refresh, entityId, isVenue = false }: Props) => {
             )}
             {selectedVariable === 'radio' && (
               <SingleRadioResource
+                isOpen={isOpen}
+                onClose={onClose}
+                refresh={refresh}
+                formRef={formRef}
+                parent={{ entity: isVenue ? undefined : entityId, venue: isVenue ? entityId : undefined }}
+                isDisabled={false}
+              />
+            )}
+            {selectedVariable === 'interface.ipv4' && (
+              <InterfaceIpv4Resource
                 isOpen={isOpen}
                 onClose={onClose}
                 refresh={refresh}

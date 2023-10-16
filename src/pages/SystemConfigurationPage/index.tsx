@@ -1,51 +1,27 @@
-import * as React from 'react';
-import {
-  BackgroundProps,
-  EffectProps,
-  Heading,
-  InteractivityProps,
-  LayoutProps,
-  PositionProps,
-  SpaceProps,
-  Spacer,
-} from '@chakra-ui/react';
+import React from 'react';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import SystemSecretCreateButton from './CreateButton';
-import SystemSecretsTable from './Table';
-import Card from 'components/Card';
-import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
-import { useAuth } from 'contexts/AuthProvider';
+import RadiusEndpointsManagement from './RadiusEndpoints';
+import SystemSecrets from './SystemSecrets';
 
-interface SystemConfigurationPageProps
-  extends LayoutProps,
-    SpaceProps,
-    BackgroundProps,
-    InteractivityProps,
-    PositionProps,
-    EffectProps {}
-
-const SystemConfigurationPage = ({ ...props }: SystemConfigurationPageProps) => {
+const SystemConfigurationPage = () => {
   const { t } = useTranslation();
-  const { user } = useAuth();
-
-  if (!user || user.userRole !== 'root') {
-    return null;
-  }
 
   return (
-    <Card {...props}>
-      <CardHeader>
-        <Heading size="md" my="auto">
-          {t('system.secrets')}
-        </Heading>
-        <Spacer />
-        <SystemSecretCreateButton />
-      </CardHeader>
-      <CardBody p={4}>
-        <SystemSecretsTable />
-      </CardBody>
-    </Card>
+    <Tabs>
+      <TabList>
+        <Tab>{t('openroaming.radius_endpoint_other')}</Tab>
+        <Tab>{t('system.secrets')}</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel px={0}>
+          <RadiusEndpointsManagement />
+        </TabPanel>
+        <TabPanel px={0}>
+          <SystemSecrets />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 };
 

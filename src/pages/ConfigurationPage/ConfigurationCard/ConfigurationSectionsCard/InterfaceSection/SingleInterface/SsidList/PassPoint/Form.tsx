@@ -14,16 +14,10 @@ interface Props {
   namePrefix: string;
   isEnabled: boolean;
   onToggle: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  lockConsortium?: boolean;
 }
 
-const PassPointForm = (
-  {
-    isDisabled,
-    namePrefix,
-    isEnabled,
-    onToggle
-  }: Props
-) => {
+const PassPointForm: React.FC<Props> = ({ isDisabled, namePrefix, isEnabled, onToggle, lockConsortium }) => {
   const name = React.useCallback((suffix: string) => `${namePrefix}.${suffix}`, []);
 
   const fieldProps = (suffix: string) => ({
@@ -157,7 +151,12 @@ const PassPointForm = (
           <ToggleField {...fieldProps('esr')} falseIsUndefined />
           <ToggleField {...fieldProps('uesa')} falseIsUndefined />
           <StringField {...fieldProps('hessid')} emptyIsUndefined />
-          <CreatableSelectField {...fieldProps('roaming-consortium')} emptyIsUndefined placeholder="BAA2D00100" />
+          <CreatableSelectField
+            {...fieldProps('roaming-consortium')}
+            emptyIsUndefined
+            placeholder="BAA2D00100"
+            isDisabled={lockConsortium || isDisabled}
+          />
           <ToggleField {...fieldProps('disable-dgaf')} falseIsUndefined />
           <NumberField {...fieldProps('ipaddr-type-available')} acceptEmptyValue emptyIsUndefined />
           <SelectField

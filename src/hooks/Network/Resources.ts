@@ -2,8 +2,8 @@ import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'models/Axios';
+import { Resource } from 'models/Resource';
 import { PageInfo } from 'models/Table';
-import { VariableBlock } from 'models/VariableBlock';
 import { axiosProv } from 'utils/axiosInstances';
 
 export const useGetResourcesCount = () => {
@@ -78,7 +78,7 @@ export const useGetResources = ({
   select,
   count,
 }: {
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | null;
   select?: string[];
   count?: number;
 }) => {
@@ -92,7 +92,7 @@ export const useGetResources = ({
         select.length > 0
           ? axiosProv
               .get(`variable?withExtendedInfo=true&select=${select}`)
-              .then(({ data }: { data: { variableBlocks: VariableBlock[] } }) => data.variableBlocks)
+              .then(({ data }: { data: { variableBlocks: Resource[] } }) => data.variableBlocks)
           : [],
       {
         onError: (e: AxiosError) => {
@@ -123,7 +123,7 @@ export const useGetResources = ({
             (pageInfo?.limit ?? 10) * (pageInfo?.index ?? 1)
           }`,
         )
-        .then(({ data }) => data.variableBlocks),
+        .then(({ data }) => data.variableBlocks as Resource[]),
     {
       keepPreviousData: true,
       enabled: pageInfo !== null,

@@ -40,13 +40,14 @@ export const NavLinkButton = ({ isActive, route, toggleSidebar }: Props) => {
             _hover={{
               bg: hoverBg,
             }}
+            whiteSpace="normal"
           >
             <Flex alignItems="center" w="100%">
               <IconBox color="blue.300" h="30px" w="30px" me="6px" transition={variantChange} fontWeight="bold">
                 {route.icon(false)}
               </IconBox>
-              <Text color={activeTextColor} fontSize="md" fontWeight="bold">
-                {t(route.name)}
+              <Text color={activeTextColor} fontSize="md" fontWeight="bold" textAlign="left">
+                {route.label ?? t(route.name)}
               </Text>
             </Flex>
           </AccordionButton>
@@ -64,13 +65,14 @@ export const NavLinkButton = ({ isActive, route, toggleSidebar }: Props) => {
             _hover={{
               bg: hoverBg,
             }}
+            whiteSpace="normal"
           >
             <Flex alignItems="center" w="100%">
               <IconBox color="blue.300" h="30px" w="30px" me="6px" transition={variantChange} fontWeight="bold">
                 {route.icon(false)}
               </IconBox>
-              <Text color={inactiveTextColor} fontSize="md" fontWeight="bold">
-                {t(route.name)}
+              <Text color={inactiveTextColor} fontSize="md" fontWeight="bold" textAlign="left">
+                {route.label ?? t(route.name)}
               </Text>
             </Flex>
           </AccordionButton>

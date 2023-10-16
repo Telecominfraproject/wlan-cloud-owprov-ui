@@ -12,9 +12,10 @@ import StringField from 'components/FormFields/StringField';
 
 const propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
+  isUsingRadiusEndpoint: PropTypes.bool,
 };
 
-const LockedEncryption = ({ data }) => {
+const LockedEncryption = ({ data, isUsingRadiusEndpoint }) => {
   if (!data) return null;
 
   return (
@@ -73,7 +74,7 @@ const LockedEncryption = ({ data }) => {
               Radius
             </Heading>
           </Flex>
-          <SimpleGrid minChildWidth="300px" spacing="20px">
+          <SimpleGrid minChildWidth="300px" spacing="20px" hidden={isUsingRadiusEndpoint}>
             <DisplayStringField
               value={data?.radius?.authentication?.host}
               label="authentication.host"
@@ -97,65 +98,69 @@ const LockedEncryption = ({ data }) => {
             />
             <DisplayToggleField value={data?.radius?.authentication?.['mac-filter']} isDisabled />
           </SimpleGrid>
-          <FormControl isDisabled>
-            <FormLabel ms="4px" fontSize="md" fontWeight="normal">
-              Accounting
-            </FormLabel>
-          </FormControl>
           {data?.radius?.accounting && (
-            <SimpleGrid minChildWidth="300px" spacing="20px">
-              <DisplayStringField
-                value={data?.radius?.accounting?.host}
-                label="accounting.host"
-                isDisabled
-                isRequired
-              />
-              <DisplayNumberField
-                value={data?.radius?.accounting?.port}
-                label="accounting.port"
-                isDisabled
-                isRequired
-                hideArrows
-                w={24}
-              />
-              <DisplayStringField
-                value={data?.radius?.accounting?.secret}
-                label="accounting.secret"
-                isDisabled
-                isRequired
-                hideButton
-              />
-            </SimpleGrid>
+            <>
+              <FormControl>
+                <FormLabel ms="4px" fontSize="md" fontWeight="normal">
+                  Accounting
+                </FormLabel>
+              </FormControl>
+              <SimpleGrid minChildWidth="300px" spacing="20px">
+                <DisplayStringField
+                  value={data?.radius?.accounting?.host}
+                  label="accounting.host"
+                  isDisabled
+                  isRequired
+                />
+                <DisplayNumberField
+                  value={data?.radius?.accounting?.port}
+                  label="accounting.port"
+                  isDisabled
+                  isRequired
+                  hideArrows
+                  w={24}
+                />
+                <DisplayStringField
+                  value={data?.radius?.accounting?.secret}
+                  label="accounting.secret"
+                  isDisabled
+                  isRequired
+                  hideButton
+                />
+              </SimpleGrid>
+            </>
           )}
-          <FormControl isDisabled>
-            <FormLabel ms="4px" fontSize="md" fontWeight="normal">
-              Accounting
-            </FormLabel>
-          </FormControl>
           {data?.radius?.['dynamic-authorization'] && (
-            <SimpleGrid minChildWidth="300px" spacing="20px">
-              <DisplayStringField
-                value={data?.radius?.['dynamic-authorization']?.host}
-                label="dynamic-authorization.host"
-                isDisabled
-                isRequired
-              />
-              <DisplayNumberField
-                value={data?.radius?.['dynamic-authorization']?.port}
-                label="dynamic-authorization.port"
-                isDisabled
-                isRequired
-                hideArrows
-                w={24}
-              />
-              <DisplayStringField
-                value={data?.radius?.['dynamic-authorization']?.secret}
-                label="dynamic-authorization.secret"
-                isDisabled
-                isRequired
-                hideButton
-              />
-            </SimpleGrid>
+            <>
+              <FormControl isDisabled hidden={isUsingRadiusEndpoint}>
+                <FormLabel ms="4px" fontSize="md" fontWeight="normal">
+                  Dynamic Authorization
+                </FormLabel>
+              </FormControl>
+              <SimpleGrid minChildWidth="300px" spacing="20px">
+                <DisplayStringField
+                  value={data?.radius?.['dynamic-authorization']?.host}
+                  label="dynamic-authorization.host"
+                  isDisabled
+                  isRequired
+                />
+                <DisplayNumberField
+                  value={data?.radius?.['dynamic-authorization']?.port}
+                  label="dynamic-authorization.port"
+                  isDisabled
+                  isRequired
+                  hideArrows
+                  w={24}
+                />
+                <DisplayStringField
+                  value={data?.radius?.['dynamic-authorization']?.secret}
+                  label="dynamic-authorization.secret"
+                  isDisabled
+                  isRequired
+                  hideButton
+                />
+              </SimpleGrid>
+            </>
           )}
           <SimpleGrid minChildWidth="300px" spacing="20px">
             <DisplayStringField value={data?.radius?.['nas-identifier']} label="nas-identifier" isDisabled />

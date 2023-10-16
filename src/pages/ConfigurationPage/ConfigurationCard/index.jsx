@@ -18,13 +18,14 @@ import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
 import LoadingOverlay from 'components/LoadingOverlay';
 import ConfirmCloseAlert from 'components/Modals/Actions/ConfirmCloseAlert';
+import { ConfigurationProvider } from 'contexts/ConfigurationProvider';
 import { useGetConfiguration, useUpdateConfiguration } from 'hooks/Network/Configurations';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-const tryParse = (value) => {
+const try_parse = (value) => {
   try {
     return JSON.parse(value);
   } catch (e) {
@@ -77,7 +78,7 @@ const ConfigurationCard = ({ id }) => {
           if (conf !== 'third-party') deviceConfig.__selected_subcategories = undefined;
           const config = { ...sections.data[conf].data, configuration: {} };
           if (conf === 'interfaces') config.configuration = { interfaces: deviceConfig };
-          else if (conf === 'third-party') config.configuration = { 'third-party': tryParse(deviceConfig) };
+          else if (conf === 'third-party') config.configuration = { 'third-party': try_parse(deviceConfig) };
           else config.configuration[conf] = deviceConfig;
           return config;
         }),
@@ -140,8 +141,8 @@ const ConfigurationCard = ({ id }) => {
   return (
     <>
       <Card mb={4}>
-        <CardHeader>
-          <Box pt={1}>
+        <CardHeader mb={0}>
+          <Box>
             <Heading size="md">{configuration?.name}</Heading>
           </Box>
           <Spacer />
@@ -182,7 +183,9 @@ const ConfigurationCard = ({ id }) => {
           )}
         </CardBody>
       </Card>
-      <ConfigurationSectionsCard editing={editing} configId={id} setSections={setSections} />
+      <ConfigurationProvider configurationId={id}>
+        <ConfigurationSectionsCard editing={editing} configId={id} setSections={setSections} />
+      </ConfigurationProvider>
       <ConfirmConfigurationWarnings
         isOpen={showWarnings}
         onClose={closeWarnings}

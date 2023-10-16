@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/react';
-import { AxiosError } from 'axios';
 import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
@@ -9,6 +8,7 @@ import InterfaceSsidForm from './Form';
 import NotesTable from 'components/CustomFields/NotesTable';
 import StringField from 'components/FormFields/StringField';
 import { useCreateResource, useUpdateResource } from 'hooks/Network/Resources';
+import { AxiosError } from 'models/Axios';
 import { Note } from 'models/Note';
 import { Resource } from 'models/Resource';
 import { INTERFACE_SSID_SCHEMA } from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/interfacesConstants';
@@ -34,7 +34,15 @@ interface Props {
   };
 }
 
-const InterfaceSsidResource = ({ isOpen, onClose, refresh, formRef, resource, isDisabled = false, parent }: Props) => {
+const InterfaceSsidResource: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  refresh,
+  formRef,
+  resource,
+  isDisabled = false,
+  parent,
+}) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [formKey, setFormKey] = useState(uuid());
