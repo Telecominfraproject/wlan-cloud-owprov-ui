@@ -906,6 +906,11 @@
 		"one": "Notification",
 		"other": "Notifications"
 	},
+	"openroaming": {
+		"pool_strategy": "Pool Strategy",
+		"radius_endpoint_one": "Radius Endpoint",
+		"radius_endpoint_other": "Radius Endpoints"
+	},
 	"operator": {
 		"delete_explanation": "Are you sure you want to delete this operator? This operation is not reversible",
 		"delete_operator": "Delete Operator",
@@ -970,6 +975,27 @@
 		"signed_upgrade": "Signed Upgrade Only",
 		"title": "Restrictions",
 		"tty": "TTY Access"
+	},
+	"roaming": {
+		"account_created": "New account created!",
+		"account_deleted": "Deleted account!",
+		"account_one": "Account",
+		"account_other": "Accounts",
+		"certificate_deleted": "Deleted certificate!",
+		"certificate_one": "Certificate",
+		"certificate_other": "Certificates",
+		"city": "City",
+		"common_name": "Common Name",
+		"country": "Country",
+		"global_reach": "Global Reach",
+		"global_reach_account_id": " Account ID",
+		"invalid_certificate": "Invalid certificate",
+		"invalid_key": "Invalid private key",
+		"location_details_title": "Location",
+		"organization": "Organization",
+		"private_key": "Private Key",
+		"province": "Province",
+		"state": "State"
 	},
 	"rrm": {
 		"algorithm": "Algorithm",

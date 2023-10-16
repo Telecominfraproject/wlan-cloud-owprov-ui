@@ -23,6 +23,7 @@ interface StringInputProps extends FieldInputProps<string | undefined | string[]
   isArea: boolean;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
   explanation?: string;
+  placeholder?: string;
 }
 
 const StringInput: React.FC<StringInputProps> = ({
@@ -39,6 +40,7 @@ const StringInput: React.FC<StringInputProps> = ({
   isDisabled,
   definitionKey,
   explanation,
+  placeholder,
   h,
   ...props
 }) => {
@@ -97,6 +99,7 @@ const StringInput: React.FC<StringInputProps> = ({
             autoComplete="off"
             border="2px solid"
             _disabled={{ opacity: 0.8, cursor: 'not-allowed' }}
+            placeholder={placeholder}
           />
           {hideButton && (
             <InputRightElement width="4.5rem">

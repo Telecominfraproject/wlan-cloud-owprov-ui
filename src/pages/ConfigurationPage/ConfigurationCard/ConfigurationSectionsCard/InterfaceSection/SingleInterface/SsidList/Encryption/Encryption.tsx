@@ -16,6 +16,7 @@ interface Props {
   isUsingRadius: boolean;
   isPasspoint?: boolean;
   canUseRadius: boolean;
+  acceptedEncryptionProtos?: string[];
 }
 
 const EncryptionForm = ({
@@ -28,6 +29,7 @@ const EncryptionForm = ({
   isUsingRadius,
   isPasspoint,
   canUseRadius,
+  acceptedEncryptionProtos,
 }: Props) => (
   <>
     <Flex mt={4}>
@@ -40,7 +42,11 @@ const EncryptionForm = ({
         name={`${namePrefix}.proto`}
         label="protocol"
         definitionKey="interface.ssid.encryption.proto"
-        options={ENCRYPTION_OPTIONS}
+        options={
+          acceptedEncryptionProtos
+            ? ENCRYPTION_OPTIONS.filter(({ value }) => acceptedEncryptionProtos.includes(value))
+            : ENCRYPTION_OPTIONS
+        }
         isDisabled={!editing}
         isRequired
         onChange={onProtoChange}

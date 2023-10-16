@@ -1,5 +1,5 @@
 import { bool, object, number, string } from 'yup';
-import { testAlphanumWithDash } from 'constants/formTests';
+import { testFqdnHostname } from 'constants/formTests';
 
 export const DEFAULT_UNIT = {
   name: 'Unit',
@@ -28,7 +28,7 @@ export const UNIT_SCHEMA = (t) =>
       name: string().required(t('form.required')).default(''),
       location: string().required(t('form.required')).default(''),
       hostname: string()
-        .test('test-hostname-network', t('form.invalid_hostname'), testAlphanumWithDash)
+        .test('test-hostname-network', t('form.invalid_fqdn_host'), (v) => v === undefined || testFqdnHostname(v))
         .default(undefined),
       timezone: string().default(undefined),
       'leds-active': bool().default(true),

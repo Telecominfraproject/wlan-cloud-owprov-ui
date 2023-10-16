@@ -6,6 +6,7 @@ import { Route } from 'models/Routes';
 const ConfigurationPage = React.lazy(() => import('pages/ConfigurationPage'));
 const EntityPage = React.lazy(() => import('pages/EntityPage'));
 const InventoryPage = React.lazy(() => import('pages/InventoryPage'));
+const OpenRoamingPage = React.lazy(() => import('pages/OpenRoamingPage'));
 const ProvLogsPage = React.lazy(() => import('pages/Notifications/GeneralLogs'));
 const VenueNotificationsPage = React.lazy(() => import('pages/Notifications/Notifications'));
 const FmsLogsPage = React.lazy(() => import('pages/Notifications/FmsLogs'));
@@ -122,6 +123,14 @@ const routes: Route[] = [
         path: '/systemConfiguration',
         name: 'system.configuration',
         component: SystemConfigurationPage,
+      },
+      {
+        id: 'system-globalroaming',
+        authorized: ['root', 'partner', 'admin', 'csr', 'system'],
+        path: '/openRoaming',
+        name: 'RAW-Open Roaming',
+        label: 'Open Roaming',
+        component: OpenRoamingPage,
       },
       {
         id: 'system-monitoring',

@@ -8,9 +8,10 @@ type Props = {
   isDisabled?: boolean;
   namePrefix: string;
   radiusPrefix: string;
+  lockConsortium?: boolean;
 };
 
-const PassPointConfig = ({ isDisabled, namePrefix, radiusPrefix }: Props) => {
+const PassPointConfig = ({ isDisabled, namePrefix, radiusPrefix, lockConsortium }: Props) => {
   const { t } = useTranslation();
   const { value, onChange } = useFastField({ name: namePrefix });
   const { value: radius } = useFastField({ name: radiusPrefix });
@@ -36,7 +37,15 @@ const PassPointConfig = ({ isDisabled, namePrefix, radiusPrefix }: Props) => {
     [onChange, radius],
   );
 
-  return <PassPointForm isDisabled={isDisabled} namePrefix={namePrefix} isEnabled={isEnabled} onToggle={onToggle} />;
+  return (
+    <PassPointForm
+      isDisabled={isDisabled}
+      namePrefix={namePrefix}
+      isEnabled={isEnabled}
+      onToggle={onToggle}
+      lockConsortium={lockConsortium}
+    />
+  );
 };
 
 export default React.memo(PassPointConfig);

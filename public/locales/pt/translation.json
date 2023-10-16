@@ -906,6 +906,11 @@
 		"one": "Notificação",
 		"other": "Notificações"
 	},
+	"openroaming": {
+		"pool_strategy": "Estratégia de pool",
+		"radius_endpoint_one": "Ponto final do raio",
+		"radius_endpoint_other": "Pontos finais de raio"
+	},
 	"operator": {
 		"delete_explanation": "Tem certeza de que deseja excluir este operador? Esta operação não é reversível",
 		"delete_operator": "Excluir operador",
@@ -970,6 +975,27 @@
 		"signed_upgrade": "Somente atualização assinada",
 		"title": "RESTRIÇÕES",
 		"tty": "Acesso TTY"
+	},
+	"roaming": {
+		"account_created": "Nova conta criada!",
+		"account_deleted": "Conta excluída!",
+		"account_one": "Conta",
+		"account_other": "Contas",
+		"certificate_deleted": "Certificado excluído!",
+		"certificate_one": "Certificado",
+		"certificate_other": "Certificados",
+		"city": "Cidade",
+		"common_name": "Nome comum",
+		"country": "País",
+		"global_reach": "Alcance global",
+		"global_reach_account_id": "ID da conta",
+		"invalid_certificate": "Certificado inválido",
+		"invalid_key": "Chave privada inválida",
+		"location_details_title": "Localização",
+		"organization": "Organização",
+		"private_key": "Chave privada",
+		"province": "província",
+		"state": "Estado"
 	},
 	"rrm": {
 		"algorithm": "Algoritmo",

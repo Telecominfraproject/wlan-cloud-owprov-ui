@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { Box, Center, Flex, Heading, Link, Spacer, Spinner, useToast } from '@chakra-ui/react';
+import { Box, Center, Flex, HStack, Heading, Link, Spacer, Spinner } from '@chakra-ui/react';
 import { Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
@@ -18,11 +18,11 @@ import { useUpdateAccount } from 'hooks/Network/Account';
 import useApiRequirements from 'hooks/useApiRequirements';
 import useFormModal from 'hooks/useFormModal';
 import useFormRef from 'hooks/useFormRef';
+import { useNotification } from 'hooks/useNotification';
 
 const FormSchema = (t: (str: string) => string, { passRegex }: { passRegex: string }) =>
   Yup.object().shape({
-    firstName: Yup.string().required(t('form.required')),
-    lastName: Yup.string().required(t('form.required')),
+    name: Yup.string().required(t('form.required')),
     newPassword: Yup.string()
       .notRequired()
       .test('password', t('form.invalid_password'), (v) => testRegex(v, passRegex)),
@@ -36,7 +36,7 @@ const FormSchema = (t: (str: string) => string, { passRegex }: { passRegex: stri
 
 const GeneralInformationProfile = () => {
   const { t } = useTranslation();
-  const toast = useToast();
+  const { successToast, apiErrorToast } = useNotification();
   const { passwordPattern, passwordPolicyLink } = useApiRequirements();
   const { user } = useAuth();
   const updateUser = useUpdateAccount({});
@@ -70,13 +70,15 @@ const GeneralInformationProfile = () => {
       <CardHeader>
         <Heading size="md">{t('profile.your_profile')}</Heading>
         <Spacer />
-        <SaveButton
-          onClick={form.submitForm}
-          isLoading={form.isSubmitting}
-          isDisabled={!form.isValid || !form.dirty}
-          hidden={!isEditing}
-        />
-        <ToggleEditButton toggleEdit={toggleEditing} isEditing={isEditing} ml={2} />
+        <HStack>
+          <SaveButton
+            onClick={form.submitForm}
+            isLoading={form.isSubmitting}
+            isDisabled={!form.isValid || !form.dirty}
+            hidden={!isEditing}
+          />
+          <ToggleEditButton toggleEdit={toggleEditing} isEditing={isEditing} />
+        </HStack>
       </CardHeader>
       <CardBody display="block">
         {!user ? (
@@ -86,8 +88,7 @@ const GeneralInformationProfile = () => {
         ) : (
           <Formik<{
             description: string;
-            firstName: string;
-            lastName: string;
+            name: string;
             newPassword?: string;
           }>
             key={formKey}
@@ -95,12 +96,10 @@ const GeneralInformationProfile = () => {
               {
                 email: user?.email,
                 description: user?.description ?? '',
-                firstName: user?.name.split(' ')[0] ?? '',
-                lastName: user?.name.split(' ')[1] ?? '',
+                name: user?.name ?? '',
               } as {
                 description: string;
-                firstName: string;
-                lastName: string;
+                name: string;
                 newPassword?: string;
               }
             }
@@ -108,35 +107,35 @@ const GeneralInformationProfile = () => {
               formRef as React.Ref<
                 FormikProps<{
                   description: string;
-                  firstName: string;
-                  lastName: string;
+                  name: string;
                   newPassword?: string;
                 }>
               >
             }
             validationSchema={FormSchema(t, { passRegex: passwordPattern })}
-            onSubmit={async ({ description, firstName, lastName, newPassword }, { setSubmitting }) => {
+            onSubmit={async ({ description, name, newPassword }, { setSubmitting }) => {
               await updateUser.mutateAsync(
                 {
                   id: user?.id,
                   description,
-                  name: `${firstName} ${lastName}`,
+                  name,
                   currentPassword: newPassword,
                 },
                 {
                   onSuccess: () => {
                     setSubmitting(false);
                     closeCancelAndForm();
-                    toast({
+                    successToast({
                       id: 'account-update-success',
-                      title: t('common.success'),
                       description: t('crud.success_update_obj', {
                         obj: t('profile.your_profile'),
                       }),
-                      status: 'success',
-                      duration: 5000,
-                      isClosable: true,
-                      position: 'top-right',
+                    });
+                  },
+                  onError: (e) => {
+                    apiErrorToast({
+                      id: 'account-update-error',
+                      e,
                     });
                   },
                 },
@@ -145,29 +144,16 @@ const GeneralInformationProfile = () => {
           >
             {({ isSubmitting }) => (
               <Form>
-                <StringField name="email" label={t('common.email')} isDisabled />
-                <Flex my={4}>
-                  <StringField
-                    name="firstName"
-                    label={t('contacts.first_name')}
-                    isDisabled={isSubmitting || !isEditing}
-                    isRequired
-                  />
+                <Flex>
+                  <StringField name="email" label={t('common.email')} isDisabled />
                   <Box w={8} />
                   <StringField
-                    name="lastName"
-                    label={t('contacts.last_name')}
+                    name="name"
+                    label={t('common.name')}
                     isDisabled={isSubmitting || !isEditing}
                     isRequired
                   />
                 </Flex>
-                <StringField
-                  h="100px"
-                  name="description"
-                  label={t('profile.about_me')}
-                  isDisabled={isSubmitting || !isEditing}
-                  isArea
-                />
                 <Flex my={4}>
                   <StringField
                     name="newPassword"
@@ -185,6 +171,13 @@ const GeneralInformationProfile = () => {
                     hideButton
                   />
                 </Flex>
+                <StringField
+                  h="100px"
+                  name="description"
+                  label={t('profile.about_me')}
+                  isDisabled={isSubmitting || !isEditing}
+                  isArea
+                />
                 <Box w="100%" mt={4} textAlign="right">
                   <Link href={passwordPolicyLink} isExternal>
                     {t('login.password_policy')}

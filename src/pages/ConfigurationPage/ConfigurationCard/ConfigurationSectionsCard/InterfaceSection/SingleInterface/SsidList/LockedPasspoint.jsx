@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Heading, Image, NumberInputField, SimpleGrid } from '@chakra-ui/react';
+import { Flex, Heading, Image, SimpleGrid } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { INTERFACE_PASSPOINT_ICONS_SCHEMA } from '../../interfacesConstants';
 import DisplayNumberField from 'components/DisplayFields/DisplayNumberField';
@@ -35,7 +35,7 @@ const LockedPasspoint = ({ data }) => {
     () => (
       <>
         <SimpleGrid minChildWidth="180px" gap={4} mb={4}>
-          <NumberInputField name="width" label="width" w="140px" emptyIsUndefined isRequired unit="px" />
+          <NumberField name="width" label="width" w="140px" emptyIsUndefined isRequired unit="px" />
           <NumberField name="height" label="height" w="140px" isRequired unit="px" />
           <StringField name="language" label="language" w="100px" isRequired />
         </SimpleGrid>

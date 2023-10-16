@@ -1,24 +1,32 @@
 import { useMemo } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 
-interface Props {
+type UseFormModalProps = {
   isDirty?: boolean;
   onModalClose?: () => void;
-}
-const useFormModal = ({ isDirty, onModalClose }: Props) => {
+  onCloseSideEffect?: () => void;
+};
+
+const useFormModal = ({ isDirty, onModalClose, onCloseSideEffect }: UseFormModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isConfirmOpen, onOpen: openConfirm, onClose: closeConfirm } = useDisclosure();
 
   const closeModal = () => {
     if (isDirty) openConfirm();
     else if (onModalClose) onModalClose();
-    else onClose();
+    else {
+      onClose();
+      if (onCloseSideEffect) onCloseSideEffect();
+    }
   };
 
   const closeCancelAndForm = () => {
     closeConfirm();
     if (onModalClose) onModalClose();
-    else onClose();
+    else {
+      onClose();
+      if (onCloseSideEffect) onCloseSideEffect();
+    }
   };
 
   const toReturn = useMemo(

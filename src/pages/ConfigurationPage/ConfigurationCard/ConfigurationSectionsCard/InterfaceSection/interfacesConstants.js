@@ -763,7 +763,7 @@ export const SINGLE_INTERFACE_SCHEMA = (
           .default({ addressing: 'dynamic' })
       : INTERFACE_IPV4_SCHEMA(t, useDefault),
     tunnel: INTERFACE_TUNNEL_SCHEMA(t, useDefault).default(undefined),
-    ssids: array().of(INTERFACE_SSID_SCHEMA(t, useDefault)).default([]),
+    ssids: array().of(INTERFACE_SSID_SCHEMA(t, useDefault)).default(undefined),
     'hostapd-bss-raw': array().of(string()).default(undefined),
   });
 
