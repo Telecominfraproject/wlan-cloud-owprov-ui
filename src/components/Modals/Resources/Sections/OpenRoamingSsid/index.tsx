@@ -21,7 +21,6 @@ const CONSORTIUMS = {
   generic: [],
   radsec: [],
 } as const;
-
 const DEFAULT_VALUE = (defaultEndpoint?: RadiusEndpoint) => ({
   'bss-mode': 'ap',
   'dtim-period': 2,
@@ -32,11 +31,6 @@ const DEFAULT_VALUE = (defaultEndpoint?: RadiusEndpoint) => ({
   radius: {
     __radiusEndpoint: defaultEndpoint?.id ?? '',
     'chargeable-user-id': true,
-    accounting: {
-      host: 'example.com',
-      port: '1813',
-      secret: 'Secret',
-    },
   },
   'pass-point': {
     'venue-group': 1,
