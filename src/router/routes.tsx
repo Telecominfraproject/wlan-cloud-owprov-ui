@@ -128,8 +128,8 @@ const routes: Route[] = [
         id: 'system-globalroaming',
         authorized: ['root', 'partner', 'admin', 'csr', 'system'],
         path: '/openRoaming',
-        name: 'RAW-Open Roaming',
-        label: 'Open Roaming',
+        name: 'RAW-OpenRoaming',
+        label: 'OpenRoaming',
         component: OpenRoamingPage,
       },
       {

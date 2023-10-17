@@ -4,7 +4,7 @@ import { RadiusEndpoint } from 'hooks/Network/RadiusEndpoints';
 
 const prettyTypes = {
   orion: 'Google Orion',
-  globalreach: 'Global Reach',
+  globalreach: 'GlobalReach',
   generic: 'Generic',
   radsec: 'RadSec',
 } as const;

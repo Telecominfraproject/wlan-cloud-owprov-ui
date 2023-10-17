@@ -22,7 +22,7 @@ const GlobalReachEndpointDetails = ({ endpoint }: Props) => {
   return (
     <Box mt={2}>
       <Heading size="md" textDecoration="underline">
-        Global Reach Certificate
+        GlobalReach Certificate
       </Heading>{' '}
       {certificate ? (
         <Box>

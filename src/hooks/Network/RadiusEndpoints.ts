@@ -20,7 +20,7 @@ export type RadiusEndpointServer = {
 
 export type RadsecServer = {
   /**
-   * It should be the ID of a google orion account OR the certificate ID of the global reach account
+   * It should be the ID of a google orion account OR the certificate ID of the GlobalReach account
    * If not empty, only Weight needs to be populated
    * If empty, all fields need to be populated
    */

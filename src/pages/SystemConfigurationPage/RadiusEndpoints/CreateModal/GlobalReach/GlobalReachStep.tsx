@@ -55,7 +55,7 @@ const CreateRadiusEndpointGlobalReachStep = ({ formRef, finishStep, accounts }: 
       {({ isSubmitting }) => (
         <Box>
           <Heading mb={4} size="md" textDecoration="underline">
-            What Global Reach account would like to use?
+            What GlobalReach account would like to use?
           </Heading>
           <Select
             mb={2}
