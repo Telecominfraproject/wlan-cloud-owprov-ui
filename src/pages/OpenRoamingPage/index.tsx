@@ -19,7 +19,7 @@ const OpenRoamingPage = () => {
   return (
     <Tabs>
       <TabList>
-        <Tab _selected={tabStyle}>Global Reach</Tab>
+        <Tab _selected={tabStyle}>GlobalReach</Tab>
         <Tab _selected={tabStyle}>Google Orion</Tab>
       </TabList>
       <TabPanels>

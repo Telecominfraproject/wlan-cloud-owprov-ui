@@ -108,7 +108,7 @@ const CreateRadiusEndpointDetailsStep = ({ formRef, finishStep, orionAccounts, g
     }
 
     if (globalReachAccounts.length > 0) {
-      options.push({ value: 'globalreach', label: 'Global Reach' });
+      options.push({ value: 'globalreach', label: 'GlobalReach' });
     }
 
     return options;

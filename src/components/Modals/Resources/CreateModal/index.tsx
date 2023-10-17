@@ -82,7 +82,7 @@ const CreateResourceModal: React.FC<Props> = ({ refresh, entityId, isVenue = fal
                   value="interface.ssid.openroaming"
                   hidden={!getRadiusEndpoints.data || getRadiusEndpoints.data.length === 0}
                 >
-                  Open Roaming SSID
+                  OpenRoaming SSID
                 </option>
                 <option value="interface.ssid.radius">interface.ssid.radius</option>
                 <option value="interface.tunnel">interface.tunnel</option>
