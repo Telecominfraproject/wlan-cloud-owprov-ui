@@ -139,7 +139,7 @@ const IpV4Form = ({ isEnabled, isDisabled, namePrefix, ipv4, role, onToggle, onC
       {variableBlockId ? (
         <LockedIpv4 variableBlockId={variableBlockId} />
       ) : (
-        <StaticIpV4 namePrefix={namePrefix} isEnabled={ipv4 === 'static'} isDisabled={isDisabled} />
+        <StaticIpV4 namePrefix={namePrefix} isEnabled={ipv4 === 'static'} role={role} isDisabled={isDisabled} />
       )}
     </>
   );

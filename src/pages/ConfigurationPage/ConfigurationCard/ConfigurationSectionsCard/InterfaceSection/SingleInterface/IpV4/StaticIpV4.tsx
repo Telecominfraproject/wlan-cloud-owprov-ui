@@ -9,9 +9,10 @@ type Props = {
   isDisabled?: boolean;
   namePrefix: string;
   isEnabled: boolean;
+  role: string;
 };
 
-const IpV4 = ({ isDisabled, namePrefix, isEnabled }: Props) => {
+const IpV4 = ({ isDisabled, namePrefix, isEnabled, role }: Props) => {
   if (!isEnabled) return null;
 
   return (
@@ -38,12 +39,14 @@ const IpV4 = ({ isDisabled, namePrefix, isEnabled }: Props) => {
           isDisabled={isDisabled}
           isRequired
         />
-        <CreatableSelectField
-          name={`${namePrefix}.use-dns`}
-          label="use-dns"
-          definitionKey="interface.ipv4.use-dns"
-          isDisabled={isDisabled}
-        />
+        {role === 'upstream' ? (
+          <CreatableSelectField
+            name={`${namePrefix}.use-dns`}
+            label="use-dns"
+            definitionKey="interface.ipv4.use-dns"
+            isDisabled={isDisabled}
+          />
+        ) : null}
       </SimpleGrid>
       <DhcpIpV4 namePrefix={namePrefix} isDisabled={isDisabled} />
     </>
