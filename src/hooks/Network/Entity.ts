@@ -2,7 +2,6 @@ import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Entity } from '../../models/Entity';
-import useDefaultPage from '../useDefaultPage';
 import { AxiosError } from 'models/Axios';
 import { axiosProv, axiosSec } from 'utils/axiosInstances';
 
@@ -22,13 +21,26 @@ export type TreeEntity = {
   venues: TreeVenue[];
 };
 
+// Traverse the tree and add a description
+export const filterEmptyObjects = (tree: TreeEntity | TreeVenue): TreeEntity | TreeVenue => {
+  const newTree = { ...tree };
+  newTree.children = tree.children.filter((child) => child.uuid !== undefined && child.name !== undefined) as
+    | TreeEntity[]
+    | TreeVenue[];
+  newTree.venues = tree.venues?.filter((venue) => venue.uuid !== undefined && venue.name !== undefined) as TreeVenue[];
+  if (newTree.children)
+    newTree.children = newTree.children.map((child) => filterEmptyObjects(child)) as TreeEntity[] | TreeVenue[];
+  if (newTree.venues) newTree.venues = newTree.venues.map((v) => filterEmptyObjects(v)) as TreeVenue[];
+  return newTree;
+};
+
 export const useGetEntityTree = () => {
   const { t } = useTranslation();
   const toast = useToast();
 
   return useQuery(
     ['get-entity-tree'],
-    () => axiosProv.get('entity?getTree=true').then(({ data }) => data as TreeEntity),
+    () => axiosProv.get('entity?getTree=true').then(({ data }) => filterEmptyObjects(data) as TreeEntity),
     {
       enabled: axiosProv.defaults.baseURL !== axiosSec.defaults.baseURL,
       staleTime: Infinity,
@@ -129,7 +141,6 @@ export const useGetSelectEntities = ({ select }: { select: string[] }) => {
 export const useGetEntity = ({ id }: { id?: string }) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const goToDefaultPage = useDefaultPage();
 
   return useQuery(
     ['get-entity', id],
@@ -152,7 +163,6 @@ export const useGetEntity = ({ id }: { id?: string }) => {
             isClosable: true,
             position: 'top-right',
           });
-        goToDefaultPage();
       },
     },
   );
