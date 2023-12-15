@@ -47,6 +47,7 @@ export type ProvisioningVenueNotificationMessage = {
       details: string;
       success: string[];
       noFirmware?: string[];
+      pending?: string[];
       notConnected?: string[];
       skipped?: string[];
       warning: string[];

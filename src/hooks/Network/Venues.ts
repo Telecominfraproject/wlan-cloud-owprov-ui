@@ -209,7 +209,7 @@ export const useUpgradeVenueDevices = () => {
 
   return useMutation(
     (data: { id: string; revision: string }) =>
-      axiosProv.put(`venue/${data.id}?upgradeAllDevices=true&revision=${data.revision}`, {}),
+      axiosProv.put(`venue/${data.id}?upgradeAllDevices=true&revision=${encodeURIComponent(data.revision) || ''}`, {}),
     {
       onSuccess: () => {
         toast({

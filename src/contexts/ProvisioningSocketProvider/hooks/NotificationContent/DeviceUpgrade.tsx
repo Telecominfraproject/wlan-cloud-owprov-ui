@@ -28,6 +28,18 @@ const DeviceUpgradeNotificationContent = ({ notification }: Props) => {
         </Box>
       )}
       <Heading size="sm" mt={4}>
+        Pending (success): {notification?.content?.pending?.length ?? 0}
+      </Heading>
+      {notification?.content?.pending && (
+        <Box maxH="200px" overflowY="auto">
+          <UnorderedList maxH="200px" overflowY="auto">
+            {notification?.content?.pending.map((serialNumber) => (
+              <ListItem key={uuid()}>{serialNumber}</ListItem>
+            ))}
+          </UnorderedList>
+        </Box>
+      )}
+      <Heading size="sm" mt={4}>
         {t('inventory.not_connected', { count: notification?.content?.notConnected?.length ?? 0 })}
       </Heading>
       {notification?.content?.notConnected && (
