@@ -18,6 +18,7 @@ import {
   Spacer,
   IconButton,
   Tooltip,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { X } from '@phosphor-icons/react';
 import { TOptions } from 'i18next';
@@ -50,6 +51,7 @@ const getNotificationDescription = (
 
 const useWebSocketNotification = () => {
   const { t } = useTranslation();
+  const modalHeaderBg = useColorModeValue('blue.50', 'blue.700');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [notif, setNotif] = useState<ProvisioningVenueNotificationMessage['notification'] | undefined>(undefined);
   const toast = useToast();
@@ -87,11 +89,16 @@ const useWebSocketNotification = () => {
 
   const modal = useMemo(
     () => (
-      <Modal onClose={onClose} isOpen={isOpen} size="xl" scrollBehavior="inside">
+      <Modal
+        onClose={onClose}
+        isOpen={isOpen}
+        size={notif?.type === 'venue_fw_upgrade' ? 'sm' : 'xl'}
+        scrollBehavior="inside"
+      >
         <ModalOverlay />
-        <ModalContent maxWidth={{ sm: '90%', md: '900px', lg: '1000px', xl: '80%' }}>
-          <ModalHeader>
-            <Flex justifyContent="center" alignItems="center" maxW="100%" px={1}>
+        <ModalContent>
+          <ModalHeader bg={modalHeaderBg}>
+            <Flex alignItems="center" w="100%" px={1}>
               {notif?.content?.title ?? ''}
               <Spacer />
               <Tooltip label={t('common.close')}>
@@ -105,7 +112,7 @@ const useWebSocketNotification = () => {
         </ModalContent>
       </Modal>
     ),
-    [notif, isOpen],
+    [notif, isOpen, modalHeaderBg],
   );
 
   const toReturn = useMemo(
