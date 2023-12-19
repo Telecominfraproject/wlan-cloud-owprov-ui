@@ -142,7 +142,9 @@ const ChannelPicker = ({ namePrefix, isDisabled }: Props) => {
 
     options.sort((a, b) => a.toString().localeCompare(b.toString(), 'en', { numeric: true }));
 
-    if (channel !== 'auto' && !options.includes(parseInt(channel, 10))) {
+    if (Number.isNaN(channel)) {
+      onChannelChange('auto');
+    } else if (channel !== 'auto' && !options.includes(parseInt(channel, 10))) {
       onChannelChange(options[0]);
     }
 
