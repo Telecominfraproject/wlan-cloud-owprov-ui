@@ -15,6 +15,7 @@ import {
   Tabs,
   Text,
   UnorderedList,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import FormattedDate from 'components/FormattedDate';
@@ -52,9 +53,12 @@ const VenueFirmwareUpgradeModal = ({ isOpen, onClose, venueId }: Props) => {
     }
   };
 
+  const inactiveBg = useColorModeValue('white', 'gray.700');
+  const activeBg = useColorModeValue('gray.200', 'gray.600');
+
   const listItemStyle = (revision: string) => ({
     cursor: 'pointer',
-    backgroundColor: revision === selectedRevision ? 'gray.200' : 'white',
+    backgroundColor: revision === selectedRevision ? activeBg : inactiveBg,
   });
 
   const displayRevision = (release: { date: number; revision: string }) => (
