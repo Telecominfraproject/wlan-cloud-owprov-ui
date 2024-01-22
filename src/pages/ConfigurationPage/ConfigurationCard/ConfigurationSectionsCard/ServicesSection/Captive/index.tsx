@@ -101,7 +101,7 @@ const CaptiveConfiguration = ({ editing }: { editing: boolean }) => {
         </Heading>
         <Spacer />
         <Box>
-          <Select value={captive['auth-mode']} onChange={handleAuthModeChange} isDisabled={!editing}>
+          <Select value={captive?.['auth-mode']} onChange={handleAuthModeChange} isDisabled={!editing}>
             <option value="click">Click</option>
             <option value="radius">Radius</option>
             <option value="credentials">Credentials</option>
