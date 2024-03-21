@@ -392,6 +392,132 @@ export const INTERFACE_SSID_RRM_SCHEMA = (t, useDefault = false) => {
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
+export const INTERFACE_CAPTIVE_SCHEMA = (t, useDefault = false) => {
+  const shape = object()
+    .shape({
+      'auto-mode': string().required(t('form.required')).default('click'),
+      'walled-garden-fqdn': array()
+        .when('auth-mode', {
+          is: 'uam',
+          then: (schema) => schema.of(string()).min(1, t('form.required')),
+        })
+        .default(undefined),
+      'walled-garden-ipaddr': array().of(string()).default(undefined),
+      'web-root': string().default(undefined),
+      'idle-timeout': number().required(t('form.required')).positive().lessThan(65535).integer().default(600),
+      'session-timeout': number().positive().lessThan(65535).integer().default(undefined),
+      // Only if auto-mode is "credentials"
+      credentials: array()
+        .when('auth-mode', {
+          is: 'credentials',
+          then: (schema) =>
+            schema
+              .of(
+                object().shape({
+                  username: string().required(t('form.required')).default(''),
+                  password: string().required(t('form.required')).default(''),
+                }),
+              )
+              .min(1, t('form.required')),
+        })
+        .default(undefined),
+      // Radius && UAM values
+      'auth-server': string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'radius' || authMode === 'uam',
+          then: (schema) => schema.required(t('form.required')).default(''),
+        })
+        .default(undefined),
+      'auth-secret': string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'radius' || authMode === 'uam',
+          then: (schema) => schema.required(t('form.required')).default(''),
+          else: (schema) => schema.default(undefined),
+        })
+        .default(undefined),
+      'auth-port': number()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'radius' || authMode === 'uam',
+          then: (schema) => schema.required(t('form.required')).moreThan(1023).lessThan(65535).integer().default(1812),
+          else: (schema) => schema.default(undefined),
+        })
+        .default(undefined),
+      'acct-server': string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'radius' || authMode === 'uam',
+          then: (schema) => schema.default(undefined),
+          else: (schema) => schema.default(undefined),
+        })
+        .default(undefined),
+      'acct-secret': string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'radius' || authMode === 'uam',
+          then: (schema) => schema.default(undefined),
+          else: (schema) => schema.default(undefined),
+        })
+        .default(undefined),
+      'acct-port': number()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'radius' || authMode === 'uam',
+          then: (schema) => schema.moreThan(1023).lessThan(65535).integer().default(undefined),
+          else: (schema) => schema.default(undefined),
+        })
+        .default(undefined),
+      'acct-interval': number()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'radius' || authMode === 'uam',
+          then: (schema) => schema.positive().lessThan(65535).integer().default(undefined),
+        })
+        .default(undefined),
+      // Only UAM fields
+      'uam-server': string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'uam',
+          then: (schema) => schema.required(t('form.required')).default(''),
+        })
+        .default(undefined),
+      'uam-secret': string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'uam',
+          then: (schema) => schema.required(t('form.required')).default(''),
+        })
+        .default(undefined),
+      'uam-port': number()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'uam',
+          then: (schema) => schema.required(t('form.required')).moreThan(1023).lessThan(65535).integer().default(3990),
+        })
+        .default(undefined),
+      ssid: string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'uam',
+          then: (schema) => schema.default(undefined),
+        })
+        .default(undefined),
+      'mac-format': string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'uam',
+          then: (schema) => schema.required(t('form.required')).default('aabbccddeeff'),
+        })
+        .default(undefined),
+      nasid: string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'uam',
+          then: (schema) => schema.required(t('form.required')).default(''),
+        })
+        .default(undefined),
+      nasmac: string()
+        .when('auth-mode', {
+          is: (authMode) => authMode === 'uam',
+          then: (schema) => schema.default(undefined),
+        })
+        .default(undefined),
+    })
+    .default({});
+
+  return useDefault ? shape : shape.nullable().default(undefined);
+};
+
 export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     name: string()
@@ -434,6 +560,7 @@ export const INTERFACE_SSID_SCHEMA = (t, useDefault = false) => {
     encryption: INTERFACE_SSID_ENCRYPTION_SCHEMA(t, useDefault),
     'rate-limit': INTERFACE_SSID_RATE_LIMIT_SCHEMA(t),
     rrm: INTERFACE_SSID_RRM_SCHEMA(t),
+    captive: useDefault ? object().shape().nullable().default(undefined) : INTERFACE_CAPTIVE_SCHEMA(t, useDefault),
     'access-control-list': INTERFACE_SSID_ACCESS_CONTROL_LIST_SCHEMA(t),
     roaming: INTERFACE_SSID_ROAMING_SCHEMA(t),
     radius: INTERFACE_SSID_RADIUS_SCHEMA(t),
@@ -484,20 +611,6 @@ export const INTERFACE_IPV4_DHCP_LEASE_SCHEMA = (t, useDefault = false) => {
       'lease-time': '6h',
       'publish-hostname': true,
     });
-
-  return useDefault ? shape : shape.nullable().default(undefined);
-};
-
-export const INTERFACE_CAPTIVE_SCHEMA = (t, useDefault = false) => {
-  const shape = object().shape({
-    'gateway-name': string().default('uCentral - Captive Portal'),
-    'gateway-fqdn': string().default('ucentral.splash'),
-    'max-clients': number().moreThan(0).lessThan(65535).integer().default(32),
-    'upload-rate': number().moreThan(-1).lessThan(65535).integer().default(0),
-    'download-rate': number().moreThan(-1).lessThan(65535).integer().default(0),
-    'upload-quota': number().moreThan(-1).lessThan(65535).integer().default(0),
-    'download-quota': number().moreThan(-1).lessThan(65535).integer().default(0),
-  });
 
   return useDefault ? shape : shape.nullable().default(undefined);
 };
@@ -756,7 +869,6 @@ export const SINGLE_INTERFACE_SCHEMA = (
       : object().shape({
           id: number().required(t('form.required')).moreThan(0).lessThan(4051).default(1080),
         }),
-    captive: initialCreation ? object().shape().nullable().default(undefined) : INTERFACE_CAPTIVE_SCHEMA(t, useDefault),
     ipv4: initialCreation
       ? object()
           .shape({ addressing: string().required(t('form.required')) })

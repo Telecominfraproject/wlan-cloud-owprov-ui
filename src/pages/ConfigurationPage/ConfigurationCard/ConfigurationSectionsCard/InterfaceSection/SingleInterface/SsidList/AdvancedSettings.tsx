@@ -3,6 +3,7 @@ import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { INTERFACE_SSID_MULTIPSK_SCHEMA, NO_MULTI_PROTOS } from '../../interfacesConstants';
 import AccessControlList from './AccessControlList';
+import Captive from './Captive';
 import RateLimit from './RateLimit';
 import Roaming from './Roaming';
 import Rrm from './Rrm';
@@ -187,6 +188,7 @@ const AdvancedSettings: React.FC<{ editing: boolean; namePrefix: string }> = ({ 
       </SimpleGrid>
       <RateLimit editing={editing} namePrefix={`${namePrefix}.rate-limit`} />
       <Rrm editing={editing} namePrefix={`${namePrefix}.rrm`} />
+      <Captive editing={editing} namePrefix={`${namePrefix}.captive`} />
       <AccessControlList editing={editing} namePrefix={`${namePrefix}.access-control-list`} />
       <Roaming editing={editing} namePrefix={`${namePrefix}.roaming`} />
     </>
