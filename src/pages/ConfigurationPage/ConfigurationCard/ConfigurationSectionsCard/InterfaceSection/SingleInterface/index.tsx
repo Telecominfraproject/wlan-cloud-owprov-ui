@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { Box, Flex, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
 import { FieldArray } from 'formik';
 import { useTranslation } from 'react-i18next';
-import Captive from './Captive';
 import InterfaceSelectPortsField from './InterfaceSelectPortsField';
 import IpV4 from './IpV4';
 import IpV6 from './IpV6';
@@ -140,7 +139,6 @@ const SingleInterface: React.FC<Props> = ({ editing, index, remove }) => {
         </Heading>
       </Flex>
       <Vlan editing={editing} index={index} />
-      <Captive editing={editing} index={index} />
       <Tunnel editing={editing} index={index} />
       <FieldArray name={`configuration[${index}].ssids`}>
         {(arrayHelpers) => (

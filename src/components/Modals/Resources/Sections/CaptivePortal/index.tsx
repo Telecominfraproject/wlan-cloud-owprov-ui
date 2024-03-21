@@ -11,7 +11,7 @@ import { useCreateResource, useUpdateResource } from 'hooks/Network/Resources';
 import { Note } from 'models/Note';
 import { Resource } from 'models/Resource';
 import { INTERFACE_CAPTIVE_SCHEMA } from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/interfacesConstants';
-import Captive from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/SingleInterface/Captive/Captive';
+import Captive from 'pages/ConfigurationPage/ConfigurationCard/ConfigurationSectionsCard/InterfaceSection/SingleInterface/SsidList/Captive/Captive';
 
 export const EDIT_SCHEMA = (t: (str: string) => string) =>
   object().shape({
@@ -211,7 +211,7 @@ const InterfaceCaptiveResource = ({
               <StringField name="_unused_name" label={t('common.name')} isRequired isDisabled={isDisabled} />
               <StringField name="_unused_description" label={t('common.description')} isDisabled={isDisabled} />
             </SimpleGrid>
-            <Captive namePrefix="editing" isDisabled={isDisabled} isActive />
+            <Captive namePrefix="editing" isDisabled={isDisabled} />
           </TabPanel>
           <TabPanel>
             <NotesTable name="_unused_notes" isDisabled={isDisabled} />
