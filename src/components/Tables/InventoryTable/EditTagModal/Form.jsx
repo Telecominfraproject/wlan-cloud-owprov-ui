@@ -68,6 +68,15 @@ const EditTagForm = ({
     return '';
   };
 
+  const deviceListWithType = React.useMemo(() => {
+    const { deviceType } = tag;
+    if (deviceTypesList.includes(deviceType)) return deviceTypesList;
+
+    const newList = [...deviceTypesList, deviceType];
+
+    return newList.sort((a, b) => a.localeCompare(b));
+  }, [deviceTypesList]);
+
   useEffect(() => {
     setFormKey(uuid());
     setIsDeleted(false);
@@ -288,7 +297,7 @@ const EditTagForm = ({
                   <SelectField
                     name="deviceType"
                     label={t('inventory.device_type')}
-                    options={deviceTypesList.map((deviceType) => ({
+                    options={deviceListWithType.map((deviceType) => ({
                       value: deviceType,
                       label: deviceType,
                     }))}

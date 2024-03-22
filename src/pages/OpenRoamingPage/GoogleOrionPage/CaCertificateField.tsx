@@ -33,7 +33,7 @@ const GoogleOrionCaCertificateField = ({ name, isDisabled }: Props) => {
   };
 
   const onRemove = (index: number) => {
-    field.onChange(field.value.filter((_: unknown, i: number) => i !== index));
+    field.onChange((field.value as { value: string; filename: string }[]).filter((_, i) => i !== index));
     setRefreshId(uuid());
   };
 
@@ -52,7 +52,7 @@ const GoogleOrionCaCertificateField = ({ name, isDisabled }: Props) => {
         <FormErrorMessage>You need to upload at least one file to CA Certs</FormErrorMessage>
       </FormControl>
       <UnorderedList>
-        {field.value.map((v: { filename: string }, i: number) => (
+        {(field.value as { value: string; filename: string }[]).map((v, i) => (
           <ListItem key={uuid()}>
             {v.filename}
             <Tooltip label={t('common.remove')}>
