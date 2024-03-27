@@ -3,20 +3,23 @@ import { Box, Heading, Spacer, useDisclosure } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import VenueInventoryActions from './Actions';
+import { useVenueInventory } from './useVenueInventory';
+import RefreshButton from 'components/Buttons/RefreshButton';
 import Card from 'components/Card';
 import CardHeader from 'components/Card/CardHeader';
+import DataTable from 'components/DataTable';
 import ExportDevicesTableButton from 'components/ExportInventoryButton';
 import FactoryResetModal from 'components/Modals/SubscriberDevice/FactoryResetModal';
 import FirmwareUpgradeModal from 'components/Modals/SubscriberDevice/FirmwareUpgradeModal';
 import WifiScanModal from 'components/Modals/SubscriberDevice/WifiScanModal';
-import InventoryTable from 'components/Tables/InventoryTable';
 import ConfigurationPushModal from 'components/Tables/InventoryTable/ConfigurationPushModal';
 import CreateTagModal from 'components/Tables/InventoryTable/CreateTagModal';
 import EditTagModal from 'components/Tables/InventoryTable/EditTagModal';
 import ImportDeviceCsvModal from 'components/Tables/InventoryTable/ImportDeviceCsvModal';
 import { usePushConfig } from 'hooks/Network/Inventory';
-import { useGetVenue } from 'hooks/Network/Venues';
 import { Device } from 'models/Device';
+import { InventoryTagApiResponse } from 'models/Inventory';
+import { Column } from 'models/Table';
 
 type Props = {
   id: string;
@@ -24,7 +27,7 @@ type Props = {
 
 const VenueInventoryCard = ({ id }: Props) => {
   const { t } = useTranslation();
-  const getVenue = useGetVenue({ id });
+  const { getVenue, getTags, setPageInfo } = useVenueInventory({ venueId: id });
   const queryClient = useQueryClient();
   const [tag, setTag] = React.useState<Device | undefined>(undefined);
   const [serialNumber, setSerialNumber] = React.useState<string>('');
@@ -71,6 +74,86 @@ const VenueInventoryCard = ({ id }: Props) => {
     queryClient.invalidateQueries(['get-inventory-with-select']);
   }, []);
 
+  const columns: Column<InventoryTagApiResponse>[] = React.useMemo(
+    () => [
+      {
+        id: 'serialNumber',
+        Header: t('inventory.serial_number'),
+        Footer: '',
+        accessor: 'serialNumber',
+        customMaxWidth: '200px',
+        customWidth: 'calc(15vh)',
+        customMinWidth: '150px',
+        isMonospace: true,
+        // @ts-ignore
+        sortType: (rowA, rowB, currId) => {
+          const a = rowA.values[currId];
+          const b = rowB.values[currId];
+
+          if (a && b) {
+            return a.localeCompare(b);
+          }
+
+          return 0;
+        },
+      },
+      {
+        id: 'name',
+        Header: t('common.name'),
+        Footer: '',
+        accessor: 'name',
+        customMaxWidth: '200px',
+        customWidth: 'calc(15vh)',
+        customMinWidth: '150px',
+        isMonospace: true,
+      },
+      {
+        id: 'configuration',
+        Header: t('configurations.one'),
+        Footer: '',
+        accessor: 'extendedInfo.deviceConfiguration.name',
+        customMaxWidth: '200px',
+        customWidth: 'calc(15vh)',
+        customMinWidth: '150px',
+      },
+      {
+        id: 'description',
+        Header: t('common.description'),
+        Footer: '',
+        accessor: 'description',
+      },
+      {
+        id: 'entity',
+        Header: t('entities.entity'),
+        Footer: '',
+        accessor: 'extendedInfo.entity.name',
+        customMaxWidth: '200px',
+        customWidth: 'calc(15vh)',
+        customMinWidth: '150px',
+      },
+      {
+        id: 'venue',
+        Header: t('venues.one'),
+        Footer: '',
+        accessor: 'extendedInfo.venue.name',
+        customMaxWidth: '200px',
+        customWidth: 'calc(15vh)',
+        customMinWidth: '150px',
+      },
+      {
+        id: 'actions',
+        Header: '',
+        Footer: '',
+        accessor: 'id',
+        // @ts-ignore
+        Cell: (cell) => actions(cell),
+        customWidth: '50px',
+        disableSortBy: true,
+      },
+    ],
+    [],
+  );
+
   return (
     <Card>
       <CardHeader>
@@ -81,13 +164,26 @@ const VenueInventoryCard = ({ id }: Props) => {
         <ExportDevicesTableButton serialNumbers={getVenue.data?.devices ?? []} />
         <ImportDeviceCsvModal refresh={getVenue.refetch} parent={{ venue: id }} deviceClass="venue" />
         <CreateTagModal refresh={getVenue.refetch} entityId={`venue:${id}`} deviceClass="venue" />
+        <RefreshButton onClick={refetchTags} isFetching={getTags.isFetching} ml={2} />
       </CardHeader>
-      <Box overflowX="auto">
-        <InventoryTable
-          tagSelect={getVenue.data?.devices ?? []}
-          ignoredColumns={['entity', 'venue', 'description']}
-          actions={actions}
-          openDetailsModal={openEditModal}
+      <Box w="100%">
+        <DataTable
+          columns={columns.filter((col) => !['entity', 'venue', 'description'].find((ign) => col.id === ign))}
+          data={getTags.data ?? []}
+          isManual
+          obj={t('devices.title')}
+          sortBy={[
+            {
+              id: 'serialNumber',
+              desc: false,
+            },
+          ]}
+          count={getVenue.data?.devices.length ?? 0}
+          setPageInfo={setPageInfo}
+          minHeight="200px"
+          onRowClick={openEditModal}
+          isRowClickable={() => true}
+          disabledPaginationAutoReset
         />
       </Box>
       <EditTagModal
