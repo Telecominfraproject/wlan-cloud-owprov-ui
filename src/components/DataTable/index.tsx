@@ -23,6 +23,7 @@ import {
   Spinner,
   Heading,
   useBreakpoint,
+  TableContainer,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -63,6 +64,7 @@ type DataTableProps<TValue> = {
   isManual?: boolean;
   saveSettingsId?: string;
   showAllRows?: boolean;
+  disabledPaginationAutoReset?: boolean;
 };
 
 type TableInstanceWithHooks<T extends object> = TableInstance<T> &
@@ -89,6 +91,7 @@ const DataTable = <TValue extends object>({
   showAllRows,
   onRowClick,
   isRowClickable,
+  disabledPaginationAutoReset,
 }: DataTableProps<TValue>) => {
   const { t } = useTranslation();
   const breakpoint = useBreakpoint();
@@ -141,6 +144,7 @@ const DataTable = <TValue extends object>({
       // @ts-ignore
       initialState: { sortBy, pagination: !hideControls, pageSize: queryPageSize },
       manualPagination: isManual,
+      autoResetPage: !disabledPaginationAutoReset,
       pageCount:
         isManual && count !== undefined
           ? Math.ceil(count / queryPageSize)
@@ -164,7 +168,9 @@ const DataTable = <TValue extends object>({
   };
 
   useEffect(() => {
-    if (setPageInfo && pageIndex !== undefined) setPageInfo({ index: pageIndex, limit: queryPageSize });
+    if (setPageInfo && pageIndex !== undefined) {
+      setPageInfo({ index: pageIndex, limit: queryPageSize });
+    }
   }, [queryPageSize, pageIndex]);
 
   useEffect(() => {
@@ -214,132 +220,134 @@ const DataTable = <TValue extends object>({
   // Render the UI for your table
   return (
     <>
-      <Box minHeight={computedMinHeight()} position="relative">
+      <Box minH={computedMinHeight()} position="relative">
         <LoadingOverlay isLoading={isManual !== undefined && isManual && isLoading !== undefined && isLoading}>
-          <Table {...getTableProps()} size="small" textColor={textColor} w="100%">
-            <Thead fontSize="14px">
-              {
-                // @ts-ignore
-                headerGroups.map((group) => (
-                  <Tr {...group.getHeaderGroupProps()} key={uuid()}>
-                    {
-                      // @ts-ignore
-                      group.headers.map((column) => (
-                        <Th
-                          color="gray.400"
-                          {...column.getHeaderProps()}
-                          // @ts-ignore
-                          minWidth={column.customMinWidth ?? null}
-                          // @ts-ignore
-                          maxWidth={column.customMaxWidth ?? null}
-                          // @ts-ignore
-                          width={column.customWidth ?? null}
-                        >
-                          <div
-                            // @ts-ignore
-                            {...column.getSortByToggleProps()}
-                            style={{
-                              alignContent: 'center',
-                              overflow: 'hidden',
-                              whiteSpace: 'nowrap',
-                              // @ts-ignore
-                              paddingTop: column.canSort ? '' : '4px',
-                            }}
-                          >
-                            {column.render('Header')}
-                            <SortIcon
-                              // @ts-ignore
-                              isSorted={column.isSorted}
-                              // @ts-ignore
-                              isSortedDesc={column.isSortedDesc}
-                              // @ts-ignore
-                              canSort={column.canSort}
-                            />
-                          </div>
-                        </Th>
-                      ))
-                    }
-                  </Tr>
-                ))
-              }
-            </Thead>
-            {data.length > 0 && (
-              <Tbody {...getTableBodyProps()}>
-                {page.map((row: Row<TValue>) => {
-                  prepareRow(row);
-                  const rowIsClickable = isRowClickable ? isRowClickable(row.original) : true;
-                  const onClick = rowIsClickable && onRowClick ? () => onRowClick(row.original) : undefined;
-                  return (
-                    <Tr
-                      {...row.getRowProps()}
-                      key={uuid()}
-                      _hover={{
-                        backgroundColor: hoveredRowBg,
-                      }}
-                      onClick={onClick}
-                    >
+          <TableContainer minH={computedMinHeight()}>
+            <Table {...getTableProps()} size="small" textColor={textColor} w="100%">
+              <Thead fontSize="14px">
+                {
+                  // @ts-ignore
+                  headerGroups.map((group) => (
+                    <Tr {...group.getHeaderGroupProps()} key={uuid()}>
                       {
                         // @ts-ignore
-                        row.cells.map((cell) => (
-                          <Td
-                            key={uuid()}
-                            px={1}
+                        group.headers.map((column) => (
+                          <Th
+                            color="gray.400"
+                            {...column.getHeaderProps()}
                             // @ts-ignore
-                            minWidth={cell.column.customMinWidth ?? undefined}
+                            minWidth={column.customMinWidth ?? null}
                             // @ts-ignore
-                            maxWidth={cell.column.customMaxWidth ?? undefined}
+                            maxWidth={column.customMaxWidth ?? null}
                             // @ts-ignore
-                            width={cell.column.customWidth ?? undefined}
-                            textOverflow="ellipsis"
-                            overflow="hidden"
-                            whiteSpace="nowrap"
-                            fontSize="14px"
-                            // @ts-ignore
-                            textAlign={cell.column.isCentered ? 'center' : undefined}
-                            fontFamily={
-                              // @ts-ignore
-                              cell.column.isMonospace
-                                ? 'Inter, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
-                                : undefined
-                            }
-                            onClick={
-                              // @ts-ignore
-                              cell.column.stopPropagation || (cell.column.id === 'actions' && onRowClick)
-                                ? (e) => {
-                                    e.stopPropagation();
-                                  }
-                                : undefined
-                            }
-                            cursor={
-                              // @ts-ignore
-                              !cell.column.stopPropagation && cell.column.id !== 'actions' && onRowClick
-                                ? 'pointer'
-                                : undefined
-                            }
+                            width={column.customWidth ?? null}
                           >
-                            {cell.render('Cell')}
-                          </Td>
+                            <div
+                              // @ts-ignore
+                              {...column.getSortByToggleProps()}
+                              style={{
+                                alignContent: 'center',
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                // @ts-ignore
+                                paddingTop: column.canSort ? '' : '4px',
+                              }}
+                            >
+                              {column.render('Header')}
+                              <SortIcon
+                                // @ts-ignore
+                                isSorted={column.isSorted}
+                                // @ts-ignore
+                                isSortedDesc={column.isSortedDesc}
+                                // @ts-ignore
+                                canSort={column.canSort}
+                              />
+                            </div>
+                          </Th>
                         ))
                       }
                     </Tr>
-                  );
-                })}
-              </Tbody>
-            )}
-          </Table>
-          {!isLoading && data.length === 0 && !hideEmptyListText && (
-            <Center>
-              {obj ? (
-                <Heading size="md" pt={12}>
-                  {t('common.no_obj_found', { obj })}
-                </Heading>
-              ) : (
-                <Heading size="sm" pt={12}>
-                  {t('common.empty_list')}
-                </Heading>
+                  ))
+                }
+              </Thead>
+              {data.length > 0 && (
+                <Tbody {...getTableBodyProps()}>
+                  {page.map((row: Row<TValue>) => {
+                    prepareRow(row);
+                    const rowIsClickable = isRowClickable ? isRowClickable(row.original) : true;
+                    const onClick = rowIsClickable && onRowClick ? () => onRowClick(row.original) : undefined;
+                    return (
+                      <Tr
+                        {...row.getRowProps()}
+                        key={uuid()}
+                        _hover={{
+                          backgroundColor: hoveredRowBg,
+                        }}
+                        onClick={onClick}
+                      >
+                        {
+                          // @ts-ignore
+                          row.cells.map((cell) => (
+                            <Td
+                              key={uuid()}
+                              px={1}
+                              // @ts-ignore
+                              minWidth={cell.column.customMinWidth ?? undefined}
+                              // @ts-ignore
+                              maxWidth={cell.column.customMaxWidth ?? undefined}
+                              // @ts-ignore
+                              width={cell.column.customWidth ?? undefined}
+                              textOverflow="ellipsis"
+                              overflow="hidden"
+                              whiteSpace="nowrap"
+                              fontSize="14px"
+                              // @ts-ignore
+                              textAlign={cell.column.isCentered ? 'center' : undefined}
+                              fontFamily={
+                                // @ts-ignore
+                                cell.column.isMonospace
+                                  ? 'Inter, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+                                  : undefined
+                              }
+                              onClick={
+                                // @ts-ignore
+                                cell.column.stopPropagation || (cell.column.id === 'actions' && onRowClick)
+                                  ? (e) => {
+                                      e.stopPropagation();
+                                    }
+                                  : undefined
+                              }
+                              cursor={
+                                // @ts-ignore
+                                !cell.column.stopPropagation && cell.column.id !== 'actions' && onRowClick
+                                  ? 'pointer'
+                                  : undefined
+                              }
+                            >
+                              {cell.render('Cell')}
+                            </Td>
+                          ))
+                        }
+                      </Tr>
+                    );
+                  })}
+                </Tbody>
               )}
-            </Center>
-          )}
+            </Table>
+            {!isLoading && data.length === 0 && !hideEmptyListText && (
+              <Center>
+                {obj ? (
+                  <Heading size="md" pt={12}>
+                    {t('common.no_obj_found', { obj })}
+                  </Heading>
+                ) : (
+                  <Heading size="sm" pt={12}>
+                    {t('common.empty_list')}
+                  </Heading>
+                )}
+              </Center>
+            )}
+          </TableContainer>
         </LoadingOverlay>
       </Box>
       {!hideControls && (

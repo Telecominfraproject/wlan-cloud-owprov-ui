@@ -6,6 +6,55 @@ import { AxiosError } from 'models/Axios';
 import { PageInfo, SortInfo } from 'models/Table';
 import { axiosProv } from 'utils/axiosInstances';
 
+export const useGetSelectInventoryPaginated = ({
+  serialNumbers,
+  pageInfo,
+  sortInfo,
+}: {
+  serialNumbers: string[];
+  pageInfo?: PageInfo;
+  sortInfo?: SortInfo;
+}) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const paginatedSerials = pageInfo
+    ? serialNumbers.slice(pageInfo.limit * pageInfo.index, pageInfo.limit * (pageInfo.index + 1))
+    : [];
+  let sortString = '';
+  if (sortInfo && sortInfo.length > 0) {
+    sortString = `&orderBy=${sortInfo.map((info) => `${info.id}:${info.sort.charAt(0)}`).join(',')}`;
+  }
+
+  return useQuery(
+    ['get-inventory-with-select', serialNumbers, pageInfo],
+    () =>
+      paginatedSerials.length > 0
+        ? axiosProv
+            .get(`inventory?withExtendedInfo=true&select=${paginatedSerials}${sortString}`)
+            .then(({ data }) => data.taglist)
+        : [],
+    {
+      staleTime: 30000,
+      keepPreviousData: true,
+      onError: (e: AxiosError) => {
+        if (!toast.isActive('get-inventory-tags-fetching-error'))
+          toast({
+            id: 'get-inventory-tags-fetching-error',
+            title: t('common.error'),
+            description: t('crud.error_fetching_obj', {
+              obj: t('inventory.tags'),
+              e: e?.response?.data?.ErrorDescription,
+            }),
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+      },
+    },
+  );
+};
+
 export const useGetInventoryTableSpecs = () =>
   useQuery(
     ['get-inventory-table-spec'],
