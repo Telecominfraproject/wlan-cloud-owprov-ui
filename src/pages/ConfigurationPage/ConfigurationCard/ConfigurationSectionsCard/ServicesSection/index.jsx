@@ -9,7 +9,6 @@ import InternalFormAccess from '../common/InternalFormAccess';
 import SectionGeneralCard from '../common/SectionGeneralCard';
 import SubSectionPicker from '../common/SubSectionPicker';
 import AirtimePolicies from './AirtimePolicies';
-import Captive from './Captive';
 import DataPlane from './DataPlane';
 import DhcpRelay from './DhcpRelay';
 import FacebookWifi from './FacebookWifi';
@@ -124,7 +123,6 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
                   editing={editing}
                   subsections={[
                     'airtime-policies',
-                    'captive',
                     'data-plane',
                     'dhcp-relay',
                     'facebook-wifi',
@@ -149,7 +147,6 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
               }
             />
             {isSubSectionActive('airtime-policies') && <AirtimePolicies editing={editing} />}
-            {isSubSectionActive('captive') && <Captive editing={editing} />}
             {isSubSectionActive('data-plane') && <DataPlane editing={editing} />}
             {isSubSectionActive('dhcp-relay') && <DhcpRelay isEditing={editing} />}
             {isSubSectionActive('facebook-wifi') && <FacebookWifi editing={editing} />}
