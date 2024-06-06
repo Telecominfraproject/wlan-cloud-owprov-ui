@@ -21,131 +21,6 @@ export const SERVICES_DHCP_RELAY_SCHEMA = (t, useDefault = false) => {
   return useDefault ? shape : shape.nullable().default(undefined);
 };
 
-export const SERVICES_CAPTIVE_SCHEMA = (t, useDefault = false) => {
-  const shape = object()
-    .shape({
-      'auto-mode': string().required(t('form.required')).default('click'),
-      'walled-garden-fqdn': array()
-        .when('auth-mode', {
-          is: 'uam',
-          then: array().of(string()).min(1, t('form.required')),
-        })
-        .default(undefined),
-      'walled-garden-ipaddr': array().of(string()).default(undefined),
-      'web-root': string().default(undefined),
-      'idle-timeout': number().required(t('form.required')).positive().lessThan(65535).integer().default(600),
-      'session-timeout': number().positive().lessThan(65535).integer().default(undefined),
-      // Only if auto-mode is "credentials"
-      credentials: array()
-        .when('auth-mode', {
-          is: 'credentials',
-          then: array()
-            .of(
-              object().shape({
-                username: string().required(t('form.required')).default(''),
-                password: string().required(t('form.required')).default(''),
-              }),
-            )
-            .min(1, t('form.required')),
-        })
-        .default(undefined),
-      // Radius && UAM values
-      'auth-server': string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'radius' || authMode === 'uam',
-          then: string().required(t('form.required')).default(''),
-        })
-        .default(undefined),
-      'auth-secret': string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'radius' || authMode === 'uam',
-          then: string().required(t('form.required')).default(''),
-          else: string().default(undefined),
-        })
-        .default(undefined),
-      'auth-port': number()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'radius' || authMode === 'uam',
-          then: number().required(t('form.required')).moreThan(1023).lessThan(65535).integer().default(1812),
-          else: number().default(undefined),
-        })
-        .default(undefined),
-      'acct-server': string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'radius' || authMode === 'uam',
-          then: string().default(undefined),
-          else: string().default(undefined),
-        })
-        .default(undefined),
-      'acct-secret': string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'radius' || authMode === 'uam',
-          then: string().default(undefined),
-          else: string().default(undefined),
-        })
-        .default(undefined),
-      'acct-port': number()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'radius' || authMode === 'uam',
-          then: number().moreThan(1023).lessThan(65535).integer().default(undefined),
-          else: number().default(undefined),
-        })
-        .default(undefined),
-      'acct-interval': number()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'radius' || authMode === 'uam',
-          then: number().positive().lessThan(65535).integer().default(undefined),
-        })
-        .default(undefined),
-      // Only UAM fields
-      'uam-server': string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'uam',
-          then: string().required(t('form.required')).default(''),
-        })
-        .default(undefined),
-      'uam-secret': string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'uam',
-          then: string().required(t('form.required')).default(''),
-        })
-        .default(undefined),
-      'uam-port': number()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'uam',
-          then: number().required(t('form.required')).moreThan(1023).lessThan(65535).integer().default(3990),
-        })
-        .default(undefined),
-      ssid: string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'uam',
-          then: string().default(undefined),
-        })
-        .default(undefined),
-      'mac-format': string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'uam',
-          then: string().required(t('form.required')).default('aabbccddeeff'),
-        })
-        .default(undefined),
-      nasid: string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'uam',
-          then: string().required(t('form.required')).default(''),
-        })
-        .default(undefined),
-      nasmac: string()
-        .when('auth-mode', {
-          is: (authMode) => authMode === 'uam',
-          then: string().default(undefined),
-        })
-        .default(undefined),
-    })
-    .default({});
-
-  return useDefault ? shape : shape.nullable().default(undefined);
-};
-
 export const SERVICES_CLASSIFIER_DNS_SCHEMA = (t, useDefault = false) => {
   const shape = object().shape({
     fqdn: string().default(''),
@@ -446,7 +321,6 @@ export const SERVICES_SCHEMA = (t, useDefault = false) =>
       'data-plane': SERVICES_DATA_PLANE_SCHEMA(t, useDefault),
       'radius-proxy': SERVICES_RADIUS_PROXY_SCHEMA(t, useDefault),
       ieee8021x: SERVICES_IEEE8021X_SCHEMA(t, useDefault),
-      captive: SERVICES_CAPTIVE_SCHEMA(t, useDefault),
       gps: SERVICES_GPS_SCHEMA(t, useDefault),
       'dhcp-relay': SERVICES_DHCP_RELAY_SCHEMA(t, useDefault),
     }),
@@ -488,8 +362,6 @@ export const getSubSectionDefaults = (t, sub) => {
       return SERVICES_IEEE8021X_SCHEMA(t, true).cast();
     case 'radius-proxy':
       return SERVICES_RADIUS_PROXY_SCHEMA(t, true).cast();
-    case 'captive':
-      return SERVICES_CAPTIVE_SCHEMA(t, true).cast();
     case 'gps':
       return SERVICES_GPS_SCHEMA(t, true).cast();
     case 'dhcp-relay':
