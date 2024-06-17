@@ -12,6 +12,7 @@ import AirtimePolicies from './AirtimePolicies';
 import DataPlane from './DataPlane';
 import DhcpRelay from './DhcpRelay';
 import FacebookWifi from './FacebookWifi';
+import Fingerprint from './Fingerprint';
 import Gps from './Gps';
 import Http from './Http';
 import Ieee8021x from './Ieee8021x';
@@ -126,6 +127,7 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
                     'data-plane',
                     'dhcp-relay',
                     'facebook-wifi',
+                    'fingerprint',
                     'gps',
                     'http',
                     'ieee8021x',
@@ -150,6 +152,7 @@ const ServicesSection = ({ editing, setSection, sectionInformation, removeSub })
             {isSubSectionActive('data-plane') && <DataPlane editing={editing} />}
             {isSubSectionActive('dhcp-relay') && <DhcpRelay isEditing={editing} />}
             {isSubSectionActive('facebook-wifi') && <FacebookWifi editing={editing} />}
+            {isSubSectionActive('fingerprint') && <Fingerprint isEditing={editing} />}
             {isSubSectionActive('gps') && <Gps editing={editing} />}
             {isSubSectionActive('http') && <Http editing={editing} />}
             {isSubSectionActive('ieee8021x') && <Ieee8021x editing={editing} />}
