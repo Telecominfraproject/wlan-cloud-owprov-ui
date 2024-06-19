@@ -67,7 +67,7 @@ const CaptiveForm = ({ isDisabled, namePrefix, onAuthModeChange, authMode }: Pro
         <Text pt={1}>Captive Portal</Text>
         <Select w="max-content" ml={2} value={authMode} onChange={onAuthModeChange} isDisabled={isDisabled}>
           <option value="none">None</option>
-          <option value="click">Click</option>
+          <option value="click-to-continue">Click</option>
           <option value="radius">Radius</option>
           <option value="credentials">Credentials</option>
           <option value="uam">UAM</option>
