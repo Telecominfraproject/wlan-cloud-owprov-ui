@@ -15,10 +15,12 @@ import {
   Tabs,
   Text,
   UnorderedList,
+  useBoolean,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import FormattedDate from 'components/FormattedDate';
+import ConfirmFirmwareUpgrade from 'components/Modals/Actions/ConfirmFirmwareUpgrade';
 import { Modal } from 'components/Modals/Modal';
 import { useGetVenueUpgradeAvailableFirmware, useUpgradeVenueDevices } from 'hooks/Network/Venues';
 import { AxiosError } from 'models/Axios';
@@ -34,12 +36,14 @@ const VenueFirmwareUpgradeModal = ({ isOpen, onClose, venueId }: Props) => {
   const getAvailableFirmware = useGetVenueUpgradeAvailableFirmware({ id: venueId, enabled: isOpen });
   const upgrade = useUpgradeVenueDevices();
   const [selectedRevision, setSelectedRevision] = React.useState<string>();
+  const [isConfirmOpen, { on: openConfirm, off: closeConfirm }] = useBoolean(false);
 
   const onRevisionSelect = (revision: string) => () => {
     setSelectedRevision(revision);
   };
 
-  const onUpgradeClick = () => {
+  const confirmUpgrade = () => {
+    closeConfirm();
     if (selectedRevision) {
       upgrade.mutateAsync(
         { revision: selectedRevision, id: venueId },
@@ -111,7 +115,7 @@ const VenueFirmwareUpgradeModal = ({ isOpen, onClose, venueId }: Props) => {
             <Center my={2}>
               <Button
                 colorScheme="yellow"
-                onClick={onUpgradeClick}
+                onClick={openConfirm}
                 isDisabled={!selectedRevision}
                 isLoading={upgrade.isLoading}
                 display="block"
@@ -161,6 +165,12 @@ const VenueFirmwareUpgradeModal = ({ isOpen, onClose, venueId }: Props) => {
             </Tabs>
           </>
         )}
+        <ConfirmFirmwareUpgrade
+          isOpen={isConfirmOpen}
+          explanation={t('venues.confirm_upgrade_all_devices', { revision: selectedRevision })}
+          confirm={confirmUpgrade}
+          cancel={closeConfirm}
+        />
       </Box>
     </Modal>
   );

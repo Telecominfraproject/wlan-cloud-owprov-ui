@@ -16,6 +16,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import FirmwareList from './FirmwareList';
 import CloseButton from 'components/Buttons/CloseButton';
+import ConfirmFirmwareUpgrade from 'components/Modals/Actions/ConfirmFirmwareUpgrade';
 import ConfirmIgnoreCommand from 'components/Modals/Actions/ConfirmIgnoreCommand';
 import ModalHeader from 'components/Modals/ModalHeader';
 import { useGetAvailableFirmware, useUpdateDeviceFirmware } from 'hooks/Network/Firmware';
@@ -45,8 +46,17 @@ const FirmwareUpgradeModal = ({ modalProps: { isOpen, onClose }, serialNumber }:
     onModalClose: onClose,
   });
 
-  const submit = (uri: string) => {
-    upgrade({ keepRedirector: isRedirector, uri });
+  const [pendingUri, setPendingUri] = React.useState<string>();
+
+  const submit = (uri: string) => setPendingUri(uri);
+
+  const cancelUpgrade = () => setPendingUri(undefined);
+
+  const confirmUpgrade = () => {
+    if (pendingUri) {
+      upgrade({ keepRedirector: isRedirector, uri: pendingUri });
+    }
+    setPendingUri(undefined);
   };
 
   return (
@@ -90,6 +100,12 @@ const FirmwareUpgradeModal = ({ modalProps: { isOpen, onClose }, serialNumber }:
           )}
         </ModalBody>
       </ModalContent>
+      <ConfirmFirmwareUpgrade
+        isOpen={pendingUri !== undefined}
+        explanation={t('commands.confirm_firmware_upgrade_explanation', { serialNumber, uri: pendingUri })}
+        confirm={confirmUpgrade}
+        cancel={cancelUpgrade}
+      />
       <ConfirmIgnoreCommand
         modalProps={{ isOpen: isConfirmOpen, onOpen: () => {}, onClose: closeConfirm }}
         confirm={closeCancelAndForm}

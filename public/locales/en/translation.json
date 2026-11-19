@@ -167,6 +167,8 @@
     "blink_error": "Error while sending blink command: {{e}}",
     "blink_success": "Blink command successfully sent!",
     "channel": "Channel",
+    "confirm_firmware_upgrade_explanation": "Device #{{serialNumber}} will be upgraded using {{uri}}. Do you want to continue?",
+    "confirm_firmware_upgrade_title": "Confirm Firmware Upgrade",
     "confirm_reset": "Start reset of Device  #{{serialNumber}}",
     "connect": "Connect",
     "execution_time": "Execution Time",
@@ -1200,6 +1202,7 @@
   },
   "venues": {
     "confirm_remove_contact": "Do you want to remove this contact from this venue?",
+    "confirm_upgrade_all_devices": "ALL devices in this venue will be upgraded to {{revision}}. Do you want to continue?",
     "create_child": "Create Child Venue",
     "error_remove_contact": "Error while trying to remove contact: {{e}}",
     "error_update_devices": "Error starting device update: {{e}}",
